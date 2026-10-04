@@ -27,6 +27,8 @@ SymoCraft.exe --benchmark static|walk|edit --output NEW_CAPTURE_DIRECTORY
 
 游戏默认仍是 `strict`；执行器默认显式传 `allow-unfocused`。普通游戏不能带 `--focus-policy`。旧游戏不支持这个参数时失败，不降级为“成功”。
 
+1080p 窗口修复后，游戏采样使用普通无边框窗口；metadata 另记 `window_mode: borderless-windowed` 和 `taskbar_policy: preserve-shell-z-order`。它们是诊断扩展，不改变已有协议 2 的必需字段或严格尺寸校验；新游戏哈希及窗口呈现条件与旧包区分。见 [[Benchmark-1080p窗口修复]]。
+
 ### 输出
 
 | 文件 | 生产者 / 时机 | 内容与约定 |

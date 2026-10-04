@@ -57,10 +57,9 @@ namespace SymoCraft
         // Get Aspect ratio of the window
         float GetAspectRatio() const;
 
-        // Creat a window
-        // Static
-        // Parameters: Window title
-        static Window* Create(const char* window_title, int width = 0, int height = 0);
+        // Benchmark windows keep an undecorated client area and preserve the taskbar policy.
+        static Window* Create(const char* window_title, int width = 0, int height = 0,
+                              bool benchmark_window = false);
 
         // Initialize glfw
         // Static

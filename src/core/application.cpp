@@ -145,7 +145,8 @@ namespace SymoCraft
                     glfwWindowHint(GLFW_FOCUS_ON_SHOW, GLFW_FALSE);
                 }
             }
-            runtime_window.reset(Window::Create("SymoCraft", performance ? options.width : 0, performance ? options.height : 0));
+            runtime_window.reset(Window::Create("SymoCraft", performance ? options.width : 0,
+                                               performance ? options.height : 0, performance != nullptr));
             if (!runtime_window || !runtime_window->window_ptr)
                 throw std::runtime_error("Cannot create the game window");
             if (performance) {
@@ -156,10 +157,14 @@ namespace SymoCraft
                 performance->metadata["gl_version"] = reinterpret_cast<const char*>(glGetString(GL_VERSION));
                 performance->metadata["framebuffer_width"] = runtime_window->width;
                 performance->metadata["framebuffer_height"] = runtime_window->height;
+                performance->metadata["window_mode"] = "borderless-windowed";
+                performance->metadata["taskbar_policy"] = "preserve-shell-z-order";
                 GLint samples = 0; glGetIntegerv(GL_SAMPLES, &samples);
                 performance->metadata["msaa_samples"] = samples;
                 if (runtime_window->width != options.width || runtime_window->height != options.height)
-                    throw std::runtime_error("Actual framebuffer does not match requested benchmark resolution");
+                    throw std::runtime_error("Actual framebuffer " + std::to_string(runtime_window->width) + "x" +
+                        std::to_string(runtime_window->height) + " does not match requested benchmark resolution " +
+                        std::to_string(options.width) + "x" + std::to_string(options.height));
             }
             runtime_registry = std::make_unique<ECS::Registry>();
 

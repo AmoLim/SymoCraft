@@ -4,8 +4,12 @@
 
 #include "core/window.h"
 #include "core.h"
+#define NOMINMAX
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <GLFW/glfw3native.h>
 #include <memory>
 #include <stdexcept>
+#include <system_error>
 
 namespace SymoCraft
 {
@@ -67,7 +71,8 @@ namespace SymoCraft
     }
 
 
-    Window* Window::Create(const char *window_title, int requested_width, int requested_height)
+    Window* Window::Create(const char *window_title, int requested_width, int requested_height,
+                          bool benchmark_window)
     {
         auto res = std::make_unique<Window>();
 
@@ -89,13 +94,30 @@ namespace SymoCraft
         res->height = requested_height > 0 ? requested_height : glm::clamp(mode->height / 2, 600, INT_MAX);
         res->title = window_title;
 
+        if (benchmark_window)
+        {
+            glfwWindowHint(GLFW_DECORATED, GLFW_FALSE);
+            glfwWindowHint(GLFW_FLOATING, GLFW_FALSE);
+            // Set the taskbar policy before the shell sees this ordinary window.
+            glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+        }
         res->window_ptr = (void*) glfwCreateWindow(res->width, res->height, window_title, nullptr, nullptr);
+        if (benchmark_window)
+        {
+            glfwWindowHint(GLFW_DECORATED, GLFW_TRUE);
+            glfwWindowHint(GLFW_VISIBLE, GLFW_TRUE);
+        }
         if (res->window_ptr == nullptr)
         {
             throw GlfwFailure("Failed to create an OpenGL 4.6 window");
         }
         try
         {
+            if (benchmark_window &&
+                !SetPropW(glfwGetWin32Window((GLFWwindow*)res->window_ptr), L"NonRudeHWND",
+                          reinterpret_cast<HANDLE>(static_cast<INT_PTR>(TRUE))))
+                throw std::system_error(static_cast<int>(GetLastError()), std::system_category(),
+                                        "Failed to preserve the taskbar for the benchmark window");
             AmoLogger_Info("Window created. ");
             glfwSetWindowUserPointer((GLFWwindow*)res->window_ptr, res.get());
             res->MakeContextCurrent();
@@ -116,6 +138,8 @@ namespace SymoCraft
             if (!GLAD_GL_VERSION_4_6)
                 throw std::runtime_error("OpenGL 4.6 is required by the shaders and renderer");
 
+            if (benchmark_window)
+                glfwShowWindow((GLFWwindow*)res->window_ptr);
             glfwGetFramebufferSize((GLFWwindow*)res->window_ptr, &res->width, &res->height);
             glfwSetFramebufferSizeCallback((GLFWwindow*)res->window_ptr, ResizeCallback);
             glViewport(0, 0, res->width, res->height);
@@ -128,6 +152,9 @@ namespace SymoCraft
             std::cout << "OpenGL vendor: " << vendor << '\n'
                       << "OpenGL renderer: " << renderer << '\n'
                       << "OpenGL version: " << version << std::endl;
+            if (benchmark_window)
+                std::cout << "Benchmark window: borderless-windowed; topmost=false; taskbar_policy=NonRudeHWND; framebuffer="
+                          << res->width << 'x' << res->height << std::endl;
         }
         catch (...)
         {
@@ -174,6 +201,7 @@ namespace SymoCraft
     {
         if (window_ptr)
         {
+            RemovePropW(glfwGetWin32Window((GLFWwindow*)window_ptr), L"NonRudeHWND");
             glfwDestroyWindow((GLFWwindow*)window_ptr);
             window_ptr = nullptr;
         }

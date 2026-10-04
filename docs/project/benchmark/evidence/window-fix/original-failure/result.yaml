@@ -1,0 +1,18 @@
+runner_schema: 1
+started_utc: 20261004-072837-586Z
+machine:
+  cpu: Intel(R) Core(TM) i7-10750H CPU @ 2.60GHz
+  windows_build: 26100
+  physical_memory_bytes: 17041244160
+  ac_line_status: 1
+  power_scheme_guid: 381b4222-f694-41f0-9685-ff5bb260df2e
+  cpu_temperature: not-collected
+  gpu_temperature: not-collected
+  actual_gpu_and_driver: capture/summary.yaml metadata.gl_renderer and gl_version
+exit_code: 3
+cancelled: false
+timed_out: false
+forced_termination: false
+error: Game returned a nonzero exit code; inspect stderr.log and summary.yaml
+passed: false
+finished_utc: 20261004-072838-659Z

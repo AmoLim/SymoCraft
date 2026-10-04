@@ -1,0 +1,21 @@
+{
+  "recorded_utc": "2026-10-04T08:18:27.4500638Z",
+  "base_commit": "daacb7701c85d1eca72d3432c0f540cf76dfdbee",
+  "working_tree": "uncommitted window fix; existing user .gitignore change excluded",
+  "compiler": "MSVC 19.38.33145 x64",
+  "configuration": "Release",
+  "package": "out/packages/benchmark-window-fix/SymoCraft-Benchmark-windows-x64.zip",
+  "package_bytes": 1165655,
+  "package_sha256": "12771D0DB58308D28E015F27BBDF4C076998D56AC0CF14D52DEED712FC314BBF",
+  "game_sha256": "F73285A0AC164073DA7B8DFB912EF2FAE558061DF433A69A2FDBFA7B25729AF1",
+  "runner_sha256": "2E2210D1A938790A3251228F4D5DCAE02CE786EE865F4C254B86BB2F17225709",
+  "changed_production_sources": {
+    "include/core/window.h": "450F51ABD33107FD3984DA91B36D53FCBA03958A8CF29DDF00462EA57E19D219",
+    "src/core/window.cpp": "76845455079D7DCC345C80AD778706957D5EA94643429C5172A044777A1362EE",
+    "src/core/application.cpp": "C95D63EF6D31BD24D6A12DFE20435BC3DC90A60129F1489BA34931CC0D991603"
+  },
+  "quick": "3/3 valid, 1920x1080, allow-unfocused",
+  "full_monitor_probe": "1920x1200, 5s warmup + 120s sample; valid; 10 focus transitions; not a formal baseline",
+  "manual_confirmation": "User confirmed taskbar and switching both normal in this conversation",
+  "original_machine_retest": "pending"
+}
