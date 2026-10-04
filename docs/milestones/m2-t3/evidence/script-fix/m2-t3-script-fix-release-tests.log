@@ -1,0 +1,48 @@
+cmake version 4.3.1
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+1.13.2
+-- Using Win32 for window creation
+-- Configuring done (0.1s)
+-- Generating done (0.1s)
+-- Build files have been written to: F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t3/release
+[1/1] Synchronizing required SymoCraft runtime assets
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t3/release
+      Start  1: assets.contracts
+ 1/17 Test  #1: assets.contracts ........................   Passed    0.13 sec
+      Start  2: assets.from_source_directory
+ 2/17 Test  #2: assets.from_source_directory ............   Passed    0.13 sec
+      Start  3: assets.game_preflight
+ 3/17 Test  #3: assets.game_preflight ...................   Passed    0.02 sec
+      Start  4: assets.game_package
+ 4/17 Test  #4: assets.game_package .....................   Passed    0.11 sec
+      Start  5: renderer.shader_loading
+ 5/17 Test  #5: renderer.shader_loading .................   Passed    0.01 sec
+      Start  6: player.math
+ 6/17 Test  #6: player.math .............................   Passed    0.01 sec
+      Start  7: renderer.batch_safety
+ 7/17 Test  #7: renderer.batch_safety ...................   Passed    0.01 sec
+      Start  8: world.mesh_safety
+ 8/17 Test  #8: world.mesh_safety .......................   Passed    0.02 sec
+      Start  9: world.block_config
+ 9/17 Test  #9: world.block_config ......................   Passed    0.02 sec
+      Start 10: input.key_snapshot
+10/17 Test #10: input.key_snapshot ......................   Passed    0.01 sec
+      Start 11: core.startup_options
+11/17 Test #11: core.startup_options ....................   Passed    0.01 sec
+      Start 12: world.generation
+12/17 Test #12: world.generation ........................   Passed    0.44 sec
+      Start 13: world.summary_cli
+13/17 Test #13: world.summary_cli .......................   Passed    1.45 sec
+      Start 14: performance.export
+14/17 Test #14: performance.export ......................   Passed    0.01 sec
+      Start 15: performance.gpu_timer
+15/17 Test #15: performance.gpu_timer ...................   Passed    0.01 sec
+      Start 16: performance.script_WINDOWS_POWERSHELL
+16/17 Test #16: performance.script_WINDOWS_POWERSHELL ...   Passed    7.76 sec
+      Start 17: performance.script_POWERSHELL_CORE
+17/17 Test #17: performance.script_POWERSHELL_CORE ......   Passed    7.62 sec
+
+100% tests passed, 0 tests failed out of 17
+
+Total Test time (real) =  17.79 sec

@@ -1,0 +1,46 @@
+{
+  "name": "M2-T3 benchmark PowerShell compatibility fix",
+  "recordedAt": "2026-10-03T22:29:25.5990811+08:00",
+  "collectorScriptVersion": 2,
+  "requiredOriginalExecutableSha256": "381211C0FF055F2420BE0B5AD8CD11564ACA6324D12DA5EF207A5094D81B9C3F",
+  "originalScriptSha256": "36AFBB2081969A833213B748D3DDD185C7629F1D172EFEE9DF35DFF299B2D930",
+  "patchedScriptSha256": "D150393F13D2020624A91C3D113C5BEC934235E5C715AD83B822F47268BCF5BB",
+  "workloadVersion": 1,
+  "gameExecutableChanged": false,
+  "testsDebugPassed": 17,
+  "testsReleasePassed": 17,
+  "testedShells": [
+    "Windows PowerShell 5.1.26100.9444",
+    "PowerShell 7.6.5"
+  ],
+  "sourceFixInputs": [
+    {
+      "path": "scripts/benchmark.ps1",
+      "sha256": "D150393F13D2020624A91C3D113C5BEC934235E5C715AD83B822F47268BCF5BB"
+    },
+    {
+      "path": "tests/CMakeLists.txt",
+      "sha256": "4D53CC7CFA68FC21881673350F64153DCB8F8A3515A5DC32ED89B09F51CC196B"
+    },
+    {
+      "path": "tests/benchmark_script_tests.ps1",
+      "sha256": "9A11796E922A661225630CA2AE8DA98003485192444848ECED55D41894EB8CB3"
+    },
+    {
+      "path": "tests/benchmark_process_fixture.cpp",
+      "sha256": "34C40AEBD1ABA42AA610619E3C48C78469C0DE574CB91D735B7E3794DC0E77E3"
+    }
+  ],
+  "files": [
+    {
+      "path": "BENCHMARK-FIX.zh-CN.md",
+      "bytes": 1497,
+      "sha256": "19F92D9C1F41A98E51AE82912D07B25BF4136674AE330E671CAA319174224AB2"
+    },
+    {
+      "path": "scripts/benchmark.ps1",
+      "bytes": 9668,
+      "sha256": "D150393F13D2020624A91C3D113C5BEC934235E5C715AD83B822F47268BCF5BB"
+    }
+  ]
+}

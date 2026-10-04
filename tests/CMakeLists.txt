@@ -85,3 +85,22 @@ set_tests_properties(core.startup_options world.generation world.summary_cli PRO
 add_test(NAME performance.export COMMAND performance_tests "${CMAKE_CURRENT_BINARY_DIR}/performance-probes")
 add_test(NAME performance.gpu_timer COMMAND gpu_timer_tests)
 set_tests_properties(performance.export performance.gpu_timer PROPERTIES TIMEOUT 45)
+
+add_executable(benchmark_process_fixture benchmark_process_fixture.cpp)
+target_compile_features(benchmark_process_fixture PRIVATE cxx_std_20)
+target_compile_options(benchmark_process_fixture PRIVATE /W4 /utf-8)
+set_target_properties(benchmark_process_fixture PROPERTIES CXX_EXTENSIONS OFF)
+find_program(SYMOCRAFT_WINDOWS_POWERSHELL NAMES powershell.exe
+    HINTS "$ENV{SystemRoot}/System32/WindowsPowerShell/v1.0" REQUIRED)
+find_program(SYMOCRAFT_POWERSHELL_CORE NAMES pwsh.exe)
+foreach(shell IN ITEMS WINDOWS_POWERSHELL POWERSHELL_CORE)
+    if(SYMOCRAFT_${shell})
+        add_test(NAME performance.script_${shell}
+            COMMAND "${SYMOCRAFT_${shell}}" -NoProfile -NonInteractive -ExecutionPolicy Bypass
+                -File "${CMAKE_CURRENT_SOURCE_DIR}/benchmark_script_tests.ps1"
+                -BenchmarkScript "${PROJECT_SOURCE_DIR}/scripts/benchmark.ps1"
+                -FixtureExecutable "$<TARGET_FILE:benchmark_process_fixture>"
+                -OutputParent "${CMAKE_CURRENT_BINARY_DIR}/script-probes/${shell}")
+        set_tests_properties(performance.script_${shell} PROPERTIES TIMEOUT 90)
+    endif()
+endforeach()

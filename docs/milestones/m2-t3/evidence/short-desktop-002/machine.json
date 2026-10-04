@@ -1,0 +1,58 @@
+{
+  "startedAt": "2026-10-03T19:50:37.5511610+08:00",
+  "label": "desktop-9700X-5070Ti",
+  "powerMode": "normal-performance",
+  "gpuMode": "desktop-discrete",
+  "clockSettings": "stock-no-overclock-no-undervolt",
+  "cpuTemperature": "missing; no CPU temperature sensor configured",
+  "operatingSystem": {
+    "Caption": "Microsoft Windows 11 专业版",
+    "Version": "10.0.26200",
+    "BuildNumber": "26200"
+  },
+  "cpu": {
+    "Name": "AMD Ryzen 7 9700X 8-Core Processor             ",
+    "NumberOfCores": 8,
+    "NumberOfLogicalProcessors": 16
+  },
+  "memory": {
+    "TotalPhysicalMemory": 66190954496
+  },
+  "battery": null,
+  "activePowerScheme": "电源方案 GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (平衡)",
+  "displayControllers": [
+    {
+      "Name": "OrayIddDriver Device",
+      "DriverVersion": "17.50.19.949"
+    },
+    {
+      "Name": "MuMu Virtual Display Adapter",
+      "DriverVersion": "20.36.41.498"
+    },
+    {
+      "Name": "AMD Radeon(TM) Graphics",
+      "DriverVersion": "32.0.21043.5001"
+    },
+    {
+      "Name": "NVIDIA GeForce RTX 5070 Ti",
+      "DriverVersion": "32.0.16.1664"
+    }
+  ],
+  "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\install\\m2-t3\\SymoCraft.exe",
+  "executableSha256": "381211C0FF055F2420BE0B5AD8CD11564ACA6324D12DA5EF207A5094D81B9C3F",
+  "scriptSha256": "36AFBB2081969A833213B748D3DDD185C7629F1D172EFEE9DF35DFF299B2D930",
+  "seed": 424242,
+  "width": 1920,
+  "height": 1080,
+  "vsync": 0,
+  "warmupSeconds": 2,
+  "sampleSeconds": 10,
+  "repeats": 1,
+  "requestedScenarios": [
+    "static",
+    "walk",
+    "edit"
+  ],
+  "gpuSensorScope": "nvidia-smi samples all GPUs; device-wide temperature/memory, not process VRAM",
+  "sourceNote": "Keep build identity with this directory. This script does not infer the source commit from an executable."
+}

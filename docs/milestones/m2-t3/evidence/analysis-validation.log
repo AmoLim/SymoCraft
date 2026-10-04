@@ -1,0 +1,10 @@
+static-1 P95 6.4195 P99 6.9016 max 10.8132 FPS 175.61 edits 0 rebuilt 0 missing GPU 1
+static-2 P95 6.4649 P99 6.9518 max 9.3835 FPS 175.28 edits 0 rebuilt 0 missing GPU 1
+static-3 P95 6.4386 P99 6.9098 max 9.2675 FPS 175.62 edits 0 rebuilt 0 missing GPU 0
+walk-1 P95 6.4456 P99 6.9469 max 10.5888 FPS 176.41 edits 0 rebuilt 0 missing GPU 0
+walk-2 P95 6.4156 P99 6.9133 max 9.4749 FPS 176.72 edits 0 rebuilt 0 missing GPU 1
+walk-3 P95 6.4147 P99 6.8838 max 9.8456 FPS 177.27 edits 0 rebuilt 0 missing GPU 0
+edit-1 P95 6.4423 P99 7.1348 max 9.6275 FPS 178.02 edits 720 rebuilt 2160 missing GPU 0
+edit-2 P95 6.2538 P99 6.9771 max 8.4933 FPS 180.6 edits 720 rebuilt 2160 missing GPU 1
+edit-3 P95 6.5427 P99 7.2284 max 10.0418 FPS 176.8 edits 720 rebuilt 2160 missing GPU 1
+Verified raw frame ordering, phase boundaries, focus, counters, trajectories and percentile consistency.

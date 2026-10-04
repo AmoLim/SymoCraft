@@ -1,0 +1,59 @@
+Visual Studio: E:\Applications\Microsoft VS\2022
+Compiler: E:\Applications\Microsoft VS\2022\VC\Tools\MSVC\14.38.33130\bin\HostX64\x64\cl.exe
+Running: E:\Applications\JetBrains\CLion\bin\cmake\win\x64\bin\cmake.exe --version
+cmake version 4.3.1
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+Running: E:\Applications\JetBrains\CLion\bin\ninja\win\x64\ninja.exe --version
+1.13.2
+Running: E:\Applications\JetBrains\CLion\bin\cmake\win\x64\bin\cmake.exe --preset windows-debug -B F:\GameDevelop\OpenGLProject\Symocraft\out\m2-t3\debug -DCMAKE_MAKE_PROGRAM=E:\Applications\JetBrains\CLion\bin\ninja\win\x64\ninja.exe -DCMAKE_C_COMPILER=E:\Applications\Microsoft VS\2022\VC\Tools\MSVC\14.38.33130\bin\HostX64\x64\cl.exe -DCMAKE_CXX_COMPILER=E:\Applications\Microsoft VS\2022\VC\Tools\MSVC\14.38.33130\bin\HostX64\x64\cl.exe
+-- Using Win32 for window creation
+-- Configuring done (0.1s)
+-- Generating done (0.1s)
+-- Build files have been written to: F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t3/debug
+Running: E:\Applications\JetBrains\CLion\bin\cmake\win\x64\bin\cmake.exe --build F:\GameDevelop\OpenGLProject\Symocraft\out\m2-t3\debug --parallel 8
+[1/9] Synchronizing required SymoCraft runtime assets
+[2/9] Building CXX object tests\CMakeFiles\performance_tests.dir\performance_tests.cpp.obj
+[3/9] Building CXX object tests\CMakeFiles\performance_tests.dir\__\src\core\performance.cpp.obj
+[4/9] Linking CXX executable tests\performance_tests.exe
+[5/9] Building CXX object CMakeFiles\SymoCraft.dir\src\main.cpp.obj
+[6/9] Building CXX object CMakeFiles\SymoCraft.dir\src\renderer\performance_memory.cpp.obj
+[7/9] Building CXX object CMakeFiles\SymoCraft.dir\src\core\performance.cpp.obj
+[8/9] Building CXX object CMakeFiles\SymoCraft.dir\src\core\application.cpp.obj
+[9/9] Linking CXX executable bin\SymoCraft.exe
+Running: E:\Applications\JetBrains\CLion\bin\cmake\win\x64\bin\ctest.exe --preset windows-debug --test-dir F:\GameDevelop\OpenGLProject\Symocraft\out\m2-t3\debug --output-on-failure --no-tests=error
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t3/debug
+      Start  1: assets.contracts
+ 1/15 Test  #1: assets.contracts .................   Passed    0.12 sec
+      Start  2: assets.from_source_directory
+ 2/15 Test  #2: assets.from_source_directory .....   Passed    0.11 sec
+      Start  3: assets.game_preflight
+ 3/15 Test  #3: assets.game_preflight ............   Passed    0.02 sec
+      Start  4: assets.game_package
+ 4/15 Test  #4: assets.game_package ..............   Passed    0.47 sec
+      Start  5: renderer.shader_loading
+ 5/15 Test  #5: renderer.shader_loading ..........   Passed    0.01 sec
+      Start  6: player.math
+ 6/15 Test  #6: player.math ......................   Passed    0.01 sec
+      Start  7: renderer.batch_safety
+ 7/15 Test  #7: renderer.batch_safety ............   Passed    0.01 sec
+      Start  8: world.mesh_safety
+ 8/15 Test  #8: world.mesh_safety ................   Passed    0.07 sec
+      Start  9: world.block_config
+ 9/15 Test  #9: world.block_config ...............   Passed    0.04 sec
+      Start 10: input.key_snapshot
+10/15 Test #10: input.key_snapshot ...............   Passed    0.01 sec
+      Start 11: core.startup_options
+11/15 Test #11: core.startup_options .............   Passed    0.01 sec
+      Start 12: world.generation
+12/15 Test #12: world.generation .................   Passed    1.29 sec
+      Start 13: world.summary_cli
+13/15 Test #13: world.summary_cli ................   Passed    3.12 sec
+      Start 14: performance.export
+14/15 Test #14: performance.export ...............   Passed    0.03 sec
+      Start 15: performance.gpu_timer
+15/15 Test #15: performance.gpu_timer ............   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 15
+
+Total Test time (real) =   5.33 sec

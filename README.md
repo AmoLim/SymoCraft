@@ -9,6 +9,8 @@ features are not part of the initial recovery milestones. See the
 [technical documentation](docs/README.md) for scope, progress, and evidence.
 The [M2-A desktop report](docs/milestones/m2-a/README.md) records the current
 recovery work and its acceptance limits; M2 as a whole has not passed.
+The [M2-T2 report](docs/milestones/m2-t2/README.md) adds reproducible generation
+and fixed regression scenes with current build and runtime evidence.
 
 ## Build
 
@@ -65,6 +67,9 @@ before running CTest so its executable and staged assets are up to date.
 ./out/build/windows-debug/bin/SymoCraft.exe
 ./out/build/windows-debug/bin/SymoCraft.exe --check-assets
 ./out/build/windows-debug/bin/SymoCraft.exe --smoke-frames 120
+./out/build/windows-debug/bin/SymoCraft.exe --seed 424242
+./out/build/windows-debug/bin/SymoCraft.exe --scene regression --checkpoint four-chunk
+./out/build/windows-debug/bin/SymoCraft.exe --world-summary --seed 424242 --scene regression --test-edits
 ```
 
 Assets are staged next to the executable and resolved from its location, not
@@ -75,6 +80,32 @@ number of rendered frames. It still needs a working OpenGL environment and
 does not replace interactive gameplay, long-run, or performance acceptance.
 Use an ASCII installation path for the complete game until the legacy loaders'
 Unicode handling has been validated.
+
+Normal starts remain random; the actual seed is logged. `--seed` reproduces
+initial blocks within the same generation version, configuration, and build
+environment, not across arbitrary compilers or platforms. `--world-summary`
+outputs YAML without creating a window or GL context. The regression scene
+defaults to seed 424242; `--test-edits` applies a fixed startup edit sequence,
+not player-input replay. See the [scene guide](docs/testing/reproducible-scenes.md).
+
+The M2-T2 local Release candidate remains at `out/install/m2-t2/SymoCraft.exe`
+with adjacent assets. That revision passed 13 tests and a 120-frame real-driver
+smoke run in each build configuration; these are historical M2-T2 results.
+
+The current M2-T3 candidate is `out/install/m2-t3/SymoCraft.exe`; the handoff
+archive is `out/packages/Symocraft-M2-T3-windows-x64.zip`. Debug and Release
+each passed 15 tests, and all nine formal desktop benchmark runs were valid.
+The Y9000P baseline and full gameplay acceptance remain pending. See the
+[M2-T3 report](docs/milestones/m2-t3/README.md) and
+[benchmark guide](docs/testing/performance-baseline.md) for CPU/GPU measurement
+boundaries, raw data locations, conditions, and laptop instructions.
+
+For the original M2-T3 archive, apply the separate
+`out/packages/Symocraft-M2-T3-benchmark-fix.zip` before laptop sampling. It fixes
+Windows PowerShell exit-code and output-path handling without changing the
+game executable or workload. Current Debug/Release regression runs passed 17
+tests on this host, including both PowerShell versions. See the
+[laptop diagnostic and patch notes](docs/milestones/m2-t3/laptop-first-run.md).
 
 `cmake --install out/build/windows-release` creates a development staging
 directory at `out/install/windows-release`. This is not yet a validated final
