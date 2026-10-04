@@ -1,0 +1,1208 @@
+[
+  {
+    "scene": "static",
+    "repeat": 1,
+    "valid": "true",
+    "result": {
+      "runner_schema": "1",
+      "started_utc": "20261004-084640-852Z",
+      "machine": {
+        "cpu": "AMD Ryzen 7 9700X 8-Core Processor             ",
+        "windows_build": "26200",
+        "physical_memory_bytes": "66190954496",
+        "ac_line_status": "1",
+        "power_scheme_guid": "381b4222-f694-41f0-9685-ff5bb260df2e",
+        "cpu_temperature": "not-collected",
+        "gpu_temperature": "not-collected",
+        "actual_gpu_and_driver": "capture/summary.yaml metadata.gl_renderer and gl_version"
+      },
+      "exit_code": "0",
+      "cancelled": "false",
+      "timed_out": "false",
+      "forced_termination": "false",
+      "frame_ms": {
+        "count": "29398",
+        "min": "5.1116000000000001",
+        "max": "20.632400000000001",
+        "mean": "6.1228116946731115",
+        "p50": "6.0201000000000002",
+        "p95": "7.2451999999999996",
+        "p99": "7.9010999999999996"
+      },
+      "throughput_fps": "163.3236574742287",
+      "focus": {
+        "transitions": "1",
+        "unfocused_frames": "38978",
+        "sample_unfocused_frames": "28826",
+        "unfocused_seconds_estimate": "236.61827020000106",
+        "sample_unfocused_seconds_estimate": "176.61518970000139",
+        "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+      },
+      "gl_renderer": "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+      "build_configuration": "Release",
+      "passed": "true",
+      "finished_utc": "20261004-085042-962Z"
+    },
+    "resolution": [
+      "1920",
+      "1080"
+    ],
+    "window": "borderless-windowed",
+    "taskbar": "preserve-shell-z-order",
+    "focus_policy": "allow-unfocused",
+    "world_digest": "fnv1a64:bddd435ea737fa62",
+    "frame": {
+      "count": "29398",
+      "min": "5.1116000000000001",
+      "max": "20.632400000000001",
+      "mean": "6.1228116946731115",
+      "p50": "6.0201000000000002",
+      "p95": "7.2451999999999996",
+      "p99": "7.9010999999999996"
+    },
+    "fps": 163.3236574742287,
+    "gpu": {
+      "count": "29397",
+      "min": "0.087487999999999996",
+      "max": "1.0347200000000001",
+      "mean": "0.12299760764703888",
+      "p50": "0.121152",
+      "p95": "0.123712",
+      "p99": "0.12703999999999999"
+    },
+    "gpu_missing": 1,
+    "mesh": {
+      "count": "29398",
+      "min": "0.0033999999999999998",
+      "max": "0.27160000000000001",
+      "mean": "0.006508242057282859",
+      "p50": "0.0057999999999999996",
+      "p95": "0.0079000000000000008",
+      "p99": "0.0161"
+    },
+    "upload": {
+      "count": "29398",
+      "min": "2.5563000000000002",
+      "max": "7.6905000000000001",
+      "mean": "3.0317441900809481",
+      "p50": "2.9460999999999999",
+      "p95": "3.6261999999999999",
+      "p99": "4.0097000000000005"
+    },
+    "submit": {
+      "count": "29398",
+      "min": "2.2223000000000002",
+      "max": "6.3614999999999986",
+      "mean": "2.712210806857613",
+      "p50": "2.6604000000000001",
+      "p95": "3.2987000000000002",
+      "p99": "3.6756000000000006"
+    },
+    "present": {
+      "count": "29398",
+      "min": "0.1842",
+      "max": "1.6860999999999999",
+      "mean": "0.34976128988366595",
+      "p50": "0.31640000000000001",
+      "p95": "0.58730000000000004",
+      "p99": "0.79520000000000002"
+    },
+    "focus": {
+      "transitions": "1",
+      "unfocused_frames": "38978",
+      "sample_unfocused_frames": "28826",
+      "unfocused_seconds_estimate": "236.61827020000106",
+      "sample_unfocused_seconds_estimate": "176.61518970000139",
+      "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+    },
+    "edits": 0,
+    "rebuilt": 0,
+    "startup": {
+      "argument_preflight_and_collector_setup": "2.2803",
+      "window_and_context": "255.72900000000001",
+      "shaders_buffers_and_block_config": "2.2483",
+      "texture_decode_and_upload": "1.8974",
+      "world_allocation": "31.410299999999999",
+      "terrain": "97.264200000000002",
+      "vegetation": "0.86560000000000004",
+      "fixtures_digests_and_metadata": "353.58240000000001",
+      "first_mesh": "179.05430000000001",
+      "ready_from_main_entry": "925.40830000000005",
+      "first_upload_cpu": "14.337499999999999",
+      "first_frame_swap_return_from_main_entry": "965.00930000000005"
+    },
+    "total_frames": 39550
+  },
+  {
+    "scene": "static",
+    "repeat": 2,
+    "valid": "true",
+    "result": {
+      "runner_schema": "1",
+      "started_utc": "20261004-085042-967Z",
+      "machine": {
+        "cpu": "AMD Ryzen 7 9700X 8-Core Processor             ",
+        "windows_build": "26200",
+        "physical_memory_bytes": "66190954496",
+        "ac_line_status": "1",
+        "power_scheme_guid": "381b4222-f694-41f0-9685-ff5bb260df2e",
+        "cpu_temperature": "not-collected",
+        "gpu_temperature": "not-collected",
+        "actual_gpu_and_driver": "capture/summary.yaml metadata.gl_renderer and gl_version"
+      },
+      "exit_code": "0",
+      "cancelled": "false",
+      "timed_out": "false",
+      "forced_termination": "false",
+      "frame_ms": {
+        "count": "29932",
+        "min": "5.0906000000000002",
+        "max": "15.2051",
+        "mean": "6.0137152044634101",
+        "p50": "5.8912000000000004",
+        "p95": "7.0083000000000002",
+        "p99": "7.6334"
+      },
+      "throughput_fps": "166.28655764373258",
+      "focus": {
+        "transitions": "3",
+        "unfocused_frames": "15029",
+        "sample_unfocused_frames": "14537",
+        "unfocused_seconds_estimate": "92.837360799999743",
+        "sample_unfocused_seconds_estimate": "89.693840099999846",
+        "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+      },
+      "gl_renderer": "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+      "build_configuration": "Release",
+      "passed": "true",
+      "finished_utc": "20261004-085444-809Z"
+    },
+    "resolution": [
+      "1920",
+      "1080"
+    ],
+    "window": "borderless-windowed",
+    "taskbar": "preserve-shell-z-order",
+    "focus_policy": "allow-unfocused",
+    "world_digest": "fnv1a64:bddd435ea737fa62",
+    "frame": {
+      "count": "29932",
+      "min": "5.0906000000000002",
+      "max": "15.2051",
+      "mean": "6.0137152044634101",
+      "p50": "5.8912000000000004",
+      "p95": "7.0083000000000002",
+      "p99": "7.6334"
+    },
+    "fps": 166.28655764373258,
+    "gpu": {
+      "count": "29932",
+      "min": "0.095904000000000003",
+      "max": "0.85388799999999998",
+      "mean": "0.12298184257650412",
+      "p50": "0.1216",
+      "p95": "0.124096",
+      "p99": "0.12672"
+    },
+    "gpu_missing": 0,
+    "mesh": {
+      "count": "29932",
+      "min": "0.0030999999999999999",
+      "max": "0.2273",
+      "mean": "0.0065560102899904563",
+      "p50": "0.0060000000000000001",
+      "p95": "0.0088000000000000005",
+      "p99": "0.011599999999999999"
+    },
+    "upload": {
+      "count": "29932",
+      "min": "2.5670000000000002",
+      "max": "8.9741999999999997",
+      "mean": "2.9613026393157784",
+      "p50": "2.883",
+      "p95": "3.4602999999999997",
+      "p99": "3.7896999999999998"
+    },
+    "submit": {
+      "count": "29932",
+      "min": "2.2132999999999989",
+      "max": "7.6631",
+      "mean": "2.6982519210209568",
+      "p50": "2.6318999999999999",
+      "p95": "3.2723999999999993",
+      "p99": "3.6331999999999991"
+    },
+    "present": {
+      "count": "29932",
+      "min": "0.17760000000000001",
+      "max": "3.0017999999999998",
+      "mean": "0.31861989843645672",
+      "p50": "0.28799999999999998",
+      "p95": "0.53210000000000002",
+      "p99": "0.74319999999999997"
+    },
+    "focus": {
+      "transitions": "3",
+      "unfocused_frames": "15029",
+      "sample_unfocused_frames": "14537",
+      "unfocused_seconds_estimate": "92.837360799999743",
+      "sample_unfocused_seconds_estimate": "89.693840099999846",
+      "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+    },
+    "edits": 0,
+    "rebuilt": 0,
+    "startup": {
+      "argument_preflight_and_collector_setup": "2.0371999999999999",
+      "window_and_context": "268.88729999999998",
+      "shaders_buffers_and_block_config": "2.3182999999999998",
+      "texture_decode_and_upload": "1.8691",
+      "world_allocation": "30.132999999999999",
+      "terrain": "101.51560000000001",
+      "vegetation": "0.88319999999999999",
+      "fixtures_digests_and_metadata": "359.78440000000001",
+      "first_mesh": "174.73140000000001",
+      "ready_from_main_entry": "943.19560000000001",
+      "first_upload_cpu": "14.7591",
+      "first_frame_swap_return_from_main_entry": "982.6431"
+    },
+    "total_frames": 40376
+  },
+  {
+    "scene": "static",
+    "repeat": 3,
+    "valid": "true",
+    "result": {
+      "runner_schema": "1",
+      "started_utc": "20261004-085444-814Z",
+      "machine": {
+        "cpu": "AMD Ryzen 7 9700X 8-Core Processor             ",
+        "windows_build": "26200",
+        "physical_memory_bytes": "66190954496",
+        "ac_line_status": "1",
+        "power_scheme_guid": "381b4222-f694-41f0-9685-ff5bb260df2e",
+        "cpu_temperature": "not-collected",
+        "gpu_temperature": "not-collected",
+        "actual_gpu_and_driver": "capture/summary.yaml metadata.gl_renderer and gl_version"
+      },
+      "exit_code": "0",
+      "cancelled": "false",
+      "timed_out": "false",
+      "forced_termination": "false",
+      "frame_ms": {
+        "count": "30211",
+        "min": "5.1478000000000002",
+        "max": "20.746700000000001",
+        "mean": "5.9581680579920349",
+        "p50": "5.8365999999999998",
+        "p95": "6.8794000000000004",
+        "p99": "7.2961999999999998"
+      },
+      "throughput_fps": "167.83682337705034",
+      "focus": {
+        "transitions": "1",
+        "unfocused_frames": "13557",
+        "sample_unfocused_frames": "4004",
+        "unfocused_seconds_estimate": "84.052921899999845",
+        "sample_unfocused_seconds_estimate": "24.052328499999938",
+        "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+      },
+      "gl_renderer": "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+      "build_configuration": "Release",
+      "passed": "true",
+      "finished_utc": "20261004-085846-781Z"
+    },
+    "resolution": [
+      "1920",
+      "1080"
+    ],
+    "window": "borderless-windowed",
+    "taskbar": "preserve-shell-z-order",
+    "focus_policy": "allow-unfocused",
+    "world_digest": "fnv1a64:bddd435ea737fa62",
+    "frame": {
+      "count": "30211",
+      "min": "5.1478000000000002",
+      "max": "20.746700000000001",
+      "mean": "5.9581680579920349",
+      "p50": "5.8365999999999998",
+      "p95": "6.8794000000000004",
+      "p99": "7.2961999999999998"
+    },
+    "fps": 167.83682337705034,
+    "gpu": {
+      "count": "30211",
+      "min": "0.096287999999999999",
+      "max": "0.93408000000000002",
+      "mean": "0.12173735076627069",
+      "p50": "0.12124799999999999",
+      "p95": "0.123552",
+      "p99": "0.12582399999999999"
+    },
+    "gpu_missing": 0,
+    "mesh": {
+      "count": "30211",
+      "min": "0.0033",
+      "max": "0.24010000000000001",
+      "mean": "0.0063171162821490188",
+      "p50": "0.0055999999999999999",
+      "p95": "0.0080999999999999996",
+      "p99": "0.0132"
+    },
+    "upload": {
+      "count": "30211",
+      "min": "2.5695000000000001",
+      "max": "10.1996",
+      "mean": "2.9593130747079091",
+      "p50": "2.8786",
+      "p95": "3.4469000000000003",
+      "p99": "3.7265999999999999"
+    },
+    "submit": {
+      "count": "30211",
+      "min": "2.2581000000000007",
+      "max": "5.0423999999999989",
+      "mean": "2.6670604283208079",
+      "p50": "2.6073999999999997",
+      "p95": "3.1857999999999995",
+      "p99": "3.5052000000000003"
+    },
+    "present": {
+      "count": "30211",
+      "min": "0.1918",
+      "max": "1.9166000000000001",
+      "mean": "0.29430955943199533",
+      "p50": "0.26800000000000002",
+      "p95": "0.45660000000000001",
+      "p99": "0.64829999999999999"
+    },
+    "focus": {
+      "transitions": "1",
+      "unfocused_frames": "13557",
+      "sample_unfocused_frames": "4004",
+      "unfocused_seconds_estimate": "84.052921899999845",
+      "sample_unfocused_seconds_estimate": "24.052328499999938",
+      "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+    },
+    "edits": 0,
+    "rebuilt": 0,
+    "startup": {
+      "argument_preflight_and_collector_setup": "1.9613",
+      "window_and_context": "270.27449999999999",
+      "shaders_buffers_and_block_config": "1.8848",
+      "texture_decode_and_upload": "1.921",
+      "world_allocation": "29.2011",
+      "terrain": "103.9218",
+      "vegetation": "0.91779999999999995",
+      "fixtures_digests_and_metadata": "354.35919999999999",
+      "first_mesh": "182.29300000000001",
+      "ready_from_main_entry": "947.745",
+      "first_upload_cpu": "14.773100000000001",
+      "first_frame_swap_return_from_main_entry": "990.86810000000003"
+    },
+    "total_frames": 39764
+  },
+  {
+    "scene": "walk",
+    "repeat": 1,
+    "valid": "true",
+    "result": {
+      "runner_schema": "1",
+      "started_utc": "20261004-085846-794Z",
+      "machine": {
+        "cpu": "AMD Ryzen 7 9700X 8-Core Processor             ",
+        "windows_build": "26200",
+        "physical_memory_bytes": "66190954496",
+        "ac_line_status": "1",
+        "power_scheme_guid": "381b4222-f694-41f0-9685-ff5bb260df2e",
+        "cpu_temperature": "not-collected",
+        "gpu_temperature": "not-collected",
+        "actual_gpu_and_driver": "capture/summary.yaml metadata.gl_renderer and gl_version"
+      },
+      "exit_code": "0",
+      "cancelled": "false",
+      "timed_out": "false",
+      "forced_termination": "false",
+      "frame_ms": {
+        "count": "29886",
+        "min": "5.1247999999999996",
+        "max": "12.7227",
+        "mean": "6.0228617178612236",
+        "p50": "5.9282000000000004",
+        "p95": "7.0415000000000001",
+        "p99": "7.6848000000000001"
+      },
+      "throughput_fps": "166.03402947712217",
+      "focus": {
+        "transitions": "0",
+        "unfocused_frames": "39865",
+        "sample_unfocused_frames": "29886",
+        "unfocused_seconds_estimate": "240.0006132000008",
+        "sample_unfocused_seconds_estimate": "179.99924530000033",
+        "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+      },
+      "gl_renderer": "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+      "build_configuration": "Release",
+      "passed": "true",
+      "finished_utc": "20261004-090248-712Z"
+    },
+    "resolution": [
+      "1920",
+      "1080"
+    ],
+    "window": "borderless-windowed",
+    "taskbar": "preserve-shell-z-order",
+    "focus_policy": "allow-unfocused",
+    "world_digest": "fnv1a64:bddd435ea737fa62",
+    "frame": {
+      "count": "29886",
+      "min": "5.1247999999999996",
+      "max": "12.7227",
+      "mean": "6.0228617178612236",
+      "p50": "5.9282000000000004",
+      "p95": "7.0415000000000001",
+      "p99": "7.6848000000000001"
+    },
+    "fps": 166.03402947712217,
+    "gpu": {
+      "count": "29886",
+      "min": "0.072319999999999995",
+      "max": "0.82918400000000003",
+      "mean": "0.10900062370340495",
+      "p50": "0.108512",
+      "p95": "0.112576",
+      "p99": "0.11558400000000001"
+    },
+    "gpu_missing": 0,
+    "mesh": {
+      "count": "29886",
+      "min": "0.0032000000000000002",
+      "max": "0.18940000000000001",
+      "mean": "0.0062982667469720218",
+      "p50": "0.0057999999999999996",
+      "p95": "0.0083999999999999995",
+      "p99": "0.012500000000000001"
+    },
+    "upload": {
+      "count": "29886",
+      "min": "2.5649000000000002",
+      "max": "9.2423999999999999",
+      "mean": "2.9711315733119439",
+      "p50": "2.8965000000000001",
+      "p95": "3.5085999999999999",
+      "p99": "3.8778000000000001"
+    },
+    "submit": {
+      "count": "29886",
+      "min": "2.2386000000000004",
+      "max": "4.702",
+      "mean": "2.6846358328314248",
+      "p50": "2.6268999999999996",
+      "p95": "3.2390999999999992",
+      "p99": "3.5901000000000001"
+    },
+    "present": {
+      "count": "29886",
+      "min": "0.19839999999999999",
+      "max": "1.2171000000000001",
+      "mean": "0.3413031921300943",
+      "p50": "0.31680000000000003",
+      "p95": "0.5333",
+      "p99": "0.72850000000000004"
+    },
+    "focus": {
+      "transitions": "0",
+      "unfocused_frames": "39865",
+      "sample_unfocused_frames": "29886",
+      "unfocused_seconds_estimate": "240.0006132000008",
+      "sample_unfocused_seconds_estimate": "179.99924530000033",
+      "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+    },
+    "edits": 0,
+    "rebuilt": 0,
+    "startup": {
+      "argument_preflight_and_collector_setup": "2.383",
+      "window_and_context": "258.80959999999999",
+      "shaders_buffers_and_block_config": "2.1976",
+      "texture_decode_and_upload": "1.8573999999999999",
+      "world_allocation": "28.4741",
+      "terrain": "104.86920000000001",
+      "vegetation": "1.0697000000000001",
+      "fixtures_digests_and_metadata": "353.48059999999998",
+      "first_mesh": "219.79769999999999",
+      "ready_from_main_entry": "974.01020000000005",
+      "first_upload_cpu": "14.440200000000001",
+      "first_frame_swap_return_from_main_entry": "1015.5780999999999"
+    },
+    "total_frames": 39865
+  },
+  {
+    "scene": "walk",
+    "repeat": 2,
+    "valid": "true",
+    "result": {
+      "runner_schema": "1",
+      "started_utc": "20261004-090248-716Z",
+      "machine": {
+        "cpu": "AMD Ryzen 7 9700X 8-Core Processor             ",
+        "windows_build": "26200",
+        "physical_memory_bytes": "66190954496",
+        "ac_line_status": "1",
+        "power_scheme_guid": "381b4222-f694-41f0-9685-ff5bb260df2e",
+        "cpu_temperature": "not-collected",
+        "gpu_temperature": "not-collected",
+        "actual_gpu_and_driver": "capture/summary.yaml metadata.gl_renderer and gl_version"
+      },
+      "exit_code": "0",
+      "cancelled": "false",
+      "timed_out": "false",
+      "forced_termination": "false",
+      "frame_ms": {
+        "count": "31023",
+        "min": "5.0533999999999999",
+        "max": "15.947699999999999",
+        "mean": "5.8020555007574552",
+        "p50": "5.7024999999999997",
+        "p95": "6.6310000000000002",
+        "p99": "7.0007999999999999"
+      },
+      "throughput_fps": "172.35271187417109",
+      "focus": {
+        "transitions": "0",
+        "unfocused_frames": "41171",
+        "sample_unfocused_frames": "31023",
+        "unfocused_seconds_estimate": "240.0008940999989",
+        "sample_unfocused_seconds_estimate": "179.99716779999869",
+        "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+      },
+      "gl_renderer": "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+      "build_configuration": "Release",
+      "passed": "true",
+      "finished_utc": "20261004-090650-693Z"
+    },
+    "resolution": [
+      "1920",
+      "1080"
+    ],
+    "window": "borderless-windowed",
+    "taskbar": "preserve-shell-z-order",
+    "focus_policy": "allow-unfocused",
+    "world_digest": "fnv1a64:bddd435ea737fa62",
+    "frame": {
+      "count": "31023",
+      "min": "5.0533999999999999",
+      "max": "15.947699999999999",
+      "mean": "5.8020555007574552",
+      "p50": "5.7024999999999997",
+      "p95": "6.6310000000000002",
+      "p99": "7.0007999999999999"
+    },
+    "fps": 172.3527118741711,
+    "gpu": {
+      "count": "31023",
+      "min": "0.073088",
+      "max": "0.401536",
+      "mean": "0.10927424633336455",
+      "p50": "0.108672",
+      "p95": "0.112896",
+      "p99": "0.116448"
+    },
+    "gpu_missing": 0,
+    "mesh": {
+      "count": "31023",
+      "min": "0.0025000000000000001",
+      "max": "0.1096",
+      "mean": "0.0055817458015025943",
+      "p50": "0.0051999999999999998",
+      "p95": "0.0079000000000000008",
+      "p99": "0.0109"
+    },
+    "upload": {
+      "count": "31023",
+      "min": "2.5482",
+      "max": "12.7851",
+      "mean": "2.8622968765109631",
+      "p50": "2.7987000000000002",
+      "p95": "3.2913999999999999",
+      "p99": "3.5240999999999998"
+    },
+    "submit": {
+      "count": "31023",
+      "min": "2.21",
+      "max": "5.9680999999999989",
+      "mean": "2.5892369983560548",
+      "p50": "2.5251999999999994",
+      "p95": "3.0543000000000009",
+      "p99": "3.3265999999999996"
+    },
+    "present": {
+      "count": "31023",
+      "min": "0.19600000000000001",
+      "max": "1.2361",
+      "mean": "0.32618834090835758",
+      "p50": "0.30570000000000003",
+      "p95": "0.49120000000000003",
+      "p99": "0.7006"
+    },
+    "focus": {
+      "transitions": "0",
+      "unfocused_frames": "41171",
+      "sample_unfocused_frames": "31023",
+      "unfocused_seconds_estimate": "240.0008940999989",
+      "sample_unfocused_seconds_estimate": "179.99716779999869",
+      "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+    },
+    "edits": 0,
+    "rebuilt": 0,
+    "startup": {
+      "argument_preflight_and_collector_setup": "2.0663",
+      "window_and_context": "256.21249999999998",
+      "shaders_buffers_and_block_config": "2.2446999999999999",
+      "texture_decode_and_upload": "1.8522000000000001",
+      "world_allocation": "30.247",
+      "terrain": "100.5945",
+      "vegetation": "0.93179999999999996",
+      "fixtures_digests_and_metadata": "353.88330000000002",
+      "first_mesh": "178.6798",
+      "ready_from_main_entry": "927.73559999999998",
+      "first_upload_cpu": "14.1831",
+      "first_frame_swap_return_from_main_entry": "967.18409999999994"
+    },
+    "total_frames": 41171
+  },
+  {
+    "scene": "walk",
+    "repeat": 3,
+    "valid": "true",
+    "result": {
+      "runner_schema": "1",
+      "started_utc": "20261004-090650-698Z",
+      "machine": {
+        "cpu": "AMD Ryzen 7 9700X 8-Core Processor             ",
+        "windows_build": "26200",
+        "physical_memory_bytes": "66190954496",
+        "ac_line_status": "1",
+        "power_scheme_guid": "381b4222-f694-41f0-9685-ff5bb260df2e",
+        "cpu_temperature": "not-collected",
+        "gpu_temperature": "not-collected",
+        "actual_gpu_and_driver": "capture/summary.yaml metadata.gl_renderer and gl_version"
+      },
+      "exit_code": "0",
+      "cancelled": "false",
+      "timed_out": "false",
+      "forced_termination": "false",
+      "frame_ms": {
+        "count": "31284",
+        "min": "5.0423999999999998",
+        "max": "8.9816000000000003",
+        "mean": "5.7537599571665936",
+        "p50": "5.6452",
+        "p95": "6.5872999999999999",
+        "p99": "6.9652000000000003"
+      },
+      "throughput_fps": "173.79939508154868",
+      "focus": {
+        "transitions": "0",
+        "unfocused_frames": "41605",
+        "sample_unfocused_frames": "31284",
+        "unfocused_seconds_estimate": "240.00338539999981",
+        "sample_unfocused_seconds_estimate": "180.00062650000126",
+        "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+      },
+      "gl_renderer": "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+      "build_configuration": "Release",
+      "passed": "true",
+      "finished_utc": "20261004-091052-586Z"
+    },
+    "resolution": [
+      "1920",
+      "1080"
+    ],
+    "window": "borderless-windowed",
+    "taskbar": "preserve-shell-z-order",
+    "focus_policy": "allow-unfocused",
+    "world_digest": "fnv1a64:bddd435ea737fa62",
+    "frame": {
+      "count": "31284",
+      "min": "5.0423999999999998",
+      "max": "8.9816000000000003",
+      "mean": "5.7537599571665936",
+      "p50": "5.6452",
+      "p95": "6.5872999999999999",
+      "p99": "6.9652000000000003"
+    },
+    "fps": 173.79939508154868,
+    "gpu": {
+      "count": "31284",
+      "min": "0.072223999999999997",
+      "max": "0.39366400000000001",
+      "mean": "0.10931725661679986",
+      "p50": "0.108768",
+      "p95": "0.11286400000000001",
+      "p99": "0.116064"
+    },
+    "gpu_missing": 0,
+    "mesh": {
+      "count": "31284",
+      "min": "0.0025000000000000001",
+      "max": "0.16320000000000001",
+      "mean": "0.0059444636235777993",
+      "p50": "0.0054999999999999997",
+      "p95": "0.0085000000000000006",
+      "p99": "0.011900000000000001"
+    },
+    "upload": {
+      "count": "31284",
+      "min": "2.5276999999999998",
+      "max": "4.9048999999999996",
+      "mean": "2.8266802614755071",
+      "p50": "2.7625999999999999",
+      "p95": "3.2538",
+      "p99": "3.4729999999999999"
+    },
+    "submit": {
+      "count": "31284",
+      "min": "2.2414999999999998",
+      "max": "4.6470000000000002",
+      "mean": "2.5875105197545096",
+      "p50": "2.5232999999999999",
+      "p95": "3.0473999999999997",
+      "p99": "3.3130999999999995"
+    },
+    "present": {
+      "count": "31284",
+      "min": "0.19170000000000001",
+      "max": "2.6802999999999999",
+      "mean": "0.31540576652601765",
+      "p50": "0.29399999999999998",
+      "p95": "0.47999999999999998",
+      "p99": "0.68769999999999998"
+    },
+    "focus": {
+      "transitions": "0",
+      "unfocused_frames": "41605",
+      "sample_unfocused_frames": "31284",
+      "unfocused_seconds_estimate": "240.00338539999981",
+      "sample_unfocused_seconds_estimate": "180.00062650000126",
+      "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+    },
+    "edits": 0,
+    "rebuilt": 0,
+    "startup": {
+      "argument_preflight_and_collector_setup": "2.6109",
+      "window_and_context": "246.35470000000001",
+      "shaders_buffers_and_block_config": "1.9596",
+      "texture_decode_and_upload": "1.7547999999999999",
+      "world_allocation": "27.386900000000001",
+      "terrain": "102.7709",
+      "vegetation": "0.98340000000000005",
+      "fixtures_digests_and_metadata": "359.9076",
+      "first_mesh": "180.2681",
+      "ready_from_main_entry": "924.99620000000004",
+      "first_upload_cpu": "14.583600000000001",
+      "first_frame_swap_return_from_main_entry": "966.77049999999997"
+    },
+    "total_frames": 41605
+  },
+  {
+    "scene": "edit",
+    "repeat": 1,
+    "valid": "true",
+    "result": {
+      "runner_schema": "1",
+      "started_utc": "20261004-091052-591Z",
+      "machine": {
+        "cpu": "AMD Ryzen 7 9700X 8-Core Processor             ",
+        "windows_build": "26200",
+        "physical_memory_bytes": "66190954496",
+        "ac_line_status": "1",
+        "power_scheme_guid": "381b4222-f694-41f0-9685-ff5bb260df2e",
+        "cpu_temperature": "not-collected",
+        "gpu_temperature": "not-collected",
+        "actual_gpu_and_driver": "capture/summary.yaml metadata.gl_renderer and gl_version"
+      },
+      "exit_code": "0",
+      "cancelled": "false",
+      "timed_out": "false",
+      "forced_termination": "false",
+      "frame_ms": {
+        "count": "30810",
+        "min": "5.1045999999999996",
+        "max": "13.4771",
+        "mean": "5.8421299805258053",
+        "p50": "5.7358000000000002",
+        "p95": "6.7214",
+        "p99": "7.3022999999999998"
+      },
+      "throughput_fps": "171.17044696598717",
+      "focus": {
+        "transitions": "0",
+        "unfocused_frames": "41102",
+        "sample_unfocused_frames": "30810",
+        "unfocused_seconds_estimate": "240.00011180000214",
+        "sample_unfocused_seconds_estimate": "179.99602470000079",
+        "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+      },
+      "gl_renderer": "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+      "build_configuration": "Release",
+      "passed": "true",
+      "finished_utc": "20261004-091454-552Z"
+    },
+    "resolution": [
+      "1920",
+      "1080"
+    ],
+    "window": "borderless-windowed",
+    "taskbar": "preserve-shell-z-order",
+    "focus_policy": "allow-unfocused",
+    "world_digest": "fnv1a64:bddd435ea737fa62",
+    "frame": {
+      "count": "30810",
+      "min": "5.1045999999999996",
+      "max": "13.4771",
+      "mean": "5.8421299805258053",
+      "p50": "5.7358000000000002",
+      "p95": "6.7214",
+      "p99": "7.3022999999999998"
+    },
+    "fps": 171.17044696598717,
+    "gpu": {
+      "count": "30810",
+      "min": "0.095072000000000004",
+      "max": "0.39894400000000002",
+      "mean": "0.1225749561830521",
+      "p50": "0.12096",
+      "p95": "0.123488",
+      "p99": "0.12937599999999999"
+    },
+    "gpu_missing": 0,
+    "mesh": {
+      "count": "30810",
+      "min": "0.0030000000000000001",
+      "max": "2.2222",
+      "mean": "0.039093531320999714",
+      "p50": "0.0057999999999999996",
+      "p95": "0.0091000000000000004",
+      "p99": "1.3260000000000001"
+    },
+    "upload": {
+      "count": "30810",
+      "min": "2.5598000000000001",
+      "max": "10.366200000000001",
+      "mean": "2.8645392924375179",
+      "p50": "2.7938000000000001",
+      "p95": "3.2917000000000001",
+      "p99": "3.5167999999999999"
+    },
+    "submit": {
+      "count": "30810",
+      "min": "2.2262999999999997",
+      "max": "4.5444000000000004",
+      "mean": "2.5943009996754238",
+      "p50": "2.5273999999999992",
+      "p95": "3.0670000000000006",
+      "p99": "3.3456000000000001"
+    },
+    "present": {
+      "count": "30810",
+      "min": "0.19320000000000001",
+      "max": "1.1627000000000001",
+      "mean": "0.32458525478740763",
+      "p50": "0.3029",
+      "p95": "0.48859999999999998",
+      "p99": "0.70850000000000002"
+    },
+    "focus": {
+      "transitions": "0",
+      "unfocused_frames": "41102",
+      "sample_unfocused_frames": "30810",
+      "unfocused_seconds_estimate": "240.00011180000214",
+      "sample_unfocused_seconds_estimate": "179.99602470000079",
+      "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+    },
+    "edits": 720,
+    "rebuilt": 2160,
+    "startup": {
+      "argument_preflight_and_collector_setup": "1.8848",
+      "window_and_context": "259.7328",
+      "shaders_buffers_and_block_config": "1.9665999999999999",
+      "texture_decode_and_upload": "2.1943999999999999",
+      "world_allocation": "31.035699999999999",
+      "terrain": "105.7282",
+      "vegetation": "0.86909999999999998",
+      "fixtures_digests_and_metadata": "361.68669999999997",
+      "first_mesh": "181.7499",
+      "ready_from_main_entry": "948.02949999999998",
+      "first_upload_cpu": "14.756799999999998",
+      "first_frame_swap_return_from_main_entry": "989.42600000000004"
+    },
+    "total_frames": 41102
+  },
+  {
+    "scene": "edit",
+    "repeat": 2,
+    "valid": "true",
+    "result": {
+      "runner_schema": "1",
+      "started_utc": "20261004-091454-565Z",
+      "machine": {
+        "cpu": "AMD Ryzen 7 9700X 8-Core Processor             ",
+        "windows_build": "26200",
+        "physical_memory_bytes": "66190954496",
+        "ac_line_status": "1",
+        "power_scheme_guid": "381b4222-f694-41f0-9685-ff5bb260df2e",
+        "cpu_temperature": "not-collected",
+        "gpu_temperature": "not-collected",
+        "actual_gpu_and_driver": "capture/summary.yaml metadata.gl_renderer and gl_version"
+      },
+      "exit_code": "0",
+      "cancelled": "false",
+      "timed_out": "false",
+      "forced_termination": "false",
+      "frame_ms": {
+        "count": "29869",
+        "min": "5.0952999999999999",
+        "max": "22.296900000000001",
+        "mean": "6.0262504034282385",
+        "p50": "5.9356",
+        "p95": "7.0625",
+        "p99": "7.9538000000000002"
+      },
+      "throughput_fps": "165.94066509933191",
+      "focus": {
+        "transitions": "1",
+        "unfocused_frames": "39821",
+        "sample_unfocused_frames": "29526",
+        "unfocused_seconds_estimate": "237.99028649999883",
+        "sample_unfocused_seconds_estimate": "177.98644959999831",
+        "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+      },
+      "gl_renderer": "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+      "build_configuration": "Release",
+      "passed": "true",
+      "finished_utc": "20261004-091856-462Z"
+    },
+    "resolution": [
+      "1920",
+      "1080"
+    ],
+    "window": "borderless-windowed",
+    "taskbar": "preserve-shell-z-order",
+    "focus_policy": "allow-unfocused",
+    "world_digest": "fnv1a64:bddd435ea737fa62",
+    "frame": {
+      "count": "29869",
+      "min": "5.0952999999999999",
+      "max": "22.296900000000001",
+      "mean": "6.0262504034282385",
+      "p50": "5.9356",
+      "p95": "7.0625",
+      "p99": "7.9538000000000002"
+    },
+    "fps": 165.9406650993319,
+    "gpu": {
+      "count": "29868",
+      "min": "0.096096000000000001",
+      "max": "0.71113599999999999",
+      "mean": "0.12292619579482666",
+      "p50": "0.121184",
+      "p95": "0.12368",
+      "p99": "0.12790399999999999"
+    },
+    "gpu_missing": 1,
+    "mesh": {
+      "count": "29869",
+      "min": "0.0030000000000000001",
+      "max": "2.6905000000000001",
+      "mean": "0.04326992534065386",
+      "p50": "0.0061000000000000004",
+      "p95": "0.0094999999999999998",
+      "p99": "1.4772000000000001"
+    },
+    "upload": {
+      "count": "29869",
+      "min": "2.5615000000000001",
+      "max": "5.1651999999999996",
+      "mean": "2.9538205698215481",
+      "p50": "2.8875999999999999",
+      "p95": "3.4522999999999997",
+      "p99": "3.7913000000000001"
+    },
+    "submit": {
+      "count": "29869",
+      "min": "2.2455000000000003",
+      "max": "6.1846000000000014",
+      "mean": "2.6729246844554431",
+      "p50": "2.6286999999999998",
+      "p95": "3.1983999999999999",
+      "p99": "3.54"
+    },
+    "present": {
+      "count": "29869",
+      "min": "0.19040000000000001",
+      "max": "1.3422000000000001",
+      "mean": "0.33455226489002099",
+      "p50": "0.30990000000000001",
+      "p95": "0.52559999999999996",
+      "p99": "0.7177"
+    },
+    "focus": {
+      "transitions": "1",
+      "unfocused_frames": "39821",
+      "sample_unfocused_frames": "29526",
+      "unfocused_seconds_estimate": "237.99028649999883",
+      "sample_unfocused_seconds_estimate": "177.98644959999831",
+      "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+    },
+    "edits": 720,
+    "rebuilt": 2160,
+    "startup": {
+      "argument_preflight_and_collector_setup": "1.7736000000000001",
+      "window_and_context": "252.02029999999999",
+      "shaders_buffers_and_block_config": "2.3681999999999999",
+      "texture_decode_and_upload": "2.6419000000000001",
+      "world_allocation": "31.4985",
+      "terrain": "103.4841",
+      "vegetation": "0.93130000000000002",
+      "fixtures_digests_and_metadata": "363.2432",
+      "first_mesh": "188.0692",
+      "ready_from_main_entry": "947.12189999999998",
+      "first_upload_cpu": "15.0502",
+      "first_frame_swap_return_from_main_entry": "990.01469999999995"
+    },
+    "total_frames": 40164
+  },
+  {
+    "scene": "edit",
+    "repeat": 3,
+    "valid": "true",
+    "result": {
+      "runner_schema": "1",
+      "started_utc": "20261004-091856-466Z",
+      "machine": {
+        "cpu": "AMD Ryzen 7 9700X 8-Core Processor             ",
+        "windows_build": "26200",
+        "physical_memory_bytes": "66190954496",
+        "ac_line_status": "1",
+        "power_scheme_guid": "381b4222-f694-41f0-9685-ff5bb260df2e",
+        "cpu_temperature": "not-collected",
+        "gpu_temperature": "not-collected",
+        "actual_gpu_and_driver": "capture/summary.yaml metadata.gl_renderer and gl_version"
+      },
+      "exit_code": "0",
+      "cancelled": "false",
+      "timed_out": "false",
+      "forced_termination": "false",
+      "frame_ms": {
+        "count": "29922",
+        "min": "5.0888999999999998",
+        "max": "10.4879",
+        "mean": "6.0155749682508031",
+        "p50": "5.9199999999999999",
+        "p95": "7.0655999999999999",
+        "p99": "7.9512"
+      },
+      "throughput_fps": "166.23514880586325",
+      "focus": {
+        "transitions": "0",
+        "unfocused_frames": "39572",
+        "sample_unfocused_frames": "29922",
+        "unfocused_seconds_estimate": "240.00146110000091",
+        "sample_unfocused_seconds_estimate": "179.99803420000083",
+        "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+      },
+      "gl_renderer": "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+      "build_configuration": "Release",
+      "passed": "true",
+      "finished_utc": "20261004-092258-320Z"
+    },
+    "resolution": [
+      "1920",
+      "1080"
+    ],
+    "window": "borderless-windowed",
+    "taskbar": "preserve-shell-z-order",
+    "focus_policy": "allow-unfocused",
+    "world_digest": "fnv1a64:bddd435ea737fa62",
+    "frame": {
+      "count": "29922",
+      "min": "5.0888999999999998",
+      "max": "10.4879",
+      "mean": "6.0155749682508031",
+      "p50": "5.9199999999999999",
+      "p95": "7.0655999999999999",
+      "p99": "7.9512"
+    },
+    "fps": 166.23514880586325,
+    "gpu": {
+      "count": "29922",
+      "min": "0.096479999999999996",
+      "max": "0.95823999999999998",
+      "mean": "0.12296664554508065",
+      "p50": "0.121056",
+      "p95": "0.123488",
+      "p99": "0.287136"
+    },
+    "gpu_missing": 0,
+    "mesh": {
+      "count": "29922",
+      "min": "0.0022000000000000001",
+      "max": "2.6511999999999998",
+      "mean": "0.04258048927210762",
+      "p50": "0.0057000000000000002",
+      "p95": "0.0089999999999999993",
+      "p99": "1.4791000000000001"
+    },
+    "upload": {
+      "count": "29922",
+      "min": "2.5499000000000001",
+      "max": "4.9336000000000002",
+      "mean": "2.9492028306931277",
+      "p50": "2.8802000000000003",
+      "p95": "3.4617999999999998",
+      "p99": "3.8057999999999996"
+    },
+    "submit": {
+      "count": "29922",
+      "min": "2.2377000000000002",
+      "max": "5.8954000000000013",
+      "mean": "2.6719069146447465",
+      "p50": "2.6207000000000003",
+      "p95": "3.2049999999999996",
+      "p99": "3.5362000000000005"
+    },
+    "present": {
+      "count": "29922",
+      "min": "0.20000000000000001",
+      "max": "1.6399999999999999",
+      "mean": "0.33168858030880438",
+      "p50": "0.30559999999999998",
+      "p95": "0.52410000000000001",
+      "p99": "0.71150000000000002"
+    },
+    "focus": {
+      "transitions": "0",
+      "unfocused_frames": "39572",
+      "sample_unfocused_frames": "29922",
+      "unfocused_seconds_estimate": "240.00146110000091",
+      "sample_unfocused_seconds_estimate": "179.99803420000083",
+      "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+    },
+    "edits": 720,
+    "rebuilt": 2160,
+    "startup": {
+      "argument_preflight_and_collector_setup": "2.0743999999999998",
+      "window_and_context": "258.71499999999997",
+      "shaders_buffers_and_block_config": "2.4257",
+      "texture_decode_and_upload": "1.8493999999999999",
+      "world_allocation": "30.524999999999999",
+      "terrain": "94.813199999999995",
+      "vegetation": "0.85340000000000005",
+      "fixtures_digests_and_metadata": "350.33569999999997",
+      "first_mesh": "180.75470000000001",
+      "ready_from_main_entry": "923.4425",
+      "first_upload_cpu": "14.8622",
+      "first_frame_swap_return_from_main_entry": "965.46900000000005"
+    },
+    "total_frames": 39572
+  }
+]

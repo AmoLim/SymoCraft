@@ -25,6 +25,7 @@
 - [失焦采样](project/benchmark/performance/Performance-失焦采样.md)、[Session 类](project/benchmark/performance/Performance-Session类.md)：采样策略、状态与数据所有权。
 - [测试与共享场景索引](project/benchmark/testing/README.md)：区分固定场景、旧脚本协议与原生执行器。
 - [桌面交付验证](project/benchmark/Benchmark-桌面交付验证.md)：局部交付结果、失败与复测及二进制身份边界，不替代正式基线或全硬件验收。
+- [GTX 1650 低端机基线](project/benchmark/Benchmark-GTX1650低端机基线.md)：指定低端整机的修复版九轮归档、窗口复测、长帧与失焦边界；指定中端 Y9000P 及分档目标以项目约定为准。
 
 ## 通用验收
 

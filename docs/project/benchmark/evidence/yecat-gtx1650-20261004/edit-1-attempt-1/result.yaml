@@ -1,0 +1,35 @@
+runner_schema: 1
+started_utc: 20261004-104943-001Z
+machine:
+  cpu: Intel(R) Core(TM) i7-10750H CPU @ 2.60GHz
+  windows_build: 26100
+  physical_memory_bytes: 17041244160
+  ac_line_status: 1
+  power_scheme_guid: 381b4222-f694-41f0-9685-ff5bb260df2e
+  cpu_temperature: not-collected
+  gpu_temperature: not-collected
+  actual_gpu_and_driver: capture/summary.yaml metadata.gl_renderer and gl_version
+exit_code: 0
+cancelled: false
+timed_out: false
+forced_termination: false
+frame_ms:
+  count: 10741
+  min: 13.153
+  max: 30.7363
+  mean: 16.757418601619932
+  p50: 16.6554
+  p95: 21.288399999999999
+  p99: 24.3887
+throughput_fps: 59.675062357356758
+focus:
+  transitions: 0
+  unfocused_frames: 14292
+  sample_unfocused_frames: 10741
+  unfocused_seconds_estimate: 240.00106729999951
+  sample_unfocused_seconds_estimate: 179.99143319999976
+  duration_method: sum frame intervals classified by focus at event polling; approximate
+gl_renderer: NVIDIA GeForce GTX 1650/PCIe/SSE2
+build_configuration: Release
+passed: true
+finished_utc: 20261004-105345-745Z
