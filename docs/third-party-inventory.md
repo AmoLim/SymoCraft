@@ -12,7 +12,7 @@
 
 以下 M0 表格保留历史审计事实，不代表修改后的构建图。M1 未升级或删除第三方源码，但调整了集成方式：GLFW 的示例、测试、文档和安装关闭；游戏显式链接 `glm::glm`；glad 与 yaml-cpp 分别进入静态库目标；取消未使用的 irrKlang 链接、DLL 复制和公共头引入。原二进制目录继续保留，不再纳入游戏构建及开发暂存安装。
 
-这不是新增音频系统，也未补齐上游版本和许可材料。当前目标依赖关系见 [构建指南](development/build-and-clion.md)，实际验证状态见 [M1 报告](milestones/m1/README.md)。
+这不是新增音频系统，也未补齐上游版本和许可材料。当前目标依赖关系见 [构建指南](project/build/build-and-clion.md)，实际验证状态见 [M1 报告](milestones/m1/README.md)。
 
 ## M0 使用的依赖
 

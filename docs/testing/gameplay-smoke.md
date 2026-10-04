@@ -6,9 +6,11 @@
 
 M0 仅做过局部启动观测和一次 Release Esc 退出，见 [M0 报告](../milestones/m0/README.md)。这些历史记录保留；M2-A 当前结果与证据见 [M2-A 报告](../milestones/m2-a/README.md) 和本文的局部证据表，不用旧版本结果替代当前复测。
 
+M2-T2 已加入 [固定 seed 与边界场景](../project/benchmark/testing/reproducible-scenes.md)，供下表用例复现位置和几何；[本项验证报告](../milestones/m2-t2/README.md) 只记录生成与有限帧验证，不改变下表的人工验收状态。
+
 M2 目标是保住现有单机体素玩法，并得到能够正常启动、交互、退出的游戏版本。当前世界为固定的 441 个已创建区块，外围一圈不绘制，内圈最多 361 个区块参与绘制，不是无限地图。存档、联网、动态区块流式加载和完整生存系统不因本表而自动进入 M2 范围。
 
-M0 语义基线见 [架构与数据流](../architecture/current-data-flow.md)；M2-A 当前变化见 [玩家循环](../architecture/player-loop.md) 与 [应用生命周期](../architecture/application-lifecycle.md)。重点代码为 [主循环与按键](../../src/core/application.cpp)、[射线编辑](../../src/playercontroller/playercontroller.cpp)、[角色](../../src/core/ECS/Systems/character_system.cpp)、[碰撞](../../src/core/ECS/Systems/physics_system.cpp)。
+M0 语义基线见 [架构与数据流](../legacy/architecture/current-data-flow.md)；M2-A 当前变化见 [玩家循环](../legacy/architecture/player-loop.md) 与 [应用生命周期](../legacy/architecture/application-lifecycle.md)。重点代码为 [主循环与按键](../../src/core/application.cpp)、[射线编辑](../../src/playercontroller/playercontroller.cpp)、[角色](../../src/core/ECS/Systems/character_system.cpp)、[碰撞](../../src/core/ECS/Systems/physics_system.cpp)。
 
 ## M2-A 局部证据
 
@@ -41,7 +43,7 @@ M0 语义基线见 [架构与数据流](../architecture/current-data-flow.md)；
 | 资源包位置与启动日志位置 | 未记录 |
 | 截图/录像、帧时间和内存记录位置 | 未记录 |
 
-当前代码请求 OpenGL 4.6 Core 并默认打开 VSync，实际支持情况需要启动后记录。当前日志 seed 不能完整复现世界，不得仅凭相同 seed 宣称场景一致；确定性输入尚未实现时记录截图、路线和测试位置，并说明限制。
+当前代码请求 OpenGL 4.6 Core 并默认打开 VSync，实际支持情况需要启动后记录。M2-A 旧日志 seed 不能完整复现世界；M2-T2 新版应同时记录生成/场景版本、构建与资源身份、seed、配置、方块摘要和初始姿态，不能只记录 seed。截图、路线和实际测试位置仍需保留；初始方块可重复不等于真实玩家轨迹或画面逐像素相同。
 
 ## 功能用例
 

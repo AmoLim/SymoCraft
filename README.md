@@ -42,7 +42,7 @@ Its default action configures, builds, and runs tests.
 
 For CLion, create a Visual Studio toolchain named **Symocraft MSVC**, select
 the amd64/x64 architecture, and enable the `windows-debug` and `windows-release`
-presets. See the [build and CLion guide](docs/development/build-and-clion.md).
+presets. See the [build and CLion guide](docs/project/build/build-and-clion.md).
 
 ## Resource Regression Tests
 
@@ -86,7 +86,7 @@ initial blocks within the same generation version, configuration, and build
 environment, not across arbitrary compilers or platforms. `--world-summary`
 outputs YAML without creating a window or GL context. The regression scene
 defaults to seed 424242; `--test-edits` applies a fixed startup edit sequence,
-not player-input replay. See the [scene guide](docs/testing/reproducible-scenes.md).
+not player-input replay. See the [scene guide](docs/project/benchmark/testing/reproducible-scenes.md).
 
 The M2-T2 local Release candidate remains at `out/install/m2-t2/SymoCraft.exe`
 with adjacent assets. That revision passed 13 tests and a 120-frame real-driver
@@ -97,7 +97,7 @@ archive is `out/packages/Symocraft-M2-T3-windows-x64.zip`. Debug and Release
 each passed 15 tests, and all nine formal desktop benchmark runs were valid.
 The Y9000P baseline and full gameplay acceptance remain pending. See the
 [M2-T3 report](docs/milestones/m2-t3/README.md) and
-[benchmark guide](docs/testing/performance-baseline.md) for CPU/GPU measurement
+[benchmark guide](docs/project/benchmark/testing/performance-baseline.md) for CPU/GPU measurement
 boundaries, raw data locations, conditions, and laptop instructions.
 
 For the original M2-T3 archive, apply the separate

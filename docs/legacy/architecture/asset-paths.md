@@ -1,8 +1,10 @@
 # 资源路径模块：从可执行文件定位游戏资源
 
+> 历史架构参考：M1，含 M2-A 接口更新。文中的“当前”指该阶段，不代表最新实现；归档不表示相关机制全部废弃。源码链接保留定位用途，不固定历史版本或行号。参见 [历史架构索引](README.md)；后续设计约定见 [项目范围](../../spec/project-scope.md)，不据此推定重构已经完成。
+
 本文对应 M1 新增的 `SymoCraft::Assets` 模块。目标是让资源定位不再依赖 CLion 的运行目录，也不依赖启动命令所在的位置。本模块是一个小型路径与资源存在性检查组件，不是资源管理器，更不是文件系统安全沙箱。
 
-接口说明已同步 M2-A 的命令行和纹理所有权变化；第 7.1 节仍保留 M1 当时的失败与复测记录，不把历史的三项测试改写为当前九项测试。当前阶段结果以 [M2-A 报告](../milestones/m2-a/README.md) 为准。
+接口说明已同步 M2-A 的命令行和纹理所有权变化；第 7.1 节仍保留 M1 当时的失败与复测记录，不把历史的三项测试改写为当前九项测试。当前阶段结果以 [M2-A 报告](../../milestones/m2-a/README.md) 为准。
 
 ## 1. 解决的问题与职责边界
 
@@ -39,7 +41,7 @@ M1 采用固定的运行布局：
 - 修改进程当前工作目录，或从源码目录回退查找资源。
 - 保证不可信输入下的文件访问安全，或解决文件检查之后被其他进程替换的竞态问题。
 
-构建侧由 [StageAssets.cmake](../../cmake/StageAssets.cmake) 将必需文件同步到 exe 同级目录；安装侧由顶层 [CMakeLists.txt](../../CMakeLists.txt) 放置 exe 和资源。运行时模块不猜测开发机目录，从而避免发布产物偷偷读取开发目录中的文件。
+构建侧由 [StageAssets.cmake](../../../cmake/StageAssets.cmake) 将必需文件同步到 exe 同级目录；安装侧由顶层 [CMakeLists.txt](../../../CMakeLists.txt) 放置 exe 和资源。运行时模块不猜测开发机目录，从而避免发布产物偷偷读取开发目录中的文件。
 
 ## 2. 数据流与源码入口
 
@@ -68,11 +70,11 @@ main -> CheckRequiredAssets -> Resolve
 
 建议按以下顺序阅读：
 
-1. [asset_paths.h](../../include/core/asset_paths.h)：公开接口及依赖。
-2. [asset_paths.cpp](../../src/core/asset_paths.cpp)：Windows 路径获取、输入检查、规范化和存在性检查。
-3. [main.cpp](../../src/main.cpp)：启动预检与退出码。
-4. [renderer.cpp](../../src/renderer/renderer.cpp)、[application.cpp](../../src/core/application.cpp)：加载器边界和字符串生命周期。
-5. [asset_paths_tests.cpp](../../tests/asset_paths_tests.cpp)：路径契约和迁移包测试。
+1. [asset_paths.h](../../../include/core/asset_paths.h)：公开接口及依赖。
+2. [asset_paths.cpp](../../../src/core/asset_paths.cpp)：Windows 路径获取、输入检查、规范化和存在性检查。
+3. [main.cpp](../../../src/main.cpp)：启动预检与退出码。
+4. [renderer.cpp](../../../src/renderer/renderer.cpp)、[application.cpp](../../../src/core/application.cpp)：加载器边界和字符串生命周期。
+5. [asset_paths_tests.cpp](../../../tests/asset_paths_tests.cpp)：路径契约和迁移包测试。
 
 ## 3. 公开接口与错误语义
 
@@ -180,7 +182,7 @@ texture_array = texture_array.CreateAtlasSlice(texture_path, true);
 
 应用层仍保留上面的具名字符串，便于阅读和诊断，但它已不是纹理对象路径寿命的唯一保障。当前 `Texture` 禁止复制、允许移动，移动时转移 GL 句柄并清零来源，析构和幂等 `Destroy()` 负责释放纹理；图像解码缓冲也由带 `stbi_image_free` 删除器的局部智能指针管理。
 
-`Run()` 的局部纹理在正常返回或异常展开时析构，早于 `Application::Free()` 销毁上下文。RAII 只管理所有权和析构动作，仍要求调用顺序保证 GL 上下文有效；它也不自动解决窄字符串路径的 Unicode 兼容性。完整实现见 [texture.h](../../include/renderer/texture.h)、[texture.cpp](../../src/renderer/texture.cpp)。
+`Run()` 的局部纹理在正常返回或异常展开时析构，早于 `Application::Free()` 销毁上下文。RAII 只管理所有权和析构动作，仍要求调用顺序保证 GL 上下文有效；它也不自动解决窄字符串路径的 Unicode 兼容性。完整实现见 [texture.h](../../../include/renderer/texture.h)、[texture.cpp](../../../src/renderer/texture.cpp)。
 
 当前 GLSL 编译和 YAML 配置加载调用同步消费传入的路径，不保存该路径视图，因此调用表达式中的临时字符串可以覆盖这次同步调用。若未来改成异步加载或保存重载路径，就必须改成持有 `std::string` 或 `std::filesystem::path`，不能继续依赖这个前提。
 
@@ -192,7 +194,7 @@ texture_array = texture_array.CreateAtlasSlice(texture_path, true);
 
 ## 7. 测试设计、复现与证据
 
-CTest 当前共注册九项测试，其中下面四项属于本资源模块，定义见 [tests/CMakeLists.txt](../../tests/CMakeLists.txt)。另外五项检查玩家数学、批次安全、区块网格、方块配置和按键快照，不应计为资源路径模块自身的覆盖：
+CTest 当前共注册九项测试，其中下面四项属于本资源模块，定义见 [tests/CMakeLists.txt](../../../tests/CMakeLists.txt)。另外五项检查玩家数学、批次安全、区块网格、方块配置和按键快照，不应计为资源路径模块自身的覆盖：
 
 | 测试 | 检查内容 |
 | --- | --- |
@@ -213,7 +215,7 @@ CTest 当前共注册九项测试，其中下面四项属于本资源模块，�
 
 子进程使用 `CREATE_NO_WINDOW`，有 10 秒等待上限；异常等待情况下会尝试终止并回收进程句柄。当前失败信息包含子进程退出码，但没有捕获完整的子进程标准错误输出。最外层 CTest 另有超时限制，防止整组测试无限等待。
 
-第四项由 [CheckAssetPackage.cmake](../../tests/CheckAssetPackage.cmake) 实现，使用真实资源，并在构建目录的 `package-probes` 下创建随机隔离子目录。每次子进程运行限制为 10 秒，捕获标准输出和标准错误；失败时保留包目录供诊断，成功后仅清理经过规范化和父目录检查的本次子目录。它验证的是实际游戏命令行预检在迁移包中的行为，仍不进入图形初始化，也不直接验证 `cmake --install` 生成的安装目录或无开发环境机器上的运行库部署。
+第四项由 [CheckAssetPackage.cmake](../../../tests/CheckAssetPackage.cmake) 实现，使用真实资源，并在构建目录的 `package-probes` 下创建随机隔离子目录。每次子进程运行限制为 10 秒，捕获标准输出和标准错误；失败时保留包目录供诊断，成功后仅清理经过规范化和父目录检查的本次子目录。它验证的是实际游戏命令行预检在迁移包中的行为，仍不进入图形初始化，也不直接验证 `cmake --install` 生成的安装目录或无开发环境机器上的运行库部署。
 
 可以在正确的 MSVC 开发环境中通过工程的 Debug/Release 测试预设运行。仅重跑已有验证目录中的资源测试时，命令形式为：
 
@@ -223,18 +225,18 @@ ctest --test-dir <configured-build-directory> --output-on-failure -R "^assets\."
 
 应先构建，再执行 CTest；CTest 本身不负责补建缺失的程序和资源。`<configured-build-directory>` 必须替换为实际的已配置构建目录。
 
-M2-A 当前 Debug 与 Release 各九项测试通过；真实 Debug 120 帧启动及三项损坏资源探针另有运行证据，见 [M2-A 报告](../milestones/m2-a/README.md)。这些结果不能反向改写下节 M1 的历史记录，也不能替代完整玩法、15 分钟连续运行、性能基线或笔记本验收。
+M2-A 当前 Debug 与 Release 各九项测试通过；真实 Debug 120 帧启动及三项损坏资源探针另有运行证据，见 [M2-A 报告](../../milestones/m2-a/README.md)。这些结果不能反向改写下节 M1 的历史记录，也不能替代完整玩法、15 分钟连续运行、性能基线或笔记本验收。
 
 ### 7.1 M1 的沙箱失败与授权复测
 
-本次默认系统 `TEMP` 中的迁移子进程在受限执行环境下失败，造成前两项测试失败；实际游戏的无窗口预检通过。失败日志保留在 [首次构建测试日志](../milestones/m1/evidence/01-debug-build-test.log) 和 [全新 Debug 构建测试日志](../milestones/m1/evidence/02-debug-clean-build-test.log)。这些失败不能删去或改写为成功。
+本次默认系统 `TEMP` 中的迁移子进程在受限执行环境下失败，造成前两项测试失败；实际游戏的无窗口预检通过。失败日志保留在 [首次构建测试日志](../../milestones/m1/evidence/01-debug-build-test.log) 和 [全新 Debug 构建测试日志](../../milestones/m1/evidence/02-debug-clean-build-test.log)。这些失败不能删去或改写为成功。
 
 随后经授权在宿主环境运行同一验证构建目录中的 CTest，当时已注册的三项测试全部通过；这是增加 `assets.game_package` 之前的历史记录：
 
 - 测试目录：`out/m1-validation/windows-debug`。
 - 结果：`3/3` 通过，`0` 失败。
 - 本次记录总耗时：`0.30` 秒。
-- 原始证据：[授权宿主测试日志](../milestones/m1/evidence/03-debug-tests-host.log)。
+- 原始证据：[授权宿主测试日志](../../milestones/m1/evidence/03-debug-tests-host.log)。
 
 这组对照支持“受限环境中的默认临时目录子进程执行问题”的判断，而不是通过删除迁移测试掩盖失败。它不替代对所有安全软件或沙箱配置的兼容性验证，也不授权通过更换执行位置规避权限要求。以后出现相同情况，应保留退出码和日志，并按权限流程复验。
 
@@ -244,7 +246,7 @@ M2-A 当前 Debug 与 Release 各九项测试通过；真实 Debug 120 帧启动
 
 当前方案选择“一个固定根目录 + 明确的必需资源清单”，而不是搜索多个目录或引入完整资源管理器。好处是容易解释、可迁移、失败位置明确；代价是没有资源覆盖层、模组目录或用户级搜索路径。
 
-运行时清单位于 `asset_paths.cpp`，构建侧清单位于 [RequiredAssets.cmake](../../cmake/RequiredAssets.cmake)，由 `StageAssets.cmake` 和游戏迁移包测试共用；安装流程使用同一构建侧清单。新增必需资源时，需要同步维护运行时与构建侧两处清单，并检查安装布局和预检。当前测试能发现运行时要求的文件未被同步，但不会自动发现构建清单中新增的文件未加入运行时清单。
+运行时清单位于 `asset_paths.cpp`，构建侧清单位于 [RequiredAssets.cmake](../../../cmake/RequiredAssets.cmake)，由 `StageAssets.cmake` 和游戏迁移包测试共用；安装流程使用同一构建侧清单。新增必需资源时，需要同步维护运行时与构建侧两处清单，并检查安装布局和预检。当前测试能发现运行时要求的文件未被同步，但不会自动发现构建清单中新增的文件未加入运行时清单。
 
 值得保留的演进方向包括：
 

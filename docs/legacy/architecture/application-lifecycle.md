@@ -1,10 +1,12 @@
 # 应用生命周期与运行验证
 
+> 历史架构参考：M2-A，含 M2-T2 / M2-T3 增补。文中的“当前”指该阶段，不代表最新实现；归档不表示相关机制全部废弃。源码链接保留定位用途，不固定历史版本或行号。参见 [历史架构索引](README.md)；后续设计约定见 [项目范围](../../spec/project-scope.md)，不据此推定重构已经完成。
+
 ## 范围与状态
 
-本文说明 M2-A 当前 `main`、`Application`、方块配置加载，以及 `verify-runtime*.ps1` 的接口和数据流。它描述代码契约与验证方法，不是测试通过记录；实际构建、真实驱动运行、故障注入和人工玩法结果见 [M2-A 阶段报告](../milestones/m2-a/README.md)。
+本文说明 M2-A 当前 `main`、`Application`、方块配置加载，以及 `verify-runtime*.ps1` 的接口和数据流。它描述代码契约与验证方法，不是测试通过记录；实际构建、真实驱动运行、故障注入和人工玩法结果见 [M2-A 阶段报告](../../milestones/m2-a/README.md)。
 
-M2-T2 更新：保留下述图形生命周期，新增 [可复现生成](world-generation.md) 与 [场景输入](../testing/reproducible-scenes.md)。`main` 通过 `ParseStartupOptions` 解析参数，图形模式调用 `Run(const StartupOptions&)`；无窗口模式调用 `PrintWorldSummary`，不调用 `Init`。当前测试及运行证据见 [M2-T2 报告](../milestones/m2-t2/README.md)。
+M2-T2 更新：保留下述图形生命周期，新增 [可复现生成](world-generation.md) 与 [场景输入](../../project/benchmark/testing/reproducible-scenes.md)。`main` 通过 `ParseStartupOptions` 解析参数，图形模式调用 `Run(const StartupOptions&)`；无窗口模式调用 `PrintWorldSummary`，不调用 `Init`。当前测试及运行证据见 [M2-T2 报告](../../milestones/m2-t2/README.md)。
 
 M2-T3 更新：`Init` / `Run` 接受启动参数及可选 `Performance::Session*`，默认不采样。benchmark 模式固定窗口和工作负载，分别记录 CPU、上传、异步 GPU 查询及内存；完整接口与计时边界见 [性能观测](performance-observation.md)。这不改变普通模式的输入与暂停契约，也不把脚本移动当成人工玩法验收。
 
@@ -215,4 +217,4 @@ M2-T2 为普通运行探针增加 `-Seed`、`-Scene terrain|regression`、`-Chec
 
 日志中的 `loading_ms` 从进入 `Run()`、加载纹理前开始，到纹理、固定世界和初始 CPU 网格准备好后结束。它不包含先前 `Init()` 中的窗口、shader、批次和 YAML 加载，也不包含首帧 GPU 上传与呈现。脚本的 `elapsedSeconds` 则是整个子进程启动到结束的墙钟时间，两者不可混用。
 
-这些有限帧探针时间只是运行观测，不是性能基准；摘要扫描也计入现有 `loading_ms`。M2-T3 另外提供 [正式采样入口](../testing/performance-baseline.md)，使用原始逐帧数据、CPU/GPU 分解及多轮统计。不能由“120 帧正常结束”或一条加载时间推导出稳定 60 FPS、15 分钟稳定性、无泄漏，或 Y9000P 笔记本验收通过。
+这些有限帧探针时间只是运行观测，不是性能基准；摘要扫描也计入现有 `loading_ms`。M2-T3 另外提供 [正式采样入口](../../project/benchmark/testing/performance-baseline.md)，使用原始逐帧数据、CPU/GPU 分解及多轮统计。不能由“120 帧正常结束”或一条加载时间推导出稳定 60 FPS、15 分钟稳定性、无泄漏，或 Y9000P 笔记本验收通过。

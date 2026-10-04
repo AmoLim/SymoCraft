@@ -54,10 +54,10 @@
 
 技术说明包含职责、数据流、所有权、算法、测试和限制：
 
-- [应用生命周期与验证](../../architecture/application-lifecycle.md)
-- [运行期图形资源](../../architecture/runtime-resources.md)
-- [网格与批次内存安全](../../architecture/mesh-safety.md)
-- [玩家循环与输入](../../architecture/player-loop.md)
+- [应用生命周期与验证](../../legacy/architecture/application-lifecycle.md)
+- [运行期图形资源](../../legacy/architecture/runtime-resources.md)
+- [网格与批次内存安全](../../legacy/architecture/mesh-safety.md)
+- [玩家循环与输入](../../legacy/architecture/player-loop.md)
 
 这些修改没有替换整个 ECS、引入新的线程池，或实现持久 GPU 区块网格；每帧全世界几何装入和上传仍是后续需测量的成本。
 

@@ -1,5 +1,7 @@
 # 固定世界与边界回归场景
 
+> 适用范围：M2-T2 固定世界与边界场景，保留该阶段的参数和夹具契约。Benchmark 与 [通用玩法验收](../../../testing/gameplay-smoke.md) 共同复用这些场景；归入 Benchmark 目录不代表玩法验收也归其所有。本轮未重新验证场景或更新其实现契约。
+
 ## 使用方式
 
 M2-T2 提供生成版本 1、测试场景版本 1。当前候选版在 `out/install/m2-t2/SymoCraft.exe`；CLion 构建版使用相同参数。此文定义可复现输入，不是人工玩法通过记录。
@@ -24,7 +26,7 @@ M2-T2 提供生成版本 1、测试场景版本 1。当前候选版在 `out/inst
 
 `--scene terrain` 等同默认普通地形。只有 `regression` 接受 `--checkpoint` 和 `--test-edits`；`--world-summary` 不能与 `--smoke-frames` 同用；`--check-assets` 必须单独使用。不支持运行中传送命令，切换检查点通过退出后带新参数启动。重启会丢弃编辑，没有存档。
 
-随机普通开局会输出实际 `generation.seed`；用相同 seed、版本、配置和构建重启即可重建初始方块，不能恢复已经发生的玩家编辑。不同 `seed_source` 是预期元数据差异。完整确定性边界见 [生成技术说明](../architecture/world-generation.md)。
+随机普通开局会输出实际 `generation.seed`；用相同 seed、版本、配置和构建重启即可重建初始方块，不能恢复已经发生的玩家编辑。不同 `seed_source` 是预期元数据差异。完整确定性边界见 [生成技术说明](../../../legacy/architecture/world-generation.md)。
 
 ## 几何与检查点
 
@@ -81,8 +83,8 @@ M2-T2 提供生成版本 1、测试场景版本 1。当前候选版在 `out/inst
 
 ## 模块与验收边界
 
-[TestScene](../../src/world/test_scene.cpp) 提供 `Install()`、`Checkpoints()`、`Checkpoint(name)`、`Edits()`、`ApplyEdits()` 和 `Describe()`。返回的 span 引用模块静态只读数组，不需调用方释放。`Install` 要求至少半径 3 的可玩覆盖，写入前检查覆盖范围；`ApplyEdits` 要求初始石头状态，重复调用会拒绝，且不承诺中途失败时回滚已完成操作。
+[TestScene](../../../../src/world/test_scene.cpp) 提供 `Install()`、`Checkpoints()`、`Checkpoint(name)`、`Edits()`、`ApplyEdits()` 和 `Describe()`。返回的 span 引用模块静态只读数组，不需调用方释放。`Install` 要求至少半径 3 的可玩覆盖，写入前检查覆盖范围；`ApplyEdits` 要求初始石头状态，重复调用会拒绝，且不承诺中途失败时回滚已完成操作。
 
 生成/编辑通过区块原有写入入口传播脏标记，未新增另一份测试专用世界实现。摘要分别保存自然世界、覆盖后、编辑后状态。报告还输出完整几何参数、检查点、路线和编辑操作；只保存 seed 不足以描述测试输入。
 
-本项覆盖“可定位、可重建、可比较”。后续 [14 项玩法验收](gameplay-smoke.md) 仍要分别记录人工结果、截图/录像、坐标及异常；固定夹具不能自动使 M2-05、M2-09、15 分钟游玩或笔记本通过。真实性能帧数据属于 M2-T3。
+本项覆盖“可定位、可重建、可比较”。后续 [14 项玩法验收](../../../testing/gameplay-smoke.md) 仍要分别记录人工结果、截图/录像、坐标及异常；固定夹具不能自动使 M2-05、M2-09、15 分钟游玩或笔记本通过。真实性能帧数据属于 M2-T3。

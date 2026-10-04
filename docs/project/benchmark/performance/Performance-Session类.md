@@ -10,7 +10,7 @@ created: 2026-10-04
 
 # Performance Session 类设计
 
-关联功能：[[Performance-失焦采样]]、[[Benchmark-文件协议]]。既有测量范围详见 [性能观测数据流](../../../architecture/performance-observation.md)。
+关联功能：[[Performance-失焦采样]]、[[Benchmark-文件协议]]。既有测量范围详见 [性能观测数据流](../../../legacy/architecture/performance-observation.md)。
 
 ## 当前设计
 

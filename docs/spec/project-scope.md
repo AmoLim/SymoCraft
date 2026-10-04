@@ -113,7 +113,7 @@ M2 的未完成验收仍保留，不因本次规划而自动通过；M3 的设�
 
 完成条件：同一生成版本、构建环境、seed 和配置重复运行时得到相同方块摘要，能复现指定边界场景；确定性范围写清楚，不默认承诺跨编译器/平台位级一致。
 
-2026-10-03 实现与上述范围内验证完成，待用户验收，见 [M2-T2 报告](../milestones/m2-t2/README.md)、[生成技术说明](../architecture/world-generation.md)、[固定场景指南](../testing/reproducible-scenes.md)。Debug/Release 各 13 项 CTest 及各 120 帧真实运行通过。固定路线为人工路点定义，编辑入口为启动前有序写入，不是输入回放、玩法通过或性能基线；M2-T3/T4 状态不变。
+2026-10-03 实现与上述范围内验证完成，待用户验收，见 [M2-T2 报告](../milestones/m2-t2/README.md)、[生成技术说明](../legacy/architecture/world-generation.md)、[固定场景指南](../project/benchmark/testing/reproducible-scenes.md)。Debug/Release 各 13 项 CTest 及各 120 帧真实运行通过。固定路线为人工路点定义，编辑入口为启动前有序写入，不是输入回放、玩法通过或性能基线；M2-T3/T4 状态不变。
 
 #### M2-T3 增加最小性能观测并采集基线
 
@@ -127,7 +127,7 @@ M2 的未完成验收仍保留，不因本次规划而自动通过；M3 的设�
 
 依赖 M2-T2。完成条件：相同场景可重复采集，有原始数据、采样边界和硬件条件，能够区分 CPU、上传与 GPU 成本。M2 在此建立基线，不提前宣称已经满足 M4 的性能目标；严重卡顿若阻断玩法，仍须在 M2 处理。
 
-2026-10-03：前四项实现及桌面验证完成，Debug/Release 各 15/15；桌面正式 9/9 采样有效。首次可操作时间采用 main 入口至首帧交换返回的近似，不是输入到显示延迟；CPU 温度及精确每进程显存缺失，设备显存范围明确另列。见 [M2-T3 报告](../milestones/m2-t3/README.md)、[计时技术说明](../architecture/performance-observation.md) 及 [双机采样指南](../testing/performance-baseline.md)。Y9000P 尚未执行，因此最后一项与 M2-T3 整体验收保持未完成，不由桌面数据推定笔记本达标。
+2026-10-03：前四项实现及桌面验证完成，Debug/Release 各 15/15；桌面正式 9/9 采样有效。首次可操作时间采用 main 入口至首帧交换返回的近似，不是输入到显示延迟；CPU 温度及精确每进程显存缺失，设备显存范围明确另列。见 [M2-T3 报告](../milestones/m2-t3/README.md)、[计时技术说明](../legacy/architecture/performance-observation.md) 及 [双机采样指南](../project/benchmark/testing/performance-baseline.md)。Y9000P 尚未执行，因此最后一项与 M2-T3 整体验收保持未完成，不由桌面数据推定笔记本达标。
 
 随后收到 Y9000P 首轮数据，因失焦无效；已交付采集脚本版本 2 修复空退出码及相对路径问题，本机 Debug/Release 各 17/17，原游戏 exe 不变。笔记本有效三场景九轮仍待执行，详见 [诊断与补丁](../milestones/m2-t3/laptop-first-run.md)，不将无效结果记为通过。
 

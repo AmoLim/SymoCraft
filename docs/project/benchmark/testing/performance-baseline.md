@@ -1,5 +1,7 @@
 # M2-T3 双机性能采样
 
+> 适用范围：M2-T3 旧 PowerShell 采样流程与候选包，保留当时的协议、命令和交接约定。原生 Benchmark 的操作见 [使用与交付](../使用与交付.md)，焦点策略见 [失焦采样](../performance/Performance-失焦采样.md)。下文的禁止切出要求属于旧流程，不覆盖新策略；两者的版本、结果格式和证据不可混用。本轮未重新执行采样。
+
 ## 执行约定
 
 本指南适用于台式机和指定 Y9000P，二者必须分别实测。使用同一 Release exe、资源、生成与工作负载版本；保存 exe/资源/脚本哈希。正式配置为 1920×1080 framebuffer、VSync 请求关闭、seed=424242、441 区块、原有渲染设置，三个场景各预热 60 秒、采样 180 秒、重复 3 次，约 36 分钟加启动及导出时间。
@@ -10,7 +12,7 @@
 
 ## 本机运行
 
-2026-10-03 兼容性补丁：Windows PowerShell 5.1 用户应先使用采集脚本版本 2，修复退出码为 null 和相对输出路径偏移；原候选 exe 不变。新版在 `machine.json` 记录 `collectorScriptVersion` / `powershellVersion`，失败结果新增 `failureReasons`。见 [Y9000P 首轮诊断与补丁](../milestones/m2-t3/laptop-first-run.md)。
+2026-10-03 兼容性补丁：Windows PowerShell 5.1 用户应先使用采集脚本版本 2，修复退出码为 null 和相对输出路径偏移；原候选 exe 不变。新版在 `machine.json` 记录 `collectorScriptVersion` / `powershellVersion`，失败结果新增 `failureReasons`。见 [Y9000P 首轮诊断与补丁](../../../milestones/m2-t3/laptop-first-run.md)。
 
 先按构建指南构建并测试 Release；当前安装候选版位于 `out/install/m2-t3`。以下命令在仓库根目录运行，结果目录必须是新目录。
 
@@ -67,7 +69,7 @@
 | `capture/summary.yaml` | 完整世界输入与摘要、初始化分段、有效性原因、分位数及 GPU 缺失数 |
 | `capture/final-frame.png` | 测量结束后额外渲染的诊断截图，不是整段视觉验收 |
 
-每轮看 P95/P99、最大帧、编辑帧与 GPU 缺失数量，不删慢帧。分别比较三次运行，不把不同机器、配置或协议的样本直接混成一份分布。GPU时间、上传调用CPU时间和呈现等待的含义见 [模块说明](../architecture/performance-observation.md)，这些列不可简单累加。
+每轮看 P95/P99、最大帧、编辑帧与 GPU 缺失数量，不删慢帧。分别比较三次运行，不把不同机器、配置或协议的样本直接混成一份分布。GPU时间、上传调用CPU时间和呈现等待的含义见 [模块说明](../../../legacy/architecture/performance-observation.md)，这些列不可简单累加。
 
 静止场景应没有持续网格重建；移动场景应有位置变化与往返；编辑场景应产生约每秒 4 次写入及受影响区块重建。它们是数据合理性检查，不是先验性能目标。若渲染恢复失败、严重卡顿阻断玩法或产生未解释的 GL 错误，先修复再采样。
 

@@ -1,22 +1,52 @@
 # Symocraft 技术文档
 
-本文档集同时服务工程维护和源码学习。当前阶段为 **M2-A 已交付桌面候选版与局部验证报告，待用户人工验收**。指定的 Y9000P 笔记本（i7-12700H、RTX 3070 Ti Laptop、32 GB 内存）已正式纳入 M2 整体验收；桌面结果不能替代笔记本实测。当前说明不代表 M2、人工 15 分钟游玩、性能基线或笔记本验收已经通过。
+本文档集同时服务工程维护和源码学习。按下面的用途入口阅读；新建、移动或维护文档前，先看 [文档结构与维护参考](DOCUMENTATION_MAP.md)。
 
-## 阅读顺序
+本文是导航，不重复维护阶段测试数量。设计约定、实现说明和验证报告分别阅读；文档整理不改变 M2、人工连续游玩、性能或指定笔记本的验收状态。桌面结果不能替代指定 Y9000P 的实测。
 
-1. [项目范围与验收约定](spec/project-scope.md)：目标、阶段边界、参考硬件和文档交付标准。
-2. [M0 环境与原始构建报告](milestones/m0/README.md)：实测结果、原始证据、复现方法及下一阶段建议。
-3. [当前架构与数据流](architecture/current-data-flow.md)：现有程序如何从输入和方块数据走到屏幕，不是尚未实现的目标架构。
-4. [第三方依赖盘点](third-party-inventory.md)：版本、使用关系、二进制检查与待补充材料。
-5. [M2 玩法冒烟验收](testing/gameplay-smoke.md)：待执行的玩法用例，不能把用例列表误读成通过记录。
-6. [构建与 CLion 指南](development/build-and-clion.md)：共享预设、MSVC 环境、命令行入口、开发资源部署及常见问题。
-7. [资源定位模块](architecture/asset-paths.md)：接口、所有权、错误处理、测试和已知限制。
-8. [M1 可靠构建报告](milestones/m1/README.md)：实施状态、失败记录、复测结果和待验收项。
-9. [M2-A 桌面阶段报告](milestones/m2-a/README.md)：当前桌面端实施与集成证据、待完成项及 M2 整体验收边界。
-10. [区块网格与批次内存安全](architecture/mesh-safety.md)：区块所有权、顶点容量、邻居边界与 GPU 批次清理。
-11. [运行期图形资源与失败处理](architecture/runtime-resources.md)：窗口、上下文、着色器、纹理及选择框的生命周期和失败路径。
-12. [玩家更新与交互循环](architecture/player-loop.md)：输入、物理、相机和方块交互的更新顺序与长帧处理。
-13. [应用生命周期](architecture/application-lifecycle.md)：应用初始化、运行、异常退出与子系统清理顺序。
+## 项目约定
+
+- [项目范围与验收约定](spec/project-scope.md)：目标、阶段边界、参考硬件和交付标准。
+- [M3-T0 模块软硬边界](spec/M3-T0-模块软硬边界.md)：模块边界设计约定，不代表实现已完成。
+- [M3-T2 渲染器重构](spec/M3-T2-渲染器重构.md)：后续渲染设计与验收要求，不代表多后端已通过验证。
+
+## 构建与开发
+
+- [构建与 CLion 指南](project/build/build-and-clion.md)：M1 构建与开发资源部署指南，适用范围见文首。
+- [CMake 模块边界](project/build/CMake-模块边界.md)：后续游戏与工具构建目标的边界说明。
+- [自定义构建目录日志修复](project/build/CMake-自定义构建目录日志修复.md)：问题、修复与验证边界。
+- [第三方依赖盘点](third-party-inventory.md)：依赖关系、历史二进制检查与待补充材料。
+
+## Benchmark
+
+- [使用与交付](project/benchmark/使用与交付.md)：原生执行器操作与交付说明；开发脚本不进入便携包。
+- [执行与导出](project/benchmark/Benchmark-执行与导出.md)、[文件协议](project/benchmark/Benchmark-文件协议.md)：执行流程、输入输出与有效性约定。
+- [App 类](project/benchmark/Benchmark-App类.md)、[Process 类](project/benchmark/Benchmark-Process类.md)：应用与子进程职责。
+- [失焦采样](project/benchmark/performance/Performance-失焦采样.md)、[Session 类](project/benchmark/performance/Performance-Session类.md)：采样策略、状态与数据所有权。
+- [测试与共享场景索引](project/benchmark/testing/README.md)：区分固定场景、旧脚本协议与原生执行器。
+- [桌面交付验证](project/benchmark/Benchmark-桌面交付验证.md)：局部交付结果、失败与复测及二进制身份边界，不替代正式基线或全硬件验收。
+
+## 通用验收
+
+- [M2 玩法冒烟验收](testing/gameplay-smoke.md)：玩法、失败路径、人工连续游玩和后续稳定性用例；用例列表不是通过记录。
+- [固定世界与边界场景](project/benchmark/testing/reproducible-scenes.md)：通用回归与 Benchmark 共享的 M2-T2 场景夹具。
+
+## 历史参考与阶段报告
+
+- [历史架构索引](legacy/architecture/README.md)：M0 至 M2-T3 的架构资料；不当作最新实现或未来目标架构。
+- [M0 环境与原始构建报告](milestones/m0/README.md)：原始基线、环境和静态风险。
+- [M1 可靠构建报告](milestones/m1/README.md)：构建、资源部署、失败与复测。
+- [M2-A 桌面阶段报告](milestones/m2-a/README.md)：桌面局部实现与集成证据及整体验收边界。
+- [M2-T2 验证报告](milestones/m2-t2/README.md)：可复现世界、固定场景与有限帧运行证据。
+- [M2-T3 桌面基线报告](milestones/m2-t3/README.md)：旧脚本九轮采样、成本分析及硬件待验收项。
+- [Y9000P 首轮诊断与脚本补丁](milestones/m2-t3/laptop-first-run.md)：历史失焦记录、兼容性修复与重试方法。
+
+## 文档规范
+
+- [文档结构与维护参考](DOCUMENTATION_MAP.md)：面向维护者与 agent 的目录归属和时效判断规则。
+- [文档整理 Spec](md-organize/mdspec.md)：本轮迁移清单、保护规则与验收记录。
+- [功能笔记模板说明](Obsidian-功能笔记模板/00-使用说明.md)、[类设计模板说明](Obsidian-功能笔记模板/01-类设计模板-使用说明.md)、[示例与演进维护](Obsidian-功能笔记模板/02-示例与演进维护.md)：笔记写法与维护约定。
+- [Git 分步版本控制规范](git/gitspec.md)：提交边界、验证要求与执行记录。
 
 ## 证据规则
 
@@ -28,6 +58,7 @@
 - 文档中的本机绝对工具路径只用于复现本次实验，不是后续工程配置的硬编码要求。
 - M0 架构及依赖表保留历史基线；M1 新文档和依赖变更说明反映后续修改，不把历史观测重写成当前结果。
 - M2-A 桌面验证、指定笔记本验证、人工连续游玩和性能采样分别留证；实现文档和测试用例不等同于验收通过记录。
+- `docs` 保留技术说明、报告、关键日志、小型结果摘要和少量验收截图；exe、DLL、obj、lib、pdb、运行包及完整逐帧 CSV 留在 `out`，不复制进文档目录。
 
 ## 后续模块文档标准
 

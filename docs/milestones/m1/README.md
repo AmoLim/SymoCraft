@@ -19,7 +19,7 @@
 | 无窗口检查 | `--check-assets`：成功 0、缺资产 2；未知参数 64；不初始化 GLFW 或 OpenGL |
 | 测试 | 路径契约、不同 CWD、迁移路径含空格、模块 Unicode 路径、缺文件和真实游戏参数检查 |
 
-完整设计与复现入口：[构建与 CLion 指南](../../development/build-and-clion.md)、[资源定位模块](../../architecture/asset-paths.md)。
+完整设计与复现入口：[构建与 CLion 指南](../../project/build/build-and-clion.md)、[资源定位模块](../../legacy/architecture/asset-paths.md)。
 
 ## 验证记录
 

@@ -11,7 +11,7 @@
 - GPU 查询使用不阻塞的 64 槽环，按原帧编号回填；缺失不填零。CPU 进程内存、可用 NVX 设备显存估计及外部 GPU 传感器分开记录。
 - 固定 static / walk / edit 工作负载、原始 CSV、YAML 汇总、质量检查脚本、采样结束后的 PNG、笔记本操作指南及 Release 候选包。
 
-设计理由、数据流、所有权、计时口径、错误处理和测试入口见 [性能观测模块](../../architecture/performance-observation.md)。复现及笔记本交接见 [双机采样指南](../../testing/performance-baseline.md) 和 [包内说明](PLAYER-README.zh-CN.md)。
+设计理由、数据流、所有权、计时口径、错误处理和测试入口见 [性能观测模块](../../legacy/architecture/performance-observation.md)。复现及笔记本交接见 [双机采样指南](../../project/benchmark/testing/performance-baseline.md) 和 [包内说明](PLAYER-README.zh-CN.md)。
 
 ## 版本与环境
 
