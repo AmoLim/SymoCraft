@@ -33,7 +33,7 @@ add_executable(player_math_tests player_math_tests.cpp)
 target_link_libraries(player_math_tests PRIVATE glm::glm)
 
 add_executable(batch_safety_tests batch_safety_tests.cpp)
-target_link_libraries(batch_safety_tests PRIVATE symocraft_glad glm::glm symocraft_vendor_headers glfw)
+target_link_libraries(batch_safety_tests PRIVATE symocraft_glad symocraft_gpu_timer glm::glm symocraft_vendor_headers glfw)
 
 add_executable(mesh_safety_tests mesh_safety_tests.cpp
     ../src/world/chunk.cpp
@@ -41,7 +41,7 @@ add_executable(mesh_safety_tests mesh_safety_tests.cpp
     ../src/world/generation.cpp
     ../src/world/world_coordinates.cpp
     ../include/MemoryAllocator/AmoBase.cpp)
-target_link_libraries(mesh_safety_tests PRIVATE symocraft_glad glm::glm symocraft_vendor_headers glfw symocraft_yaml)
+target_link_libraries(mesh_safety_tests PRIVATE symocraft_glad symocraft_gpu_timer glm::glm symocraft_vendor_headers glfw symocraft_yaml)
 
 add_executable(block_config_tests block_config_tests.cpp ../src/world/block.cpp)
 target_link_libraries(block_config_tests PRIVATE symocraft_yaml glm::glm symocraft_vendor_headers glfw)
@@ -52,9 +52,14 @@ add_executable(world_generation_tests world_generation_tests.cpp
     ../src/world/chunk.cpp ../src/world/chunk_manager.cpp ../src/world/block.cpp
     ../src/world/generation.cpp ../src/world/test_scene.cpp ../src/world/world_coordinates.cpp
     ../include/MemoryAllocator/AmoBase.cpp)
-target_link_libraries(world_generation_tests PRIVATE symocraft_glad glm::glm symocraft_vendor_headers glfw symocraft_yaml)
+target_link_libraries(world_generation_tests PRIVATE symocraft_glad symocraft_gpu_timer glm::glm symocraft_vendor_headers glfw symocraft_yaml)
 
-foreach(test_target IN ITEMS shader_loading_tests player_math_tests batch_safety_tests mesh_safety_tests block_config_tests key_snapshot_tests startup_options_tests world_generation_tests)
+add_executable(performance_tests performance_tests.cpp ../src/core/performance.cpp)
+target_link_libraries(performance_tests PRIVATE symocraft_yaml)
+add_executable(gpu_timer_tests gpu_timer_tests.cpp)
+target_link_libraries(gpu_timer_tests PRIVATE symocraft_gpu_timer)
+
+foreach(test_target IN ITEMS shader_loading_tests player_math_tests batch_safety_tests mesh_safety_tests block_config_tests key_snapshot_tests startup_options_tests world_generation_tests performance_tests gpu_timer_tests)
     target_include_directories(${test_target} PRIVATE "${PROJECT_SOURCE_DIR}/include")
     target_compile_features(${test_target} PRIVATE cxx_std_20)
     target_compile_options(${test_target} PRIVATE /W4 /utf-8)
@@ -77,3 +82,6 @@ add_test(NAME world.summary_cli COMMAND "${CMAKE_COMMAND}"
     "-DGAME_EXECUTABLE=$<TARGET_FILE:SymoCraft>"
     "-DOUTPUT_DIRECTORY=${CMAKE_CURRENT_BINARY_DIR}/world-summary-probes" -P "${CMAKE_CURRENT_SOURCE_DIR}/CheckWorldSummary.cmake")
 set_tests_properties(core.startup_options world.generation world.summary_cli PROPERTIES TIMEOUT 240)
+add_test(NAME performance.export COMMAND performance_tests "${CMAKE_CURRENT_BINARY_DIR}/performance-probes")
+add_test(NAME performance.gpu_timer COMMAND gpu_timer_tests)
+set_tests_properties(performance.export performance.gpu_timer PROPERTIES TIMEOUT 45)

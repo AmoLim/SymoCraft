@@ -67,7 +67,7 @@ namespace SymoCraft
     }
 
 
-    Window* Window::Create(const char *window_title)
+    Window* Window::Create(const char *window_title, int requested_width, int requested_height)
     {
         auto res = std::make_unique<Window>();
 
@@ -85,8 +85,8 @@ namespace SymoCraft
         AmoLogger_Info("Monitor size: %d, %d", mode->width, mode->height);
 
         // The smallest monitor size accepted is 800 * 600
-        res->width = glm::clamp(mode->width / 2, 800, INT_MAX);
-        res->height = glm::clamp(mode->height / 2, 600, INT_MAX);
+        res->width = requested_width > 0 ? requested_width : glm::clamp(mode->width / 2, 800, INT_MAX);
+        res->height = requested_height > 0 ? requested_height : glm::clamp(mode->height / 2, 600, INT_MAX);
         res->title = window_title;
 
         res->window_ptr = (void*) glfwCreateWindow(res->width, res->height, window_title, nullptr, nullptr);

@@ -60,7 +60,7 @@ namespace SymoCraft
         // Creat a window
         // Static
         // Parameters: Window title
-        static Window* Create(const char* window_title);
+        static Window* Create(const char* window_title, int width = 0, int height = 0);
 
         // Initialize glfw
         // Static

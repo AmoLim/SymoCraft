@@ -36,6 +36,12 @@ add_library(symocraft_glad STATIC vendor/glad/glad.c)
 target_include_directories(symocraft_glad SYSTEM PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/vendor")
 target_compile_options(symocraft_glad PRIVATE /utf-8)
 
+add_library(symocraft_gpu_timer STATIC src/renderer/gpu_timer.cpp)
+target_include_directories(symocraft_gpu_timer PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_compile_features(symocraft_gpu_timer PUBLIC cxx_std_20)
+target_compile_options(symocraft_gpu_timer PRIVATE /utf-8)
+target_link_libraries(symocraft_gpu_timer PUBLIC symocraft_glad)
+
 add_library(symocraft_yaml STATIC
     vendor/yaml-cpp/src/binary.cpp
     vendor/yaml-cpp/src/convert.cpp
@@ -84,6 +90,7 @@ add_executable(SymoCraft
     src/camera/Camera.cpp
     src/core/application.cpp
     src/core/startup_options.cpp
+    src/core/performance.cpp
     src/core/global_thread_pool.cpp
     src/core/window.cpp
     src/core/ECS/internal.cpp
@@ -97,6 +104,7 @@ add_executable(SymoCraft
     src/input/key_handler.cpp
     src/playercontroller/playercontroller.cpp
     src/renderer/renderer.cpp
+    src/renderer/performance_memory.cpp
     src/renderer/shader.cpp
     src/renderer/shader_program.cpp
     src/renderer/texture.cpp
@@ -119,7 +127,10 @@ target_link_libraries(SymoCraft PRIVATE
     symocraft_glad
     symocraft_yaml
     symocraft_assets
+    symocraft_gpu_timer
+    Psapi
 )
+target_sources(SymoCraft PRIVATE "${PROJECT_SOURCE_DIR}/cmake/windows-utf8.manifest")
 symocraft_stage_assets(SymoCraft)
 
 if(BUILD_TESTING)

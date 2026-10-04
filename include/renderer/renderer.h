@@ -15,11 +15,12 @@ namespace SymoCraft{
     {
         void Init();
         void Free();
-        void Render();
+        void Render(RenderStats* stats = nullptr, GpuTimer* timer = nullptr);
+        std::size_t AllocatedBufferBytes();
 
         void ReloadShaders();
 
-        void DrawBatches3D();
+        void DrawBatches3D(RenderStats* stats = nullptr, GpuTimer* timer = nullptr);
         void FlushBatches3D(const glm::mat4 &projection_mat, const glm::mat4 &view_mat);
 
         void ClearBuffers();

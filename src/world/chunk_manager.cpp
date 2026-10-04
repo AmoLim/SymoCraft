@@ -102,15 +102,19 @@ namespace SymoCraft{
             }
         }
 
-        void UpdateAllChunks()
+        std::size_t UpdateAllChunks()
         {
+            std::size_t rebuilt = 0;
             for(auto &pair : chunks)
                 if (pair.second.state == ChunkState::Updated || pair.second.m_is_fringe_chunk)
                     continue;
-                else if(pair.second.state == ChunkState::ToBeUpdated)
+                else if(pair.second.state == ChunkState::ToBeUpdated) {
                     pair.second.GenerateRenderData();
+                    ++rebuilt;
+                }
                 else
                     AmoLogger_Info("Unknown state of chunk updated\n");
+            return rebuilt;
         }
 
         void LoadAllChunks()

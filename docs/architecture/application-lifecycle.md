@@ -4,6 +4,10 @@
 
 本文说明 M2-A 当前 `main`、`Application`、方块配置加载，以及 `verify-runtime*.ps1` 的接口和数据流。它描述代码契约与验证方法，不是测试通过记录；实际构建、真实驱动运行、故障注入和人工玩法结果见 [M2-A 阶段报告](../milestones/m2-a/README.md)。
 
+M2-T2 更新：保留下述图形生命周期，新增 [可复现生成](world-generation.md) 与 [场景输入](../testing/reproducible-scenes.md)。`main` 通过 `ParseStartupOptions` 解析参数，图形模式调用 `Run(const StartupOptions&)`；无窗口模式调用 `PrintWorldSummary`，不调用 `Init`。当前测试及运行证据见 [M2-T2 报告](../milestones/m2-t2/README.md)。
+
+M2-T3 更新：`Init` / `Run` 接受启动参数及可选 `Performance::Session*`，默认不采样。benchmark 模式固定窗口和工作负载，分别记录 CPU、上传、异步 GPU 查询及内存；完整接口与计时边界见 [性能观测](performance-observation.md)。这不改变普通模式的输入与暂停契约，也不把脚本移动当成人工玩法验收。
+
 本模块负责把已有子系统按明确顺序组织起来，使启动失败能留下诊断，并在正常退出或受控异常后清理已创建的资源。它不实现动态区块加载、线程调度、完整保存系统，也不替代 M2 的人工连续游玩、指定笔记本实测和后续性能基准。
 
 ## 职责与入口
@@ -35,11 +39,12 @@
   -> Application::Run
        -> 加载纹理图集并验证方块纹理层索引
        -> 安装输入与焦点回调
-       -> 初始化噪声、创建全部固定区块
+       -> PrepareWorld 确定实际 seed、初始化生成器、创建全部固定区块
        -> 建立邻居关系
-       -> 遍历所有区块生成地形
-       -> 再遍历所有区块生成植被
-       -> 搜索出生位置、同步 Transform 与相机
+       -> 按区块坐标顺序生成全部地形
+       -> 再按固定顺序生成全部植被
+       -> 可选测试场景覆盖与编辑、生成配置/摘要日志
+       -> 搜索普通出生位置或选择固定测试姿态、同步 Transform 与相机
        -> 生成初始区块网格
        -> 重置物理时钟与帧时钟
        -> 输出 [runtime] ready
@@ -47,7 +52,9 @@
 
 参数解析和资源存在性检查发生在窗口创建之前。`--check-assets` 不初始化 GLFW，不编译 shader，不解析 YAML，也不解码 PNG；所以一个存在但内容损坏的文件可以通过该预检，随后在真实启动阶段失败。
 
-`Application::Init()` 拒绝重复初始化。`GetWindow()` 和 `GetRegistry()` 在对应对象尚未创建时抛出逻辑错误，不再隐式构造一个未就绪对象。`GetCamera()` 只在已有窗口的前提下按需创建相机。
+`--world-summary` 在资源预检后加载真实方块 YAML，走同一个 `PrepareWorld` 生成/摘要入口，输出纯 YAML，再走 `Application::Free` 清空区块；不创建窗口、注册表、相机或 GL 对象，也不输出 ready / loop / shutdown 标记。此模式不验证纹理解码或 shader 编译，不能替代真实渲染探针。
+
+`Application::Init(options, performance)` 拒绝重复初始化。`GetWindow()` 和 `GetRegistry()` 在对应对象尚未创建时抛出逻辑错误，不再隐式构造一个未就绪对象。`GetCamera()` 只在已有窗口的前提下按需创建相机。
 
 `renderer_started` 在调用 `Renderer::Init()` **之前**设置，使 shader、批次或配置加载中途失败后，清理路径仍进入 `Renderer::Free()`。因此各图形对象的销毁接口必须接受“尚未创建”或“只创建了一部分”的状态。
 
@@ -92,13 +99,15 @@ GLFW 焦点回调之后可能继续发送合成的按键释放事件，因此粘
 | 区块、CPU 方块与网格 | 区块管理器与各区块的容器 | `FreeAllChunks()` 清空管理器，不保留已释放的区块条目 |
 | shader、VAO/VBO | Renderer 与批次对象 | `Renderer::Free()` 在上下文仍有效时释放 |
 | 纹理图集 | `Run()` 局部 `TextureArray` | 正常离开 `Run()` 或异常展开时先析构，早于应用销毁窗口 |
+| GPU 计时查询 | benchmark 下 `Run()` 局部 `unique_ptr<GpuTimer>` | 同样在上下文销毁前释放，不等待尚未就绪的采样结果 |
+| CPU 性能记录 | `main` 局部 `unique_ptr<Performance::Session>` | `Application::Free()` 后导出，不在主循环写 CSV 或排序 |
 | 方块配置映射 | 方块模块的进程级容器 | 校验成功后替换；不是由 `Application::Free()` 清空的局部运行资源 |
 
 正常结束与 `Init()` / `Run()` 抛出异常后，`main` 都会进入同一清理入口：
 
 ```text
 离开 Run / 异常展开
-  -> Run 局部纹理释放
+  -> Run 局部 GPU 查询和纹理释放
   -> Application::Free
        -> 清空区块
        -> 若 Renderer 曾开始初始化，释放批次和 shader
@@ -106,6 +115,7 @@ GLFW 焦点回调之后可能继续发送合成的按键释放事件，因此粘
        -> 清空并释放 ECS 注册表
        -> 销毁并释放窗口
        -> 终止 GLFW
+  -> 若启用 benchmark，导出 CPU 数据并核对采样有效性
   -> 旧分配器的泄漏检查入口
   -> 输出 [runtime] shutdown complete; exit_code=...
   -> 返回进程退出码
@@ -122,6 +132,7 @@ GLFW 焦点回调之后可能继续发送合成的按键释放事件，因此粘
 | `0` | 所请求模式正常结束 | 资源预检成功；正常关闭游戏；达到冒烟帧数上限 |
 | `2` | 资源预检失败 | 必需文件缺失、不可访问，或资源路径无法安全解析；尚未创建游戏窗口 |
 | `3` | 初始化或运行阶段捕获到异常 | 窗口/GL 初始化、shader、纹理、方块配置、网格/批次等受控异常；随后调用统一清理 |
+| `4` | benchmark 已导出但采样无效 | 提前退出、失焦、最小化、分辨率改变或没有完成约定采样时长 |
 | `64` | 参数使用错误 | 未知参数、冲突组合、缺少帧数、非整数或帧数超出允许范围 |
 
 `[runtime] ready;` 表示纹理、世界与初始 CPU 网格已准备好，不表示已经绘制首帧或完成玩法验收。`[runtime] loop finished; rendered_frames=...` 记录实际结束循环时累计的渲染帧数。`[runtime] shutdown complete;` 位于应用清理之后，用来区分受控结束与直接中断。
@@ -136,7 +147,7 @@ GLFW 焦点回调之后可能继续发送合成的按键释放事件，因此粘
 .\out\build\windows-debug\bin\SymoCraft.exe --smoke-frames 120
 ```
 
-`--smoke-frames` 仅接受 `1..10000` 的整数，必须单独使用，不能与 `--check-assets` 组合。`0` 不是合法的该命令行参数；无参数运行才是不设帧数上限的交互模式。
+`--smoke-frames` 仅接受 `1..10000` 的整数，可以与 seed、测试场景和检查点组合，不能与 `--check-assets` 或 `--world-summary` 组合。`0` 不是合法的该命令行参数；不指定该选项的图形运行不设帧数上限。
 
 该模式仍创建真实 GLFW 窗口和 OpenGL 上下文，加载全部正常资源、生成世界并运行正常更新与渲染流程，不是无窗口单元测试。达到指定的渲染帧数后请求关闭窗口，再走正常清理。
 
@@ -174,6 +185,8 @@ GLFW 焦点回调之后可能继续发送合成的按键释放事件，因此粘
 
 每次保留 `stdout.log`、`stderr.log` 和 `result.json`。JSON 记录程序路径、工作目录、请求/实际帧数、GL 诊断计数、进程 ID、超时、实际/预期退出码、ready / shutdown 标记、经过时间及判定结果。
 
+M2-T2 为普通运行探针增加 `-Seed`、`-Scene terrain|regression`、`-Checkpoint`、`-TestEdits`，JSON 额外记录实际 `arguments`。只传显式给出的 seed，不把默认数值 0 当作用户输入；检查点/编辑要求 regression。该脚本仍只检查图形运行，`--world-summary` 由独立无窗口 CTest 验证。
+
 正常成功条件是：未超时、退出码为 `0`，存在 ready、loop finished 和 shutdown 标记，没有 fatal 文本，且标准错误中的 `OpenGL diagnostic` 数量为零。`Frames > 0` 时实际帧数还必须精确等于请求值。诊断计数采用保守策略，不按严重程度自动放行。
 
 `Frames=0` 表示脚本不添加 `--smoke-frames` 参数，不是向游戏传入非法的零帧值；进程仍受脚本超时约束，需要正常关闭才能通过。预期退出码 `3` 的探针要求在 ready 之前失败且存在 shutdown 标记，不因预期的 shader 编译 GL 诊断而直接失败。它是启动失败探针，不用于验证已进入游戏后的异常恢复。预期退出码 `2` 的检查主要核对退出码与未超时，不要求运行标记。该脚本的 `ExpectedExitCode` 不接受 `64`。
@@ -202,4 +215,4 @@ GLFW 焦点回调之后可能继续发送合成的按键释放事件，因此粘
 
 日志中的 `loading_ms` 从进入 `Run()`、加载纹理前开始，到纹理、固定世界和初始 CPU 网格准备好后结束。它不包含先前 `Init()` 中的窗口、shader、批次和 YAML 加载，也不包含首帧 GPU 上传与呈现。脚本的 `elapsedSeconds` 则是整个子进程启动到结束的墙钟时间，两者不可混用。
 
-这些时间只是运行观测，不是性能基准：当前未由它们得到可重复场景、原始逐帧时间、CPU/GPU 分解、P95/P99 或多轮对照；噪声与植被的种子重放也尚未形成完整契约。不能由“120 帧正常结束”或一条加载时间推导出稳定 60 FPS、15 分钟稳定性、无泄漏，或 Y9000P 笔记本验收通过。
+这些有限帧探针时间只是运行观测，不是性能基准；摘要扫描也计入现有 `loading_ms`。M2-T3 另外提供 [正式采样入口](../testing/performance-baseline.md)，使用原始逐帧数据、CPU/GPU 分解及多轮统计。不能由“120 帧正常结束”或一条加载时间推导出稳定 60 FPS、15 分钟稳定性、无泄漏，或 Y9000P 笔记本验收通过。

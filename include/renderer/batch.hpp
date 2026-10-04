@@ -4,6 +4,9 @@
 #include <limits>
 #include <stdexcept>
 #include <type_traits>
+#include <chrono>
+#include "renderer/render_stats.h"
+#include "renderer/gpu_timer.h"
 
 namespace SymoCraft{
 
@@ -107,25 +110,34 @@ namespace SymoCraft{
             m_dirty = true;
         }
 
-        void Draw()  //Draw vertices
+        void Draw(RenderStats* stats = nullptr, GpuTimer* timer = nullptr)
         {
             RequireInitialized();
             if (data.empty())
                 return;
-            ReloadData();
+            ReloadData(stats);
             glBindVertexArray(m_vao);
+            if (timer) timer->BeginDraw();
             glDrawArrays(m_primitive_type, 0, static_cast<GLsizei>(data.size()));
+            if (timer) timer->EndDraw();
+            if (stats) { stats->vertices += data.size(); ++stats->draw_calls; }
             glBindVertexArray(0);
 
             Clear();
         }
 
-        inline void ReloadData()
+        inline void ReloadData(RenderStats* stats = nullptr)
         {
             RequireInitialized();
-            if (m_dirty && !data.empty())
+            if (m_dirty && !data.empty()) {
+                const auto start = stats ? std::chrono::steady_clock::now() : std::chrono::steady_clock::time_point{};
                 glNamedBufferSubData(m_vertex_data_vbo, 0,
                     static_cast<GLsizeiptr>(data.size() * sizeof(T)), data.data());
+                if (stats) {
+                    stats->upload_bytes += data.size() * sizeof(T);
+                    stats->upload_cpu_ms += std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - start).count();
+                }
+            }
             m_dirty = false;
         }
 
@@ -162,6 +174,7 @@ namespace SymoCraft{
         }
 
         std::size_t VertexCount() const noexcept { return data.size(); }
+        std::size_t AllocatedBytes() const noexcept { return m_initialized ? m_batch_size * sizeof(T) : 0; }
 
     private:
         uint32 m_vao{};

@@ -17,7 +17,7 @@ namespace SymoCraft
 {
     namespace PlayerController
     {
-        void DoRayCast( ECS::Registry &registry, Window &window)
+        void DoRayCast( ECS::Registry &registry, Window &window, bool allow_input)
         {
             auto player_com = registry.GetComponent<Character::PlayerComponent>(World::GetPlayer());
             auto &transform = registry.GetComponent<Transform>(World::GetPlayer());
@@ -27,6 +27,7 @@ namespace SymoCraft
             {
                 //printf("ray hitted\n");
                 Renderer::GenerateBlockFrameData(res.block_center);
+                if (!allow_input) return;
 
                 if (glfwGetMouseButton((GLFWwindow*)window.window_ptr, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS
                     && Application::block_place_debounce <=0)

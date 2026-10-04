@@ -10,6 +10,7 @@ struct GLFWwindow;
 namespace SymoCraft
 {
     struct StartupOptions;
+    namespace Performance { class Session; }
     struct Window;
     //struct FrameBuffer;
     class GlobalThreadPool;
@@ -22,10 +23,10 @@ namespace SymoCraft
     namespace Application
     {
         // Initializing application
-        void Init(const StartupOptions& options);
+        void Init(const StartupOptions& options, Performance::Session* performance = nullptr);
 
         // Run application
-        void Run(const StartupOptions& options);
+        void Run(const StartupOptions& options, Performance::Session* performance = nullptr);
         void PrintWorldSummary(const StartupOptions& options);
 
         // Free application

@@ -24,7 +24,7 @@ namespace SymoCraft
     namespace PlayerController
     {
         inline constexpr std::array<uint16, 8> kBlockInventor = {2, 3, 4, 5, 6, 7, 10, 11};
-        void DoRayCast(ECS::Registry &registry, Window &window);
+        void DoRayCast(ECS::Registry &registry, Window &window, bool allow_input = true);
         void DisplayCurrentBlockName();
     }
 }

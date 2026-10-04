@@ -1,5 +1,6 @@
 #include "world/generation.h"
 #include "world/test_scene.h"
+#include "world/benchmark_workload.h"
 #include "world/chunk.h"
 #include "core/constants.h"
 #include <iostream>
@@ -92,6 +93,16 @@ int main(int argc, char* argv[])
         Require(Generation::BlockDigest() == scene, "Scene cannot be rebuilt after editing and clearing");
         TestScene::ApplyEdits();
         Require(Generation::BlockDigest() == edited, "Edit plan is not reproducible");
+        Require(Benchmark::DueEdits(0.249) == 0 && Benchmark::DueEdits(0.25) == 1 && Benchmark::DueEdits(8) == 32, "Edit wall-clock schedule is wrong");
+        TestScene::Install();
+        for (std::uint64_t i = 0; i < 64; ++i) {
+            const auto edit = Benchmark::CycleEdit(i);
+            auto* chunk = ChunkManager::GetChunk(glm::vec3(edit.position));
+            Require(chunk->GetWorldBlock(glm::vec3(edit.position)).block_id == edit.before, "Cyclic edit precondition is wrong");
+            Require(chunk->SetWorldBlock(glm::vec3(edit.position), edit.after), "Cyclic edit write failed");
+            if (i == 15 || i == 47) Require(Generation::BlockDigest() == edited, "Forward edit cycle changed");
+            if (i == 31 || i == 63) Require(Generation::BlockDigest() == scene, "Reverse edit cycle did not restore fixture");
+        }
         Generation::Build({settings.seed + 1, settings.radius, true});
         Require(Generation::BlockDigest() != baseline, "Different seed did not change world content");
         Generation::Build({settings.seed, settings.radius, false});

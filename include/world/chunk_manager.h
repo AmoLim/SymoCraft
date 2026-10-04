@@ -35,7 +35,7 @@ namespace SymoCraft{
         void RearrangeChunkNeighborPointers();
 
         void CreateChunk(const glm::ivec2& chunk_coord);
-        void UpdateAllChunks();
+        std::size_t UpdateAllChunks();
         void LoadAllChunks();
         void FreeAllChunks();
     }

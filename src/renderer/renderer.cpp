@@ -99,10 +99,12 @@ namespace SymoCraft{
 #endif
         }
 
-        void Render() {
+        std::size_t AllocatedBufferBytes() { return chunk_batch.AllocatedBytes() + line_batch.AllocatedBytes(); }
+
+        void Render(RenderStats* stats, GpuTimer* timer) {
             ClearBuffers();
 
-            DrawBatches3D();
+            DrawBatches3D(stats, timer);
         }
 
         void ReloadShaders() {
@@ -115,20 +117,20 @@ namespace SymoCraft{
                                          Assets::Resolve("shaders/fs_FrameShader.glsl").string());
         }
 
-        void DrawBatches3D() {
+        void DrawBatches3D(RenderStats* stats, GpuTimer* timer) {
             g_projection_mat = camera->GetCameraProjMat();
             g_view_mat = camera->GetCameraViewMat();
             g_combo_mat = g_projection_mat * g_view_mat;
 
             block_shader.Bind();
             block_shader.UploadMat4("u_combo_mat", g_combo_mat);
-            chunk_batch.Draw();
+            chunk_batch.Draw(stats, timer);
             block_shader.Unbind();
 
             line3D_shader.Bind();
             line3D_shader.UploadMat4("u_combo_mat", g_combo_mat);
-            line_batch.ReloadData();
-            line_batch.Draw();
+            line_batch.ReloadData(stats);
+            line_batch.Draw(stats, timer);
             line3D_shader.Unbind();
         }
 
