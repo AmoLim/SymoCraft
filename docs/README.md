@@ -4,7 +4,7 @@
 
 ## 阅读顺序
 
-1. [项目范围与验收约定](project-scope.md)：目标、阶段边界、参考硬件和文档交付标准。
+1. [项目范围与验收约定](spec/project-scope.md)：目标、阶段边界、参考硬件和文档交付标准。
 2. [M0 环境与原始构建报告](milestones/m0/README.md)：实测结果、原始证据、复现方法及下一阶段建议。
 3. [当前架构与数据流](architecture/current-data-flow.md)：现有程序如何从输入和方块数据走到屏幕，不是尚未实现的目标架构。
 4. [第三方依赖盘点](third-party-inventory.md)：版本、使用关系、二进制检查与待补充材料。
