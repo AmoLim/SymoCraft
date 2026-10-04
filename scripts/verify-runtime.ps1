@@ -9,11 +9,20 @@ param(
     [ValidateRange(10, 600)]
     [int]$TimeoutSeconds = 120,
     [ValidateSet(0, 2, 3)]
-    [int]$ExpectedExitCode = 0
+    [int]$ExpectedExitCode = 0,
+    [uint32]$Seed,
+    [ValidateSet('terrain', 'regression')]
+    [string]$Scene = 'terrain',
+    [ValidateSet('spawn', 'positive-x', 'negative-x', 'four-chunk', 'wall-corner', 'low-ceiling', 'single-block')]
+    [string]$Checkpoint,
+    [switch]$TestEdits
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+if ($Scene -ne 'regression' -and ($Checkpoint -or $TestEdits)) {
+    throw 'Checkpoint and TestEdits require the regression scene.'
+}
 $executablePath = (Get-Item -LiteralPath $Executable).FullName
 $output = [IO.Path]::GetFullPath($OutputDirectory)
 if (Test-Path -LiteralPath $output) {
@@ -30,7 +39,13 @@ $start = @{
     RedirectStandardOutput = $stdout
     RedirectStandardError = $stderr
 }
-if ($Frames -gt 0) { $start.ArgumentList = @('--smoke-frames', "$Frames") }
+$gameArguments = @()
+if ($PSBoundParameters.ContainsKey('Scene')) { $gameArguments += @('--scene', $Scene) }
+if ($Frames -gt 0) { $gameArguments += @('--smoke-frames', "$Frames") }
+if ($PSBoundParameters.ContainsKey('Seed')) { $gameArguments += @('--seed', "$Seed") }
+if ($Checkpoint) { $gameArguments += @('--checkpoint', $Checkpoint) }
+if ($TestEdits) { $gameArguments += '--test-edits' }
+if ($gameArguments.Count -gt 0) { $start.ArgumentList = $gameArguments }
 $timer = [Diagnostics.Stopwatch]::StartNew()
 $process = Start-Process @start
 $timedOut = $false
@@ -61,6 +76,7 @@ try {
         executable = $executablePath
         workingDirectory = $output
         requestedFrames = $Frames
+        arguments = $gameArguments
         renderedFrames = $renderedFrames
         glDiagnosticCount = $glDiagnosticCount
         processId = $process.Id

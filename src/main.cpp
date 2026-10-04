@@ -1,32 +1,28 @@
 #include <MemoryAllocator/AmoBase.h>
 #include "core/application.h"
 #include "core/asset_paths.h"
+#include "core/startup_options.h"
 
 #include <iostream>
-#include <charconv>
 #include <exception>
 #include <string_view>
+#include <vector>
+#include <memory>
 
 int main(int argc, char* argv[])
 {
-    const bool check_assets_only = argc == 2 && std::string_view(argv[1]) == "--check-assets";
-    unsigned int frame_limit = 0;
-    bool valid_arguments = argc == 1 || check_assets_only;
-    if (argc == 3 && std::string_view(argv[1]) == "--smoke-frames")
-    {
-        const std::string_view value(argv[2]);
-        const auto parsed = std::from_chars(value.data(), value.data() + value.size(), frame_limit);
-        valid_arguments = parsed.ec == std::errc{} && parsed.ptr == value.data() + value.size() &&
-                          frame_limit > 0 && frame_limit <= 10000;
-    }
-    if (!valid_arguments)
-    {
-        std::cerr << "Usage: SymoCraft [--check-assets | --smoke-frames 1..10000]\n";
+    SymoCraft::StartupOptions options;
+    try {
+        std::vector<std::string_view> arguments;
+        for (int i = 1; i < argc; ++i) arguments.emplace_back(argv[i]);
+        options = SymoCraft::ParseStartupOptions(arguments);
+    } catch (const std::exception& error) {
+        std::cerr << SymoCraft::StartupUsage << '\n' << error.what() << '\n';
         return 64;
     }
     if (!SymoCraft::Assets::CheckRequiredAssets(std::cerr))
         return 2;
-    if (check_assets_only)
+    if (options.check_assets)
     {
         std::cout << "All required assets are present.\n";
         return 0;
@@ -38,8 +34,11 @@ int main(int argc, char* argv[])
     int exit_code = 0;
     try
     {
-        SymoCraft::Application::Init();
-        SymoCraft::Application::Run(frame_limit);
+        if (options.world_summary) SymoCraft::Application::PrintWorldSummary(options);
+        else {
+            SymoCraft::Application::Init(options);
+            SymoCraft::Application::Run(options);
+        }
     }
     catch (const std::exception& error)
     {
@@ -55,6 +54,7 @@ int main(int argc, char* argv[])
     // Run's local GL objects have unwound; release renderer objects before the context.
     SymoCraft::Application::Free();
     AmoBase::AmoMemory_MemoryLeaksDetected();
-    std::cout << "[runtime] shutdown complete; exit_code=" << exit_code << std::endl;
+    if (!options.world_summary)
+        std::cout << "[runtime] shutdown complete; exit_code=" << exit_code << std::endl;
     return exit_code;
 }

@@ -15,13 +15,6 @@ namespace SymoCraft {
 
     Batch<BlockVertex3D> chunk_batch;
 
-    namespace World {
-        glm::ivec2 ToChunkCoords(const glm::vec3& position)
-        {
-            return {static_cast<int>(std::floor(position.x / k_chunk_length)),
-                    static_cast<int>(std::floor(position.z / k_chunk_width))};
-        }
-    }
 }
 
 namespace {

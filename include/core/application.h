@@ -9,6 +9,7 @@
 struct GLFWwindow;
 namespace SymoCraft
 {
+    struct StartupOptions;
     struct Window;
     //struct FrameBuffer;
     class GlobalThreadPool;
@@ -21,10 +22,11 @@ namespace SymoCraft
     namespace Application
     {
         // Initializing application
-        void Init();
+        void Init(const StartupOptions& options);
 
         // Run application
-        void Run(unsigned int frame_limit = 0);
+        void Run(const StartupOptions& options);
+        void PrintWorldSummary(const StartupOptions& options);
 
         // Free application
         void Free();

@@ -2,6 +2,7 @@
 #include <random>
 #include "world/chunk.h"
 #include "world/world.h"
+#include "world/generation.h"
 #include "renderer/renderer.h"
 #include "core/constants.h"
 #include "core/utils.h"
@@ -9,10 +10,6 @@
 
 namespace SymoCraft
 {
-    static uint32 seed;
-    static float weight_sum;
-    static std::array<NoiseGenerator, 3> noise_generators{};
-    static std::mt19937 mt{ std::random_device{}() };
     static float g_normal;
     static std::array<std::array<BlockVertex3D, 4>, 6> block_faces{}; // Each block contains 6 faces, which contains 4 vertices
 
@@ -123,68 +120,22 @@ namespace SymoCraft
         return RemoveLocalBlock(localPosition.x, localPosition.y, localPosition.z);
     }
 
-    void InitializeNoise() {
-        seed = mt();
-        weight_sum = 0.0f;
-
-        for(auto& noise_generator : noise_generators)
-        {
-            noise_generator.noise.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
-            noise_generator.noise.SetFractalType(FastNoiseLite::FractalType_FBm);
-            noise_generator.noise.SetFractalOctaves(8);
-            noise_generator.noise.SetFractalLacunarity(1.6f);
-            noise_generator.noise.SetSeed(static_cast<int>(mt()));
-        }
-
-        noise_generators[0].noise.SetFrequency(0.00573);
-        noise_generators[1].noise.SetFrequency(0.02);
-        noise_generators[2].noise.SetFrequency(0.1);
-
-        noise_generators[0].weight = 1.0f;
-        noise_generators[1].weight = 0.2f;
-        noise_generators[2].weight = 0.03f;
-
-        for(auto& noise_generator : noise_generators)
-            weight_sum += noise_generator.weight;
-    }
-
-    static float max_range{1};
-    static float min_range{0};
-    float Chunk::GetNoise(int x, int z)
-    {
-        float blended_noise{0};
-        for(auto& noise_generator : noise_generators)
-        {
-            blended_noise += Remap(noise_generator.noise.GetNoise((float)x / 1.5f, (float)z / 1.5f),
-                                   -1.0f, 1.0f, 0.0f, 1.0f) * noise_generator.weight;
-        }
-
-        max_range = std::max(max_range, blended_noise);
-        min_range = std::min(min_range, blended_noise);
-        blended_noise /= weight_sum;
-        blended_noise = pow(blended_noise, 1.19f);
-        return Remap(blended_noise, 0.0f, 1.0f, min_biome_height, max_biome_height);
-    }
-
-    void Report()
-    {
-        AmoLogger_Info("The range is between: %d - %d\n The seed is %d", (int)min_range, (int)max_range, seed);
-    }
-
-    void Chunk::GenerateTerrain() {
+    void Chunk::GenerateTerrain(const Generation::Generator& generator) {
         m_local_blocks.assign(k_chunk_width * k_chunk_height * k_chunk_length, BlockConstants::AIR_BLOCK);
+        m_vertex_data.clear();
+        m_draw_command.count = 0;
         state = ChunkState::ToBeUpdated;
 
         int world_x = m_chunk_coord.x * k_chunk_length;
         int world_z = m_chunk_coord.y * k_chunk_width;
         for (int z = 0; z < k_chunk_width; z++) {
             for (int x = 0; x < k_chunk_length; x++) {
-                const int max_height = std::clamp(static_cast<int>(GetNoise(x + world_x, z + world_z)), 0, k_chunk_height - 1);
+                const int max_height = std::clamp(static_cast<int>(generator.Height(x + world_x, z + world_z)), 0, k_chunk_height - 1);
                 const int stone_height = std::max(0, max_height - 6);
 
                 for (int y = 0; y < k_chunk_height; y++) {
                     const int block_index = GetLocalBlockIndex(x , y, z);
-                    if(abs(m_chunk_coord.x) > World::chunk_radius - 1|| abs(m_chunk_coord.y) > World::chunk_radius - 1)
+                    if (m_is_fringe_chunk)
                     {
                         m_local_blocks[block_index].block_id = BlockConstants::AIR_BLOCK.block_id;
                         m_local_blocks[block_index].SetTransparency(true);
@@ -245,15 +196,16 @@ namespace SymoCraft
         }
     }
 
-    void Chunk::GenerateVegetation()
+    void Chunk::GenerateVegetation(const Generation::Generator& generator)
     {
            if (m_is_fringe_chunk || m_local_blocks.empty())
                return;
            const int worldChunkX = m_chunk_coord.x * 16;
            const int worldChunkZ = m_chunk_coord.y * 16;
+           auto mt = generator.VegetationRandom(m_chunk_coord.x, m_chunk_coord.y);
 
-           const int vegetation_length = std::min<int>(World::chunk_radius, k_chunk_length);
-           const int vegetation_width = std::min<int>(World::chunk_radius, k_chunk_width);
+           const int vegetation_length = 10;
+           const int vegetation_width = 10;
            for (int x = 0; x < vegetation_length; x++)
            {
                for (int z = 0; z < vegetation_width; z++)
@@ -261,7 +213,7 @@ namespace SymoCraft
                    // Generate trees at random
                    if (mt() % 100 > 98)
                    {
-                       auto y = static_cast<uint16>(GetNoise(x + worldChunkX, z + worldChunkZ) + 1);
+                       auto y = static_cast<uint16>(generator.Height(x + worldChunkX, z + worldChunkZ) + 1);
 
                        if (y > sea_level + 2)
                        {

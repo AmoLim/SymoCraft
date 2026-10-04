@@ -6,6 +6,7 @@
 
 #include "core/application.h"
 #include "core/asset_paths.h"
+#include "core/startup_options.h"
 #include "core.h"
 #include "core/window.h"
 #include "renderer/texture.h"
@@ -17,6 +18,8 @@
 #include "core/ECS/Systems/physics_system.h"
 #include "core/ECS/component.h"
 #include "world/world.h"
+#include "world/generation.h"
+#include "world/test_scene.h"
 #include "playercontroller/playercontroller.h"
 #include "input/key_snapshot.h"
 #include <algorithm>
@@ -69,35 +72,54 @@ namespace SymoCraft
             keyboard_reset_needed = false;
         }
 
-        static glm::vec3 FindSpawnPosition()
+        struct PreparedWorld {
+            TestScene::Pose pose;
+            YAML::Node report;
+        };
+
+        static PreparedWorld PrepareWorld(const StartupOptions& options)
         {
-            // Prefer clear ground near the center rather than spawning inside terrain or a tree.
-            for (int radius = 0; radius <= 64; radius += 4)
-            {
-                for (int x = -radius; x <= radius; x += 4)
-                {
-                    for (int z = -radius; z <= radius; z += 4)
-                    {
-                        if (std::max(std::abs(x), std::abs(z)) != radius)
-                            continue;
-                        for (int y = k_chunk_height - 4; y >= 0; --y)
-                        {
-                            const Block block = ChunkManager::GetBlock({x, y, z});
-                            if (block.block_id == 9)
-                                break;
-                            if (!get_block(block.block_id).m_is_solid)
-                                continue;
-                            if (block.block_id >= 2 && block.block_id <= 5)
-                                return {x + 0.5f, y + 1.95f, z + 0.5f};
-                            break;
-                        }
-                    }
-                }
+            Generation::Settings settings;
+            settings.seed = options.seed ? *options.seed :
+                options.regression_scene ? TestScene::DefaultSeed : Generation::RandomSeed();
+            Generation::Build(settings);
+            PreparedWorld world;
+            world.report["generation"] = Generation::Describe(settings);
+            world.report["seed_source"] = options.seed ? "explicit" : options.regression_scene ? "scene-default" : "random";
+            world.report["chunks"] = ChunkManager::GetAllChunks().size();
+            world.report["terrain_digest"] = Generation::BlockDigest();
+            if (options.regression_scene) {
+                TestScene::Install();
+                world.pose = TestScene::Checkpoint(options.checkpoint);
+                world.report["scene"] = TestScene::Describe();
+                world.report["scene_digest"] = Generation::BlockDigest();
+            } else {
+                world.pose = {"spawn", Generation::FindSpawnPosition(), -90.0f, 0.0f};
+                world.report["scene"]["name"] = "terrain";
+                world.report["scene_digest"] = world.report["terrain_digest"].as<std::string>();
             }
-            throw std::runtime_error("Cannot find a safe player spawn near the world center");
+            world.report["test_edits_applied"] = options.test_edits;
+            if (options.test_edits) TestScene::ApplyEdits();
+            world.report["final_digest"] = options.test_edits ? Generation::BlockDigest() : world.report["scene_digest"].as<std::string>();
+            auto pose = world.report["initial_pose"];
+            pose["checkpoint"] = std::string(world.pose.name);
+            pose["position"].push_back(world.pose.position.x);
+            pose["position"].push_back(world.pose.position.y);
+            pose["position"].push_back(world.pose.position.z);
+            pose["yaw"] = world.pose.yaw;
+            pose["pitch"] = world.pose.pitch;
+            pose["fov"] = 45;
+            return world;
         }
 
-        void Init()
+        void PrintWorldSummary(const StartupOptions& options)
+        {
+            LoadBlocks(Assets::Resolve("configs/blockFormats.yaml").string());
+            const auto world = PrepareWorld(options);
+            std::cout << YAML::Dump(world.report) << std::endl;
+        }
+
+        void Init(const StartupOptions& options)
         {
             if (glfw_initialized)
                 throw std::logic_error("Application is already initialized");
@@ -123,8 +145,9 @@ namespace SymoCraft
             keyboard_reset_needed = false;
         }
 
-        void Run(unsigned int frame_limit)
+        void Run(const StartupOptions& options)
         {
+            const auto frame_limit = options.frame_limit;
             Window& window = GetWindow();
             auto* native_window = static_cast<GLFWwindow*>(window.window_ptr);
             const double loading_start = glfwGetTime();
@@ -141,24 +164,16 @@ namespace SymoCraft
             glfwSetInputMode(native_window, GLFW_STICKY_KEYS, GLFW_TRUE);
             glfwSetWindowFocusCallback(native_window, FocusCallback);
 
-            // Manual chunk generation for testing
-            InitializeNoise();
-            for(int x = -World::chunk_radius; x <= World::chunk_radius; x++)
-                for(int z = -World::chunk_radius; z <= World::chunk_radius; z++)
-                    ChunkManager::CreateChunk({x, z});
-
-            ChunkManager::RearrangeChunkNeighborPointers();
-            for (auto& [coords, chunk] : ChunkManager::GetAllChunks())
-                chunk.GenerateTerrain();
-            for (auto& [coords, chunk] : ChunkManager::GetAllChunks())
-                chunk.GenerateVegetation();
-
-            Report();
+            const auto world = PrepareWorld(options);
+            std::cout << "[world] summary-begin\n" << YAML::Dump(world.report)
+                      << "\n[world] summary-end" << std::endl;
 
             ECS::Registry &registry = GetRegistry();
-            const glm::vec3 start_pos = FindSpawnPosition();
+            const glm::vec3 start_pos = world.pose.position;
             auto &transform = registry.GetComponent<Transform>(World::GetPlayer());
             transform.position = start_pos;
+            transform.yaw = world.pose.yaw;
+            transform.pitch = world.pose.pitch;
             TransformSystem::Update(registry);
             Character::Player::SyncCamera(registry);
             ChunkManager::UpdateAllChunks();
@@ -224,7 +239,7 @@ namespace SymoCraft
                 Physics::Update(registry, delta_time);
                 if (transform.position.y < -8.0f)
                 {
-                    transform.position = FindSpawnPosition();
+                    transform.position = Generation::FindSpawnPosition();
                     body.zero_forces();
                     body.on_ground = false;
                     character.is_jumping = false;

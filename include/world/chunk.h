@@ -16,14 +16,7 @@ namespace SymoCraft {
         Updated,
     };
 
-    struct NoiseGenerator
-    {
-        FastNoiseLite noise;
-        float weight;
-    };
-
-    void InitializeNoise();
-    void Report();
+    namespace Generation { class Generator; }
 
     class Chunk {
     public:
@@ -75,10 +68,8 @@ namespace SymoCraft {
         bool SetWorldBlock(const glm::vec3 &world_coord, uint16 block_id);
         bool RemoveWorldBlock(const glm::vec3 &world_coord);
 
-        float GetNoise(int x, int z);
-
-        void GenerateTerrain();
-        void GenerateVegetation();
+        void GenerateTerrain(const Generation::Generator& generator);
+        void GenerateVegetation(const Generation::Generator& generator);
         void GenerateRenderData();
         void Free();
         std::size_t VertexCount() const noexcept { return m_vertex_data.size(); }

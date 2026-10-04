@@ -38,15 +38,23 @@ target_link_libraries(batch_safety_tests PRIVATE symocraft_glad glm::glm symocra
 add_executable(mesh_safety_tests mesh_safety_tests.cpp
     ../src/world/chunk.cpp
     ../src/world/chunk_manager.cpp
+    ../src/world/generation.cpp
+    ../src/world/world_coordinates.cpp
     ../include/MemoryAllocator/AmoBase.cpp)
-target_link_libraries(mesh_safety_tests PRIVATE symocraft_glad glm::glm symocraft_vendor_headers glfw)
+target_link_libraries(mesh_safety_tests PRIVATE symocraft_glad glm::glm symocraft_vendor_headers glfw symocraft_yaml)
 
 add_executable(block_config_tests block_config_tests.cpp ../src/world/block.cpp)
 target_link_libraries(block_config_tests PRIVATE symocraft_yaml glm::glm symocraft_vendor_headers glfw)
 
 add_executable(key_snapshot_tests key_snapshot_tests.cpp)
+add_executable(startup_options_tests startup_options_tests.cpp ../src/core/startup_options.cpp)
+add_executable(world_generation_tests world_generation_tests.cpp
+    ../src/world/chunk.cpp ../src/world/chunk_manager.cpp ../src/world/block.cpp
+    ../src/world/generation.cpp ../src/world/test_scene.cpp ../src/world/world_coordinates.cpp
+    ../include/MemoryAllocator/AmoBase.cpp)
+target_link_libraries(world_generation_tests PRIVATE symocraft_glad glm::glm symocraft_vendor_headers glfw symocraft_yaml)
 
-foreach(test_target IN ITEMS shader_loading_tests player_math_tests batch_safety_tests mesh_safety_tests block_config_tests key_snapshot_tests)
+foreach(test_target IN ITEMS shader_loading_tests player_math_tests batch_safety_tests mesh_safety_tests block_config_tests key_snapshot_tests startup_options_tests world_generation_tests)
     target_include_directories(${test_target} PRIVATE "${PROJECT_SOURCE_DIR}/include")
     target_compile_features(${test_target} PRIVATE cxx_std_20)
     target_compile_options(${test_target} PRIVATE /W4 /utf-8)
@@ -63,3 +71,9 @@ add_test(NAME world.mesh_safety COMMAND mesh_safety_tests)
 add_test(NAME world.block_config COMMAND block_config_tests "${PROJECT_SOURCE_DIR}/assets/configs/blockFormats.yaml")
 add_test(NAME input.key_snapshot COMMAND key_snapshot_tests)
 set_tests_properties(renderer.shader_loading player.math renderer.batch_safety world.mesh_safety world.block_config input.key_snapshot PROPERTIES TIMEOUT 45)
+add_test(NAME core.startup_options COMMAND startup_options_tests)
+add_test(NAME world.generation COMMAND world_generation_tests "${PROJECT_SOURCE_DIR}/assets/configs/blockFormats.yaml")
+add_test(NAME world.summary_cli COMMAND "${CMAKE_COMMAND}"
+    "-DGAME_EXECUTABLE=$<TARGET_FILE:SymoCraft>"
+    "-DOUTPUT_DIRECTORY=${CMAKE_CURRENT_BINARY_DIR}/world-summary-probes" -P "${CMAKE_CURRENT_SOURCE_DIR}/CheckWorldSummary.cmake")
+set_tests_properties(core.startup_options world.generation world.summary_cli PROPERTIES TIMEOUT 240)

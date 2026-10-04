@@ -83,6 +83,7 @@ add_executable(SymoCraft
     include/MemoryAllocator/AmoBase.cpp
     src/camera/Camera.cpp
     src/core/application.cpp
+    src/core/startup_options.cpp
     src/core/global_thread_pool.cpp
     src/core/window.cpp
     src/core/ECS/internal.cpp
@@ -102,6 +103,9 @@ add_executable(SymoCraft
     src/world/block.cpp
     src/world/chunk.cpp
     src/world/chunk_manager.cpp
+    src/world/generation.cpp
+    src/world/test_scene.cpp
+    src/world/world_coordinates.cpp
     src/world/world.cpp
 )
 target_include_directories(SymoCraft PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
