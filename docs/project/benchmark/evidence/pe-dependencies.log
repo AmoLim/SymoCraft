@@ -1,0 +1,63 @@
+Microsoft (R) COFF/PE Dumper Version 14.38.33145.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file out\install\benchmark-native\SymoCraft.exe
+
+File Type: EXECUTABLE IMAGE
+
+  Image has the following dependencies:
+
+    KERNEL32.dll
+    USER32.dll
+    GDI32.dll
+    SHELL32.dll
+    MSVCP140.dll
+    VCRUNTIME140.dll
+    VCRUNTIME140_1.dll
+    api-ms-win-crt-runtime-l1-1-0.dll
+    api-ms-win-crt-math-l1-1-0.dll
+    api-ms-win-crt-heap-l1-1-0.dll
+    api-ms-win-crt-stdio-l1-1-0.dll
+    api-ms-win-crt-time-l1-1-0.dll
+    api-ms-win-crt-convert-l1-1-0.dll
+    api-ms-win-crt-string-l1-1-0.dll
+    api-ms-win-crt-filesystem-l1-1-0.dll
+    api-ms-win-crt-utility-l1-1-0.dll
+    api-ms-win-crt-locale-l1-1-0.dll
+
+Dump of file out\install\benchmark-native\SymoCraftBenchmark.exe
+
+File Type: EXECUTABLE IMAGE
+
+  Image has the following dependencies:
+
+    COMCTL32.dll
+    COMDLG32.dll
+    SHELL32.dll
+    ole32.dll
+    bcrypt.dll
+    ADVAPI32.dll
+    POWRPROF.dll
+    USER32.dll
+    KERNEL32.dll
+    GDI32.dll
+    MSVCP140.dll
+    MSVCP140_ATOMIC_WAIT.dll
+    VCRUNTIME140.dll
+    VCRUNTIME140_1.dll
+    api-ms-win-crt-runtime-l1-1-0.dll
+    api-ms-win-crt-heap-l1-1-0.dll
+    api-ms-win-crt-stdio-l1-1-0.dll
+    api-ms-win-crt-filesystem-l1-1-0.dll
+    api-ms-win-crt-math-l1-1-0.dll
+    api-ms-win-crt-locale-l1-1-0.dll
+
+  Summary
+
+        E000 .data
+        A000 .pdata
+       4C000 .rdata
+        2000 .reloc
+        2000 .rsrc
+       C5000 .text
