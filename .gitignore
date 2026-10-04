@@ -40,3 +40,6 @@ Desktop.ini
 
 # Keep shared CMakePresets.json, vendor/lib dependencies, game assets,
 # and docs/**/evidence files visible. Do not ignore their extensions globally.
+
+# Local incoming benchmark data; keep curated docs evidence versioned.
+/.temporary
