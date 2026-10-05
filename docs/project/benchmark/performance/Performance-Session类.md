@@ -6,6 +6,9 @@ module: performance
 class_name: SymoCraft::Performance::Session
 inheritance: []
 created: 2026-10-04
+tags:
+  - area/benchmark
+  - topic/performance
 ---
 
 # Performance Session 类设计

@@ -1,0 +1,15 @@
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t0/build/full-debug
+    Start 40: world.mesh_safety
+1/5 Test #40: world.mesh_safety ................   Passed    0.07 sec
+    Start 41: world.block_config
+2/5 Test #41: world.block_config ...............   Passed    0.04 sec
+    Start 42: world.generation
+3/5 Test #42: world.generation .................   Passed    1.20 sec
+    Start 43: player.math
+4/5 Test #43: player.math ......................   Passed    0.01 sec
+    Start 44: simulation.contracts
+5/5 Test #44: simulation.contracts .............   Passed    0.09 sec
+
+100% tests passed, 0 tests failed out of 5
+
+Total Test time (real) =   1.41 sec

@@ -1,3 +1,8 @@
+---
+tags:
+  - area/milestones
+---
+
 # M2-T3 采样脚本兼容性补丁
 
 本补丁只更新 `scripts/benchmark.ps1`，不更换游戏 exe、资源或采样工作负载。

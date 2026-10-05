@@ -1,0 +1,176 @@
+{
+  "protocol": "5 seconds warmup + 15 seconds sampling, one run per case, allow-unfocused; not a frozen baseline",
+  "hardware": {
+    "vendor": "NVIDIA Corporation",
+    "renderer": "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+    "version": "4.6.0 NVIDIA 616.64"
+  },
+  "checks": {
+    "world_summary_byte_identical": true,
+    "world_metadata_identical": true,
+    "frame_csv_schema_identical": true,
+    "screenshot_byte_identical": true,
+    "screenshot_sha256": "3d4765d8bafd5388c2d60cd5ec4cc41e335d1b6416bebb1c692c299fc3b01851",
+    "first_upload_bytes": 57770616
+  },
+  "captures": {
+    "old-static": {
+      "valid": true,
+      "frames": 2599,
+      "fps": 173.2802714783817,
+      "frame_ms": {
+        "count": 2599,
+        "min": 4.9709,
+        "max": 10.6402,
+        "mean": 5.770997422085411,
+        "p50": 5.6626,
+        "p95": 6.7339,
+        "p99": 7.585
+      },
+      "gpu_draw_ms": {
+        "count": 2598,
+        "min": 0.096608,
+        "max": 0.53568,
+        "mean": 0.12225851270207821,
+        "p50": 0.121152,
+        "p95": 0.123328,
+        "p99": 0.12608
+      },
+      "pack_and_submit_ms": {
+        "count": 2599,
+        "min": 2.225,
+        "max": 5.5825,
+        "mean": 2.598707964601769,
+        "p50": 2.5116999999999994,
+        "p95": 3.1645000000000003,
+        "p99": 3.7287000000000003
+      },
+      "upload_ms": {
+        "count": 2599,
+        "min": 2.6051,
+        "max": 6.161899999999999,
+        "mean": 3.0000756444786463,
+        "p50": 2.9028,
+        "p95": 3.5494999999999997,
+        "p99": 3.9838
+      },
+      "gpu_missing": 1,
+      "focus": {
+        "transitions": 1,
+        "unfocused_frames": 231,
+        "sample_unfocused_frames": 0,
+        "unfocused_seconds_estimate": 1.5521651000000005,
+        "sample_unfocused_seconds_estimate": 0,
+        "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+      },
+      "sample_edits": 0,
+      "scheduled_edits": 0
+    },
+    "new-static": {
+      "valid": true,
+      "frames": 2560,
+      "fps": 170.67237508870542,
+      "frame_ms": {
+        "count": 2560,
+        "min": 4.9924,
+        "max": 12.0667,
+        "mean": 5.859179023437495,
+        "p50": 5.7352,
+        "p95": 6.8517,
+        "p99": 7.897
+      },
+      "gpu_draw_ms": {
+        "count": 2560,
+        "min": 0.09584,
+        "max": 0.3352,
+        "mean": 0.12205982499999946,
+        "p50": 0.120928,
+        "p95": 0.1232,
+        "p99": 0.125888
+      },
+      "pack_and_submit_ms": {
+        "count": 2560,
+        "min": 2.2866999999999997,
+        "max": 6.225699999999999,
+        "mean": 2.666843398437502,
+        "p50": 2.5730999999999997,
+        "p95": 3.2359,
+        "p99": 3.7264999999999993
+      },
+      "upload_ms": {
+        "count": 2560,
+        "min": 2.5654,
+        "max": 5.7442,
+        "mean": 2.9098762109374983,
+        "p50": 2.8204000000000002,
+        "p95": 3.408,
+        "p99": 3.9985
+      },
+      "gpu_missing": 0,
+      "focus": {
+        "transitions": 0,
+        "unfocused_frames": 3420,
+        "sample_unfocused_frames": 2560,
+        "unfocused_seconds_estimate": 20.00339330000003,
+        "sample_unfocused_seconds_estimate": 14.999498300000004,
+        "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+      },
+      "sample_edits": 0,
+      "scheduled_edits": 0
+    },
+    "new-edit": {
+      "valid": true,
+      "frames": 2551,
+      "fps": 170.01613560428342,
+      "frame_ms": {
+        "count": 2551,
+        "min": 5.2185,
+        "max": 9.2283,
+        "mean": 5.881794668757351,
+        "p50": 5.7637,
+        "p95": 6.8299,
+        "p99": 7.6749
+      },
+      "gpu_draw_ms": {
+        "count": 2551,
+        "min": 0.095616,
+        "max": 0.335712,
+        "mean": 0.1221872771462171,
+        "p50": 0.120832,
+        "p95": 0.123456,
+        "p99": 0.126944
+      },
+      "pack_and_submit_ms": {
+        "count": 2551,
+        "min": 2.3011000000000004,
+        "max": 3.8186000000000004,
+        "mean": 2.6265012544100395,
+        "p50": 2.5545000000000004,
+        "p95": 3.1229000000000005,
+        "p99": 3.4366
+      },
+      "upload_ms": {
+        "count": 2551,
+        "min": 2.6085,
+        "max": 4.0967,
+        "mean": 2.8927468835750725,
+        "p50": 2.8258,
+        "p95": 3.3147,
+        "p99": 3.5561
+      },
+      "gpu_missing": 0,
+      "focus": {
+        "transitions": 0,
+        "unfocused_frames": 3332,
+        "sample_unfocused_frames": 2551,
+        "unfocused_seconds_estimate": 20.00494830000002,
+        "sample_unfocused_seconds_estimate": 15.004458199999986,
+        "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+      },
+      "sample_edits": 60,
+      "scheduled_edits": 79
+    }
+  },
+  "fps_change_percent": -1.505016334188769,
+  "caveat": "A single short pair cannot distinguish regression from system noise or replace hardware/long-duration acceptance."
+}

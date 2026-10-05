@@ -1,0 +1,8 @@
+symocraft_test_executable(asset_paths_tests asset_paths_tests.cpp symocraft_assets)
+symocraft_stage_assets(asset_paths_tests)
+add_test(NAME assets.contracts COMMAND asset_paths_tests)
+add_test(NAME assets.from_source_directory COMMAND asset_paths_tests)
+set_tests_properties(assets.from_source_directory PROPERTIES WORKING_DIRECTORY "${SYMOCRAFT_REPOSITORY_ROOT}")
+set_tests_properties(assets.contracts assets.from_source_directory PROPERTIES TIMEOUT 45)
+symocraft_test_executable(image_tests image_tests.cpp symocraft_assets)
+add_test(NAME assets.image_decode COMMAND image_tests "${SYMOCRAFT_REPOSITORY_ROOT}/assets/textures/texture_atlas.png")

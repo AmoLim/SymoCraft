@@ -1,3 +1,8 @@
+---
+tags:
+  - area/milestones
+---
+
 # M0 环境与原始构建报告
 
 日期：2026-09-17。状态：**本节点已由用户验收通过，已获准进入 M1。** 以下环境与实验内容保留 M0 时的历史记录，后续结果见 [M1 报告](../m1/README.md)。
@@ -90,7 +95,7 @@
 
 [二进制依赖检查](evidence/08-executable-dependencies.log)显示 Debug 依赖调试版 MSVC 运行库，Release 依赖 MSVC/UCRT 运行库。当前构建目录没有复制 `assets`，也没有独立发布/运行库部署流程。
 
-尽管 CMake 显式链接并复制 irrKlang，两个最终 exe 的静态导入表没有列出 irrKlang.dll，与目前没有有效音频调用的源码状态一致。不能据此推定将来启用音频后仍然不需要该 DLL；详细清单见 [依赖盘点](../../third-party-inventory.md)。
+尽管 CMake 显式链接并复制 irrKlang，两个最终 exe 的静态导入表没有列出 irrKlang.dll，与目前没有有效音频调用的源码状态一致。不能据此推定将来启用音频后仍然不需要该 DLL；详细清单见 [依赖盘点](../../legacy/third-party-inventory.md)。
 
 ## 问题与处置顺序
 

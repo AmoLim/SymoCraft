@@ -1,0 +1,19 @@
+[0/2] Re-checking globbed directories...
+[1/15] Synchronizing required SymoCraft runtime assets
+[2/15] Building CXX object game\modules\platform\CMakeFiles\symocraft_platform.dir\src\window.cpp.obj
+[3/15] Linking CXX static library game\modules\platform\symocraft_platform.lib
+[4/15] Linking CXX executable test\header_platform_symocraft_platform_process_memory_h.exe
+[5/15] Linking CXX executable test\header_platform_symocraft_platform_key_snapshot_h.exe
+[6/15] Linking CXX executable test\header_platform_symocraft_platform_window_h.exe
+[7/15] Linking CXX executable test\header_renderer_symocraft_renderer_render_stats_h.exe
+[8/15] Linking CXX executable test\header_renderer_symocraft_renderer_gpu_timer_h.exe
+[9/15] Linking CXX executable test\header_renderer_symocraft_renderer_renderer_h.exe
+[10/15] Linking CXX executable test\unit\renderer\shader_loading_tests.exe
+[11/15] Linking CXX executable test\unit\renderer\gpu_timer_tests.exe
+[12/15] Linking CXX executable test\unit\renderer\batch_safety_tests.exe
+[13/15] Building CXX object game\app\CMakeFiles\SymoCraft.dir\src\application.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\game\app\src\application.cpp(127): warning C4389: '!=': signed/unsigned mismatch
+F:\GameDevelop\OpenGLProject\Symocraft\game\app\src\application.cpp(127): warning C4389: '!=': signed/unsigned mismatch
+F:\GameDevelop\OpenGLProject\Symocraft\game\app\src\application.cpp(274): warning C4389: '!=': signed/unsigned mismatch
+F:\GameDevelop\OpenGLProject\Symocraft\game\app\src\application.cpp(274): warning C4389: '!=': signed/unsigned mismatch
+[14/15] Linking CXX executable bin\SymoCraft.exe

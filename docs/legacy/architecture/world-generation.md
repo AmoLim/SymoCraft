@@ -1,6 +1,12 @@
+---
+tags:
+  - area/legacy
+  - topic/world
+---
+
 # 可复现世界生成
 
-> 历史架构参考：M2-T2。文中的“当前”指该阶段，不代表最新实现；归档不表示相关机制全部废弃。源码链接保留定位用途，不固定历史版本或行号。参见 [历史架构索引](README.md)；后续设计约定见 [项目范围](../../spec/project-scope.md)，不据此推定重构已经完成。
+> 历史架构参考：M2-T2。文中的“当前”指该阶段，不代表最新实现；归档不表示相关机制全部废弃。源码链接固定到迁移前 `cadc349` 快照，保留旧路径定位；该快照不等同于本篇原阶段的精确版本，历史结论仍以原报告为准。参见 [历史架构索引](README.md)；后续设计约定见 [项目范围](../../spec/project-scope.md)，不据此推定重构已经完成。
 
 ## 范围与契约
 
@@ -8,7 +14,7 @@ M2-T2 新增生成版本 `1`，只恢复固定世界的可重复输入，不增�
 
 **不保证不同编译器、平台、浮点选项或生成版本之间位级一致。** 本次 Debug/Release 恰好取得相同摘要是观测结果，不升级为跨构建契约。M2-A 旧日志中的 seed 没有记录全部随机状态，不能用新版本补救或重放旧世界。
 
-实现入口：[生成模块](../../../src/world/generation.cpp)、[接口](../../../include/world/generation.h)、[区块生成](../../../src/world/chunk.cpp)、[启动参数](../../../src/core/startup_options.cpp)。实测证据见 [M2-T2 报告](../../milestones/m2-t2/README.md)，测试夹具见 [固定场景](../../project/benchmark/testing/reproducible-scenes.md)。
+实现入口：[生成模块](https://github.com/AmoLim/SymoCraft/blob/cadc349aa752e252454a481c3199281c112998c9/src/world/generation.cpp)、[接口](https://github.com/AmoLim/SymoCraft/blob/cadc349aa752e252454a481c3199281c112998c9/include/world/generation.h)、[区块生成](https://github.com/AmoLim/SymoCraft/blob/cadc349aa752e252454a481c3199281c112998c9/src/world/chunk.cpp)、[启动参数](https://github.com/AmoLim/SymoCraft/blob/cadc349aa752e252454a481c3199281c112998c9/src/core/startup_options.cpp)。实测证据见 [M2-T2 报告](../../milestones/m2-t2/README.md)，测试夹具见 [固定场景](../../project/benchmark/testing/reproducible-scenes.md)。
 
 ## 数据流与所有权
 

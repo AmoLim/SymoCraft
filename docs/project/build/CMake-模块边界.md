@@ -4,11 +4,15 @@ status: 已验证
 project: SymoCraft
 module: build
 created: 2026-10-04
+tags:
+  - area/build
 ---
 
 # CMake 模块边界
 
 关联功能：[[Benchmark-执行与导出]]。
+
+> 历史范围：本页记录 2026-10-04 的游戏/执行器分离。M3-T0 已于 2026-10-05 将游戏拆为九模块、统一测试树，本文的 `src/include/tests` 图不再代表当前构建。当前规则见 [构建与测试边界](../architecture/build/构建与测试边界.md)，验证见 [M3-T0 报告](../../milestones/m3-t0/README.md)；下文保留当时设计，不改写历史结论。
 
 ## 当前设计
 

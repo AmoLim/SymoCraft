@@ -1,6 +1,13 @@
+---
+tags:
+  - area/build
+---
+
 # 构建系统与 CLion 开发指南
 
 > 适用范围：M1 构建指南，保留当时的命令与构建布局，不因目录迁移自动成为最新构建说明。后续目标拆分参见 [CMake 模块边界](CMake-模块边界.md)，自定义目录日志问题参见 [修复记录](CMake-自定义构建目录日志修复.md)。使用前应对照当前构建配置；本轮未重新验证本文全部命令。
+
+2026-10-05：M3-T0 后 CLion 工具链及 `windows-debug` / `windows-release` 预设名称保持不变；九模块、CPU-only、统一测试与最新安装证据见 [当前构建边界](../architecture/build/构建与测试边界.md) 和 [M3-T0 报告](../../milestones/m3-t0/README.md)。
 
 ## 范围
 

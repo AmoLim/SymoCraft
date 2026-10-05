@@ -1,0 +1,98 @@
+[0/2] Re-checking globbed directories...
+[1/2] Re-running CMake...
+-- Using Win32 for window creation
+-- Configuring done (0.3s)
+-- Generating done (0.2s)
+-- Build files have been written to: F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t0/build/full-debug
+[0/4] Re-checking globbed directories...
+[1/118] Linking CXX static library tools\benchmark\benchmark_core.lib
+[2/118] Building CXX object test\CMakeFiles\header_foundation_symocraft_foundation_diagnostics_h.dir\public-headers\header_foundation_symocraft_foundation_diagnostics_h.cpp.obj
+[3/118] Synchronizing required SymoCraft runtime assets
+[4/118] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\gpu_timer.cpp.obj
+[5/118] Building CXX object test\CMakeFiles\header_foundation_symocraft_foundation_document_h.dir\public-headers\header_foundation_symocraft_foundation_document_h.cpp.obj
+[6/118] Building CXX object test\CMakeFiles\header_foundation_symocraft_foundation_memory_h.dir\public-headers\header_foundation_symocraft_foundation_memory_h.cpp.obj
+[7/118] Building CXX object test\CMakeFiles\header_foundation_symocraft_foundation_types_h.dir\public-headers\header_foundation_symocraft_foundation_types_h.cpp.obj
+[8/118] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\shader.cpp.obj
+[9/118] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\texture.cpp.obj
+[10/118] Building CXX object test\CMakeFiles\header_foundation_symocraft_foundation_files_h.dir\public-headers\header_foundation_symocraft_foundation_files_h.cpp.obj
+[11/118] Building CXX object test\CMakeFiles\header_foundation_symocraft_foundation_math_h.dir\public-headers\header_foundation_symocraft_foundation_math_h.cpp.obj
+[12/118] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\shader_program.cpp.obj
+[13/118] Building CXX object test\CMakeFiles\header_scene_symocraft_scene_camera_h.dir\public-headers\header_scene_symocraft_scene_camera_h.cpp.obj
+[14/118] Building CXX object test\CMakeFiles\header_scene_symocraft_scene_mesh_h.dir\public-headers\header_scene_symocraft_scene_mesh_h.cpp.obj
+[15/118] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\performance_memory.cpp.obj
+[16/118] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\renderer.cpp.obj
+[17/118] Linking CXX static library game\modules\renderer\symocraft_renderer.lib
+[18/118] Building CXX object test\CMakeFiles\header_assets_symocraft_assets_asset_paths_h.dir\public-headers\header_assets_symocraft_assets_asset_paths_h.cpp.obj
+[19/118] Building CXX object test\CMakeFiles\header_assets_symocraft_assets_image_h.dir\public-headers\header_assets_symocraft_assets_image_h.cpp.obj
+[20/118] Building CXX object test\CMakeFiles\header_world_symocraft_world_block_h.dir\public-headers\header_world_symocraft_world_block_h.cpp.obj
+[21/118] Building CXX object test\CMakeFiles\header_world_symocraft_world_benchmark_workload_h.dir\public-headers\header_world_symocraft_world_benchmark_workload_h.cpp.obj
+[22/118] Building CXX object test\CMakeFiles\header_ecs_symocraft_ecs_registry_h.dir\public-headers\header_ecs_symocraft_ecs_registry_h.cpp.obj
+[23/118] Building CXX object test\CMakeFiles\header_world_symocraft_world_chunk_manager_h.dir\public-headers\header_world_symocraft_world_chunk_manager_h.cpp.obj
+[24/118] Building CXX object test\CMakeFiles\header_world_symocraft_world_constants_h.dir\public-headers\header_world_symocraft_world_constants_h.cpp.obj
+[25/118] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_character_system_h.dir\public-headers\header_simulation_symocraft_simulation_character_system_h.cpp.obj
+[26/118] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_player_h.dir\public-headers\header_simulation_symocraft_simulation_player_h.cpp.obj
+[27/118] Building CXX object test\CMakeFiles\header_world_symocraft_world_world_h.dir\public-headers\header_world_symocraft_world_world_h.cpp.obj
+[28/118] Building CXX object test\CMakeFiles\header_world_symocraft_world_test_scene_h.dir\public-headers\header_world_symocraft_world_test_scene_h.cpp.obj
+[29/118] Building CXX object test\CMakeFiles\header_world_symocraft_world_generation_h.dir\public-headers\header_world_symocraft_world_generation_h.cpp.obj
+[30/118] Building CXX object test\CMakeFiles\header_platform_symocraft_platform_key_snapshot_h.dir\public-headers\header_platform_symocraft_platform_key_snapshot_h.cpp.obj
+[31/118] Building CXX object test\CMakeFiles\header_platform_symocraft_platform_process_memory_h.dir\public-headers\header_platform_symocraft_platform_process_memory_h.cpp.obj
+[32/118] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_transform_system_h.dir\public-headers\header_simulation_symocraft_simulation_transform_system_h.cpp.obj
+[33/118] Building CXX object test\CMakeFiles\header_renderer_symocraft_renderer_render_stats_h.dir\public-headers\header_renderer_symocraft_renderer_render_stats_h.cpp.obj
+[34/118] Building CXX object test\CMakeFiles\header_platform_symocraft_platform_window_h.dir\public-headers\header_platform_symocraft_platform_window_h.cpp.obj
+[35/118] Building CXX object test\CMakeFiles\header_renderer_symocraft_renderer_gpu_timer_h.dir\public-headers\header_renderer_symocraft_renderer_gpu_timer_h.cpp.obj
+[36/118] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_camera_h.dir\public-headers\header_simulation_symocraft_simulation_camera_h.cpp.obj
+[37/118] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_component_h.dir\public-headers\header_simulation_symocraft_simulation_component_h.cpp.obj
+[38/118] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_physics_system_h.dir\public-headers\header_simulation_symocraft_simulation_physics_system_h.cpp.obj
+[39/118] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_player_math_h.dir\public-headers\header_simulation_symocraft_simulation_player_math_h.cpp.obj
+[40/118] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_playercontroller_h.dir\public-headers\header_simulation_symocraft_simulation_playercontroller_h.cpp.obj
+[41/118] Building CXX object test\unit\ecs\CMakeFiles\registry_tests.dir\registry_tests.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(134): warning C4244: 'argument': conversion from 'SymoCraft::ECS::EntityId' to 'SymoCraft::ECS::EntityIndex', possible loss of data
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(134): note: the template instantiation context (the oldest one first) is
+F:\GameDevelop\OpenGLProject\Symocraft\test\unit\ecs\registry_tests.cpp(25): note: see reference to class template instantiation 'SymoCraft::ECS::RegistryViewer<`anonymous-namespace'::Position,`anonymous-namespace'::Velocity>' being compiled
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(129): note: while compiling class template member function 'const SymoCraft::ECS::Iterator SymoCraft::ECS::RegistryViewer<`anonymous-namespace'::Position,`anonymous-namespace'::Velocity>::begin(void) const'
+F:\GameDevelop\OpenGLProject\Symocraft\test\unit\ecs\registry_tests.cpp(25): note: see the first reference to 'SymoCraft::ECS::RegistryViewer<`anonymous-namespace'::Position,`anonymous-namespace'::Velocity>::begin' in 'main'
+[42/118] Building CXX object test\CMakeFiles\header_telemetry_symocraft_telemetry_document_io_h.dir\public-headers\header_telemetry_symocraft_telemetry_document_io_h.cpp.obj
+[43/118] Building CXX object test\CMakeFiles\header_telemetry_symocraft_telemetry_performance_h.dir\public-headers\header_telemetry_symocraft_telemetry_performance_h.cpp.obj
+[44/118] Building CXX object test\unit\assets\CMakeFiles\asset_paths_tests.dir\asset_paths_tests.cpp.obj
+[45/118] Building CXX object test\unit\assets\CMakeFiles\image_tests.dir\image_tests.cpp.obj
+[46/118] Building CXX object test\unit\foundation\CMakeFiles\document_tests.dir\document_tests.cpp.obj
+[47/118] Building CXX object test\unit\platform\CMakeFiles\key_snapshot_tests.dir\key_snapshot_tests.cpp.obj
+[48/118] Building CXX object test\CMakeFiles\header_renderer_symocraft_renderer_renderer_h.dir\public-headers\header_renderer_symocraft_renderer_renderer_h.cpp.obj
+[49/118] Building CXX object test\unit\world\CMakeFiles\mesh_safety_tests.dir\mesh_safety_tests.cpp.obj
+[50/118] Building CXX object test\unit\app\CMakeFiles\startup_options_tests.dir\startup_options_tests.cpp.obj
+E:\Applications\Microsoft VS\2022\VC\Tools\MSVC\14.38.33130\include\optional(831): warning C4389: '==': signed/unsigned mismatch
+E:\Applications\Microsoft VS\2022\VC\Tools\MSVC\14.38.33130\include\optional(831): note: the template instantiation context (the oldest one first) is
+F:\GameDevelop\OpenGLProject\Symocraft\test\unit\app\startup_options_tests.cpp(23): note: see reference to function template instantiation 'bool std::operator ==<uint32_t,int,0>(const std::optional<uint32_t> &,const _Ty2 &) noexcept(<expr>)' being compiled
+        with
+        [
+            _Ty2=int
+        ]
+E:\Applications\Microsoft VS\2022\VC\Tools\MSVC\14.38.33130\include\optional(833): warning C4389: '==': signed/unsigned mismatch
+E:\Applications\Microsoft VS\2022\VC\Tools\MSVC\14.38.33130\include\optional(833): note: the template instantiation context (the oldest one first) is
+F:\GameDevelop\OpenGLProject\Symocraft\test\unit\app\startup_options_tests.cpp(23): note: see reference to function template instantiation 'bool std::operator ==<uint32_t,int,0>(const std::optional<uint32_t> &,const _Ty2 &) noexcept' being compiled
+        with
+        [
+            _Ty2=int
+        ]
+[51/118] Building CXX object test\unit\world\CMakeFiles\world_generation_tests.dir\world_generation_tests.cpp.obj
+[52/118] Building CXX object test\unit\simulation\CMakeFiles\player_math_tests.dir\player_math_tests.cpp.obj
+[53/118] Building CXX object test\unit\renderer\CMakeFiles\gpu_timer_tests.dir\gpu_timer_tests.cpp.obj
+[54/118] Building CXX object test\unit\telemetry\CMakeFiles\performance_tests.dir\performance_tests.cpp.obj
+[55/118] Building CXX object test\unit\simulation\CMakeFiles\simulation_contract_tests.dir\simulation_contract_tests.cpp.obj
+[56/118] Linking CXX executable bin\SymoCraft.exe
+FAILED: [code=4294967295] bin/SymoCraft.exe 
+C:\WINDOWS\system32\cmd.exe /C "cd . && E:\Applications\JetBrains\CLion\bin\cmake\win\x64\bin\cmake.exe -E vs_link_exe --msvc-ver=1938 --intdir=game\app\CMakeFiles\SymoCraft.dir --rc=C:\PROGRA~2\WI3CF2~1\10\bin\100226~1.0\x64\rc.exe --mt=C:\PROGRA~2\WI3CF2~1\10\bin\100226~1.0\x64\mt.exe --manifests  -- "E:\Applications\Microsoft VS\2022\VC\Tools\MSVC\14.38.33130\bin\Hostx64\x64\link.exe" /nologo game\app\CMakeFiles\SymoCraft.dir\src\main.cpp.obj game\app\CMakeFiles\SymoCraft.dir\src\application.cpp.obj  /out:bin\SymoCraft.exe /implib:game\app\SymoCraft.lib /pdb:bin\SymoCraft.pdb /version:0.0 /machine:x64 /debug /INCREMENTAL /subsystem:console /MANIFEST:EMBED /MANIFESTINPUT:F:/GameDevelop/OpenGLProject/Symocraft/cmake/windows-utf8.manifest  game\app\symocraft_startup.lib  game\modules\foundation\symocraft_foundation.lib  game\modules\assets\symocraft_assets.lib  game\modules\ecs\symocraft_ecs.lib  game\modules\world\symocraft_world.lib  game\modules\simulation\symocraft_simulation.lib  game\modules\platform\symocraft_platform.lib  game\modules\renderer\symocraft_renderer.lib  game\modules\telemetry\symocraft_telemetry.lib  game\modules\ecs\symocraft_ecs.lib  game\modules\world\symocraft_world.lib  game\modules\assets\symocraft_assets.lib  game\modules\platform\symocraft_platform.lib  vendor\glfw\src\glfw3.lib  Psapi.lib  game\symocraft_glad.lib  game\modules\foundation\symocraft_foundation.lib  symocraft_yaml.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && cd ."
+MT: command "C:\PROGRA~2\WI3CF2~1\10\bin\100226~1.0\x64\mt.exe /nologo /out:game\app\CMakeFiles\SymoCraft.dir/embed.manifest /notify_update" failed (exit code 0x1f) with the following output:
+
+
+mt.exe : command line error c10100a7: No manifest inputs were specified / generated that are needed by the options specified on the command line.  Use the /? option for help on usage and samples.
+
+
+[57/118] Building CXX object test\unit\renderer\CMakeFiles\shader_loading_tests.dir\shader_loading_tests.cpp.obj
+[58/118] Building CXX object test\unit\world\CMakeFiles\block_config_tests.dir\block_config_tests.cpp.obj
+[59/118] Building CXX object test\unit\renderer\CMakeFiles\batch_safety_tests.dir\batch_safety_tests.cpp.obj
+[60/118] Linking CXX executable bin\SymoCraftBenchmark.exe
+[61/118] Building CXX object test\benchmark\CMakeFiles\benchmark_process_fixture.dir\__\support\benchmark_process_fixture.cpp.obj
+[62/118] Building CXX object test\benchmark\CMakeFiles\benchmark_fixture.dir\__\support\benchmark_fixture.cpp.obj
+[63/118] Building CXX object test\benchmark\CMakeFiles\benchmark_runner_tests.dir\runner_tests.cpp.obj
+ninja: build stopped: subcommand failed.

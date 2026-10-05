@@ -4,6 +4,8 @@ status: 已验证
 project: SymoCraft
 module: build
 created: 2026-10-04
+tags:
+  - area/build
 ---
 
 # CMake 自定义构建目录日志修复

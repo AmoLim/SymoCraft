@@ -1,6 +1,13 @@
+---
+tags:
+  - area/milestones
+---
+
 # Y9000P 首轮采样诊断与脚本修复
 
 日期：2026-10-03。本次检查用户从 Y9000P 返回的正式 static-1 数据。**游戏完成了约定时长，但因失焦无效；同时发现并修复采样脚本的 Windows PowerShell 5.1 兼容性问题。** 不将该轮转为有效基线，不修改用户原始结果，笔记本九轮正式验收仍待执行。
+
+源码/夹具链接固定到迁移前 `cadc349` 快照用于旧路径定位，不把它当作当次脚本补丁的精确版本或新的实测证据。
 
 ## 已确认事实
 
@@ -28,7 +35,7 @@ PowerShell 位置与进程目录的差异、解析 API 的契约见 [Microsoft a
 
 ## 验证
 
-新增 [原生子进程夹具](../../../tests/benchmark_process_fixture.cpp) 与 [脚本契约测试](../../../tests/benchmark_script_tests.ps1)。它们不是游戏或性能结果，不创建窗口、GL 上下文或操作键鼠。
+新增 [原生子进程夹具](https://github.com/AmoLim/SymoCraft/blob/cadc349aa752e252454a481c3199281c112998c9/tests/benchmark_process_fixture.cpp) 与 [脚本契约测试](https://github.com/AmoLim/SymoCraft/blob/cadc349aa752e252454a481c3199281c112998c9/tests/benchmark_script_tests.ps1)。它们不是游戏或性能结果，不创建窗口、GL 上下文或操作键鼠。
 
 测试人为分离 PowerShell 与原生进程目录，覆盖相对路径/空格路径、成功及立即退出、退出码 0/3/4、失焦失败、失败后不再启动后续轮次、GPU 缺失样本统计、预热排除和旧目录保护。Windows PowerShell 5.1 测试固定注册；找到 PowerShell 7 时额外注册对应测试，因此本机总计 17 项，只有 Windows PowerShell 的环境为 16 项。
 

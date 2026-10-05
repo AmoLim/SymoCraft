@@ -1,4 +1,6 @@
 include_guard(GLOBAL)
+include("${CMAKE_CURRENT_LIST_DIR}/ThirdPartyHeaders.cmake")
+symocraft_header_view(symocraft_yaml_headers yaml-cpp)
 
 add_library(symocraft_yaml STATIC
     "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/yaml-cpp/src/binary.cpp"
@@ -31,7 +33,7 @@ add_library(symocraft_yaml STATIC
     "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/yaml-cpp/src/stream.cpp"
     "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/yaml-cpp/src/tag.cpp"
 )
-target_include_directories(symocraft_yaml SYSTEM PUBLIC "${SYMOCRAFT_REPOSITORY_ROOT}/vendor")
+target_link_libraries(symocraft_yaml PUBLIC symocraft_yaml_headers)
 target_compile_features(symocraft_yaml PUBLIC cxx_std_20)
 target_compile_options(symocraft_yaml PRIVATE /utf-8)
 set_target_properties(symocraft_yaml PROPERTIES CXX_EXTENSIONS OFF)

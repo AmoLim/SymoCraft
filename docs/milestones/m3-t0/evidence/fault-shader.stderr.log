@@ -1,0 +1,3 @@
+[runtime] fatal: Shader compilation failed: F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t0\runtime-001\fault-shader\assets\shaders\vs_BlockShader.glsl
+(0) : error C0000: syntax error, unexpected $end, expecting "::" at token "<EOF>"
+

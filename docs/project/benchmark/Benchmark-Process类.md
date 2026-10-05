@@ -6,6 +6,8 @@ module: benchmark
 class_name: Benchmark::Process
 inheritance: []
 created: 2026-10-04
+tags:
+  - area/benchmark
 ---
 
 # Benchmark Process 类设计

@@ -34,7 +34,12 @@ add_custom_target(symocraft_runtime_assets ALL
 )
 
 function(symocraft_stage_assets target)
+    # Tests are registered from the root, not from the game directory scope.
+    set(runtime_directory "${PROJECT_BINARY_DIR}/bin")
+    if(CMAKE_CONFIGURATION_TYPES)
+        string(APPEND runtime_directory "/$<CONFIG>")
+    endif()
     set_target_properties(${target} PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY "${SYMOCRAFT_RUNTIME_DIRECTORY}")
+        RUNTIME_OUTPUT_DIRECTORY "${runtime_directory}")
     add_dependencies(${target} symocraft_runtime_assets)
 endfunction()

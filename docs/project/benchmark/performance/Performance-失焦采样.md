@@ -4,6 +4,9 @@ status: 已验证
 project: SymoCraft
 module: performance
 created: 2026-10-04
+tags:
+  - area/benchmark
+  - topic/performance
 ---
 
 # Performance 失焦采样
@@ -28,6 +31,8 @@ StartupOptions.focus_policy
 
 ### 关键约束与取舍
 
+2026-10-05 基准采用约定：按用户确认，当前低端/中端/开发机统一使用既有 allow-unfocused，窗口初始未获焦和轮内失焦只记入分析，不列失败，也不要求前台补测才能冻结。laptop / this 的 18 轮首帧均未获焦，用户报告每轮新建窗口会失焦；不能由此断言全部后台时间的原因或遮挡面积。详见 [[Benchmark-基准冻结-20261005]]。本次只更新文档，没有修改下面两种策略的实现或普通游戏行为。
+
 - 焦点与最小化不是一回事。两种策略都拒绝最小化、零尺寸和帧缓冲改变，不暂停后拼接结果。
 - `GLFW_FOCUSED=false`、`GLFW_FOCUS_ON_SHOW=false` 只在 allow-unfocused benchmark 创建时设置；不会定时调用抢焦点接口。
 - 普通游戏的失焦暂停、鼠标锁定/恢复不变；benchmark 不注册手动视角输入，原有 Escape 退出仍可用。
@@ -46,7 +51,8 @@ StartupOptions.focus_policy
 | [x] | 显式最小化无效原因写入 allow Session | 仍判无效 |
 | [x] | RTX 5070 Ti，三场景全程失焦，10+10 秒 | 3/3 有效；每轮约 20 秒失焦；walk 有位置推进，edit 有 40 次采样修改 |
 | [x] | 真实游戏测试中点击最小化 | 提前退出，completed=false，valid_run=false，原因 framebuffer-changed-or-minimized，退出码 4 |
-| [ ] | AMD/Intel 真实设备、笔记本混合显卡 | 驱动端确认，无厂商假设 |
+| [x] | Y9000P 声明混合显卡、实际 NVIDIA GL 设备 | 新修复包九轮有效，失焦保留；见 [[Benchmark-Y9000P中端机基线]]，不是核显切换或 AMD/Intel 驱动验证 |
+| [ ] | AMD/Intel Windows 真实设备 | 驱动端确认，无厂商假设 |
 | [ ] | 普通游戏连续人工游玩/焦点恢复 | 完整玩法回归仍按 M2 人工节点验收，不以自动化替代 |
 
 验证版本：本次 Release 游戏 SHA256 `30e69da18ec62731b8081a5aea4c2b3ffaf0a955168c9bffb9d0ed0783ce73eb`。短测为流程证据，不是正式性能评价；完整原始 CSV 在 `out/benchmark-native`。摘要和日志保存于 `docs/project/benchmark/evidence`。
@@ -55,7 +61,7 @@ StartupOptions.focus_policy
 
 ## 本次变更
 
-无。已通过的策略约定合并到当前设计；未执行硬件与人工案例保留复核状态。
+2026-10-05 仅记录当前基准采用 allow-unfocused 和回收笔记本证据，不改采集/窗口代码、默认参数或原始文件。旧 strict 失败留作历史，未执行硬件与人工案例保留复核状态。
 
 ## 后续考虑
 

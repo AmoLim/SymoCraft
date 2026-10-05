@@ -1,3 +1,10 @@
+---
+tags:
+  - area/benchmark
+  - topic/world
+  - topic/gameplay
+---
+
 # 固定世界与边界回归场景
 
 > 适用范围：M2-T2 固定世界与边界场景，保留该阶段的参数和夹具契约。Benchmark 与 [通用玩法验收](../../../testing/gameplay-smoke.md) 共同复用这些场景；归入 Benchmark 目录不代表玩法验收也归其所有。本轮未重新验证场景或更新其实现契约。
@@ -83,7 +90,7 @@ M2-T2 提供生成版本 1、测试场景版本 1。当前候选版在 `out/inst
 
 ## 模块与验收边界
 
-[TestScene](../../../../src/world/test_scene.cpp) 提供 `Install()`、`Checkpoints()`、`Checkpoint(name)`、`Edits()`、`ApplyEdits()` 和 `Describe()`。返回的 span 引用模块静态只读数组，不需调用方释放。`Install` 要求至少半径 3 的可玩覆盖，写入前检查覆盖范围；`ApplyEdits` 要求初始石头状态，重复调用会拒绝，且不承诺中途失败时回滚已完成操作。
+[TestScene](../../../../game/modules/world/src/test_scene.cpp) 提供 `Install()`、`Checkpoints()`、`Checkpoint(name)`、`Edits()`、`ApplyEdits()` 和 `Describe()`。返回的 span 引用模块静态只读数组，不需调用方释放。`Install` 要求至少半径 3 的可玩覆盖，写入前检查覆盖范围；`ApplyEdits` 要求初始石头状态，重复调用会拒绝，且不承诺中途失败时回滚已完成操作。此源码链接已随 M3-T0 迁移更新；阶段记录与旧候选包身份不变。
 
 生成/编辑通过区块原有写入入口传播脏标记，未新增另一份测试专用世界实现。摘要分别保存自然世界、覆盖后、编辑后状态。报告还输出完整几何参数、检查点、路线和编辑操作；只保存 seed 不足以描述测试输入。
 

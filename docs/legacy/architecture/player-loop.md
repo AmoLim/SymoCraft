@@ -1,6 +1,12 @@
+---
+tags:
+  - area/legacy
+  - topic/gameplay
+---
+
 # M2-A 玩家更新与交互循环
 
-> 历史架构参考：M2-A。文中的“当前”指该阶段，不代表最新实现；归档不表示相关机制全部废弃。源码链接保留定位用途，不固定历史版本或行号。参见 [历史架构索引](README.md)；后续设计约定见 [项目范围](../../spec/project-scope.md)，不据此推定重构已经完成。
+> 历史架构参考：M2-A。文中的“当前”指该阶段，不代表最新实现；归档不表示相关机制全部废弃。源码链接固定到迁移前 `cadc349` 快照，保留旧路径定位；该快照不等同于本篇原阶段的精确版本，历史结论仍以原报告为准。参见 [历史架构索引](README.md)；后续设计约定见 [项目范围](../../spec/project-scope.md)，不据此推定重构已经完成。
 
 本文说明 M2-A 对现有玩家循环的局部修正。目标是让输入、物理、相机和方块交互使用同一帧的数据，并限制长帧恢复的工作量；不是重写一个通用物理引擎，也没有引入多线程、动态地图或新玩法。
 
@@ -45,7 +51,7 @@ PlayerController::DoRayCast
 
 当前启用 GLFW 的 `GLFW_STICKY_KEYS`。它会把尚未读取的按下保留到一次 `glfwGetKey` 查询，松开后的保留状态在查询后消费。这里使用的是 GLFW 自带输入能力，不进行操作系统级按键注入。
 
-读取也必须配套改变：[key_snapshot.h](../../../include/input/key_snapshot.h) 每帧完整采样 11 个控制键各一次，然后所有玩法条件只读取这份不可变快照。不能继续在 W/S 三元表达式、Caps Lock/Ctrl 条件或提前退出分支里直接读取 GLFW，否则短路求值可能将 S、Ctrl 等未读取的 sticky 状态留到后面某帧突然触发。
+读取也必须配套改变：[key_snapshot.h](https://github.com/AmoLim/SymoCraft/blob/cadc349aa752e252454a481c3199281c112998c9/include/input/key_snapshot.h) 每帧完整采样 11 个控制键各一次，然后所有玩法条件只读取这份不可变快照。不能继续在 W/S 三元表达式、Caps Lock/Ctrl 条件或提前退出分支里直接读取 GLFW，否则短路求值可能将 S、Ctrl 等未读取的 sticky 状态留到后面某帧突然触发。
 
 失焦处理有顺序要求：仓库自带 GLFW 在调用焦点回调后，还会合成按键释放事件。这些释放也可能建立 sticky 状态。因此焦点回调只记录“需要清输入”，真正清理在事件轮询结束后的暂停或恢复分支执行：临时关闭再打开 sticky，清除玩家请求和水平速度，重置物理余量与鼠标首次进入状态。即使失焦和恢复发生在同一次事件轮询中，也会根据标志清理，避免恢复后补触发旧跳跃、材料切换或退出。
 
@@ -70,7 +76,7 @@ Registry 继续拥有 Transform、RigidBody、HitBox 和角色组件。本模块
 
 ## 3. 有上限的固定物理步
 
-保留原有 `1/120` 秒的物理步长，以及重力、最大速度、步行、奔跑和跳跃参数。计时策略实现于 [player_math.h](../../../include/playercontroller/player_math.h) 的 `FixedStepBudget`：
+保留原有 `1/120` 秒的物理步长，以及重力、最大速度、步行、奔跑和跳跃参数。计时策略实现于 [player_math.h](https://github.com/AmoLim/SymoCraft/blob/cadc349aa752e252454a481c3199281c112998c9/include/playercontroller/player_math.h) 的 `FixedStepBudget`：
 
 1. 拒绝负值、零值或非有限帧时长，不推进模拟。
 2. 每次至多接收 8 个物理步对应的时间，即约 66.7 毫秒。
@@ -146,7 +152,7 @@ Registry 继续拥有 Transform、RigidBody、HitBox 和角色组件。本模块
 
 ## 7. 无窗口测试与边界
 
-[player_math_tests.cpp](../../../tests/player_math_tests.cpp) 只依赖 `player_math.h` 和 GLM，不创建窗口，也不需要初始化 Registry、世界或 GPU。
+[player_math_tests.cpp](https://github.com/AmoLim/SymoCraft/blob/cadc349aa752e252454a481c3199281c112998c9/tests/player_math_tests.cpp) 只依赖 `player_math.h` 和 GLM，不创建窗口，也不需要初始化 Registry、世界或 GPU。
 
 | 测试组 | 已编写的覆盖 |
 | --- | --- |
@@ -156,13 +162,13 @@ Registry 继续拥有 Transform、RigidBody、HitBox 和角色组件。本模块
 | 移动 | 直走和斜走等速、朝向旋转、奔跑参数、松键零速度、保持原垂直下降速度 |
 | 接地 | 方块顶面站立、走出台阶、空中不接地 |
 
-另外，[key_snapshot_tests.cpp](../../../tests/key_snapshot_tests.cpp) 使用消费型测试读取器检查：所有控制键只采样一次，后续短路条件不会留下旧键，重复读取快照不会再次消费底层输入，以及长按可在下一帧继续读到。它不加载 GLFW，也不替代真实焦点切换或操作系统输入的集成验证。
+另外，[key_snapshot_tests.cpp](https://github.com/AmoLim/SymoCraft/blob/cadc349aa752e252454a481c3199281c112998c9/tests/key_snapshot_tests.cpp) 使用消费型测试读取器检查：所有控制键只采样一次，后续短路条件不会留下旧键，重复读取快照不会再次消费底层输入，以及长按可在下一帧继续读到。它不加载 GLFW，也不替代真实焦点切换或操作系统输入的集成验证。
 
 射线和支撑检查通过函数参数接收“某个格子是否实心”的查询。实际游戏传入区块查询，测试传入简短的固定场景函数。算法逻辑相同，数据来源不同，因此无需为测试启动完整游戏。
 
 这个测试入口不覆盖整个物理求解器、真实输入回调、ECS 存储、相机最终画面或操作手感。它提供局部回归保护，必须与 [玩法冒烟清单](../../testing/gameplay-smoke.md) 的移动、跳跃、碰撞、交界和恢复用例共同使用。
 
-构建接入需要将该测试源注册为独立目标，提供项目 `include` 目录、`glm::glm` 和 C++20，并加入 CTest。实际注册名称和通过记录以当前 [tests/CMakeLists.txt](../../../tests/CMakeLists.txt) 与里程碑证据为准。
+构建接入需要将该测试源注册为独立目标，提供项目 `include` 目录、`glm::glm` 和 C++20，并加入 CTest。实际注册名称和通过记录以当前 [tests/CMakeLists.txt](https://github.com/AmoLim/SymoCraft/blob/cadc349aa752e252454a481c3199281c112998c9/tests/CMakeLists.txt) 与里程碑证据为准。
 
 ## 8. 后续边界
 

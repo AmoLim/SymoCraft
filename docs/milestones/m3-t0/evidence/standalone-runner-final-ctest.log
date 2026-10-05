@@ -1,0 +1,15 @@
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t0/matrix/standalone-runner
+    Start 1: benchmark.contracts
+1/5 Test #1: benchmark.contracts .....................   Passed    0.02 sec
+    Start 2: benchmark.process
+2/5 Test #2: benchmark.process .......................   Passed    3.06 sec
+    Start 3: benchmark.executor
+3/5 Test #3: benchmark.executor ......................   Passed    8.12 sec
+    Start 4: performance.script_WINDOWS_POWERSHELL
+4/5 Test #4: performance.script_WINDOWS_POWERSHELL ...   Passed    6.65 sec
+    Start 5: performance.script_POWERSHELL_CORE
+5/5 Test #5: performance.script_POWERSHELL_CORE ......   Passed    6.32 sec
+
+100% tests passed, 0 tests failed out of 5
+
+Total Test time (real) =  24.17 sec

@@ -1,12 +1,18 @@
+---
+tags:
+  - area/legacy
+  - topic/performance
+---
+
 # 性能观测与采样数据流
 
-> 历史架构参考：M2-T3 旧脚本采样链路。文中的“当前”指该阶段，不代表最新实现；归档不表示相关机制全部废弃。源码链接保留定位用途，不固定历史版本或行号。参见 [历史架构索引](README.md)；后续设计约定见 [项目范围](../../spec/project-scope.md)，不据此推定重构已经完成。
+> 历史架构参考：M2-T3 旧脚本采样链路。文中的“当前”指该阶段，不代表最新实现；归档不表示相关机制全部废弃。源码链接固定到迁移前 `cadc349` 快照，保留旧路径定位；该快照不等同于本篇原阶段的精确版本，历史结论仍以原报告为准。参见 [历史架构索引](README.md)；后续设计约定见 [项目范围](../../spec/project-scope.md)，不据此推定重构已经完成。
 
 ## 目标与非目标
 
 M2-T3 建立能够解释 CPU、网格、上传和 GPU 成本的最小观测链路，不在采样时修改网格算法、视距或世界大小。当前仍是生成版本 1、441 区块，最多 361 区块绘制；全世界有效网格仍每帧装入批次并上传。观测不是优化，也不表示 M4 性能目标通过。
 
-主要入口：[CPU 采集与导出](../../../src/core/performance.cpp)、[应用编排](../../../src/core/application.cpp)、[GPU 查询环](../../../src/renderer/gpu_timer.cpp)、[批次计数](../../../include/renderer/batch.hpp)、[内存与截图](../../../src/renderer/performance_memory.cpp)、[启动与多轮采样](../../../scripts/benchmark.ps1)。运行方法见 [双机采样指南](../../project/benchmark/testing/performance-baseline.md)。
+主要入口：[CPU 采集与导出](https://github.com/AmoLim/SymoCraft/blob/cadc349aa752e252454a481c3199281c112998c9/src/core/performance.cpp)、[应用编排](https://github.com/AmoLim/SymoCraft/blob/cadc349aa752e252454a481c3199281c112998c9/src/core/application.cpp)、[GPU 查询环](https://github.com/AmoLim/SymoCraft/blob/cadc349aa752e252454a481c3199281c112998c9/src/renderer/gpu_timer.cpp)、[批次计数](https://github.com/AmoLim/SymoCraft/blob/cadc349aa752e252454a481c3199281c112998c9/include/renderer/batch.hpp)、[内存与截图](https://github.com/AmoLim/SymoCraft/blob/cadc349aa752e252454a481c3199281c112998c9/src/renderer/performance_memory.cpp)、[启动与多轮采样](../../../scripts/benchmark.ps1)。运行方法见 [双机采样指南](../../project/benchmark/testing/performance-baseline.md)。
 
 ## 数据流
 

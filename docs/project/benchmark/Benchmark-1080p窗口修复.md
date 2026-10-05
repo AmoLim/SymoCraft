@@ -4,6 +4,8 @@ status: 已验证
 project: SymoCraft
 module: benchmark
 created: 2026-10-04
+tags:
+  - area/benchmark
 ---
 
 # Benchmark 1080p 窗口修复
@@ -56,7 +58,7 @@ Application：benchmark 标志 → Window::Create(..., benchmark_window=true)
 
 | 案例 | 输入 / 步骤 | 预期 | 修复前结果 | 修复后结果 / 证据 |
 | --- | --- | --- | --- | --- |
-| 原机 1080p | 朋友回传修复包正式九轮结果 | 三场景真实 1920×1080 | 首轮 1920×1061 失败 | 2026-10-04 九轮有效，尺寸均正确，旧故障未复现；[低端机归档](Benchmark-GTX1650低端机基线.md)。未收到独立快速检查记录 |
+| 原机 1080p | 朋友回传修复包正式九轮结果 | 三场景真实 1920×1080 | 首轮 1920×1061 失败 | 2026-10-04 九轮有效，尺寸均正确，旧故障未复现；[低端机归档](exp/Benchmark-GTX1650低端机基线.md)。未收到独立快速检查记录 |
 | Debug/Release 回归 | 当前全部 CTest | 全部通过 | 旧包 20/20 | 各 20/20；[Debug](evidence/window-fix/ctest-debug.log)、[Release](evidence/window-fix/ctest-release.log) |
 | 本机原生包短测 | 三场景 allow-unfocused | 有效，尺寸及新增诊断正确 | 旧版无窗口策略字段 | 3/3 有效，均为 1920×1080；[会话](evidence/window-fix/quick-session.yaml) |
 | 切出与任务栏 | 本机 1920×1200 满屏尺寸诊断，5 秒预热 + 120 秒采样 | 切出不自动最小化；任务栏行为保留 | 未纳入原生包窗口保证 | 退出 0，有效，19714 帧、10 次焦点变化；用户确认“任务栏和切换都正常”；[摘要](evidence/window-fix/full-monitor/summary.yaml) |

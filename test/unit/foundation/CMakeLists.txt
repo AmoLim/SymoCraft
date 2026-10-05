@@ -1,0 +1,3 @@
+symocraft_test_executable(document_tests document_tests.cpp symocraft_foundation symocraft_telemetry)
+add_test(NAME foundation.document COMMAND document_tests)
+set_tests_properties(foundation.document PROPERTIES TIMEOUT 45)

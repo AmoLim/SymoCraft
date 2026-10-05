@@ -1,0 +1,684 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-10-05",
+  "vaultRoot": "docs",
+  "spec": "spec/md-organize/mdspec.md",
+  "uiVerification": "pending-native-pipe-unavailable",
+  "counts": {
+    "managed": 79,
+    "defaultView": 72,
+    "areas": {
+      "meta": 2,
+      "templates": 5,
+      "legacy": 10,
+      "milestones": 10,
+      "architecture": 26,
+      "benchmark": 17,
+      "build": 3,
+      "spec": 5,
+      "testing": 1
+    }
+  },
+  "managed": [
+    {
+      "path": "DOCUMENTATION_MAP.md",
+      "area": "area/meta",
+      "tags": [
+        "area/meta"
+      ]
+    },
+    {
+      "path": "Obsidian-功能笔记模板/00-使用说明.md",
+      "area": "area/templates",
+      "tags": [
+        "area/templates"
+      ]
+    },
+    {
+      "path": "Obsidian-功能笔记模板/01-类设计模板-使用说明.md",
+      "area": "area/templates",
+      "tags": [
+        "area/templates"
+      ]
+    },
+    {
+      "path": "Obsidian-功能笔记模板/02-示例与演进维护.md",
+      "area": "area/templates",
+      "tags": [
+        "area/templates"
+      ]
+    },
+    {
+      "path": "Obsidian-功能笔记模板/examples/D3D12Lab-A2持续清屏-功能示例.md",
+      "area": "area/templates",
+      "tags": [
+        "示例",
+        "area/templates"
+      ]
+    },
+    {
+      "path": "Obsidian-功能笔记模板/examples/D3D12Lab-App-类示例.md",
+      "area": "area/templates",
+      "tags": [
+        "示例",
+        "area/templates"
+      ]
+    },
+    {
+      "path": "README.md",
+      "area": "area/meta",
+      "tags": [
+        "area/meta"
+      ]
+    },
+    {
+      "path": "legacy/architecture/README.md",
+      "area": "area/legacy",
+      "tags": [
+        "area/legacy"
+      ]
+    },
+    {
+      "path": "legacy/architecture/application-lifecycle.md",
+      "area": "area/legacy",
+      "tags": [
+        "area/legacy"
+      ]
+    },
+    {
+      "path": "legacy/architecture/asset-paths.md",
+      "area": "area/legacy",
+      "tags": [
+        "area/legacy",
+        "topic/resources"
+      ]
+    },
+    {
+      "path": "legacy/architecture/current-data-flow.md",
+      "area": "area/legacy",
+      "tags": [
+        "area/legacy"
+      ]
+    },
+    {
+      "path": "legacy/architecture/mesh-safety.md",
+      "area": "area/legacy",
+      "tags": [
+        "area/legacy",
+        "topic/world",
+        "topic/rendering"
+      ]
+    },
+    {
+      "path": "legacy/architecture/performance-observation.md",
+      "area": "area/legacy",
+      "tags": [
+        "area/legacy",
+        "topic/performance"
+      ]
+    },
+    {
+      "path": "legacy/architecture/player-loop.md",
+      "area": "area/legacy",
+      "tags": [
+        "area/legacy",
+        "topic/gameplay"
+      ]
+    },
+    {
+      "path": "legacy/architecture/runtime-resources.md",
+      "area": "area/legacy",
+      "tags": [
+        "area/legacy",
+        "topic/resources",
+        "topic/rendering"
+      ]
+    },
+    {
+      "path": "legacy/architecture/world-generation.md",
+      "area": "area/legacy",
+      "tags": [
+        "area/legacy",
+        "topic/world"
+      ]
+    },
+    {
+      "path": "legacy/third-party-inventory.md",
+      "area": "area/legacy",
+      "tags": [
+        "area/legacy"
+      ]
+    },
+    {
+      "path": "milestones/m0/README.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
+      "path": "milestones/m1/README.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones",
+        "topic/build"
+      ]
+    },
+    {
+      "path": "milestones/m2-a/PLAYER-README.zh-CN.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
+      "path": "milestones/m2-a/README.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones",
+        "topic/gameplay"
+      ]
+    },
+    {
+      "path": "milestones/m2-t2/README.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones",
+        "topic/world"
+      ]
+    },
+    {
+      "path": "milestones/m2-t3/BENCHMARK-FIX.zh-CN.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
+      "path": "milestones/m2-t3/PLAYER-README.zh-CN.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
+      "path": "milestones/m2-t3/README.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones",
+        "topic/benchmark",
+        "topic/performance"
+      ]
+    },
+    {
+      "path": "milestones/m2-t3/laptop-first-run.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
+      "path": "milestones/m3-t0/README.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
+      "path": "project/architecture/Overview.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/app/App-休眠源码清单.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/app/App-运行编排-功能.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/app/Application-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/assets/Assets-资源读取与解码-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/assets/Assets-资源读取与解码.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/build/构建与测试边界.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/build/构建契约设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/ecs/ECS-存储边界-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/ecs/ECS-存储边界.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/foundation/Foundation-基础契约-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/foundation/Foundation-基础契约.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/platform/Platform-窗口与输入-功能.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/platform/Window-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/renderer/Renderer-显式场景输入-功能.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/renderer/Renderer-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/scene/Scene-共享场景数据-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/scene/Scene-共享场景数据.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/simulation/Camera-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/simulation/Simulation-功能.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/simulation/Simulation-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/telemetry/Telemetry-采样与导出-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/telemetry/Telemetry-采样与导出.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/world/Generator-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/world/World-功能.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/world/World-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/benchmark/Benchmark-1080p窗口修复.md",
+      "area": "area/benchmark",
+      "tags": [
+        "area/benchmark"
+      ]
+    },
+    {
+      "path": "project/benchmark/Benchmark-App类.md",
+      "area": "area/benchmark",
+      "tags": [
+        "area/benchmark"
+      ]
+    },
+    {
+      "path": "project/benchmark/Benchmark-Process类.md",
+      "area": "area/benchmark",
+      "tags": [
+        "area/benchmark"
+      ]
+    },
+    {
+      "path": "project/benchmark/Benchmark-执行与导出.md",
+      "area": "area/benchmark",
+      "tags": [
+        "area/benchmark"
+      ]
+    },
+    {
+      "path": "project/benchmark/Benchmark-文件协议.md",
+      "area": "area/benchmark",
+      "tags": [
+        "area/benchmark"
+      ]
+    },
+    {
+      "path": "project/benchmark/exp/Benchmark-GTX1650低端机基线.md",
+      "area": "area/benchmark",
+      "tags": [
+        "area/benchmark",
+        "topic/performance"
+      ]
+    },
+    {
+      "path": "project/benchmark/exp/Benchmark-Y9000P中端机基线.md",
+      "area": "area/benchmark",
+      "tags": [
+        "area/benchmark",
+        "topic/performance"
+      ]
+    },
+    {
+      "path": "project/benchmark/exp/Benchmark-修复版桌面日常使用基线.md",
+      "area": "area/benchmark",
+      "tags": [
+        "area/benchmark",
+        "topic/performance"
+      ]
+    },
+    {
+      "path": "project/benchmark/exp/Benchmark-基准冻结-20261005.md",
+      "area": "area/benchmark",
+      "tags": [
+        "area/benchmark",
+        "topic/performance"
+      ]
+    },
+    {
+      "path": "project/benchmark/exp/Benchmark-本机基线-20261005.md",
+      "area": "area/benchmark",
+      "tags": [
+        "area/benchmark",
+        "topic/performance"
+      ]
+    },
+    {
+      "path": "project/benchmark/exp/Benchmark-桌面交付验证.md",
+      "area": "area/benchmark",
+      "tags": [
+        "area/benchmark"
+      ]
+    },
+    {
+      "path": "project/benchmark/performance/Performance-Session类.md",
+      "area": "area/benchmark",
+      "tags": [
+        "area/benchmark",
+        "topic/performance"
+      ]
+    },
+    {
+      "path": "project/benchmark/performance/Performance-失焦采样.md",
+      "area": "area/benchmark",
+      "tags": [
+        "area/benchmark",
+        "topic/performance"
+      ]
+    },
+    {
+      "path": "project/benchmark/testing/README.md",
+      "area": "area/benchmark",
+      "tags": [
+        "area/benchmark"
+      ]
+    },
+    {
+      "path": "project/benchmark/testing/performance-baseline.md",
+      "area": "area/benchmark",
+      "tags": [
+        "area/benchmark",
+        "topic/performance"
+      ]
+    },
+    {
+      "path": "project/benchmark/testing/reproducible-scenes.md",
+      "area": "area/benchmark",
+      "tags": [
+        "area/benchmark",
+        "topic/world",
+        "topic/gameplay"
+      ]
+    },
+    {
+      "path": "project/benchmark/使用与交付.md",
+      "area": "area/benchmark",
+      "tags": [
+        "area/benchmark"
+      ]
+    },
+    {
+      "path": "project/build/CMake-模块边界.md",
+      "area": "area/build",
+      "tags": [
+        "area/build"
+      ]
+    },
+    {
+      "path": "project/build/CMake-自定义构建目录日志修复.md",
+      "area": "area/build",
+      "tags": [
+        "area/build"
+      ]
+    },
+    {
+      "path": "project/build/build-and-clion.md",
+      "area": "area/build",
+      "tags": [
+        "area/build"
+      ]
+    },
+    {
+      "path": "spec/M3-T0-模块软硬边界.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "spec/M3-T2-渲染器重构.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec",
+        "topic/rendering"
+      ]
+    },
+    {
+      "path": "spec/git/gitspec.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "spec/md-organize/mdspec.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "spec/project-scope.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "testing/gameplay-smoke.md",
+      "area": "area/testing",
+      "tags": [
+        "area/testing",
+        "topic/gameplay"
+      ]
+    }
+  ],
+  "excludedMarkdown": [
+    {
+      "path": "Obsidian-功能笔记模板/templates/01-轻量功能.md",
+      "reason": "reusable-template"
+    },
+    {
+      "path": "Obsidian-功能笔记模板/templates/02-完整功能.md",
+      "reason": "reusable-template"
+    },
+    {
+      "path": "Obsidian-功能笔记模板/templates/03-轻量类设计.md",
+      "reason": "reusable-template"
+    },
+    {
+      "path": "Obsidian-功能笔记模板/templates/04-完整类设计.md",
+      "reason": "reusable-template"
+    },
+    {
+      "path": "Obsidian-功能笔记模板/templates/05-技术实验.md",
+      "reason": "reusable-template"
+    },
+    {
+      "path": "Obsidian-功能笔记模板/templates/06-问题修复.md",
+      "reason": "reusable-template"
+    },
+    {
+      "path": "Obsidian-功能笔记模板/templates/07-数据与存储设计.md",
+      "reason": "reusable-template"
+    },
+    {
+      "path": "Obsidian-功能笔记模板/templates/08-系统与数据流设计.md",
+      "reason": "reusable-template"
+    },
+    {
+      "path": "milestones/m2-a/evidence/release-input-retest/probe-note.md",
+      "reason": "immutable-evidence"
+    }
+  ],
+  "exclusionRules": [
+    {
+      "pathPattern": "**/evidence/**",
+      "reason": "Keep original evidence byte-for-byte; exclude from graph"
+    },
+    {
+      "pathPattern": "Obsidian-功能笔记模板/templates/**",
+      "reason": "Do not inject ownership into reusable templates"
+    }
+  ],
+  "preservedLegacyTags": [
+    {
+      "tag": "示例",
+      "paths": [
+        "Obsidian-功能笔记模板/examples/D3D12Lab-A2持续清屏-功能示例.md",
+        "Obsidian-功能笔记模板/examples/D3D12Lab-App-类示例.md"
+      ]
+    }
+  ],
+  "staticVerification": {
+    "yamlErrors": 0,
+    "ownershipConflicts": 0,
+    "evidenceFilesCompared": 490,
+    "evidenceChanges": 0,
+    "reusableTemplatesCompared": 6,
+    "reusableTemplateChanges": 0,
+    "graphGroups": 8,
+    "graphUnrelatedSettingChanges": 0,
+    "existingOtherPropertyChanges": 0,
+    "fixedBrokenLinkOccurrences": 14
+  },
+  "m3T0ArchitectureUpdate": {
+    "date": "2026-10-05",
+    "architectureNotes": 26,
+    "graphConfigurationTouched": false,
+    "graphConfigurationSha256": "3c11dd1661828e1f676e2402c84acefc4949a8b4d143bdac26ae518710f0cd47",
+    "graphVerification": "ninth-architecture-color-group-not-configured-or-ui-verified",
+    "note": "Existing staticVerification and uiVerification describe the earlier eight-area snapshot; not rerun or overwritten here.",
+    "yamlErrors": 0,
+    "ownershipIssues": [],
+    "brokenArchitectureLinks": []
+  }
+}

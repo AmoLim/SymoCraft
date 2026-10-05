@@ -1,0 +1,5 @@
+add_library(symocraft_platform STATIC src/window.cpp src/process_memory.cpp)
+target_include_directories(symocraft_platform PUBLIC include PRIVATE src)
+target_link_libraries(symocraft_platform PUBLIC symocraft_foundation PRIVATE glfw Psapi)
+target_compile_features(symocraft_platform PUBLIC cxx_std_20)
+target_compile_options(symocraft_platform PRIVATE /W4 /utf-8)

@@ -4,6 +4,8 @@ status: 已验证
 project: SymoCraft
 module: benchmark
 created: 2026-10-04
+tags:
+  - area/benchmark
 ---
 
 # Benchmark 文件协议

@@ -1,0 +1,635 @@
+{
+  "backtraceGraph" : 
+  {
+    "commands" : 
+    [
+      "add_test"
+    ],
+    "files" : 
+    [
+      "F:/GameDevelop/OpenGLProject/Symocraft/tests/CMakeLists.txt",
+      "F:/GameDevelop/OpenGLProject/Symocraft/tools/benchmark/tests/CMakeLists.txt"
+    ],
+    "nodes" : 
+    [
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 8,
+        "parent" : 0
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 9,
+        "parent" : 2
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 13,
+        "parent" : 4
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 18,
+        "parent" : 6
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 69,
+        "parent" : 8
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 73,
+        "parent" : 10
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 74,
+        "parent" : 12
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 75,
+        "parent" : 14
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 76,
+        "parent" : 16
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 77,
+        "parent" : 18
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 79,
+        "parent" : 20
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 80,
+        "parent" : 22
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 81,
+        "parent" : 24
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 85,
+        "parent" : 26
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 86,
+        "parent" : 28
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 98,
+        "parent" : 30
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 98,
+        "parent" : 32
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 9,
+        "parent" : 34
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 9,
+        "parent" : 36
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 9,
+        "parent" : 38
+      }
+    ]
+  },
+  "kind" : "ctestInfo",
+  "tests" : 
+  [
+    {
+      "backtrace" : 1,
+      "command" : 
+      [
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/bin/asset_paths_tests.exe"
+      ],
+      "name" : "assets.contracts",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 45.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests"
+        }
+      ]
+    },
+    {
+      "backtrace" : 3,
+      "command" : 
+      [
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/bin/asset_paths_tests.exe"
+      ],
+      "name" : "assets.from_source_directory",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 45.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft"
+        }
+      ]
+    },
+    {
+      "backtrace" : 5,
+      "command" : 
+      [
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/bin/SymoCraft.exe",
+        "--check-assets"
+      ],
+      "name" : "assets.game_preflight",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 15.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft"
+        }
+      ]
+    },
+    {
+      "backtrace" : 7,
+      "command" : 
+      [
+        "E:/Applications/JetBrains/CLion/bin/cmake/win/x64/bin/cmake.exe",
+        "-DGAME_EXECUTABLE=F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/bin/SymoCraft.exe",
+        "-DSOURCE_ASSETS=F:/GameDevelop/OpenGLProject/Symocraft/assets",
+        "-DPROBE_PARENT=F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/package-probes",
+        "-P",
+        "F:/GameDevelop/OpenGLProject/Symocraft/tests/CheckAssetPackage.cmake"
+      ],
+      "name" : "assets.game_package",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 45.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests"
+        }
+      ]
+    },
+    {
+      "backtrace" : 9,
+      "command" : 
+      [
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/shader_loading_tests.exe",
+        "F:/GameDevelop/OpenGLProject/Symocraft/assets/shaders/vs_BlockShader.glsl",
+        "F:/GameDevelop/OpenGLProject/Symocraft/assets/shaders/fs_BlockShader.glsl",
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/empty-shader.glsl"
+      ],
+      "name" : "renderer.shader_loading",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 45.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests"
+        }
+      ]
+    },
+    {
+      "backtrace" : 11,
+      "command" : 
+      [
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/player_math_tests.exe"
+      ],
+      "name" : "player.math",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 45.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests"
+        }
+      ]
+    },
+    {
+      "backtrace" : 13,
+      "command" : 
+      [
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/batch_safety_tests.exe"
+      ],
+      "name" : "renderer.batch_safety",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 45.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests"
+        }
+      ]
+    },
+    {
+      "backtrace" : 15,
+      "command" : 
+      [
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/mesh_safety_tests.exe"
+      ],
+      "name" : "world.mesh_safety",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 45.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests"
+        }
+      ]
+    },
+    {
+      "backtrace" : 17,
+      "command" : 
+      [
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/block_config_tests.exe",
+        "F:/GameDevelop/OpenGLProject/Symocraft/assets/configs/blockFormats.yaml"
+      ],
+      "name" : "world.block_config",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 45.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests"
+        }
+      ]
+    },
+    {
+      "backtrace" : 19,
+      "command" : 
+      [
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/key_snapshot_tests.exe"
+      ],
+      "name" : "input.key_snapshot",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 45.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests"
+        }
+      ]
+    },
+    {
+      "backtrace" : 21,
+      "command" : 
+      [
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/startup_options_tests.exe"
+      ],
+      "name" : "core.startup_options",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 240.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests"
+        }
+      ]
+    },
+    {
+      "backtrace" : 23,
+      "command" : 
+      [
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/world_generation_tests.exe",
+        "F:/GameDevelop/OpenGLProject/Symocraft/assets/configs/blockFormats.yaml"
+      ],
+      "name" : "world.generation",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 240.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests"
+        }
+      ]
+    },
+    {
+      "backtrace" : 25,
+      "command" : 
+      [
+        "E:/Applications/JetBrains/CLion/bin/cmake/win/x64/bin/cmake.exe",
+        "-DGAME_EXECUTABLE=F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/bin/SymoCraft.exe",
+        "-DOUTPUT_DIRECTORY=F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/world-summary-probes",
+        "-P",
+        "F:/GameDevelop/OpenGLProject/Symocraft/tests/CheckWorldSummary.cmake"
+      ],
+      "name" : "world.summary_cli",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 240.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests"
+        }
+      ]
+    },
+    {
+      "backtrace" : 27,
+      "command" : 
+      [
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/performance_tests.exe",
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/performance-probes"
+      ],
+      "name" : "performance.export",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 45.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests"
+        }
+      ]
+    },
+    {
+      "backtrace" : 29,
+      "command" : 
+      [
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/gpu_timer_tests.exe"
+      ],
+      "name" : "performance.gpu_timer",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 45.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests"
+        }
+      ]
+    },
+    {
+      "backtrace" : 31,
+      "command" : 
+      [
+        "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+        "-NoProfile",
+        "-NonInteractive",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "F:/GameDevelop/OpenGLProject/Symocraft/tests/benchmark_script_tests.ps1",
+        "-BenchmarkScript",
+        "F:/GameDevelop/OpenGLProject/Symocraft/scripts/benchmark.ps1",
+        "-FixtureExecutable",
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/benchmark_process_fixture.exe",
+        "-OutputParent",
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/script-probes/WINDOWS_POWERSHELL"
+      ],
+      "name" : "performance.script_WINDOWS_POWERSHELL",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 90.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests"
+        }
+      ]
+    },
+    {
+      "backtrace" : 33,
+      "command" : 
+      [
+        "C:/Users/ldh20/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell/pwsh.exe",
+        "-NoProfile",
+        "-NonInteractive",
+        "-ExecutionPolicy",
+        "Bypass",
+        "-File",
+        "F:/GameDevelop/OpenGLProject/Symocraft/tests/benchmark_script_tests.ps1",
+        "-BenchmarkScript",
+        "F:/GameDevelop/OpenGLProject/Symocraft/scripts/benchmark.ps1",
+        "-FixtureExecutable",
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/benchmark_process_fixture.exe",
+        "-OutputParent",
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/script-probes/POWERSHELL_CORE"
+      ],
+      "name" : "performance.script_POWERSHELL_CORE",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 90.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests"
+        }
+      ]
+    },
+    {
+      "backtrace" : 35,
+      "command" : 
+      [
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests/benchmark_runner_tests.exe",
+        "contracts",
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests/benchmark_fixture.exe",
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests/probes"
+      ],
+      "name" : "benchmark.contracts",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 100.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests"
+        }
+      ]
+    },
+    {
+      "backtrace" : 37,
+      "command" : 
+      [
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests/benchmark_runner_tests.exe",
+        "process",
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests/benchmark_fixture.exe",
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests/probes"
+      ],
+      "name" : "benchmark.process",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 100.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests"
+        }
+      ]
+    },
+    {
+      "backtrace" : 39,
+      "command" : 
+      [
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests/benchmark_runner_tests.exe",
+        "executor",
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests/benchmark_fixture.exe",
+        "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests/probes"
+      ],
+      "name" : "benchmark.executor",
+      "properties" : 
+      [
+        {
+          "name" : "TIMEOUT",
+          "value" : 100.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests"
+        }
+      ]
+    }
+  ],
+  "version" : 
+  {
+    "major" : 1,
+    "minor" : 0
+  }
+}

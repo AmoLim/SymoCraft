@@ -1,0 +1,28 @@
+{
+  "verified_date": "2026-10-05",
+  "package": "out/m3-t0/SymoCraft-M3-T0-windows-x64.zip",
+  "package_sha256": "631efa914a0ac7cdfafedffa0d21f43917ed0f5d55abf80cd5b3aa0dfa10b8fe",
+  "file_count": 21,
+  "installed_game": "out/m3-t0/install/full-release/SymoCraft.exe",
+  "installed_game_sha256": "93c970a955cde39b9a5fa81ccc494d0d2b8a33d336547c72a226c0be7ac81eb4",
+  "archived_game_sha256": "93c970a955cde39b9a5fa81ccc494d0d2b8a33d336547c72a226c0be7ac81eb4",
+  "forbidden_package_entries": [],
+  "forbidden_checks": ["ps1", "pdb", "lib", "obj", "csv", "fixture"],
+  "source_assets_git_diff_empty": true,
+  "assets_match_source": true,
+  "assets": [
+    { "path": "assets/configs/blockFormats.yaml", "sha256": "263fa328d9a44f83cecb9f4b06a6d444dbcebeb75025e48b4a55b3cd956417f9" },
+    { "path": "assets/shaders/fs_BlockShader.glsl", "sha256": "66b2fd0547223fe471464287a3fc39cc438643eb8dfa60aedb03456c718defc7" },
+    { "path": "assets/shaders/fs_FrameShader.glsl", "sha256": "4b702e82f03db31a921bc72e9501e3f941ab7e4b835f7df86dffaf0a91e1fd35" },
+    { "path": "assets/shaders/vs_BlockShader.glsl", "sha256": "47dab1e3313dd24e139633d32378cb2ded415dac9df697958d9aa5a2fb63dd59" },
+    { "path": "assets/shaders/vs_FrameShader.glsl", "sha256": "5b4b8b0e94abe3af2d21494d27eed77a0afd9fed10ce904d451cc3d8cc68bc3c" },
+    { "path": "assets/textures/texture_atlas.png", "sha256": "ee41e86af8dfdc70037472b2387b67395d93cf1d807f0fe618025f6f86f9b219" }
+  ],
+  "manual_gameplay": {
+    "source": "user confirmation in chat",
+    "result": "all requested checks normal; game exited",
+    "checks": ["movement and jump", "camera", "place and break blocks", "switch away and back", "minimize and restore", "normal exit"],
+    "actual_duration": "not measured",
+    "scope": "local migrated release; not multi-machine or long-duration certification"
+  }
+}

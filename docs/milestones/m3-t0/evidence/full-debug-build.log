@@ -1,0 +1,153 @@
+[0/2] Re-checking globbed directories...
+[1/2] Re-running CMake...
+-- Using Win32 for window creation
+-- Configuring done (0.4s)
+-- Generating done (0.2s)
+-- Build files have been written to: F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t0/build/full-debug
+[0/4] Re-checking globbed directories...
+[1/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\directives.cpp.obj
+[2/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\binary.cpp.obj
+[3/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\depthguard.cpp.obj
+[4/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emitfromevents.cpp.obj
+[5/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emitterstate.cpp.obj
+[6/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emit.cpp.obj
+[7/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emitter.cpp.obj
+[8/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\convert.cpp.obj
+[9/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\exceptions.cpp.obj
+[10/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\node.cpp.obj
+[11/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emitterutils.cpp.obj
+[12/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\memory.cpp.obj
+[13/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\exp.cpp.obj
+[14/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\null.cpp.obj
+[15/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\nodebuilder.cpp.obj
+[16/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\nodeevents.cpp.obj
+[17/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\node_data.cpp.obj
+[18/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\ostream_wrapper.cpp.obj
+[19/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\parse.cpp.obj
+[20/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\regex_yaml.cpp.obj
+[21/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\parser.cpp.obj
+[22/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\scantag.cpp.obj
+[23/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\scanner.cpp.obj
+[24/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\scanscalar.cpp.obj
+[25/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\scantoken.cpp.obj
+[26/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\stream.cpp.obj
+[27/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\simplekey.cpp.obj
+[28/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\tag.cpp.obj
+[29/204] Building CXX object game\modules\foundation\CMakeFiles\symocraft_foundation.dir\src\document.cpp.obj
+[30/204] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\context.c.obj
+[31/204] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\singledocparser.cpp.obj
+[32/204] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\init.c.obj
+[33/204] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\input.c.obj
+[34/204] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\monitor.c.obj
+[35/204] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\vulkan.c.obj
+[36/204] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\window.c.obj
+[37/204] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\win32_init.c.obj
+[38/204] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\win32_joystick.c.obj
+[39/204] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\win32_monitor.c.obj
+[40/204] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\win32_time.c.obj
+[41/204] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\win32_thread.c.obj
+[42/204] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\win32_window.c.obj
+[43/204] Linking CXX static library symocraft_yaml.lib
+[44/204] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\wgl_context.c.obj
+[45/204] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\egl_context.c.obj
+[46/204] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\osmesa_context.c.obj
+[47/204] Building CXX object game\modules\ecs\CMakeFiles\symocraft_ecs.dir\src\internal.cpp.obj
+[48/204] Building C object game\CMakeFiles\symocraft_glad.dir\__\vendor\glad\glad.c.obj
+[49/204] Building CXX object game\modules\foundation\CMakeFiles\symocraft_foundation.dir\src\files.cpp.obj
+[50/204] Building CXX object game\modules\ecs\CMakeFiles\symocraft_ecs.dir\src\registry.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\legacy/RawMemory.h(53): warning C4458: declaration of 'offset' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\legacy/RawMemory.h(15): note: see declaration of 'RawMemory::offset'
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\legacy/RawMemory.h(61): warning C4458: declaration of 'data' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\legacy/RawMemory.h(13): note: see declaration of 'RawMemory::data'
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\legacy/RawMemory.h(61): warning C4100: 'data': unreferenced formal parameter
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\legacy/RawMemory.h(66): warning C4189: 'new_size': local variable is initialized but not referenced
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\legacy/RawMemory.h(72): warning C4458: declaration of 'data' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\legacy/RawMemory.h(13): note: see declaration of 'RawMemory::data'
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\registry.cpp(73): warning C4244: 'initializing': conversion from '_Ty' to 'SymoCraft::ECS::EntityIndex', possible loss of data
+        with
+        [
+            _Ty=SymoCraft::ECS::EntityId
+        ]
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\registry.cpp(264): warning C4244: 'return': conversion from '_Ty' to 'SymoCraft::ECS::EntityIndex', possible loss of data
+        with
+        [
+            _Ty=SymoCraft::ECS::EntityId
+        ]
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\registry.cpp(293): warning C4244: 'argument': conversion from '_Ty' to 'SymoCraft::ECS::EntityIndex', possible loss of data
+        with
+        [
+            _Ty=SymoCraft::ECS::EntityId
+        ]
+[51/204] Building CXX object game\modules\foundation\CMakeFiles\symocraft_foundation.dir\src\legacy\AmoBase.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\foundation\src\legacy\AmoBase.cpp(338): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\foundation\src\legacy\AmoBase.cpp(363): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\foundation\src\legacy\AmoBase.cpp(388): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\foundation\src\legacy\AmoBase.cpp(413): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\foundation\src\legacy\AmoBase.cpp(438): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+[52/204] Linking CXX static library game\modules\foundation\symocraft_foundation.lib
+[53/204] Building CXX object game\modules\assets\CMakeFiles\symocraft_assets.dir\src\asset_paths.cpp.obj
+[54/204] Building CXX object game\modules\assets\CMakeFiles\symocraft_assets.dir\src\image.cpp.obj
+[55/204] Linking C static library vendor\glfw\src\glfw3.lib
+[56/204] Building CXX object game\modules\platform\CMakeFiles\symocraft_platform.dir\src\process_memory.cpp.obj
+[57/204] Building CXX object game\modules\world\CMakeFiles\symocraft_world.dir\src\chunk_manager.cpp.obj
+[58/204] Building CXX object game\modules\world\CMakeFiles\symocraft_world.dir\src\world_coordinates.cpp.obj
+[59/204] Linking C static library game\symocraft_glad.lib
+[60/204] Linking CXX static library game\modules\ecs\symocraft_ecs.lib
+[61/204] Linking CXX static library game\modules\assets\symocraft_assets.lib
+[62/204] Building CXX object game\modules\world\CMakeFiles\symocraft_world.dir\src\block.cpp.obj
+[63/204] Building CXX object game\modules\world\CMakeFiles\symocraft_world.dir\src\chunk.cpp.obj
+[64/204] Building CXX object game\modules\world\CMakeFiles\symocraft_world.dir\src\test_scene.cpp.obj
+[65/204] Building CXX object game\modules\platform\CMakeFiles\symocraft_platform.dir\src\window.cpp.obj
+[66/204] Synchronizing required SymoCraft runtime assets
+[67/204] Building CXX object game\modules\world\CMakeFiles\symocraft_world.dir\src\generation.cpp.obj
+[68/204] Linking CXX static library game\modules\world\symocraft_world.lib
+[69/204] Building CXX object game\modules\simulation\CMakeFiles\symocraft_simulation.dir\src\Camera.cpp.obj
+[70/204] Linking CXX static library game\modules\platform\symocraft_platform.lib
+[71/204] Building CXX object game\modules\simulation\CMakeFiles\symocraft_simulation.dir\src\character_system.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(134): warning C4244: 'argument': conversion from 'SymoCraft::ECS::EntityId' to 'SymoCraft::ECS::EntityIndex', possible loss of data
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(134): note: the template instantiation context (the oldest one first) is
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\simulation\src\character_system.cpp(56): note: see reference to class template instantiation 'SymoCraft::ECS::RegistryViewer<SymoCraft::Transform,SymoCraft::Character::PlayerComponent>' being compiled
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(129): note: while compiling class template member function 'const SymoCraft::ECS::Iterator SymoCraft::ECS::RegistryViewer<SymoCraft::Transform,SymoCraft::Character::PlayerComponent>::begin(void) const'
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\simulation\src\character_system.cpp(56): note: see the first reference to 'SymoCraft::ECS::RegistryViewer<SymoCraft::Transform,SymoCraft::Character::PlayerComponent>::begin' in 'SymoCraft::Character::Player::SyncCamera'
+[72/204] Building CXX object game\modules\simulation\CMakeFiles\symocraft_simulation.dir\src\player.cpp.obj
+[73/204] Building CXX object game\modules\simulation\CMakeFiles\symocraft_simulation.dir\src\physics_system.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\simulation\src\physics_system.cpp(134): warning C4100: 'entity': unreferenced formal parameter
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\simulation\src\physics_system.cpp(223): warning C4100: 'rb1': unreferenced formal parameter
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(134): warning C4244: 'argument': conversion from 'SymoCraft::ECS::EntityId' to 'SymoCraft::ECS::EntityIndex', possible loss of data
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(134): note: the template instantiation context (the oldest one first) is
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\simulation\src\physics_system.cpp(86): note: see reference to class template instantiation 'SymoCraft::ECS::RegistryViewer<SymoCraft::Transform,SymoCraft::Physics::RigidBody,SymoCraft::Physics::HitBox>' being compiled
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(129): note: while compiling class template member function 'const SymoCraft::ECS::Iterator SymoCraft::ECS::RegistryViewer<SymoCraft::Transform,SymoCraft::Physics::RigidBody,SymoCraft::Physics::HitBox>::begin(void) const'
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\simulation\src\physics_system.cpp(86): note: see the first reference to 'SymoCraft::ECS::RegistryViewer<SymoCraft::Transform,SymoCraft::Physics::RigidBody,SymoCraft::Physics::HitBox>::begin' in 'SymoCraft::Physics::Update'
+[74/204] Building CXX object game\modules\simulation\CMakeFiles\symocraft_simulation.dir\src\transform_system.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(134): warning C4244: 'argument': conversion from 'SymoCraft::ECS::EntityId' to 'SymoCraft::ECS::EntityIndex', possible loss of data
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(134): note: the template instantiation context (the oldest one first) is
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\simulation\src\transform_system.cpp(14): note: see reference to class template instantiation 'SymoCraft::ECS::RegistryViewer<SymoCraft::Transform>' being compiled
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(129): note: while compiling class template member function 'const SymoCraft::ECS::Iterator SymoCraft::ECS::RegistryViewer<SymoCraft::Transform>::begin(void) const'
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\simulation\src\transform_system.cpp(14): note: see the first reference to 'SymoCraft::ECS::RegistryViewer<SymoCraft::Transform>::begin' in 'SymoCraft::TransformSystem::Update'
+[75/204] Building CXX object game\modules\simulation\CMakeFiles\symocraft_simulation.dir\src\playercontroller.cpp.obj
+[76/204] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\gpu_timer.cpp.obj
+[77/204] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\shader.cpp.obj
+[78/204] Building CXX object game\modules\telemetry\CMakeFiles\symocraft_telemetry.dir\src\performance.cpp.obj
+[79/204] Building CXX object game\app\CMakeFiles\symocraft_startup.dir\src\startup_options.cpp.obj
+[80/204] Linking CXX static library game\modules\simulation\symocraft_simulation.lib
+[81/204] Linking CXX static library game\app\symocraft_startup.lib
+[82/204] Building CXX object game\modules\telemetry\CMakeFiles\symocraft_telemetry.dir\src\document_io.cpp.obj
+[83/204] Linking CXX static library game\modules\telemetry\symocraft_telemetry.lib
+[84/204] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\texture.cpp.obj
+[85/204] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\shader_program.cpp.obj
+[86/204] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\performance_memory.cpp.obj
+FAILED: [code=2] game/modules/renderer/CMakeFiles/symocraft_renderer.dir/src/performance_memory.cpp.obj 
+"E:\Applications\Microsoft VS\2022\VC\Tools\MSVC\14.38.33130\bin\Hostx64\x64\cl.exe"  /nologo /TP  -IF:\GameDevelop\OpenGLProject\Symocraft\game\modules\renderer\include -IF:\GameDevelop\OpenGLProject\Symocraft\game\modules\renderer\src -IF:\GameDevelop\OpenGLProject\Symocraft\game\modules\renderer\..\platform\src\graphics_bridge -IF:\GameDevelop\OpenGLProject\Symocraft\game\modules\foundation\include -IF:\GameDevelop\OpenGLProject\Symocraft\game\modules\scene\include -IF:\GameDevelop\OpenGLProject\Symocraft\game\modules\assets\include -IF:\GameDevelop\OpenGLProject\Symocraft\game\modules\platform\include -external:IF:\GameDevelop\OpenGLProject\Symocraft\out\m3-t0\build\full-debug\header-views\symocraft_math -external:IF:\GameDevelop\OpenGLProject\Symocraft\out\m3-t0\build\full-debug\header-views\symocraft_glad_headers -external:IF:\GameDevelop\OpenGLProject\Symocraft\out\m3-t0\build\full-debug\header-views\symocraft_image_decoder -external:IF:\GameDevelop\OpenGLProject\Symocraft\out\m3-t0\build\full-debug\header-views\symocraft_robin_hood -external:W0 /DWIN32 /D_WINDOWS /EHsc /Zi /Ob0 /Od /RTC1 -std:c++20 -MDd /W4 /utf-8 /showIncludes /Fogame\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\performance_memory.cpp.obj /Fdgame\modules\renderer\CMakeFiles\symocraft_renderer.dir\symocraft_renderer.pdb /FS -c F:\GameDevelop\OpenGLProject\Symocraft\game\modules\renderer\src\performance_memory.cpp
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\renderer\src\performance_memory.cpp(4): fatal error C1083: Cannot open include file: 'stb/stb_image_write.h': No such file or directory
+[87/204] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\renderer.cpp.obj
+[88/204] Building CXX object tools\benchmark\CMakeFiles\benchmark_core.dir\src\platform.cpp.obj
+[89/204] Building CXX object game\app\CMakeFiles\SymoCraft.dir\src\main.cpp.obj
+[90/204] Building CXX object tools\benchmark\CMakeFiles\benchmark_core.dir\src\runner.cpp.obj
+[91/204] Building CXX object tools\benchmark\CMakeFiles\SymoCraftBenchmark.dir\src\main.cpp.obj
+[92/204] Building CXX object tools\benchmark\CMakeFiles\SymoCraftBenchmark.dir\src\gui.cpp.obj
+[93/204] Building CXX object game\app\CMakeFiles\SymoCraft.dir\src\application.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\game\app\src\application.cpp(122): warning C4389: '!=': signed/unsigned mismatch
+F:\GameDevelop\OpenGLProject\Symocraft\game\app\src\application.cpp(122): warning C4389: '!=': signed/unsigned mismatch
+F:\GameDevelop\OpenGLProject\Symocraft\game\app\src\application.cpp(275): warning C4389: '!=': signed/unsigned mismatch
+F:\GameDevelop\OpenGLProject\Symocraft\game\app\src\application.cpp(275): warning C4389: '!=': signed/unsigned mismatch
+ninja: build stopped: subcommand failed.

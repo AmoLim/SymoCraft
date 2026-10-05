@@ -6,6 +6,8 @@ module: benchmark
 class_name: App
 inheritance: []
 created: 2026-10-04
+tags:
+  - area/benchmark
 ---
 
 # Benchmark App 类设计
