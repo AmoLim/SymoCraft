@@ -5,7 +5,9 @@ project: D3D12Lab
 module: A2-Window-And-Clear
 class_name: App
 created: 2026-09-23
-tags: [示例]
+tags:
+  - 示例
+  - area/templates
 ---
 
 # App 类设计

@@ -4,7 +4,9 @@ status: 草稿
 project: D3D12Lab
 module: A2-Window-And-Clear
 created: 2026-09-23
-tags: [示例]
+tags:
+  - 示例
+  - area/templates
 ---
 
 # A2 持续清屏
