@@ -5,8 +5,8 @@
   "spec": "spec/md-organize/mdspec.md",
   "uiVerification": "pending-native-pipe-unavailable",
   "counts": {
-    "managed": 79,
-    "defaultView": 72,
+    "managed": 80,
+    "defaultView": 73,
     "areas": {
       "meta": 2,
       "templates": 5,
@@ -15,7 +15,7 @@
       "architecture": 26,
       "benchmark": 17,
       "build": 3,
-      "spec": 5,
+      "spec": 6,
       "testing": 1
     }
   },
@@ -580,6 +580,13 @@
     },
     {
       "path": "spec/md-organize/mdspec.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "spec/project-architecture/面向对象与数据导向架构设计初稿.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
