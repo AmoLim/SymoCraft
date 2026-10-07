@@ -24,6 +24,7 @@ tags:
 - 本规范不要求新建自动提交脚本、Git hooks 或 GitHub Actions。
 - 2026-10-05 先按请求确定第三批范围，随后用户明确同意按该范围执行本地提交；仅该批清单获准，不自动纳入后续新增改动。只提交、不编译及禁止 push/merge 的边界继续有效。
 - 第四批已由用户另行确认执行，实际提交见该批记录。2026-10-07 先按请求盘点第五批、更新本规范并获准暂存，随后用户明确批准“commit 暂存”；仅提交该暂存快照及规范执行记录，不自动纳入并行新增改动。当前规范路径为 `docs/spec/git/gitspec.md`，保留用户已做的目录迁移。
+- 2026-10-07 用户再次要求更新本规范以确定第六批范围，并明确将上轮延期的 23 个实验脚手架文件及 11 份新增输入证据纳入候选；范围更新阶段仅编辑本文。用户随后明确“可以 commit 了”，授权按本批确认快照暂存并创建本地提交，不自动纳入执行期间的新改动；第五批授权不作为本批执行依据。
 
 ## 提交原则
 
@@ -455,7 +456,7 @@ vendor/sdl3/src/render/gpu/shaders/tri_texture.vert.hlsl
 | 1 | B5-1 模板核心 | `6e6a6db72c3e39e0cc2c1a1d11fd4a55451b282e` | 9 个路径：八份模板及类设计使用说明；空白检查通过 |
 | 2 | B5-2 SDL 发行包 | `373f97091ca0c9af67b477b16ec03b9da09f48b6` | 2,185 个路径：2,183 个原始发行文件、SDL 专用属性、来源身份 JSON；暂存对象与确认快照一致 |
 | 3 | B5-1 剩余示例/说明、B5-3、B5-4、B5-5 已暂存材料 | `2b5561cee3af1b640f0f6df2bf68af187ed5acf1` | 213 个旧/新路径：43 个源码/构建/测试/脚本路径及 170 个 docs 路径；Git rename 展示为 212 个变更文件 |
-| 4 | B5-6 Git 执行记录 | 本条所在提交，SHA 见最终聊天交付或 Git 日志 | 本文范围、授权、实际提交、延期与检查结果；不 amend 回填自身 SHA |
+| 4 | B5-6 Git 执行记录 | `91f6d9e8edd710b4c97196e52c317ce7dd6f0bdf`，第六批更新时回填 | 本文范围、授权、实际提交、延期与检查结果；不 amend 回填自身 SHA |
 
 - 拆分理由：模板核心可独立提交，但 Scene/Simulation 示例与 00/02 说明已引用新对象笔记、迁移规范和样板；它们随第 3 步一起入库。T1 报告、架构契约、M3 重编号、共享导航和 T2 历史准备记录相互引用，按既定合并规则成组提交，避免提前引用未来文件。不为凑六个提交补造临时正文、兼容层或旧实现。
 - B5-5 的原完整实验代码意图未执行。仅已暂存的准备报告、23 份历史证据及诊断预期修正入库（来源 JSON 已随第 2 步）；`test/experimental` 整树保持未跟踪，不能把此阶段称为可从仓库直接复现的完整 SDL 探针交付或生产迁移完成。
@@ -464,6 +465,96 @@ vendor/sdl3/src/render/gpu/shaders/tri_texture.vert.hlsl
 - 提交期间另出现 7 篇既有文档的并行更新：T2 README、平台候选契约、T1-T3 CPU 清单、SDL T2 spec、Renderer T3 spec、架构初稿和 project-scope。均不随本轮提交追加；原暂存版本已入库，较新工作区版本保留未提交。
 - 复核时实验树由 21 增至 23 个文件，新增输入证据采集及运行输入校验脚本；继续保留未跟踪，不运行、不删除，不自动扩大范围。默认 12 个排除路径及四份共享文档的个人首页片段仍保留。
 - 规范回填外没有额外修改工作区文件。最终不保留本轮候选的待提交索引内容；工作区仍有个人片段、排除文件和并行工作，不能表述为整个工作区干净。提交仅在本地，不 push、merge、创建 PR/标签，不修改远端、认证、Git 身份或 hooks。
+
+## 第六批：输入准备增量与现代后端规划
+
+- 范围检查日期：2026-10-07；分支：`feature-refactoring`；起始提交：`91f6d9e8edd710b4c97196e52c317ce7dd6f0bdf`。
+- 范围盘点时暂存区为空。本地 `origin/feature-refactoring` 记录仍为 `cadc349aa752e252454a481c3199281c112998c9`，当时本地领先 8 个提交；没有 fetch 或联网确认实时远端，不能据此认定 GitHub 当前状态。
+- 状态：已按用户随后确认执行分步提交，结果见下文。本任务只组织已有内容和维护本文，不编译、测试、启动游戏/探针或采样，不 push、merge、创建 PR/标签、改写历史或修改认证/远端。
+- 编辑本文前共有 57 个变更路径：11 个已跟踪修改、46 个未跟踪文件，无删除。未见生产源码、根 CMake、vendor、`.gitignore` 或 `.gitattributes` 的新变更；本轮不是新的生产重构提交。
+- 其中 7 篇实质更新文档、23 个实验源码/构建/脚本/说明、11 份新增证据进入候选，共 41 个路径；加上本次更新的本文，共 42 个候选路径。其余 16 个路径排除，详见下文。清单和内容快照不自动覆盖后续并行改动。
+- 第五批延期是当时的执行结果，不回写成已交付实验源码。用户本轮确认“本轮纳入候选范围”，仅解除这些脚手架和新增证据的候选排除，不代表已批准 SDL 生产迁移、T3 实施或硬件验收。
+
+### 提交顺序与结果
+
+| 编号 | 提交主题 | 范围与依赖 | 状态 |
+| --- | --- | --- | --- |
+| B6-1 | `test(platform): 补齐 SDL3 输入对照脚手架与准备证据` | 三个实验目录共 23 个文件、`input-v2/` 的 11 份证据、T2 README 与平台候选契约，共 36 个路径；依赖已提交的 SDL 完整发行包及字节保护规则 | 已提交 `6b43e0aa541e96cdfd595a8acee0e7c30a372f4f` |
+| B6-2 | `docs(spec): 明确现代后端接管与实体外表边界` | T1-T3 CPU 清单、SDL T2 spec、Renderer T3 spec、架构初稿、project-scope，共 5 个路径；依赖 B6-1 的实际准备记录，不新增实现 | 已提交 `291a695cfef68460b8dabea9994454104ecdfc7d` |
+| B6-3 | `docs(git): 记录输入准备与现代后端规划批次` | 本文第六批范围、检查、排除项及实际结果，共 1 个路径 | 本条所在记录提交，不预填自身 SHA、不 amend；SHA 见最终交付或后续批次回填 |
+
+GLFW 基线 CMake 已直接引用 `input-comparison`，SDL 的持续对照也使用该目录；三目录按一个完整实验意图提交，不机械拆成 GLFW、SDL、对比工具三个缺少输入的版本。T2 spec 的本轮两处差异均为 T3 验收/接管规划，随 B6-2，而不是因文件名含 SDL 就提前放入 B6-1。CPU 清单、scope、初稿与 T3 spec 同步更新，避免入口继续描述旧的三后端长期并行目标。执行时以暂存树检查引用闭合；若后续片段交织，按提交原则合并并记录原因，不为凑三个提交补造临时正文。
+
+### 候选文件清单
+
+以下目录清单仅指本次列出的文件，不授权整体暂存未来新增文件。
+
+| 目录 | 本轮明确文件 |
+| --- | --- |
+| `test/experimental/glfw-baseline/`（2） | `CMakeLists.txt`、`main.cpp` |
+| `test/experimental/input-comparison/`（8） | `README.md`、`comparison.cmake`、`comparison.cpp`、`comparison.h`、`glfw_main.cpp`、`run.ps1`、`sdl_main.cpp`、`verify.ps1` |
+| `test/experimental/sdl3/`（13） | `CMakeLists.txt`、`README.md`、`build.ps1`、`collect-evidence.ps1`、`collect-input-evidence.ps1`、`input_candidate.h`、`input_candidate_tests.cpp`、`main.cpp`、`runtime_input_tests.cpp`、`verify-cmake-offline.ps1`、`verify-probes.ps1`、`verify-runtime-input.ps1`、`verify-vendor-archive.ps1` |
+| `docs/milestones/m3-t2/evidence/input-v2/`（11） | `candidate-185.log`、`cmake322-audit.json`、`cmake322-gl-runtime.json`、`cmake322-imports.json`、`cmake322-provenance.json`、`comparison-rendering.json`、`input-identities.json`、`runtime-input.json`、`runtime-input.stderr.log`、`runtime-input.stdout.log`、`vendor-recheck.json` |
+| `docs/milestones/m3-t2/`（2） | `README.md`、`platform-contract-candidate.md` |
+| `docs/spec/` 与架构初稿（5） | `M3-T1-T3-CPU契约清单.md`、`M3-T2-SDL3迁移.md`、`M3-T3-渲染器重构.md`、`project-scope.md`、`project-architecture/面向对象与数据导向架构设计初稿.md` |
+| `docs/spec/git/`（1） | `gitspec.md` |
+
+### 实验工具与交付限制
+
+- 输入候选补充 `PhysicalInputState` / `SynchronizePhysicalState`：drain 后、Capture 前采新物理状态；active Reset 清短按、快照及运动，保留 known held 后重采；失焦/最小化清 held，恢复后采实际状态。repeat 不制造短按，Benchmark Escape 仍取本窗口事件，不增加后台全局键鼠。仅候选实验，不改生产 platform。
+- 持续对照共用冻结游戏的 `Simulation::ApplyPointerInput`、`Camera::Scroll` 和 0.05 灵敏度；SDL 系统缩放 hint 与显式未缩放候选用于比较，不因设置 hint 就认定与未启用 raw mouse 的 GLFW 手感等价。诊断房间不含碰撞/玩法，不代替完整世界测试。
+- 这些入口属于 Windows x64/MSVC 准备工具，不是平台无关测试库或鸿蒙适配。GLFW 基线及持续对照依赖忽略目录中的冻结 CPU 源码与 Release 库；对照导入 foundation、ecs、simulation、world、yaml 库。源码可以共享，但另一台机器须按说明准备输入，不能宣称 clone 后直接得到历史二进制或跨平台运行。
+- 普通 SDL 探针不依赖上述 GLFW 冻结库；`SYMOCRAFT_SDL3_INPUT_COMPARISON` 默认关闭，持续对照仅支持 Release。纯候选测试进入 CTest，运行输入 GUI 目标不因已编译就等同于 CTest 已运行。实验目标不进入游戏产品安装包。
+- Vulkan 准备使用发行包原样附带的 Khronos 头，不当作完整 SDK 安装或 Vulkan 游戏后端。SDL 发行包本轮没有变更，不重新提交或裁剪 vendor。
+- `build.ps1`、采集和校验脚本是共享源码，但调用会构建、启动窗口或写入结果；本次 Git 任务只读取，不执行。可配置工具路径及 Windows 专属默认值保持原样，不为本机便利夹带配置修正。
+- exe、dll/lib、冻结快照、portable CMake ZIP、完整 CSV、readback BMP 与运行包继续留在 `out/`。不将这些输出补入 docs，也不把源码身份文件所指本地产物当作远端下载交付。
+
+### 历史证据与验收边界
+
+以下都是用户本轮已有报告和文件中的结果，本任务没有运行产生这些结果：
+
+- 185 项输入候选合成检查通过，不是硬件输入；GLFW/SDL 三模式及 SDL 未缩放候选共 7/7 配置、每项 12 帧 GL 绘制/非空 readback，通过范围仅为有界渲染，不是持续键鼠手感或完整玩法。
+- 真窗口输入记录有 118 项检查，整体仍为 `passed: false`、`exit_code: 2`、partial。自有窗口键盘消息、Reset/held、最小化恢复和生命周期部分成立，但合成鼠标按钮不可靠形成物理 held；不能写成“118/118 全通过”、关闭 P04 或伪造物理按住输入。保留当前 JSON、stdout/stderr 及既有失败身份。
+- portable CMake 3.22.6 的四组全新 Debug/Release × GL/Vulkan 配置、构建、纯测试与安装已有证据；CTest 过滤器为 `^sdl3-input-candidate$`，不据此宣称运行了 GUI 输入目标。无下载路径的 trace/规则/输入身份审计与进程代理约束，不等于用户物理断网实测。
+- 新 3.22 Release GL 探针的 GL/Native/Benchmark/失败路径 5/5 记录不覆盖 100%/150%/200% DPI、真实鼠标释放与布局/手感矩阵、双机 SDL 游戏或每机 15 分钟验收。`vendor-recheck.json` 的 2,183 个一致、无差异/缺失/额外文件是已有证据，本任务未再次对整个 vendor 做归档比较。
+- 本次只对当前 23 个实验源码输入逐文件核对 `input-identities.json.sources`，SHA256 全部一致；这是源文件身份静态核对，不是重建 exe。首轮 23 份证据及历史游戏/包身份不覆盖、不重绑到新实验二进制，旧三档冻结成绩不重算。
+- T2 保持“准备已授权，实施待评审授权”；P06 未通过，生产 S1–S5 未启动。报告引用的“一切正常，继续进行开发”仅为继续准备的既有反馈，不延伸为本 Git 任务编译授权或 SDL 双机通过。
+- 短采样参数、预算与 P95/P99、首次可操作时间/内存通过线仍待确认；10 秒预热、30 秒采样、3 次重复不是已经执行的采样，正式九轮继续延期。
+
+### 现代后端与玩法规划归属
+
+- B6-2 收录文档中已记录的 D3D12 先行、D3D12 与 Vulkan 都完整接管后才申请整个 T3 验收的阶段决策。OpenGL 只作过渡参考/回归，最终退役另行安排；本轮没有删除 GL 或 GLFW，也没有实现任何新 GPU 后端。
+- T2 验收后才进入 T3：R1 先以 D3D12 实际纹理绘制、资源更新/删除与呈现资源重建实验冻结游戏侧 Renderer v1；R2 接管当前玩法，R3 完成 D3D12 双机验收后另行确认默认切换；R4 Vulkan 单独完成真实实验、接管与双机验收。后续 GL 退役单列授权，不把第一个后端交付等同于整个 T3 完成。
+- Renderer PImpl/公开 v1 与私有后端设计仍是规划；内部 RHI 仅按真实复用需要演进，不预先冻结通用 RHI，不替用户选择第三方 RHI/NVRHI。后端选择、构建/部署参数是拟议规则，不新增实现、不允许缺后端时静默回退 GL。
+- CPU 清单保持 T1 已交付语义，T3 纹理数组/相机等候选输入未冻结；T2 GL/Native/Vulkan 平台桥接与生产渲染后端是不同层次，不因未来退役游戏 GL 后端就自动删掉平台 GL 能力探针。
+- scope 的 NPC/村庄优先级及 micro voxel 仅为下一玩法阶段的 NPC/玩家实体外表思路，数据/资产/姿态及 renderer 输入另定。不改基础方块与 T1 `BlockVertex3D`，不扩成细体素地形、破坏、光追/SVO/DXR、完整第三人称或 AI/物理实现，也不作为 T3 接管前置条件。
+- 架构初稿同步上述方向，但当前 namespace Renderer/Window 与未来对象设计仍区分；不将草稿写成已实现 PImpl。旧 M2 验收、T1 数据和冻结基准保持各自历史含义。
+
+### 排除项与 Git 配置
+
+- 继续排除 12 个未跟踪文件：个人 `docs/.obsidian/graph.json`、`community-plugins.json`、plugins 下 8 个文件、`docs/development-journal/project-home.md`、空白 `docs/source-migration.tsv.md`。不删除、不运行插件，不读取或改写个人首页正文。
+- `docs/README.md`、`docs/DOCUMENTATION_MAP.md`、`docs/spec/md-organize/mdspec.md`、`docs/spec/md-organize/tag-inventory.json` 的本轮差异仅为个人首页导航/管理归属，四份差异全部保留未提交。它们不纳入 B6-1/B6-2，不留下指向排除首页的共享入口。
+- 本轮总计 16 个排除路径；实验源码不再列为本批排除，但第五批延期记录原样保留。
+- `.gitignore`、`.gitattributes` 无本轮差异，无需新增配置提交。保持 `out/` 忽略及 SDL 专用 `-text` 字节保护，不忽略整个 experimental、evidence 或 `.obsidian`，不为日志空白或换行提示作全仓库归一化，也不修改 Git 全局身份/凭据或 hooks。
+
+### 本次范围检查记录
+
+- 保存编辑本文前 57 个变更路径的状态基线，对非个人首页的 56 个文件记录内容身份；首页只记录路径，不读正文或计算哈希。当前 23 个实验文件共 186,574 字节，11 份新证据共 189,837 字节（8 个 JSON、3 个 log），不含二进制、完整 CSV 或截图。
+- 新增 8 个 JSON 静态解析成功；23 个源码身份全部匹配现有增量清单。只读核对实验 CMake 与执行入口依赖，没有配置、构建或启动脚本。
+- 检查 9 篇相关 Markdown（7 篇实质修改文档、2 篇实验 README）的 243 处本地 Markdown 文件/目录链接，目标均存在；这只是当前候选工作区检查，未来暂存树还须按组复核。不包含锚点、双链、外网链接、全量 YAML/Mermaid 或 Obsidian UI 验收。
+- 已跟踪差异定向空白检查通过，但不覆盖全部未跟踪源码与原始日志；不据此写全部候选检查通过。敏感内容与公开分享边界仍须在实际暂存前复核，已有个人工具路径不静默改写。
+- 本阶段仅更新本文，并在新批次回填第五批规范提交 SHA；B6-1 至 B6-3 均未执行，不预填提交号。更新后本文空白检查通过，56 个非个人首页原变更文件的 SHA256 与盘点基线全部一致，新增修改路径仅为本文。Git 状态共 58 个路径（42 个候选、16 个排除），分支及 HEAD 未变，暂存区为空；后续执行须重新确认清单及新增并行改动。
+
+### 提交执行记录
+
+- 2026-10-07 用户随后明确授权“可以 commit 了”。执行前分支、起始 HEAD 和空暂存区与盘点一致；58 个变更路径没有新增，56 个非个人首页文件 SHA256 全部匹配原基线，只有本文为本次范围更新。个人首页仍未读取，不将其内容纳入检查。
+- B6-1：精确暂存并提交 36 个路径，无遗漏或额外文件；工作区经既有 Git 属性处理后的 blob 与暂存对象逐项一致。完整暂存空白检查通过，8 个新增 JSON 解析成功，4 篇暂存 Markdown 的 44 处本地文件/目录链接目标均在暂存树中存在。
+- B6-2：精确暂存并提交 5 个路径，无遗漏或额外文件；工作区经既有 Git 属性处理后的 blob 与暂存对象逐项一致，完整暂存空白检查通过。5 篇文档的 199 处本地 Markdown 文件/目录链接目标在暂存树中存在；没有为了拆分改变任何规划正文。
+- 两步合计检查 9 篇 Markdown 的 243 处本地链接，只检查文件/目录存在，不验证锚点、双链、外网、YAML/Mermaid 或 UI。对这 41 个暂存文件的常见令牌/私钥模式扫描未命中，不是完整秘密审计；日志中的个人路径与已有证据身份原样保留，公开分享仍需复核。
+- 本批没有运行构建、CTest、游戏、GUI 探针、采集或采样脚本，也未重算成绩、重建安装包或重新核验整个 SDL 发行目录。报告已有测试结果与本次静态检查保持区分，partial 记录没有被改写为通过；没有改 Git 配置或 hooks。
+- 提交期间 `docs/milestones/m3-t2/README.md` 和 `platform-contract-candidate.md` 又出现较新内容，包括人工手感确认、P06 决策表及后续安排。这些偏离确认快照的工作区差异不自动纳入本批，保留未提交、不撤销，也不以本聊天 Git 执行授权替代其中的技术方案/实施授权。B6-1 入库的是原确认版本，本批验收描述以该提交为准，不否定后续文档中的新反馈。
+- 前两步完成后，56 个原非个人首页文件中 54 个仍与范围基线一致，仅上述两篇并行文档更新；默认 16 个排除路径保持原样。除本文回填外，本任务没有额外改写源码、测试、证据、用户文档或个人文件。
+- B6-3 只提交本文的范围、授权、真实 SHA、检查和并行更新记录。前两步确认材料已入库，工作区仍保留 16 个默认排除路径及 2 篇较新文档差异，不能称整个工作区干净；最终核对结果由聊天交付补充，不为回填自身 SHA 改写历史。全程仅本地提交，不 push、merge、创建 PR/标签或修改远端/认证。
 
 ## 维护方式
 
