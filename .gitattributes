@@ -1,0 +1,2 @@
+# Preserve SDL3 source archive bytes, including original line endings.
+/vendor/sdl3/** -text
