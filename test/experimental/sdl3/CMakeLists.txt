@@ -1,0 +1,91 @@
+cmake_minimum_required(VERSION 3.22)
+project(SymoCraftSdl3Probe LANGUAGES C CXX)
+
+if(NOT WIN32 OR NOT MSVC OR NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
+    message(FATAL_ERROR "The SDL3 preparation probe currently requires Windows x64 and MSVC")
+endif()
+
+get_filename_component(SYMOCRAFT_REPOSITORY_ROOT "${CMAKE_CURRENT_LIST_DIR}/../../.." ABSOLUTE)
+option(SYMOCRAFT_SDL3_PROBE_VULKAN "Compile the optional Vulkan instance/surface probe" OFF)
+option(SYMOCRAFT_SDL3_INPUT_COMPARISON "Build the continuous tool against the saved Release camera" OFF)
+set(SYMOCRAFT_VULKAN_HEADERS_ROOT "" CACHE PATH "Directory containing vulkan/vulkan_core.h; headers only")
+
+set(SDL_SHARED OFF CACHE BOOL "Build SDL shared library" FORCE)
+set(SDL_STATIC ON CACHE BOOL "Build SDL static library" FORCE)
+set(SDL_LIBC ON CACHE BOOL "Use the existing MSVC C runtime policy" FORCE)
+set(SDL_TEST_LIBRARY OFF CACHE BOOL "Build SDL's internal test library" FORCE)
+set(SDL_TESTS OFF CACHE BOOL "Build SDL's internal tests" FORCE)
+set(SDL_EXAMPLES OFF CACHE BOOL "Build SDL's examples" FORCE)
+set(SDL_INSTALL OFF CACHE BOOL "Install SDL as a standalone package" FORCE)
+foreach(subsystem IN ITEMS AUDIO RENDER GPU CAMERA JOYSTICK HAPTIC HIDAPI POWER SENSOR DIALOG TRAY)
+    set(SDL_${subsystem} OFF CACHE BOOL "Not part of the window/input preparation scope" FORCE)
+endforeach()
+set(SDL_VIDEO ON CACHE BOOL "Enable real window and input support" FORCE)
+set(SDL_OPENGL ON CACHE BOOL "Enable the desktop OpenGL bridge" FORCE)
+set(SDL_OPENGLES OFF CACHE BOOL "OpenGL ES is outside the candidate scope" FORCE)
+set(SDL_DUMMYVIDEO OFF CACHE BOOL "Do not substitute a dummy video driver" FORCE)
+set(SDL_OFFSCREEN OFF CACHE BOOL "Do not substitute an offscreen video driver" FORCE)
+set(SDL_VULKAN ${SYMOCRAFT_SDL3_PROBE_VULKAN} CACHE BOOL "Enable SDL Vulkan window bridging only with the optional probe" FORCE)
+add_subdirectory("${SYMOCRAFT_REPOSITORY_ROOT}/vendor/sdl3" "${CMAKE_BINARY_DIR}/vendor/sdl3" EXCLUDE_FROM_ALL)
+
+include("${SYMOCRAFT_REPOSITORY_ROOT}/cmake/ThirdPartyHeaders.cmake")
+symocraft_header_view(symocraft_sdl3_probe_glad_headers glad/glad.h KHR/khrplatform.h)
+add_library(symocraft_sdl3_probe_glad STATIC "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/glad/glad.c")
+target_link_libraries(symocraft_sdl3_probe_glad PRIVATE symocraft_sdl3_probe_glad_headers)
+target_compile_options(symocraft_sdl3_probe_glad PRIVATE /utf-8)
+
+add_executable(SymoCraftSdl3Probe main.cpp)
+target_compile_features(SymoCraftSdl3Probe PRIVATE cxx_std_20)
+target_compile_options(SymoCraftSdl3Probe PRIVATE /W4 /utf-8)
+target_link_libraries(SymoCraftSdl3Probe PRIVATE SDL3::SDL3-static
+    symocraft_sdl3_probe_glad symocraft_sdl3_probe_glad_headers user32)
+
+add_executable(SymoCraftSdl3InputCandidateTests input_candidate_tests.cpp)
+target_compile_features(SymoCraftSdl3InputCandidateTests PRIVATE cxx_std_20)
+target_compile_options(SymoCraftSdl3InputCandidateTests PRIVATE /W4 /utf-8)
+target_include_directories(SymoCraftSdl3InputCandidateTests PRIVATE
+    "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/platform/include")
+target_link_libraries(SymoCraftSdl3InputCandidateTests PRIVATE SDL3::Headers)
+enable_testing()
+add_test(NAME sdl3-input-candidate COMMAND SymoCraftSdl3InputCandidateTests)
+
+# This GUI executable is invoked explicitly, never by the pure CTest suite.
+add_executable(SymoCraftSdl3RuntimeInputTests runtime_input_tests.cpp)
+target_compile_features(SymoCraftSdl3RuntimeInputTests PRIVATE cxx_std_20)
+target_compile_options(SymoCraftSdl3RuntimeInputTests PRIVATE /W4 /utf-8)
+target_include_directories(SymoCraftSdl3RuntimeInputTests PRIVATE
+    "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/platform/include")
+target_link_libraries(SymoCraftSdl3RuntimeInputTests PRIVATE SDL3::SDL3-static user32)
+
+if(SYMOCRAFT_SDL3_INPUT_COMPARISON)
+    add_executable(SymoCraftSdl3InputComparison ../input-comparison/sdl_main.cpp)
+    target_include_directories(SymoCraftSdl3InputComparison PRIVATE "${CMAKE_CURRENT_LIST_DIR}")
+    target_link_libraries(SymoCraftSdl3InputComparison PRIVATE SDL3::SDL3-static
+        symocraft_sdl3_probe_glad symocraft_sdl3_probe_glad_headers)
+    include("${CMAKE_CURRENT_LIST_DIR}/../input-comparison/comparison.cmake")
+    symocraft_input_comparison(SymoCraftSdl3InputComparison "SDL3")
+endif()
+
+install(TARGETS SymoCraftSdl3Probe RUNTIME DESTINATION .)
+install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/sdl3/LICENSE.txt"
+    DESTINATION licenses RENAME SDL3-LICENSE.txt)
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION ".")
+    include(InstallRequiredSystemLibraries)
+endif()
+
+if(SYMOCRAFT_SDL3_PROBE_VULKAN)
+    if(NOT SYMOCRAFT_VULKAN_HEADERS_ROOT)
+        find_path(SYMOCRAFT_SDL3_PROBE_DISCOVERED_VULKAN_HEADERS vulkan/vulkan_core.h
+            HINTS "$ENV{VULKAN_SDK}/Include" "$ENV{VK_SDK_PATH}/Include")
+        if(SYMOCRAFT_SDL3_PROBE_DISCOVERED_VULKAN_HEADERS)
+            set(SYMOCRAFT_VULKAN_HEADERS_ROOT "${SYMOCRAFT_SDL3_PROBE_DISCOVERED_VULKAN_HEADERS}")
+        endif()
+    endif()
+    if(NOT EXISTS "${SYMOCRAFT_VULKAN_HEADERS_ROOT}/vulkan/vulkan_core.h")
+        message(FATAL_ERROR "Vulkan probe requires a declared headers root; no Vulkan loader import library is used")
+    endif()
+    target_include_directories(SymoCraftSdl3Probe SYSTEM PRIVATE "${SYMOCRAFT_VULKAN_HEADERS_ROOT}")
+    target_compile_definitions(SymoCraftSdl3Probe PRIVATE SYMOCRAFT_SDL3_PROBE_VULKAN=1)
+    message(STATUS "Vulkan probe header source: ${SYMOCRAFT_VULKAN_HEADERS_ROOT}")
+endif()

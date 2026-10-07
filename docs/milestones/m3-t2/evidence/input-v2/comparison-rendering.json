@@ -1,0 +1,209 @@
+{
+  "created_utc": "2026-10-07T05:20:43.7735552Z",
+  "kind": "bounded real GL rendering, not human input validation",
+  "source_inputs": [
+    {
+      "path": "test/experimental/input-comparison/comparison.cmake",
+      "sha256": "86247fd61dd837a15f6a59aff1590398070df49ae4ebb188354e5b33a110ce0f"
+    },
+    {
+      "path": "test/experimental/input-comparison/comparison.cpp",
+      "sha256": "572ecf8fb7291dab0ac7f95cddeb353a57a9e080def2f1315fe1c58224ab34fa"
+    },
+    {
+      "path": "test/experimental/input-comparison/comparison.h",
+      "sha256": "c4adb0805761e52fb7f63f168b2d1695a74287cb88b0602e0a97195802771787"
+    },
+    {
+      "path": "test/experimental/input-comparison/glfw_main.cpp",
+      "sha256": "cdf8bd63b1e78ca415ec0b4ebf288f6832e1129705a1fdc07e4e01243e1a4465"
+    },
+    {
+      "path": "test/experimental/input-comparison/README.md",
+      "sha256": "07a3c617e3849296edb3d3c10dfe3cd6dce72cd5b1d86cd43bed742c58a80518"
+    },
+    {
+      "path": "test/experimental/input-comparison/run.ps1",
+      "sha256": "058d82ea3d233240aaa9df2e9ac239fc42b52c46f172f7f4f002e11b42ba719c"
+    },
+    {
+      "path": "test/experimental/input-comparison/sdl_main.cpp",
+      "sha256": "524bb7377938b8c6eb87ca27f1f06ff7ef8230b453568e7765aef8a8a7e26ce3"
+    },
+    {
+      "path": "test/experimental/input-comparison/verify.ps1",
+      "sha256": "f4f6f844e728ce8dde632a1737e54ad2ce6bfe657e807fcd17d7fb88a5f010b8"
+    }
+  ],
+  "dependency_inputs": [
+    {
+      "path": "test/experimental/sdl3/CMakeLists.txt",
+      "sha256": "e47f4f6b190e4bfffa1aad76b6a9a7edd8a080e07869eef363638d27a29daf83"
+    },
+    {
+      "path": "test/experimental/glfw-baseline/CMakeLists.txt",
+      "sha256": "db03c12c9d4c00b65c31d051dcfb811d56f0718ebfcd06bd35022cc0734458c7"
+    },
+    {
+      "path": "test/experimental/sdl3/input_candidate.h",
+      "sha256": "a6abf4a991677662eda28af8160259434b46fb67e48d0e7b06e506a669ce11d7"
+    },
+    {
+      "path": "out/m3-t2/build/glfw-release/game/modules/foundation/symocraft_foundation.lib",
+      "sha256": "c5c0715d68e5a844b79b391c058dedc98b8c6d6c22a772023a17fcc3e4d6ffc6"
+    },
+    {
+      "path": "out/m3-t2/build/glfw-release/game/modules/ecs/symocraft_ecs.lib",
+      "sha256": "f9b1c9f5966245913ab87e93d58053671f61213ce61458304773b3dc038d0f53"
+    },
+    {
+      "path": "out/m3-t2/build/glfw-release/game/modules/simulation/symocraft_simulation.lib",
+      "sha256": "58205b66cdbcb7215d677da42a1492a8b3d9f9d3039da11332cf13ec13d13f3e"
+    },
+    {
+      "path": "out/m3-t2/build/glfw-release/game/modules/world/symocraft_world.lib",
+      "sha256": "c155ccf98b1d98d5daa8c4f86535aa4f6d320405afd710ae357213d771b59938"
+    },
+    {
+      "path": "out/m3-t2/build/glfw-release/symocraft_yaml.lib",
+      "sha256": "7c5ec1c032a83d6e945e085103ef230ccae00acd1b3c0e673523d39a4758df0a"
+    },
+    {
+      "path": "out/m3-t2/build/glfw-release/game/modules/platform/symocraft_platform.lib",
+      "sha256": "d2c34305542c158c3e8b0d04d4ff1b1dea877800d069b6fa4da81a2379626336"
+    },
+    {
+      "path": "out/m3-t2/build/glfw-release/vendor/glfw/src/glfw3.lib",
+      "sha256": "1637ee8ccaaeb304e96b191456ed8ece26152dc7fcb6822b9eb6879e78f57853"
+    }
+  ],
+  "passed": 7,
+  "cases": [
+    {
+      "name": "glfw-normal",
+      "passed": true,
+      "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\probe\\input-comparison-glfw-release-001\\Release\\SymoCraftGlfwInputComparison.exe",
+      "executable_sha256": "d26c84cb37a74319e72bb75e7baa88e5f41b47077f82d659dfa1025dff89c671",
+      "session": {
+        "backend": "GLFW",
+        "normal_exit": true,
+        "recorded_frames": 12,
+        "rendered_frames": 12,
+        "initial_cursor": "normal",
+        "sdl_system_scale_requested": true,
+        "camera_source": "frozen GLFW baseline Simulation::ApplyPointerInput and Camera",
+        "production_platform": false,
+        "human_validation": false
+      },
+      "frame_sha256": "9b85e56b245ad0bb3592a3ad51caf88c9642dd13c45829f81be9203e95229f3d"
+    },
+    {
+      "name": "sdl-normal",
+      "passed": true,
+      "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\probe\\input-comparison-sdl-release-002\\SymoCraftSdl3InputComparison.exe",
+      "executable_sha256": "134d5a6bffbf58a90a001e57e5f23a7039a50561a672cecabe01648807bd94b7",
+      "session": {
+        "backend": "SDL3",
+        "normal_exit": true,
+        "recorded_frames": 12,
+        "rendered_frames": 12,
+        "initial_cursor": "normal",
+        "sdl_system_scale_requested": true,
+        "camera_source": "frozen GLFW baseline Simulation::ApplyPointerInput and Camera",
+        "production_platform": false,
+        "human_validation": false
+      },
+      "frame_sha256": "9b85e56b245ad0bb3592a3ad51caf88c9642dd13c45829f81be9203e95229f3d"
+    },
+    {
+      "name": "glfw-lock",
+      "passed": true,
+      "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\probe\\input-comparison-glfw-release-001\\Release\\SymoCraftGlfwInputComparison.exe",
+      "executable_sha256": "d26c84cb37a74319e72bb75e7baa88e5f41b47077f82d659dfa1025dff89c671",
+      "session": {
+        "backend": "GLFW",
+        "normal_exit": true,
+        "recorded_frames": 12,
+        "rendered_frames": 12,
+        "initial_cursor": "lock",
+        "sdl_system_scale_requested": true,
+        "camera_source": "frozen GLFW baseline Simulation::ApplyPointerInput and Camera",
+        "production_platform": false,
+        "human_validation": false
+      },
+      "frame_sha256": "06a57d7450838605d6e6039bb22541fc289d9b64510431ffc85d7de2885e65e6"
+    },
+    {
+      "name": "sdl-lock-system",
+      "passed": true,
+      "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\probe\\input-comparison-sdl-release-002\\SymoCraftSdl3InputComparison.exe",
+      "executable_sha256": "134d5a6bffbf58a90a001e57e5f23a7039a50561a672cecabe01648807bd94b7",
+      "session": {
+        "backend": "SDL3",
+        "normal_exit": true,
+        "recorded_frames": 12,
+        "rendered_frames": 12,
+        "initial_cursor": "lock",
+        "sdl_system_scale_requested": true,
+        "camera_source": "frozen GLFW baseline Simulation::ApplyPointerInput and Camera",
+        "production_platform": false,
+        "human_validation": false
+      },
+      "frame_sha256": "06a57d7450838605d6e6039bb22541fc289d9b64510431ffc85d7de2885e65e6"
+    },
+    {
+      "name": "sdl-lock-unscaled",
+      "passed": true,
+      "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\probe\\input-comparison-sdl-release-002\\SymoCraftSdl3InputComparison.exe",
+      "executable_sha256": "134d5a6bffbf58a90a001e57e5f23a7039a50561a672cecabe01648807bd94b7",
+      "session": {
+        "backend": "SDL3",
+        "normal_exit": true,
+        "recorded_frames": 12,
+        "rendered_frames": 12,
+        "initial_cursor": "lock",
+        "sdl_system_scale_requested": false,
+        "camera_source": "frozen GLFW baseline Simulation::ApplyPointerInput and Camera",
+        "production_platform": false,
+        "human_validation": false
+      },
+      "frame_sha256": "06a57d7450838605d6e6039bb22541fc289d9b64510431ffc85d7de2885e65e6"
+    },
+    {
+      "name": "glfw-hidden",
+      "passed": true,
+      "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\probe\\input-comparison-glfw-release-001\\Release\\SymoCraftGlfwInputComparison.exe",
+      "executable_sha256": "d26c84cb37a74319e72bb75e7baa88e5f41b47077f82d659dfa1025dff89c671",
+      "session": {
+        "backend": "GLFW",
+        "normal_exit": true,
+        "recorded_frames": 12,
+        "rendered_frames": 12,
+        "initial_cursor": "hidden",
+        "sdl_system_scale_requested": true,
+        "camera_source": "frozen GLFW baseline Simulation::ApplyPointerInput and Camera",
+        "production_platform": false,
+        "human_validation": false
+      },
+      "frame_sha256": "9b85e56b245ad0bb3592a3ad51caf88c9642dd13c45829f81be9203e95229f3d"
+    },
+    {
+      "name": "sdl-hidden",
+      "passed": true,
+      "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\probe\\input-comparison-sdl-release-002\\SymoCraftSdl3InputComparison.exe",
+      "executable_sha256": "134d5a6bffbf58a90a001e57e5f23a7039a50561a672cecabe01648807bd94b7",
+      "session": {
+        "backend": "SDL3",
+        "normal_exit": true,
+        "recorded_frames": 12,
+        "rendered_frames": 12,
+        "initial_cursor": "hidden",
+        "sdl_system_scale_requested": true,
+        "camera_source": "frozen GLFW baseline Simulation::ApplyPointerInput and Camera",
+        "production_platform": false,
+        "human_validation": false
+      },
+      "frame_sha256": "9b85e56b245ad0bb3592a3ad51caf88c9642dd13c45829f81be9203e95229f3d"
+    }
+  ]
+}

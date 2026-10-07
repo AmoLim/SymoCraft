@@ -1,0 +1,10 @@
+{
+  "archive_sha256": "9cd42377704398796071b8597cd7e21da254a43bad98c4199739647adc13fa6f",
+  "files": 2183,
+  "identical": 2183,
+  "different": 0,
+  "missing": 0,
+  "extra": [],
+  "raw_comparison": "out/m3-t2/sdl-official-vendor-input-v2-comparison.json",
+  "raw_comparison_sha256": "ad187cdcad89357783e4565e020087a46cdbe451de7ae6ec8ab7b1fafafed137"
+}

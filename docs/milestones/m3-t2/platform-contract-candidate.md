@@ -31,7 +31,7 @@ tags:
 | WaitEvents | 秒到等待单位的转换有边界；取得的事件经相同适配路径消费恰好一次，不吞关闭/焦点/按键 | 小于一等待单位、零值和上限的规则；等待只累积事实，何时由 PollInt 发布 |
 | Time | 单调高精度时间，公开单位仍为秒 | 起点及 SDL 初始化/退出前后的合法调用期；不改 Benchmark 的 CPU/GPU/present 统计定义 |
 | SetCursorMode | Lock/Hidden/Normal 可以切换和恢复，保持向右/向上为正、现有灵敏度与焦点行为 | 对照实测决定系统加速度/相对输入策略，不默认把迁移变成手感调整 |
-| width/height、SetSize/GetAspectRatio | width/height 继续表示实际绘制像素；逻辑窗口尺寸单独保存在私有实现；零像素代表暂不可绘制 | SetSize 输入单位须明确且保留现行语义；Benchmark 要求实际 1920×1080，不能把逻辑尺寸相等当作通过 |
+| width/height、SetSize/GetAspectRatio | width/height 继续表示实际绘制像素；`SetSize` 保持现行逻辑窗口尺寸入参，不改成像素；零像素代表暂不可绘制 | resize 后查询实际像素，不把请求值直接赋给 width/height；Benchmark 要求实际 1920×1080，不能把逻辑尺寸相等当作通过 |
 
 创建模式可使用一个小型项目枚举和创建选项结构表达，不新增拥有 SDL 运行期的公开类。此处不预先写入真实公共头；签名应由三模式实验的实际调用需要决定，避免同时保留互相矛盾的模式入口。
 
@@ -56,7 +56,13 @@ GL 桥接保留现有六项职责：当前化、当前 context 查询、GLAD 函
 
 GL 的当前化、VSync 和呈现若返回失败，候选实现必须具名报告并阻止无效继续提交；不能因为旧桥接返回 void 就继续吞失败。能力查询的合法“不支持”与无当前 context/查询失败应能区分。Vulkan 探针要求真实扩展、instance 和 surface，不创建或声称完成游戏 GPU 后端。
 
-输入候选实验已揭示两个必须补齐的迁移点：纯事件 reducer 在 Reset 后不能恢复仍物理按住的键/鼠标，生产实现需要在既定时点重同步 SDL 物理状态，并保留短按锁存；SDL 相对运动默认不采用系统加速度，而当前 GLFW 未启用 raw mouse。`SDL_HINT_MOUSE_RELATIVE_SYSTEM_SCALE` 是待对照的候选，不把设置为 1 自动认作手感等价。合成测试通过不能冻结这两项真实行为。
+输入候选已增加 `PhysicalInputState` / `SynchronizePhysicalState`：drain 后、Capture 前采新 SDL 状态；active Reset 清短按、公开快照和运动，保留 known held，并在 Capture 前再次采新状态。失焦/最小化清 held，恢复后重新采纳真实按住或释放态；repeat 不制造新短按；不采后台全局键鼠，Benchmark 保留本窗口 Escape 事件。185 项合成检查通过，生产实现仍须链接真实 platform 回归，硬件释放与不同布局仍需人工对照。
+
+SDL 相对运动默认不采用系统加速度，而当前 GLFW 未启用 raw mouse。连续对照工具默认请求 `SDL_HINT_MOUSE_RELATIVE_SYSTEM_SCALE=1`，也提供显式未缩放候选；两端共用冻结游戏的 `ApplyPointerInput`/`Camera::Scroll`，不修改 0.05 灵敏度。设置 hint 和自动渲染通过均不能当作手感等价。
+
+只读评审建议保持 GL 六项签名并在当前化、VSync、呈现失败时具名抛错；`GetProcedure` 可返回空供 GLAD 判断可选函数，扩展查询先要求有效当前 context。Native 候选为 `HWND Win32Handle(const Window&)`；Vulkan 候选为按窗口取得 `PFN_vkGetInstanceProcAddr`、返回自有 `vector<string>` 扩展、借用 instance 创建/销毁 surface，分配回调须成对一致。上述 SDK 只进入授权私有头，不写入生产公开头。
+
+等待候选规则为拒绝负数/非有限值、零值不阻塞、正数向上取整为毫秒并限制 `Sint32` 上限；等待前清本次 SDL error，false 时区分超时与新错误。首事件只累积、下次 Poll 发布一次。Time 限定 Init 至 Free，以本次初始化起点返回单调秒值。正常退出先释放 GPU，再 checked context/window/video 清理；析构仅作 best-effort 兜底，不因清理异常中断后续释放。
 
 ## 失败责任与清理矩阵
 
