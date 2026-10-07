@@ -5,9 +5,10 @@
 #include <symocraft/simulation/component.h>
 #include <symocraft/ecs/registry.h>
 #include <symocraft/foundation/diagnostics.h>
-#include <symocraft/world/chunk_manager.h>
+#include <symocraft/world/world.h>
 #include <symocraft/world/constants.h>
 #include <symocraft/simulation/player_math.h>
+#include <stdexcept>
 
 namespace SymoCraft::Physics
     {
@@ -38,26 +39,29 @@ namespace SymoCraft::Physics
         static const float kPhysicsUpdateRate = 1.0f / 120.0f; // 120Hz
         static PlayerMath::FixedStepBudget step_budget;
 
-        static bool IsSolidVoxel(const glm::ivec3& cell)
+        static bool IsSolidVoxel(const World::VoxelWorld& world, const glm::ivec3& cell)
         {
             if (cell.y < 0 || cell.y >= k_chunk_height)
                 return false;
-            const Block block = ChunkManager::GetBlock(glm::vec3(cell) + glm::vec3(0.5f));
-            if (block == BlockConstants::NULL_BLOCK || block == BlockConstants::AIR_BLOCK)
+            const auto query = world.QueryBlock(cell);
+            if (query.status == World::BlockQueryStatus::OutsideWorld || query.block == BlockConstants::AIR_BLOCK)
                 return false;
-            return get_block(block.block_id).m_is_solid;
+            const auto rule = world.DescribeBlock(query.block.block_id);
+            if (!rule) throw std::logic_error("World contains an undefined block during collision query");
+            return rule->m_is_solid;
         }
 
-        static bool HasGroundSupport(const Transform& transform, const HitBox& hit_box)
+        static bool HasGroundSupport(const World::VoxelWorld& world, const Transform& transform, const HitBox& hit_box)
         {
             const glm::vec3 minimum = transform.position + hit_box.offset - hit_box.size * 0.5f;
             const glm::vec3 maximum = transform.position + hit_box.offset + hit_box.size * 0.5f;
-            return PlayerMath::HasGroundSupport(minimum, maximum, IsSolidVoxel);
+            return PlayerMath::HasGroundSupport(minimum, maximum,
+                [&world](const glm::ivec3& cell) { return IsSolidVoxel(world, cell); });
         }
 
         // ----------------------------------------------------------------------------------------------------------
         // some useful uniform function in physics system
-        static void ResolveStaticCollision(ECS::EntityId entity, RigidBody &rb, Transform &transform, HitBox &hit_box);
+        static void ResolveStaticCollision(const World::VoxelWorld& world, RigidBody &rb, Transform &transform, HitBox &hit_box);
         static CollisionInfo StaticCollisionInformation(const RigidBody& rb1, const HitBox &hb1, const Transform& tr1
                                                         , const HitBox &hb2, const Transform& tr2);
         static bool IsColliding(const HitBox &hb1, const Transform &tr1
@@ -78,7 +82,7 @@ namespace SymoCraft::Physics
             step_budget.Reset();
         }
 
-        void Update(ECS::Registry& registry, float frame_delta)
+        void Update(ECS::Registry& registry, const World::VoxelWorld& world, float frame_delta)
         {
             const unsigned steps = step_budget.Consume(frame_delta);
             for (unsigned step = 0; step < steps; ++step)
@@ -104,17 +108,19 @@ namespace SymoCraft::Physics
                         continue;
                     }
 
-                    ResolveStaticCollision(entity, rb, transform, hit_box);
+                    ResolveStaticCollision(world, rb, transform, hit_box);
 
                 }
             }
         }
 
 
-        RaycastStaticResult RayCastStatic(const glm::vec3 &origin, const glm::vec3 &normal_direction,
+        RaycastStaticResult RayCastStatic(const World::VoxelWorld& world,
+                                          const glm::vec3 &origin, const glm::vec3 &normal_direction,
                                           float max_distance, bool /*draw*/)
         {
-            const auto hit = PlayerMath::RaycastVoxels(origin, normal_direction, max_distance, IsSolidVoxel);
+            const auto hit = PlayerMath::RaycastVoxels(origin, normal_direction, max_distance,
+                [&world](const glm::ivec3& cell) { return IsSolidVoxel(world, cell); });
             RaycastStaticResult result{};
             if (!hit.hit)
                 return result;
@@ -130,8 +136,8 @@ namespace SymoCraft::Physics
         // Functions Implementation
 
         // Resolve static collision
-        // Parameters: entity id, rigid body, transform, hit box
-        static void ResolveStaticCollision(ECS::EntityId entity, RigidBody &rb, Transform &transform, HitBox &hit_box)
+        // Parameters: current world, rigid body, transform, hit box
+        static void ResolveStaticCollision(const World::VoxelWorld& world, RigidBody &rb, Transform &transform, HitBox &hit_box)
         {
             rb.on_ground = false;
             const glm::vec3 center = transform.position + hit_box.offset;
@@ -160,12 +166,12 @@ namespace SymoCraft::Physics
                     for (int32 z = back_z; z <= front_z; z++)
                     {
                         glm::vec3 box_pos = glm::vec3(x - 0.5f, y - 0.5f, z - 0.5f);
-                        Block block = ChunkManager::GetBlock(box_pos);
-                        BlockFormat block_format = get_block(block.block_id);
+                        const auto coordinate = World::TryToBlockCoord(box_pos);
 
                         block_transform.position = box_pos;
 
-                        if (block_format.m_is_solid && IsColliding(hit_box, transform, default_block_box, block_transform))
+                        if (coordinate && IsSolidVoxel(world, *coordinate) &&
+                            IsColliding(hit_box, transform, default_block_box, block_transform))
                         {
                             CollisionInfo collision_info
                             = StaticCollisionInformation(rb, hit_box, transform, default_block_box, block_transform);
@@ -201,7 +207,7 @@ namespace SymoCraft::Physics
                         }
                     }
 
-            if (rb.velocity.y <= 0.0f && HasGroundSupport(transform, hit_box))
+            if (rb.velocity.y <= 0.0f && HasGroundSupport(world, transform, hit_box))
             {
                 rb.on_ground = true;
                 rb.velocity.y = 0.0f;

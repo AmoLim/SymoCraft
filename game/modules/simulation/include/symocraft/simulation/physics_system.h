@@ -8,6 +8,8 @@
 #include <symocraft/ecs/registry.h>
 #include <symocraft/simulation/component.h>
 
+namespace SymoCraft::World { class VoxelWorld; }
+
 namespace SymoCraft
 {
     struct RaycastStaticResult
@@ -25,11 +27,12 @@ namespace SymoCraft
         // Initializing physics system
 
         // physic update function
-        void Update(ECS::Registry& registry, float frame_delta);
+        void Update(ECS::Registry& registry, const World::VoxelWorld& world, float frame_delta);
         void ResetTiming();
 
         // Ray Casting for player on the block
-        RaycastStaticResult RayCastStatic(const glm::vec3 &origin, const glm::vec3 &normal_direction
+        RaycastStaticResult RayCastStatic(const World::VoxelWorld& world,
+                                           const glm::vec3 &origin, const glm::vec3 &normal_direction
                                            , float max_distance, bool draw = false);
     }
 }

@@ -7,10 +7,11 @@
 #include <symocraft/simulation/playercontroller.h>
 #include <symocraft/simulation/transform_system.h>
 #include <symocraft/world/block.h>
-#include <symocraft/world/chunk_manager.h>
+#include <symocraft/world/world.h>
 #include <symocraft/world/generation.h>
 #include <symocraft/world/test_scene.h>
 #include <cmath>
+#include <fstream>
 #include <iostream>
 #include <stdexcept>
 
@@ -28,7 +29,10 @@ int main(int argc, char** argv)
     try {
         Require(argc == 2, "Expected block configuration path");
         static_assert(sizeof(BlockVertex3D) == 28, "T0 must preserve existing vertex stride");
-        LoadBlocks(argv[1]);
+        std::ifstream config(argv[1], std::ios::binary);
+        Require(static_cast<bool>(config), "Cannot read block configuration");
+        const std::string text{std::istreambuf_iterator<char>(config), std::istreambuf_iterator<char>()};
+        auto world = World::VoxelWorld::Create(World::BlockDefinition::FromConfig(text), {TestScene::DefaultSeed, 3, true});
         ECS::Registry registry;
         registry.RegisterComponent<Transform>("Transform");
         registry.RegisterComponent<Physics::RigidBody>("RigidBody");
@@ -93,36 +97,33 @@ int main(int argc, char** argv)
         const auto projection = camera.GetCameraProjMat(1920.0f / 1080.0f);
         Require(std::isfinite(view[0][0]) && std::isfinite(projection[0][0]), "Camera matrices are invalid");
 
-        Generation::Build({TestScene::DefaultSeed, 3, true});
-        TestScene::Install();
+        TestScene::Install(*world);
         const glm::vec3 target(15.5f, 161.5f, 0.5f);
-        const auto before = ChunkManager::GetBlock(target).block_id;
+        const auto before = world->QueryBlock({15, 161, 0}).block.block_id;
         Require(before == 5, "Regression fixture changed");
         float debounce = 0;
         PlayerController::InteractionInput interaction;
         interaction.allow_input = false;
         interaction.remove = true;
-        auto result = PlayerController::DoRayCast(registry, player, interaction, debounce);
+        auto result = PlayerController::DoRayCast(registry, *world, player, interaction, debounce);
         Require(result.selection && *result.selection == target && !result.edit && debounce == 0,
                 "Disabled input must still select without editing/debouncing");
         interaction.allow_input = true;
-        result = PlayerController::DoRayCast(registry, player, interaction, debounce);
-        Require(result.edit && result.edit->remove && result.edit->position == target && Near(debounce, 0.2f),
+        result = PlayerController::DoRayCast(registry, *world, player, interaction, debounce);
+        Require(result.edit && result.edit->operation == World::EditOperation::Remove && result.edit->position == glm::ivec3(15, 161, 0) && Near(debounce, 0.2f),
                 "Removal request or cooldown changed");
-        Require(ChunkManager::GetBlock(target).block_id == before, "Raycast changed world before app committed request");
-        result = PlayerController::DoRayCast(registry, player, interaction, debounce);
+        Require(world->QueryBlock({15, 161, 0}).block.block_id == before, "Raycast changed world before app committed request");
+        result = PlayerController::DoRayCast(registry, *world, player, interaction, debounce);
         Require(!result.edit, "Placement debounce no longer rejects repeat");
         debounce = 0;
         interaction.remove = false;
         interaction.place = true;
-        result = PlayerController::DoRayCast(registry, player, interaction, debounce);
+        result = PlayerController::DoRayCast(registry, *world, player, interaction, debounce);
         Require(!result.edit && Near(debounce, 0.2f), "Placement inside player must be rejected with old cooldown");
-        Require(ChunkManager::GetBlock(target).block_id == before, "Rejected placement modified world");
-        ChunkManager::FreeAllChunks();
+        Require(world->QueryBlock({15, 161, 0}).block.block_id == before, "Rejected placement modified world");
         std::cout << "Simulation explicit-input, camera and deferred-interaction contracts passed\n";
         return 0;
     } catch (const std::exception& error) {
-        ChunkManager::FreeAllChunks();
         std::cerr << error.what() << '\n';
         return 1;
     }

@@ -5,7 +5,7 @@ tags:
 
 # 文档结构与维护参考
 
-更新日期：2026-10-05。面向后续维护者与 agent，说明文档归属、Obsidian 标签、阅读入口和变更边界。本文是目录维护参考，不替代项目 spec、实现说明或验收报告。
+更新日期：2026-10-07。面向后续维护者与 agent，说明文档归属、Obsidian 标签、阅读入口和变更边界。本文是目录维护参考，不替代项目 spec、实现说明或验收报告。
 
 ## 先读什么
 
@@ -23,15 +23,20 @@ docs/
 ├── spec/                             # 项目范围、目标设计与规范子模块
 │   ├── project-scope.md
 │   ├── M3-T0-模块软硬边界.md
-│   ├── M3-T2-渲染器重构.md
+│   ├── M3-T1-世界模块重构.md
+│   ├── M3-T2-SDL3迁移.md              # 已选方案与准备/验收契约，原 draft 归档附录；不是实施授权
+│   ├── M3-T1-T3-CPU契约清单.md        # T1 已交付数据与 T3-R1 待冻结输入
+│   ├── M3-T3-渲染器重构.md
 │   ├── git/
 │   │   └── gitspec.md                # 版本控制规范子模块
 │   └── md-organize/
 │       ├── mdspec.md                 # 文档结构与图谱规范
 │       └── tag-inventory.json        # 逐文件标签与例外清单
 ├── project/                          # 按工程主题维护的实现与操作说明
-│   ├── architecture/                 # M3 起实际模块的功能、类设计与边界
-│   │   └── Overview.md               # 九个生产模块、应用和构建测试入口
+│   ├── architecture/                 # 实际功能、对象、数据与系统契约
+│   │   ├── Overview.md               # 模块、应用和构建测试入口
+│   │   ├── 对象笔记覆盖清单.md        # 符号→定义/target→独立笔记或具名小节
+│   │   └── <模块>/                   # 如 renderer/GpuTimer Class.md
 │   ├── build/                        # 构建、CLion、CMake 与构建问题修复
 │   │   └── build-and-clion.md         # M1 指南，适用范围见文首
 │   └── benchmark/                    # 原生 Benchmark 功能、类、协议与交付
@@ -52,7 +57,10 @@ docs/
 │   ├── m1/
 │   ├── m2-a/
 │   ├── m2-t2/
-│   └── m2-t3/                        # 各阶段 evidence 随原报告保留
+│   ├── m2-t3/                        # 各阶段 evidence 随原报告保留
+│   ├── m3-t0/
+│   ├── m3-t1/
+│   └── m3-t2/                        # SDL3 准备记录、候选契约与实际探针证据
 └── Obsidian-功能笔记模板/              # 写作规范、模板与示例
 ```
 
@@ -64,7 +72,7 @@ docs/
 | --- | --- | --- |
 | 项目范围、未实施方案、任务契约 | `spec/` | 目标设计不等于已实现；明确状态与非目标 |
 | 模块实现、类设计、操作指南、局部修复 | `project/<主题>/` | 优先复用已有主题目录，标明适用版本与源码依据 |
-| M3 起生产模块的功能与类设计 | `project/architecture/<模块>/` | 每模块配套功能文档与类设计；统一入口见 [模块架构索引](project/architecture/Overview.md) |
+| M3 起生产模块的实际设计 | `project/architecture/<模块>/` | 单资源对象独立笔记；值/辅助类型按职责合并到具名小节；数据/系统不伪装类。入口：[模块索引](project/architecture/Overview.md)、[对象覆盖清单](project/architecture/对象笔记覆盖清单.md) |
 | 构建、CLion、CMake 问题 | `project/build/` | 阶段构建结果仍由报告承载 |
 | Benchmark 功能、进程、文件协议、交付 | `project/benchmark/` | 保持功能、类、协议与实验报告的职责区别 |
 | 性能观测与采样类设计 | `project/benchmark/performance/` | 不把旧计时说明直接当成最新契约 |
@@ -96,7 +104,7 @@ docs/
 
 可选 `topic/*` 只表达关联主题，默认不添加、最多两个；不改变板块归属。词表为 `build`、`benchmark`、`performance`、`world`、`rendering`、`gameplay`、`resources`。已有 `type`、`status`、`module` 属性照常维护，不再复制成标签。两个模板示例原有的 `示例` 标签保留为兼容标签。
 
-任何 `evidence/` 文件和 `Obsidian-功能笔记模板/templates/` 下的模板源文件均不加标签。前者是不可改写的证据；后者不能在插入新笔记时带入错误板块。正式笔记生成后按最终目录补齐归属，不直接复制示例的 `area/templates`。功能、类、数据与系统模板的选择见 [模板使用说明](Obsidian-功能笔记模板/00-使用说明.md#选择模板)；模板类型不增加板块归属。
+任何 `evidence/` 文件和 `Obsidian-功能笔记模板/templates/` 下的模板源文件均不加标签。前者是不可改写的证据；后者不能在插入新笔记时带入错误板块。正式笔记生成后按最终目录补齐归属，不直接复制示例的 `area/templates`。功能、类、数据、系统、namespace API 与构建契约模板的选择见 [模板使用说明](Obsidian-功能笔记模板/00-使用说明.md#选择模板)；公开接口与内部函数分表记录行为，功能笔记只链接权威契约。模板类型不增加板块归属。
 
 默认图谱按板块着色，关闭标签节点，保留真实跨板块链接，隐藏附件与未解析节点，显示孤立笔记。硬边界指唯一归属与筛选集合，不保证集群固定位置或完全分离。
 

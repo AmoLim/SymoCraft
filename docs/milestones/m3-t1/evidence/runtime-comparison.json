@@ -1,0 +1,508 @@
+{
+  "passed": true,
+  "protocol": "5 s warmup + 15 s sample, one pair per scene; migration short test, not frozen baseline",
+  "machine": {
+    "vendor": "NVIDIA Corporation",
+    "renderer": "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+    "version": "4.6.0 NVIDIA 616.64"
+  },
+  "executable_identity": {
+    "old": "93C970A955CDE39B9A5FA81CCC494D0D2B8A33D336547C72A226C0BE7AC81EB4",
+    "new": "76A695DECAF99405483D25D722535BEF6D489914002743372D0B1E95A17B5DB2",
+    "debug": "6AEDA8A0BBD04CBC7206E3ED0574D30DF9FB60A926A06A13FD1FD9082989F749",
+    "note": "Short migration comparison, not the frozen 36-minute baseline. No user gameplay claim."
+  },
+  "world_summary_byte_identical": true,
+  "static_screenshot_byte_identical": true,
+  "static_screenshot_sha256": "3d4765d8bafd5388c2d60cd5ec4cc41e335d1b6416bebb1c692c299fc3b01851",
+  "comparisons": [
+    {
+      "scene": "static",
+      "world_metadata_identical": true,
+      "final_digest_identical": true,
+      "initial_upload_identical": true,
+      "accepted_edit_counts_identical": true,
+      "csv_schema_identical": true,
+      "startup_segment_schema_identical": true,
+      "observations": {
+        "old": {
+          "valid": true,
+          "startup_ms": {
+            "argument_preflight_and_collector_setup": 1.8387,
+            "window_and_context": 305.0097,
+            "shaders_buffers_and_block_config": 2.3188,
+            "texture_decode_and_upload": 2.4234,
+            "world_allocation": 33.3967,
+            "terrain": 86.8076,
+            "vegetation": 0.8719,
+            "fixtures_digests_and_metadata": 349.8922,
+            "first_mesh": 182.958,
+            "ready_from_main_entry": 967.0468,
+            "first_upload_cpu": 14.2746,
+            "first_frame_swap_return_from_main_entry": 1005.2832
+          },
+          "frame_ms": {
+            "count": 2340,
+            "min": 5.6094,
+            "max": 9.8724,
+            "mean": 6.409674957264948,
+            "p50": 6.3044,
+            "p95": 7.2702,
+            "p99": 7.7941
+          },
+          "mesh_ms": {
+            "count": 2340,
+            "min": 0.0048,
+            "max": 0.0598,
+            "mean": 0.007310042735042713,
+            "p50": 0.0069,
+            "p95": 0.0095,
+            "p99": 0.011
+          },
+          "upload_cpu_ms": {
+            "count": 2340,
+            "min": 2.6755,
+            "max": 5.5482000000000005,
+            "mean": 3.0679114957264972,
+            "p50": 3.0131,
+            "p95": 3.5129,
+            "p99": 3.8196999999999997
+          },
+          "cpu_submit_excluding_upload_ms": {
+            "count": 2340,
+            "min": 2.4806000000000004,
+            "max": 5.2455,
+            "mean": 2.933537136752136,
+            "p50": 2.8604999999999996,
+            "p95": 3.4647999999999994,
+            "p99": 3.8006
+          },
+          "gpu_draw_ms": {
+            "count": 2340,
+            "min": 0.096992,
+            "max": 0.41808,
+            "mean": 0.12149398974358988,
+            "p50": 0.120736,
+            "p95": 0.123136,
+            "p99": 0.128256
+          },
+          "gpu_missing": 0,
+          "fps": 156.0141515236374,
+          "focus": {
+            "transitions": 0,
+            "unfocused_frames": 3049,
+            "sample_unfocused_frames": 2340,
+            "unfocused_seconds_estimate": 20.00200980000002,
+            "sample_unfocused_seconds_estimate": 14.998639400000013,
+            "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+          },
+          "sample_edits": 0,
+          "scheduled_edits": 0,
+          "sample_rebuilt_chunks": 0
+        },
+        "new": {
+          "valid": true,
+          "startup_ms": {
+            "argument_preflight_and_collector_setup": 1.998,
+            "window_and_context": 267.7986,
+            "shaders_buffers_and_block_config": 2.514,
+            "texture_decode_and_upload": 2.0107,
+            "world_allocation": 31.4323,
+            "terrain": 101.2375,
+            "vegetation": 1.1144,
+            "fixtures_digests_and_metadata": 340.9467,
+            "first_mesh": 147.7058,
+            "ready_from_main_entry": 898.2392,
+            "first_upload_cpu": 14.601700000000001,
+            "first_frame_swap_return_from_main_entry": 956.3371
+          },
+          "frame_ms": {
+            "count": 2449,
+            "min": 5.4497,
+            "max": 9.143,
+            "mean": 6.123612984891797,
+            "p50": 6.0323,
+            "p95": 6.9238,
+            "p99": 8.0852
+          },
+          "mesh_ms": {
+            "count": 2449,
+            "min": 0.0015,
+            "max": 0.2619,
+            "mean": 0.0028575336872192934,
+            "p50": 0.0025,
+            "p95": 0.0042,
+            "p99": 0.0057
+          },
+          "upload_cpu_ms": {
+            "count": 2449,
+            "min": 2.6963999999999997,
+            "max": 4.9966,
+            "mean": 3.030053123723973,
+            "p50": 2.9688,
+            "p95": 3.5191999999999997,
+            "p99": 4.0616
+          },
+          "cpu_submit_excluding_upload_ms": {
+            "count": 2449,
+            "min": 2.368,
+            "max": 4.8322,
+            "mean": 2.7473077174356835,
+            "p50": 2.684,
+            "p95": 3.2257000000000007,
+            "p99": 3.7066999999999997
+          },
+          "gpu_draw_ms": {
+            "count": 2449,
+            "min": 0.084768,
+            "max": 0.447872,
+            "mean": 0.12403499224173146,
+            "p50": 0.111104,
+            "p95": 0.124192,
+            "p99": 0.422944
+          },
+          "gpu_missing": 0,
+          "fps": 163.30228616132445,
+          "focus": {
+            "transitions": 0,
+            "unfocused_frames": 0,
+            "sample_unfocused_frames": 0,
+            "unfocused_seconds_estimate": 0,
+            "sample_unfocused_seconds_estimate": 0,
+            "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+          },
+          "sample_edits": 0,
+          "scheduled_edits": 0,
+          "sample_rebuilt_chunks": 0
+        }
+      }
+    },
+    {
+      "scene": "walk",
+      "world_metadata_identical": true,
+      "final_digest_identical": true,
+      "initial_upload_identical": true,
+      "accepted_edit_counts_identical": true,
+      "csv_schema_identical": true,
+      "startup_segment_schema_identical": true,
+      "observations": {
+        "old": {
+          "valid": true,
+          "startup_ms": {
+            "argument_preflight_and_collector_setup": 2.4352,
+            "window_and_context": 275.0029,
+            "shaders_buffers_and_block_config": 2.8347,
+            "texture_decode_and_upload": 2.4298,
+            "world_allocation": 34.5975,
+            "terrain": 93.5391,
+            "vegetation": 0.9653,
+            "fixtures_digests_and_metadata": 353.1632,
+            "first_mesh": 189.804,
+            "ready_from_main_entry": 956.4019,
+            "first_upload_cpu": 14.5568,
+            "first_frame_swap_return_from_main_entry": 996.3479
+          },
+          "frame_ms": {
+            "count": 2213,
+            "min": 5.4894,
+            "max": 18.9199,
+            "mean": 6.779024130140079,
+            "p50": 6.591,
+            "p95": 8.3469,
+            "p99": 10.0333
+          },
+          "mesh_ms": {
+            "count": 2213,
+            "min": 0.0046,
+            "max": 0.0613,
+            "mean": 0.00810433800271121,
+            "p50": 0.0077,
+            "p95": 0.0106,
+            "p99": 0.018
+          },
+          "upload_cpu_ms": {
+            "count": 2213,
+            "min": 2.7078,
+            "max": 11.5632,
+            "mean": 3.296590826931765,
+            "p50": 3.2025,
+            "p95": 3.9996,
+            "p99": 4.5694
+          },
+          "cpu_submit_excluding_upload_ms": {
+            "count": 2213,
+            "min": 2.4398,
+            "max": 8.4357,
+            "mean": 3.1208406235878905,
+            "p50": 3.0305000000000004,
+            "p95": 3.9245,
+            "p99": 4.792
+          },
+          "gpu_draw_ms": {
+            "count": 2212,
+            "min": 0.07344,
+            "max": 0.478208,
+            "mean": 0.10874345027124782,
+            "p50": 0.10704,
+            "p95": 0.112896,
+            "p99": 0.288768
+          },
+          "gpu_missing": 1,
+          "fps": 147.5138575704311,
+          "focus": {
+            "transitions": 2,
+            "unfocused_frames": 2746,
+            "sample_unfocused_frames": 2213,
+            "unfocused_seconds_estimate": 18.530706799999983,
+            "sample_unfocused_seconds_estimate": 15.001980400000008,
+            "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+          },
+          "sample_edits": 0,
+          "scheduled_edits": 0,
+          "sample_rebuilt_chunks": 0
+        },
+        "new": {
+          "valid": true,
+          "startup_ms": {
+            "argument_preflight_and_collector_setup": 2.1543,
+            "window_and_context": 391.5916,
+            "shaders_buffers_and_block_config": 2.9211,
+            "texture_decode_and_upload": 2.7937,
+            "world_allocation": 54.5235,
+            "terrain": 129.2423,
+            "vegetation": 1.4401,
+            "fixtures_digests_and_metadata": 361.0569,
+            "first_mesh": 146.7193,
+            "ready_from_main_entry": 1094.2912,
+            "first_upload_cpu": 14.9619,
+            "first_frame_swap_return_from_main_entry": 1134.5207
+          },
+          "frame_ms": {
+            "count": 2367,
+            "min": 5.4615,
+            "max": 21.3714,
+            "mean": 6.339218419940848,
+            "p50": 6.2254,
+            "p95": 7.236,
+            "p99": 8.0535
+          },
+          "mesh_ms": {
+            "count": 2367,
+            "min": 0.0018,
+            "max": 0.0312,
+            "mean": 0.003710139416983506,
+            "p50": 0.0033,
+            "p95": 0.0058,
+            "p99": 0.0071
+          },
+          "upload_cpu_ms": {
+            "count": 2367,
+            "min": 2.7165,
+            "max": 10.3891,
+            "mean": 3.104982256020274,
+            "p50": 3.0434,
+            "p95": 3.5724,
+            "p99": 3.9123
+          },
+          "cpu_submit_excluding_upload_ms": {
+            "count": 2367,
+            "min": 2.3431,
+            "max": 10.612000000000002,
+            "mean": 2.8232958597380637,
+            "p50": 2.7513,
+            "p95": 3.3565,
+            "p99": 3.7973000000000003
+          },
+          "gpu_draw_ms": {
+            "count": 2367,
+            "min": 0.068864,
+            "max": 0.412928,
+            "mean": 0.1167855073933248,
+            "p50": 0.117888,
+            "p95": 0.128064,
+            "p99": 0.131648
+          },
+          "gpu_missing": 0,
+          "fps": 157.7481534402362,
+          "focus": {
+            "transitions": 0,
+            "unfocused_frames": 3106,
+            "sample_unfocused_frames": 2367,
+            "unfocused_seconds_estimate": 20.005378499999992,
+            "sample_unfocused_seconds_estimate": 15.004929999999979,
+            "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+          },
+          "sample_edits": 0,
+          "scheduled_edits": 0,
+          "sample_rebuilt_chunks": 0
+        }
+      }
+    },
+    {
+      "scene": "edit",
+      "world_metadata_identical": true,
+      "final_digest_identical": true,
+      "initial_upload_identical": true,
+      "accepted_edit_counts_identical": true,
+      "csv_schema_identical": true,
+      "startup_segment_schema_identical": true,
+      "observations": {
+        "old": {
+          "valid": true,
+          "startup_ms": {
+            "argument_preflight_and_collector_setup": 2.0558,
+            "window_and_context": 275.1891,
+            "shaders_buffers_and_block_config": 2.4497,
+            "texture_decode_and_upload": 2.2168,
+            "world_allocation": 34.6886,
+            "terrain": 85.1056,
+            "vegetation": 0.8942,
+            "fixtures_digests_and_metadata": 353.3493,
+            "first_mesh": 181.787,
+            "ready_from_main_entry": 939.3145,
+            "first_upload_cpu": 16.808,
+            "first_frame_swap_return_from_main_entry": 983.1001
+          },
+          "frame_ms": {
+            "count": 2354,
+            "min": 5.5218,
+            "max": 11.8159,
+            "mean": 6.374686321155475,
+            "p50": 6.214,
+            "p95": 7.6394,
+            "p99": 8.6012
+          },
+          "mesh_ms": {
+            "count": 2354,
+            "min": 0.0043,
+            "max": 2.8227,
+            "mean": 0.04417340696686492,
+            "p50": 0.0066,
+            "p95": 0.0101,
+            "p99": 1.3949
+          },
+          "upload_cpu_ms": {
+            "count": 2354,
+            "min": 2.69,
+            "max": 5.0847,
+            "mean": 3.0916899745114725,
+            "p50": 3.0151,
+            "p95": 3.7084,
+            "p99": 4.3031
+          },
+          "cpu_submit_excluding_upload_ms": {
+            "count": 2354,
+            "min": 2.456200000000001,
+            "max": 5.5799,
+            "mean": 2.923057476635513,
+            "p50": 2.8455,
+            "p95": 3.5229000000000004,
+            "p99": 4.0891
+          },
+          "gpu_draw_ms": {
+            "count": 2353,
+            "min": 0.097504,
+            "max": 0.579264,
+            "mean": 0.13401168890777698,
+            "p50": 0.121056,
+            "p95": 0.283232,
+            "p99": 0.433216
+          },
+          "gpu_missing": 1,
+          "fps": 156.8704638346409,
+          "focus": {
+            "transitions": 1,
+            "unfocused_frames": 225,
+            "sample_unfocused_frames": 0,
+            "unfocused_seconds_estimate": 1.6859180000000002,
+            "sample_unfocused_seconds_estimate": 0,
+            "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+          },
+          "sample_edits": 60,
+          "scheduled_edits": 79,
+          "sample_rebuilt_chunks": 180
+        },
+        "new": {
+          "valid": true,
+          "startup_ms": {
+            "argument_preflight_and_collector_setup": 2.1277,
+            "window_and_context": 277.2613,
+            "shaders_buffers_and_block_config": 2.867,
+            "texture_decode_and_upload": 2.186,
+            "world_allocation": 32.554,
+            "terrain": 99.9479,
+            "vegetation": 1.0976,
+            "fixtures_digests_and_metadata": 360.1489,
+            "first_mesh": 141.4893,
+            "ready_from_main_entry": 921.8535,
+            "first_upload_cpu": 15.1974,
+            "first_frame_swap_return_from_main_entry": 958.7448
+          },
+          "frame_ms": {
+            "count": 2391,
+            "min": 5.3517,
+            "max": 17.1328,
+            "mean": 6.274694102885829,
+            "p50": 6.1088,
+            "p95": 7.4782,
+            "p99": 8.1733
+          },
+          "mesh_ms": {
+            "count": 2391,
+            "min": 0.0018,
+            "max": 1.7171,
+            "mean": 0.034326808866583,
+            "p50": 0.0036,
+            "p95": 0.0066,
+            "p99": 1.2188
+          },
+          "upload_cpu_ms": {
+            "count": 2391,
+            "min": 2.6723999999999997,
+            "max": 5.416300000000001,
+            "mean": 3.160410832287752,
+            "p50": 3.0595,
+            "p95": 3.9143,
+            "p99": 4.3422
+          },
+          "cpu_submit_excluding_upload_ms": {
+            "count": 2391,
+            "min": 2.3714000000000004,
+            "max": 4.867700000000001,
+            "mean": 2.8141669176076918,
+            "p50": 2.7370999999999994,
+            "p95": 3.3821000000000003,
+            "p99": 3.8200000000000003
+          },
+          "gpu_draw_ms": {
+            "count": 2390,
+            "min": 0.084928,
+            "max": 0.56608,
+            "mean": 0.11976116485355633,
+            "p50": 0.110944,
+            "p95": 0.120544,
+            "p99": 0.415488
+          },
+          "gpu_missing": 1,
+          "fps": 159.37031887181323,
+          "focus": {
+            "transitions": 1,
+            "unfocused_frames": 1802,
+            "sample_unfocused_frames": 1019,
+            "unfocused_seconds_estimate": 11.370840799999993,
+            "sample_unfocused_seconds_estimate": 6.369970599999996,
+            "duration_method": "sum frame intervals classified by focus at event polling; approximate"
+          },
+          "sample_edits": 60,
+          "scheduled_edits": 79,
+          "sample_rebuilt_chunks": 180
+        }
+      }
+    }
+  ],
+  "limits": [
+    "No parallel agent builds or CPU probes during this second capture; ambient user/OS work not instrumented.",
+    "One short pair is not a performance certification, hardware baseline, or manual gameplay acceptance.",
+    "Cold first-mesh allocation data is not an edit-allocation measurement; unchanged edits may avoid rebuilds."
+  ]
+}

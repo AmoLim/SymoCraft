@@ -8,8 +8,7 @@ add_library(symocraft_simulation STATIC
 target_compile_features(symocraft_simulation PUBLIC cxx_std_20)
 target_include_directories(symocraft_simulation PUBLIC include PRIVATE src)
 target_link_libraries(symocraft_simulation
-    PUBLIC symocraft_foundation symocraft_scene symocraft_ecs
-    PRIVATE symocraft_world)
+    PUBLIC symocraft_foundation symocraft_scene symocraft_ecs symocraft_world)
 if(MSVC)
     target_compile_options(symocraft_simulation PRIVATE /W4 /utf-8)
 endif()

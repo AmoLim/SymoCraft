@@ -79,6 +79,17 @@ Benchmark 是测试的一部分，不是所有测试的上级。通用玩法、�
 
 ## 内容与导航规则
 
+### 文稿风格
+
+2026-10-06 用户确认：默认使用精简、精准的 Markdown 文稿；阅读不明确时，由用户显式指出需要扩充的位置。
+
+- 只保留职责、核心行为、必要边界与依据；不预先展开教程、术语解释或推演所有场景。
+- 同一信息只维护一处；表格、Mermaid 与文字互补，不重复复述，细节通过源码或权威笔记链接定位。
+- 精简不减少函数覆盖，不省略影响正确性的前提、失败后状态、所有权与失效规则；避免反复堆叠通用免责声明。
+- 收到明确反馈后，仅扩充指定位置及必要关联内容，不因此全面加长其他文档。
+
+适用于后续新增与整理。本次仅更新写作规则，不批量重写既有正文、原始证据或历史验收记录。
+
 ### 历史参考
 
 - Legacy 表示历史架构参考，不表示文档作废，也不表示其中所有机制均已被替换。
@@ -199,7 +210,7 @@ Obsidian 支持 `tags` 列表和斜杠嵌套标签，搜索父标签会包含子
 
 示例归属：
 
-- `spec/M3-T2-渲染器重构.md`：`area/spec`，可选 `topic/rendering`，不能同时带 `area/legacy` 或实现板块 tag。
+- `spec/M3-T3-渲染器重构.md`：`area/spec`，可选 `topic/rendering`，不能同时带 `area/legacy` 或实现板块 tag。
 - `spec/git/gitspec.md` 与 `spec/md-organize/mdspec.md`：均为 `area/spec`，分别属于 Git 规范和文档整理子模块。
 - `legacy/third-party-inventory.md`：`area/legacy`，不再设置独立依赖板块。
 - `project/benchmark/performance/Performance-Session类.md`：`area/benchmark`，可选 `topic/performance`。
@@ -304,3 +315,21 @@ tags:
 - 本次快照为 79 篇纳管文档、默认工程视图预期 72 篇，其中 architecture 26 篇。最新逐文件结果见 [tag-inventory.json](tag-inventory.json)；历史第二阶段的 52 篇、8 组颜色、490 个证据比较等记录保持原义，不改写成此次新增结果。
 - 全量纳管 frontmatter 可解析、唯一归属检查通过，新增架构文档的 Markdown 链接目标存在性检查通过。没有宣称重新验证所有历史源码链接或文档锚点。静态报告保存在 `out/m3-t0/docs-tag-validation.json`。
 - `.obsidian/graph.json` 本次读取前后 SHA256 一致，没有写入第九个颜色组，也没有打开 Obsidian 做实际界面验收；待验收项仍保留。
+
+### 数据与系统模板适配记录
+
+2026-10-05 用户要求编写现有笔记迁移 spec，并抽取两个新模板的代表性示例。详细目标、文件对应关系、不变量归属、保护规则和待执行验收见 [数据与系统笔记迁移 Spec](data-system-migration-spec.md)。本轮仅交付 spec 与配套示例，正式 Scene / Simulation / ECS 笔记尚未改写、拆分或重命名；执行迁移需用户另行确认，不以计划文件存在推定迁移完成。
+
+2026-10-06 同一 spec 先追加“逐对象审核覆盖”：已确定对象须独立笔记或有理由的辅助类型小节，既有汇总不能替代单对象契约，未实现候选须有批准依据并保持草稿。当时仅更新 spec；随后用户明确授权实施。
+
+2026-10-06 已按 spec 迁移 Scene/Simulation，拆出 Simulation 系统和 ECS 存储数据，新增 15 个单主体笔记；复用 Camera/Window/Generator/Registry。模块汇总改为协作/数据入口，当前源码中需要显式释放、调用顺序与 T4 未解决问题均可审核。新增 [对象覆盖清单](../../project/architecture/对象笔记覆盖清单.md)，模块入口直接链接资源对象。
+
+正式笔记唯一 `area/architecture`，没有新增每类标签或图谱颜色；标签清单仅同步本次迁移/新增架构项，不重分类用户笔记。新增笔记草稿/源码核对，不冒充运行测试通过。具体静态结果与待 UI 验收见 [实施记录](data-system-migration-spec.md#2026-10-06-正式迁移与覆盖实施)。历史 26 篇和先前检查数字保留为旧快照。
+
+### Architecture 模板与函数行为覆盖规格
+
+2026-10-06 用户要求归档聊天中的简单 spec，见 [Architecture 模板与函数行为覆盖 Spec](architecture-template-coverage-spec.md)。计划新增 namespace API、构建与依赖契约两个模板，并在各 architecture 模板中分别明确公开接口与私有函数的预期行为表；先整理 Renderer、GpuTimer、Simulation、构建契约四篇样板，确认后铺开。本轮只归档规格并登记入口，尚未修改模板或架构正文，不将归档视为实施授权或验收通过。
+
+同日用户随后授权实施，已新增两份模板、补齐六份既有模板及选择说明，四篇样板分别建立公开/内部函数行为表，旧链接、约束编号和验收范围保留。新增模板源只登记为可复用模板例外，不预填板块或改图谱设置；当时其余笔记待确认后铺开。历史范围见 [样板实施记录](architecture-template-coverage-spec.md#2026-10-06-模板与四篇样板实施)，不改写前序迁移的历史验收。
+
+用户再授权“继续进行spec的工作吧”，现已开始铺开，累计 28/43 篇适用设计/功能笔记具备两类行为表。新增 Platform / Telemetry namespace API 笔记分离自由函数与内部桥接，纳管 105、默认工程视图 95、architecture 46；用户 Renderer/GpuTimer 改名登记同步，图谱配置及旧验证快照不改。剩余 foundation 两篇、world 五篇、ecs 六篇、app 两篇与全量验收尚未完成；下一步队列与静态范围见 [铺开记录](architecture-template-coverage-spec.md#2026-10-06-行为表铺开记录)，无需再次确认样板，不把静态检查当成运行/UI 验收。

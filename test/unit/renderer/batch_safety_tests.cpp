@@ -1,6 +1,8 @@
 #include "batch.hpp"
+#include <symocraft/world/world.h>
 #include <array>
 #include <cstring>
+#include <fstream>
 #include <limits>
 #include <iostream>
 #include <stdexcept>
@@ -148,15 +150,68 @@ namespace {
         batch.Free();
         Require(calls.deleted_buffers == 1 && calls.deleted_arrays == 1, "Failed storage cleanup leaked GL objects.");
     }
+
+    void CheckEmptyWorldPublication(const char* configuration_path)
+    {
+        using namespace SymoCraft;
+        std::ifstream input(configuration_path, std::ios::binary);
+        Require(static_cast<bool>(input), "Cannot read real block configuration.");
+        const std::string text{std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>()};
+        auto world = World::VoxelWorld::Create(World::BlockDefinition::FromConfig(text), {424242, 2, false});
+        Require(world->RebuildDirtyMeshes() == 9, "Playable initial world did not publish all nine chunks.");
+
+        calls = {};
+        Batch<BlockVertex3D> batch;
+        batch.Init({{0, 3, GL_INT, offsetof(BlockVertex3D, pos_coord)},
+                    {1, 3, GL_FLOAT, offsetof(BlockVertex3D, tex_coord)},
+                    {2, 1, GL_FLOAT, offsetof(BlockVertex3D, normal)}});
+        std::size_t vertices = 0;
+        world->VisitMeshes([&](const World::WorldMeshRecord& record) {
+            vertices += record.vertices.size();
+            batch.AddVertex(record.vertices.data(), record.vertices.size());
+        });
+        Require(vertices > 0 && batch.VertexCount() == vertices, "Real published meshes did not reach the old batch.");
+        batch.Draw();
+        Require(calls.draws == 1 && calls.uploads == 1 &&
+                static_cast<std::size_t>(calls.draw_count) == vertices && batch.VertexCount() == 0,
+                "Nonempty publication did not draw and clear the live batch.");
+
+        // Exercise only public world edits; no private air fixture bypasses publication.
+        for (int x = -16; x < 32; ++x)
+            for (int z = -16; z < 32; ++z)
+                for (int y = 0; y < k_chunk_height; ++y) {
+                    const World::BlockCoord coordinate{x, y, z};
+                    const auto block = world->QueryBlock(coordinate);
+                    Require(block.status == World::BlockQueryStatus::Found, "Playable cell became outside world.");
+                    if (block.block.block_id != 1)
+                        Require(world->TryEdit({World::EditOperation::Remove, coordinate}).Accepted(),
+                                "Public removal failed while emptying the playable world.");
+                }
+        Require(world->RebuildDirtyMeshes() == 9, "Empty replacement did not publish all affected chunks.");
+        const auto draws_before = calls.draws, uploads_before = calls.uploads;
+        std::size_t empty_records = 0;
+        world->VisitMeshes([&](const World::WorldMeshRecord& record) {
+            Require(record.identity.world == world->Identity() && record.vertices.empty(),
+                    "Empty publication lost its world identity or retained old vertices.");
+            ++empty_records;
+            batch.AddVertex(record.vertices.data(), record.vertices.size());
+        });
+        Require(empty_records == 9 && batch.VertexCount() == 0, "Empty records were skipped or left stale batch vertices.");
+        batch.Draw();
+        Require(calls.draws == draws_before && calls.uploads == uploads_before,
+                "Empty world replacement reissued the previous draw or upload.");
+    }
 }
 
-int main()
+int main(int argc, char** argv)
 {
     InstallGLStubs();
     try {
+        Require(argc == 2, "Expected real block configuration path.");
         CheckCapacityAndStride();
         CheckPartialInitialization();
-        std::cout << "Batch safety tests passed without an OpenGL context.\n";
+        CheckEmptyWorldPublication(argv[1]);
+        std::cout << "Batch safety and real-world empty-publication handoff passed with GL call stubs, not a GPU context.\n";
         return 0;
     } catch (const std::exception& error) {
         std::cerr << error.what() << '\n';

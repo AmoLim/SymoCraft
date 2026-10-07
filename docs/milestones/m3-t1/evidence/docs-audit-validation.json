@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-06",
+  "mode": "validation",
+  "passed": true,
+  "inventoryWritten": false,
+  "counts": {
+    "managed": 111,
+    "defaultView": 101,
+    "areas": {
+      "meta": 3,
+      "templates": 7,
+      "legacy": 10,
+      "milestones": 11,
+      "architecture": 50,
+      "benchmark": 17,
+      "build": 3,
+      "spec": 9,
+      "testing": 1
+    }
+  },
+  "navigationFiles": 57,
+  "localLinksChecked": 1005,
+  "wikiLinksChecked": 74,
+  "newManagedPaths": [],
+  "staleManagedPaths": [],
+  "warnings": [
+    {
+      "file": "source-migration.tsv.md",
+      "issue": "unclassified-path-left-untouched"
+    }
+  ],
+  "errors": [],
+  "brokenFiles": [],
+  "brokenAnchors": [],
+  "graphSha256": "3c11dd1661828e1f676e2402c84acefc4949a8b4d143bdac26ae518710f0cd47",
+  "markdownWrites": 0,
+  "runtimeVerification": "not-run-by-document-audit",
+  "functionCoverage": "manual-review-not-inferred-from-YAML-or-links"
+}

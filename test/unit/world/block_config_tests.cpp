@@ -1,43 +1,42 @@
-#include "symocraft/world/block.h"
+#include "symocraft/world/block_definition.h"
 #include <yaml-cpp/yaml.h>
-#include <chrono>
-#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
 
-namespace fs = std::filesystem;
-
 int main(int argc, char* argv[])
 {
-    fs::path fixture;
     try
     {
         if (argc != 2)
             throw std::runtime_error("Expected a block configuration path");
-        SymoCraft::LoadBlocks(argv[1]);
-        SymoCraft::ValidateBlockTextures(64);
-        if (!SymoCraft::get_block(2).m_is_solid || SymoCraft::get_block(1).m_is_solid)
+        std::ifstream input(argv[1], std::ios::binary);
+        if (!input) throw std::runtime_error("Cannot read block configuration");
+        const std::string text{std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>()};
+        const auto definition = SymoCraft::World::BlockDefinition::FromConfig(text);
+        definition.ValidateTextureLayers(64);
+        if (!definition.Find(2)->m_is_solid || definition.Find(1)->m_is_solid)
             throw std::runtime_error("Solid/air configuration mismatch");
-        if (!SymoCraft::get_block(7).m_is_blendable)
+        if (!definition.Find(7)->m_is_blendable)
             throw std::runtime_error("isBlendable was not parsed");
         const std::string padded_name = "grass_block_extra";
-        if (SymoCraft::get_block_id(std::string_view(padded_name.data(), 11)) != 2)
+        if (definition.FindId(std::string_view(padded_name.data(), 11)) != 2)
             throw std::runtime_error("Block name lookup read beyond its string_view");
 
         bool rejected = false;
-        try { SymoCraft::ValidateBlockTextures(10); }
+        try { definition.ValidateTextureLayers(10); }
         catch (const std::exception&) { rejected = true; }
         if (!rejected)
             throw std::runtime_error("Out-of-range texture layers were accepted");
 
-        const auto parent = fs::temp_directory_path();
-        fixture = parent / ("symocraft-block-config-" + std::to_string(
-            std::chrono::steady_clock::now().time_since_epoch().count()) + ".yaml");
-        if (fs::exists(fixture))
-            throw std::runtime_error("Refusing to overwrite an existing fixture");
-        const auto valid = YAML::LoadFile(argv[1]);
-        for (int test = 0; test < 6; ++test)
+        rejected = false;
+        try { definition.ValidateTextureLayers(0); }
+        catch (const std::exception&) { rejected = true; }
+        if (!rejected) throw std::runtime_error("Zero texture layers were accepted");
+        if (definition.Find(0) || definition.Find(65535) || definition.FindId("absent"))
+            throw std::runtime_error("Unknown definition silently became air");
+        const auto valid = YAML::Load(text);
+        for (int test = 0; test < 10; ++test)
         {
             auto node = YAML::Clone(valid);
             if (test == 0) node = YAML::Node(YAML::NodeType::Sequence);
@@ -46,27 +45,33 @@ int main(int argc, char* argv[])
             if (test == 3) node["grass_block"]["id"] = -1;
             if (test == 4) node.remove("birch_planks");
             if (test == 5) node.remove("cobblestone");
-            std::ofstream output(fixture, std::ios::binary | std::ios::trunc);
-            output << YAML::Dump(node);
-            output.close();
-            if (!output)
-                throw std::runtime_error("Cannot write block configuration fixture");
+            if (test == 6) node["grass_block"]["id"] = 0;
+            if (test == 7) node["grass_block"]["id"] = 65536;
+            if (test == 8) node["grass_block"]["isSolid"] = "not-a-bool";
+            if (test == 9) node["grass_block"]["side"] = -1;
             rejected = false;
-            try { SymoCraft::LoadBlocks(fixture.string()); }
+            try { static_cast<void>(SymoCraft::World::BlockDefinition::FromConfig(YAML::Dump(node))); }
             catch (const std::exception&) { rejected = true; }
             if (!rejected)
                 throw std::runtime_error("Malformed block configuration was accepted");
-            if (SymoCraft::get_block_id("grass_block") != 2)
+            if (definition.FindId("grass_block") != 2)
                 throw std::runtime_error("Failed configuration replaced the last valid state");
         }
-        fs::remove(fixture);
-        std::cout << "Block configuration contracts passed.\n";
+        rejected = false;
+        try { static_cast<void>(SymoCraft::World::BlockDefinition::FromConfig(text + "\ngrass_block:\n  id: 12\n")); }
+        catch (const std::exception&) { rejected = true; }
+        if (!rejected) throw std::runtime_error("Duplicate definition name accepted");
+        auto copied = definition;
+        auto rule = copied.Find(2).value();
+        rule.m_is_solid = false;
+        if (!copied.Find(2)->m_is_solid || !definition.Find(2)->m_is_solid)
+            throw std::runtime_error("Rule result borrowed definition storage");
+        std::cout << "Block definition validation and value-ownership contracts passed.\n";
         return 0;
     }
     catch (const std::exception& error)
     {
         std::cerr << "Block configuration test failed: " << error.what() << '\n';
-        // Retain a failing fixture for diagnosis; never delete a preexisting file.
         return 1;
     }
 }

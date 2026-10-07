@@ -22,6 +22,8 @@ namespace SymoCraft::Generation {
         ~Generator();
         Generator(const Generator&) = delete;
         Generator& operator=(const Generator&) = delete;
+        Generator(Generator&&) = delete;
+        Generator& operator=(Generator&&) = delete;
         float Height(int x, int z) const;
         std::mt19937 VegetationRandom(int chunk_x, int chunk_z) const;
         const Settings& Config() const { return settings_; }
@@ -35,10 +37,4 @@ namespace SymoCraft::Generation {
 
     std::uint32_t RandomSeed();
     struct Timings { double allocation_ms{}, terrain_ms{}, vegetation_ms{}; };
-    void Build(const Settings& settings, Timings* timings = nullptr);
-    // Existing complete square only; sorts by coordinates, never by map iteration order.
-    void Populate(const Generator& generator, Timings* timings = nullptr);
-    std::string BlockDigest();
-    glm::vec3 FindSpawnPosition();
-    Data::Value Describe(const Settings& settings);
 }

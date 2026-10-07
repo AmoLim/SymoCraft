@@ -7,7 +7,7 @@ tags:
 
 ## 当前报告范围与结论
 
-- 更新日期：2026-10-05；以当前工作区的模块化工程文件为准，包括尚未提交的工程变更，不仅依据 Git 已提交版本。
+- 更新日期：2026-10-06；本轮仅同步 M3-T1 的 world 依赖与 YAML 本地修补，其余静态审计仍为 2026-10-05 范围。以工作区工程文件为准，不仅依据 Git 提交。
 - 核对范围：顶层、`game/`、`tools/benchmark/`、`test/` 的 CMake 配置，`cmake/ThirdParty*.cmake`、`cmake/ModuleBoundaries.cmake`，当前参与构建的源码、`vendor/` 本地材料及 `scripts/benchmark.ps1`。
 - 本次是源码与构建声明的静态核对，没有重新编译、启动游戏、检查当前可执行文件导入表或联网核验上游版本。文中的版本是本地文件自述，不等于已验证原始发行包、提交或供应链来源。
 - 当前使用的第三方项目为 **GLFW、GLM、glad、stb、FastNoiseLite、robin_hood、yaml-cpp**；stb 分别以图片解码和图片写出两个组件接入。Khronos 平台头是 glad 的配套传递依赖。
@@ -26,7 +26,7 @@ tags:
 | 场景数据 `scene` / `symocraft_scene` | 无单独声明的第三方目标 | 经 foundation 使用 GLM | 相机投影/视图矩阵、网格顶点位置和纹理坐标需要统一数学类型；scene 是 `INTERFACE` 目标，不持有 OpenGL 对象 |
 | 资源 `assets` / `symocraft_assets` | stb_image：`PRIVATE symocraft_image_decoder` | CMake 经 foundation 继承 GLM，但图片解码接口本身不需要 GLM | 将 PNG 等图片文件解码为 CPU 像素，供纹理上传；读取与定位资产不需要图形上下文 |
 | 实体组件 `ecs` / `symocraft_ecs` | 无 | CMake 经 foundation 继承 GLM；Registry 本身没有直接调用 GLM | ECS 存储、实体版本和组件查询由工程自有代码实现，不依赖第三方 ECS 库；数学组件属于 simulation |
-| 世界 `world` / `symocraft_world` | yaml-cpp、FastNoiseLite、robin_hood：均为 `PRIVATE` | 经 foundation / scene 使用 GLM | 分别完成方块配置解析、程序化地形噪声、区块与方块配置索引；GLM 表示区块坐标和生成网格 |
+| 世界 `world` / `symocraft_world` | yaml-cpp、FastNoiseLite：均为 `PRIVATE` | 经 foundation / scene 使用 GLM | 配置文本解析与地形噪声；T1 的固定二维槽/排序规则 vector 不再使用 robin_hood |
 | 模拟与玩家 `simulation` / `symocraft_simulation` | 无 | 经 foundation / scene 使用 GLM；经 world 使用已有配置与世界存储能力 | 玩家移动、相机、变换、速度、碰撞和射线运算使用 GLM；物理逻辑是自有实现，没有接入第三方物理引擎 |
 | 平台 `platform` / `symocraft_platform` | GLFW：`PRIVATE glfw` | CMake 经 foundation 继承 GLM；Win32 / Psapi 另见系统依赖 | 创建窗口与 OpenGL 上下文，处理键鼠、焦点、事件、时间、交换缓冲；输入快照公共类型不暴露 GLFW |
 | 渲染 `renderer` / `symocraft_renderer` | glad、stb_image_write、robin_hood：均为 `PRIVATE` | 经 scene / foundation 使用 GLM；经 assets 解码图片；经 platform 获取图形入口和上下文；glad 带入 Khronos 头 | 分别完成 OpenGL 函数加载与调用、诊断 PNG 截图、uniform 位置缓存；GLM 用于变换与着色器参数 |
@@ -41,7 +41,7 @@ tags:
 
 ## 各库用途与必要性
 
-### GLFW：窗口、输入与上下文
+### GLFW：窗口、输入与上下文 （有没有更好的窗口库？
 
 - 当前直接归属 platform。`game/modules/platform/src/window.cpp` 调用 `glfwInit`、`glfwCreateWindow`、`glfwPollEvents`、键鼠查询与回调，处理焦点/最小化、鼠标锁定和窗口尺寸。
 - 图形桥接由同文件提供 `glfwMakeContextCurrent`、`glfwGetProcAddress`、`glfwSwapInterval`、`glfwSwapBuffers`。renderer 通过 `graphics_bridge.h` 使用这些能力，而非直接引入 GLFW 头或声明 `glfw` 依赖。
@@ -80,20 +80,21 @@ tags:
 - 需要它是为了获得连续、分层、可由种子复现的地形高度场，而不是无关联的随机高度。植被随机分布还使用标准库 `std::mt19937`，不能把整个随机系统都归因于 FastNoiseLite。
 - 这是头文件库，由 `symocraft_noise` 私有接入；公共 generation 接口用不完整类型隔离采样器。更换算法或版本会影响固定种子世界及摘要，必须同步验证生成测试和基准场景，而不能视为无行为变化的替换。
 
-### robin_hood：世界索引与着色器缓存
+### robin_hood：着色器缓存
 
-- world 的 `block.cpp` 使用 `unordered_flat_map` 存储方块 ID → 属性、名称 → ID；`chunk_manager.cpp` / `chunk_store.h` 使用 `unordered_node_map<glm::ivec2, Chunk>` 存储区块。
+- T0 world 的规则/区块哈希容器已在 T1 退出，旧实现见 [T0 报告](../milestones/m3-t0/README.md)；当前 world 无该依赖。
 - renderer 的 `shader_program.cpp` 使用 `unordered_set` 缓存程序和变量名对应的 uniform 位置，避免重复查询 `glGetUniformLocation`。
 - 需要的是哈希索引/缓存能力；当前选择 robin_hood 是其面向时间和内存效率的容器实现。没有本次与标准容器的对比数据，不能声称已证明比 `std::unordered_map` 更快。
-- 区块存储使用 node 容器，世界代码维护区块和邻接指针；替换为 flat 容器或其他存储方式时必须核对地址稳定性及指针生命周期。当前 active platform 输入路径不使用 robin_hood；旧输入映射用途只存在于停用遗留文件，不计入当前依赖。
+- 当前 active platform 输入路径不使用 robin_hood；旧输入映射只存在于停用遗留文件，不计入当前依赖。
 
 ### yaml-cpp：配置、性能协议与独立基准会话
 
-- world 的 `block.cpp` 用 `YAML::LoadFile` 读取 `assets/configs/blockFormats.yaml`，把方块 ID、各面纹理、实体/透明属性等字段转换为工程数据，并执行业务校验。库提供解析及类型转换，必需方块名称、ID 范围等规则仍由项目实现。
+- world 的 `block.cpp` 用 `YAML::Load` 解析 app 传入的配置文本，生成自有 BlockDefinition；路径/读取归 assets/app。必需名称、ID 与纹理校验归项目，YAML 类型不进入 world 公开头。
 - telemetry 的 `document_io.cpp` 在工程自有 `Data::Value` 与 `YAML::Node` 间转换，提供 `DumpYaml`、`LoadYaml`、`LoadYamlFile`。`performance.cpp` 使用该接口生成 `status.yaml`、`summary.yaml`。foundation 的值容器、world 生成报告值及 app 的业务组装不直接公开 YAML 类型。
 - benchmark_core 的 `runner.cpp`、`platform.cpp` 则直接使用 `YAML::Node`、`YAML::Load`、`YAML::Dump`，处理会话、轮次、状态校验、结果及 SHA256 清单；其公共头 `tools/benchmark/include/benchmark/runner.h` 也暴露 YAML 类型。
 - 需要它是因为当前资源和进程间文件协议使用 YAML。去除会同时影响方块配置读取、游戏观测输出和独立 runner 的读取/校验；必须保留等价解析与序列化行为或迁移格式，不能只改一个模块。
 - `cmake/ThirdPartyYaml.cmake` 明确列出源码，将本地源码子集编译为 `symocraft_yaml` 静态库，头通过 `symocraft_yaml_headers` 暴露。`lib/yaml-cpp` 里的 `.a` 文件不是当前 yaml-cpp 实现。
+- T1 本地修补只涉及 `vendor/yaml-cpp/src/stream.h`、`stream.cpp`：prefetch 数组由 `unique_ptr<unsigned char[]>` 接管。失败/复测与哈希统一见 [T1 报告](../milestones/m3-t1/README.md)，未升级库版本或补称已核验上游来源。
 
 ## 构建模式与依赖边界
 

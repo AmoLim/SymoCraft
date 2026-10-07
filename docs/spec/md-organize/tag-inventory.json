@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-10-05",
+  "updated": "2026-10-07",
   "vaultRoot": "docs",
   "spec": "spec/md-organize/mdspec.md",
   "uiVerification": "pending-native-pipe-unavailable",
   "counts": {
-    "managed": 80,
-    "defaultView": 73,
+    "managed": 114,
+    "defaultView": 105,
     "areas": {
       "meta": 2,
-      "templates": 5,
+      "templates": 7,
       "legacy": 10,
-      "milestones": 10,
-      "architecture": 26,
+      "milestones": 13,
+      "architecture": 50,
       "benchmark": 17,
       "build": 3,
-      "spec": 6,
+      "spec": 11,
       "testing": 1
     }
   },
@@ -58,6 +58,22 @@
     },
     {
       "path": "Obsidian-功能笔记模板/examples/D3D12Lab-App-类示例.md",
+      "area": "area/templates",
+      "tags": [
+        "示例",
+        "area/templates"
+      ]
+    },
+    {
+      "path": "Obsidian-功能笔记模板/examples/Symocraft-Scene-数据设计示例.md",
+      "area": "area/templates",
+      "tags": [
+        "示例",
+        "area/templates"
+      ]
+    },
+    {
+      "path": "Obsidian-功能笔记模板/examples/Symocraft-Simulation-系统设计示例.md",
       "area": "area/templates",
       "tags": [
         "示例",
@@ -225,6 +241,27 @@
       ]
     },
     {
+      "path": "milestones/m3-t1/README.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
+      "path": "milestones/m3-t2/README.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
+      "path": "milestones/m3-t2/platform-contract-candidate.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
       "path": "project/architecture/Overview.md",
       "area": "area/architecture",
       "tags": [
@@ -267,6 +304,13 @@
       ]
     },
     {
+      "path": "project/architecture/assets/Image-数据设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
       "path": "project/architecture/build/构建与测试边界.md",
       "area": "area/architecture",
       "tags": [
@@ -275,6 +319,13 @@
     },
     {
       "path": "project/architecture/build/构建契约设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/ecs/ComponentContainer-类设计.md",
       "area": "area/architecture",
       "tags": [
         "area/architecture"
@@ -295,6 +346,27 @@
       ]
     },
     {
+      "path": "project/architecture/ecs/ECS-组件存储-数据设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/ecs/Iterator-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/ecs/RegistryViewer-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
       "path": "project/architecture/foundation/Foundation-基础契约-类设计.md",
       "area": "area/architecture",
       "tags": [
@@ -303,6 +375,20 @@
     },
     {
       "path": "project/architecture/foundation/Foundation-基础契约.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/foundation/Value-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/platform/Platform-namespace-API.md",
       "area": "area/architecture",
       "tags": [
         "area/architecture"
@@ -323,6 +409,27 @@
       ]
     },
     {
+      "path": "project/architecture/renderer/Batch-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/renderer/GpuTimer Class.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/renderer/Renderer namespace API.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
       "path": "project/architecture/renderer/Renderer-显式场景输入-功能.md",
       "area": "area/architecture",
       "tags": [
@@ -330,14 +437,35 @@
       ]
     },
     {
-      "path": "project/architecture/renderer/Renderer-类设计.md",
+      "path": "project/architecture/renderer/Shader-类设计.md",
       "area": "area/architecture",
       "tags": [
         "area/architecture"
       ]
     },
     {
-      "path": "project/architecture/scene/Scene-共享场景数据-类设计.md",
+      "path": "project/architecture/renderer/ShaderProgram-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/renderer/Texture-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/renderer/TextureArray-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/scene/Scene-共享场景数据-数据设计.md",
       "area": "area/architecture",
       "tags": [
         "area/architecture"
@@ -358,6 +486,13 @@
       ]
     },
     {
+      "path": "project/architecture/simulation/FixedStepBudget-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
       "path": "project/architecture/simulation/Simulation-功能.md",
       "area": "area/architecture",
       "tags": [
@@ -365,7 +500,28 @@
       ]
     },
     {
-      "path": "project/architecture/simulation/Simulation-类设计.md",
+      "path": "project/architecture/simulation/Simulation-数据设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/simulation/Simulation-系统设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/telemetry/Session-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/telemetry/Telemetry-namespace-API.md",
       "area": "area/architecture",
       "tags": [
         "area/architecture"
@@ -386,7 +542,42 @@
       ]
     },
     {
+      "path": "project/architecture/world/Block-数据设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/world/BlockDefinition-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/world/Chunk-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/world/ChunkMesher-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
       "path": "project/architecture/world/Generator-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/world/World-namespace-API.md",
       "area": "area/architecture",
       "tags": [
         "area/architecture"
@@ -400,7 +591,21 @@
       ]
     },
     {
+      "path": "project/architecture/world/World-数据设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
       "path": "project/architecture/world/World-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/对象笔记覆盖清单.md",
       "area": "area/architecture",
       "tags": [
         "area/architecture"
@@ -564,7 +769,22 @@
       ]
     },
     {
-      "path": "spec/M3-T2-渲染器重构.md",
+      "path": "spec/M3-T1-T3-CPU契约清单.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "spec/M3-T1-世界模块重构.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec",
+        "topic/world"
+      ]
+    },
+    {
+      "path": "spec/M3-T3-渲染器重构.md",
       "area": "area/spec",
       "tags": [
         "area/spec",
@@ -572,7 +792,28 @@
       ]
     },
     {
+      "path": "spec/M3-T2-SDL3迁移.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
       "path": "spec/git/gitspec.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "spec/md-organize/architecture-template-coverage-spec.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "spec/md-organize/data-system-migration-spec.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
@@ -642,6 +883,14 @@
       "reason": "reusable-template"
     },
     {
+      "path": "Obsidian-功能笔记模板/templates/09-namespace API设计.md",
+      "reason": "reusable-template"
+    },
+    {
+      "path": "Obsidian-功能笔记模板/templates/10-构建与依赖契约.md",
+      "reason": "reusable-template"
+    },
+    {
       "path": "milestones/m2-a/evidence/release-input-retest/probe-note.md",
       "reason": "immutable-evidence"
     }
@@ -687,5 +936,30 @@
     "yamlErrors": 0,
     "ownershipIssues": [],
     "brokenArchitectureLinks": []
+  },
+  "architectureMigration": {
+    "date": "2026-10-06",
+    "architectureNotes": 44,
+    "coverageRows": 76,
+    "newSingleSubjectNotes": 15,
+    "scope": "Only architecture entries replaced; user journal/spec/template registration and historical verification preserved.",
+    "uiVerification": "not-run",
+    "runtimeTests": "not-run",
+    "graphConfigurationTouched": false
+  },
+  "m3T1DocumentationUpdate": {
+    "date": "2026-10-06",
+    "architectureNotes": 50,
+    "graphConfigurationTouched": false,
+    "graphConfigurationSha256": "3c11dd1661828e1f676e2402c84acefc4949a8b4d143bdac26ae518710f0cd47",
+    "uiVerification": "not-run",
+    "runtimeVerification": "not-run-by-document-audit",
+    "functionCoverage": "manual-review-not-inferred-from-YAML-or-links",
+    "warnings": [
+      {
+        "file": "source-migration.tsv.md",
+        "issue": "unclassified-path-left-untouched"
+      }
+    ]
   }
 }

@@ -6,23 +6,6 @@
 
 namespace SymoCraft
 {
-    struct BlockFormat {
-        uint16 m_top_texture;
-        uint16 m_side_texture;
-        uint16 m_bottom_texture;
-        bool m_is_transparent;
-        bool m_is_solid;
-        bool m_is_blendable;
-        bool m_is_lightSource;
-        int16 m_light_level;
-    };
-
-    void LoadBlocks(std::string_view block_format_config);
-    void ValidateBlockTextures(std::size_t layer_count);
-    uint16 get_block_id(std::string_view block_name);
-    const BlockFormat& get_block(int block_id);
-    const BlockFormat& get_block(std::string_view name);
-
     class Block {
     public:
         uint16 block_id;

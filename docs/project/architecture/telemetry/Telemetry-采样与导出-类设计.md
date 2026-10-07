@@ -1,74 +1,67 @@
 ---
-type: 类设计
+type: 数据设计
 status: 已验证（T0范围）
 project: Symocraft
 module: telemetry
-class_name: "Session / SessionConfig / Data YAML Adapter"
-inheritance: []
 created: 2026-10-05
+updated: 2026-10-06
 tags:
   - area/architecture
 ---
 
-# Telemetry-采样与导出-类设计
+# Telemetry 采样数据与导出摘要
 
-关联功能：[Telemetry-采样与导出](Telemetry-采样与导出.md)。不存在的管理类不为模板而增造；自由函数与数据结构按实际实现记录。
-
-最终验证：[M3-T0 交付与验收报告](../../../milestones/m3-t0/README.md)。
+历史文件名保留，资源状态与原 I1-I4 归 [Session](Session-类设计.md#不变量)。
+关联：[功能验收](Telemetry-采样与导出.md)、[协议](../../benchmark/Benchmark-文件协议.md)、[覆盖清单](../对象笔记覆盖清单.md)。
 
 ## 当前设计
 
-职责：telemetry 接收 CPU 帧、内存和异步 GPU 结果，维持 v2 采样统计与文件协议。其公开头只含项目值类型，不再泄漏 YAML::Node，也不依赖 app 的 StartupOptions。GPU 查询由 renderer 负责，系统内存由 platform 负责。
+### 工作负载与布局
 
-### 数据成员
+Frame/Memory append 到 Session 自有 vector，GPU ms 迟到按索引回填；采样结束复制数值/排序/YAML 转换，公开头不泄漏 parser/app 配置。AoS 并排字段，预留/上限见 Session；规模/访问分布/瓶颈未测，不宣称 DOD 优化。
 
-| 类型 | 成员 | 初值 / 范围 | 含义与所有权 |
-| --- | --- | --- | --- |
-| SessionConfig | 构造入参 | 明确分辨率 / 时长 / 焦点策略 | 自有字符串，仅构造期消费 |
-| vector<Frame> | Session::frames_ | reserve(100000) | 自有帧记录，上限 1000000 |
-| vector<Memory> | Session::memory_ | reserve(1300) | 自有进程 / 设备内存样本 |
-| vector<string> | invalid_reasons_ | 空 | 去重后的失败原因 |
-| Data::Value | metadata / startup | 未定义 | 自有结构化元数据 |
-| bool | completed | false | 完成协议时长后由 app 设置 |
+### SessionConfig
 
-### 不变量
+自有 string output_directory/focus_policy（strict）/benchmark；unsigned width=1920,height=1080,warmup_seconds=60,sample_seconds=180；vsync=false。仅构造消费，不借用 CLI string_view，Session 不重校所有 CLI 组合。
 
-| 编号 | 条件 | 成立边界 |
-| --- | --- | --- |
-| I1 | 输出目录必须新建且父目录存在 | 构造成功时 |
-| I2 | GPU 回填索引必须已存在于 frames_ | SetGpu 入口 |
-| I3 | 只有正常退出、完成时长、没有无效原因且采样非空才能有效 | Export |
-| I4 | 缺失 GPU 值不伪造成 0，预热不混入统计，慢帧不剔除 | 汇总 / 导出 |
+### Frame
 
-### 接口与生命周期
+double elapsed 为秒；frame_ms/simulation_delta_ms/event_ms/simulation_ms/mesh_ms/pack_ms/render_cpu_ms/upload_cpu_ms/present_ms/instrumentation_ms 为毫秒；optional<double> gpu_draw_ms 默认缺失。
+uint64 rebuilt_chunks/vertices/upload_bytes/draw_calls/edits 为计数/字节；double edit_lateness_ms 毫秒、x/y/z 世界坐标、yaw 角度；bool measured/focused。数值/布尔默认 0/false，app 设置预热/采样标志。
+frame_ms 为连续 SwapBuffers 返回间隔，非物理延迟；simulation_delta_ms 为裁剪帧步长。GPU 缺失不同于真实零绘制段 0，范围归 [GpuTimer](../renderer/GpuTimer%20Class.md#采样关联与计时范围)。
 
-| 接口 | 行为 | 前提 / 边界 |
-| --- | --- | --- |
-| Session(config, entry) | 建目录、预留样本容量、发布 initializing | 失败抛异常；不覆盖既有结果 |
-| Add(Frame/Memory) | 复制中立样本 | 单线程调用；不借用 GPU / Window 对象 |
-| SetGpu(index, ms) | 回填延迟读取的 GPU 样本 | 无匹配帧时抛 logic_error |
-| Export(normal_exit) | 写原始样本、统计与 finished 状态 | I3；失败保留已写数据供诊断 |
-| Data::DumpYaml / LoadYaml | 项目值与 YAML 私有表示转换 | 不向公开头传递解析器类型 |
+### Memory
 
-- SessionConfig 使用自有字符串，避免 CLI string_view 寿命被统计模块隐含依赖。
-- 逐帧仅收集数值，原有预留容量、上限和 GPU 回填方式不变；排序与 YAML 转换发生在采样之后。
-- strict / allow-unfocused 的有效性规则、预热剔除、nearest-rank 百分位、缺失 GPU 值和异常导出语义保持原协议。
-- 元数据使用 foundation::Data::Value；私有 YAML 适配器负责导出，不改变外部 benchmark 的进程边界。
-- 状态文件仍采用同卷临时文件原子替换；不以非原子写入简化迁移。
+elapsed 秒；optional<uint64_t> working_set_bytes/private_bytes 进程字节，device_dedicated_kib/device_available_kib 设备级 KiB。失败缺失不补零，不是进程 VRAM；本记录不拥有系统 handle。
 
-公开头：[include](../../../../game/modules/telemetry/include/symocraft/telemetry)；实现：[src](../../../../game/modules/telemetry/src)。Session 按单线程调用契约工作，本轮未声明并发或重入能力。
+### YAML 适配
+
+Data::DumpYaml/LoadYaml 为自由函数，公开仅 Data::Value，私有 YAML 转换保留 map 顺序和 float/double。状态文件同卷关闭临时文件原子发布，不虚构 Adapter 类。
+[适配头](../../../../game/modules/telemetry/include/symocraft/telemetry/document_io.h)、[实现](../../../../game/modules/telemetry/src/document_io.cpp)。
+
+### 有效期、历史与风险
+
+值复制独立，数组扩容/替换/销毁使元素借用失效；单线程采集/导出，无并发/重入保证。T0 YAML/app 解耦，strict/allow-unfocused、预热排除/nearest-rank/慢帧保留/异常导出沿 v2 协议；并非所有入口校验所有字段。
+[声明](../../../../game/modules/telemetry/include/symocraft/telemetry/performance.h)、[功能验收](Telemetry-采样与导出.md#验收案例)、[T0 报告](../../../milestones/m3-t0/README.md)保留正式导出/YAML/static/edit 短测结论；2026-10-06 未重新跑完整正式协议或作性能提升判断。
+
+### 公开接口预期行为
+
+| 签名 / 入口 | 调用方与可见范围 | 预期行为：输出及状态变化 | 前提 / 边界 | 失败反馈及失败后状态 | 源码 / 约束 |
+| --- | --- | --- | --- | --- | --- |
+| 不适用：SessionConfig / Frame / Memory 无显式函数 | app / Session | 默认值见各字段节；按值复制 optional/数值/string，标准移动语义 | 字段公开，不全面校验所有数值；Session vector 借用会随扩容失效 | string 复制/分配可抛，不拥有 GPU/OS handle | [performance.h](../../../../game/modules/telemetry/include/symocraft/telemetry/performance.h) |
+| Milliseconds / Statistics / YAML adapter（索引） | 模块公开自由函数 | [API 权威表](Telemetry-namespace-API.md#公开接口预期行为) | 不是 Frame/Memory 方法 | 同目标表 | performance.h / document_io.h |
+
+### 私有函数预期行为
+
+| 签名 / 入口 | 内部调用方 | 预期行为：处理规则及副作用 | 前提 / 边界 | 失败传播及清理责任 | 源码 / 约束 |
+| --- | --- | --- | --- | --- | --- |
+| 不适用：数据类型无 private 函数 | 数据消费者 | Encode/Decode 为外部 adapter helper，见 [API 内部表](Telemetry-namespace-API.md#私有函数预期行为) | Output/Optional 见 [Session](Session-类设计.md#私有函数预期行为) | 相应 owner 负责清理 | document_io.cpp / performance.cpp |
 
 ## 本次变更
 
-本次将真实实现归入 telemetry，用公开契约替代旧聚合头依赖。成员、所有权与失效约束以上表为准；尚未完成验证的风险不以“拆库完成”代替。
-
-### 验收案例
-
-验收位置：[关联功能的验收案例](Telemetry-采样与导出.md#验收案例)。正式导出测试、YAML 值往返和 static/edit 真实短采样通过，I1-I4 的已列协议路径具备证据。没有重新运行完整正式协议或用单次短测下性能优化结论。
+无。
 
 ## 后续考虑
 
-| 触发条件 | 再考虑的变化 |
-| --- | --- |
-| 新调用者需要改变生命周期 | 先修改契约与测试，再修改接口，不暴露存储布局解决临时需求 |
+采样扩展先定义单位/缺失/有效性与版本，不复制 benchmark 权威协议。
 

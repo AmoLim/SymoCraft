@@ -1,139 +1,110 @@
-#include "chunk.h"
-#include "chunk_store.h"
-#include "symocraft/world/constants.h"
+#include "world_test_access.h"
+#include <fstream>
 #include <iostream>
 #include <stdexcept>
 #include <type_traits>
 
 namespace {
     using namespace SymoCraft;
-
-    void Require(bool condition, const char* message)
+    using namespace SymoCraft::World;
+    void Require(bool condition, const char* message) { if (!condition) throw std::runtime_error(message); }
+    void Set(VoxelWorld& world, BlockCoord position, BlockId id)
     {
-        if (!condition)
-            throw std::runtime_error(message);
+        Require(world.TryEdit({EditOperation::Set, position, id}).Accepted(), "Fixture insertion failed");
     }
-
-    void CheckMissingNeighbors()
+    void Remove(VoxelWorld& world, BlockCoord position)
     {
-        Chunk chunk;
-        const std::array<glm::vec3, 8> outside{
-            glm::vec3{-1, 10, 0}, glm::vec3{16, 10, 0},
-            glm::vec3{0, 10, -1}, glm::vec3{0, 10, 16},
-            glm::vec3{0, -1, 0}, glm::vec3{0, 256, 0},
-            glm::vec3{16, 256, 16}, glm::vec3{-1, -1, -1}};
+        Require(world.TryEdit({EditOperation::Remove, position}).Accepted(), "Fixture removal failed");
+    }
+    std::size_t Count(VoxelWorld& world, ChunkCoord coordinate)
+    {
+        std::size_t count = SIZE_MAX;
+        world.VisitMeshes([&](const WorldMeshRecord& record) { if (record.identity.chunk == coordinate) count = record.vertices.size(); });
+        Require(count != SIZE_MAX, "Published chunk was not visited");
+        return count;
+    }
+    void CheckMissingNeighbors(VoxelWorld& world)
+    {
+        const std::array<BlockCoord, 8> outside{{{-49,10,0},{48,10,0},{0,10,-49},{0,10,48},
+            {0,-1,0},{0,256,0},{48,256,48},{-49,-1,-49}}};
         for (const auto& position : outside) {
-            Require(chunk.GetWorldBlock(position) == BlockConstants::NULL_BLOCK, "Missing neighbor read must return null.");
-            Require(!chunk.SetWorldBlock(position, 2), "Missing neighbor write must fail before indexing.");
-            Require(!chunk.RemoveWorldBlock(position), "Missing neighbor removal must fail before indexing.");
+            Require(world.QueryBlock(position).status == BlockQueryStatus::OutsideWorld, "Missing neighbor read did not report OutsideWorld");
+            Require(world.TryEdit({EditOperation::Set,position,2}).status == EditStatus::Rejected, "Out-of-world insertion accepted");
+            Require(world.TryEdit({EditOperation::Remove,position}).status == EditStatus::Rejected, "Out-of-world removal accepted");
         }
-        Require(chunk.GetWorldBlock({0, 10, 0}) == BlockConstants::AIR_BLOCK, "Rejected writes changed the local chunk.");
-        chunk.Free();
-        chunk.Free();
-        Require(chunk.GetWorldBlock({0, 0, 0}) == BlockConstants::NULL_BLOCK, "Freed chunk read was not safe.");
-        Require(!chunk.SetWorldBlock({0, 0, 0}, 2), "Freed chunk accepted a write.");
-        Require(!chunk.RemoveWorldBlock({0, 0, 0}), "Freed chunk accepted a removal.");
+        Require(world.QueryBlock({0,10,0}).block == BlockConstants::AIR_BLOCK, "Rejected writes changed local chunk");
     }
-
-    void CheckNeighborWrites()
+    void CheckNeighborWrites(VoxelWorld& world)
     {
-        Chunk left;
-        Chunk right;
-        right.m_chunk_coord = {1, 0};
-        left.front_neighbor = &right;
-        right.back_neighbor = &left;
-        left.state = right.state = ChunkState::Updated;
-        Require(left.SetWorldBlock({16, 64, 3}, 2), "Cross-chunk write failed.");
-        Require(right.GetWorldBlock({16, 64, 3}).block_id == 2, "Cross-chunk write indexed the wrong block.");
-        Require(left.state == ChunkState::ToBeUpdated && right.state == ChunkState::ToBeUpdated,
-            "Boundary write did not invalidate both meshes.");
-        Require(left.RemoveWorldBlock({16, 64, 3}), "Cross-chunk removal failed.");
-        Require(right.GetWorldBlock({16, 64, 3}) == BlockConstants::AIR_BLOCK, "Boundary removal did not create air.");
-        Require(!left.SetWorldBlock({16, 256, 3}, 2), "Vertical bounds were not checked before neighbor routing.");
+        world.RebuildDirtyMeshes();
+        const auto left_input = WorldTestAccess::Chunk(world,{0,0}).mesh_input_revision;
+        const auto right_input = WorldTestAccess::Chunk(world,{1,0}).mesh_input_revision;
+        Set(world,{16,64,3},2);
+        Require(world.QueryBlock({16,64,3}).block.block_id == 2, "Cross-chunk write indexed wrong block");
+        Require(WorldTestAccess::Chunk(world,{0,0}).mesh_input_revision == left_input + 1 &&
+            WorldTestAccess::Chunk(world,{1,0}).mesh_input_revision == right_input + 1, "Boundary write did not invalidate both meshes");
+        Remove(world,{16,64,3});
+        Require(world.QueryBlock({16,64,3}).block == BlockConstants::AIR_BLOCK, "Boundary removal did not create air");
+        Require(world.TryEdit({EditOperation::Set,{16,256,3},2}).status == EditStatus::Rejected, "Vertical bounds not checked");
     }
-
-    void CheckFaceCounts()
+    void CheckFaceCounts(VoxelWorld& world)
     {
-        Chunk chunk;
-        chunk.GenerateRenderData();
-        Require(chunk.VertexCount() == 0, "Air chunk generated vertices.");
-        chunk.SetWorldBlock({8, 80, 8}, 2);
-        chunk.GenerateRenderData();
-        Require(chunk.VertexCount() == 36, "Isolated cube must contain 36 vertices.");
-        chunk.SetWorldBlock({9, 80, 8}, 2);
-        chunk.GenerateRenderData();
-        Require(chunk.VertexCount() == 60, "Adjacent cubes did not cull their shared face.");
-        chunk.RemoveWorldBlock({8, 80, 8});
-        chunk.RemoveWorldBlock({9, 80, 8});
-        chunk.GenerateRenderData();
-        Require(chunk.VertexCount() == 0, "Regeneration retained stale vertices.");
+        world.RebuildDirtyMeshes();
+        Require(Count(world,{0,0}) == 0, "Air chunk generated vertices");
+        Set(world,{8,80,8},2);
+        world.RebuildDirtyMeshes();
+        Require(Count(world,{0,0}) == 36, "Isolated cube must contain 36 vertices");
+        Set(world,{9,80,8},2);
+        world.RebuildDirtyMeshes();
+        Require(Count(world,{0,0}) == 60, "Adjacent cubes did not cull shared face");
+        Remove(world,{8,80,8}); Remove(world,{9,80,8});
+        world.RebuildDirtyMeshes();
+        Require(Count(world,{0,0}) == 0, "Regeneration retained stale vertices");
     }
-
-    void CheckLargeMeshAndMove()
+    void CheckLargeMesh(VoxelWorld& world)
     {
-        Chunk chunk;
-        std::size_t block_count = 0;
+        std::size_t blocks = 0;
         for (int y = 1; y < k_chunk_height - 1; y += 2)
             for (int x = 1; x < k_chunk_length - 1; x += 2)
-                for (int z = 1; z < k_chunk_width - 1; z += 2) {
-                    Require(chunk.SetWorldBlock({x, y, z}, 2), "Checkerboard insertion failed.");
-                    ++block_count;
-                }
-        chunk.GenerateRenderData();
-        const std::size_t expected = block_count * 36;
-        Require(expected > UINT16_MAX, "Large-mesh fixture did not cross the old 16-bit limit.");
-        Require(chunk.VertexCount() == expected, "Mesh vertex count overflowed or faces were lost.");
-        chunk.GenerateRenderData();
-        Require(chunk.VertexCount() == expected, "Repeated meshing retained stale data.");
-
-        Chunk moved(std::move(chunk));
-        chunk.Free();
-        Require(moved.VertexCount() == expected, "Moving a chunk lost or shared mesh storage.");
-        moved.GenerateRenderData();
-        Require(moved.VertexCount() == expected, "Moved chunk no longer owns its block storage.");
-    }
-
-    void CheckManagerLifetime()
-    {
-        ChunkManager::FreeAllChunks();
-        ChunkManager::CreateChunk({0, 0});
-        ChunkManager::RearrangeChunkNeighborPointers();
-        Chunk* center = ChunkManager::GetChunk(glm::ivec2{0, 0});
-        Require(center && center->m_is_fringe_chunk, "Isolated manager chunk was not marked as fringe.");
-        for (const auto& direction : INormals2::CardinalDirections)
-            ChunkManager::CreateChunk(direction);
-        ChunkManager::CreateChunk({0, 0});
-        ChunkManager::RearrangeChunkNeighborPointers();
-        Require(ChunkManager::GetAllChunks().size() == 5, "Repeated chunk creation replaced or duplicated ownership.");
-        Require(center == ChunkManager::GetChunk(glm::ivec2{0, 0}), "Node-map insertion invalidated a chunk pointer.");
-        Require(!center->m_is_fringe_chunk, "Neighbor rebuild failed to clear stale fringe state.");
-        ChunkManager::FreeAllChunks();
-        ChunkManager::FreeAllChunks();
-        Require(ChunkManager::GetAllChunks().empty(), "FreeAllChunks retained freed entries.");
-        Require(ChunkManager::GetChunk(glm::ivec2{0, 0}) == nullptr, "Freed chunk remained discoverable.");
-        ChunkManager::CreateChunk({0, 0});
-        Require(ChunkManager::GetBlock({0, 20, 0}) == BlockConstants::AIR_BLOCK, "Recreated chunk inherited stale storage.");
-        ChunkManager::FreeAllChunks();
+                for (int z = 1; z < k_chunk_width - 1; z += 2) { Set(world,{x,y,z},2); ++blocks; }
+        const auto expected = blocks * 36;
+        Require(expected > UINT16_MAX, "Large mesh fixture did not cross old 16-bit limit");
+        world.RebuildDirtyMeshes();
+        Require(Count(world,{0,0}) == expected, "Mesh vertex count overflowed or lost faces");
+        Require(world.RebuildDirtyMeshes() == 0 && Count(world,{0,0}) == expected, "Repeated meshing retained stale data");
+        Remove(world,{1,1,1}); Set(world,{1,1,1},2);
+        world.RebuildDirtyMeshes();
+        Require(Count(world,{0,0}) == expected, "Rebuilt large mesh lost ownership or faces");
     }
 }
 
 int main(int argc, char** argv)
 {
-    static_assert(!std::is_copy_constructible_v<SymoCraft::Chunk>);
-    static_assert(!std::is_copy_assignable_v<SymoCraft::Chunk>);
-    static_assert(std::is_nothrow_move_constructible_v<SymoCraft::Chunk>);
+    using namespace SymoCraft;
+    static_assert(!std::is_copy_constructible_v<World::Detail::Chunk>);
+    static_assert(!std::is_copy_assignable_v<World::Detail::Chunk>);
+    static_assert(!std::is_move_constructible_v<World::Detail::Chunk>);
+    static_assert(!std::is_move_assignable_v<World::Detail::Chunk>);
     try {
-        Require(argc == 2, "Expected the real block configuration path.");
-        SymoCraft::LoadBlocks(argv[1]);
-        CheckMissingNeighbors();
-        CheckNeighborWrites();
-        CheckFaceCounts();
-        CheckLargeMeshAndMove();
-        CheckManagerLifetime();
-        std::cout << "Mesh and chunk lifetime tests passed.\n";
+        Require(argc == 2, "Expected real block configuration path");
+        std::ifstream input(argv[1],std::ios::binary);
+        Require(static_cast<bool>(input),"Cannot read block configuration");
+        const std::string text{std::istreambuf_iterator<char>(input),std::istreambuf_iterator<char>()};
+        const auto definition = World::BlockDefinition::FromConfig(text);
+        auto world = World::VoxelWorld::Create(definition,{424242,2,false});
+        World::WorldTestAccess::ResetToAir(*world);
+        CheckMissingNeighbors(*world);
+        CheckNeighborWrites(*world);
+        CheckFaceCounts(*world);
+        CheckLargeMesh(*world);
+        const auto identity = world->Identity();
+        world.reset();
+        world.reset();
+        world = World::VoxelWorld::Create(definition,{424242,2,false});
+        Require(world->Identity() != identity && world->ChunkCount() == 25, "Recreation reused identity or retained freed entries");
+        World::WorldTestAccess::ResetToAir(*world);
+        Require(world->QueryBlock({0,20,0}).block == BlockConstants::AIR_BLOCK,"Recreated world inherited stale storage");
+        std::cout << "Mesh safety, immutable chunk lifetime and explicit-world ownership tests passed.\n";
         return 0;
-    } catch (const std::exception& error) {
-        std::cerr << error.what() << '\n';
-        return 1;
-    }
+    } catch (const std::exception& error) { std::cerr << error.what() << '\n'; return 1; }
 }

@@ -1,5 +1,4 @@
 #include <symocraft/world/test_scene.h>
-#include "chunk_store.h"
 #include <array>
 #include <stdexcept>
 
@@ -27,11 +26,9 @@ namespace SymoCraft::TestScene {
             return result;
         }();
 
-        void Write(const glm::ivec3& position, unsigned short block)
+        void Write(World::VoxelWorld& world, const glm::ivec3& position, unsigned short block)
         {
-            const glm::vec3 world(position);
-            auto* chunk = ChunkManager::GetChunk(world);
-            if (!chunk || chunk->m_is_fringe_chunk || !chunk->SetWorldBlock(world, block))
+            if (!world.TryEdit({World::EditOperation::Set, position, block}).Accepted())
                 throw std::runtime_error("Regression fixture is outside the playable world");
         }
 
@@ -52,37 +49,36 @@ namespace SymoCraft::TestScene {
     }
     std::span<const Edit> Edits() { return edits; }
 
-    void Install()
+    void Install(World::VoxelWorld& world)
     {
         // Validate coverage before changing anything; this pad is an explicit test overlay, not terrain.
         for (int x = -24; x <= 24; ++x)
             for (int z = -24; z <= 24; ++z) {
-                auto* chunk = ChunkManager::GetChunk(glm::vec3{x, 160, z});
-                if (!chunk || chunk->m_is_fringe_chunk)
+                if (world.ChunkCount() < 49 || world.QueryBlock({x,160,z}).status != World::BlockQueryStatus::Found)
                     throw std::invalid_argument("Regression scene requires at least radius 3");
             }
         for (int x = -24; x <= 24; ++x)
             for (int z = -24; z <= 24; ++z) {
-                for (int y = 158; y <= 174; ++y) Write({x, y, z}, 1);
-                Write({x, 160, z}, 2);
+                for (int y = 158; y <= 174; ++y) Write(world, {x, y, z}, 1);
+                Write(world, {x, 160, z}, 2);
             }
         for (int y = 161; y <= 163; ++y)
             for (int t = 4; t <= 8; ++t) {
-                Write({8, y, t}, 11);
-                Write({t, y, 8}, 11);
+                Write(world, {8, y, t}, 11);
+                Write(world, {t, y, 8}, 11);
             }
         for (int x = -8; x <= -4; ++x)
-            for (int z = 4; z <= 8; ++z) Write({x, 163, z}, 8);
-        Write({20, 164, 20}, 5);
-        for (const auto target : edit_targets) Write(target, 5);
+            for (int z = 4; z <= 8; ++z) Write(world, {x, 163, z}, 8);
+        Write(world, {20, 164, 20}, 5);
+        for (const auto target : edit_targets) Write(world, target, 5);
     }
 
-    void ApplyEdits()
+    void ApplyEdits(World::VoxelWorld& world)
     {
         for (const auto& edit : edits) {
-            if (ChunkManager::GetBlock(glm::vec3(edit.position)).block_id != edit.before)
+            if (world.QueryBlock(edit.position).block.block_id != edit.before)
                 throw std::runtime_error("Regression edit precondition failed; regenerate the scene first");
-            Write(edit.position, edit.after);
+            Write(world, edit.position, edit.after);
         }
     }
 

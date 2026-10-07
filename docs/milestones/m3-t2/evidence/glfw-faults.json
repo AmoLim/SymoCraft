@@ -1,0 +1,93 @@
+{
+  "sourceExecutable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\install\\glfw-release\\SymoCraft.exe",
+  "sourceAssets": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\install\\glfw-release\\assets",
+  "checkedSourceAssetsModified": false,
+  "fixtureDirectoriesRetained": true,
+  "passed": true,
+  "cases": [
+    {
+      "case": "invalid-vertex-shader",
+      "modifiedFixtureAsset": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\runtime\\glfw-faults-002\\invalid-vertex-shader\\package\\assets\\shaders\\vs_BlockShader.glsl",
+      "expectedDiagnostic": "Shader compilation failed:",
+      "sourceSha256Before": "47DAB1E3313DD24E139633D32378CB2DED415DAC9DF697958D9AA5A2FB63DD59",
+      "sourceSha256After": "47DAB1E3313DD24E139633D32378CB2DED415DAC9DF697958D9AA5A2FB63DD59",
+      "runtimeResult": {
+        "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\runtime\\glfw-faults-002\\invalid-vertex-shader\\package\\SymoCraft.exe",
+        "workingDirectory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\runtime\\glfw-faults-002\\invalid-vertex-shader\\evidence",
+        "requestedFrames": 1,
+        "arguments": [
+          "--smoke-frames",
+          "1"
+        ],
+        "renderedFrames": null,
+        "glDiagnosticCount": 0,
+        "processId": 27184,
+        "timedOut": false,
+        "exitCode": 3,
+        "expectedExitCode": 3,
+        "ready": false,
+        "shutdown": true,
+        "elapsedSeconds": 0.4211949,
+        "passed": true
+      },
+      "passed": true,
+      "issues": []
+    },
+    {
+      "case": "invalid-texture-image",
+      "modifiedFixtureAsset": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\runtime\\glfw-faults-002\\invalid-texture-image\\package\\assets\\textures\\texture_atlas.png",
+      "expectedDiagnostic": "Cannot decode image: ",
+      "sourceSha256Before": "EE41E86AF8DFDC70037472B2387B67395D93CF1D807F0FE618025F6F86F9B219",
+      "sourceSha256After": "EE41E86AF8DFDC70037472B2387B67395D93CF1D807F0FE618025F6F86F9B219",
+      "runtimeResult": {
+        "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\runtime\\glfw-faults-002\\invalid-texture-image\\package\\SymoCraft.exe",
+        "workingDirectory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\runtime\\glfw-faults-002\\invalid-texture-image\\evidence",
+        "requestedFrames": 1,
+        "arguments": [
+          "--smoke-frames",
+          "1"
+        ],
+        "renderedFrames": null,
+        "glDiagnosticCount": 0,
+        "processId": 38560,
+        "timedOut": false,
+        "exitCode": 3,
+        "expectedExitCode": 3,
+        "ready": false,
+        "shutdown": true,
+        "elapsedSeconds": 0.4420843,
+        "passed": true
+      },
+      "passed": true,
+      "issues": []
+    },
+    {
+      "case": "empty-block-configuration",
+      "modifiedFixtureAsset": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\runtime\\glfw-faults-002\\empty-block-configuration\\package\\assets\\configs\\blockFormats.yaml",
+      "expectedDiagnostic": "Failed to load block configuration: Block configuration must be a nonempty mapping",
+      "sourceSha256Before": "263FA328D9A44F83CECB9F4B06A6D444DBCEBEB75025E48B4A55B3CD956417F9",
+      "sourceSha256After": "263FA328D9A44F83CECB9F4B06A6D444DBCEBEB75025E48B4A55B3CD956417F9",
+      "runtimeResult": {
+        "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\runtime\\glfw-faults-002\\empty-block-configuration\\package\\SymoCraft.exe",
+        "workingDirectory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\runtime\\glfw-faults-002\\empty-block-configuration\\evidence",
+        "requestedFrames": 1,
+        "arguments": [
+          "--smoke-frames",
+          "1"
+        ],
+        "renderedFrames": null,
+        "glDiagnosticCount": 0,
+        "processId": 2272,
+        "timedOut": false,
+        "exitCode": 3,
+        "expectedExitCode": 3,
+        "ready": false,
+        "shutdown": true,
+        "elapsedSeconds": 0.4070982,
+        "passed": true
+      },
+      "passed": true,
+      "issues": []
+    }
+  ]
+}

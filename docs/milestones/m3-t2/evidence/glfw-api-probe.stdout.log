@@ -1,0 +1,12 @@
+F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t2\baseline-input-001\source\game\modules\platform\src\window.cpp (line 70) Info: 
+[2026-10-07 12:32:34]: Monitor size: 1920, 1200
+F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t2\baseline-input-001\source\game\modules\platform\src\window.cpp (line 121) Info: 
+[2026-10-07 12:32:34]: Window created. 
+actual_gl=4.6.0 NVIDIA 616.64; samples=4
+F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t2\baseline-input-001\source\game\modules\platform\src\window.cpp (line 70) Info: 
+[2026-10-07 12:32:34]: Monitor size: 1920, 1200
+F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t2\baseline-input-001\source\game\modules\platform\src\window.cpp (line 121) Info: 
+[2026-10-07 12:32:34]: Window created. 
+Benchmark window: borderless-windowed; topmost=false; taskbar_policy=NonRudeHWND; framebuffer=1920x1080
+GLFW real platform API baseline: 26 checks passed.
+Keyboard/pointer messages are synthetic; physical layout, acceleration and human play remain unvalidated.

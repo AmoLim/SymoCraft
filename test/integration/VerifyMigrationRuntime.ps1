@@ -3,7 +3,8 @@ param(
     [Parameter(Mandatory)][string]$OldExecutable,
     [Parameter(Mandatory)][string]$NewExecutable,
     [Parameter(Mandatory)][string]$DebugExecutable,
-    [Parameter(Mandatory)][string]$OutputDirectory
+    [Parameter(Mandatory)][string]$OutputDirectory,
+    [switch]$IncludeWorldRegression
 )
 $ErrorActionPreference = 'Stop'
 $root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
@@ -60,7 +61,11 @@ $before = Invoke-Probe 'old-world-summary' $old $summaryArguments
 $after = Invoke-Probe 'new-world-summary' $new $summaryArguments
 if ($before -cne $after) { throw 'World summary differs byte-for-byte; inspect before/after logs before continuing.' }
 
-foreach ($probe in @(@('old-static',$old,'static'), @('new-static',$new,'static'), @('new-edit',$new,'edit'))) {
+$benchmarkProbes = @(@('old-static',$old,'static'), @('new-static',$new,'static'), @('new-edit',$new,'edit'))
+if ($IncludeWorldRegression) {
+    $benchmarkProbes += @(@('old-edit',$old,'edit'), @('old-walk',$old,'walk'), @('new-walk',$new,'walk'))
+}
+foreach ($probe in $benchmarkProbes) {
     $capture = Join-Path $output $probe[0]
     $null = Invoke-Probe $probe[0] $probe[1] @('--benchmark',$probe[2],'--output',$capture,
         '--seed','424242','--warmup-seconds','5','--sample-seconds','15','--focus-policy','allow-unfocused')

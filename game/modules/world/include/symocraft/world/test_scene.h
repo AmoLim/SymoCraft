@@ -4,6 +4,7 @@
 #include <string_view>
 #include <symocraft/foundation/math.h>
 #include <symocraft/foundation/document.h>
+#include <symocraft/world/world.h>
 
 namespace SymoCraft::TestScene {
     inline constexpr unsigned Version = 1;
@@ -22,7 +23,7 @@ namespace SymoCraft::TestScene {
     std::span<const Pose> Checkpoints();
     const Pose& Checkpoint(std::string_view name);
     std::span<const Edit> Edits();
-    void Install();
-    void ApplyEdits();
+    void Install(World::VoxelWorld& world);
+    void ApplyEdits(World::VoxelWorld& world);
     Data::Value Describe();
 }

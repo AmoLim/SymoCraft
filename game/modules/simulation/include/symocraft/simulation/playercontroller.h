@@ -2,6 +2,7 @@
 
 #include <symocraft/foundation/math.h>
 #include <symocraft/ecs/registry.h>
+#include <symocraft/world/world.h>
 #include <array>
 #include <optional>
 
@@ -12,17 +13,12 @@ namespace SymoCraft::PlayerController {
         bool place{}, remove{};
         int selected_block{};
     };
-    struct BlockEdit {
-        glm::vec3 position;
-        uint16 block_id;
-        bool remove;
-    };
     struct InteractionResult {
         std::optional<glm::vec3> selection;
-        std::optional<BlockEdit> edit;
+        std::optional<World::EditRequest> edit;
     };
     // Returns values, never edits the world. App commits the request in the same frame.
-    InteractionResult DoRayCast(ECS::Registry& registry, ECS::EntityId player,
+    InteractionResult DoRayCast(ECS::Registry& registry, const World::VoxelWorld& world, ECS::EntityId player,
                                 const InteractionInput& input, float& placement_debounce);
     void DisplayCurrentBlockName(int selected_block);
 }

@@ -5,6 +5,7 @@
 #include "application.h"
 #include "startup_options.h"
 #include <symocraft/assets/asset_paths.h>
+#include <symocraft/assets/image.h>
 #include <symocraft/telemetry/performance.h>
 #include <symocraft/telemetry/document_io.h>
 #include <symocraft/world/benchmark_workload.h>
@@ -19,14 +20,16 @@
 #include <symocraft/simulation/component.h>
 #include <symocraft/simulation/camera.h>
 #include <symocraft/simulation/player.h>
-#include <symocraft/world/chunk_manager.h>
+#include <symocraft/world/world.h>
 #include <symocraft/world/generation.h>
 #include <symocraft/world/test_scene.h>
 #include <symocraft/simulation/playercontroller.h>
 #include <algorithm>
 #include <iostream>
 #include <memory>
+#include <optional>
 #include <stdexcept>
+#include <utility>
 
 namespace SymoCraft
 {
@@ -40,40 +43,54 @@ namespace SymoCraft
         static std::unique_ptr<Window> runtime_window;
         static std::unique_ptr<Camera> camera;
         static std::unique_ptr<ECS::Registry> runtime_registry;
+        static std::optional<World::BlockDefinition> pending_block_definition;
         static bool platform_initialized = false;
         static bool renderer_started = false;
 
         struct PreparedWorld {
+            std::unique_ptr<World::VoxelWorld> instance;
             TestScene::Pose pose;
             Data::Value report;
         };
 
-        static PreparedWorld PrepareWorld(const StartupOptions& options, Performance::Session* performance = nullptr)
+        static World::BlockDefinition ReadBlockDefinition()
+        {
+            try {
+                const auto bytes = Assets::ReadBytes(Assets::Resolve("configs/blockFormats.yaml"));
+                return World::BlockDefinition::FromConfig(std::string(bytes.begin(), bytes.end()));
+            } catch (const std::exception& error) {
+                throw std::runtime_error(std::string("Failed to load block configuration: ") + error.what());
+            }
+        }
+
+        static PreparedWorld PrepareWorld(World::BlockDefinition definition, const StartupOptions& options,
+                                           Performance::Session* performance = nullptr)
         {
             Generation::Settings settings;
             settings.seed = options.seed ? *options.seed :
                 options.regression_scene ? TestScene::DefaultSeed : Generation::RandomSeed();
             Generation::Timings timings;
-            Generation::Build(settings, performance ? &timings : nullptr);
+            auto instance = World::VoxelWorld::Create(std::move(definition), settings, performance ? &timings : nullptr);
             const auto report_start = Performance::Clock::now();
             PreparedWorld world;
-            world.report["generation"] = Generation::Describe(settings);
+            world.instance = std::move(instance);
+            world.report["generation"] = world.instance->Describe();
             world.report["seed_source"] = options.seed ? "explicit" : options.regression_scene ? "scene-default" : "random";
-            world.report["chunks"] = ChunkManager::ChunkCount();
-            world.report["terrain_digest"] = Generation::BlockDigest();
+            world.report["chunks"] = world.instance->ChunkCount();
+            world.report["terrain_digest"] = world.instance->Digest();
             if (options.regression_scene) {
-                TestScene::Install();
+                TestScene::Install(*world.instance);
                 world.pose = TestScene::Checkpoint(options.checkpoint);
                 world.report["scene"] = TestScene::Describe();
-                world.report["scene_digest"] = Generation::BlockDigest();
+                world.report["scene_digest"] = world.instance->Digest();
             } else {
-                world.pose = {"spawn", Generation::FindSpawnPosition(), -90.0f, 0.0f};
+                world.pose = {"spawn", world.instance->FindSpawn(), -90.0f, 0.0f};
                 world.report["scene"]["name"] = "terrain";
                 world.report["scene_digest"] = world.report["terrain_digest"].as<std::string>();
             }
             world.report["test_edits_applied"] = options.test_edits;
-            if (options.test_edits) TestScene::ApplyEdits();
-            world.report["final_digest"] = options.test_edits ? Generation::BlockDigest() : world.report["scene_digest"].as<std::string>();
+            if (options.test_edits) TestScene::ApplyEdits(*world.instance);
+            world.report["final_digest"] = options.test_edits ? world.instance->Digest() : world.report["scene_digest"].as<std::string>();
             auto& pose = world.report["initial_pose"];
             pose["checkpoint"] = std::string(world.pose.name);
             pose["position"].push_back(world.pose.position.x);
@@ -94,8 +111,7 @@ namespace SymoCraft
 
         void PrintWorldSummary(const StartupOptions& options)
         {
-            LoadBlocks(Assets::Resolve("configs/blockFormats.yaml").string());
-            const auto world = PrepareWorld(options);
+            const auto world = PrepareWorld(ReadBlockDefinition(), options);
             std::cout << Data::DumpYaml(world.report) << std::endl;
         }
 
@@ -144,11 +160,7 @@ namespace SymoCraft
             camera = std::make_unique<Camera>(registry, static_cast<float>(runtime_window->width),
                                               static_cast<float>(runtime_window->height));
             Renderer::Init();
-            try {
-                LoadBlocks(Assets::Resolve("configs/blockFormats.yaml").string());
-            } catch (const std::exception& error) {
-                throw std::runtime_error(std::string("Failed to load block configuration: ") + error.what());
-            }
+            pending_block_definition = ReadBlockDefinition();
             if (performance) {
                 performance->startup["shaders_buffers_and_block_config"] = Performance::Milliseconds(renderer_start);
                 performance->metadata["allocated_vbo_bytes"] = Renderer::AllocatedBufferBytes();
@@ -174,45 +186,47 @@ namespace SymoCraft
             return {camera->GetCameraProjMat(window.GetAspectRatio()), camera->GetCameraViewMat()};
         }
 
-        static void UpdateInteraction(ECS::Registry& registry, const InputSnapshot& input, bool allow_input)
+        static void UpdateInteraction(ECS::Registry& registry, World::VoxelWorld& world,
+                                       const InputSnapshot& input, bool allow_input)
         {
             const PlayerController::InteractionInput interaction{
                 allow_input, input.right_button, input.left_button, input_state.selected_block};
-            const auto result = PlayerController::DoRayCast(registry, player_id, interaction, block_place_debounce);
-            if (result.edit) {
-                if (result.edit->remove) ChunkManager::RemoveBLock(result.edit->position);
-                else ChunkManager::SetBlock(result.edit->position, result.edit->block_id);
-            }
+            const auto result = PlayerController::DoRayCast(registry, world, player_id, interaction, block_place_debounce);
+            if (result.edit) world.TryEdit(*result.edit);
             Renderer::SetSelection(result.selection);
         }
 
         void Run(const StartupOptions& options, Performance::Session* performance)
         {
+            if (!runtime_window || !runtime_registry || !camera || !pending_block_definition)
+                throw std::logic_error("Application Run requires a fresh successful Init");
             const auto frame_limit = options.frame_limit;
             Window& window = *runtime_window;
             const double loading_start = Window::Time();
             const auto texture_start = Performance::Clock::now();
 
             const std::string texture_path = Assets::Resolve("textures/texture_atlas.png").string();
-            ValidateBlockTextures(Renderer::LoadTextureAtlas(texture_path));
+            pending_block_definition->ValidateTextureLayers(Renderer::LoadTextureAtlas(texture_path));
             if (performance) performance->startup["texture_decode_and_upload"] = Performance::Milliseconds(texture_start);
 
             if (!performance) window.SetCursorMode(CursorMode::Lock);
 
-            const auto world = PrepareWorld(options, performance);
-            std::cout << "[world] summary-begin\n" << Data::DumpYaml(world.report)
+            const auto prepared_world = PrepareWorld(std::move(*pending_block_definition), options, performance);
+            pending_block_definition.reset();
+            World::VoxelWorld& world = *prepared_world.instance;
+            std::cout << "[world] summary-begin\n" << Data::DumpYaml(prepared_world.report)
                       << "\n[world] summary-end" << std::endl;
 
             ECS::Registry &registry = *runtime_registry;
-            const glm::vec3 start_pos = world.pose.position;
+            const glm::vec3 start_pos = prepared_world.pose.position;
             auto &transform = registry.GetComponent<Transform>(player_id);
             transform.position = start_pos;
-            transform.yaw = world.pose.yaw;
-            transform.pitch = world.pose.pitch;
+            transform.yaw = prepared_world.pose.yaw;
+            transform.pitch = prepared_world.pose.pitch;
             TransformSystem::Update(registry);
             Character::Player::SyncCamera(registry, camera->entity_id);
             const auto first_mesh_start = Performance::Clock::now();
-            const auto first_mesh_count = ChunkManager::UpdateAllChunks();
+            const auto first_mesh_count = world.RebuildDirtyMeshes();
             if (performance) {
                 performance->startup["first_mesh"] = Performance::Milliseconds(first_mesh_start);
                 performance->metadata["first_mesh_chunks"] = first_mesh_count;
@@ -233,7 +247,7 @@ namespace SymoCraft
             double previous_frame_time = Window::Time();
             bool paused = false;
             unsigned int rendered_frames = 0;
-            std::cout << "[runtime] ready; chunks=" << ChunkManager::ChunkCount()
+            std::cout << "[runtime] ready; chunks=" << world.ChunkCount()
                       << "; loading_ms=" << (previous_frame_time - loading_start) * 1000.0
                       << "; spawn=" << start_pos.x << ',' << start_pos.y << ',' << start_pos.z << std::endl;
             if (performance) performance->Status("warmup");
@@ -327,8 +341,9 @@ namespace SymoCraft
                         const auto due = Benchmark::DueEdits(sample.elapsed);
                         while (applied_edits < due) {
                             const auto edit = Benchmark::CycleEdit(applied_edits);
-                            if (ChunkManager::GetBlock(glm::vec3(edit.position)).block_id != edit.before ||
-                                !ChunkManager::TrySetBlock(glm::vec3(edit.position), edit.after))
+                            const auto before = world.QueryBlock(edit.position);
+                            if (before.status != World::BlockQueryStatus::Found || before.block.block_id != edit.before ||
+                                !world.TryEdit({World::EditOperation::Set, edit.position, edit.after}).Accepted())
                                 throw std::runtime_error("Benchmark edit precondition failed");
                             sample.edit_lateness_ms = std::max(sample.edit_lateness_ms,
                                 (sample.elapsed - (applied_edits + 1) * Benchmark::EditInterval) * 1000.0);
@@ -340,10 +355,10 @@ namespace SymoCraft
                     break;
                 TransformSystem::Update(registry);
                 Character::Player::Update(registry);
-                Physics::Update(registry, delta_time);
+                Physics::Update(registry, world, delta_time);
                 if (transform.position.y < -8.0f)
                 {
-                    transform.position = Generation::FindSpawnPosition();
+                    transform.position = world.FindSpawn();
                     body.zero_forces();
                     body.on_ground = false;
                     character.is_jumping = false;
@@ -351,14 +366,14 @@ namespace SymoCraft
                     std::cout << "[runtime] returned player to safe spawn" << std::endl;
                 }
                 Character::Player::SyncCamera(registry, camera->entity_id);
-                UpdateInteraction(registry, window.Input(), !performance);
+                UpdateInteraction(registry, world, window.Input(), !performance);
                 sample.simulation_ms = Performance::Milliseconds(simulation_start);
 
                 const auto mesh_start = Performance::Clock::now();
-                sample.rebuilt_chunks = ChunkManager::UpdateAllChunks();
+                sample.rebuilt_chunks = world.RebuildDirtyMeshes();
                 sample.mesh_ms = Performance::Milliseconds(mesh_start);
                 const auto pack_start = Performance::Clock::now();
-                ChunkManager::VisitMeshes(Renderer::AppendMesh);
+                world.VisitMeshes([](const World::WorldMeshRecord& record) { Renderer::AppendMesh(record.vertices); });
                 sample.pack_ms = Performance::Milliseconds(pack_start);
 
                 if (performance) {
@@ -410,12 +425,12 @@ namespace SymoCraft
             }
             if (performance) {
                 for (const auto& result : gpu_timer->Poll()) performance->SetGpu(result.frame, result.milliseconds);
-                performance->metadata["final_world_digest"] = Generation::BlockDigest();
+                performance->metadata["final_world_digest"] = world.Digest();
                 performance->metadata["total_scheduled_edits_applied"] = applied_edits;
                 // Diagnostic readback is outside all warmup/sample timing, never per-frame.
                 if (performance->completed) {
-                    UpdateInteraction(registry, window.Input(), false);
-                    ChunkManager::VisitMeshes(Renderer::AppendMesh);
+                    UpdateInteraction(registry, world, window.Input(), false);
+                    world.VisitMeshes([](const World::WorldMeshRecord& record) { Renderer::AppendMesh(record.vertices); });
                     Renderer::Render(CurrentCamera(window));
                     Renderer::CaptureFramebuffer(window.width, window.height, performance->Directory() / "final-frame.png");
                     performance->metadata["screenshot"] = "final-frame.png; extra render/readback after measurement";
@@ -428,7 +443,7 @@ namespace SymoCraft
 
         void Free()
         {
-            ChunkManager::FreeAllChunks();
+            pending_block_definition.reset();
             if (renderer_started)
             {
                 Renderer::Free();

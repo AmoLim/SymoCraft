@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-06T21:29:50.4069784+08:00",
+  "release_sha256": "76a695decaf99405483d25d722535bef6d489914002743372d0b1e95a17b5db2",
+  "video": {
+    "path": "out/m3-t1/install/full-release/promblem-视角突变.mp4",
+    "sha256": "09d7438cd21ed4ce90686fef0758d4e7e1fef842d5280e0b5540c23e3443f3f7",
+    "duration_seconds": 11.71,
+    "copied_to_docs": false
+  },
+  "screenshot": {
+    "path": "docs/milestones/m3-t1/evidence/leaves-user-report.png",
+    "sha256": "a7b9c6f14c8d86fc354085c722a2816864d5aa7e185445e6945685e6d27b6a31"
+  },
+  "source_comparison": [
+    {
+      "path": "game/modules/platform/src/window.cpp",
+      "current_sha256": "0b23db80f7ca4482bec8fd34703f7edfd16e0195cac747afa24338b37b6bce69",
+      "t0_snapshot_sha256": "0b23db80f7ca4482bec8fd34703f7edfd16e0195cac747afa24338b37b6bce69",
+      "identical": true
+    },
+    {
+      "path": "game/modules/simulation/src/Camera.cpp",
+      "current_sha256": "93629d3ecefc1fcf59b3db7e504462e936a0b3675fca2a92710ea96ca2bbab51",
+      "t0_snapshot_sha256": "93629d3ecefc1fcf59b3db7e504462e936a0b3675fca2a92710ea96ca2bbab51",
+      "identical": true
+    },
+    {
+      "path": "game/modules/simulation/src/player.cpp",
+      "current_sha256": "c37434f26e45ac497398b6d93131f25ac612af0633cf107bb55421bd1809eeed",
+      "t0_snapshot_sha256": "c37434f26e45ac497398b6d93131f25ac612af0633cf107bb55421bd1809eeed",
+      "identical": true
+    },
+    {
+      "path": "game/modules/simulation/src/transform_system.cpp",
+      "current_sha256": "7d137c4da90204c40c316b08cc6b2a22aeb3557d52fad44468017f71150872b2",
+      "t0_snapshot_sha256": "7d137c4da90204c40c316b08cc6b2a22aeb3557d52fad44468017f71150872b2",
+      "identical": true
+    },
+    {
+      "path": "game/modules/simulation/src/character_system.cpp",
+      "current_sha256": "51d27fa50c42ed9dbbac3b78a612f82c83f6e6535216681a1304358fac63f4da",
+      "t0_snapshot_sha256": "51d27fa50c42ed9dbbac3b78a612f82c83f6e6535216681a1304358fac63f4da",
+      "identical": true
+    }
+  ],
+  "limits": [
+    "No cursor/yaw/pitch data in original video; no root cause established.",
+    "Identical camera/input sources do not exclude changes in callers or world/physics queries.",
+    "User deferred both issues; unbuilt diagnostic flag was removed and new camera scan test was not written.",
+    "User recording shows terrain, not the requested regression fixture; exact seed/position not recorded."
+  ]
+}

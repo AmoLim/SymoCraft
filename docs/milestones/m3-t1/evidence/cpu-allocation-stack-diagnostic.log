@@ -1,0 +1,49 @@
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=0
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=1
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=2
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=3
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=4
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=5
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=6
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=7
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=8
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=9
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=10
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=11
+terminate: phase=Definition allocation failure leaked C++ owned resources, fail_after=0, attempts=12
+active exception: bad allocation
+  `anonymous namespace'::PrintStack + 0x52
+  `anonymous namespace'::Terminated + 0x121
+  terminate + 0x39
+  00007FF82A16200D
+  00007FF82A162CBA
+  00007FF82A162D4A
+  _CxxFrameHandler4 + 0xfb
+  _chkstk + 0x9f
+  RtlWow64GetCurrentMachine + 0x655
+  RtlRaiseException + 0x18d
+  RaiseException + 0x8a
+  CxxThrowException + 0x132
+  `anonymous namespace'::Allocate + 0x90
+  operator new + 0x19
+  std::_Default_allocate_traits::_Allocate + 0x14
+  std::_Allocate<16,std::_Default_allocate_traits,0> + 0x3f
+  std::allocator<std::_Container_proxy>::allocate + 0x21
+  std::_Container_base12::_Alloc_proxy<std::allocator<std::_Container_proxy> > + 0x1e
+  std::vector<std::unique_ptr<YAML::Scanner::IndentMarker,std::default_delete<YAML::Scanner::IndentMarker> >,std::allocator<std::unique_ptr<YAML::Scanner::IndentMarker,std::default_delete<YAML::Scanner::IndentMarker> > > >::vector<std::unique_ptr<YAML::Scanner::IndentMarker,std::default_delete<YAML::Scanner::IndentMarker> >,std::allocator<std::unique_ptr<YAML::Scanner::IndentMarker,std::default_delete<YAML::Scanner::IndentMarker> > > > + 0x51
+  YAML::ptr_vector<YAML::Scanner::IndentMarker>::ptr_vector<YAML::Scanner::IndentMarker> + 0x17
+  YAML::Scanner::Scanner + 0xe9
+  YAML::Parser::Load + 0x3f
+  YAML::Parser::Parser + 0x29
+  YAML::Load + 0x48
+  YAML::Load + 0x67
+  SymoCraft::World::BlockDefinition::FromConfig + 0xb5
+  `main'::`3'::<lambda_1>::operator() + 0x4b
+  `anonymous namespace'::ExhaustFailurePoints<`main'::`3'::<lambda_1> > + 0xcc
+  main + 0x3c1
+  invoke_main + 0x39
+  __scrt_common_main_seh + 0x12e
+  __scrt_common_main + 0xe
+  mainCRTStartup + 0xe
+  BaseThreadInitThunk + 0x17
+  RtlUserThreadStart + 0x2c

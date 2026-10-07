@@ -46,7 +46,7 @@ $cases = @(
         Name = 'invalid-texture-image'
         Asset = 'textures/texture_atlas.png'
         Content = "This dedicated test fixture is not a PNG image.`n"
-        Diagnostic = 'Failed to decode texture '
+        Diagnostic = 'Cannot decode image: '
     },
     [pscustomobject]@{
         Name = 'empty-block-configuration'

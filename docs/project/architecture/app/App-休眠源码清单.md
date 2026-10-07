@@ -18,7 +18,7 @@ tags:
 
 | 类别 | 旧状态 | 本次处置与原因 |
 | --- | --- | --- |
-| input | `Input::ProcessKeyEvent/EndFrame`、`KeyHandler::Update` 没有接入现行 Application 循环，旧 handler 反向访问 Application | 保留原文供 T4 审计；正在使用的 key_snapshot 已迁入 platform，实际输入为新的 Window 快照 |
+| input | `Input::ProcessKeyEvent/EndFrame`、`KeyHandler::Update` 没有接入现行 Application 循环，旧 handler 反向访问 Application | 保留原文供 T5 审计；正在使用的 key_snapshot 已迁入 platform，实际输入为新的 Window 快照 |
 | event | EventListener 的 Init/Update/QueueMainEvent 没有现行运行入口；未完成的序列化/播放分支不属于当前玩法 | 保留但不编译，不把其不完整回放能力描述为已支持 |
 | thread_pool | Application 中全局池访问原本是注释；没有创建线程池或派发任务的生产调用 | 不引入通用线程池模块，不启用旧并发实现 |
 | aggregate | core.h 混入图形/YAML/内存/业务公共依赖；utils.h 的数值辅助由 world 私有实现承接，DebugStats 无现行调用 | 新模块均显式包含所属头；旧聚合头仅存档，禁止重新 include |
@@ -47,4 +47,4 @@ tags:
 
 - S0 清单应覆盖上述旧路径；此处保存的哈希可用于对照，阶段总报告负责记录对照结论。
 - 不给生产 target 增加 legacy 目录；边界检查不把 disabled 文本视作编译源码，但必须拒绝其进入 target 的源文件清单。
-- T4 可在明确审计和用户授权后处置休眠源码；本轮不批量删除。
+- T5 可在明确审计和用户授权后处置休眠源码；本轮不批量删除。
