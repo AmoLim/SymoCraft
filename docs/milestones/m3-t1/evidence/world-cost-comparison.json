@@ -1,0 +1,763 @@
+{
+  "protocol": "world-cost-comparison-v1",
+  "passed": true,
+  "before_file": "out/m3-t1/pre-change/world-cost-full-v2.json",
+  "after_file": "out/m3-t1/world-cost-after.json",
+  "run_count": 21,
+  "compared_mesh_records": 2445,
+  "allocation_scope": "C++ operator new/new[] requests; excludes C malloc/calloc and OS allocations",
+  "limitations": [
+    "CPU developer microbenchmark, not the frozen 36-minute GPU benchmark or a new performance gate.",
+    "Requested C++ allocation bytes are cumulative requests, not resident/peak memory; C malloc/calloc and OS allocations are excluded.",
+    "The before version has no Mesher scratch/candidate instrumentation; missing old values remain null.",
+    "Mesher peak is its tracked scratch + current candidate + the rebuilt chunk old mesh capacity, not whole-world peak.",
+    "Wall-clock observations are susceptible to ambient workload and ordering; deterministic digests/spawn/mesh bytes are separately verified."
+  ],
+  "comparisons": [
+    {
+      "run": "424242:2:true:1",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 9,
+      "total_vertices": 157554
+    },
+    {
+      "run": "424242:2:true:2",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 9,
+      "total_vertices": 157554
+    },
+    {
+      "run": "424242:2:true:3",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 9,
+      "total_vertices": 157554
+    },
+    {
+      "run": "424242:2:false:1",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 9,
+      "total_vertices": 143772
+    },
+    {
+      "run": "424242:2:false:2",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 9,
+      "total_vertices": 143772
+    },
+    {
+      "run": "424242:2:false:3",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 9,
+      "total_vertices": 143772
+    },
+    {
+      "run": "424242:3:true:1",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 25,
+      "total_vertices": 302832
+    },
+    {
+      "run": "424242:3:true:2",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 25,
+      "total_vertices": 302832
+    },
+    {
+      "run": "424242:3:true:3",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 25,
+      "total_vertices": 302832
+    },
+    {
+      "run": "424242:3:false:1",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 25,
+      "total_vertices": 263136
+    },
+    {
+      "run": "424242:3:false:2",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 25,
+      "total_vertices": 263136
+    },
+    {
+      "run": "424242:3:false:3",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 25,
+      "total_vertices": 263136
+    },
+    {
+      "run": "424242:10:true:1",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 361,
+      "total_vertices": 2032302
+    },
+    {
+      "run": "424242:10:true:2",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 361,
+      "total_vertices": 2032302
+    },
+    {
+      "run": "424242:10:true:3",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 361,
+      "total_vertices": 2032302
+    },
+    {
+      "run": "424242:10:false:1",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 361,
+      "total_vertices": 1523268
+    },
+    {
+      "run": "424242:10:false:2",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 361,
+      "total_vertices": 1523268
+    },
+    {
+      "run": "424242:10:false:3",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 361,
+      "total_vertices": 1523268
+    },
+    {
+      "run": "424243:3:true:1",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 25,
+      "total_vertices": 291648
+    },
+    {
+      "run": "424243:3:true:2",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 25,
+      "total_vertices": 291648
+    },
+    {
+      "run": "424243:3:true:3",
+      "digest_match": true,
+      "spawn_match": true,
+      "mesh_order_and_bytes_match": true,
+      "mesh_records": 25,
+      "total_vertices": 291648
+    }
+  ],
+  "groups": [
+    {
+      "configuration": "424242:2:true",
+      "repetitions": 3,
+      "metrics": {
+        "generation_ms": {
+          "before_median": 7.02,
+          "after_median": 7.0648,
+          "change_percent": 0.6381766381766463
+        },
+        "allocation_ms": {
+          "before_median": 1.5822,
+          "after_median": 1.3883,
+          "change_percent": -12.255087852357471
+        },
+        "terrain_ms": {
+          "before_median": 5.3998,
+          "after_median": 5.669,
+          "change_percent": 4.985369828512165
+        },
+        "vegetation_ms": {
+          "before_median": 0.0284,
+          "after_median": 0.0282,
+          "change_percent": -0.7042253521126862
+        },
+        "mesh_ms": {
+          "before_median": 6.329,
+          "after_median": 3.9298,
+          "change_percent": -37.90804234476221
+        },
+        "generation_new_count": {
+          "before_median": 27,
+          "after_median": 57,
+          "change_percent": 111.11111111111111
+        },
+        "generation_new_requested_bytes": {
+          "before_median": 13108591,
+          "after_median": 13111809,
+          "change_percent": 0.024548786364597674
+        },
+        "mesh_new_count": {
+          "before_median": 183,
+          "after_median": 31,
+          "change_percent": -83.06010928961749
+        },
+        "mesh_new_requested_bytes": {
+          "before_median": 15622673,
+          "after_median": 4671247,
+          "change_percent": -70.09956618819328
+        },
+        "retained_world_mesh_capacity_bytes": {
+          "before_median": 5206964,
+          "after_median": 4411512,
+          "change_percent": -15.276694826390191
+        },
+        "retained_world_block_capacity_bytes": {
+          "before_median": 13107200,
+          "after_median": 13107200,
+          "change_percent": 0
+        },
+        "max_retained_chunk_mesh_capacity_bytes": {
+          "before_median": 732228,
+          "after_median": 714504,
+          "change_percent": -2.4205575312607586
+        },
+        "scratch_capacity_bytes": {
+          "before_median": null,
+          "after_median": 86320
+        },
+        "candidate_bytes_last_build": {
+          "before_median": null,
+          "after_median": 698712
+        },
+        "peak_single_build_scratch_candidate_old_mesh_bytes": {
+          "before_median": null,
+          "after_median": 800824
+        },
+        "legacy_fixed_geometry_scratch_bytes": {
+          "before_median": 676,
+          "after_median": null
+        }
+      }
+    },
+    {
+      "configuration": "424242:2:false",
+      "repetitions": 3,
+      "metrics": {
+        "generation_ms": {
+          "before_median": 6.6662,
+          "after_median": 7.8308,
+          "change_percent": 17.470222915604094
+        },
+        "allocation_ms": {
+          "before_median": 1.5364,
+          "after_median": 1.7502,
+          "change_percent": 13.915646966935702
+        },
+        "terrain_ms": {
+          "before_median": 5.1673,
+          "after_median": 5.9228,
+          "change_percent": 14.620788419484064
+        },
+        "vegetation_ms": {
+          "before_median": 0,
+          "after_median": 0.0003,
+          "change_percent": null
+        },
+        "mesh_ms": {
+          "before_median": 5.4913,
+          "after_median": 3.8257,
+          "change_percent": -30.33161546446197
+        },
+        "generation_new_count": {
+          "before_median": 27,
+          "after_median": 57,
+          "change_percent": 111.11111111111111
+        },
+        "generation_new_requested_bytes": {
+          "before_median": 13108591,
+          "after_median": 13111809,
+          "change_percent": 0.024548786364597674
+        },
+        "mesh_new_count": {
+          "before_median": 179,
+          "after_median": 31,
+          "change_percent": -82.68156424581005
+        },
+        "mesh_new_requested_bytes": {
+          "before_median": 14447301,
+          "after_median": 4285351,
+          "change_percent": -70.33805137720879
+        },
+        "retained_world_mesh_capacity_bytes": {
+          "before_median": 4815244,
+          "after_median": 4025616,
+          "change_percent": -16.398504416390946
+        },
+        "retained_world_block_capacity_bytes": {
+          "before_median": 13107200,
+          "after_median": 13107200,
+          "change_percent": 0
+        },
+        "max_retained_chunk_mesh_capacity_bytes": {
+          "before_median": 732228,
+          "after_median": 714504,
+          "change_percent": -2.4205575312607586
+        },
+        "scratch_capacity_bytes": {
+          "before_median": null,
+          "after_median": 86320
+        },
+        "candidate_bytes_last_build": {
+          "before_median": null,
+          "after_median": 698712
+        },
+        "peak_single_build_scratch_candidate_old_mesh_bytes": {
+          "before_median": null,
+          "after_median": 800824
+        },
+        "legacy_fixed_geometry_scratch_bytes": {
+          "before_median": 676,
+          "after_median": null
+        }
+      }
+    },
+    {
+      "configuration": "424242:3:true",
+      "repetitions": 3,
+      "metrics": {
+        "generation_ms": {
+          "before_median": 13.6392,
+          "after_median": 14.6181,
+          "change_percent": 7.177107161710361
+        },
+        "allocation_ms": {
+          "before_median": 2.8416,
+          "after_median": 3.0734,
+          "change_percent": 8.157376126126126
+        },
+        "terrain_ms": {
+          "before_median": 10.1601,
+          "after_median": 11.4538,
+          "change_percent": 12.733142390330787
+        },
+        "vegetation_ms": {
+          "before_median": 0.0725,
+          "after_median": 0.0829,
+          "change_percent": 14.344827586206899
+        },
+        "mesh_ms": {
+          "before_median": 16.3455,
+          "after_median": 10.7498,
+          "change_percent": -34.233887002538935
+        },
+        "generation_new_count": {
+          "before_median": 51,
+          "after_median": 105,
+          "change_percent": 105.88235294117645
+        },
+        "generation_new_requested_bytes": {
+          "before_median": 25692631,
+          "after_median": 25698153,
+          "change_percent": 0.021492543912682294
+        },
+        "mesh_new_count": {
+          "before_median": 477,
+          "after_median": 47,
+          "change_percent": -90.14675052410901
+        },
+        "mesh_new_requested_bytes": {
+          "before_median": 31004283,
+          "after_median": 8739655,
+          "change_percent": -71.81145908131468
+        },
+        "retained_world_mesh_capacity_bytes": {
+          "before_median": 10333680,
+          "after_median": 8479296,
+          "change_percent": -17.94504958543326
+        },
+        "retained_world_block_capacity_bytes": {
+          "before_median": 25690112,
+          "after_median": 25690112,
+          "change_percent": 0
+        },
+        "max_retained_chunk_mesh_capacity_bytes": {
+          "before_median": 732228,
+          "after_median": 711984,
+          "change_percent": -2.764712630492139
+        },
+        "scratch_capacity_bytes": {
+          "before_median": null,
+          "after_median": 86320
+        },
+        "candidate_bytes_last_build": {
+          "before_median": null,
+          "after_median": 693840
+        },
+        "peak_single_build_scratch_candidate_old_mesh_bytes": {
+          "before_median": null,
+          "after_median": 798304
+        },
+        "legacy_fixed_geometry_scratch_bytes": {
+          "before_median": 676,
+          "after_median": null
+        }
+      }
+    },
+    {
+      "configuration": "424242:3:false",
+      "repetitions": 3,
+      "metrics": {
+        "generation_ms": {
+          "before_median": 12.3002,
+          "after_median": 14.7379,
+          "change_percent": 19.81837693696038
+        },
+        "allocation_ms": {
+          "before_median": 2.8721,
+          "after_median": 2.8903,
+          "change_percent": 0.6336826712161736
+        },
+        "terrain_ms": {
+          "before_median": 9.4134,
+          "after_median": 11.8373,
+          "change_percent": 25.749463530711548
+        },
+        "vegetation_ms": {
+          "before_median": 0,
+          "after_median": 0.0003,
+          "change_percent": null
+        },
+        "mesh_ms": {
+          "before_median": 14.198,
+          "after_median": 11.1956,
+          "change_percent": -21.146640371883365
+        },
+        "generation_new_count": {
+          "before_median": 51,
+          "after_median": 105,
+          "change_percent": 105.88235294117645
+        },
+        "generation_new_requested_bytes": {
+          "before_median": 25692631,
+          "after_median": 25698153,
+          "change_percent": 0.021492543912682294
+        },
+        "mesh_new_count": {
+          "before_median": 464,
+          "after_median": 47,
+          "change_percent": -89.87068965517241
+        },
+        "mesh_new_requested_bytes": {
+          "before_median": 27405776,
+          "after_median": 7628167,
+          "change_percent": -72.16584197433417
+        },
+        "retained_world_mesh_capacity_bytes": {
+          "before_median": 9134356,
+          "after_median": 7367808,
+          "change_percent": -19.339600952710846
+        },
+        "retained_world_block_capacity_bytes": {
+          "before_median": 25690112,
+          "after_median": 25690112,
+          "change_percent": 0
+        },
+        "max_retained_chunk_mesh_capacity_bytes": {
+          "before_median": 732228,
+          "after_median": 711984,
+          "change_percent": -2.764712630492139
+        },
+        "scratch_capacity_bytes": {
+          "before_median": null,
+          "after_median": 86320
+        },
+        "candidate_bytes_last_build": {
+          "before_median": null,
+          "after_median": 693840
+        },
+        "peak_single_build_scratch_candidate_old_mesh_bytes": {
+          "before_median": null,
+          "after_median": 798304
+        },
+        "legacy_fixed_geometry_scratch_bytes": {
+          "before_median": 676,
+          "after_median": null
+        }
+      }
+    },
+    {
+      "configuration": "424242:10:true",
+      "repetitions": 3,
+      "metrics": {
+        "generation_ms": {
+          "before_median": 121.3434,
+          "after_median": 126.7668,
+          "change_percent": 4.4694643466393735
+        },
+        "allocation_ms": {
+          "before_median": 28.8721,
+          "after_median": 28.8391,
+          "change_percent": -0.11429719348436951
+        },
+        "terrain_ms": {
+          "before_median": 91.4976,
+          "after_median": 96.7607,
+          "change_percent": 5.752172734585392
+        },
+        "vegetation_ms": {
+          "before_median": 0.9434,
+          "after_median": 1.1337,
+          "change_percent": 20.171719313122736
+        },
+        "mesh_ms": {
+          "before_median": 198.4646,
+          "after_median": 142.0267,
+          "change_percent": -28.43726286703019
+        },
+        "generation_new_count": {
+          "before_median": 443,
+          "after_median": 889,
+          "change_percent": 100.67720090293454
+        },
+        "generation_new_requested_bytes": {
+          "before_median": 231231951,
+          "after_median": 231275105,
+          "change_percent": 0.018662645803657618
+        },
+        "mesh_new_count": {
+          "before_median": 6147,
+          "after_median": 383,
+          "change_percent": -93.76931836668292
+        },
+        "mesh_new_requested_bytes": {
+          "before_median": 209853541,
+          "after_median": 57177919,
+          "change_percent": -72.7534171081726
+        },
+        "retained_world_mesh_capacity_bytes": {
+          "before_median": 69947948,
+          "after_median": 56904456,
+          "change_percent": -18.64742622614176
+        },
+        "retained_world_block_capacity_bytes": {
+          "before_median": 231211008,
+          "after_median": 231211008,
+          "change_percent": 0
+        },
+        "max_retained_chunk_mesh_capacity_bytes": {
+          "before_median": 732228,
+          "after_median": 728280,
+          "change_percent": -0.5391763221291757
+        },
+        "scratch_capacity_bytes": {
+          "before_median": null,
+          "after_median": 86320
+        },
+        "candidate_bytes_last_build": {
+          "before_median": null,
+          "after_median": 691824
+        },
+        "peak_single_build_scratch_candidate_old_mesh_bytes": {
+          "before_median": null,
+          "after_median": 814600
+        },
+        "legacy_fixed_geometry_scratch_bytes": {
+          "before_median": 676,
+          "after_median": null
+        }
+      }
+    },
+    {
+      "configuration": "424242:10:false",
+      "repetitions": 3,
+      "metrics": {
+        "generation_ms": {
+          "before_median": 125.0013,
+          "after_median": 124.3643,
+          "change_percent": -0.5095947002151213
+        },
+        "allocation_ms": {
+          "before_median": 32.3748,
+          "after_median": 28.9253,
+          "change_percent": -10.654892076553368
+        },
+        "terrain_ms": {
+          "before_median": 92.5579,
+          "after_median": 96.7084,
+          "change_percent": 4.4842201476049
+        },
+        "vegetation_ms": {
+          "before_median": 0,
+          "after_median": 0.0003,
+          "change_percent": null
+        },
+        "mesh_ms": {
+          "before_median": 197.7293,
+          "after_median": 142.9764,
+          "change_percent": -27.690837928420308
+        },
+        "generation_new_count": {
+          "before_median": 443,
+          "after_median": 889,
+          "change_percent": 100.67720090293454
+        },
+        "generation_new_requested_bytes": {
+          "before_median": 231231951,
+          "after_median": 231275105,
+          "change_percent": 0.018662645803657618
+        },
+        "mesh_new_count": {
+          "before_median": 5898,
+          "after_median": 383,
+          "change_percent": -93.50627331298746
+        },
+        "mesh_new_requested_bytes": {
+          "before_median": 163487870,
+          "after_median": 42924967,
+          "change_percent": -73.74424964983642
+        },
+        "retained_world_mesh_capacity_bytes": {
+          "before_median": 54496204,
+          "after_median": 42651504,
+          "change_percent": -21.734908361690664
+        },
+        "retained_world_block_capacity_bytes": {
+          "before_median": 231211008,
+          "after_median": 231211008,
+          "change_percent": 0
+        },
+        "max_retained_chunk_mesh_capacity_bytes": {
+          "before_median": 732228,
+          "after_median": 630168,
+          "change_percent": -13.938281518871175
+        },
+        "scratch_capacity_bytes": {
+          "before_median": null,
+          "after_median": 86320
+        },
+        "candidate_bytes_last_build": {
+          "before_median": null,
+          "after_median": 630168
+        },
+        "peak_single_build_scratch_candidate_old_mesh_bytes": {
+          "before_median": null,
+          "after_median": 716488
+        },
+        "legacy_fixed_geometry_scratch_bytes": {
+          "before_median": 676,
+          "after_median": null
+        }
+      }
+    },
+    {
+      "configuration": "424243:3:true",
+      "repetitions": 3,
+      "metrics": {
+        "generation_ms": {
+          "before_median": 13.2723,
+          "after_median": 14.8597,
+          "change_percent": 11.960248035381959
+        },
+        "allocation_ms": {
+          "before_median": 3.2672,
+          "after_median": 2.9753,
+          "change_percent": -8.9342556317336
+        },
+        "terrain_ms": {
+          "before_median": 9.9125,
+          "after_median": 11.7161,
+          "change_percent": 18.19520807061792
+        },
+        "vegetation_ms": {
+          "before_median": 0.0709,
+          "after_median": 0.089,
+          "change_percent": 25.528913963328613
+        },
+        "mesh_ms": {
+          "before_median": 13.8777,
+          "after_median": 10.4131,
+          "change_percent": -24.965231990891866
+        },
+        "generation_new_count": {
+          "before_median": 51,
+          "after_median": 105,
+          "change_percent": 105.88235294117645
+        },
+        "generation_new_requested_bytes": {
+          "before_median": 25692631,
+          "after_median": 25698153,
+          "change_percent": 0.021492543912682294
+        },
+        "mesh_new_count": {
+          "before_median": 475,
+          "after_median": 47,
+          "change_percent": -90.10526315789474
+        },
+        "mesh_new_requested_bytes": {
+          "before_median": 29527681,
+          "after_median": 8426503,
+          "change_percent": -71.46236102997726
+        },
+        "retained_world_mesh_capacity_bytes": {
+          "before_median": 9841496,
+          "after_median": 8166144,
+          "change_percent": -17.02334685702255
+        },
+        "retained_world_block_capacity_bytes": {
+          "before_median": 25690112,
+          "after_median": 25690112,
+          "change_percent": 0
+        },
+        "max_retained_chunk_mesh_capacity_bytes": {
+          "before_median": 732228,
+          "after_median": 704088,
+          "change_percent": -3.84306527475049
+        },
+        "scratch_capacity_bytes": {
+          "before_median": null,
+          "after_median": 86320
+        },
+        "candidate_bytes_last_build": {
+          "before_median": null,
+          "after_median": 663768
+        },
+        "peak_single_build_scratch_candidate_old_mesh_bytes": {
+          "before_median": null,
+          "after_median": 790408
+        },
+        "legacy_fixed_geometry_scratch_bytes": {
+          "before_median": 676,
+          "after_median": null
+        }
+      }
+    }
+  ],
+  "differences": []
+}

@@ -1,0 +1,5 @@
+# Preserve SDL3 source archive bytes, including original line endings.
+/vendor/sdl3/** -text
+
+# Preserve the immutable R1 review copies for their recorded SHA256 identities.
+/docs/milestones/m3-t3/evidence/r1/review-20261009-001/** -text

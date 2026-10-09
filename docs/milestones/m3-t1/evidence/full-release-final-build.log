@@ -1,0 +1,8 @@
+[0/2] Re-checking globbed directories...
+[1/8] Synchronizing required SymoCraft runtime assets
+[2/8] Building CXX object test\unit\world\CMakeFiles\mesh_safety_tests.dir\mesh_safety_tests.cpp.obj
+[3/8] Building CXX object test\unit\world\CMakeFiles\world_contract_tests.dir\world_contract_tests.cpp.obj
+[4/8] Linking CXX executable test\unit\world\mesh_safety_tests.exe
+[5/8] Building CXX object test\unit\world\CMakeFiles\world_generation_tests.dir\world_generation_tests.cpp.obj
+[6/8] Linking CXX executable test\unit\world\world_contract_tests.exe
+[7/8] Linking CXX executable test\unit\world\world_generation_tests.exe

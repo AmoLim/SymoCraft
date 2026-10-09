@@ -1,0 +1,42 @@
+{
+  "milestone": "M3-T2",
+  "date": "2026-10-09",
+  "timezone": "Asia/Shanghai",
+  "status": "formally_approved_by_user",
+  "approval_source": "Explicit user message in this task",
+  "user_decision": "选定内存预算：MB01方案2：工作集≤704 MiB，private bytes≤1408 MiB，并且标记T2节点已经正式通过",
+  "hardware_scope": "Local RTX 5070 Ti functionality and compatibility",
+  "budgets": {
+    "FB01": {
+      "selected_option": 2,
+      "p95_ms_max": 10,
+      "p99_ms_max": 12,
+      "scope": "Complete foreground sample rounds under the approved Q06 conditions"
+    },
+    "MB01": {
+      "selected_option": 2,
+      "working_set_mib_max": 704,
+      "private_bytes_mib_max": 1408,
+      "scope": "Per-round observed maxima at approximately one-second intervals, 10 <= elapsed_s < 40, under the same foreground Q06 conditions",
+      "selection_basis": "Explicit user-selected absolute limits; not a new percentage derivation from discarded 002"
+    }
+  },
+  "active_exploratory_presample": "q07-glfw-presample-003",
+  "discarded_presample": "q07-glfw-presample-002",
+  "approval_overrides_prior_t2_node_blocking_status": true,
+  "remaining_evidence_limits": [
+    "Win32 1175 publication stability is not proven fixed; Fix1 remains paused",
+    "Matched-source GLFW/SDL Q06 acceptance comparison has not been completed",
+    "First-interactive-time budget has not been selected",
+    "Some manual condition, timing and candidate identity records remain incomplete",
+    "Memory observations do not cover transient or whole-process lifetime peaks and do not prove absence of leaks"
+  ],
+  "deferred_performance_gate": "Y9000P and GTX 1650 whole-machine performance verification remains required before implementing the next gameplay stage",
+  "t3_r1_v1_frozen_by_this_decision": false,
+  "t3_r2_authorized_by_this_decision": false,
+  "new_test_or_sampling_performed": false,
+  "new_package_published": false,
+  "historical_test_results_and_frozen_artifacts_unchanged": true,
+  "formal_plan": "docs/spec/M3-T2-SDL3迁移.md#节点批准与遗留事项",
+  "manual_entry": "docs/milestones/m3-t2/manul-verification.md"
+}

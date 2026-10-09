@@ -1,0 +1,11 @@
+cmake version 4.3.1
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+1.13.2
+-- Using Win32 for window creation
+-- Configuring done (0.1s)
+-- Generating done (0.1s)
+-- Build files have been written to: F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t3/release
+[1/3] Synchronizing required SymoCraft runtime assets
+[2/3] Building CXX object tests\CMakeFiles\benchmark_process_fixture.dir\benchmark_process_fixture.cpp.obj
+[3/3] Linking CXX executable tests\benchmark_process_fixture.exe

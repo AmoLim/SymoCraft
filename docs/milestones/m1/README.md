@@ -1,3 +1,9 @@
+---
+tags:
+  - area/milestones
+  - topic/build
+---
+
 # M1 可靠构建报告
 
 日期：2026-09-17。状态：**实施和自动验证完成，等待 CLion 内构建确认及用户验收。** M0 已由用户验收通过；本轮没有进入 M2，也没有宣称交付经过玩法验收的游戏版本。
@@ -19,7 +25,7 @@
 | 无窗口检查 | `--check-assets`：成功 0、缺资产 2；未知参数 64；不初始化 GLFW 或 OpenGL |
 | 测试 | 路径契约、不同 CWD、迁移路径含空格、模块 Unicode 路径、缺文件和真实游戏参数检查 |
 
-完整设计与复现入口：[构建与 CLion 指南](../../development/build-and-clion.md)、[资源定位模块](../../architecture/asset-paths.md)。
+完整设计与复现入口：[构建与 CLion 指南](../../project/build/build-and-clion.md)、[资源定位模块](../../legacy/architecture/asset-paths.md)。
 
 ## 验证记录
 

@@ -1,0 +1,56 @@
+metadata:
+  schema_version: 2
+  protocol_version: 2
+  workload_version: 2
+  focus_policy: allow-unfocused
+  benchmark: static
+  warmup_seconds: 60
+  sample_seconds: 180
+  requested_framebuffer_width: 1920
+  requested_framebuffer_height: 1080
+  requested_vsync: false
+  percentile_method: nearest-rank, ceil(p*N)-1; no outlier removal
+  frame_time_scope: consecutive SwapBuffers return intervals; not physical display latency
+  gpu_time_scope: sum of GL_TIME_ELAPSED around draw calls, excluding explicit uploads/clear/swap
+  memory_scope: process working set/private bytes; NVX memory is device-wide driver estimate, not process VRAM
+  cpu_temperature: missing; no portable sensor interface enabled
+  gpu_temperature: not collected by game; an external collector may supply it separately
+  build_configuration: Release
+  msvc_version: 193833145
+  gl_vendor: NVIDIA Corporation
+  gl_renderer: NVIDIA GeForce GTX 1650/PCIe/SSE2
+  gl_version: 4.6.0 NVIDIA 591.74
+  framebuffer_width: 1920
+  framebuffer_height: 1061
+  msaa_samples: 4
+startup_ms:
+  argument_preflight_and_collector_setup: 2.1646000000000001
+  window_and_context: 670.82100000000003
+completed: false
+valid_run: false
+invalid_reasons:
+  - runtime-error
+  - duration-not-completed
+total_frames: 0
+focus:
+  transitions: 0
+  unfocused_frames: 0
+  sample_unfocused_frames: 0
+  unfocused_seconds_estimate: 0
+  sample_unfocused_seconds_estimate: 0
+  duration_method: sum frame intervals classified by focus at event polling; approximate
+frame_ms:
+  count: 0
+gpu_draw_ms:
+  count: 0
+gpu_missing_sample_frames: 0
+mesh_ms:
+  count: 0
+upload_cpu_ms:
+  count: 0
+cpu_submit_excluding_upload_ms:
+  count: 0
+present_wait_cpu_ms:
+  count: 0
+sample_edits: 0
+sample_rebuilt_chunks: 0

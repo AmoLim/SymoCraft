@@ -240,7 +240,7 @@ Stream::Stream(std::istream& input)
   ReadAheadTo(0);
 }
 
-Stream::~Stream() { delete[] m_pPrefetched; }
+Stream::~Stream() = default;
 
 char Stream::peek() const {
   if (m_readahead.empty()) {
@@ -407,7 +407,7 @@ unsigned char Stream::GetNextByte() const {
   if (m_nPrefetchedUsed >= m_nPrefetchedAvailable) {
     std::streambuf* pBuf = m_input.rdbuf();
     m_nPrefetchedAvailable = static_cast<std::size_t>(
-        pBuf->sgetn(ReadBuffer(m_pPrefetched), YAML_PREFETCH_SIZE));
+        pBuf->sgetn(ReadBuffer(m_pPrefetched.get()), YAML_PREFETCH_SIZE));
     m_nPrefetchedUsed = 0;
     if (!m_nPrefetchedAvailable) {
       m_input.setstate(std::ios_base::eofbit);

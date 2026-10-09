@@ -1,0 +1,6 @@
+symocraft_test_executable(player_math_tests player_math_tests.cpp symocraft_simulation)
+add_test(NAME player.math COMMAND player_math_tests)
+set_tests_properties(player.math PROPERTIES TIMEOUT 45)
+symocraft_test_executable(simulation_contract_tests simulation_contract_tests.cpp symocraft_simulation symocraft_world)
+add_test(NAME simulation.contracts COMMAND simulation_contract_tests "${SYMOCRAFT_REPOSITORY_ROOT}/assets/configs/blockFormats.yaml")
+set_tests_properties(simulation.contracts PROPERTIES TIMEOUT 240)

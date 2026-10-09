@@ -1,0 +1,20 @@
+Start testing: Oct 07 13:19 ?D1迆㊣那℅?那㊣??
+----------------------------------------------------------
+1/1 Testing: sdl3-input-candidate
+1/1 Test: sdl3-input-candidate
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/probe/input-comparison-sdl-release-002/SymoCraftSdl3InputCandidateTests.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/probe/input-comparison-sdl-release-002
+"sdl3-input-candidate" start time: Oct 07 13:19 ?D1迆㊣那℅?那㊣??
+Output:
+----------------------------------------------------------
+SDL3 synthetic input candidate: 185 checks passed.
+No SDL runtime, production adapter, physical layout, or pointer feel was validated.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"sdl3-input-candidate" end time: Oct 07 13:19 ?D1迆㊣那℅?那㊣??
+"sdl3-input-candidate" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 07 13:19 ?D1迆㊣那℅?那㊣??

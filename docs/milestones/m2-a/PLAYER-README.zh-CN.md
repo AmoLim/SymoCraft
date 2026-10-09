@@ -1,3 +1,8 @@
+---
+tags:
+  - area/milestones
+---
+
 # Symocraft M2-A 桌面验收候选版
 
 这是 Windows x64 / Release 开发验收包，不是最终公开发布版本。已在开发台式机运行；完整 M2、15 分钟连续玩法、性能基线、Y9000P 笔记本及无开发环境机器的验收尚未完成。
@@ -41,6 +46,6 @@
 
 `./SymoCraft.exe --smoke-frames 120` 会打开真实游戏窗口并在渲染 120 帧后退出；它不是性能测试，也不能证明完整玩法通过。
 
-包内 `manifest.json` 记录 exe、资源和说明文件的 SHA256；`build-identity.json` 记录源码基线与构建输入。完整验收报告和技术文档位于源仓库 `docs/milestones/m2-a/README.md` 与 `docs/architecture/`。
+包内 `manifest.json` 记录 exe、资源和说明文件的 SHA256；`build-identity.json` 记录源码基线与构建输入。完整验收报告和技术文档位于源仓库 `docs/milestones/m2-a/README.md` 与 `docs/legacy/architecture/`。
 
 第三方依赖来源及许可材料仍沿用仓库基线，有待后续发布阶段补齐；本包用于项目内部开发验收，不代表已完成公开发布审查。

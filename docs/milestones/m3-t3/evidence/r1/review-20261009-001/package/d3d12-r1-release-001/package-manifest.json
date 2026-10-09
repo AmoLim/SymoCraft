@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "configuration": "Release",
+  "created_utc": "2026-10-08T05:19:17.9147517+00:00",
+  "origin_build": {
+    "directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r1-release-001",
+    "build_identities_sha256": "7ea1f01cbeab2263befc4a4f38b5bc98c3adc9110c6560c6407199d79ae76ee2",
+    "production_imports_sha256": "c7af80f5d37910951d36b5944c19eb55ac148d81636a509955a9811b67bcd253",
+    "executable_sha256": "43687e53b31cf4266ef200ef255ee940812c9ba4d5562f186f614efef8a529a8"
+  },
+  "payload": [
+    {
+      "path": "build-identities.json",
+      "bytes": 4377,
+      "sha256": "7ea1f01cbeab2263befc4a4f38b5bc98c3adc9110c6560c6407199d79ae76ee2"
+    },
+    {
+      "path": "concrt140.dll",
+      "bytes": 324208,
+      "sha256": "2405355f0a58067b258f8df33c327e3a3d716eaac5a3a5aebb757842d85bd376"
+    },
+    {
+      "path": "licenses/SDL3-LICENSE.txt",
+      "bytes": 884,
+      "sha256": "1c040b8271b37e5076359f8fd54240e371114112924d2df81ef87c7d6a1dfdfd"
+    },
+    {
+      "path": "msvcp140_1.dll",
+      "bytes": 35952,
+      "sha256": "bfad5aef4c63a669e3c140655cdfdf395b6c979b400a447bd5dcb65ed8826c3d"
+    },
+    {
+      "path": "msvcp140_2.dll",
+      "bytes": 280200,
+      "sha256": "3ea06f0ee098b4823cb79599df3780e7f23cce52c19aac31d2a0d47efe33a5e9"
+    },
+    {
+      "path": "msvcp140_atomic_wait.dll",
+      "bytes": 50304,
+      "sha256": "640b2aefced484d0368eea5bdd06addd0658a3a70a49256e560d6923b404a479"
+    },
+    {
+      "path": "msvcp140_codecvt_ids.dll",
+      "bytes": 31872,
+      "sha256": "f2069a52880ec885ee7f0511186100eb7fada0411a2b4948fafea7735b878a18"
+    },
+    {
+      "path": "msvcp140.dll",
+      "bytes": 557728,
+      "sha256": "0f885b509a685d2bbfa652fed26b5fb31d88fbdab0a978c641d1c7b8aa460aa9"
+    },
+    {
+      "path": "production-imports.json",
+      "bytes": 2866,
+      "sha256": "c7af80f5d37910951d36b5944c19eb55ac148d81636a509955a9811b67bcd253"
+    },
+    {
+      "path": "README.txt",
+      "bytes": 1860,
+      "sha256": "d6d2514419d742460766c4ba5db34bb797fc75d1d509012676fef10fcef3c769"
+    },
+    {
+      "path": "shaders/probe-ps.cso",
+      "bytes": 4232,
+      "sha256": "eb1bc70352d9a30d5f493e3d9695780250eb4dc2fc38521eebe5f89f74c4090b"
+    },
+    {
+      "path": "shaders/probe-vs.cso",
+      "bytes": 3839,
+      "sha256": "9c0331aa5e17ca93a64d71b8e138bb073b3321b7915c8bc6c1b94b8a803755f0"
+    },
+    {
+      "path": "SymoCraftD3D12R1Probe.exe",
+      "bytes": 1549312,
+      "sha256": "43687e53b31cf4266ef200ef255ee940812c9ba4d5562f186f614efef8a529a8"
+    },
+    {
+      "path": "vcruntime140_1.dll",
+      "bytes": 49792,
+      "sha256": "1f2d41c4aa5db0bc33ebf7b66d72943a817d7ce6cbe880502a9403823633093f"
+    },
+    {
+      "path": "vcruntime140.dll",
+      "bytes": 124544,
+      "sha256": "d5e4d9a3e835fa679450145d6a7d94e36573a509317111904d9b3712c30d9066"
+    },
+    {
+      "path": "verify-probes.ps1",
+      "bytes": 12030,
+      "sha256": "5d1d3b8646ee138d323b039495b3d21678a2059b959f7101496dffabad49cb30"
+    }
+  ],
+  "required_debug_layer": true,
+  "software_adapter_allowed": false,
+  "scope": "Portable isolated D3D12 R1 fixture; no production game or validation-layer redistribution and no freeze authorization."
+}

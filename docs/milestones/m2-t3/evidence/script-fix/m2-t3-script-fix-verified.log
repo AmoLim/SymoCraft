@@ -1,0 +1,9 @@
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t3/release
+    Start 16: performance.script_WINDOWS_POWERSHELL
+1/2 Test #16: performance.script_WINDOWS_POWERSHELL ...   Passed    2.13 sec
+    Start 17: performance.script_POWERSHELL_CORE
+2/2 Test #17: performance.script_POWERSHELL_CORE ......   Passed    1.87 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   4.01 sec

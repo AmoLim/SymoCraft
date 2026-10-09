@@ -1,0 +1,26 @@
+{
+  "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\install\\m2-t2\\SymoCraft.exe",
+  "workingDirectory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-t2\\runtime-release",
+  "requestedFrames": 120,
+  "arguments": [
+    "--scene",
+    "regression",
+    "--smoke-frames",
+    "120",
+    "--seed",
+    "424242",
+    "--checkpoint",
+    "four-chunk",
+    "--test-edits"
+  ],
+  "renderedFrames": 120,
+  "glDiagnosticCount": 0,
+  "processId": 20016,
+  "timedOut": false,
+  "exitCode": 0,
+  "expectedExitCode": 0,
+  "ready": true,
+  "shutdown": true,
+  "elapsedSeconds": 2.342834,
+  "passed": true
+}

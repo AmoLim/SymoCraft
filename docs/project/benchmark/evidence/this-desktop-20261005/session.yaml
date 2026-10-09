@@ -1,0 +1,97 @@
+runner_schema: 1
+protocol_version: 2
+created_utc: 20261005-015945-732Z
+identity:
+  game_sha256: f73285a0ac164073da7b8dfb912ef2fae558061df433a69a2fdbfa7b25729af1
+  asset_sha256:
+    configs/blockFormats.yaml: 263fa328d9a44f83cecb9f4b06a6d444dbcebeb75025e48b4a55b3cd956417f9
+    shaders/vs_BlockShader.glsl: 47dab1e3313dd24e139633d32378cb2ded415dac9df697958d9aa5a2fb63dd59
+    shaders/fs_BlockShader.glsl: 66b2fd0547223fe471464287a3fc39cc438643eb8dfa60aedb03456c718defc7
+    shaders/vs_FrameShader.glsl: 5b4b8b0e94abe3af2d21494d27eed77a0afd9fed10ce904d451cc3d8cc68bc3c
+    shaders/fs_FrameShader.glsl: 4b702e82f03db31a921bc72e9501e3f941ab7e4b835f7df86dffaf0a91e1fd35
+    textures/texture_atlas.png: ee41e86af8dfdc70037472b2387b67395d93cf1d807f0fe618025f6f86f9b219
+runner_sha256: 2e2210d1a938790a3251228f4d5dcae02ce786ee865f4c254b86bb2f17225709
+settings:
+  profile: baseline-36m
+  focus_policy: allow-unfocused
+  machine_label: 5070ti
+  power_mode_declared: 接通电源 / 平衡
+  gpu_mode_declared: 独显直连
+  clock_settings_declared: 默认 / 无超频降压
+  framebuffer_width: 1920
+  framebuffer_height: 1080
+  seed: 424242
+  vsync: false
+machine:
+  cpu: "AMD Ryzen 7 9700X 8-Core Processor             "
+  windows_build: 26200
+  physical_memory_bytes: 66190954496
+  ac_line_status: 1
+  power_scheme_guid: 381b4222-f694-41f0-9685-ff5bb260df2e
+  cpu_temperature: not-collected
+  gpu_temperature: not-collected
+  actual_gpu_and_driver: capture/summary.yaml metadata.gl_renderer and gl_version
+retried: false
+rounds:
+  - scene: static
+    repeat: 1
+    passed: true
+    attempts: 1
+    directory: static-1-attempt-1
+    state: passed
+  - scene: static
+    repeat: 2
+    passed: true
+    attempts: 1
+    directory: static-2-attempt-1
+    state: passed
+  - scene: static
+    repeat: 3
+    passed: true
+    attempts: 1
+    directory: static-3-attempt-1
+    state: passed
+  - scene: walk
+    repeat: 1
+    passed: true
+    attempts: 1
+    directory: walk-1-attempt-1
+    state: passed
+  - scene: walk
+    repeat: 2
+    passed: true
+    attempts: 1
+    directory: walk-2-attempt-1
+    state: passed
+  - scene: walk
+    repeat: 3
+    passed: true
+    attempts: 1
+    directory: walk-3-attempt-1
+    state: passed
+  - scene: edit
+    repeat: 1
+    passed: true
+    attempts: 1
+    directory: edit-1-attempt-1
+    state: passed
+  - scene: edit
+    repeat: 2
+    passed: true
+    attempts: 1
+    directory: edit-2-attempt-1
+    state: passed
+  - scene: edit
+    repeat: 3
+    passed: true
+    attempts: 1
+    directory: edit-3-attempt-1
+    state: passed
+completed: true
+graphics_device: NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2 | 4.6.0 NVIDIA 616.64
+build_configuration: Release
+completed_rounds: 9
+cancelled: false
+updated_utc: 20261005-023602-374Z
+continuous_full_protocol: true
+comparison_note: Compare only matching game/assets, workload, focus policy, profile and environment. Background applications may contend for CPU/GPU.

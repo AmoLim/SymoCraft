@@ -1,0 +1,57 @@
+﻿{
+    "startedAt":  "2026-10-03T21:46:12.4902703+08:00",
+    "label":  "Y9000P",
+    "powerMode":  "plugged-in",
+    "gpuMode":  "discrete",
+    "clockSettings":  "stock",
+    "cpuTemperature":  "missing; no CPU temperature sensor configured",
+    "operatingSystem":  {
+                            "Caption":  "Microsoft Windows 11 家庭版 中文版",
+                            "Version":  "10.0.26200",
+                            "BuildNumber":  "26200"
+                        },
+    "cpu":  {
+                "Name":  "12th Gen Intel(R) Core(TM) i7-12700H",
+                "NumberOfCores":  14,
+                "NumberOfLogicalProcessors":  20
+            },
+    "memory":  {
+                   "TotalPhysicalMemory":  34070847488
+               },
+    "battery":  {
+                    "BatteryStatus":  2,
+                    "EstimatedChargeRemaining":  100
+                },
+    "activePowerScheme":  "电源方案 GUID: 85d583c5-cf2e-4197-80fd-3789a227a72c  (均衡模式)",
+    "displayControllers":  [
+                               {
+                                   "Name":  "MuMu Virtual Display Adapter",
+                                   "DriverVersion":  "20.36.41.498"
+                               },
+                               {
+                                   "Name":  "NVIDIA GeForce RTX 3070 Ti Laptop GPU",
+                                   "DriverVersion":  "32.0.15.9559"
+                               },
+                               {
+                                   "Name":  "Intel(R) Iris(R) Xe Graphics",
+                                   "DriverVersion":  "31.0.101.4502"
+                               }
+                           ],
+    "executable":  "F:\\Symocraft-M2-T3-windows-x64\\m2-t3\\SymoCraft.exe",
+    "executableSha256":  "381211C0FF055F2420BE0B5AD8CD11564ACA6324D12DA5EF207A5094D81B9C3F",
+    "scriptSha256":  "36AFBB2081969A833213B748D3DDD185C7629F1D172EFEE9DF35DFF299B2D930",
+    "seed":  424242,
+    "width":  1920,
+    "height":  1080,
+    "vsync":  0,
+    "warmupSeconds":  60,
+    "sampleSeconds":  180,
+    "repeats":  3,
+    "requestedScenarios":  [
+                               "static",
+                               "walk",
+                               "edit"
+                           ],
+    "gpuSensorScope":  "nvidia-smi samples all GPUs; device-wide temperature/memory, not process VRAM",
+    "sourceNote":  "Keep build identity with this directory. This script does not infer the source commit from an executable."
+}

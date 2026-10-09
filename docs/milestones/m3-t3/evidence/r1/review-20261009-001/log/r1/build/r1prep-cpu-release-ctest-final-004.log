@@ -1,0 +1,13 @@
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r1-cpu-handoff-release-002
+    Start 1: r1.candidate_contract
+1/4 Test #1: r1.candidate_contract ............   Passed    0.01 sec
+    Start 2: r1.public_consumer
+2/4 Test #2: r1.public_consumer ...............   Passed    0.01 sec
+    Start 3: r1.production_handoff
+3/4 Test #3: r1.production_handoff ............   Passed    0.03 sec
+    Start 4: r1.cpu_dependency_boundary
+4/4 Test #4: r1.cpu_dependency_boundary .......   Passed    0.07 sec
+
+100% tests passed, 0 tests failed out of 4
+
+Total Test time (real) =   0.13 sec

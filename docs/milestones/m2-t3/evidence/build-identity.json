@@ -1,0 +1,454 @@
+{
+  "candidate": "Symocraft M2-T3 Windows x64 Release",
+  "recordedAt": "2026-10-03T19:54:55.1426005+08:00",
+  "gitBaseCommit": "17e23e0bc4e51921c9ad8b53c04f809375cdb509",
+  "includesUncommittedSourceChanges": true,
+  "compiler": "MSVC 19.38.33145 x64",
+  "cmake": "4.3.1",
+  "ninja": "1.13.2",
+  "debugCTestPassed": 15,
+  "releaseCTestPassed": 15,
+  "executableSha256": "381211C0FF055F2420BE0B5AD8CD11564ACA6324D12DA5EF207A5094D81B9C3F",
+  "debugExecutableSha256": "4842CF861F1835A3771B538E0250D82228224F7868F76FA875D977147947B47C",
+  "sourceInputs": [
+    {
+      "path": "assets/configs/blockFormats.yaml",
+      "sha256": "263FA328D9A44F83CECB9F4B06A6D444DBCEBEB75025E48B4A55B3CD956417F9"
+    },
+    {
+      "path": "assets/shaders/fs_BlockShader.glsl",
+      "sha256": "66B2FD0547223FE471464287A3FC39CC438643EB8DFA60AEDB03456C718DEFC7"
+    },
+    {
+      "path": "assets/shaders/fs_FrameShader.glsl",
+      "sha256": "4B702E82F03DB31A921BC72E9501E3F941AB7E4B835F7DF86DFFAF0A91E1FD35"
+    },
+    {
+      "path": "assets/shaders/vs_BlockShader.glsl",
+      "sha256": "47DAB1E3313DD24E139633D32378CB2DED415DAC9DF697958D9AA5A2FB63DD59"
+    },
+    {
+      "path": "assets/shaders/vs_FrameShader.glsl",
+      "sha256": "5B4B8B0E94ABE3AF2D21494D27EED77A0AFD9FED10CE904D451CC3D8CC68BC3C"
+    },
+    {
+      "path": "assets/textures/Jyashintan.png",
+      "sha256": "D082D7825CC72FA122270098C112A04BE8A1CC690AA7EB96BAECC3A148725C3C"
+    },
+    {
+      "path": "assets/textures/Kurisu.jpg",
+      "sha256": "3F8D0390BA60FAA04B96E1B0D9238093F5FC33906124E7139F832A498F82BF64"
+    },
+    {
+      "path": "assets/textures/reference atlas 2.png",
+      "sha256": "85FA47C085586A3766E6758FD5EEFA89384DA10F5497877BF03B862C5E1E80F2"
+    },
+    {
+      "path": "assets/textures/reference atlas.png",
+      "sha256": "6CD01F108E062C827357DF628AE04252B1F0BB9A56690BA278EF0CD5F19A47D9"
+    },
+    {
+      "path": "assets/textures/texture_atlas.png",
+      "sha256": "EE41E86AF8DFDC70037472B2387B67395D93CF1D807F0FE618025F6F86F9B219"
+    },
+    {
+      "path": "assets/textures/texture_atlas.psd",
+      "sha256": "EB3EB648526016A50AEB3D4707272E42009E0990C8549D3039DD6FB7B5DA7FC3"
+    },
+    {
+      "path": "cmake/RequiredAssets.cmake",
+      "sha256": "3EC5AD0B63C69F732B58EF60AD4F84F7CC791ED987A6706B63C2EFF4210783AB"
+    },
+    {
+      "path": "cmake/StageAssets.cmake",
+      "sha256": "F23553F5EA4FE215040D53D7F3B5D9EDC439FDB88237AC01AC5BCE7E66996D85"
+    },
+    {
+      "path": "cmake/ValidateMsvcEnvironment.cmake",
+      "sha256": "30BF7C2E2ABDEC17BC1CF265A84D72B45D0D5A85F47DD8F19EEF66AF0D5B671B"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "EBCB7C1809EA95E5F419B857B679C657828DA6E0C3417A981BAF8D47EF5065AB"
+    },
+    {
+      "path": "CMakePresets.json",
+      "sha256": "6342FAFF6447E8E243DD9809B1C377EB9A8F86EDACCA14D421ECE92AE2C27017"
+    },
+    {
+      "path": "include/camera/camera.h",
+      "sha256": "EBF5B8F0B6108A41A1FAD281CC12E93A24D2CB2A7CCD745655CA1E1A3AF7F4EA"
+    },
+    {
+      "path": "include/core.h",
+      "sha256": "370845D3B4459D786666DDBEA5256CE8D8417EEE5EF7E2FDCF8C4B6A84486C0A"
+    },
+    {
+      "path": "include/core/application.h",
+      "sha256": "5A6160A4387FE45ABCCA8EBAF740B28A07584A6E5F68E41BC83B3527070E4EB9"
+    },
+    {
+      "path": "include/core/asset_paths.h",
+      "sha256": "731E890D0EC90BC92D4904CED83667EF73B03D40A7E57FA150B14911A48AE0C9"
+    },
+    {
+      "path": "include/core/constants.h",
+      "sha256": "A71A34AC2926010AA26DE30CE1CA04CB89EC73AC74B9B410927D927BD95ADE68"
+    },
+    {
+      "path": "include/core/ECS/component_container.h",
+      "sha256": "34BD4B08B42B03E2AA0B5496EC7F1EF7045509EB8CEDDD241E38D8A7BC0A16C4"
+    },
+    {
+      "path": "include/core/ECS/component.h",
+      "sha256": "08FBB4878BB439327223F5644723329B7A1389450A0E2D0907B07FF058F78C8A"
+    },
+    {
+      "path": "include/core/ECS/internal.h",
+      "sha256": "E691B5441CEDAFAC165BB3CA1F6617C64731ABA9F087AFB7B56CA9B87F2BD803"
+    },
+    {
+      "path": "include/core/ECS/registry.h",
+      "sha256": "6814DF3810F094F2FD3D616B9ED5D1CC5C74838EE2DE0C0547841F6B53C1C54C"
+    },
+    {
+      "path": "include/core/ECS/Systems/character_system.h",
+      "sha256": "006F12FE4AD22A8480C9B1D12999DB34E1E22736FA60D2D31AFEF2834EDF8C16"
+    },
+    {
+      "path": "include/core/ECS/Systems/physics_system.h",
+      "sha256": "FC57BC1176AD0429E7AF49D585778B22D0ADA2A89983E64FE070D87E3A3CF794"
+    },
+    {
+      "path": "include/core/ECS/Systems/transform_system.h",
+      "sha256": "1DC853FA94FF5536E72016EAC20A0E022EB66DB0D045E7183DE7C075FED8B6EF"
+    },
+    {
+      "path": "include/core/global_thread_pool.h",
+      "sha256": "1B1F335F342B031AA69F97521B65371C08D0F302D880235A711A098FB45952DC"
+    },
+    {
+      "path": "include/core/performance.h",
+      "sha256": "3E06CCE45E4CDC41EB92E3195661BC5BC806CE78A51F3A2B5F5F38E30CAEDD6C"
+    },
+    {
+      "path": "include/core/pool.hpp",
+      "sha256": "C60C11D1E1EB67279FD55136A847838773222FAA504990145A69953E58D0DF39"
+    },
+    {
+      "path": "include/core/startup_options.h",
+      "sha256": "1D53B593209B3D69697E69B82DCC206F1677451D8C8B9DF2E0EBC5AEDC0354AF"
+    },
+    {
+      "path": "include/core/utils.h",
+      "sha256": "E8F512E032F067D81E66FC552BECC84DBE2D3CA1F4C9CFE8F4CF34988188573A"
+    },
+    {
+      "path": "include/core/window.h",
+      "sha256": "06DAAD0FAC4097978A57B3637F43F53D05CDC0F4557E1AA0327BEA96E18D5471"
+    },
+    {
+      "path": "include/event/event.h",
+      "sha256": "2F17242A2F83A1CB7972E898B2DF75BD593836C5E1C5B3D4748A9CB70F4D0250"
+    },
+    {
+      "path": "include/input/input.h",
+      "sha256": "69E1326E40C6853933AD15BA53E616827D80EC5BF0EB92B0E688F617DA1671CD"
+    },
+    {
+      "path": "include/input/key_bindings.h",
+      "sha256": "2AD22F5497FE9C4D8929963CB87C0EFB3A6DC0E820726D1D7B35225235C4CBCC"
+    },
+    {
+      "path": "include/input/key_handler.h",
+      "sha256": "F3F6C0933C3096F3DB46B7FC8BA4C68EAD90D4939F9A66FF8794949EE305CA6B"
+    },
+    {
+      "path": "include/input/key_snapshot.h",
+      "sha256": "24E66CD938586BE44D2CFC2C270F353AC91E823C9EDB5638B12C8CF43C87D991"
+    },
+    {
+      "path": "include/MemoryAllocator/AmoBase.cpp",
+      "sha256": "00CED729834C50031C17095986F8C08D62DE22C8FBCEA3F8AE4D1C239E5A5730"
+    },
+    {
+      "path": "include/MemoryAllocator/AmoBase.h",
+      "sha256": "9B65B765F5BE556810B2225A861AF33BF1712C74C2CEECB5FB69C7D9D40A70DB"
+    },
+    {
+      "path": "include/MemoryAllocator/MemoryHelper.h",
+      "sha256": "50C6F0FC777FCE852EF62BE4111251DF8FE8E4CBD1422E92F3E744EBB3A1F165"
+    },
+    {
+      "path": "include/MemoryAllocator/RawMemory.h",
+      "sha256": "2C8D54A77FC5386D516A7C0AD1AF31A04F97980253BB4CC7C8BE00D91E273360"
+    },
+    {
+      "path": "include/playercontroller/player_math.h",
+      "sha256": "251F6F22101A94B1573D75D598B2F6AA8D5404503C2FB51A2D07F4B8BF8DB4D2"
+    },
+    {
+      "path": "include/playercontroller/playercontroller.h",
+      "sha256": "3CD4EFB28A6211BF12621B9A91CF395556C40A6DF40BED33DA91FC346EEF12A3"
+    },
+    {
+      "path": "include/renderer/batch.hpp",
+      "sha256": "F7A5B8D73C7B8195FBE7AF12271AF72397D3319FCB0DF5AFE60FEF7456B3DB6A"
+    },
+    {
+      "path": "include/renderer/gpu_timer.h",
+      "sha256": "493208D4515781B9B257AC8FE70AA5870C06E3124982EE9D06EB98DDA6C20564"
+    },
+    {
+      "path": "include/renderer/performance_memory.h",
+      "sha256": "FF231C383279A56F4AEF7FCD1EF18BD63820BE135C855EA5CD9995493B1226C8"
+    },
+    {
+      "path": "include/renderer/render_stats.h",
+      "sha256": "61F860CE468E4876BCAE2C2F98BE1406B2E47DE838D93B4CA0C7A271E72089F1"
+    },
+    {
+      "path": "include/renderer/renderer.h",
+      "sha256": "DC8000EB4E50730FFE1CFA96195C43611CE5EABAAAFC6A41C7C1CCDFEC59A7CF"
+    },
+    {
+      "path": "include/renderer/shader_program.h",
+      "sha256": "D8304DE0C26B61AD2EE270FE29AE9BC96A16C8A2683D5301DD384F776CD6BF77"
+    },
+    {
+      "path": "include/renderer/shader.h",
+      "sha256": "0616E8C37AA11609A6A18DD537A993D65D98452BF6C1D576D7540C8EB5B06133"
+    },
+    {
+      "path": "include/renderer/texture.h",
+      "sha256": "26CD66A014AA75162A62FC3A415BE10029EF78AA7F41838F6782423111E05902"
+    },
+    {
+      "path": "include/world/benchmark_workload.h",
+      "sha256": "CA0186529FB02405C808952D4C3789D300BE7992DC885EA5ECB3EAB52AF6C589"
+    },
+    {
+      "path": "include/world/block.h",
+      "sha256": "C529482E02F113F0A13A17FE2CE4EDA2E0F592EB5E1E43F074120F29707580F3"
+    },
+    {
+      "path": "include/world/chunk_manager.h",
+      "sha256": "DE71E180A0F8F8EAA07850C938B33131FDCDEAE7E3CCB09A4EA6E258753A82B1"
+    },
+    {
+      "path": "include/world/chunk.h",
+      "sha256": "24288CDF8D1EFEF991B81074EE2B101390118C74A2D9299354A2A3A572D7C10B"
+    },
+    {
+      "path": "include/world/generation.h",
+      "sha256": "F4E1DDCB40872D68FAC8A0850AA8E7F978B70395CAA2F4FA9E1BFA0B4135F56D"
+    },
+    {
+      "path": "include/world/test_scene.h",
+      "sha256": "8359F99FFEB2E6961448876B1123C4D129E88336D578B688FA40CB63BDF31051"
+    },
+    {
+      "path": "include/world/world.h",
+      "sha256": "088FAD86B9F8C1E17B60AE0BE890404D1C8BE9B1814B1BADC1CD90B3532C8AA4"
+    },
+    {
+      "path": "scripts/benchmark.ps1",
+      "sha256": "36AFBB2081969A833213B748D3DDD185C7629F1D172EFEE9DF35DFF299B2D930"
+    },
+    {
+      "path": "scripts/build.ps1",
+      "sha256": "A965D0A2603AE281F08ADE74F45A77C9BE63F1963ADC16AA841285EEEF21B5E1"
+    },
+    {
+      "path": "scripts/verify-runtime-faults.ps1",
+      "sha256": "FDCF2B1AE2330457D854587D555E0E2F68B38D4452C6799F02C13309A54C0FA2"
+    },
+    {
+      "path": "scripts/verify-runtime.ps1",
+      "sha256": "19E90E8ACF7FE0CFA29164E1C7B412F06BA6C8D50296B565B8E878224456E96D"
+    },
+    {
+      "path": "src/camera/Camera.cpp",
+      "sha256": "2071883FE90EE21F09A0C4D712983D83D9B9CAED101DA3E8C2F9447A67905F51"
+    },
+    {
+      "path": "src/core/application.cpp",
+      "sha256": "5412FFA897557903D3B04F1E9D6D6F27510E54ADB03F38A550D0683069D6391E"
+    },
+    {
+      "path": "src/core/asset_paths.cpp",
+      "sha256": "5F271085B5B1D4B4E40727076E5823109F5F7994B6A605C2F549216EC8D97840"
+    },
+    {
+      "path": "src/core/ECS/internal.cpp",
+      "sha256": "DF93D8A34BF4FE8437B00E60E45DA097496951009E9DDB234E0EC4EAA48AF7DE"
+    },
+    {
+      "path": "src/core/ECS/registry.cpp",
+      "sha256": "3896200F40C8F610C1EAFC06546F1101B3C1BBD586F07EFE007C18C989498BD5"
+    },
+    {
+      "path": "src/core/ECS/Systems/character_system.cpp",
+      "sha256": "272D5EB2CD484CCDB668ADACB49CEF42CFF6ABDEFEFA346400AE535F3ADB2257"
+    },
+    {
+      "path": "src/core/ECS/Systems/physics_system.cpp",
+      "sha256": "3236BCBF2FCFC511A12DE57823841DB74D3178B5AF550894DD905069E649BB38"
+    },
+    {
+      "path": "src/core/ECS/Systems/transform_system.cpp",
+      "sha256": "6A298B6CA7D2E2D03EA4C97F3CECB4D99304FA3D9F52B333164A43C8EC30644B"
+    },
+    {
+      "path": "src/core/global_thread_pool.cpp",
+      "sha256": "8EA637A0E0EC076020DB25E30F28782FA77A87AF455EC6E5B9041E10EB91544A"
+    },
+    {
+      "path": "src/core/performance.cpp",
+      "sha256": "8ECE224A48B2E73C1D24166DBF230C3D87C056E9EEA924CCC3D87BE481C46D77"
+    },
+    {
+      "path": "src/core/startup_options.cpp",
+      "sha256": "6C8381C90E60A7FFA4BFCA492AC6A172049B789FF42EAA8C954E717946383F17"
+    },
+    {
+      "path": "src/core/window.cpp",
+      "sha256": "890CC06D9831FAEFB391AB88D0E168E50A06558E5C8930769F465C35101BAECC"
+    },
+    {
+      "path": "src/event/event.cpp",
+      "sha256": "10050F7160CC2BEC5933746B8BA3AE5758B9A1EBE39D7CE20662ACE920273C57"
+    },
+    {
+      "path": "src/input/input.cpp",
+      "sha256": "83088F63301590BC8B416A8C64FBFBEAC5E96EA375C3F89F57A890EB082D5DF9"
+    },
+    {
+      "path": "src/input/key_bindings.cpp",
+      "sha256": "D1CC6EBD9C0FBE6013E1B31A77DD2FBB227F0AC37EC5D6D0D657345CFF85DB87"
+    },
+    {
+      "path": "src/input/key_handler.cpp",
+      "sha256": "DBAB8A0D5136EAF4215D107B8F7F4416F7A1E4624AD640CA59CE61D18EC5C2C9"
+    },
+    {
+      "path": "src/main.cpp",
+      "sha256": "EABCD3943F1087F699BE169AAD4CF4159F453A99183A8AB34B908943BAC5946D"
+    },
+    {
+      "path": "src/playercontroller/playercontroller.cpp",
+      "sha256": "FB49B3407074C5187FCE6212521DF948FD3247F81EDF9682A26133639DF3D44F"
+    },
+    {
+      "path": "src/renderer/gpu_timer.cpp",
+      "sha256": "FAF2D99D1BD05555C183147D02A07593904168FC2F138C71D272B88C33097693"
+    },
+    {
+      "path": "src/renderer/performance_memory.cpp",
+      "sha256": "A7833025069D15AC39E91CDBA332E64B4DA3354A91D0470799E5B427791B5133"
+    },
+    {
+      "path": "src/renderer/renderer.cpp",
+      "sha256": "A50B80B0E67EC339F9706C056AE7B99EC4037745A7CB84BDDB0831641AD27917"
+    },
+    {
+      "path": "src/renderer/shader_program.cpp",
+      "sha256": "D7B0A51579A26A792F36DD860A035807FD18CE40D71723528280D7B2C6E85E1B"
+    },
+    {
+      "path": "src/renderer/shader.cpp",
+      "sha256": "0D5AF57A5FAA5FD373797F85C67C1692C2EE5473DA7B735F9DDC56A4348B4D4A"
+    },
+    {
+      "path": "src/renderer/texture.cpp",
+      "sha256": "8D141B875A7170CEA03029297C6EC3936FCCF93546D2E38277EEF0CDAB4EAD4A"
+    },
+    {
+      "path": "src/world/block.cpp",
+      "sha256": "51C654E7FF0902F4B0BE96A947D19656FA226DC886D47544969DF9B9582248AC"
+    },
+    {
+      "path": "src/world/chunk_manager.cpp",
+      "sha256": "A4F3DC5420A5B792F461668BDE56A56CFEB97950DE9480D084670170D8AC0DEA"
+    },
+    {
+      "path": "src/world/chunk.cpp",
+      "sha256": "36A8691E88F8BE13012BB3E5BA605FA0CDDEA098371CA92A559737FDB1406B4B"
+    },
+    {
+      "path": "src/world/generation.cpp",
+      "sha256": "3067861F2608D05980D4D7BBD19A260107B1D84DB0E94286ADA6F8E171E9D143"
+    },
+    {
+      "path": "src/world/test_scene.cpp",
+      "sha256": "1BF590B63BCB6AFE53525F8CD7E1164B0E14BDA0907DDA57F7340A6A08F099AA"
+    },
+    {
+      "path": "src/world/world_coordinates.cpp",
+      "sha256": "04E0890B5771E94C9FA53A8FD506BE0875085470E247BF25A42B61882685D037"
+    },
+    {
+      "path": "src/world/world.cpp",
+      "sha256": "A027157AA27EC8B8241ED8548C9A521AE8CBD52E2B40129BCC772939DA5ED57D"
+    },
+    {
+      "path": "tests/asset_paths_tests.cpp",
+      "sha256": "C5BAF6050F133B4C65B87734C53F13D6BDF02DFD85CA2CC478D0B45C1D817473"
+    },
+    {
+      "path": "tests/batch_safety_tests.cpp",
+      "sha256": "2C8972575B530B481998192D7E591C074F4262055FA76B3B34720C4934A249B4"
+    },
+    {
+      "path": "tests/block_config_tests.cpp",
+      "sha256": "500D4CCC214904BFF20BD434D879B61B1A758A9D018453E329DA25043A14F1F6"
+    },
+    {
+      "path": "tests/CheckAssetPackage.cmake",
+      "sha256": "4BF410CFAA3985DC80A8BAEA945F5A1E2DFE2104859DBDF6852616729DAB33E4"
+    },
+    {
+      "path": "tests/CheckWorldSummary.cmake",
+      "sha256": "9742DBFBB41DB6946D514417E67CD6A239A2C65B5F361507F4DDD3681A5D5434"
+    },
+    {
+      "path": "tests/CMakeLists.txt",
+      "sha256": "F52FF65AD333DD09CFCB70E8B1E353B56E48837579750D73E8AF73EC915326D6"
+    },
+    {
+      "path": "tests/gpu_timer_tests.cpp",
+      "sha256": "23D1C41261187884F8BD8B80D06C834EB8D736C2BF817EBC1B6298A933A43A00"
+    },
+    {
+      "path": "tests/key_snapshot_tests.cpp",
+      "sha256": "50E4F52EDE0A90E285D0A43CDF3E013E5B02AE59A75EECEA535692B062CC52C9"
+    },
+    {
+      "path": "tests/mesh_safety_tests.cpp",
+      "sha256": "0D10622DE2DECF257C8FEADF825B6558D52899263CCB153B06C1AABCE253034C"
+    },
+    {
+      "path": "tests/performance_tests.cpp",
+      "sha256": "9BE64ABB8E073AC4CE5A9FF26D75E0908B2022B723D4D536A07334A3EB6835C4"
+    },
+    {
+      "path": "tests/player_math_tests.cpp",
+      "sha256": "C8D1991BEE0204D8C7A17DD9F3E81793C460481FE4D47F36B857FB02526A5B1A"
+    },
+    {
+      "path": "tests/shader_loading_tests.cpp",
+      "sha256": "A562562CF187AA7B00DAE300CBF71EF0179965238B9B12C99F93A1A859326426"
+    },
+    {
+      "path": "tests/startup_options_tests.cpp",
+      "sha256": "86DA5032072CCE19D5BC26CCE369BE2D3B2E5ACEF3795F46EAA4562BE094D633"
+    },
+    {
+      "path": "tests/world_generation_tests.cpp",
+      "sha256": "AD299B8AECBEA36AF38FE357FB8DB0D3A04B0546311904F31F95AFEE0CBDCFD6"
+    }
+  ],
+  "vendorNote": "Unmodified vendor/lib from the base commit; stb_image_write is now used for post-capture screenshots.",
+  "fullM2Accepted": false,
+  "laptopValidated": false
+}

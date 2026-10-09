@@ -1,0 +1,35 @@
+Microsoft (R) COFF/PE Dumper Version 14.38.33145.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file out\m3-t2\probe\vulkan-debug\SymoCraftSdl3Probe.exe
+
+File Type: EXECUTABLE IMAGE
+
+  Image has the following dependencies:
+
+    USER32.dll
+    KERNEL32.dll
+    GDI32.dll
+    WINMM.dll
+    IMM32.dll
+    ole32.dll
+    VERSION.dll
+    ADVAPI32.dll
+    SETUPAPI.dll
+    SHELL32.dll
+    MSVCP140D.dll
+    VCRUNTIME140D.dll
+    VCRUNTIME140_1D.dll
+    ucrtbased.dll
+
+  Summary
+
+        1000 .00cfg
+       59000 .data
+        7000 .idata
+       17000 .pdata
+       58000 .rdata
+        6000 .reloc
+        1000 .rsrc
+      2AF000 .text

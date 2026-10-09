@@ -1,0 +1,74 @@
+[
+  {
+    "scene": "static",
+    "repeat": 1,
+    "samples": 240,
+    "sampling_period": "whole-process; includes warmup",
+    "working_set_peak_mib": 516.87890625,
+    "private_peak_mib": 1118.2890625
+  },
+  {
+    "scene": "static",
+    "repeat": 2,
+    "samples": 240,
+    "sampling_period": "whole-process; includes warmup",
+    "working_set_peak_mib": 518.1796875,
+    "private_peak_mib": 1118.84765625
+  },
+  {
+    "scene": "static",
+    "repeat": 3,
+    "samples": 240,
+    "sampling_period": "whole-process; includes warmup",
+    "working_set_peak_mib": 513.71875,
+    "private_peak_mib": 1121.42578125
+  },
+  {
+    "scene": "walk",
+    "repeat": 1,
+    "samples": 240,
+    "sampling_period": "whole-process; includes warmup",
+    "working_set_peak_mib": 506.52734375,
+    "private_peak_mib": 1115.328125
+  },
+  {
+    "scene": "walk",
+    "repeat": 2,
+    "samples": 240,
+    "sampling_period": "whole-process; includes warmup",
+    "working_set_peak_mib": 506.125,
+    "private_peak_mib": 1114.6015625
+  },
+  {
+    "scene": "walk",
+    "repeat": 3,
+    "samples": 240,
+    "sampling_period": "whole-process; includes warmup",
+    "working_set_peak_mib": 520.6171875,
+    "private_peak_mib": 1128.74609375
+  },
+  {
+    "scene": "edit",
+    "repeat": 1,
+    "samples": 240,
+    "sampling_period": "whole-process; includes warmup",
+    "working_set_peak_mib": 510.94140625,
+    "private_peak_mib": 1121.015625
+  },
+  {
+    "scene": "edit",
+    "repeat": 2,
+    "samples": 240,
+    "sampling_period": "whole-process; includes warmup",
+    "working_set_peak_mib": 510.0078125,
+    "private_peak_mib": 1118.546875
+  },
+  {
+    "scene": "edit",
+    "repeat": 3,
+    "samples": 240,
+    "sampling_period": "whole-process; includes warmup",
+    "working_set_peak_mib": 510.51171875,
+    "private_peak_mib": 1118.8359375
+  }
+]

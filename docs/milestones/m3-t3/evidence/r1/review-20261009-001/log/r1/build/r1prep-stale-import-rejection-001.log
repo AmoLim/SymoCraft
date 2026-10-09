@@ -1,0 +1,13 @@
+-- The CXX compiler identification is MSVC 19.38.33145.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: E:/Applications/Microsoft VS/2022/VC/Tools/MSVC/14.38.33130/bin/HostX64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+CMake Error at CMakeLists.txt:83 (message):
+  Production foundation archive is stale for
+  F:/GameDevelop/OpenGLProject/Symocraft/game/modules/foundation/src/files.cpp;
+  rebuild it before the experiment
+
+
+-- Configuring incomplete, errors occurred!

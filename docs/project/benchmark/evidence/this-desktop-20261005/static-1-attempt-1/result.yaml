@@ -1,0 +1,35 @@
+runner_schema: 1
+started_utc: 20261005-015945-736Z
+machine:
+  cpu: "AMD Ryzen 7 9700X 8-Core Processor             "
+  windows_build: 26200
+  physical_memory_bytes: 66190954496
+  ac_line_status: 1
+  power_scheme_guid: 381b4222-f694-41f0-9685-ff5bb260df2e
+  cpu_temperature: not-collected
+  gpu_temperature: not-collected
+  actual_gpu_and_driver: capture/summary.yaml metadata.gl_renderer and gl_version
+exit_code: 0
+cancelled: false
+timed_out: false
+forced_termination: false
+frame_ms:
+  count: 34249
+  min: 4.7775999999999996
+  max: 7.9702999999999999
+  mean: 5.255577015387316
+  p50: 5.2119
+  p95: 5.7065000000000001
+  p99: 5.9734999999999996
+throughput_fps: 190.27406449799903
+focus:
+  transitions: 1
+  unfocused_frames: 54
+  sample_unfocused_frames: 0
+  unfocused_seconds_estimate: 0.44869079999999995
+  sample_unfocused_seconds_estimate: 0
+  duration_method: sum frame intervals classified by focus at event polling; approximate
+gl_renderer: NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2
+build_configuration: Release
+passed: true
+finished_utc: 20261005-020347-683Z

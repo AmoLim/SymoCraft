@@ -16,116 +16,40 @@ endif()
 
 include(CTest)
 include(cmake/ValidateMsvcEnvironment.cmake)
-include(cmake/StageAssets.cmake)
+set(SYMOCRAFT_REPOSITORY_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
+option(SYMOCRAFT_BUILD_GAME "Build the interactive game" ON)
+option(SYMOCRAFT_BUILD_BENCHMARK "Build the independent benchmark runner" ON)
+option(SYMOCRAFT_BUILD_CPU_MODULES "Build CPU modules without requiring the game executable" ${SYMOCRAFT_BUILD_GAME})
+option(SYMOCRAFT_CPU_ONLY "Build and test CPU modules without any graphics/window dependencies" OFF)
+if(SYMOCRAFT_CPU_ONLY)
+    set(SYMOCRAFT_BUILD_GAME OFF)
+    set(SYMOCRAFT_BUILD_BENCHMARK OFF)
+    set(SYMOCRAFT_BUILD_CPU_MODULES ON)
+endif()
+include(cmake/ThirdPartyYaml.cmake)
 
-set(BUILD_SHARED_LIBS OFF)
-set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "Build GLFW examples" FORCE)
-set(GLFW_BUILD_TESTS OFF CACHE BOOL "Build GLFW tests" FORCE)
-set(GLFW_BUILD_DOCS OFF CACHE BOOL "Build GLFW documentation" FORCE)
-set(GLFW_INSTALL OFF CACHE BOOL "Install GLFW" FORCE)
-add_subdirectory(vendor/glfw EXCLUDE_FROM_ALL)
-
-add_library(glm INTERFACE)
-add_library(glm::glm ALIAS glm)
-target_include_directories(glm SYSTEM INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/vendor")
-
-add_library(symocraft_vendor_headers INTERFACE)
-target_include_directories(symocraft_vendor_headers SYSTEM INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/vendor")
-
-add_library(symocraft_glad STATIC vendor/glad/glad.c)
-target_include_directories(symocraft_glad SYSTEM PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/vendor")
-target_compile_options(symocraft_glad PRIVATE /utf-8)
-
-add_library(symocraft_yaml STATIC
-    vendor/yaml-cpp/src/binary.cpp
-    vendor/yaml-cpp/src/convert.cpp
-    vendor/yaml-cpp/src/depthguard.cpp
-    vendor/yaml-cpp/src/directives.cpp
-    vendor/yaml-cpp/src/emit.cpp
-    vendor/yaml-cpp/src/emitfromevents.cpp
-    vendor/yaml-cpp/src/emitter.cpp
-    vendor/yaml-cpp/src/emitterstate.cpp
-    vendor/yaml-cpp/src/emitterutils.cpp
-    vendor/yaml-cpp/src/exceptions.cpp
-    vendor/yaml-cpp/src/exp.cpp
-    vendor/yaml-cpp/src/memory.cpp
-    vendor/yaml-cpp/src/node.cpp
-    vendor/yaml-cpp/src/node_data.cpp
-    vendor/yaml-cpp/src/nodebuilder.cpp
-    vendor/yaml-cpp/src/nodeevents.cpp
-    vendor/yaml-cpp/src/null.cpp
-    vendor/yaml-cpp/src/ostream_wrapper.cpp
-    vendor/yaml-cpp/src/parse.cpp
-    vendor/yaml-cpp/src/parser.cpp
-    vendor/yaml-cpp/src/regex_yaml.cpp
-    vendor/yaml-cpp/src/scanner.cpp
-    vendor/yaml-cpp/src/scanscalar.cpp
-    vendor/yaml-cpp/src/scantag.cpp
-    vendor/yaml-cpp/src/scantoken.cpp
-    vendor/yaml-cpp/src/simplekey.cpp
-    vendor/yaml-cpp/src/singledocparser.cpp
-    vendor/yaml-cpp/src/stream.cpp
-    vendor/yaml-cpp/src/tag.cpp
-)
-target_include_directories(symocraft_yaml SYSTEM PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/vendor")
-target_compile_features(symocraft_yaml PUBLIC cxx_std_20)
-target_compile_options(symocraft_yaml PRIVATE /utf-8)
-set_target_properties(symocraft_yaml PROPERTIES CXX_EXTENSIONS OFF)
-
-add_library(symocraft_assets STATIC src/core/asset_paths.cpp)
-target_include_directories(symocraft_assets PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
-target_compile_features(symocraft_assets PUBLIC cxx_std_20)
-target_compile_options(symocraft_assets PRIVATE /utf-8)
-set_target_properties(symocraft_assets PROPERTIES CXX_EXTENSIONS OFF)
-
-add_executable(SymoCraft
-    src/main.cpp
-    include/MemoryAllocator/AmoBase.cpp
-    src/camera/Camera.cpp
-    src/core/application.cpp
-    src/core/global_thread_pool.cpp
-    src/core/window.cpp
-    src/core/ECS/internal.cpp
-    src/core/ECS/registry.cpp
-    src/core/ECS/Systems/character_system.cpp
-    src/core/ECS/Systems/physics_system.cpp
-    src/core/ECS/Systems/transform_system.cpp
-    src/event/event.cpp
-    src/input/input.cpp
-    src/input/key_bindings.cpp
-    src/input/key_handler.cpp
-    src/playercontroller/playercontroller.cpp
-    src/renderer/renderer.cpp
-    src/renderer/shader.cpp
-    src/renderer/shader_program.cpp
-    src/renderer/texture.cpp
-    src/world/block.cpp
-    src/world/chunk.cpp
-    src/world/chunk_manager.cpp
-    src/world/world.cpp
-)
-target_include_directories(SymoCraft PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include")
-target_compile_features(SymoCraft PRIVATE cxx_std_20)
-target_compile_options(SymoCraft PRIVATE /utf-8)
-set_target_properties(SymoCraft PROPERTIES CXX_EXTENSIONS OFF)
-target_link_libraries(SymoCraft PRIVATE
-    glfw
-    glm::glm
-    symocraft_vendor_headers
-    symocraft_glad
-    symocraft_yaml
-    symocraft_assets
-)
-symocraft_stage_assets(SymoCraft)
-
-if(BUILD_TESTING)
-    add_subdirectory(tests)
+if(SYMOCRAFT_BUILD_GAME OR SYMOCRAFT_BUILD_CPU_MODULES)
+    add_subdirectory(game)
+endif()
+if(SYMOCRAFT_BUILD_BENCHMARK)
+    add_subdirectory(tools/benchmark)
 endif()
 
-install(TARGETS SymoCraft RUNTIME DESTINATION .)
-foreach(asset IN LISTS SYMOCRAFT_REQUIRED_ASSETS)
-    get_filename_component(asset_directory "${asset}" DIRECTORY)
-    install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/assets/${asset}"
-        DESTINATION "assets/${asset_directory}")
-endforeach()
+if(BUILD_TESTING)
+    add_subdirectory(test)
+endif()
+include(cmake/ModuleBoundaries.cmake)
+symocraft_validate_boundaries()
+
+# Release app-local CRT deployment; never redistribute Debug runtimes.
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION ".")
+    include(InstallRequiredSystemLibraries)
+endif()
+
+if(SYMOCRAFT_BUILD_GAME AND SYMOCRAFT_BUILD_BENCHMARK AND CMAKE_BUILD_TYPE STREQUAL "Release")
+    set(CPACK_GENERATOR ZIP)
+    set(CPACK_PACKAGE_FILE_NAME "SymoCraft-Benchmark-windows-x64")
+    include(CPack)
+endif()
 

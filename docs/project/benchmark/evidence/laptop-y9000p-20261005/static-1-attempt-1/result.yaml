@@ -1,0 +1,35 @@
+runner_schema: 1
+started_utc: 20261005-015733-459Z
+machine:
+  cpu: 12th Gen Intel(R) Core(TM) i7-12700H
+  windows_build: 26200
+  physical_memory_bytes: 34070847488
+  ac_line_status: 1
+  power_scheme_guid: 85d583c5-cf2e-4197-80fd-3789a227a72c
+  cpu_temperature: not-collected
+  gpu_temperature: not-collected
+  actual_gpu_and_driver: capture/summary.yaml metadata.gl_renderer and gl_version
+exit_code: 0
+cancelled: false
+timed_out: false
+forced_termination: false
+frame_ms:
+  count: 16322
+  min: 9.2756000000000007
+  max: 20.996700000000001
+  mean: 11.027475284891576
+  p50: 10.9122
+  p95: 12.332599999999999
+  p99: 14.1777
+throughput_fps: 90.682588186805717
+focus:
+  transitions: 5
+  unfocused_frames: 5860
+  sample_unfocused_frames: 5834
+  unfocused_seconds_estimate: 66.317410799999891
+  sample_unfocused_seconds_estimate: 65.787931999999856
+  duration_method: sum frame intervals classified by focus at event polling; approximate
+gl_renderer: NVIDIA GeForce RTX 3070 Ti Laptop GPU/PCIe/SSE2
+build_configuration: Release
+passed: true
+finished_utc: 20261005-020136-812Z

@@ -1,0 +1,64 @@
+[0/2] Re-checking globbed directories...
+[1/2] Re-running CMake...
+-- Configuring done (0.3s)
+-- Generating done (0.1s)
+-- Build files have been written to: F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t0/build/cpu-debug
+[0/4] Re-checking globbed directories...
+[1/61] Building CXX object test\CMakeFiles\header_foundation_symocraft_foundation_diagnostics_h.dir\public-headers\header_foundation_symocraft_foundation_diagnostics_h.cpp.obj
+[2/61] Building CXX object test\CMakeFiles\header_foundation_symocraft_foundation_types_h.dir\public-headers\header_foundation_symocraft_foundation_types_h.cpp.obj
+[3/61] Building CXX object test\CMakeFiles\header_foundation_symocraft_foundation_memory_h.dir\public-headers\header_foundation_symocraft_foundation_memory_h.cpp.obj
+[4/61] Synchronizing required SymoCraft runtime assets
+[5/61] Building CXX object test\CMakeFiles\header_foundation_symocraft_foundation_document_h.dir\public-headers\header_foundation_symocraft_foundation_document_h.cpp.obj
+[6/61] Building CXX object test\CMakeFiles\header_foundation_symocraft_foundation_files_h.dir\public-headers\header_foundation_symocraft_foundation_files_h.cpp.obj
+[7/61] Building CXX object test\CMakeFiles\header_foundation_symocraft_foundation_math_h.dir\public-headers\header_foundation_symocraft_foundation_math_h.cpp.obj
+[8/61] Building CXX object test\CMakeFiles\header_assets_symocraft_assets_asset_paths_h.dir\public-headers\header_assets_symocraft_assets_asset_paths_h.cpp.obj
+[9/61] Building CXX object test\CMakeFiles\header_assets_symocraft_assets_image_h.dir\public-headers\header_assets_symocraft_assets_image_h.cpp.obj
+[10/61] Building CXX object test\CMakeFiles\header_scene_symocraft_scene_camera_h.dir\public-headers\header_scene_symocraft_scene_camera_h.cpp.obj
+[11/61] Building CXX object test\CMakeFiles\header_scene_symocraft_scene_mesh_h.dir\public-headers\header_scene_symocraft_scene_mesh_h.cpp.obj
+[12/61] Building CXX object test\CMakeFiles\header_ecs_symocraft_ecs_registry_h.dir\public-headers\header_ecs_symocraft_ecs_registry_h.cpp.obj
+[13/61] Building CXX object test\CMakeFiles\header_world_symocraft_world_block_h.dir\public-headers\header_world_symocraft_world_block_h.cpp.obj
+[14/61] Building CXX object test\CMakeFiles\header_world_symocraft_world_benchmark_workload_h.dir\public-headers\header_world_symocraft_world_benchmark_workload_h.cpp.obj
+[15/61] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_character_system_h.dir\public-headers\header_simulation_symocraft_simulation_character_system_h.cpp.obj
+[16/61] Building CXX object test\CMakeFiles\header_world_symocraft_world_chunk_manager_h.dir\public-headers\header_world_symocraft_world_chunk_manager_h.cpp.obj
+[17/61] Building CXX object test\CMakeFiles\header_world_symocraft_world_world_h.dir\public-headers\header_world_symocraft_world_world_h.cpp.obj
+[18/61] Building CXX object test\CMakeFiles\header_world_symocraft_world_constants_h.dir\public-headers\header_world_symocraft_world_constants_h.cpp.obj
+[19/61] Building CXX object test\CMakeFiles\header_world_symocraft_world_test_scene_h.dir\public-headers\header_world_symocraft_world_test_scene_h.cpp.obj
+[20/61] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_player_h.dir\public-headers\header_simulation_symocraft_simulation_player_h.cpp.obj
+[21/61] Building CXX object test\CMakeFiles\header_world_symocraft_world_generation_h.dir\public-headers\header_world_symocraft_world_generation_h.cpp.obj
+[22/61] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_transform_system_h.dir\public-headers\header_simulation_symocraft_simulation_transform_system_h.cpp.obj
+[23/61] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_camera_h.dir\public-headers\header_simulation_symocraft_simulation_camera_h.cpp.obj
+[24/61] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_component_h.dir\public-headers\header_simulation_symocraft_simulation_component_h.cpp.obj
+[25/61] Linking CXX executable test\header_foundation_symocraft_foundation_diagnostics_h.exe
+[26/61] Linking CXX executable test\header_foundation_symocraft_foundation_document_h.exe
+[27/61] Linking CXX executable test\header_foundation_symocraft_foundation_files_h.exe
+[28/61] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_physics_system_h.dir\public-headers\header_simulation_symocraft_simulation_physics_system_h.cpp.obj
+[29/61] Linking CXX executable test\header_foundation_symocraft_foundation_memory_h.exe
+[30/61] Linking CXX executable test\header_foundation_symocraft_foundation_types_h.exe
+[31/61] Linking CXX executable test\header_foundation_symocraft_foundation_math_h.exe
+[32/61] Linking CXX executable test\header_scene_symocraft_scene_camera_h.exe
+[33/61] Linking CXX executable test\header_assets_symocraft_assets_image_h.exe
+[34/61] Linking CXX executable test\header_assets_symocraft_assets_asset_paths_h.exe
+[35/61] Linking CXX executable test\header_scene_symocraft_scene_mesh_h.exe
+[36/61] Linking CXX executable test\header_world_symocraft_world_block_h.exe
+[37/61] Linking CXX executable test\header_world_symocraft_world_benchmark_workload_h.exe
+[38/61] Linking CXX executable test\header_world_symocraft_world_chunk_manager_h.exe
+[39/61] Linking CXX executable test\header_world_symocraft_world_constants_h.exe
+[40/61] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_playercontroller_h.dir\public-headers\header_simulation_symocraft_simulation_playercontroller_h.cpp.obj
+[41/61] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_player_math_h.dir\public-headers\header_simulation_symocraft_simulation_player_math_h.cpp.obj
+[42/61] Linking CXX executable test\header_ecs_symocraft_ecs_registry_h.exe
+[43/61] Linking CXX executable test\header_world_symocraft_world_generation_h.exe
+[44/61] Linking CXX executable test\header_world_symocraft_world_test_scene_h.exe
+[45/61] Linking CXX executable test\header_world_symocraft_world_world_h.exe
+[46/61] Linking CXX executable test\header_simulation_symocraft_simulation_character_system_h.exe
+[47/61] Linking CXX executable test\header_simulation_symocraft_simulation_camera_h.exe
+[48/61] Building CXX object test\CMakeFiles\header_telemetry_symocraft_telemetry_document_io_h.dir\public-headers\header_telemetry_symocraft_telemetry_document_io_h.cpp.obj
+[49/61] Building CXX object test\CMakeFiles\header_telemetry_symocraft_telemetry_performance_h.dir\public-headers\header_telemetry_symocraft_telemetry_performance_h.cpp.obj
+[50/61] Linking CXX executable test\header_simulation_symocraft_simulation_player_h.exe
+[51/61] Linking CXX executable test\header_simulation_symocraft_simulation_component_h.exe
+[52/61] Linking CXX executable test\header_simulation_symocraft_simulation_physics_system_h.exe
+[53/61] Linking CXX executable test\header_simulation_symocraft_simulation_player_math_h.exe
+[54/61] Linking CXX executable test\header_simulation_symocraft_simulation_transform_system_h.exe
+[55/61] Linking CXX executable test\header_simulation_symocraft_simulation_playercontroller_h.exe
+[56/61] Linking CXX executable test\header_telemetry_symocraft_telemetry_document_io_h.exe
+[57/61] Linking CXX executable test\header_telemetry_symocraft_telemetry_performance_h.exe
+[58/61] Linking CXX executable bin\asset_paths_tests.exe

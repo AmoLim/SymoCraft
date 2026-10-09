@@ -1,0 +1,1306 @@
+{
+  "schema_version": 1,
+  "analysis_date": "2026-10-05",
+  "baseline_id": "laptop-y9000p-20261005",
+  "role": "midrange",
+  "focus_failure_policy": "Unfocused frames retained; focus loss alone is not failure",
+  "user_observation": "New benchmark windows lose focus; source: user statement, not causally inferred from CSV",
+  "session": {
+    "runner_schema": "1",
+    "protocol_version": "2",
+    "created_utc": "20261005-015733-277Z",
+    "identity": {
+      "game_sha256": "f73285a0ac164073da7b8dfb912ef2fae558061df433a69a2fdbfa7b25729af1",
+      "asset_sha256": {
+        "configs/blockFormats.yaml": "263fa328d9a44f83cecb9f4b06a6d444dbcebeb75025e48b4a55b3cd956417f9",
+        "shaders/vs_BlockShader.glsl": "47dab1e3313dd24e139633d32378cb2ded415dac9df697958d9aa5a2fb63dd59",
+        "shaders/fs_BlockShader.glsl": "66b2fd0547223fe471464287a3fc39cc438643eb8dfa60aedb03456c718defc7",
+        "shaders/vs_FrameShader.glsl": "5b4b8b0e94abe3af2d21494d27eed77a0afd9fed10ce904d451cc3d8cc68bc3c",
+        "shaders/fs_FrameShader.glsl": "4b702e82f03db31a921bc72e9501e3f941ab7e4b835f7df86dffaf0a91e1fd35",
+        "textures/texture_atlas.png": "ee41e86af8dfdc70037472b2387b67395d93cf1d807f0fe618025f6f86f9b219"
+      }
+    },
+    "runner_sha256": "2e2210d1a938790a3251228f4d5dcae02ce786ee865f4c254b86bb2f17225709",
+    "settings": {
+      "profile": "baseline-36m",
+      "focus_policy": "allow-unfocused",
+      "machine_label": "3070",
+      "power_mode_declared": "接通电源 / 平衡",
+      "gpu_mode_declared": "混合显卡",
+      "clock_settings_declared": "默认 / 无超频降压",
+      "framebuffer_width": "1920",
+      "framebuffer_height": "1080",
+      "seed": "424242",
+      "vsync": "false"
+    },
+    "machine": {
+      "cpu": "12th Gen Intel(R) Core(TM) i7-12700H",
+      "windows_build": "26200",
+      "physical_memory_bytes": "34070847488",
+      "ac_line_status": "1",
+      "power_scheme_guid": "85d583c5-cf2e-4197-80fd-3789a227a72c",
+      "cpu_temperature": "not-collected",
+      "gpu_temperature": "not-collected",
+      "actual_gpu_and_driver": "capture/summary.yaml metadata.gl_renderer and gl_version"
+    },
+    "retried": "false",
+    "rounds": [
+      {
+        "scene": "static",
+        "repeat": "1",
+        "passed": "true",
+        "attempts": "1",
+        "directory": "static-1-attempt-1",
+        "state": "passed"
+      },
+      {
+        "scene": "static",
+        "repeat": "2",
+        "passed": "true",
+        "attempts": "1",
+        "directory": "static-2-attempt-1",
+        "state": "passed"
+      },
+      {
+        "scene": "static",
+        "repeat": "3",
+        "passed": "true",
+        "attempts": "1",
+        "directory": "static-3-attempt-1",
+        "state": "passed"
+      },
+      {
+        "scene": "walk",
+        "repeat": "1",
+        "passed": "true",
+        "attempts": "1",
+        "directory": "walk-1-attempt-1",
+        "state": "passed"
+      },
+      {
+        "scene": "walk",
+        "repeat": "2",
+        "passed": "true",
+        "attempts": "1",
+        "directory": "walk-2-attempt-1",
+        "state": "passed"
+      },
+      {
+        "scene": "walk",
+        "repeat": "3",
+        "passed": "true",
+        "attempts": "1",
+        "directory": "walk-3-attempt-1",
+        "state": "passed"
+      },
+      {
+        "scene": "edit",
+        "repeat": "1",
+        "passed": "true",
+        "attempts": "1",
+        "directory": "edit-1-attempt-1",
+        "state": "passed"
+      },
+      {
+        "scene": "edit",
+        "repeat": "2",
+        "passed": "true",
+        "attempts": "1",
+        "directory": "edit-2-attempt-1",
+        "state": "passed"
+      },
+      {
+        "scene": "edit",
+        "repeat": "3",
+        "passed": "true",
+        "attempts": "1",
+        "directory": "edit-3-attempt-1",
+        "state": "passed"
+      }
+    ],
+    "completed": "true",
+    "graphics_device": "NVIDIA GeForce RTX 3070 Ti Laptop GPU/PCIe/SSE2 | 4.6.0 NVIDIA 595.59",
+    "build_configuration": "Release",
+    "completed_rounds": "9",
+    "cancelled": "false",
+    "updated_utc": "20261005-023401-199Z",
+    "continuous_full_protocol": "true",
+    "comparison_note": "Compare only matching game/assets, workload, focus policy, profile and environment. Background applications may contend for CPU/GPU."
+  },
+  "rounds": [
+    {
+      "scene": "static",
+      "repeat": 1,
+      "directory": "static-1-attempt-1",
+      "sample_frames": 16322,
+      "sample_duration_s": 179.99045160000028,
+      "fps": 90.68258818680565,
+      "stats": {
+        "mesh_ms": {
+          "count": 16322,
+          "min": 0.0039,
+          "max": 0.0702,
+          "mean": 0.006267577502757122,
+          "p50": 0.0059,
+          "p95": 0.0078,
+          "p99": 0.0187
+        },
+        "pack_ms": {
+          "count": 16322,
+          "min": 4.777,
+          "max": 12.1806,
+          "mean": 5.528833653963985,
+          "p50": 5.4489,
+          "p95": 6.1765,
+          "p99": 7.0604
+        },
+        "instrumentation_ms": {
+          "count": 16322,
+          "min": 0.0051,
+          "max": 0.1177,
+          "mean": 0.010134125719887276,
+          "p50": 0.0096,
+          "p95": 0.0137,
+          "p99": 0.0275
+        },
+        "gpu_draw_ms": {
+          "count": 16321,
+          "min": 0.180224,
+          "max": 0.779264,
+          "mean": 0.21094142760860998,
+          "p50": 0.20992,
+          "p95": 0.214016,
+          "p99": 0.2304
+        },
+        "submit_ms": {
+          "count": 16322,
+          "min": 4.8354,
+          "max": 12.302899999999998,
+          "mean": 5.614743205489523,
+          "p50": 5.532500000000001,
+          "p95": 6.2781,
+          "p99": 7.1862
+        },
+        "upload_cpu_ms": {
+          "count": 16322,
+          "min": 3.9917,
+          "max": 14.7524,
+          "mean": 4.725238641097897,
+          "p50": 4.6788,
+          "p95": 5.3413,
+          "p99": 6.3431
+        },
+        "frame_ms": {
+          "count": 16322,
+          "min": 9.2756,
+          "max": 20.9967,
+          "mean": 11.027475284891576,
+          "p50": 10.9122,
+          "p95": 12.3326,
+          "p99": 14.1777
+        },
+        "lateness_ms": null,
+        "present_ms": {
+          "count": 16322,
+          "min": 0.3866,
+          "max": 7.1712,
+          "mean": 0.6268996017644889,
+          "p50": 0.6103,
+          "p95": 0.7837,
+          "p99": 1.0274
+        },
+        "edited_frame_ms": null
+      },
+      "threshold_counts": {
+        "over100": 0,
+        "over33_3": 0,
+        "over16_7": 33
+      },
+      "sample_unfocused_frames": 5834,
+      "sample_unfocused_s": 65.78793199999986,
+      "sample_unfocused_percent": 36.55079000868496,
+      "focus_transitions": 5,
+      "initial_focused": 0,
+      "first_focused_elapsed_s": 0.5294799,
+      "gpu_missing": 1,
+      "edits": 0,
+      "rebuilt": 0,
+      "upload_bytes_per_frame": 57770616.0,
+      "draw_calls_per_frame": 2.0,
+      "x_range": [
+        -2.5,
+        -2.5
+      ],
+      "sixty_second_fps": [
+        88.74134652902248,
+        90.23809489680734,
+        93.06816273738268
+      ],
+      "spikes_over33_3": [],
+      "memory": {
+        "private_bytes": {
+          "peak_mib": 1173.2734375,
+          "count": 239
+        },
+        "working_set_bytes": {
+          "peak_mib": 554.83984375,
+          "count": 239
+        }
+      },
+      "first_swap_ms": 1712.0433,
+      "checks_passed": true
+    },
+    {
+      "scene": "static",
+      "repeat": 2,
+      "directory": "static-2-attempt-1",
+      "sample_frames": 16845,
+      "sample_duration_s": 180.00326920000052,
+      "fps": 93.5816336829062,
+      "stats": {
+        "mesh_ms": {
+          "count": 16845,
+          "min": 0.0036,
+          "max": 0.1192,
+          "mean": 0.00652311071534616,
+          "p50": 0.0061,
+          "p95": 0.0092,
+          "p99": 0.0193
+        },
+        "pack_ms": {
+          "count": 16845,
+          "min": 4.8495,
+          "max": 11.7477,
+          "mean": 5.552096070050449,
+          "p50": 5.4886,
+          "p95": 6.1177,
+          "p99": 6.828
+        },
+        "instrumentation_ms": {
+          "count": 16845,
+          "min": 0.0045,
+          "max": 0.2728,
+          "mean": 0.010527426536064123,
+          "p50": 0.0092,
+          "p95": 0.0137,
+          "p99": 0.0306
+        },
+        "gpu_draw_ms": {
+          "count": 16844,
+          "min": 0.196608,
+          "max": 0.243712,
+          "mean": 0.2107790681548391,
+          "p50": 0.20992,
+          "p95": 0.214016,
+          "p99": 0.229376
+        },
+        "submit_ms": {
+          "count": 16845,
+          "min": 4.8639,
+          "max": 11.9219,
+          "mean": 5.590441881864042,
+          "p50": 5.5261000000000005,
+          "p95": 6.161899999999998,
+          "p99": 6.891500000000001
+        },
+        "upload_cpu_ms": {
+          "count": 16845,
+          "min": 3.9942,
+          "max": 10.9911,
+          "mean": 4.770814930246371,
+          "p50": 4.7293,
+          "p95": 5.3016,
+          "p99": 6.175
+        },
+        "frame_ms": {
+          "count": 16845,
+          "min": 9.011,
+          "max": 21.9522,
+          "mean": 10.685857476996171,
+          "p50": 10.5772,
+          "p95": 11.8733,
+          "p99": 13.176
+        },
+        "lateness_ms": null,
+        "present_ms": {
+          "count": 16845,
+          "min": 0.0327,
+          "max": 2.3908,
+          "mean": 0.2944370080142483,
+          "p50": 0.0747,
+          "p95": 0.7537,
+          "p99": 0.9457
+        },
+        "edited_frame_ms": null
+      },
+      "threshold_counts": {
+        "over100": 0,
+        "over33_3": 0,
+        "over16_7": 25
+      },
+      "sample_unfocused_frames": 16845,
+      "sample_unfocused_s": 180.00326920000015,
+      "sample_unfocused_percent": 99.99999999999982,
+      "focus_transitions": 0,
+      "initial_focused": 0,
+      "first_focused_elapsed_s": null,
+      "gpu_missing": 1,
+      "edits": 0,
+      "rebuilt": 0,
+      "upload_bytes_per_frame": 57770616.0,
+      "draw_calls_per_frame": 2.0,
+      "x_range": [
+        -2.5,
+        -2.5
+      ],
+      "sixty_second_fps": [
+        95.96673016465277,
+        94.72385258080156,
+        90.05404702887377
+      ],
+      "spikes_over33_3": [],
+      "memory": {
+        "private_bytes": {
+          "peak_mib": 1177.9453125,
+          "count": 239
+        },
+        "working_set_bytes": {
+          "peak_mib": 553.7109375,
+          "count": 239
+        }
+      },
+      "first_swap_ms": 1690.4885,
+      "checks_passed": true
+    },
+    {
+      "scene": "static",
+      "repeat": 3,
+      "directory": "static-3-attempt-1",
+      "sample_frames": 16479,
+      "sample_duration_s": 180.00430020000005,
+      "fps": 91.54781292274924,
+      "stats": {
+        "mesh_ms": {
+          "count": 16479,
+          "min": 0.0042,
+          "max": 0.1493,
+          "mean": 0.006443479580072091,
+          "p50": 0.0061,
+          "p95": 0.0087,
+          "p99": 0.0188
+        },
+        "pack_ms": {
+          "count": 16479,
+          "min": 4.8104,
+          "max": 12.0264,
+          "mean": 5.4503486073184195,
+          "p50": 5.4051,
+          "p95": 5.9225,
+          "p99": 6.5121
+        },
+        "instrumentation_ms": {
+          "count": 16479,
+          "min": 0.0049,
+          "max": 0.0714,
+          "mean": 0.009578967170338099,
+          "p50": 0.009,
+          "p95": 0.013,
+          "p99": 0.0265
+        },
+        "gpu_draw_ms": {
+          "count": 16478,
+          "min": 0.19456,
+          "max": 0.241664,
+          "mean": 0.21074874523607956,
+          "p50": 0.20992,
+          "p95": 0.214016,
+          "p99": 0.2304
+        },
+        "submit_ms": {
+          "count": 16479,
+          "min": 4.871700000000001,
+          "max": 12.2643,
+          "mean": 5.531680326476126,
+          "p50": 5.4856,
+          "p95": 6.0215000000000005,
+          "p99": 6.6165
+        },
+        "upload_cpu_ms": {
+          "count": 16479,
+          "min": 3.9625,
+          "max": 9.8711,
+          "mean": 4.695828387644883,
+          "p50": 4.6784,
+          "p95": 5.23,
+          "p99": 5.878
+        },
+        "frame_ms": {
+          "count": 16479,
+          "min": 9.3715,
+          "max": 22.2485,
+          "mean": 10.923253850355001,
+          "p50": 10.8827,
+          "p95": 11.9523,
+          "p99": 12.9262
+        },
+        "lateness_ms": null,
+        "present_ms": {
+          "count": 16479,
+          "min": 0.4514,
+          "max": 2.4815,
+          "mean": 0.6666058862795113,
+          "p50": 0.6539,
+          "p95": 0.8139,
+          "p99": 1.073
+        },
+        "edited_frame_ms": null
+      },
+      "threshold_counts": {
+        "over100": 0,
+        "over33_3": 0,
+        "over16_7": 17
+      },
+      "sample_unfocused_frames": 16479,
+      "sample_unfocused_s": 180.0043002000004,
+      "sample_unfocused_percent": 100.00000000000017,
+      "focus_transitions": 0,
+      "initial_focused": 0,
+      "first_focused_elapsed_s": null,
+      "gpu_missing": 1,
+      "edits": 0,
+      "rebuilt": 0,
+      "upload_bytes_per_frame": 57770616.0,
+      "draw_calls_per_frame": 2.0,
+      "x_range": [
+        -2.5,
+        -2.5
+      ],
+      "sixty_second_fps": [
+        91.96994695427094,
+        90.81020086121305,
+        91.8631345291443
+      ],
+      "spikes_over33_3": [],
+      "memory": {
+        "private_bytes": {
+          "peak_mib": 1190.3125,
+          "count": 239
+        },
+        "working_set_bytes": {
+          "peak_mib": 566.7265625,
+          "count": 239
+        }
+      },
+      "first_swap_ms": 1547.9161,
+      "checks_passed": true
+    },
+    {
+      "scene": "walk",
+      "repeat": 1,
+      "directory": "walk-1-attempt-1",
+      "sample_frames": 15715,
+      "sample_duration_s": 179.99968749999923,
+      "fps": 87.30570712796415,
+      "stats": {
+        "mesh_ms": {
+          "count": 15715,
+          "min": 0.0042,
+          "max": 0.0711,
+          "mean": 0.006657823735285395,
+          "p50": 0.0062,
+          "p95": 0.009,
+          "p99": 0.0193
+        },
+        "pack_ms": {
+          "count": 15715,
+          "min": 4.8162,
+          "max": 11.7098,
+          "mean": 5.695626757874641,
+          "p50": 5.6136,
+          "p95": 6.3492,
+          "p99": 7.4369
+        },
+        "instrumentation_ms": {
+          "count": 15715,
+          "min": 0.0051,
+          "max": 0.1252,
+          "mean": 0.01101976455615671,
+          "p50": 0.0108,
+          "p95": 0.0141,
+          "p99": 0.0294
+        },
+        "gpu_draw_ms": {
+          "count": 15714,
+          "min": 0.147456,
+          "max": 1.056768,
+          "mean": 0.17775816316660273,
+          "p50": 0.181248,
+          "p95": 0.188416,
+          "p99": 0.195584
+        },
+        "submit_ms": {
+          "count": 15715,
+          "min": 4.8715,
+          "max": 11.835199999999999,
+          "mean": 5.787489564110698,
+          "p50": 5.7056000000000004,
+          "p95": 6.4514,
+          "p99": 7.545000000000001
+        },
+        "upload_cpu_ms": {
+          "count": 15715,
+          "min": 3.979,
+          "max": 14.2961,
+          "mean": 4.927952096722875,
+          "p50": 4.8512,
+          "p95": 5.6532,
+          "p99": 6.7687
+        },
+        "frame_ms": {
+          "count": 15715,
+          "min": 9.3495,
+          "max": 21.4599,
+          "mean": 11.454004931593968,
+          "p50": 11.3164,
+          "p95": 12.8122,
+          "p99": 14.7354
+        },
+        "lateness_ms": null,
+        "present_ms": {
+          "count": 15715,
+          "min": 0.4331,
+          "max": 2.8249,
+          "mean": 0.7066230098631836,
+          "p50": 0.6907,
+          "p95": 0.8699,
+          "p99": 1.0839
+        },
+        "edited_frame_ms": null
+      },
+      "threshold_counts": {
+        "over100": 0,
+        "over33_3": 0,
+        "over16_7": 68
+      },
+      "sample_unfocused_frames": 15715,
+      "sample_unfocused_s": 179.99968749999974,
+      "sample_unfocused_percent": 100.0000000000003,
+      "focus_transitions": 0,
+      "initial_focused": 0,
+      "first_focused_elapsed_s": null,
+      "gpu_missing": 1,
+      "edits": 0,
+      "rebuilt": 0,
+      "upload_bytes_per_frame": 57770328.0,
+      "draw_calls_per_frame": 1.0,
+      "x_range": [
+        -20.56684494,
+        20.56684494
+      ],
+      "sixty_second_fps": [
+        88.43341940852825,
+        88.43311593525654,
+        85.05056927181019
+      ],
+      "spikes_over33_3": [],
+      "memory": {
+        "private_bytes": {
+          "peak_mib": 1177.5546875,
+          "count": 239
+        },
+        "working_set_bytes": {
+          "peak_mib": 557.51171875,
+          "count": 239
+        }
+      },
+      "first_swap_ms": 1621.9579,
+      "checks_passed": true
+    },
+    {
+      "scene": "walk",
+      "repeat": 2,
+      "directory": "walk-2-attempt-1",
+      "sample_frames": 16616,
+      "sample_duration_s": 179.99353820000067,
+      "fps": 92.31442509640014,
+      "stats": {
+        "mesh_ms": {
+          "count": 16616,
+          "min": 0.004,
+          "max": 0.0853,
+          "mean": 0.006247370004814804,
+          "p50": 0.0059,
+          "p95": 0.0074,
+          "p99": 0.0132
+        },
+        "pack_ms": {
+          "count": 16616,
+          "min": 4.8045,
+          "max": 11.769,
+          "mean": 5.455711753731376,
+          "p50": 5.3833,
+          "p95": 6.0493,
+          "p99": 6.7879
+        },
+        "instrumentation_ms": {
+          "count": 16616,
+          "min": 0.005,
+          "max": 0.0982,
+          "mean": 0.010180645161290055,
+          "p50": 0.0098,
+          "p95": 0.0131,
+          "p99": 0.0271
+        },
+        "gpu_draw_ms": {
+          "count": 16615,
+          "min": 0.1536,
+          "max": 0.208896,
+          "mean": 0.1776315512488642,
+          "p50": 0.181248,
+          "p95": 0.188416,
+          "p99": 0.192512
+        },
+        "submit_ms": {
+          "count": 16616,
+          "min": 4.858099999999999,
+          "max": 11.959600000000002,
+          "mean": 5.538004303081365,
+          "p50": 5.465499999999999,
+          "p95": 6.148299999999998,
+          "p99": 6.878499999999998
+        },
+        "upload_cpu_ms": {
+          "count": 16616,
+          "min": 3.9802,
+          "max": 12.073,
+          "mean": 4.609155982185848,
+          "p50": 4.5381,
+          "p95": 5.1876,
+          "p99": 5.9678
+        },
+        "frame_ms": {
+          "count": 16616,
+          "min": 9.3634,
+          "max": 24.9828,
+          "mean": 10.832543223399174,
+          "p50": 10.7235,
+          "p95": 12.007,
+          "p99": 13.2957
+        },
+        "lateness_ms": null,
+        "present_ms": {
+          "count": 16616,
+          "min": 0.4479,
+          "max": 2.8975,
+          "mean": 0.6551683437650486,
+          "p50": 0.6432,
+          "p95": 0.804,
+          "p99": 0.9987
+        },
+        "edited_frame_ms": null
+      },
+      "threshold_counts": {
+        "over100": 0,
+        "over33_3": 0,
+        "over16_7": 15
+      },
+      "sample_unfocused_frames": 16616,
+      "sample_unfocused_s": 179.99353820000022,
+      "sample_unfocused_percent": 99.99999999999974,
+      "focus_transitions": 0,
+      "initial_focused": 0,
+      "first_focused_elapsed_s": null,
+      "gpu_missing": 1,
+      "edits": 0,
+      "rebuilt": 0,
+      "upload_bytes_per_frame": 57770328.0,
+      "draw_calls_per_frame": 1.0,
+      "x_range": [
+        -20.56684494,
+        20.56684494
+      ],
+      "sixty_second_fps": [
+        90.83469948721356,
+        91.84819962220685,
+        94.26058153578224
+      ],
+      "spikes_over33_3": [],
+      "memory": {
+        "private_bytes": {
+          "peak_mib": 1167.05078125,
+          "count": 239
+        },
+        "working_set_bytes": {
+          "peak_mib": 546.38671875,
+          "count": 239
+        }
+      },
+      "first_swap_ms": 1786.934,
+      "checks_passed": true
+    },
+    {
+      "scene": "walk",
+      "repeat": 3,
+      "directory": "walk-3-attempt-1",
+      "sample_frames": 17091,
+      "sample_duration_s": 179.99909959999994,
+      "fps": 94.95047496337591,
+      "stats": {
+        "mesh_ms": {
+          "count": 17091,
+          "min": 0.0034,
+          "max": 0.1042,
+          "mean": 0.006411333450354143,
+          "p50": 0.0059,
+          "p95": 0.0093,
+          "p99": 0.0193
+        },
+        "pack_ms": {
+          "count": 17091,
+          "min": 4.8756,
+          "max": 11.416,
+          "mean": 5.551412357381062,
+          "p50": 5.4933,
+          "p95": 6.0933,
+          "p99": 6.8309
+        },
+        "instrumentation_ms": {
+          "count": 17091,
+          "min": 0.0039,
+          "max": 0.2868,
+          "mean": 0.01035422737113133,
+          "p50": 0.0085,
+          "p95": 0.0137,
+          "p99": 0.0724
+        },
+        "gpu_draw_ms": {
+          "count": 17090,
+          "min": 0.146432,
+          "max": 0.223232,
+          "mean": 0.17765609081332787,
+          "p50": 0.181248,
+          "p95": 0.188416,
+          "p99": 0.19456
+        },
+        "submit_ms": {
+          "count": 17091,
+          "min": 4.881799999999999,
+          "max": 11.439600000000002,
+          "mean": 5.562116371189517,
+          "p50": 5.5034,
+          "p95": 6.106400000000001,
+          "p99": 6.848600000000001
+        },
+        "upload_cpu_ms": {
+          "count": 17091,
+          "min": 4.0374,
+          "max": 11.9844,
+          "mean": 4.869514762155528,
+          "p50": 4.837,
+          "p95": 5.3888,
+          "p99": 6.1115
+        },
+        "frame_ms": {
+          "count": 17091,
+          "min": 9.0163,
+          "max": 20.6575,
+          "mean": 10.5318061903926,
+          "p50": 10.4559,
+          "p95": 11.5248,
+          "p99": 12.6739
+        },
+        "lateness_ms": null,
+        "present_ms": {
+          "count": 17091,
+          "min": 0.0287,
+          "max": 1.5468,
+          "mean": 0.0708322801474459,
+          "p50": 0.0653,
+          "p95": 0.1016,
+          "p99": 0.2048
+        },
+        "edited_frame_ms": null
+      },
+      "threshold_counts": {
+        "over100": 0,
+        "over33_3": 0,
+        "over16_7": 13
+      },
+      "sample_unfocused_frames": 17091,
+      "sample_unfocused_s": 179.99909959999994,
+      "sample_unfocused_percent": 100.0,
+      "focus_transitions": 0,
+      "initial_focused": 0,
+      "first_focused_elapsed_s": null,
+      "gpu_missing": 1,
+      "edits": 0,
+      "rebuilt": 0,
+      "upload_bytes_per_frame": 57770328.0,
+      "draw_calls_per_frame": 1.0,
+      "x_range": [
+        -20.56684494,
+        20.56684494
+      ],
+      "sixty_second_fps": [
+        95.39844532333602,
+        95.25514234885979,
+        94.1978634354607
+      ],
+      "spikes_over33_3": [],
+      "memory": {
+        "private_bytes": {
+          "peak_mib": 1169.99609375,
+          "count": 239
+        },
+        "working_set_bytes": {
+          "peak_mib": 545.515625,
+          "count": 239
+        }
+      },
+      "first_swap_ms": 1519.3246,
+      "checks_passed": true
+    },
+    {
+      "scene": "edit",
+      "repeat": 1,
+      "directory": "edit-1-attempt-1",
+      "sample_frames": 16356,
+      "sample_duration_s": 180.00510430000017,
+      "fps": 90.86409001347404,
+      "stats": {
+        "mesh_ms": {
+          "count": 16356,
+          "min": 0.0037,
+          "max": 5.6826,
+          "mean": 0.10310283076546878,
+          "p50": 0.006,
+          "p95": 0.0201,
+          "p99": 2.2973
+        },
+        "pack_ms": {
+          "count": 16356,
+          "min": 4.7325,
+          "max": 12.9697,
+          "mean": 5.504847695035481,
+          "p50": 5.4473,
+          "p95": 6.1127,
+          "p99": 6.9129
+        },
+        "instrumentation_ms": {
+          "count": 16356,
+          "min": 0.0039,
+          "max": 0.2853,
+          "mean": 0.009836769381267148,
+          "p50": 0.0089,
+          "p95": 0.0133,
+          "p99": 0.0274
+        },
+        "gpu_draw_ms": {
+          "count": 16355,
+          "min": 0.182272,
+          "max": 0.242688,
+          "mean": 0.21073531812902005,
+          "p50": 0.20992,
+          "p95": 0.214016,
+          "p99": 0.2304
+        },
+        "submit_ms": {
+          "count": 16356,
+          "min": 4.784099999999999,
+          "max": 12.9892,
+          "mean": 5.567194032770873,
+          "p50": 5.505200000000001,
+          "p95": 6.176399999999999,
+          "p99": 6.9884
+        },
+        "upload_cpu_ms": {
+          "count": 16356,
+          "min": 3.932,
+          "max": 11.2078,
+          "mean": 4.814079175837632,
+          "p50": 4.7846,
+          "p95": 5.3755,
+          "p99": 6.2638
+        },
+        "frame_ms": {
+          "count": 16356,
+          "min": 9.178,
+          "max": 22.6403,
+          "mean": 11.00544780508683,
+          "p50": 10.8287,
+          "p95": 12.7132,
+          "p99": 14.0737
+        },
+        "lateness_ms": {
+          "count": 720,
+          "min": 0.01409999999,
+          "max": 13.8872,
+          "mean": 5.68979597222222,
+          "p50": 5.767,
+          "p95": 10.5899,
+          "p99": 11.8541
+        },
+        "present_ms": {
+          "count": 16356,
+          "min": 0.0361,
+          "max": 3.0088,
+          "mean": 0.4972773905600381,
+          "p50": 0.6138,
+          "p95": 0.8081,
+          "p99": 1.0493
+        },
+        "edited_frame_ms": {
+          "count": 720,
+          "min": 11.0649,
+          "max": 21.7324,
+          "mean": 13.001411111111112,
+          "p50": 12.8476,
+          "p95": 14.4104,
+          "p99": 16.7291
+        }
+      },
+      "threshold_counts": {
+        "over100": 0,
+        "over33_3": 0,
+        "over16_7": 38
+      },
+      "sample_unfocused_frames": 16356,
+      "sample_unfocused_s": 180.00510429999915,
+      "sample_unfocused_percent": 99.99999999999942,
+      "focus_transitions": 0,
+      "initial_focused": 0,
+      "first_focused_elapsed_s": null,
+      "gpu_missing": 1,
+      "edits": 720,
+      "rebuilt": 2160,
+      "upload_bytes_per_frame": 57770513.88114453,
+      "draw_calls_per_frame": 1.9379432624113475,
+      "x_range": [
+        -2.5,
+        -2.5
+      ],
+      "sixty_second_fps": [
+        91.95786645211038,
+        90.54904863132904,
+        90.08523713467808
+      ],
+      "spikes_over33_3": [],
+      "memory": {
+        "private_bytes": {
+          "peak_mib": 1176.36328125,
+          "count": 239
+        },
+        "working_set_bytes": {
+          "peak_mib": 553.43359375,
+          "count": 239
+        }
+      },
+      "first_swap_ms": 1523.3937,
+      "checks_passed": true
+    },
+    {
+      "scene": "edit",
+      "repeat": 2,
+      "directory": "edit-2-attempt-1",
+      "sample_frames": 15552,
+      "sample_duration_s": 180.0012338000003,
+      "fps": 86.39940778005919,
+      "stats": {
+        "mesh_ms": {
+          "count": 15552,
+          "min": 0.0042,
+          "max": 4.7415,
+          "mean": 0.10993574459876501,
+          "p50": 0.0068,
+          "p95": 0.0421,
+          "p99": 2.3033
+        },
+        "pack_ms": {
+          "count": 15552,
+          "min": 4.7916,
+          "max": 14.0395,
+          "mean": 5.746623115997945,
+          "p50": 5.6074,
+          "p95": 6.801,
+          "p99": 7.9629
+        },
+        "instrumentation_ms": {
+          "count": 15552,
+          "min": 0.0057,
+          "max": 0.1478,
+          "mean": 0.011403414351851724,
+          "p50": 0.0109,
+          "p95": 0.0152,
+          "p99": 0.0315
+        },
+        "gpu_draw_ms": {
+          "count": 15551,
+          "min": 0.195584,
+          "max": 0.850944,
+          "mean": 0.2106618419394305,
+          "p50": 0.20992,
+          "p95": 0.214016,
+          "p99": 0.229376
+        },
+        "submit_ms": {
+          "count": 15552,
+          "min": 4.856399999999999,
+          "max": 14.1567,
+          "mean": 5.843575688014426,
+          "p50": 5.7051,
+          "p95": 6.913400000000001,
+          "p99": 8.0924
+        },
+        "upload_cpu_ms": {
+          "count": 15552,
+          "min": 4.0357,
+          "max": 11.7882,
+          "mean": 4.883883924897111,
+          "p50": 4.7345,
+          "p95": 6.0058,
+          "p99": 7.2457
+        },
+        "frame_ms": {
+          "count": 15552,
+          "min": 9.502,
+          "max": 91.276,
+          "mean": 11.57415340792183,
+          "p50": 11.2492,
+          "p95": 13.9344,
+          "p99": 16.4138
+        },
+        "lateness_ms": {
+          "count": 720,
+          "min": 0.009000000006,
+          "max": 15.3011,
+          "mean": 5.537480833333316,
+          "p50": 5.5031,
+          "p95": 10.6016,
+          "p99": 12.3571
+        },
+        "present_ms": {
+          "count": 15552,
+          "min": 0.447,
+          "max": 77.3482,
+          "mean": 0.7087576581790135,
+          "p50": 0.6753,
+          "p95": 0.9201,
+          "p99": 1.2652
+        },
+        "edited_frame_ms": {
+          "count": 720,
+          "min": 11.2939,
+          "max": 91.276,
+          "mean": 13.643898333333345,
+          "p50": 13.1705,
+          "p95": 16.4027,
+          "p99": 19.866
+        }
+      },
+      "threshold_counts": {
+        "over100": 0,
+        "over33_3": 1,
+        "over16_7": 124
+      },
+      "sample_unfocused_frames": 15552,
+      "sample_unfocused_s": 180.0012337999993,
+      "sample_unfocused_percent": 99.99999999999945,
+      "focus_transitions": 0,
+      "initial_focused": 0,
+      "first_focused_elapsed_s": null,
+      "gpu_missing": 1,
+      "edits": 720,
+      "rebuilt": 2160,
+      "upload_bytes_per_frame": 57770514.45679013,
+      "draw_calls_per_frame": 1.936985596707819,
+      "x_range": [
+        -2.5,
+        -2.5
+      ],
+      "sixty_second_fps": [
+        84.16312746688462,
+        85.53874793607743,
+        89.4962580122919
+      ],
+      "spikes_over33_3": [
+        {
+          "frame": "7112",
+          "phase": "sample",
+          "elapsed_s": "86.2611256",
+          "frame_ms": "91.276",
+          "simulation_delta_ms": "12.63890043",
+          "event_ms": "0.0009",
+          "simulation_ms": "0.0099",
+          "mesh_ms": "2.4173",
+          "pack_ms": "6.0737",
+          "render_cpu_ms": "5.4105",
+          "upload_cpu_ms": "5.3068",
+          "present_ms": "77.3482",
+          "instrumentation_ms": "0.0119",
+          "gpu_draw_ms": "0.212992",
+          "rebuilt_chunks": "3",
+          "vertices": "2063238",
+          "upload_bytes": "57770280",
+          "draw_calls": "2",
+          "edits": "1",
+          "edit_lateness_ms": "11.1256",
+          "x": "-2.5",
+          "y": "161.8999939",
+          "z": "-2.5",
+          "yaw": "45",
+          "focused": "0"
+        }
+      ],
+      "memory": {
+        "private_bytes": {
+          "peak_mib": 1172.5625,
+          "count": 239
+        },
+        "working_set_bytes": {
+          "peak_mib": 551.78515625,
+          "count": 239
+        }
+      },
+      "first_swap_ms": 1681.8248,
+      "checks_passed": true
+    },
+    {
+      "scene": "edit",
+      "repeat": 3,
+      "directory": "edit-3-attempt-1",
+      "sample_frames": 16806,
+      "sample_duration_s": 180.00384409999924,
+      "fps": 93.36467276034173,
+      "stats": {
+        "mesh_ms": {
+          "count": 16806,
+          "min": 0.0037,
+          "max": 3.6572,
+          "mean": 0.09817584791146035,
+          "p50": 0.0056,
+          "p95": 0.0183,
+          "p99": 2.2515
+        },
+        "pack_ms": {
+          "count": 16806,
+          "min": 4.7153,
+          "max": 8.9706,
+          "mean": 5.318374586457204,
+          "p50": 5.2779,
+          "p95": 5.7646,
+          "p99": 6.313
+        },
+        "instrumentation_ms": {
+          "count": 16806,
+          "min": 0.004,
+          "max": 0.1567,
+          "mean": 0.008822902534809064,
+          "p50": 0.0082,
+          "p95": 0.0129,
+          "p99": 0.0246
+        },
+        "gpu_draw_ms": {
+          "count": 16805,
+          "min": 0.195584,
+          "max": 0.24576,
+          "mean": 0.21076022231479583,
+          "p50": 0.20992,
+          "p95": 0.214016,
+          "p99": 0.231424
+        },
+        "submit_ms": {
+          "count": 16806,
+          "min": 4.767800000000001,
+          "max": 9.192499999999999,
+          "mean": 5.392932553849805,
+          "p50": 5.3500000000000005,
+          "p95": 5.855200000000001,
+          "p99": 6.412699999999999
+        },
+        "upload_cpu_ms": {
+          "count": 16806,
+          "min": 3.931,
+          "max": 11.072,
+          "mean": 4.57557309889324,
+          "p50": 4.5588,
+          "p95": 5.0575,
+          "p99": 5.5986
+        },
+        "frame_ms": {
+          "count": 16806,
+          "min": 9.2186,
+          "max": 21.9799,
+          "mean": 10.710689283589149,
+          "p50": 10.6073,
+          "p95": 12.1795,
+          "p99": 13.1236
+        },
+        "lateness_ms": {
+          "count": 720,
+          "min": 0.008000000001,
+          "max": 11.3057,
+          "mean": 5.252723472222226,
+          "p50": 5.2807,
+          "p95": 10.0907,
+          "p99": 10.7836
+        },
+        "present_ms": {
+          "count": 16806,
+          "min": 0.4201,
+          "max": 3.0606,
+          "mean": 0.6224700702130156,
+          "p50": 0.6097,
+          "p95": 0.771,
+          "p99": 0.9513
+        },
+        "edited_frame_ms": {
+          "count": 720,
+          "min": 11.0376,
+          "max": 16.4941,
+          "mean": 12.64345236111112,
+          "p50": 12.6343,
+          "p95": 13.6268,
+          "p99": 14.6933
+        }
+      },
+      "threshold_counts": {
+        "over100": 0,
+        "over33_3": 0,
+        "over16_7": 3
+      },
+      "sample_unfocused_frames": 16806,
+      "sample_unfocused_s": 180.00384410000035,
+      "sample_unfocused_percent": 100.00000000000061,
+      "focus_transitions": 0,
+      "initial_focused": 0,
+      "first_focused_elapsed_s": null,
+      "gpu_missing": 1,
+      "edits": 720,
+      "rebuilt": 2160,
+      "upload_bytes_per_frame": 57770513.86219207,
+      "draw_calls_per_frame": 1.9369867904319886,
+      "x_range": [
+        -2.5,
+        -2.5
+      ],
+      "sixty_second_fps": [
+        93.16012837832322,
+        94.11837083663455,
+        92.81555365348584
+      ],
+      "spikes_over33_3": [],
+      "memory": {
+        "private_bytes": {
+          "peak_mib": 1173.203125,
+          "count": 239
+        },
+        "working_set_bytes": {
+          "peak_mib": 549.72265625,
+          "count": 239
+        }
+      },
+      "first_swap_ms": 1651.8283,
+      "checks_passed": true
+    }
+  ]
+}

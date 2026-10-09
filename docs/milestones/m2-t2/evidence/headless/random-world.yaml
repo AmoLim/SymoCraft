@@ -1,0 +1,163 @@
+generation:
+  generator_version: 1
+  seed: 1077478039
+  radius: 10
+  vegetation: true
+  chunk_dimensions:
+    - 16
+    - 256
+    - 16
+  noise_type: FastNoiseLite-1.0.1/OpenSimplex2/FBm
+  octaves: 8
+  lacunarity: 1.60000002
+  gain: 0.5
+  coordinate_scale: 1.5
+  height_exponent: 1.19000006
+  min_height: 55
+  max_height: 145
+  sea_level: 85
+  noise_seeds:
+    - 1897344832
+    - 1809526876
+    - 1423858189
+  frequencies:
+    - 0.00572999986
+    - 0.0199999996
+    - 0.100000001
+  weights:
+    - 1
+    - 0.200000003
+    - 0.0299999993
+  vegetation_rng: mix32-v1/seed+chunk-x+chunk-z/mt19937/raw-modulo
+  vegetation_candidate_extent: 10
+  vegetation_roll: raw%100>98
+  write_order: chunk-x,chunk-z; all-terrain-before-vegetation; last-write-wins
+  digest_schema: fnv1a64-v1/le-coord-i32x2/block-u16x4/chunk-x,z/block-y,x,z
+  block_formats:
+    - id: 1
+      textures:
+        - 63
+        - 63
+        - 63
+      transparent: true
+      solid: false
+      blendable: false
+      light_source: false
+      light_level: 0
+    - id: 2
+      textures:
+        - 16
+        - 8
+        - 0
+      transparent: false
+      solid: true
+      blendable: false
+      light_source: false
+      light_level: 0
+    - id: 3
+      textures:
+        - 1
+        - 1
+        - 1
+      transparent: false
+      solid: true
+      blendable: false
+      light_source: false
+      light_level: 0
+    - id: 4
+      textures:
+        - 0
+        - 0
+        - 0
+      transparent: false
+      solid: true
+      blendable: false
+      light_source: false
+      light_level: 0
+    - id: 5
+      textures:
+        - 2
+        - 2
+        - 2
+      transparent: false
+      solid: true
+      blendable: false
+      light_source: false
+      light_level: 0
+    - id: 6
+      textures:
+        - 20
+        - 12
+        - 20
+      transparent: false
+      solid: true
+      blendable: false
+      light_source: false
+      light_level: 0
+    - id: 7
+      textures:
+        - 28
+        - 28
+        - 28
+      transparent: true
+      solid: true
+      blendable: true
+      light_source: false
+      light_level: 0
+    - id: 8
+      textures:
+        - 4
+        - 4
+        - 4
+      transparent: false
+      solid: true
+      blendable: false
+      light_source: false
+      light_level: 0
+    - id: 9
+      textures:
+        - 10
+        - 11
+        - 10
+      transparent: true
+      solid: false
+      blendable: false
+      light_source: false
+      light_level: 0
+    - id: 10
+      textures:
+        - 5
+        - 5
+        - 5
+      transparent: false
+      solid: true
+      blendable: false
+      light_source: false
+      light_level: 0
+    - id: 11
+      textures:
+        - 3
+        - 3
+        - 3
+      transparent: false
+      solid: true
+      blendable: false
+      light_source: false
+      light_level: 0
+seed_source: random
+chunks: 441
+terrain_digest: fnv1a64:243a757eb8c95192
+scene:
+  name: terrain
+scene_digest: fnv1a64:243a757eb8c95192
+test_edits_applied: false
+final_digest: fnv1a64:243a757eb8c95192
+initial_pose:
+  checkpoint: spawn
+  position:
+    - 0.5
+    - 95.9499969
+    - 0.5
+  yaw: -90
+  pitch: 0
+  fov: 45

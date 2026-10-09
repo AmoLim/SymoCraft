@@ -1,0 +1,100 @@
+[
+  {
+    "case": "debug-gl",
+    "dll_imports": [
+      "USER32.dll",
+      "KERNEL32.dll",
+      "GDI32.dll",
+      "WINMM.dll",
+      "IMM32.dll",
+      "ole32.dll",
+      "VERSION.dll",
+      "ADVAPI32.dll",
+      "SETUPAPI.dll",
+      "SHELL32.dll",
+      "MSVCP140D.dll",
+      "VCRUNTIME140D.dll",
+      "VCRUNTIME140_1D.dll",
+      "ucrtbased.dll"
+    ],
+    "no_sdl3_or_vulkan_loader_direct_import": true,
+    "gui_launched": false
+  },
+  {
+    "case": "debug-vulkan",
+    "dll_imports": [
+      "USER32.dll",
+      "KERNEL32.dll",
+      "GDI32.dll",
+      "WINMM.dll",
+      "IMM32.dll",
+      "ole32.dll",
+      "VERSION.dll",
+      "ADVAPI32.dll",
+      "SETUPAPI.dll",
+      "SHELL32.dll",
+      "MSVCP140D.dll",
+      "VCRUNTIME140D.dll",
+      "VCRUNTIME140_1D.dll",
+      "ucrtbased.dll"
+    ],
+    "no_sdl3_or_vulkan_loader_direct_import": true,
+    "gui_launched": false
+  },
+  {
+    "case": "release-gl",
+    "dll_imports": [
+      "USER32.dll",
+      "KERNEL32.dll",
+      "GDI32.dll",
+      "WINMM.dll",
+      "IMM32.dll",
+      "ole32.dll",
+      "VERSION.dll",
+      "ADVAPI32.dll",
+      "SETUPAPI.dll",
+      "SHELL32.dll",
+      "MSVCP140.dll",
+      "VCRUNTIME140.dll",
+      "VCRUNTIME140_1.dll",
+      "api-ms-win-crt-runtime-l1-1-0.dll",
+      "api-ms-win-crt-heap-l1-1-0.dll",
+      "api-ms-win-crt-convert-l1-1-0.dll",
+      "api-ms-win-crt-stdio-l1-1-0.dll",
+      "api-ms-win-crt-filesystem-l1-1-0.dll",
+      "api-ms-win-crt-string-l1-1-0.dll",
+      "api-ms-win-crt-math-l1-1-0.dll",
+      "api-ms-win-crt-locale-l1-1-0.dll"
+    ],
+    "no_sdl3_or_vulkan_loader_direct_import": true,
+    "gui_launched": false
+  },
+  {
+    "case": "release-vulkan",
+    "dll_imports": [
+      "USER32.dll",
+      "KERNEL32.dll",
+      "GDI32.dll",
+      "WINMM.dll",
+      "IMM32.dll",
+      "ole32.dll",
+      "VERSION.dll",
+      "ADVAPI32.dll",
+      "SETUPAPI.dll",
+      "SHELL32.dll",
+      "MSVCP140.dll",
+      "VCRUNTIME140.dll",
+      "VCRUNTIME140_1.dll",
+      "api-ms-win-crt-runtime-l1-1-0.dll",
+      "api-ms-win-crt-heap-l1-1-0.dll",
+      "api-ms-win-crt-convert-l1-1-0.dll",
+      "api-ms-win-crt-stdio-l1-1-0.dll",
+      "api-ms-win-crt-filesystem-l1-1-0.dll",
+      "api-ms-win-crt-string-l1-1-0.dll",
+      "api-ms-win-crt-math-l1-1-0.dll",
+      "api-ms-win-crt-locale-l1-1-0.dll"
+    ],
+    "no_sdl3_or_vulkan_loader_direct_import": true,
+    "gui_launched": false
+  }
+]

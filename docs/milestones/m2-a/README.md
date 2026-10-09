@@ -1,3 +1,9 @@
+---
+tags:
+  - area/milestones
+  - topic/gameplay
+---
+
 # M2-A 桌面阶段报告
 
 日期：2026-09-17。状态：**实现、桌面局部验证与候选包已交付，待用户人工验收；M2 整体未通过。** 本轮不操作 CLion，不新增动态区块加载、多线程架构或玩法系统。
@@ -26,7 +32,7 @@
 
 本次 exe SHA256 为 `6F2F5EC44715D0ED8EC6EFD899EE9C9F28E9993D8EFE202507C42B8B64D09B17`；安装版与最终 Release 构建版相同。源码基线是 `00640dcdae55353c006edaf22c40ad2fea457f79` 加本轮未提交改动，**不能把基线提交单独视为本包源码**。构建输入的逐文件哈希另行记录，未代用户提交 Git。
 
-包是开发验收候选版，而非免安装依赖的最终发行版。真实游戏暂使用 ASCII 路径。静态导入表包含 MSVC/UCRT 运行库，包中未捆绑运行库安装程序；无开发环境机器上的部署与第三方许可材料整理仍待发布阶段。见 [当前依赖检查](evidence/build/m2-a-release-dependencies.log) 和 [依赖盘点](../../third-party-inventory.md)。
+包是开发验收候选版，而非免安装依赖的最终发行版。真实游戏暂使用 ASCII 路径。静态导入表包含 MSVC/UCRT 运行库，包中未捆绑运行库安装程序；无开发环境机器上的部署与第三方许可材料整理仍待发布阶段。见 [当前依赖检查](evidence/build/m2-a-release-dependencies.log) 和 [依赖盘点](../../legacy/third-party-inventory.md)。
 
 ## 环境与范围
 
@@ -54,10 +60,10 @@
 
 技术说明包含职责、数据流、所有权、算法、测试和限制：
 
-- [应用生命周期与验证](../../architecture/application-lifecycle.md)
-- [运行期图形资源](../../architecture/runtime-resources.md)
-- [网格与批次内存安全](../../architecture/mesh-safety.md)
-- [玩家循环与输入](../../architecture/player-loop.md)
+- [应用生命周期与验证](../../legacy/architecture/application-lifecycle.md)
+- [运行期图形资源](../../legacy/architecture/runtime-resources.md)
+- [网格与批次内存安全](../../legacy/architecture/mesh-safety.md)
+- [玩家循环与输入](../../legacy/architecture/player-loop.md)
 
 这些修改没有替换整个 ECS、引入新的线程池，或实现持久 GPU 区块网格；每帧全世界几何装入和上传仍是后续需测量的成本。
 

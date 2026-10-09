@@ -1,0 +1,9 @@
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t1/build/cpu-debug-alloc-no-proxy
+    Start 37: world.contract
+1/2 Test #37: world.contract ...................   Passed    0.93 sec
+    Start 38: world.allocations
+2/2 Test #38: world.allocations ................   Passed    3.31 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   4.25 sec

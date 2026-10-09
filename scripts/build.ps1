@@ -104,8 +104,13 @@ try {
         }
     }
     if ($Action -in @('Test', 'Install')) {
-        Invoke-Native $ctest @('--preset', $preset, '--test-dir', $buildDirectoryPath,
-            '--output-on-failure', '--no-tests=error')
+        if ($BuildDirectory) {
+            # Mixing a preset binaryDir with --test-dir can leave logs in the preset directory.
+            Invoke-Native $ctest @('--test-dir', $buildDirectoryPath, '-C', $Configuration,
+                '--output-on-failure', '--no-tests=error')
+        } else {
+            Invoke-Native $ctest @('--preset', $preset, '--output-on-failure', '--no-tests=error')
+        }
     }
     if ($Action -eq 'Install') {
         Invoke-Native $cmake @('--install', $buildDirectoryPath)

@@ -1,0 +1,45 @@
+cmake_minimum_required(VERSION 3.22)
+project(SymoCraftPlatformHandoff LANGUAGES CXX)
+
+if(NOT WIN32 OR NOT MSVC OR NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
+    message(FATAL_ERROR "Platform handoff declarations require Windows x64 and MSVC")
+endif()
+
+get_filename_component(REPO "${CMAKE_CURRENT_LIST_DIR}/../../.." ABSOLUTE)
+option(SYMOCRAFT_HANDOFF_VULKAN "Check the private Vulkan declarations with explicit SDK headers" OFF)
+set(SYMOCRAFT_VULKAN_HEADERS_ROOT "" CACHE PATH "Explicit installed Vulkan SDK Include directory")
+include(CTest)
+
+foreach(mode IN ITEMS public gl native)
+    add_executable(handoff_${mode} contracts.cpp)
+    target_compile_features(handoff_${mode} PRIVATE cxx_std_20)
+    target_compile_options(handoff_${mode} PRIVATE /W4 /utf-8)
+    target_include_directories(handoff_${mode} PRIVATE "${REPO}/game/modules/platform/include")
+    if(NOT mode STREQUAL "public")
+        target_include_directories(handoff_${mode} PRIVATE "${REPO}/game/modules/platform/src/graphics_bridge")
+        string(TOUPPER "${mode}" definition)
+        target_compile_definitions(handoff_${mode} PRIVATE "HANDOFF_${definition}=1")
+    endif()
+    if(BUILD_TESTING)
+        add_test(NAME platform.handoff.${mode} COMMAND handoff_${mode})
+    endif()
+endforeach()
+
+if(SYMOCRAFT_HANDOFF_VULKAN)
+    if(NOT EXISTS "${SYMOCRAFT_VULKAN_HEADERS_ROOT}/vulkan/vulkan_core.h")
+        message(FATAL_ERROR "The private Vulkan declaration check requires explicit SDK headers")
+    endif()
+    add_executable(handoff_vulkan contracts.cpp)
+    target_compile_features(handoff_vulkan PRIVATE cxx_std_20)
+    target_compile_options(handoff_vulkan PRIVATE /W4 /utf-8)
+    target_compile_definitions(handoff_vulkan PRIVATE HANDOFF_VULKAN=1)
+    target_include_directories(handoff_vulkan PRIVATE
+        "${REPO}/game/modules/platform/include"
+        "${REPO}/game/modules/platform/src/graphics_bridge")
+    target_include_directories(handoff_vulkan SYSTEM PRIVATE "${SYMOCRAFT_VULKAN_HEADERS_ROOT}")
+    if(BUILD_TESTING)
+        add_test(NAME platform.handoff.vulkan COMMAND handoff_vulkan)
+    endif()
+endif()
+
+# Declaration checks do not configure SDL, link product archives or create a window.

@@ -1,0 +1,12 @@
+include("${SYMOCRAFT_REPOSITORY_ROOT}/cmake/ThirdPartyGame.cmake")
+include("${SYMOCRAFT_REPOSITORY_ROOT}/cmake/StageAssets.cmake")
+
+foreach(module IN ITEMS foundation scene assets ecs world simulation telemetry)
+    add_subdirectory("modules/${module}")
+endforeach()
+if(SYMOCRAFT_BUILD_GAME)
+    symocraft_add_graphics_dependencies()
+    add_subdirectory(modules/platform)
+    add_subdirectory(modules/renderer)
+endif()
+add_subdirectory(app)

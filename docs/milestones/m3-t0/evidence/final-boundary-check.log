@@ -1,0 +1,9 @@
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t0/build/full-release
+    Start 54: architecture.source_boundaries
+1/2 Test #54: architecture.source_boundaries .....   Passed    0.18 sec
+    Start 55: architecture.negative_boundaries
+2/2 Test #55: architecture.negative_boundaries ...   Passed    1.04 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   1.23 sec

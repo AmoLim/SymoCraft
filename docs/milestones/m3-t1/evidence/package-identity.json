@@ -1,0 +1,160 @@
+{
+  "date": "2026-10-06T21:12:05.1131732+08:00",
+  "git_head": "d79d255325b4361f153463d92fbddfc4ce783e1e",
+  "working_tree_not_committed": true,
+  "input_manifest": "out/m3-t1/build-inputs.json",
+  "input_count": 1912,
+  "input_manifest_sha256": "810daf05dfc1aca8e91eafff6091fced586848f2628504379caa2f5256b438b5",
+  "release_sha256": "76a695decaf99405483d25d722535bef6d489914002743372d0b1e95a17b5db2",
+  "debug_sha256": "6aeda8a0bbd04cbc7206e3ed0574d30df9fb60a926a06a13fd1fd9082989f749",
+  "old_t0_unchanged": true,
+  "zip": "out/m3-t1/Symocraft-M3-T1-windows-x64.zip",
+  "zip_bytes": 17283095,
+  "zip_sha256": "0fc16d39c32b6c209ec9f29174178603899a7591ae112cd339b8eec7abaf42f7",
+  "archive_entries_byte_verified": true,
+  "portable_package_requires_powershell": false,
+  "assets": [
+    {
+      "path": "assets/configs/blockFormats.yaml",
+      "sha256": "263fa328d9a44f83cecb9f4b06a6d444dbcebeb75025e48b4a55b3cd956417f9",
+      "installed_identical": true
+    },
+    {
+      "path": "assets/shaders/fs_BlockShader.glsl",
+      "sha256": "66b2fd0547223fe471464287a3fc39cc438643eb8dfa60aedb03456c718defc7",
+      "installed_identical": true
+    },
+    {
+      "path": "assets/shaders/fs_FrameShader.glsl",
+      "sha256": "4b702e82f03db31a921bc72e9501e3f941ab7e4b835f7df86dffaf0a91e1fd35",
+      "installed_identical": true
+    },
+    {
+      "path": "assets/shaders/vs_BlockShader.glsl",
+      "sha256": "47dab1e3313dd24e139633d32378cb2ded415dac9df697958d9aa5a2fb63dd59",
+      "installed_identical": true
+    },
+    {
+      "path": "assets/shaders/vs_FrameShader.glsl",
+      "sha256": "5b4b8b0e94abe3af2d21494d27eed77a0afd9fed10ce904d451cc3d8cc68bc3c",
+      "installed_identical": true
+    },
+    {
+      "path": "assets/textures/texture_atlas.png",
+      "sha256": "ee41e86af8dfdc70037472b2387b67395d93cf1d807f0fe618025f6f86f9b219",
+      "installed_identical": true
+    }
+  ],
+  "installed_files": [
+    {
+      "path": "树叶剔除问题.png",
+      "bytes": 837710,
+      "sha256": "a7b9c6f14c8d86fc354085c722a2816864d5aa7e185445e6945685e6d27b6a31"
+    },
+    {
+      "path": "BENCHMARK-README.zh-CN.md",
+      "bytes": 6228,
+      "sha256": "f765e817c9deea4a62800cae23eeb763c4fc2d39f30e2496e9f2cfbc24513b7a"
+    },
+    {
+      "path": "concrt140.dll",
+      "bytes": 324208,
+      "sha256": "2405355f0a58067b258f8df33c327e3a3d716eaac5a3a5aebb757842d85bd376"
+    },
+    {
+      "path": "msvcp140_1.dll",
+      "bytes": 35952,
+      "sha256": "bfad5aef4c63a669e3c140655cdfdf395b6c979b400a447bd5dcb65ed8826c3d"
+    },
+    {
+      "path": "msvcp140_2.dll",
+      "bytes": 280200,
+      "sha256": "3ea06f0ee098b4823cb79599df3780e7f23cce52c19aac31d2a0d47efe33a5e9"
+    },
+    {
+      "path": "msvcp140_atomic_wait.dll",
+      "bytes": 50304,
+      "sha256": "640b2aefced484d0368eea5bdd06addd0658a3a70a49256e560d6923b404a479"
+    },
+    {
+      "path": "msvcp140_codecvt_ids.dll",
+      "bytes": 31872,
+      "sha256": "f2069a52880ec885ee7f0511186100eb7fada0411a2b4948fafea7735b878a18"
+    },
+    {
+      "path": "msvcp140.dll",
+      "bytes": 557728,
+      "sha256": "0f885b509a685d2bbfa652fed26b5fb31d88fbdab0a978c641d1c7b8aa460aa9"
+    },
+    {
+      "path": "promblem-视角突变.mp4",
+      "bytes": 15546131,
+      "sha256": "09d7438cd21ed4ce90686fef0758d4e7e1fef842d5280e0b5540c23e3443f3f7"
+    },
+    {
+      "path": "SymoCraft.exe",
+      "bytes": 778240,
+      "sha256": "76a695decaf99405483d25d722535bef6d489914002743372d0b1e95a17b5db2"
+    },
+    {
+      "path": "SymoCraftBenchmark.exe",
+      "bytes": 417792,
+      "sha256": "ea1c33ea44fce035593a7fd548b3d2ed9243aa30d96e3dbdd93341d1043403c1"
+    },
+    {
+      "path": "THIRD-PARTY-INVENTORY.md",
+      "bytes": 36140,
+      "sha256": "71805ebdcd77ee185a68b766e61642dea067f6e1aebac69e572980ba0fbe847c"
+    },
+    {
+      "path": "vcruntime140_1.dll",
+      "bytes": 49792,
+      "sha256": "1f2d41c4aa5db0bc33ebf7b66d72943a817d7ce6cbe880502a9403823633093f"
+    },
+    {
+      "path": "vcruntime140.dll",
+      "bytes": 124544,
+      "sha256": "d5e4d9a3e835fa679450145d6a7d94e36573a509317111904d9b3712c30d9066"
+    },
+    {
+      "path": "assets/configs/blockFormats.yaml",
+      "bytes": 1153,
+      "sha256": "263fa328d9a44f83cecb9f4b06a6d444dbcebeb75025e48b4a55b3cd956417f9"
+    },
+    {
+      "path": "assets/shaders/fs_BlockShader.glsl",
+      "bytes": 383,
+      "sha256": "66b2fd0547223fe471464287a3fc39cc438643eb8dfa60aedb03456c718defc7"
+    },
+    {
+      "path": "assets/shaders/fs_FrameShader.glsl",
+      "bytes": 182,
+      "sha256": "4b702e82f03db31a921bc72e9501e3f941ab7e4b835f7df86dffaf0a91e1fd35"
+    },
+    {
+      "path": "assets/shaders/vs_BlockShader.glsl",
+      "bytes": 429,
+      "sha256": "47dab1e3313dd24e139633d32378cb2ded415dac9df697958d9aa5a2fb63dd59"
+    },
+    {
+      "path": "assets/shaders/vs_FrameShader.glsl",
+      "bytes": 212,
+      "sha256": "5b4b8b0e94abe3af2d21494d27eed77a0afd9fed10ce904d451cc3d8cc68bc3c"
+    },
+    {
+      "path": "assets/textures/texture_atlas.png",
+      "bytes": 62011,
+      "sha256": "ee41e86af8dfdc70037472b2387b67395d93cf1d807f0fe618025f6f86f9b219"
+    },
+    {
+      "path": "licenses/GLFW-LICENSE.md",
+      "bytes": 927,
+      "sha256": "7593ce7c7be05f3a0589ebc78091ba3db70f82c7a4acaea15a0b70230247df2c"
+    },
+    {
+      "path": "licenses/stb-LICENSE.txt",
+      "bytes": 2547,
+      "sha256": "11dd149dbc50748419a22fcec275b5bcfb4c2d86d9fba8802e5c4ffd40c94609"
+    }
+  ]
+}

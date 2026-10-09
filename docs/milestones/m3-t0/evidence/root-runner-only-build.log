@@ -1,0 +1,37 @@
+[0/2] Re-checking globbed directories...
+[1/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\directives.cpp.obj
+[2/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\binary.cpp.obj
+[3/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\depthguard.cpp.obj
+[4/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emit.cpp.obj
+[5/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emitfromevents.cpp.obj
+[6/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emitterstate.cpp.obj
+[7/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emitter.cpp.obj
+[8/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\convert.cpp.obj
+[9/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\exceptions.cpp.obj
+[10/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\node.cpp.obj
+[11/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emitterutils.cpp.obj
+[12/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\null.cpp.obj
+[13/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\memory.cpp.obj
+[14/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\exp.cpp.obj
+[15/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\nodeevents.cpp.obj
+[16/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\node_data.cpp.obj
+[17/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\nodebuilder.cpp.obj
+[18/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\ostream_wrapper.cpp.obj
+[19/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\regex_yaml.cpp.obj
+[20/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\parse.cpp.obj
+[21/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\scantag.cpp.obj
+[22/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\parser.cpp.obj
+[23/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\scanscalar.cpp.obj
+[24/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\scanner.cpp.obj
+[25/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\scantoken.cpp.obj
+[26/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\stream.cpp.obj
+[27/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\simplekey.cpp.obj
+[28/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\singledocparser.cpp.obj
+[29/37] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\tag.cpp.obj
+[30/37] Linking CXX static library symocraft_yaml.lib
+[31/37] Building CXX object tools\benchmark\CMakeFiles\benchmark_core.dir\src\platform.cpp.obj
+[32/37] Building CXX object tools\benchmark\CMakeFiles\SymoCraftBenchmark.dir\src\main.cpp.obj
+[33/37] Building CXX object tools\benchmark\CMakeFiles\SymoCraftBenchmark.dir\src\gui.cpp.obj
+[34/37] Building CXX object tools\benchmark\CMakeFiles\benchmark_core.dir\src\runner.cpp.obj
+[35/37] Linking CXX static library tools\benchmark\benchmark_core.lib
+[36/37] Linking CXX executable bin\SymoCraftBenchmark.exe

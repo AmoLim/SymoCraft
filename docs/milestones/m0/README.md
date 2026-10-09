@@ -1,3 +1,8 @@
+---
+tags:
+  - area/milestones
+---
+
 # M0 环境与原始构建报告
 
 日期：2026-09-17。状态：**本节点已由用户验收通过，已获准进入 M1。** 以下环境与实验内容保留 M0 时的历史记录，后续结果见 [M1 报告](../m1/README.md)。
@@ -12,7 +17,7 @@
 4. **没有可用的项目自动测试基线和性能基线。** CTest 列表为 0 个测试；尚未测量帧时间、GPU 时间或参考笔记本表现。
 5. 后续重点应是构建可重复性、CLion 接入、运行资源定位、生命周期和边界正确性，而不是盲目重写整个项目。
 
-范围与阶段约定见 [项目范围](../../project-scope.md)；现状数据流见 [架构说明](../../architecture/current-data-flow.md)。
+范围与阶段约定见 [项目范围](../../spec/project-scope.md)；现状数据流见 [架构说明](../../legacy/architecture/current-data-flow.md)。
 
 ## 环境记录
 
@@ -90,7 +95,7 @@
 
 [二进制依赖检查](evidence/08-executable-dependencies.log)显示 Debug 依赖调试版 MSVC 运行库，Release 依赖 MSVC/UCRT 运行库。当前构建目录没有复制 `assets`，也没有独立发布/运行库部署流程。
 
-尽管 CMake 显式链接并复制 irrKlang，两个最终 exe 的静态导入表没有列出 irrKlang.dll，与目前没有有效音频调用的源码状态一致。不能据此推定将来启用音频后仍然不需要该 DLL；详细清单见 [依赖盘点](../../third-party-inventory.md)。
+尽管 CMake 显式链接并复制 irrKlang，两个最终 exe 的静态导入表没有列出 irrKlang.dll，与目前没有有效音频调用的源码状态一致。不能据此推定将来启用音频后仍然不需要该 DLL；详细清单见 [依赖盘点](../../legacy/third-party-inventory.md)。
 
 ## 问题与处置顺序
 
@@ -106,7 +111,7 @@
 | M0-08 | 已验证清单缺口 | 若干依赖来源/许可材料不完整，存在未使用二进制和重复头文件 | M1 明确实际依赖；发布前补齐材料，不在 M0 全量升级或删除 |
 | M0-09 | 已复现警告 | robin_hood 头产生 C4819 编码警告 | M1 统一项目编码策略，区分第三方警告与项目警告，不用全局关闭警告掩盖问题 |
 
-更详细的静态证据和源码位置见 [当前架构风险表](../../architecture/current-data-flow.md#m1--m2-重点风险)。目前未启用的线程池不列为已经发生的运行故障；M0 不决定重写 ECS 或启用并发。
+更详细的静态证据和源码位置见 [当前架构风险表](../../legacy/architecture/current-data-flow.md#m1--m2-重点风险)。目前未启用的线程池不列为已经发生的运行故障；M0 不决定重写 ECS 或启用并发。
 
 ## 复现本次基线
 

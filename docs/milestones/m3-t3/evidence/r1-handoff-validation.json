@@ -1,0 +1,787 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-08T08:55:50.7652767+00:00",
+  "scope": "T3 R1 isolated declaration/CPU handoff and RTX 5070 Ti Debug/Release D3D12 fixture; no production takeover",
+  "freeze_authorized": false,
+  "r2_started": false,
+  "t2_approved": false,
+  "t2_handoff": {
+    "path": "docs/milestones/m3-t2/s4-platform-handoff.md",
+    "bytes": 20485,
+    "sha256": "7de297fdb9278dc4504ac8c441902154255e89eee58e42002bc80ac16575ec80"
+  },
+  "t2_cleanup_snapshot": {
+    "path": "docs/milestones/m3-t2/evidence/s5-cleanup-validation.json",
+    "bytes": 17674,
+    "sha256": "850c776729675e3c040940dfefffc2b3e1c98c5235f0b3ab05d2f7fdf0c98d62"
+  },
+  "stale_import_guard_check": {
+    "expected_result": "Configure rejected the stale production foundation archive before any GPU launch.",
+    "path": "out/m3-t3/log/r1/build/r1prep-stale-import-rejection-001.log",
+    "sha256": "2cce6cd6209d1b79f54cd855d50ffcc0d4d5597c65051a128123eebaca5dc09d"
+  },
+  "cpu": [
+    {
+      "configuration": "Debug",
+      "build_directory": "out/m3-t3/r1-cpu-handoff-debug-001",
+      "ctest_passed": 4,
+      "registry_checks": 70,
+      "handoff_checks": 82,
+      "artifacts": [
+        {
+          "path": "out/m3-t3/r1-cpu-handoff-debug-001/r1-final.xml",
+          "bytes": 1089,
+          "sha256": "cdba5b2d04603b200143830ca987aeac25ef164c5551e2499b1911c95ab8b389"
+        },
+        {
+          "path": "out/m3-t3/r1-cpu-handoff-debug-001/CMakeCache.txt",
+          "bytes": 18757,
+          "sha256": "f0eca9f4925f6804ae79c08e52e4c29d7b16c87c87e642af86037cdcf85d7a74"
+        },
+        {
+          "path": "out/m3-t3/r1-cpu-handoff-debug-001/compile_commands.json",
+          "bytes": 62500,
+          "sha256": "7466ca6523d6203bfbc0c4e72bcdcb90979d9cbe1af5abb1383509a006433546"
+        },
+        {
+          "path": "out/m3-t3/r1-cpu-handoff-debug-001/build.ninja",
+          "bytes": 213720,
+          "sha256": "9b1434a1f8231ca687788fc87bb2f177c9490a6a6b50a8213e71a20be97391fa"
+        },
+        {
+          "path": "out/m3-t3/r1-cpu-handoff-debug-001/SymoCraftD3D12R1CandidateTests.exe",
+          "bytes": 197632,
+          "sha256": "25864a432e2f1922a1d3b41b0bce408f161d8cdc280d1f52b33062c6cbdf8e58"
+        },
+        {
+          "path": "out/m3-t3/r1-cpu-handoff-debug-001/SymoCraftD3D12R1PublicConsumer.exe",
+          "bytes": 60416,
+          "sha256": "cd29701a3390e2a3caf86aabad092d6f933fc192c31a11415191d0e802abb510"
+        },
+        {
+          "path": "out/m3-t3/r1-cpu-handoff-debug-001/SymoCraftD3D12R1HandoffTests.exe",
+          "bytes": 1522176,
+          "sha256": "8069f0c7b27d4ef8582e6145cfb17783c08474ae2b8bed0167a36a07bf5d8436"
+        }
+      ]
+    },
+    {
+      "configuration": "Release",
+      "build_directory": "out/m3-t3/r1-cpu-handoff-release-002",
+      "ctest_passed": 4,
+      "registry_checks": 70,
+      "handoff_checks": 82,
+      "artifacts": [
+        {
+          "path": "out/m3-t3/r1-cpu-handoff-release-002/r1-final.xml",
+          "bytes": 1090,
+          "sha256": "ea53b2552080c1629c1f71d4a645837b9cb686e7df61a7f27c78843ee8c883a6"
+        },
+        {
+          "path": "out/m3-t3/r1-cpu-handoff-release-002/CMakeCache.txt",
+          "bytes": 18963,
+          "sha256": "5c7146b9a89f2be86672c894b005d52380e86397a4bdf07f6065b8e7a7e27de8"
+        },
+        {
+          "path": "out/m3-t3/r1-cpu-handoff-release-002/compile_commands.json",
+          "bytes": 62754,
+          "sha256": "04c124e7813eefe66544cb0f7138c1113efb315918e41f73ca98899cbe7c83d7"
+        },
+        {
+          "path": "out/m3-t3/r1-cpu-handoff-release-002/build.ninja",
+          "bytes": 229961,
+          "sha256": "a2d5c29fed2aade20abadfaefbb1becbfa54d58061cf5900913df1a29af6e352"
+        },
+        {
+          "path": "out/m3-t3/r1-cpu-handoff-release-002/SymoCraftD3D12R1CandidateTests.exe",
+          "bytes": 54784,
+          "sha256": "e4f49a1f172dad3978224136d76eb9d4c97247023e1d1b4f795b94c06af91ff5"
+        },
+        {
+          "path": "out/m3-t3/r1-cpu-handoff-release-002/SymoCraftD3D12R1PublicConsumer.exe",
+          "bytes": 10752,
+          "sha256": "d1399102a2f50894412451dbf10a2daeeb810e551715b7f988ded8c467a96d01"
+        },
+        {
+          "path": "out/m3-t3/r1-cpu-handoff-release-002/SymoCraftD3D12R1HandoffTests.exe",
+          "bytes": 391680,
+          "sha256": "0d052a7d23c5a85a0d32140483cc536bada2522f61ebb0f46ed11179f37d0f5c"
+        }
+      ]
+    }
+  ],
+  "gpu": [
+    {
+      "configuration": "Debug",
+      "verification": {
+        "path": "out/m3-t3/evidence/r1prep-debug-001/verification.json",
+        "bytes": 25025,
+        "sha256": "f1e7b2bf6d1fa58e7c9b19640dd4fe0b48e93cd2ff97ef963a84c0ff0bb1f3fe"
+      },
+      "executable": {
+        "path": "out/m3-t3/r1-debug-r1prep-002/SymoCraftD3D12R1Probe.exe",
+        "bytes": 4056064,
+        "sha256": "c3b74ced69b04bf596592711803dbe43324ec7a65cfcfdfef21e304956ac7d3c"
+      },
+      "build_identities": {
+        "path": "out/m3-t3/r1-debug-r1prep-002/build-identities.json",
+        "bytes": 5719,
+        "sha256": "ff18995950cc5692767b03626a10a6958604677fec44538158daea6b2bfb9438"
+      },
+      "production_imports": {
+        "path": "out/m3-t3/r1-debug-r1prep-002/production-imports.json",
+        "bytes": 4812,
+        "sha256": "1806b96244a8e0a960709cf3a9a593001d39c5d32f18509c5d2fc45191c31611"
+      },
+      "passed_cases": 2,
+      "hardware": {
+        "adapter": "NVIDIA GeForce RTX 5070 Ti",
+        "adapter_device_id": 11269,
+        "adapter_luid": "00000000:000144d0",
+        "adapter_vendor_id": 4318,
+        "backend": "D3D12",
+        "cleanup_completed": true,
+        "cpu_vertex_stride": 28,
+        "debug_error_count": 0,
+        "debug_layer_enabled": true,
+        "debug_warning_count": 0,
+        "delete_completed_at_retirement": 4,
+        "delete_inflight_fence": 5,
+        "device_luid_matches_dxgi_adapter": true,
+        "driver": "32.0.16.1664",
+        "e01_passed": true,
+        "e02_passed": true,
+        "e03_passed": true,
+        "elapsed_ms": 11064,
+        "feature_level": "12_0 (requested and created)",
+        "height": 540,
+        "present_flags": 0,
+        "present_sync_interval": 0,
+        "render_target_format": "R8G8B8A8_UNORM_SRGB (swapchain storage R8G8B8A8_UNORM)",
+        "retired_collected": 4,
+        "shader_model": "6_0 (explicit CheckFeatureSupport)",
+        "shutdown_completed": true,
+        "software_adapter": false,
+        "status": "pass",
+        "submitted_frames": 10,
+        "suspended_event_waits": 95,
+        "suspended_submissions": 0,
+        "swapchain_initial_buffer_count": 3,
+        "swapchain_initial_flags": 0,
+        "swapchain_initial_format": 28,
+        "swapchain_initial_height": 480,
+        "swapchain_initial_sample_count": 1,
+        "swapchain_initial_sample_quality": 0,
+        "swapchain_initial_swap_effect": 4,
+        "swapchain_initial_width": 640,
+        "swapchain_initial_windowed": true,
+        "swapchain_restored_buffer_count": 3,
+        "swapchain_restored_flags": 0,
+        "swapchain_restored_format": 28,
+        "swapchain_restored_height": 540,
+        "swapchain_restored_sample_count": 1,
+        "swapchain_restored_sample_quality": 0,
+        "swapchain_restored_swap_effect": 4,
+        "swapchain_restored_width": 720,
+        "swapchain_restored_windowed": true,
+        "texture_format": "R8G8B8A8_UNORM",
+        "timeout_injected": false,
+        "update_completed_at_retirement": 2,
+        "update_inflight_fence": 3,
+        "width": 720,
+        "window_mode": "Native SDL3 / private HWND bridge",
+        "zero_extent_input_is_injected": true
+      },
+      "injected_timeout": {
+        "adapter": "NVIDIA GeForce RTX 5070 Ti",
+        "adapter_device_id": 11269,
+        "adapter_luid": "00000000:000144d0",
+        "adapter_vendor_id": 4318,
+        "backend": "D3D12",
+        "cleanup_completed": true,
+        "cpu_vertex_stride": 28,
+        "debug_error_count": 0,
+        "debug_layer_enabled": true,
+        "debug_warning_count": 0,
+        "device_luid_matches_dxgi_adapter": true,
+        "driver": "32.0.16.1664",
+        "e01_passed": false,
+        "e02_passed": false,
+        "e03_passed": false,
+        "elapsed_ms": 528,
+        "error": "D3D12 injected GPU wait timeout (simulated fence event)",
+        "feature_level": "12_0 (requested and created)",
+        "present_flags": 0,
+        "present_sync_interval": 0,
+        "render_target_format": "R8G8B8A8_UNORM_SRGB (swapchain storage R8G8B8A8_UNORM)",
+        "shader_model": "6_0 (explicit CheckFeatureSupport)",
+        "shutdown_completed": false,
+        "software_adapter": false,
+        "status": "fail",
+        "swapchain_initial_buffer_count": 3,
+        "swapchain_initial_flags": 0,
+        "swapchain_initial_format": 28,
+        "swapchain_initial_height": 480,
+        "swapchain_initial_sample_count": 1,
+        "swapchain_initial_sample_quality": 0,
+        "swapchain_initial_swap_effect": 4,
+        "swapchain_initial_width": 640,
+        "swapchain_initial_windowed": true,
+        "texture_format": "R8G8B8A8_UNORM",
+        "timeout_injected": true,
+        "window_mode": "Native SDL3 / private HWND bridge"
+      },
+      "screenshots_identical_to_retained_reference": true,
+      "screenshots": [
+        {
+          "path": "out/m3-t3/evidence/r1prep-debug-001/hardware/e01-linear.png",
+          "bytes": 12557,
+          "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500"
+        },
+        {
+          "path": "out/m3-t3/evidence/r1prep-debug-001/hardware/e01-srgb.png",
+          "bytes": 16272,
+          "sha256": "c3a6e00de7c63f2b3ff8a341b16366ea73ceeef325e958d1e30e8e99e5195176"
+        },
+        {
+          "path": "out/m3-t3/evidence/r1prep-debug-001/hardware/e02-empty.png",
+          "bytes": 12531,
+          "sha256": "edfe043daceb01875146f26d7ada8082bce7c45bf9d1d63f791a017bad40e6a6"
+        },
+        {
+          "path": "out/m3-t3/evidence/r1prep-debug-001/hardware/e02-updated.png",
+          "bytes": 12560,
+          "sha256": "15916fe28ba7184104a71cf3ced81a3f0eb03a56bb218b99410d9fa4db1628ce"
+        },
+        {
+          "path": "out/m3-t3/evidence/r1prep-debug-001/hardware/e03-restored.png",
+          "bytes": 16272,
+          "sha256": "6ac8218d2fe0cc28d236fe1a68e4d581e0292e3038ff69f9e889a50db3db3dde"
+        }
+      ]
+    },
+    {
+      "configuration": "Release",
+      "verification": {
+        "path": "out/m3-t3/evidence/r1prep-release-001/verification.json",
+        "bytes": 25068,
+        "sha256": "9c4e2600db2901352fe807eff4ed03fdf6939d0302f6912be06a6985adaf9aa9"
+      },
+      "executable": {
+        "path": "out/m3-t3/r1-release-r1prep-001/SymoCraftD3D12R1Probe.exe",
+        "bytes": 1556480,
+        "sha256": "b5a6087b5a55c2b09a5eb26fed88aa9792ddd850f004e9dd3f663cb92e89a902"
+      },
+      "build_identities": {
+        "path": "out/m3-t3/r1-release-r1prep-001/build-identities.json",
+        "bytes": 5725,
+        "sha256": "536d57cc220df97f6e9ccb972e6b220f70428d75ee9f8e7d76189afcb672d983"
+      },
+      "production_imports": {
+        "path": "out/m3-t3/r1-release-r1prep-001/production-imports.json",
+        "bytes": 4822,
+        "sha256": "207c8bd6b4cf6651cfaa302c92f33d9eb129a38746a5a314335c9bed10b9f42e"
+      },
+      "passed_cases": 2,
+      "hardware": {
+        "adapter": "NVIDIA GeForce RTX 5070 Ti",
+        "adapter_device_id": 11269,
+        "adapter_luid": "00000000:000144d0",
+        "adapter_vendor_id": 4318,
+        "backend": "D3D12",
+        "cleanup_completed": true,
+        "cpu_vertex_stride": 28,
+        "debug_error_count": 0,
+        "debug_layer_enabled": true,
+        "debug_warning_count": 0,
+        "delete_completed_at_retirement": 4,
+        "delete_inflight_fence": 5,
+        "device_luid_matches_dxgi_adapter": true,
+        "driver": "32.0.16.1664",
+        "e01_passed": true,
+        "e02_passed": true,
+        "e03_passed": true,
+        "elapsed_ms": 10844,
+        "feature_level": "12_0 (requested and created)",
+        "height": 540,
+        "present_flags": 0,
+        "present_sync_interval": 0,
+        "render_target_format": "R8G8B8A8_UNORM_SRGB (swapchain storage R8G8B8A8_UNORM)",
+        "retired_collected": 4,
+        "shader_model": "6_0 (explicit CheckFeatureSupport)",
+        "shutdown_completed": true,
+        "software_adapter": false,
+        "status": "pass",
+        "submitted_frames": 10,
+        "suspended_event_waits": 96,
+        "suspended_submissions": 0,
+        "swapchain_initial_buffer_count": 3,
+        "swapchain_initial_flags": 0,
+        "swapchain_initial_format": 28,
+        "swapchain_initial_height": 480,
+        "swapchain_initial_sample_count": 1,
+        "swapchain_initial_sample_quality": 0,
+        "swapchain_initial_swap_effect": 4,
+        "swapchain_initial_width": 640,
+        "swapchain_initial_windowed": true,
+        "swapchain_restored_buffer_count": 3,
+        "swapchain_restored_flags": 0,
+        "swapchain_restored_format": 28,
+        "swapchain_restored_height": 540,
+        "swapchain_restored_sample_count": 1,
+        "swapchain_restored_sample_quality": 0,
+        "swapchain_restored_swap_effect": 4,
+        "swapchain_restored_width": 720,
+        "swapchain_restored_windowed": true,
+        "texture_format": "R8G8B8A8_UNORM",
+        "timeout_injected": false,
+        "update_completed_at_retirement": 2,
+        "update_inflight_fence": 3,
+        "width": 720,
+        "window_mode": "Native SDL3 / private HWND bridge",
+        "zero_extent_input_is_injected": true
+      },
+      "injected_timeout": {
+        "adapter": "NVIDIA GeForce RTX 5070 Ti",
+        "adapter_device_id": 11269,
+        "adapter_luid": "00000000:000144d0",
+        "adapter_vendor_id": 4318,
+        "backend": "D3D12",
+        "cleanup_completed": true,
+        "cpu_vertex_stride": 28,
+        "debug_error_count": 0,
+        "debug_layer_enabled": true,
+        "debug_warning_count": 0,
+        "device_luid_matches_dxgi_adapter": true,
+        "driver": "32.0.16.1664",
+        "e01_passed": false,
+        "e02_passed": false,
+        "e03_passed": false,
+        "elapsed_ms": 528,
+        "error": "D3D12 injected GPU wait timeout (simulated fence event)",
+        "feature_level": "12_0 (requested and created)",
+        "present_flags": 0,
+        "present_sync_interval": 0,
+        "render_target_format": "R8G8B8A8_UNORM_SRGB (swapchain storage R8G8B8A8_UNORM)",
+        "shader_model": "6_0 (explicit CheckFeatureSupport)",
+        "shutdown_completed": false,
+        "software_adapter": false,
+        "status": "fail",
+        "swapchain_initial_buffer_count": 3,
+        "swapchain_initial_flags": 0,
+        "swapchain_initial_format": 28,
+        "swapchain_initial_height": 480,
+        "swapchain_initial_sample_count": 1,
+        "swapchain_initial_sample_quality": 0,
+        "swapchain_initial_swap_effect": 4,
+        "swapchain_initial_width": 640,
+        "swapchain_initial_windowed": true,
+        "texture_format": "R8G8B8A8_UNORM",
+        "timeout_injected": true,
+        "window_mode": "Native SDL3 / private HWND bridge"
+      },
+      "screenshots_identical_to_retained_reference": true,
+      "screenshots": [
+        {
+          "path": "out/m3-t3/evidence/r1prep-release-001/hardware/e01-linear.png",
+          "bytes": 12557,
+          "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500"
+        },
+        {
+          "path": "out/m3-t3/evidence/r1prep-release-001/hardware/e01-srgb.png",
+          "bytes": 16272,
+          "sha256": "c3a6e00de7c63f2b3ff8a341b16366ea73ceeef325e958d1e30e8e99e5195176"
+        },
+        {
+          "path": "out/m3-t3/evidence/r1prep-release-001/hardware/e02-empty.png",
+          "bytes": 12531,
+          "sha256": "edfe043daceb01875146f26d7ada8082bce7c45bf9d1d63f791a017bad40e6a6"
+        },
+        {
+          "path": "out/m3-t3/evidence/r1prep-release-001/hardware/e02-updated.png",
+          "bytes": 12560,
+          "sha256": "15916fe28ba7184104a71cf3ced81a3f0eb03a56bb218b99410d9fa4db1628ce"
+        },
+        {
+          "path": "out/m3-t3/evidence/r1prep-release-001/hardware/e03-restored.png",
+          "bytes": 16272,
+          "sha256": "6ac8218d2fe0cc28d236fe1a68e4d581e0292e3038ff69f9e889a50db3db3dde"
+        }
+      ]
+    }
+  ],
+  "cpu_production_and_candidate_inputs": [
+    {
+      "path": "game/modules/foundation/CMakeLists.txt",
+      "bytes": 425,
+      "sha256": "11f9aa236b10832aa88963233d3b38abc628dc35804556609421fe572257eb04"
+    },
+    {
+      "path": "game/modules/foundation/include/symocraft/foundation/diagnostics.h",
+      "bytes": 2435,
+      "sha256": "5e4f44b5c178f480ebdc241473b1cfa6153e628a1156d1d82497328804117263"
+    },
+    {
+      "path": "game/modules/foundation/include/symocraft/foundation/document.h",
+      "bytes": 3133,
+      "sha256": "21d6563a4c557ce29825af0a4aa1e67db5d652a7a5234ff65ab6dc2f5fd3dede"
+    },
+    {
+      "path": "game/modules/foundation/include/symocraft/foundation/files.h",
+      "bytes": 245,
+      "sha256": "ab8c1c17584af0924b0ddd2ef77b830464c5b496326faa01fad0301892885a90"
+    },
+    {
+      "path": "game/modules/foundation/include/symocraft/foundation/math.h",
+      "bytes": 482,
+      "sha256": "117dc302b09b62ad6eaa1d457e15e4f4bbb7ab4fdc115618cd61088d4433297b"
+    },
+    {
+      "path": "game/modules/foundation/include/symocraft/foundation/memory.h",
+      "bytes": 1015,
+      "sha256": "414f39666f308461e085c16e8711fd346471309b51a0ad5d176066f946996dd4"
+    },
+    {
+      "path": "game/modules/foundation/include/symocraft/foundation/types.h",
+      "bytes": 261,
+      "sha256": "bad8ad76e2d325595519f1b03eab8a9948b103b6a669c0b4d983f0db25e03ced"
+    },
+    {
+      "path": "game/modules/foundation/src/document.cpp",
+      "bytes": 1183,
+      "sha256": "c215e2bacd578e4597cd151a20d8f4c2add1d1ed89f5e62e380d002a16f5b557"
+    },
+    {
+      "path": "game/modules/foundation/src/files.cpp",
+      "bytes": 924,
+      "sha256": "01885fcc8a116973b052247a85637deb0050652032c4dbf1942d3b27b0cfe4a0"
+    },
+    {
+      "path": "game/modules/foundation/src/legacy/AmoBase.cpp",
+      "bytes": 17957,
+      "sha256": "00ced729834c50031c17095986f8c08d62de22c8fbcea3f8ae4d1c239e5a5730"
+    },
+    {
+      "path": "game/modules/foundation/src/legacy/AmoBase.h",
+      "bytes": 103,
+      "sha256": "6dccb52eaa737e07699b024df9d5a80fdaf33596d12d15acf196a0be138b6206"
+    },
+    {
+      "path": "game/modules/scene/CMakeLists.txt",
+      "bytes": 201,
+      "sha256": "2678280df9e0896e0b366a3c215a3f62501dcc45bcaa05fed13f75e735d271c9"
+    },
+    {
+      "path": "game/modules/scene/include/symocraft/scene/camera.h",
+      "bytes": 174,
+      "sha256": "5f80c3f8fb4b207042636d921ece2db1deceb044e5357e9705ff3be107b8502f"
+    },
+    {
+      "path": "game/modules/scene/include/symocraft/scene/mesh.h",
+      "bytes": 570,
+      "sha256": "24f3348a1a26cf63bab1f2d2e115eaa12c7e8107688fbc1f566cfded8e86b020"
+    },
+    {
+      "path": "game/modules/assets/CMakeLists.txt",
+      "bytes": 363,
+      "sha256": "af50cfc9cee179df2ed3e4b7b06231cf386c7831acf49e5239a7491bb635d0ff"
+    },
+    {
+      "path": "game/modules/assets/include/symocraft/assets/asset_paths.h",
+      "bytes": 488,
+      "sha256": "731e890d0ec90bc92d4904ced83667ef73b03d40a7e57fa150b14911a48ae0c9"
+    },
+    {
+      "path": "game/modules/assets/include/symocraft/assets/image.h",
+      "bytes": 496,
+      "sha256": "55ee475d66208d73228c9b4fda9d44f3eeacd2614d0304cd5eadc22496d71dab"
+    },
+    {
+      "path": "game/modules/assets/src/asset_paths.cpp",
+      "bytes": 4347,
+      "sha256": "5395ff2511fad2ffe09b96ac31af824381759f4b8633ec2f5d1c6333a24f7949"
+    },
+    {
+      "path": "game/modules/assets/src/image.cpp",
+      "bytes": 2062,
+      "sha256": "fb9a4203d43839f3f4fdc2339622090f5b892d572bf891592dff494e0b8ff2a9"
+    },
+    {
+      "path": "game/modules/ecs/CMakeLists.txt",
+      "bytes": 319,
+      "sha256": "ba6f9b2041283e1baed4a2af2bc6ba96e42b47bf9eda9977a8d70824fc68354e"
+    },
+    {
+      "path": "game/modules/ecs/include/symocraft/ecs/registry.h",
+      "bytes": 6437,
+      "sha256": "8866d4378a5029d6feec8089595fe7106fc1c21f0e00616682935ce8bcd88e36"
+    },
+    {
+      "path": "game/modules/ecs/src/component_container.h",
+      "bytes": 10623,
+      "sha256": "b7c7c2954f7feb15e7ea2c1ac41c67fa51234a59a8ea748b5750c14e1229f81e"
+    },
+    {
+      "path": "game/modules/ecs/src/internal.cpp",
+      "bytes": 7008,
+      "sha256": "3102507d90854892ccdfe216010396e4c44ebaf804219994a9a2c823ff6051d5"
+    },
+    {
+      "path": "game/modules/ecs/src/internal.h",
+      "bytes": 1157,
+      "sha256": "f2b3f8954930655e1e52cf9bc508f42e2fc3c8f59ab886f53d7cf21f7f3fa4b7"
+    },
+    {
+      "path": "game/modules/ecs/src/registry.cpp",
+      "bytes": 12188,
+      "sha256": "e4c9cf59089e9e7f328a526dc0c4b9c58dd8705f8566b00cee167f3cca826056"
+    },
+    {
+      "path": "game/modules/ecs/src/legacy/MemoryHelper.h",
+      "bytes": 3722,
+      "sha256": "802d936f59bad10775a539b0eb1d8cea5336390497d5382bd57785a1750a8255"
+    },
+    {
+      "path": "game/modules/ecs/src/legacy/RawMemory.h",
+      "bytes": 2930,
+      "sha256": "69bff740da7f97399d5e025a1e5d9bcf273d88dd9131c7854427f8338cb9fe5b"
+    },
+    {
+      "path": "game/modules/world/CMakeLists.txt",
+      "bytes": 531,
+      "sha256": "b014ba96b578ecda5eaff3994c1e800174496a004efc0a8d532bed7173e06741"
+    },
+    {
+      "path": "game/modules/world/include/symocraft/world/benchmark_workload.h",
+      "bytes": 871,
+      "sha256": "f839f7f8a37e6d41e780fa4574ca526e49bc056abe4471070795a89fc88b227c"
+    },
+    {
+      "path": "game/modules/world/include/symocraft/world/block_definition.h",
+      "bytes": 1145,
+      "sha256": "54dc69520bce5f2e6b807099d4c1488a8e41df73dd80460b9fd7ae2bbd0abaca"
+    },
+    {
+      "path": "game/modules/world/include/symocraft/world/block.h",
+      "bytes": 3100,
+      "sha256": "ce26b4b55db9e118ee3de45dcc7601e5a82c1aba09124fe5e480382dfa2851e7"
+    },
+    {
+      "path": "game/modules/world/include/symocraft/world/constants.h",
+      "bytes": 2718,
+      "sha256": "694d2944ab0199fed4e8593d88aed6cb1a40949c6a589d330be3481e18cfb711"
+    },
+    {
+      "path": "game/modules/world/include/symocraft/world/generation.h",
+      "bytes": 1210,
+      "sha256": "5dfffa9e866917f240cf13952294cbddc14f356f11b841a1f23c87045173d3e2"
+    },
+    {
+      "path": "game/modules/world/include/symocraft/world/test_scene.h",
+      "bytes": 786,
+      "sha256": "3d045e36a894af569cf565e8d380e0382b690d616877a486a60842c20d56d5f6"
+    },
+    {
+      "path": "game/modules/world/include/symocraft/world/world.h",
+      "bytes": 3017,
+      "sha256": "0d0c3f03585c5c0f899d5ac090be8db9b650a459f75f97d3eb2cd3f9b5a0b934"
+    },
+    {
+      "path": "game/modules/world/src/block.cpp",
+      "bytes": 5650,
+      "sha256": "ef75d7bc914f8172c9c6a63cb860432f1684500bdb1e1009c41890b4b5c9faec"
+    },
+    {
+      "path": "game/modules/world/src/chunk_mesher.cpp",
+      "bytes": 4380,
+      "sha256": "32a73ae942af01557b2ce626586153e0d2827d728b984e0249fe37568c6b6f66"
+    },
+    {
+      "path": "game/modules/world/src/chunk_mesher.h",
+      "bytes": 1126,
+      "sha256": "e826e4abebfac0e5b8a10c359be2c30d8111248f89da000dcdcc3187210a1337"
+    },
+    {
+      "path": "game/modules/world/src/chunk.cpp",
+      "bytes": 271,
+      "sha256": "a7693421dc43890ed4f1fb68b2c45975390fcfeefbb0dbef388011b4d6918433"
+    },
+    {
+      "path": "game/modules/world/src/chunk.h",
+      "bytes": 754,
+      "sha256": "4594bd05e5ecb073bfe1b9caa094dabcc1c803d5f2381da7ca4aacdd3e4c24f7"
+    },
+    {
+      "path": "game/modules/world/src/generation.cpp",
+      "bytes": 10207,
+      "sha256": "e36a657f36725f9dcf67f4241a027939cfaa8197ea852960e778790cc4f71350"
+    },
+    {
+      "path": "game/modules/world/src/test_scene.cpp",
+      "bytes": 5011,
+      "sha256": "e05f1ea95d187eba9a27a1c6b3e4cd2da4b6f7157070b760413cd1ad41303583"
+    },
+    {
+      "path": "game/modules/world/src/world_coordinates.cpp",
+      "bytes": 605,
+      "sha256": "44cf437a604b51a7d3625aefe757fce7acd828800e610f7541e932d5f1121721"
+    },
+    {
+      "path": "game/modules/world/src/world_internal.h",
+      "bytes": 891,
+      "sha256": "d8e6e7090b9d4c498e1b95941688b3d03e85d17b829ae79dbb4a6dab94ad8cda"
+    },
+    {
+      "path": "game/modules/world/src/world.cpp",
+      "bytes": 11064,
+      "sha256": "60adbca0a23d1b8ed81608dc3fae28a72f208f5641b083006ba71d567b8f6d3e"
+    },
+    {
+      "path": "game/modules/simulation/CMakeLists.txt",
+      "bytes": 540,
+      "sha256": "443606aa0e05cef482b530389813fd9b0617237c17555f3ac35fb78d45f3ecef"
+    },
+    {
+      "path": "game/modules/simulation/include/symocraft/simulation/camera.h",
+      "bytes": 1007,
+      "sha256": "2fbca42162a862d88d040370be78852e3fe9d7c6380a1a02096f48f5973d53d8"
+    },
+    {
+      "path": "game/modules/simulation/include/symocraft/simulation/character_system.h",
+      "bytes": 510,
+      "sha256": "59f6997b4836cb18c71ff1326ff7b8b46e1f9b03c177dfd57641924b3b810a64"
+    },
+    {
+      "path": "game/modules/simulation/include/symocraft/simulation/component.h",
+      "bytes": 1695,
+      "sha256": "7621d287c5e63bf55267334d00e296863a8076061c8a35912c00adcdf3c82a92"
+    },
+    {
+      "path": "game/modules/simulation/include/symocraft/simulation/physics_system.h",
+      "bytes": 1156,
+      "sha256": "d43e095d5648ab6ffc11d15b0ed05a6bf79499fcc43f5593426de7793c02ee36"
+    },
+    {
+      "path": "game/modules/simulation/include/symocraft/simulation/player_math.h",
+      "bytes": 5749,
+      "sha256": "ce1eb38f3343894d20087db688dfcd68af5d5b8bb343bdac8495240dc396c8df"
+    },
+    {
+      "path": "game/modules/simulation/include/symocraft/simulation/player.h",
+      "bytes": 1053,
+      "sha256": "59066ab3aeec46126ba41d06c2e61b1d9c8084c38ac2fcbd5ff9013c741e1fd9"
+    },
+    {
+      "path": "game/modules/simulation/include/symocraft/simulation/playercontroller.h",
+      "bytes": 899,
+      "sha256": "2b618dda694619b1f8cd2e2857c736261a2497fbe6cbd73f82645b9a56e88707"
+    },
+    {
+      "path": "game/modules/simulation/include/symocraft/simulation/transform_system.h",
+      "bytes": 318,
+      "sha256": "e13184a8eaee3901240ab3e5f5aa150103e32029ef8387219ee128a0a9625501"
+    },
+    {
+      "path": "game/modules/simulation/src/Camera.cpp",
+      "bytes": 2160,
+      "sha256": "93629d3ecefc1fcf59b3db7e504462e936a0b3675fca2a92710ea96ca2bbab51"
+    },
+    {
+      "path": "game/modules/simulation/src/character_system.cpp",
+      "bytes": 2928,
+      "sha256": "51d27fa50c42ed9dbbac3b78a612f82c83f6e6535216681a1304358fac63f4da"
+    },
+    {
+      "path": "game/modules/simulation/src/physics_system.cpp",
+      "bytes": 19426,
+      "sha256": "67e5c9bc072ca74107001c3cc4fac15d4c94b9a85d41f0ea0f2cc9ccae41032c"
+    },
+    {
+      "path": "game/modules/simulation/src/player.cpp",
+      "bytes": 4661,
+      "sha256": "c37434f26e45ac497398b6d93131f25ac612af0633cf107bb55421bd1809eeed"
+    },
+    {
+      "path": "game/modules/simulation/src/playercontroller.cpp",
+      "bytes": 3846,
+      "sha256": "5a619bfb0485efb73cf6da19ac8847ffca15e122f7e83ab8d3ec455f62398d69"
+    },
+    {
+      "path": "game/modules/simulation/src/transform_system.cpp",
+      "bytes": 1128,
+      "sha256": "7d137c4da90204c40c316b08cc6b2a22aeb3557d52fad44468017f71150872b2"
+    },
+    {
+      "path": "test/experimental/d3d12-r1/contract/build.ps1",
+      "bytes": 3272,
+      "sha256": "a8a53f891c217f37a7fd6730e5dfe497b8807cf70e3372e7414a9d98a9633626"
+    },
+    {
+      "path": "test/experimental/d3d12-r1/contract/candidate_contract.h",
+      "bytes": 10430,
+      "sha256": "641608b6d3086e89b9be2df8102d78b5acf03ad0c37f01468a566b61ec0ce4f4"
+    },
+    {
+      "path": "test/experimental/d3d12-r1/contract/candidate_renderer_consumer.cpp",
+      "bytes": 3897,
+      "sha256": "68a0de59e1deb77e3db4434edfd5e9e22cbb032f36d69b60ccbfb08b572071f8"
+    },
+    {
+      "path": "test/experimental/d3d12-r1/contract/candidate_renderer.h",
+      "bytes": 5153,
+      "sha256": "0d644e7ad62216593c63c192687fba2ed5a32fda7009369c5fad883a39f61710"
+    },
+    {
+      "path": "test/experimental/d3d12-r1/contract/candidate_tests.cpp",
+      "bytes": 13472,
+      "sha256": "669f9a7ce0c200c58d9a34a537e97b219b07eb381894eb8693baaca83bb6e2b4"
+    },
+    {
+      "path": "test/experimental/d3d12-r1/contract/check_cpu_boundary.cmake",
+      "bytes": 1740,
+      "sha256": "572c186a5fe32293c1c333a9b9edd0d1ff87940391b0cd3d8c6ab614f89d2ad6"
+    },
+    {
+      "path": "test/experimental/d3d12-r1/contract/CMakeLists.txt",
+      "bytes": 2297,
+      "sha256": "7a84eadee78ef8a22bd8141c911960b61217d430e6edfa39ff2e20d5a748e748"
+    },
+    {
+      "path": "test/experimental/d3d12-r1/contract/handoff_candidates.h",
+      "bytes": 7795,
+      "sha256": "f2cb5de462a3cf1c7c5f33bf9b88513eb785ce8c2b1e51c5e07aaad8f613097b"
+    },
+    {
+      "path": "test/experimental/d3d12-r1/contract/handoff_tests.cpp",
+      "bytes": 19836,
+      "sha256": "66ba7c35243b0589604b42f83d3b5d37c93d3bee1eee8ee7bbd1873e96637352"
+    },
+    {
+      "path": "assets/textures/texture_atlas.png",
+      "bytes": 62011,
+      "sha256": "ee41e86af8dfdc70037472b2387b67395d93cf1d807f0fe618025f6f86f9b219"
+    },
+    {
+      "path": "assets/configs/blockFormats.yaml",
+      "bytes": 1153,
+      "sha256": "263fa328d9a44f83cecb9f4b06a6d444dbcebeb75025e48b4a55b3cd956417f9"
+    }
+  ],
+  "visual_review": {
+    "debug_screenshots": "All five actual Debug screenshots inspected; expected layer/colors, updated/empty mesh and restored contents.",
+    "release_screenshots": "All five actual Release screenshot hashes match the individually inspected Debug images and retained original reference."
+  },
+  "transfer_candidates": {
+    "camera": "Actual Camera FOV degrees converted to radians; near 0.1 / far 2000, explicit RH_NO and RH_ZO depth mapping; CPU numeric parity only.",
+    "atlas": "Actual 512x512 RGBA atlas, 64x64 tiles / 64 layers, bottom-row-first layer numbering preserved; top-left layer storage plus one 1-v sampling normalization proposed.",
+    "mesh": "Real VoxelWorld radius 2 / seed 424242 / vegetation false; callback ownership, world-local identity, successful revision bookkeeping, dirty old publication, affected edit/retry/static/release tested. Not full-world GPU acceptance."
+  },
+  "remaining": [
+    "T2 publication stability/Win32 1175, 15-minute manual play, Q06/Q07 budget/sample approval and final user acceptance remain open.",
+    "Public declarations are experimental only: final type/error/frame/state semantics and public/private split are not frozen; no runtime facade implemented.",
+    "Production GL NEAREST/REPEAT + linear storage differs from fixture POINT/CLAMP + sRGB RTV; production texture/UV/color/mip and camera/culling/depth visual parity remain unverified.",
+    "Mixed-layer triangle rule remains unconfirmed; no silent restriction added.",
+    "Production target graph, API linkage/incremental tests, texture in-flight retirement and true device-loss/submission/in-flight wait faults remain for production validation.",
+    "Vulkan and full gameplay/A01-A19 are unimplemented/unaccepted; other GPU validation was not reintroduced; no new package created."
+  ]
+}

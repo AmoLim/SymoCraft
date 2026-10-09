@@ -5,6 +5,9 @@
 /*.vcxproj.user
 /*.suo
 
+# Obsidian per-device workspace and tab layout; keep shared settings visible.
+/docs/.obsidian/workspace*.json
+
 # Out-of-source builds, staged assets, and local test packages.
 /cmake-build-*/
 /build/
@@ -37,3 +40,6 @@ Desktop.ini
 
 # Keep shared CMakePresets.json, vendor/lib dependencies, game assets,
 # and docs/**/evidence files visible. Do not ignore their extensions globally.
+
+# Local incoming benchmark data; keep curated docs evidence versioned.
+/.temporary
