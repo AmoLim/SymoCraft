@@ -25,6 +25,8 @@ tags:
 - 2026-10-05 先按请求确定第三批范围，随后用户明确同意按该范围执行本地提交；仅该批清单获准，不自动纳入后续新增改动。只提交、不编译及禁止 push/merge 的边界继续有效。
 - 第四批已由用户另行确认执行，实际提交见该批记录。2026-10-07 先按请求盘点第五批、更新本规范并获准暂存，随后用户明确批准“commit 暂存”；仅提交该暂存快照及规范执行记录，不自动纳入并行新增改动。当前规范路径为 `docs/spec/git/gitspec.md`，保留用户已做的目录迁移。
 - 2026-10-07 用户再次要求更新本规范以确定第六批范围，并明确将上轮延期的 23 个实验脚手架文件及 11 份新增输入证据纳入候选；范围更新阶段仅编辑本文。用户随后明确“可以 commit 了”，授权按本批确认快照暂存并创建本地提交，不自动纳入执行期间的新改动；第五批授权不作为本批执行依据。
+- 2026-10-09 用户说明 M3-T2 已完成，要求准备 Git 提交，并随后明确选择“先写提交 spec，确认后再提交”。本轮仅盘点和编辑本文，不暂存、不 commit；第七批及其中 T3/T4 的伴随候选须另行确认。历史提交授权不自动延续到本批。
+- 用户随后明确“可以，就按这个来commit”，授权执行第七批列明的 T2 与伴随候选；发现新增 T3 查验归档后，又明确要求等待另一个 agent 归档完毕、补写 spec 并纳入本次提交。以下执行范围包含已完成归档的确认快照，不自动扩展到此后的新增改动。
 
 ## 提交原则
 
@@ -555,6 +557,153 @@ GLFW 基线 CMake 已直接引用 `input-comparison`，SDL 的持续对照也使
 - 提交期间 `docs/milestones/m3-t2/README.md` 和 `platform-contract-candidate.md` 又出现较新内容，包括人工手感确认、P06 决策表及后续安排。这些偏离确认快照的工作区差异不自动纳入本批，保留未提交、不撤销，也不以本聊天 Git 执行授权替代其中的技术方案/实施授权。B6-1 入库的是原确认版本，本批验收描述以该提交为准，不否定后续文档中的新反馈。
 - 前两步完成后，56 个原非个人首页文件中 54 个仍与范围基线一致，仅上述两篇并行文档更新；默认 16 个排除路径保持原样。除本文回填外，本任务没有额外改写源码、测试、证据、用户文档或个人文件。
 - B6-3 只提交本文的范围、授权、真实 SHA、检查和并行更新记录。前两步确认材料已入库，工作区仍保留 16 个默认排除路径及 2 篇较新文档差异，不能称整个工作区干净；最终核对结果由聊天交付补充，不为回填自身 SHA 改写历史。全程仅本地提交，不 push、merge、创建 PR/标签或修改远端/认证。
+
+## 第七批：M3-T2 SDL3 交付与伴随改动盘点
+
+- 范围检查日期：2026-10-09；分支：`feature-refactoring`。
+- 起始提交：`f3d8e142a281da86814c48f3fa091199a4915cd2`，即第六批规范回填提交。
+- 当前阶段：**交付材料已创建三个本地提交，本文执行记录随规范提交收录**。最初仅写 spec；后续“按这个来commit”及归档追加授权分别记录于下文，不把 T2 节点批准当作 Git 执行批准。实际 SHA 与范围见最终执行表，未推送。
+- 继续沿用只提交、不编译的边界；本次没有运行构建、CTest、游戏、实验工具、采集或采样脚本。后续 Git 执行默认只做静态内容与身份检查，不 push、不 merge、不创建 PR/标签、不修改远端、认证、全局 Git 配置或 hooks。
+- 盘点时暂存区为空，存在 138 个实质变更文件：43 个已跟踪修改、95 个未跟踪文件。下文按用途分为 126 个技术候选与 12 个默认排除文件；编辑本文后另增加本规范一个修改路径。候选不是已授权暂存清单。
+
+### 推荐提交意图与确认范围
+
+本批以 T2 交付为主体；同时显式登记同一工作区内的 T3 前置实验、T4 草稿及文档维护，不因它们与 T2 同期出现就自动收录。用户确认时应明确是“仅 T2”还是“一并整理伴随候选”；未确认的组保留本地，不删除、不追加宽泛忽略规则。
+
+| 编号 | 建议提交主题 | 候选范围与依赖 | 当前状态 |
+| --- | --- | --- | --- |
+| B7-1 | `feat(platform): 完成 SDL3 平台迁移并归档 T2 交付` | T2 实现、输入及三模式桥接、清理顺序、依赖与交付边界、真实库测试、已存在的文件发布修订/诊断、预采样工具、T2 文档与证据；基础清单 90 个文件，人工核查模板另有 2 个文件，共享规则按片段归属 | 已批准；落实于实际提交 1 和 3 |
+| B7-2 | `test(renderer): 归档 D3D12 R1 实验与 CPU 转接准备` | 26 个 T3 候选文件；实验依赖 B7-1 的真实 platform/foundation 库、Native 桥接和 S4 契约，不进入生产 Renderer | 已批准并追加归档；落实于实际提交 2 和 3 |
+| B7-3 | `docs(spec): 整理后续架构草案与文档导航` | T4 草稿及剩余 7 个共享/维护文档，共 8 个候选路径；其中共享文件与 B7-1/B7-2 按片段划分，个人首页导航继续排除 | 已批准；落实于实际提交 3，个人片段仍排除 |
+| B7-4 | `docs(git): 记录 T2 交付批次范围与提交结果` | 仅本文，回填实际执行范围、真实 SHA、静态检查、延期项及并行新增改动 | 本执行记录所在提交，SHA 见日志或聊天交付 |
+
+B7-1 不刻意还原 S1→S5 的历史开发提交：当前实现、测试、冻结包与点时证据并非同一个源码身份，按历史步骤拼造中间状态会制造错误依赖。保留完整当前 T2 成果与明确的历史身份，不重建、重绑或覆盖旧候选。文件发布修改在 T2 交付过程中已进入 foundation，相关失败和后续诊断必须随其保存；提交标题和正文不能宣称整个 Fix1 已修复。
+
+以上是意图分组，不强制恰好四个 commit。若发布修订与诊断能在保持测试、说明和身份闭合的前提下独立提交，可另列 `fix(files): 修正共享读者发布并保留失败诊断`，同时明确 Win32 1175 尚未关闭；不能为了拆分重写源码、移除诊断或提交已知缺失依赖的版本。
+
+### B7-1 基础文件清单
+
+以下目录记法只指本轮盘点中已列出的变更文件，不授权递归暂存目录内未来新增内容。执行前须展开为明确文件清单并核对基线。
+
+**生产与构建：15 个文件**
+
+- `cmake/ModuleBoundaries.cmake`、`cmake/ThirdPartyGame.cmake`。
+- `game/app/CMakeLists.txt`、`game/app/src/application.cpp`、`cleanup_sequence.h`、`main.cpp`。
+- `game/modules/platform/CMakeLists.txt`、`include/symocraft/platform/window.h`、`src/window.cpp`、`src/input_state.h`、`src/graphics_bridge/native_bridge.h`、`vulkan_bridge.h`；后五项均以 `game/modules/platform/` 为路径根。
+- `game/modules/foundation/src/files.cpp`、`game/modules/telemetry/src/performance.cpp`、`scripts/verify-runtime.ps1`。
+
+**测试与独立实验输入：46 个文件**
+
+- `test/experimental/platform-sdl3/` 当前 19 个文件：真实生产库三模式、输入、分配失败、应用清理验证及独立执行入口。
+- `test/experimental/platform-handoff/` 当前 3 个文件：`CMakeLists.txt`、`contracts.cpp`、`README.md`。
+- `test/experimental/publication-fix1/` 当前 4 个文件：`collect-runs.ps1`、`mapping_probe.cpp`、`mapping/CMakeLists.txt`、`README.md`；保留暂停时输入，不执行或恢复调查。
+- `test/experimental/q06-sampling/` 当前 4 个文件：`CMakeLists.txt`、`analyze-presample.ps1`、`run-presample.ps1`、`verify-capture.cpp`；源码入库不等于正式 Q06 已通过。
+- `test/experimental/sdl3/README.md`、`verify-probes.ps1`；二者属于旧独立 API 探针维护，不冒充真实生产库套件。
+- `test/integration/CheckNegativeBoundaries.cmake`、`VerifyBuildMatrix.cmake`、`verify-tool-boundaries.cmake`、`inspect-sdl-delivery.cpp`、`verify-sdl-delivery.ps1`、`SDL-DELIVERY-README.md`。
+- `test/benchmark/runner_tests.cpp`、`test/support/benchmark_fixture.cpp`、`test/support/publication_diagnostics.h`。
+- `test/unit/app/CMakeLists.txt`、`startup_options_tests.cpp`、`cleanup_sequence_tests.cpp`；`test/unit/foundation/CMakeLists.txt`、`files_tests.cpp`；`test/unit/telemetry/performance_tests.cpp`。
+
+**直接相关文档与证据：29 个文件**
+
+- `docs/milestones/m3-t2/README.md`、`platform-contract-candidate.md`、`manul-verification.md`、`s3-manual-verification.md`、`s4-platform-handoff.md`、`s5-delivery-status.md`。
+- `docs/milestones/m3-t2/evidence/` 新增 13 个 JSON：`s1-validation.json`、`s2-validation.json`、`s3-validation.json`、`s3-freeze.json`、`s4-validation.json`、`s5-validation.json`、`s5-freeze.json`、`s5-cleanup-validation.json`、`s5-cleanup-validation-002.json`、`s5-retired-verification.json`、`q07-presample-002.json`、`q07-presample-003.json`、`t2-approval-20261009.json`。
+- `docs/spec/M3-T2-SDL3迁移.md`、`docs/spec/M3-T2-Fix1-spec.md`、`docs/issue/issues.md`、`docs/legacy/third-party-inventory.md`。
+- `docs/project/architecture/app/App-运行编排-功能.md`、`Application-类设计.md`；`docs/project/architecture/build/构建与测试边界.md`。
+- `docs/project/architecture/platform/Platform-namespace-API.md`、`Platform-窗口与输入-功能.md`、`Window-类设计.md`。
+
+另有两份直接配套模板：`docs/Obsidian-功能笔记模板/00-使用说明.md` 和 `templates/11-Milestone人工核查.md`。它们建立固定核查入口的写作约定，不授权安装或执行 Obsidian 插件。
+
+### B7-2 与 B7-3 伴随候选
+
+B7-2 的 26 个文件由以下范围组成：
+
+- `test/experimental/d3d12-r1/` 当前 19 个文件，包括独立构建/打包/验证入口、D3D12 probe、HLSL、CPU contract、声明消费者与生产资产/网格/相机转接测试。
+- `docs/milestones/m3-t3/README.md`、`manul-verification.md`、`evidence/r1-preparation-validation.json`、`evidence/r1-handoff-validation.json`。
+- `docs/spec/M3-T3-渲染器重构.md`、`docs/spec/M3-T1-T3-CPU契约清单.md`、`docs/project/architecture/renderer/Renderer namespace API.md`。
+
+B7-3 的 8 个文件由以下范围组成：
+
+- `docs/spec/M3-T4-draft.md`：候选对象接口、物理方案2→3、可独立推进的计算核心及单机组合；保持草稿，不授权 T4 实施。
+- `docs/spec/project-scope.md`：T2 正式批准、当前本机 RTX 5070 Ti 范围及后续中低端性能门槛归 T2 必要规则；T4 与长期计算服务/渲染客户端方向属于伴随规划片段，不写成已实现服务。
+- `docs/README.md`、`docs/DOCUMENTATION_MAP.md`、`docs/spec/md-organize/mdspec.md`、`docs/spec/md-organize/tag-inventory.json`：Issues、固定人工核查、T2/T3/T4 导航与归属；个人首页相关片段继续排除。
+- `docs/milestones/m3-t0/README.md`、`docs/milestones/m3-t1/README.md`：历史包退役及原始输入/录像入口维护，不改历史验收和 SHA，不重新删除或移动输出。
+
+### 共享片段与跨组引用闭合
+
+- `project-scope.md`、总导航与归属文件不能整文件盲目暂存：T2 必要规则、T3/T4 规划、个人首页引用分别处理；tag inventory 用结构化 JSON 审查，不通过字符串替换误删其他记录。
+- 当前 T2 人工入口及 S5 文档已经引用未跟踪的 `docs/milestones/m3-t3/README.md` / `manul-verification.md`；T3 报告又引用真实平台交接和实验源码。因此，**上述分组不是可以不经处理直接顺序暂存全文件的方案**，也不能只检查当前工作区链接就声称每个 commit 的链接闭合。
+- 若用户一并批准 B7-2/B7-3，先提交闭合的 T2 实现及直接说明，再提交依赖它的 T3 实验；相互引用的阶段报告、固定入口和共享导航安排在相关输入均已入库的闭合文档提交。对不得拆分的报告/证据保持完整，记录它们随闭合文档提交的原因，不制造未来文件依赖。
+- 若用户仅批准 T2，T3 实验与 T4 规划不自动入库。已有共享文档只暂存 T2 必要且依赖闭合的片段；含未批准新目标的新文档/不可拆分交付记录保留待处理，先列明具体路径并请用户确认依赖材料或延期，不擅自删链接、删结论、重写人工填写或偷偷扩大范围。
+- `out/` 历史日志、冻结说明、ZIP 和程序链接是本地证据入口，不承诺 clone 后存在；与源码仓库内缺失文档分开记录。既有历史入口问题在 Issues 中保留，不通过本轮 Git 整理自动关闭 M3-I3。
+- 确认具体范围后才能生成最终“文件 + 片段”执行清单和实际提交次序；无法闭合的组不进入提交。优先调整提交归属，不修改用户当前最终成果来迎合预设提交数量。
+
+### T2 批准、历史身份与遗留风险
+
+- 2026-10-09 用户正式批准 T2 节点，依据 `t2-approval-20261009.json` 与 T2 README；不由 Git commit、冻结包或测试摘要自动推定节点批准，也不把该决定扩成 R1 v1 冻结、R2 授权或整个 T3 通过。
+- FB01 方案2为 P95/P99 的 10 / 12 ms 上限；MB01 方案2为 working set ≤ 704 MiB、private bytes ≤ 1408 MiB。它们是已确认预算，不是本次提交任务重新测得的成绩。
+- 002 GLFW 预采样已废弃，003 为有效旧 GLFW 探索记录；两份均保留原始状态。正式同源 GLFW/SDL Q06 未完成，首次可操作时间预算未定，不从短协议诊断或旧包反推通过。
+- `ReplaceFileW` 的兼容共享读者窄修订与间歇 Win32 1175 分开记账；后者未证明关闭，Fix1 仍暂停，M3-I1/M3-I2 不自动关闭。保留生产诊断、失败现场索引及 runner 拒绝缺终态/非零退出的用例，不执行采集器或管理员追踪。
+- S5 完整 Release 曾为 64/64；Debug 为 62/63 启用通过且 `foundation.files` 失败，原禁用 `world.allocations` 不算通过。后续 Fix1 完整测试也存在失败；38/38 定向清理回归不能替代完整 CTest 全绿。
+- S3/S5 冻结身份、后续清理源码及诊断版本各自保留点时含义。不能把当前提交 SHA 写入旧来源字段、把历史包宣称为由本批重新构建，或因节点批准重写旧 `not approved` / 失败状态。
+- 现有人工勾选、`passs`、T2-M08 的“不重要”等用户原文保留；勾选不补造缺失的运行条件、时长、GPU/包身份或数值。15 分钟完整玩法等材料缺口继续明确。
+- 当前 M3 功能/兼容范围为本机 RTX 5070 Ti；Y9000P / GTX 1650 整机性能仍须在下一玩法功能开发前验证，不因本机节点批准标通过或免验。S5 核显专用验证已撤销，本轮不恢复入口或重复清理。
+- T3 R1 的双配置 GPU/CPU 转接属于既有实验材料，v1 仍未冻结、R2 未开始；Vulkan 平台 surface 能力不是 Vulkan 游戏后端交付，生产 OpenGL 不在本轮退役。
+
+### 默认排除与 Git 配置
+
+- 保留未跟踪的 `docs/.obsidian/community-plugins.json`、`graph.json`，以及 `plugins/at-link/` 的 3 个文件、`plugins/cfr-mermaid-size/` 的 3 个文件、`plugins/table-checkbox-renderer/` 的 2 个文件，共 10 个 Obsidian 配置/插件文件；不读取插件正文、不运行或安装插件。
+- `docs/development-journal/project-home.md` 与 `docs/source-migration.tsv.md` 继续排除。个人首页只登记路径，不读取正文或计算内容哈希；不把导航片段作为绕过排除规则的理由。
+- 上述 12 个文件不删、不提交；原导航中相关私人首页片段也保留工作区未提交。其他新增内容须重新判定，不能沿用本批批准自动收录。
+- 完整 CSV、exe/DLL/lib/PDB、ZIP、构建缓存、安装副本与诊断输出留在已忽略的 `out/` / `.temporary/`，小型精选 JSON 和实验源码保持可见；不忽略整个 experimental、evidence 或 `.obsidian`。
+- `.gitignore` 与 `.gitattributes` 本轮没有差异，不新增 Git 配置提交。现有 SDL 源发行包字节保护保留，换行提示不作为全仓库归一化的理由。
+
+### 本次静态检查与执行前要求
+
+- 盘点的 126 个非个人候选文件共 2,400,456 字节；全部记录盘点时 SHA256，作为本次编辑后比对基线，不是构建输入轨迹或可执行程序同源证明。其中 13 份新增 T2 JSON 共 867,200 字节，2 份 T3 JSON 共 38,607 字节，均静态解析成功；未读取个人首页正文或插件正文。
+- 原有已跟踪实质差异的空白检查未报告空白错误；这不覆盖全部未跟踪输入，也不代表运行验证或全部链接有效。Git 的 LF/CRLF 提示单列，不改变现有换行策略。
+- 本阶段只编辑本文，不修正代码、共享文档、历史链接、Issues、测试或证据，不读取远端实时状态。检查后的并行变更须保留，实际执行不能依赖今天的文件数量。
+- 获准执行前重新核对分支、HEAD、空暂存区、变更清单、文件体积/身份与新增路径；明确获准的伴随组及每个共享片段，展开目录清单。不使用 `git add .` / `git add -A` 全量暂存。
+- 对实际候选和暂存树逐组检查：源码/构建依赖、Markdown 仓库内文件链接与必要新增锚点、JSON、敏感信息和个人绝对路径、完整暂存差异与空白。历史输出入口的缺失单列，不静默篡改原始证据；敏感内容未经检查不得声称可公开分享。
+- 后续只提交任务不配置、构建、运行测试或制作新包；提交正文写“本次构建/测试未运行，历史结果与遗留限制见阶段记录”，不能写成本次全绿。
+- 提交完成后逐项复核确认快照与提交树、剩余片段/排除项、实际 SHA、分支和远端操作状态。本文自身 SHA 由后续日志或聊天交付，不为回填自身 SHA 反复 amend。
+
+### 当前执行记录
+
+- 2026-10-09：用户确认先写 spec，本阶段仅进行只读盘点与本文更新。B7-1 至 B7-4 均未执行；实际提交列保持空缺，不标记已暂存或已交付。
+- 本文编辑后空白检查通过；126 个原非个人候选中，125 个 SHA256 与盘点基线一致。`docs/milestones/m3-t3/manul-verification.md` 在执行期间发生并行内容更新，保留最新工作区版本、不撤销、不自动当作已确认快照；后续须重新核对该文件，原字节数统计保持盘点时含义。
+- 复核时新增修改路径仅本文，无原路径丢失或新增未跟踪路径；共 139 个实质变更文件（44 个已跟踪修改、95 个未跟踪），暂存区仍为空，分支和 HEAD 未变。没有 commit、push 或 merge；本任务未修改其他候选正文。后续只有用户明确批准具体范围后，才开始暂存和本地提交。
+
+### 执行授权与归档追加范围
+
+- 用户已批准按第七批执行，包括单列的 T3 R1 与 T4/导航伴随候选，但不授权新的功能实施、R1 冻结或 R2 开发。仍只做本地提交，不编译、不测试、不推送、不合并。
+- 执行前发现 T3 核查页与 README 并行更新，以及 `docs/milestones/m3-t3/evidence/r1/review-20261009-001/` 新增归档。用户明确要求等待另一 agent 完成，再更新本 spec 并纳入；等待期间没有暂存或提交。
+- 已等待聊天“T3 Renderer后端替换”本轮完成，其交付为只读 R1 查验快照。追加范围严格为该目录完成时的 116 个文件：114 个原样副本、`README.md`、`archive-manifest.json`；另接受 T3 README 和人工核查页在本轮完成后的正文。后续新增归档或改动不自动纳入。
+- 114 个副本共 783,092 字节，全部重新逐项核对清单字节数、归档 SHA256 与原 `out/m3-t3` 文件 SHA256，一致；整个追加目录含说明与清单共 822,820 字节。不含 exe/DLL/lib/PDB/ZIP、shader 或构建缓存，`package/` 仅为历史包的身份/查验摘录，不是可运行包或新测试。
+- 为使 Git 入库后仍可按清单验证原始副本，追加一个必要配置片段：`.gitattributes` 仅对 `/docs/milestones/m3-t3/evidence/r1/review-20261009-001/**` 设置 `-text`，防止文本换行转换破坏记录的原始 SHA256。原 SDL 规则保留，不做全仓库归一化。这是追加归档引出的定向字节保护，不追溯改写此前“配置没有差异”的盘点事实。
+- 完成后确认快照为原 126 个技术候选 + 116 个新增归档 + `.gitattributes`，共 243 个路径；本文另算，默认 12 个个人/未纳管文件继续排除。全部保存内容基线，44 份 JSON 静态解析成功；常见令牌/私钥模式未命中，不等于完整秘密审计。历史个人工具/工程绝对路径保留，不宣称跨机器外部地址可移植。
+- 四份共享文件采用暂存片段，工作区正文不改：README 去掉个人首页链接；DOCUMENTATION_MAP/mdspec 不收录个人首页目录、规则及归属片段；tag inventory 用 JSON 解析移除该首页条目，并从 managed/defaultView/meta 分别减去 1。其他历史统计与验证字段不重算。
+
+实际顺序调整为下表，落实上文的跨组引用规则。T2/T3 新增报告、实验 README、冻结身份和共享导航存在交叉引用，统一在输入实现已入库后的文档提交中闭合；原始报告/证据不截断、不改写，代码提交不依赖后续文档构建。这是对确认意图的归属调整，不制造 S1–S5 历史版本。
+
+| 顺序 | 实际提交主题 | 明确范围 | 执行状态 |
+| --- | --- | --- | --- |
+| 1 | `feat(platform): 完成 SDL3 平台迁移与真实库回归输入` | 原 B7-1 的 15 个生产/构建文件及 41 个非 Markdown 测试输入，共 56 个文件；文件发布修订/诊断保持当前实现，遗留风险在正文说明 | 已提交 `e58e9e4` |
+| 2 | `test(renderer): 归档 D3D12 R1 与 CPU 转接实验输入` | 原 B7-2 的 17 个非 Markdown 实验输入；只依赖已入库生产库，不修改生产 Renderer | 已提交 `6199cfc` |
+| 3 | `docs(spec): 归档 T2 交付与 R1 查验并同步后续规划` | 剩余 53 个原候选文档/证据、116 个追加归档及 `.gitattributes`，共 170 个路径；4 份共享文件仅收录批准片段 | 已提交 `0745c54` |
+| 4 | `docs(git): 记录 T2 交付批次范围与提交结果` | 仅本文，记录授权、归档范围、实际 SHA、静态检查和剩余项 | 本记录所在提交，SHA 见日志或聊天交付 |
+
+执行前各阶段再核对暂存差异、完整路径与内容身份；原日志的空白及历史/外部链接问题单列保留，不为了全绿修订证据。提交后填入真实结果，不通过 amend 回填自身 SHA。
+
+### 提交检查与剩余项
+
+- 实际提交 1 / 2 的 56 / 17 个暂存路径无遗漏或额外文件，经 Git 属性处理后的内容身份全部与确认快照一致，空白检查通过。实际提交 3 精确收录 170 个路径，4 份共享文件使用批准片段，其余逐文件身份一致。
+- 文档暂存树静态检查覆盖 38 篇 Markdown 的 944 处本地链接，仓库内文件/目录及所检查的标题锚点未发现缺失；44 份 JSON 解析成功。没有进行联网链接、Obsidian 双链/UI 或全部 YAML/Mermaid 检验，不能称为完整文档运行验收。
+- 89 处 `out/` 历史入口中，`test/experimental/platform-sdl3/README.md` 所引 `out/m3-t2/s3/inspect-protocol.exe` 和 `inspect-protocol.cpp` 当前不存在；按既有历史入口问题保留，不新建文件、改写原报告或关闭 M3-I3。3 处 `file:///` 本机源码地址保留，不保证换机有效。
+- 116 个新增归档的暂存 blob 与原始字节快照全部一致；114 个副本亦与归档清单和原件匹配。默认空白检查在 65 个归档文本上报告 5,057 处问题，主要为保留 CRLF；仅本次命令启用 `cr-at-eol` 后剩余 12 份原始 stdout 日志的 36 处空白。它们作为原文保留，未改 Git 全局设置，其他源码/说明未发现空白错误。
+- 提交期间 T3 人工核查页又有并行 checkbox 表格格式修改。`0745c54` 保留完成归档后、暂存时的确认版本；更晚工作区差异不自动追加，不撤销、不覆盖，也不据此冻结 v1 或代填审核结果。
+- 默认 12 个未跟踪个人/未纳管文件及 4 份共享文档内的个人首页片段继续留在本地；T3 核查页较晚差异同样未提交。不能称整个工作区干净；本规范提交不额外收录这些内容。
+- 前三个提交完成后，243 个路径的 HEAD blob 全部匹配确认快照及批准的共享片段，116 份归档原字节再次核对一致。工作区 242 个路径仍与执行快照的原字节一致，仅 T3 人工页出现上述较晚修改；本文、定向属性规则之外，没有由本任务额外改写候选文件。规范提交前暂存区为空，最终只暂存本文；剩余差异为 4 份个人导航片段、T3 人工页及 12 个未跟踪文件。
+- 全程未配置/构建、未运行 CTest/游戏/GPU/采集/采样、未重建或发布包；未 push、merge、创建 PR/标签、改写历史或修改远端/认证。仅增加归档路径的必要字节保护和本文记录，其余工作区成果不改写。
 
 ## 维护方式
 
