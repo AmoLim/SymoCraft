@@ -89,10 +89,10 @@ tags:
 
 ## 交付与剩余项
 
-候选入口：[Release 游戏](../../../out/m3-t1/install/full-release/SymoCraft.exe)，人工固定场景参数 `--scene regression --seed 424242 --checkpoint four-chunk`；[ZIP](../../../out/m3-t1/Symocraft-M3-T1-windows-x64.zip)共 17,283,095 字节，20 个安装文件逐项验证、六个必需资源与源码一致，不依赖 PowerShell。不包含用户后来放入安装文件夹的录像/截图，不是已获节点验收的版本。
+候选入口：[Release 游戏 (retired)](../../../out/maintenance/archive-20261008/deleted-packages.json)，人工固定场景参数 `--scene regression --seed 424242 --checkpoint four-chunk`；[ZIP (retired)](../../../out/maintenance/archive-20261008/deleted-packages.json)共 17,283,095 字节，20 个安装文件逐项验证、六个必需资源与源码一致，不依赖 PowerShell。不包含用户后来放入安装文件夹的录像/截图，不是已获节点验收的版本。
 
 - Release SHA-256：`76a695decaf99405483d25d722535bef6d489914002743372d0b1e95a17b5db2`。
-- ZIP SHA-256：`0fc16d39c32b6c209ec9f29174178603899a7591ae112cd339b8eec7abaf42f7`；其余身份见[摘要](evidence/package-identity.json)。完整 [1,912 文件输入清单](../../../out/m3-t1/build-inputs.json)是保守仓库范围，不是编译器读取轨迹。
+- ZIP SHA-256：`0fc16d39c32b6c209ec9f29174178603899a7591ae112cd339b8eec7abaf42f7`；其余身份见[摘要](evidence/package-identity.json)。完整 [1,912 文件输入清单](../../../out/m3-t1/archive/delivery/platform/build-inputs.json)是保守仓库范围，不是编译器读取轨迹。
 - EXE/DLL/ZIP、构建、原始 CSV 和逐块成本数据只放 `out`；docs 留选定日志、小型摘要和两张截图。用户 journal/Obsidian 设置未覆盖。
 - 最终文档归属/YAML/本轮导航静态校验通过，[报告](evidence/docs-audit-validation.json)明确函数覆盖为人工源码审阅，不等同于程序/UI 验证；用户空白 `docs/source-migration.tsv.md` 保持原样。
 
@@ -104,7 +104,7 @@ tags:
 
 | 问题 | 现象与证据 | 处理边界 |
 | --- | --- | --- |
-| T1-M01 视角突变 | 用户原地、不按移动键，仅水平缓慢转动鼠标可稳定复现偶发跳动，并非总在同一朝向；[录像](../../../out/m3-t1/install/full-release/promblem-视角突变.mp4)11.71 秒，当前包身份见上文 | 只读对照确认相机/角度/同步/鼠标五文件与 T0 快照相同，不能据此排除外围影响或认定根因。按用户后续指示仅记录，归后续输入/相机任务；未构建的诊断开关已撤回，未改变灵敏度或算法 |
+| T1-M01 视角突变 | 用户原地、不按移动键，仅水平缓慢转动鼠标可稳定复现偶发跳动，并非总在同一朝向；[录像 (retired)](../../../out/maintenance/archive-20261008/deleted-packages.json)11.71 秒，当前包身份见上文 | 只读对照确认相机/角度/同步/鼠标五文件与 T0 快照相同，不能据此排除外围影响或认定根因。按用户后续指示仅记录，归后续输入/相机任务；未构建的诊断开关已撤回，未改变灵敏度或算法 |
 | T1-M02 树叶剔除 | [用户截图](evidence/leaves-user-report.png)；缺少原运行 seed/位置/观察方向，尚未严格复现或确认是透明混合、面提取还是剔除问题 | 按用户要求本轮仅登记，不更改算法、shader 或透明规则；后续 renderer 专项处理前需补复现条件 |
 
 两项素材及五文件旧新哈希见[身份记录](evidence/known-issues-identity.json)。录像展示普通地形，原 seed/位置未知，不能仅凭它推定固定夹具用例已经执行；原录像保留在 out，未放入 docs 或 ZIP。

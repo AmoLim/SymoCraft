@@ -1,0 +1,34 @@
+﻿{
+    "stage":  "M3-T2-S5",
+    "frozen_utc":  "2026-10-08T06:39:03.6142918Z",
+    "configuration":  "Release",
+    "original_install":  "out/m3-t2/s5/install/main-release-001",
+    "verification_candidate":  "out/m3-t2/s5/install/candidate-release-001",
+    "frozen_directory":  "out/m3-t2/s5/frozen/s5-release-001",
+    "archive":  {
+                    "path":  "out/m3-t2/s5/frozen/s5-release-001.zip",
+                    "sha256":  "b676a8ab472c97c8e93cf910e91076150bb186ddf6bc076b5cbb9f87ff193211",
+                    "bytes":  3189126
+                },
+    "identity_sha256":  "f38e2e030c1f770677e456e54ede89d2b9e35b12987d66d80e1c3517b29236d0",
+    "package_identity_sha256":  "9eedbfc6998f146f9239e95abfc2f5e986e4d3e33da634f867e812b93c46fb92",
+    "payload_files":  24,
+    "frozen_files":  43,
+    "zip_extraction_verified":  true,
+    "payload_manifest_verified":  true,
+    "current_production_inputs_match":  true,
+    "original_s3_and_glfw_archives_unchanged":  true,
+    "frozen_path_new_runtime_test":  false,
+    "prior_runtime_evidence":  [
+                                   "out/m3-t2/s5/delivery-release-002/summary.json",
+                                   "out/m3-t2/s5/runtime-probe-release-001/summary.json",
+                                   "out/m3-t2/s5/runtime-input-release-001/summary.json",
+                                   "out/m3-t2/s5/protocol-diagnostic-release-001/summary.json"
+                               ],
+    "publication_risk_open":  true,
+    "amd_integrated_gpu_validation":  "not_performed",
+    "q06_q07_acceptance":  "pending",
+    "y9000p_validation":  "deferred, future central performance gate retained",
+    "s5_complete":  false,
+    "t2_approved":  false
+}

@@ -23,6 +23,8 @@ tags:
 docs/
 ├── README.md                    # 分类导航
 ├── DOCUMENTATION_MAP.md         # 面向维护者与 agent 的文档归属参考
+├── issue/                      # Agent 未关闭问题、人工审核与证据索引
+│   └── issues.md
 ├── spec/                        # 项目范围、设计约定与规范子模块
 │   ├── git/
 │   │   └── gitspec.md           # 版本控制规范子模块
@@ -110,6 +112,8 @@ Benchmark 是测试的一部分，不是所有测试的上级。通用玩法、�
 - 详细阶段结果与验收状态由对应里程碑报告承载，导航保留入口，不重复维护多份结果。
 - 为 legacy 架构和 Benchmark 测试补充必要的简短目录说明或索引，避免为每层目录机械增加 README。
 
+2026-10-08 新增约定：每个新建或继续实施的 milestone 在自己目录维护固定 `manul-verification.md`，由阶段 README 链接；checkbox 表格记录具体人工操作/审核材料、预期和证据，随阶段推进原地更新。维护与状态规则统一见 [项目人工核查约定](../project-scope.md#milestone-人工核查入口)，模板见 [11-Milestone 人工核查](../../Obsidian-功能笔记模板/templates/11-Milestone人工核查.md)。不改写已完成阶段的历史批准，不因文档已建而推定人工通过；跨节点同名入口必须带目录引用。
+
 ## 引用与证据保护
 
 - 检查仓库内指向迁移文档的 Markdown 链接、Obsidian 双链和作为导航使用的文字路径引用。
@@ -194,7 +198,7 @@ Obsidian 支持 `tags` 列表和斜杠嵌套标签，搜索父标签会包含子
 
 | 文档或目录 | 唯一板块 tag | 建议颜色 | 归属边界 |
 | --- | --- | --- | --- |
-| `README.md`、`DOCUMENTATION_MAP.md` | `area/meta` | 灰色 `#7F8C8D` | 全局文档导航与结构参考，不包含 spec 子模块 |
+| `README.md`、`DOCUMENTATION_MAP.md`、`issue/` | `area/meta` | 灰色 `#7F8C8D` | 全局导航、结构参考及 Agent 未关闭问题索引，不包含 spec 子模块 |
 | `spec/`，含 `git/` 和 `md-organize/` | `area/spec` | 紫色 `#9467BD` | 范围、设计、任务约定及规范子模块，不因讨论某模块而归入实现板块 |
 | `project/build/` | `area/build` | 橙色 `#E68632` | 构建、CLion、CMake 与相关修复 |
 | `project/architecture/` | `area/architecture` | 青色 `#2CA6A4`，待配置 | 实际模块功能、类设计及模块内构建测试边界；不替代 spec 或阶段结果 |

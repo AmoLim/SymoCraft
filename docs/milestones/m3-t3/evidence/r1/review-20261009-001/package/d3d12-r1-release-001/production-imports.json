@@ -1,0 +1,24 @@
+{
+  "configuration": "Release",
+  "production_build": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/platform-release-001",
+  "imports": [
+    {"target": "platform", "archive": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/platform-release-001/game/modules/platform/symocraft_platform.lib", "sha256": "be2c6462b66bc1f68ee269712af64df5a79cc1855d1cc581ce4dd81b6840f423"},
+    {"target": "foundation", "archive": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/platform-release-001/game/modules/foundation/symocraft_foundation.lib", "sha256": "9dbb9a4124878dfc5c748261e03c5dd93098c2449422d5faeb48bb9a78619d12"},
+    {"target": "sdl", "archive": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/platform-release-001/vendor/sdl3/SDL3-static.lib", "sha256": "af9f6f2528218a03626aa8bbedc93a050f72e8ac7779a921fe256ffa13b52ff2"}
+  ],
+  "platform_sources": [
+    {"path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/include/symocraft/platform/key_snapshot.h", "sha256": "24e66cd938586be44d2cfc2c270f353ac91e823c9edb5638b12c8cf43c87d991"},
+    {"path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/include/symocraft/platform/process_memory.h", "sha256": "0c6f6f2b8f56aa6f04f7cb0022a44fba9922d63d8168d076fcc3774d888862da"},
+    {"path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/include/symocraft/platform/window.h", "sha256": "01942fafa229e5cbc97653588deac41aac728c79a144cd278f6a0256137f1ed3"},
+    {"path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/src/graphics_bridge/graphics_bridge.h", "sha256": "4ed1c1d611f7b5b6178537a2c6fd18577625f022354b47c8a5d425eed866b150"},
+    {"path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/src/graphics_bridge/native_bridge.h", "sha256": "6048a5c878e97bf709cf630e0a0aeca902ad9c1c87236cbcdc435fe54c35bbaa"},
+    {"path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/src/graphics_bridge/vulkan_bridge.h", "sha256": "254216f5371597caa6263f40d2c5ef2272ea698f76b83247744134153b444f72"},
+    {"path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/src/input_state.h", "sha256": "445fe1ea7be1de4ba32cae97ed7a9aef8395752fbbd07d5e1e240b91ac13d3b1"},
+    {"path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/src/process_memory.cpp", "sha256": "c5378f6f64aa75dd12834335fb028d3c9231d75dd8d8c0259d6be0e3f83a559e"},
+    {"path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/src/window.cpp", "sha256": "7d5cd113551f34bafd47a080a938edd8345f09e22bfd4f7e15d0f00efa6a832f"}
+  ],
+  "production_cache_sha256": "167bad2a2c69236385b5b7f3fb868552bc1667dab20e36985e150a682de86fa6",
+  "dxc": "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64/dxc.exe",
+  "dxc_sha256": "7b088f6bc2c3608f6318ab08d21f6021b50ebd12cac293e607d89537fceb134d",
+  "shader_model": "6.0"
+}

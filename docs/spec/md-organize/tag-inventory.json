@@ -1,21 +1,21 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-10-07",
+  "updated": "2026-10-08",
   "vaultRoot": "docs",
   "spec": "spec/md-organize/mdspec.md",
   "uiVerification": "pending-native-pipe-unavailable",
   "counts": {
-    "managed": 114,
-    "defaultView": 105,
+    "managed": 118,
+    "defaultView": 107,
     "areas": {
-      "meta": 2,
+      "meta": 3,
       "templates": 7,
       "legacy": 10,
-      "milestones": 13,
+      "milestones": 15,
       "architecture": 50,
       "benchmark": 17,
       "build": 3,
-      "spec": 11,
+      "spec": 12,
       "testing": 1
     }
   },
@@ -82,6 +82,13 @@
     },
     {
       "path": "README.md",
+      "area": "area/meta",
+      "tags": [
+        "area/meta"
+      ]
+    },
+    {
+      "path": "issue/issues.md",
       "area": "area/meta",
       "tags": [
         "area/meta"
@@ -255,7 +262,21 @@
       ]
     },
     {
+      "path": "milestones/m3-t2/manul-verification.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
       "path": "milestones/m3-t2/platform-contract-candidate.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
+      "path": "milestones/m3-t3/manul-verification.md",
       "area": "area/milestones",
       "tags": [
         "area/milestones"
@@ -799,6 +820,13 @@
       ]
     },
     {
+      "path": "spec/M3-T2-Fix1-spec.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
       "path": "spec/git/gitspec.md",
       "area": "area/spec",
       "tags": [
@@ -891,6 +919,10 @@
       "reason": "reusable-template"
     },
     {
+      "path": "Obsidian-功能笔记模板/templates/11-Milestone人工核查.md",
+      "reason": "reusable-template"
+    },
+    {
       "path": "milestones/m2-a/evidence/release-input-retest/probe-note.md",
       "reason": "immutable-evidence"
     }
@@ -946,6 +978,13 @@
     "uiVerification": "not-run",
     "runtimeTests": "not-run",
     "graphConfigurationTouched": false
+  },
+  "milestoneManualVerificationUpdate": {
+    "date": "2026-10-08",
+    "scope": "Registered only two new fixed manul-verification entries and template 11; existing entries and historical verification preserved, not a full vault rescan.",
+    "graphConfigurationTouched": false,
+    "uiVerification": "not-run",
+    "runtimeVerification": "not-run"
   },
   "m3T1DocumentationUpdate": {
     "date": "2026-10-06",

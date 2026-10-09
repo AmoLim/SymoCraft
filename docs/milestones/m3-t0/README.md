@@ -106,8 +106,8 @@ tags:
 
 ### 可运行交付
 
-- 游戏：[SymoCraft.exe](../../../out/m3-t0/install/full-release/SymoCraft.exe)，用户复查和自动 Release 运行均使用这份安装文件。
-- 压缩包：[SymoCraft-M3-T0-windows-x64.zip](../../../out/m3-t0/SymoCraft-M3-T0-windows-x64.zip)。包含游戏、原生 benchmark、app-local VC 运行库、资源、说明及许可，共 21 个文件；不含 PowerShell 脚本、CSV、测试 fixture 或编译中间产物。
+- 游戏：[SymoCraft.exe (retired)](../../../out/maintenance/archive-20261008/deleted-packages.json)，用户复查和自动 Release 运行均使用这份安装文件。
+- 压缩包：[SymoCraft-M3-T0-windows-x64.zip (retired)](../../../out/maintenance/archive-20261008/deleted-packages.json)。包含游戏、原生 benchmark、app-local VC 运行库、资源、说明及许可，共 21 个文件；不含 PowerShell 脚本、CSV、测试 fixture 或编译中间产物。
 - 游戏 SHA-256：`93c970a955cde39b9a5fa81ccc494d0d2b8a33d336547c72a226c0be7ac81eb4`。
 - ZIP SHA-256：`631efa914a0ac7cdfafedffa0d21f43917ed0f5d55abf80cd5b3aa0dfa10b8fe`；ZIP 内游戏哈希与已验证安装文件相同，见 [交付核验](evidence/package-verification.json)。
 

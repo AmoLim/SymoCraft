@@ -4,7 +4,7 @@ status: 已验证（T1适配），已知问题延期
 project: Symocraft
 module: app
 created: 2026-10-05
-updated: 2026-10-06
+updated: 2026-10-08
 tags:
   - area/architecture
 ---
@@ -32,7 +32,7 @@ flowchart TD
     edit --> pack["VisitMeshes 限时借用 → renderer 同步复制 → Render/Present"]
     pack --> sample["可选 CPU/GPU/进程样本 → telemetry"]
     sample -->|下一帧| input
-    sample -->|结束| close["局部 query/world 销毁 → Free：renderer → Camera/Registry → Window/GLFW"]
+    sample -->|结束| close["局部 query/world 销毁 → Free：renderer → Camera/Registry → Window/context → SDL video"]
     close --> export["main：可选 Export → 退出码"]
 ```
 

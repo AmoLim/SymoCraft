@@ -79,7 +79,7 @@ namespace 没有 C++ private。这里的“私有”指 translation-unit 内部�
 
 app 创建 Window → AttachContext → Init/LoadTextureAtlas → 每帧 AppendMesh/SetSelection → Render → Present。性能采样时 app 单独负责 GpuTimer 的 BeginFrame/EndFrame/Poll。
 
-退出时 app 先结束采样并释放 GpuTimer，再释放 world 与 Renderer 资源，最后销毁 Camera/Registry、Window/上下文及 GLFW。Init 失败仍由 app 调用 Free 清理部分资源；同进程多次重建、跨上下文使用和并行调用不属于已保证能力。
+退出时 app 先结束采样并释放 GpuTimer，再释放 world 与 Renderer 资源，最后销毁 Camera/Registry、Window/上下文并结束本模块持有的 SDL video 责任。Init 失败仍由 app 调用 Free 分段清理部分资源；同进程多次重建、跨上下文使用和并行调用不属于已保证能力。当前仍由 app 经 GL 桥接 Present；未来 T3 收入 Renderer 的统一呈现职责另见 [T2-S4 交接](../../../milestones/m3-t2/s4-platform-handoff.md)，不将设计交接视作生产现代后端已经接管。
 
 [GpuTimer 全部真实 API](GpuTimer%20Class.md#生命周期与接口)单独维护，不再写不存在的统一 Begin/End。
 

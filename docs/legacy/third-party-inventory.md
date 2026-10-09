@@ -7,14 +7,82 @@ tags:
 
 ## 当前报告范围与结论
 
-- 更新日期：2026-10-06；本轮仅同步 M3-T1 的 world 依赖与 YAML 本地修补，其余静态审计仍为 2026-10-05 范围。以工作区工程文件为准，不仅依据 Git 提交。
+- 更新日期：2026-10-08；保留 M3-T2 S5 的活动 GLFW 配置、授权与安装许可撤除，以及 S1/S2 的 SDL3 生产窗口、私有桥接、静态部署记录和 M3-T1 的 world/YAML 结论。本次重新核对活动构建声明、库引用、独立实验与退役决策，新增下方淘汰候选名单；没有重新核验上游来源、版本或二进制。以工作区工程文件为准，不仅依据 Git 提交。
 - 核对范围：顶层、`game/`、`tools/benchmark/`、`test/` 的 CMake 配置，`cmake/ThirdParty*.cmake`、`cmake/ModuleBoundaries.cmake`，当前参与构建的源码、`vendor/` 本地材料及 `scripts/benchmark.ps1`。
-- 本次是源码与构建声明的静态核对，没有重新编译、启动游戏、检查当前可执行文件导入表或联网核验上游版本。文中的版本是本地文件自述，不等于已验证原始发行包、提交或供应链来源。
-- 当前使用的第三方项目为 **GLFW、GLM、glad、stb、FastNoiseLite、robin_hood、yaml-cpp**；stb 分别以图片解码和图片写出两个组件接入。Khronos 平台头是 glad 的配套传递依赖。
-- **irrKlang、`lib/glfw`、`lib/yaml-cpp` 下的 Google Test/Mock 二进制以及 `vendor/stb-master` 不参与当前生产构建**。它们在仓库中存在，不代表游戏需要它们。
+- 原静态盘点不代表所有库的上游来源或运行验证。SDL3 的官方发行身份及阶段实际构建/运行结果另见 [T2 记录](../milestones/m3-t2/README.md)；不将该增量推广为其它库已重审、完整硬件输入或 T2 已验收。Y9000P 验证延期，既有冻结包不因本次安装规则改变而更新。
+- 当前游戏使用的第三方项目为 **SDL3、GLM、glad、stb、FastNoiseLite、robin_hood、yaml-cpp**；S2 撤除 platform 的 GLFW 链接，S5 进一步撤除 `EXCLUDE_FROM_ALL` 配置、platform 外部授权和新安装包 GLFW 许可规则。stb 分别以图片解码和图片写出两个组件接入。Khronos 平台头是 glad 的配套传递依赖。
+- **irrKlang、`vendor/glfw`、`lib/glfw`、`lib/yaml-cpp` 下的 Google Test/Mock 二进制以及 `vendor/stb-master` 不参与当前生产构建**。它们在仓库中存在，不代表游戏需要它们。
 - Windows SDK、MSVC/UCRT、显卡 OpenGL 驱动属于系统/工具链依赖；系统 `tar.exe` 和可选 `nvidia-smi` 属于外部程序依赖，与随仓库编译的第三方库分开记录。
 
 本文所说“需要”，指当前实现用该库完成什么工作，以及移除后需要补上的能力，并不表示该功能只能由此库实现。性能方面的选型解释是用途分析，不是本次已经测得的性能收益。原 M0、M1、M2-T3 审计材料保留在文末历史附录，不能用其中旧路径或旧构建关系解释当前工程。
+
+## 第三方库依赖淘汰候选名单
+
+### 核对口径与优先级
+
+本名单依据 2026-10-08 当前工作区的源码、CMake、测试/实验和已有阶段决策，属于**候选评估，不是删除或替换授权**。本次只修改本文，没有移除库、改写实现、执行构建或复跑阶段验收。未使用判断针对活动构建；文档、边界负向测试、停用源码及历史实验出现库名，不等于生产仍在使用，也不能反过来把历史材料当作没有保留价值。
+
+淘汰分两种：**活动依赖退出**是停止编译、包含、链接和部署；**仓库材料清理**是删除或归档原始文件。两者的收益不同：清理已经停用的库主要减少材料混淆和仓库维护负担，不会再次减少当前可执行文件的依赖或证明 FPS 提升。
+
+| 优先级 | 含义 | 当前判断 |
+| --- | --- | --- |
+| A：闲置材料整理 | 生产已不用，先做身份清单和归档/保留决策 | irrKlang、历史 Google Test/Mock 二进制、stb-master；GLFW 有既定保留限制，不可立即删除 |
+| B：活动库优先替换 | 用途集中，可在保持行为的前提下退出一个项目依赖 | robin_hood 是首选；仍需单独实施和验证 |
+| C：有前置条件的后续退出 | 与后端迁移或格式/公共接口决策绑定，不适合顺手删除 | glad + 根目录 Khronos 配套头；yaml-cpp 仅列为长期评估候选 |
+| D：暂保留 | 核心能力仍在使用，当前没有已验证等价替代，删除收益不足以支撑风险 | SDL3、GLM、FastNoiseLite、stb_image、stb_image_write |
+
+### A 类：已退出生产的材料候选
+
+| 编号 / 候选 | 当前依赖事实与模块影响 | 入选理由 / 预期收益 | 处理前提与验收 |
+| --- | --- | --- | --- |
+| A01 irrKlang：`vendor/irrKlang`、`lib/irrKlang` | 活动 game/tools/test 源码和构建未接入；旧聚合头仅在 `.disabled` 中保留引用；没有现行音频模块 | 不用的音频头、导入库和 DLL 容易被误认为发布必需。可列入历史音频材料归档候选；不需要为当前玩法引入替代音频库 | 先确认后续音频路线及历史审计保留范围，记录原始文件身份；未启用音频不是未来永久不用的证明。清理后干净 Debug/Release、安装及 CPU/工具配置应不变；不改写旧包或旧审计事实 |
+| A02 历史 Google Test/Mock `.a`：`lib/yaml-cpp/libgtest.a`、`libgtest_main.a`、`libgmock.a`、`libgmock_main.a` | `test/CMakeLists.txt` 注册自有测试可执行程序；未链接这些库。活动 yaml-cpp 来自 `vendor/yaml-cpp/src`，并非这个 lib 目录 | 来源/工具链不明且目录名容易误导；四份预编译测试材料可优先列入归档候选 | 只针对这四份历史测试二进制，不删除 `vendor/yaml-cpp`。记录身份和归档位置，完整 CTest 及独立 runner 测试保持通过；未来采用测试框架应重新明确来源与同工具链构建 |
+| A03 重复/闲置 stb 目录：`vendor/stb-master` | 当前头视图只引用 `vendor/stb/stb_image.h` 和 `stb_image_write.h`；D3D12 R1 实验也使用 `vendor/stb` | 第二份 stb 目录没有活动消费者，可减少重复材料及改错目录的风险 | 先逐文件核对独有内容、工具和许可证并留身份；旧审计只证明一份 `stb_image.h` 相同，不能直接断言整个目录重复。保留 active `vendor/stb` 与许可，验证图片解码、截图和独立实验 |
+| A04 GLFW：`vendor/glfw`、`lib/glfw` | 生产配置/链接/许可安装已撤除；但 `test/experimental/glfw-baseline/CMakeLists.txt` 仍显式导入冻结构建的 GLFW 静态库，输入对照脚本与历史证据仍使用基线 | 活动依赖淘汰已落实，不再是待换的生产窗口库；仅可作为未来历史材料审计候选 | **现阶段保留，不物理删除**。[T2 D11](../spec/M3-T2-SDL3迁移.md) 要求保留休眠旧代码、vendor/lib 和历史证据供 T5 审计。归档须另行确认，并保持冻结构建身份、基线重现及旧许可可追溯；最终 exe 不导入 GLFW DLL 不能替代构建图、包含路径、cache 和安装检查 |
+
+A 类的“低风险”仅指对当前生产实现的直接影响小，不代表可以绕过历史复现、来源和许可保留要求。不要为减少目录数量而修改官方 SDL3 原样源码，或把 SDL3 自带的第三方内部材料按“游戏没有直接 include”批量删掉。
+
+### B 类：robin_hood，优先考虑的活动库退出
+
+**结论：优先级最高的活动库候选，改动面集中，但尚未替换。**
+
+- 当前唯一活动生产调用位于 [shader_program.cpp](../../game/modules/renderer/src/shader_program.cpp)：`robin_hood::unordered_set<ShaderVariable, HashShaderVar>` 缓存 `(shaderProgramId, name)` 对应的 uniform location。world 在 T1 已改为固定槽/排序 vector，其 CMake 和当前 world 测试均不再链接 robin_hood。
+- 候选替代路径是保持现有 key、hash、相等比较、`find`、`emplace`、`clear` 语义，使用标准库 `std::unordered_set`，不新增第三方项目。现有代码没有借出该缓存元素地址供长期持有，搜索范围内也没有需要保留 robin_hood 专属接口的其他生产调用。这里是基于当前调用面的可行性判断，不是已实施或性能等价证明。
+- 实施涉及 renderer 源文件与私有链接、`cmake/ThirdPartyGame.cmake` 的 `symocraft_robin_hood` 头目标及 `cmake/ModuleBoundaries.cmake` 的 renderer 授权；必须一起消除残留活动接入，不能只换 include 或删 vendor 文件。库文件的物理归档另按历史材料政策处理。
+- 最小验收应补上缓存命中不重复查询、相同变量名在不同程序中隔离、`-1` location 仍正确缓存、程序销毁/重建后清缓存的回归测试，并运行 renderer 单测与真实游戏/短采样。当前 `shader_loading_tests` 主要检查编译/链接与失败清理，不能代替这些缓存专用检查。
+- 预期收益是退出一项私有第三方容器依赖及其来源/通知维护责任；实际 CPU、内存和帧时间变化待同条件测量，不承诺标准容器更快。若即将整体替换该 GL shader 实现，可与该变更合并，避免为短期旧路径引入重复改动。
+
+### C 类：条件成熟后再评估
+
+| 编号 / 候选 | 当前仍需要的功能 | 为什么列入 / 候选路径 | 淘汰前置条件与影响 |
+| --- | --- | --- | --- |
+| C01 glad + `vendor/KHR/khrplatform.h` | 生产 renderer 的绘制、shader、纹理、缓冲、GPU timer、截图读回及 NVX 查询仍调用 OpenGL；renderer 白盒测试与若干显式 GL 实验仍使用 glad | 属于 GL 专属接入，未来 GL 活动路径完全退役时可联动退出；不是更换另一个 GL loader 的建议 | [T3 正式计划](../spec/M3-T3-渲染器重构.md) 把最终 GL 退役放在 T3 后另立的 R5 节点。当前 D3D12 R1 仅为独立实验，不是生产接管或双现代后端验收。须先完成既定 D3D12/Vulkan 玩法、计时/截图/发布及基准协议验证，再在另行授权节点退出 GL target、调用、资产和活动测试；历史 GL 对照仍需保留 |
+| C02 yaml-cpp | world 的 `BlockDefinition::FromConfig`、telemetry 文档转换、benchmark_core 会话/状态/结果、测试与 SDL 交付检查仍使用；runner 公共头公开 `YAML::Node` | 本地版本/来源/完整许可待补，且 T1 有本地 stream 修补，值得长期减依赖评估。优先补来源与隔离 runner 的解析器类型；若未来批准格式迁移，再评估解析实现替换 | **不列入近期删除**。world / telemetry 虽已隔离公共 YAML 类型，runner 尚未隔离；只把 CMake 改成 `PRIVATE` 不能解决。全局退出须为全部消费者提供等价解析/输出或正式协议迁移，覆盖 YAML 标量、数字样字符串、错误处理、配置规则及旧结果读取；仅重写方块配置解析不能淘汰整个库 |
+
+C01 中的 Khronos 候选只指根目录 glad 所需的 `vendor/KHR` 配套头，不包括 SDL3 内部 `src/video/khronos`，也不包括未来 Vulkan 所需的 SDK/类型。仅停用 OpenGL 的部分配置或替换一份头，不等于这些材料都能一起删除。SDL 的 OpenGL/Vulkan 窗口能力开关也不能仅因本报告而调整。
+
+C02 的来源/许可缺口是补证据事项，不自动等于必须淘汰；没有计划在本次引入另一份 YAML 库、自写通用 YAML parser 或悄悄改成另一种文件格式。替换实现仍可能有新的许可和维护责任，不能把减少一个 vendor 目录当作已降低全部成本。
+
+### D 类：当前不建议淘汰
+
+| 依赖 | 保留原因与不应采用的淘汰理由 |
+| --- | --- |
+| SDL3 | 正在承担生产窗口/输入与 GL、Native、Vulkan 私有桥接；现有正式决定选择 SDL3。原生 benchmark GUI 不用 SDL，不代表游戏窗口库可删。T2 验收未关闭也不是重新选择窗口库的依据 |
+| GLM | foundation/scene/world/simulation/renderer 公共数学类型和顶点布局跨模块使用；现代后端实验也直接使用 GLM。换渲染 API 不会自动消除数学依赖，当前应补齐来源/许可而非发起广泛数学重写 |
+| FastNoiseLite | world 仍使用三层种子噪声；改变采样实现会改变固定种子的世界与摘要。没有等价生成方案和基线验证，不应为减少一个头文件项目而改变世界契约 |
+| stb_image | assets 仍需解码纹理图集，公共 `Assets::Image` 已隔离实现。当前没有接入等价解码器；图形后端重构不替代 CPU 图片解码 |
+| stb_image_write | 生产 `final-frame.png` 和 D3D12 R1 的诊断 PNG 均在使用；截图也是 T3 验收证据。换掉 OpenGL 读回方式不等于不再需要 PNG 编码。只删除该组件也不会淘汰整个 stb 项目，因为读取组件仍使用 |
+
+Psapi、Win32、MSVC/UCRT、显卡驱动及未来现代图形 SDK 不按“闲置第三方库”处理。`tar.exe` 是 runner 归档功能依赖，`nvidia-smi` 已可选；本名单不把取消功能、缺省关闭传感器或删除测试当作成功淘汰库。
+
+### 建议顺序与完成标准
+
+1. 先形成 A01–A03 的材料身份及归档方案，A04 GLFW 按 D11 继续保留；没有物理删除授权前仅维护名单和隔离关系。
+2. 如批准单独做活动依赖精简，优先实施 B 类 robin_hood 替换及缓存回归，不与仍在进行的渲染器重构修改互相覆盖。
+3. C01 按既定现代后端接管与另立 R5 退役门槛推进，C02 先补来源/许可和公共接口边界；不从本名单推导新的阶段验收或实施授权。
+4. 每项真正退出时记录原/新文件身份、行为差异、干净 Debug/Release 构建、完整适用测试、game-only/CPU-only/runner-only/独立 runner 配置及安装证据；glad、stb 等还须检查显式实验入口。历史包、基线与许可不改写。
+
+本次确定的是候选及退出门槛，尚无新的“淘汰已完成”项目或实测收益。现有 GLFW 退役状态仅依据当前构建声明与既有 T2 记录，不将本次静态核对冒充重新构建验证。
 
 ## 模块与依赖对应表
 
@@ -28,30 +96,38 @@ tags:
 | 实体组件 `ecs` / `symocraft_ecs` | 无 | CMake 经 foundation 继承 GLM；Registry 本身没有直接调用 GLM | ECS 存储、实体版本和组件查询由工程自有代码实现，不依赖第三方 ECS 库；数学组件属于 simulation |
 | 世界 `world` / `symocraft_world` | yaml-cpp、FastNoiseLite：均为 `PRIVATE` | 经 foundation / scene 使用 GLM | 配置文本解析与地形噪声；T1 的固定二维槽/排序规则 vector 不再使用 robin_hood |
 | 模拟与玩家 `simulation` / `symocraft_simulation` | 无 | 经 foundation / scene 使用 GLM；经 world 使用已有配置与世界存储能力 | 玩家移动、相机、变换、速度、碰撞和射线运算使用 GLM；物理逻辑是自有实现，没有接入第三方物理引擎 |
-| 平台 `platform` / `symocraft_platform` | GLFW：`PRIVATE glfw` | CMake 经 foundation 继承 GLM；Win32 / Psapi 另见系统依赖 | 创建窗口与 OpenGL 上下文，处理键鼠、焦点、事件、时间、交换缓冲；输入快照公共类型不暴露 GLFW |
+| 平台 `platform` / `symocraft_platform` | SDL3：`PRIVATE SDL3::SDL3-static` | CMake 经 foundation 继承 GLM；Win32 / Psapi 另见系统依赖 | SDL 窗口/context/键鼠与三模式私有桥接；编译使用要求不向 app/renderer/CPU 传播，公共类型不暴露 SDK |
 | 渲染 `renderer` / `symocraft_renderer` | glad、stb_image_write、robin_hood：均为 `PRIVATE` | 经 scene / foundation 使用 GLM；经 assets 解码图片；经 platform 获取图形入口和上下文；glad 带入 Khronos 头 | 分别完成 OpenGL 函数加载与调用、诊断 PNG 截图、uniform 位置缓存；GLM 用于变换与着色器参数 |
-| 性能观测 `telemetry` / `symocraft_telemetry` | yaml-cpp：`PRIVATE symocraft_yaml` | 经 foundation 使用工程自有 `Data::Value`；构建上也继承 GLM | 将观测值序列化为 YAML，读取协议文档。CPU/GPU 原始采样由 platform / renderer 提供，并非 telemetry 直接依赖 GLFW 或 glad |
+| 性能观测 `telemetry` / `symocraft_telemetry` | yaml-cpp：`PRIVATE symocraft_yaml` | 经 foundation 使用工程自有 `Data::Value`；构建上也继承 GLM | 将观测值序列化为 YAML，读取协议文档。CPU/GPU 原始采样由 platform / renderer 提供，并非 telemetry 直接依赖 SDL3 或 glad |
 | 游戏组装 `app` / `SymoCraft` | 无直接第三方目标 | 链接上述内部模块，汇集游戏所需第三方实现 | 组织启动、世界、玩家、渲染和观测生命周期；调用模块接口，不再通过旧 `core.h` 一次性引入所有库 |
 | 启动参数 `symocraft_startup` | 无 | 无第三方库目标 | 参数解析使用标准库，CPU-only 时仍可构建，不需要窗口、YAML 或数学库 |
 | 独立基准核心 `tools/benchmark` / `benchmark_core` | yaml-cpp：`PUBLIC symocraft_yaml` | `SymoCraftBenchmark` 和基准测试继承 YAML 接口；不链接游戏模块 | 读写会话、状态、结果、校验清单，并校验游戏输出协议。公共 `runner.h` 直接使用 `YAML::Node`，因此这里与游戏模块不同，YAML 是公共依赖 |
 | 基准 GUI `SymoCraftBenchmark` | 无额外第三方源码库 | 经 benchmark_core 使用 yaml-cpp；Windows GUI 系统库另列 | 窗口、文件选择和进度控件使用 Win32，不使用 GLFW；运行被测游戏是子进程交互，不是链接游戏渲染库 |
-| 测试 `test/` | 部分测试直接使用 yaml-cpp、glad、robin_hood | 其余依赖被测模块继承 | 用于生成/检查 YAML 测试数据、替换 OpenGL 函数指针、检查私有区块存储；当前使用自有测试可执行程序 + CTest，没有接入 Google Test/Mock |
+| 测试 `test/` | 部分默认单测直接使用 yaml-cpp、glad；显式实验另有 SDL3、GLM、stb 等依赖 | 其余依赖被测模块继承；world 测试不再直接链接 robin_hood | 用于生成/检查 YAML 测试数据、替换 OpenGL 函数指针和检查模块契约；GLFW 基线仅在显式历史实验中导入；当前使用自有测试可执行程序 + CTest，没有接入 Google Test/Mock |
 
 证据入口：各模块的 `game/modules/<模块>/CMakeLists.txt`、`game/app/CMakeLists.txt`、`tools/benchmark/CMakeLists.txt` 和 `test/unit/*/CMakeLists.txt`。**传递获得某库的包含路径不等于模块确实调用该库**，因此 ECS、assets、platform、telemetry 的 GLM 传递关系不应被误写为各自核心功能必须使用 GLM。
 
 ## 各库用途与必要性
 
-### GLFW：窗口、输入与上下文 （有没有更好的窗口库？
+### SDL3：生产窗口与私有桥接
 
-- 当前直接归属 platform。`game/modules/platform/src/window.cpp` 调用 `glfwInit`、`glfwCreateWindow`、`glfwPollEvents`、键鼠查询与回调，处理焦点/最小化、鼠标锁定和窗口尺寸。
-- 图形桥接由同文件提供 `glfwMakeContextCurrent`、`glfwGetProcAddress`、`glfwSwapInterval`、`glfwSwapBuffers`。renderer 通过 `graphics_bridge.h` 使用这些能力，而非直接引入 GLFW 头或声明 `glfw` 依赖。
-- 需要它是因为渲染循环必须依托窗口、当前 OpenGL 上下文及事件系统。GLFW 不负责绘制，也不能替代 glad。移除时必须提供相应的原生窗口/上下文实现；不能只删链接项。
-- `cmake/ThirdPartyGame.cmake` 从 `vendor/glfw` 源码构建静态库，关闭示例、测试、文档和安装；未使用 `lib/glfw` 中的预编译文件。
+- 固定官方 `release-3.4.18`、commit `829a65d769d935c4852f8159e964312c0957260a`，`vendor/sdl3` 原样源码；ZIP 和逐文件核对见 [来源证据](../milestones/m3-t2/evidence/sdl-provenance.json)。没有修改上游文件。
+- 只在游戏图形配置中创建 `SDL3::SDL3-static`，platform 私有链接、私有 `SDL_MAIN_HANDLED`；保留 MSVC `/MDd` / `/MD` CRT 策略。窗口/输入、桌面 OpenGL 和动态 Vulkan 窗口桥接启用；无关子系统、共享库、SDL 自测/示例/独立安装关闭。
+- SDL 自带 Khronos 内部头和动态 loader 桥接不引入完整 Vulkan SDK 或 `vulkan-1.lib`；外部 SDK 仅用于显式 Vulkan 探针。CPU-only、根 runner-only 与独立 benchmark 不配置或编译 SDL。
+- platform 私有实现调用 `SDL_SetMainReady`、持有一次 video 初始化责任；显式 GL context 和窗口分别释放。GL 六项入口检查必要失败，私有 NativeBridge 借出 HWND、VulkanBridge 借出 loader 并复制扩展名；真实三模式探针不代表现代 GPU 游戏后端。
+- 使用 `vendor/sdl3/LICENSE.txt` 的 zlib 许可，游戏安装复制为 `licenses/SDL3-LICENSE.txt`，不增加 `SDL3.dll`。S2 双配置最终游戏链接不含 GLFW；S5 已撤除旧活动配置和新安装包 GLFW 许可规则，历史包保持原样。生产使用原样 vendor 的官方 Khronos 头，外部 SDK 仅用于显式探针。
+
+### GLFW：已退役的历史窗口基线
+
+- S2 前的 platform 用 GLFW 创建窗口、查询键鼠、等待与管理 GL 上下文；现由 SDL3 私有实现替换，renderer 的 GL 桥接签名保留，未把 SDL 类型转为公开依赖。
+- GLFW 不负责绘制，也不能替代 glad；旧输入/窗口手感及包保留为历史对照，不能用旧包结果宣称当前 SDL 游戏通过。
+- `cmake/ThirdPartyGame.cmake` 不再配置 `vendor/glfw`，platform 不再授权或链接 GLFW；新游戏安装包不再复制 `GLFW-LICENSE.md`。`vendor/glfw`、`lib/glfw`、休眠源以及历史/冻结包中的原许可按 D11 继续保留，不删除或改写。
+- 构建边界拒绝活动 GLFW 目标（包括未链接的 `EXCLUDE_FROM_ALL` 目标及 vendor 内改名目标）、生产 GLFW 头/相对 vendor 包含、原始或表达式链接、vendor/lib 包含路径。实际构建矩阵核对所有模式的 target/cache/build/install，不能仅用“最终 exe 没有 GLFW DLL”证明撤除完整。
 
 ### GLM：公共数学类型与运算
 
 - `game/modules/foundation/include/symocraft/foundation/math.h` 引入向量、矩阵、哈希、旋转、四元数等头，并统一当前 GLM 宏设置。CMake 通过 `symocraft_math` 暴露头文件，`glm::glm` 是其别名，不是另一份数学库。
-- scene 的 `camera.h`、`mesh.h` 使用 `glm::mat4`、`glm::ivec3`、`glm::vec3`；world 使用整数坐标及坐标哈希；simulation 使用向量运算、相机矩阵、移动/碰撞计算；renderer 使用矩阵和着色器参数。
+- scene 的 `camera.h`、`mesh.h` 使用 `glm::mat4`、`glm::ivec3`、`glm::vec3`；world 使用整数坐标及网格数学类型，T1 已不再使用旧区块哈希表；simulation 使用向量运算、相机矩阵、移动/碰撞计算；renderer 使用矩阵和着色器参数。
 - 需要它是为了保持世界、模拟和渲染之间一致的数学表达，避免分别实现并维护线性代数。当前公共接口直接出现 `glm::*`，替换会影响多个模块及数据布局，不只是修改一个包含目录。
 - scene 对顶点尺寸存在 `static_assert`（例如 `BlockVertex3D` 为 28 字节）。升级 GLM、改变对齐或宏设置时应复核 CPU/GPU 顶点布局；头文件库没有独立 DLL，不代表没有布局兼容风险。
 
@@ -102,13 +178,13 @@ tags:
 | --- | --- | --- |
 | 默认游戏 + runner | 游戏使用上述全部项目；runner 单独使用 yaml-cpp | irrKlang、历史预编译 `.a`、stb-master |
 | 顶层 game-only：`SYMOCRAFT_BUILD_GAME=ON`、`SYMOCRAFT_BUILD_BENCHMARK=OFF` | 游戏模块依赖保留 | benchmark_core 及 runner GUI 不进入目标图 |
-| 顶层 runner-only：`SYMOCRAFT_BUILD_GAME=OFF`、`SYMOCRAFT_BUILD_BENCHMARK=ON`、`SYMOCRAFT_BUILD_CPU_MODULES=OFF` | yaml-cpp + runner 系统库 | 游戏模块、GLFW、glad、GLM、stb、FastNoiseLite、robin_hood |
+| 顶层 runner-only：`SYMOCRAFT_BUILD_GAME=OFF`、`SYMOCRAFT_BUILD_BENCHMARK=ON`、`SYMOCRAFT_BUILD_CPU_MODULES=OFF` | yaml-cpp + runner 系统库 | 游戏模块、GLFW、SDL3、glad、GLM、stb、FastNoiseLite、robin_hood |
 | `tools/benchmark` 独立配置 | yaml-cpp + runner 系统库 | 不经过 `game/CMakeLists.txt`，不需要游戏图形或数学依赖 |
-| `SYMOCRAFT_CPU_ONLY=ON` | 构建 foundation、scene、assets、ecs、world、simulation、telemetry、startup；实际使用 GLM、stb_image、yaml-cpp、FastNoiseLite、robin_hood | 强制关闭游戏可执行程序和 runner，不创建 platform / renderer；不构建 GLFW、glad 或 stb_image_write 实现 |
+| `SYMOCRAFT_CPU_ONLY=ON` | 构建 foundation、scene、assets、ecs、world、simulation、telemetry、startup；实际使用 GLM、stb_image、yaml-cpp、FastNoiseLite，不再使用 robin_hood 实现 | 强制关闭游戏可执行程序和 runner，不创建 platform / renderer；不构建 GLFW、SDL3、glad 或 stb_image_write 实现 |
 
 注意：`SYMOCRAFT_BUILD_CPU_MODULES` 默认值取配置时的 `SYMOCRAFT_BUILD_GAME`，已有 CMake cache 的值不会自动随另一开关改变，因此严格 runner-only 应显式关闭 CPU modules。CPU-only 中 `ThirdPartyGame.cmake` 仍声明若干头文件 `INTERFACE` 目标，但头目标存在不等于已编译/链接图形实现。顶层始终包含 `ThirdPartyYaml.cmake`，所以“游戏之外不需要 YAML”的判断也不成立。
 
-`cmake/ThirdPartyHeaders.cmake` 将每项依赖的选定头复制到构建目录 `header-views/<target>`，以目标级 `SYSTEM INTERFACE` 包含路径暴露，不公开整个 vendor 根目录或第三方 `.cpp`。`cmake/ModuleBoundaries.cmake` 检查模块引用、目标依赖及公共头边界；GLM 是允许公开的数学例外，GLFW、glad、YAML、stb、噪声和容器头不得进入游戏模块公共头。独立 runner 不套用这一公共 YAML 隔离方式。
+`cmake/ThirdPartyHeaders.cmake` 将每项依赖的选定头复制到构建目录 `header-views/<target>`，以目标级 `SYSTEM INTERFACE` 包含路径暴露，不公开整个 vendor 根目录或第三方 `.cpp`。`cmake/ModuleBoundaries.cmake` 检查模块引用、目标依赖及公共头边界；GLM 是允许公开的数学例外，glad、YAML、stb、噪声和容器头不得进入游戏模块公共头，已退役 GLFW 不得进入任何生产源码或目标。独立 runner 不套用这一公共 YAML 隔离方式。
 
 CPU-only 仅隔离图形/窗口依赖，**不表示已支持非 Windows 平台**：顶层仍要求 Windows x64 + MSVC，foundation / assets 的实现仍包含 Windows API。
 
@@ -118,7 +194,7 @@ CPU-only 仅隔离图形/窗口依赖，**不表示已支持非 Windows 平台**
 | --- | --- | --- |
 | Windows SDK / Win32 | foundation 的 `files.cpp` 使用 `MoveFileExW` 发布文件，`legacy/AmoBase.cpp` 保留 Windows 调用；assets 的 `asset_paths.cpp` 使用 `GetModuleFileNameW`；platform 窗口也有 Win32 处理 | 为文件发布、可执行文件定位和 Windows 窗口行为提供系统接口，不是另一个 vendor 库 |
 | Psapi | `game/modules/platform/CMakeLists.txt` 私有链接 `Psapi`；`process_memory.cpp` 使用 `GetProcessMemoryInfo` | 采集当前进程 working set / private bytes，供 app 交给 telemetry；不等于 GPU 显存或温度采集 |
-| OpenGL 驱动 / 系统图形组件 | platform 创建 4.6 core 上下文，renderer 加载 API；GLFW Windows 构建使用系统窗口/图形组件 | 真实绘制依赖设备驱动支持；glad 是加载器，不提供 OpenGL 实现。GPU 时间查询和 NVX 内存读数须按能力检查 |
+| OpenGL 驱动 / 系统图形组件 | SDL platform 创建并核实实际 4.6 Core/4x MSAA 上下文，renderer 加载 API；Windows 构建使用系统窗口/图形组件 | 真实绘制依赖设备驱动支持；glad 是加载器，不提供 OpenGL 实现。GPU 时间查询和 NVX 内存读数须按能力检查 |
 | Windows 基准核心系统库 | `benchmark_core` 私有链接 `bcrypt`、`advapi32`、`powrprof`、`user32`；`tools/benchmark/src/platform.cpp` 使用 BCrypt SHA256、注册表、电源方案、窗口关闭消息以及 Win32 进程/Job API | 计算包和结果校验值、记录机器信息、管理被测进程；无需 OpenSSL 或游戏平台模块 |
 | Windows 基准 GUI 系统库 | `SymoCraftBenchmark` 私有链接 `comctl32`、`comdlg32`、`shell32`、`ole32`；`gui.cpp` 调用公共控件、文件/目录选择、Shell 打开与 COM | 实现原生基准工具窗口，不需要另引 GUI 第三方框架 |
 | Windows 系统 `tar.exe` | `tools/benchmark/src/runner.cpp` 的导出逻辑定位系统目录下 `tar.exe`，启动子进程生成 ZIP | 仅结果归档功能需要；不随仓库存放，不是当前接入的压缩库。缺失/失败时导出报错并保留已生成目录，不能将 runner 的导出能力描述为完全无外部程序依赖 |
@@ -130,7 +206,8 @@ CPU-only 仅隔离图形/窗口依赖，**不表示已支持非 Windows 平台**
 
 | 当前依赖 | 本地版本 / 来源证据 | 本地许可与发布观察 |
 | --- | --- | --- |
-| GLFW | `vendor/glfw/CMakeLists.txt`：3.3.7；本地 README 记载项目来源 | `vendor/glfw/LICENSE.md` 完整；`game/app/CMakeLists.txt` 安装为 `licenses/GLFW-LICENSE.md` |
+| GLFW（历史材料） | `vendor/glfw/CMakeLists.txt`：3.3.7；本地 README 记载项目来源 | `vendor/glfw/LICENSE.md` 完整且保留；S5 新安装规则不再复制，历史/冻结包原许可不改 |
+| SDL3 | 官方 3.4.18 / commit `829a65d769d935c4852f8159e964312c0957260a`；原样来源与 ZIP 摘要见 T2 证据 | `vendor/sdl3/LICENSE.txt` 完整；游戏安装为 `licenses/SDL3-LICENSE.txt`，独立 runner 不安装 |
 | GLM | `vendor/glm/detail/setup.hpp`：0.9.9.8；`glm.hpp` 记载项目网站与 GitHub 来源 | 未在本地 GLM 目录发现完整独立许可材料；当前安装规则未单列通知 |
 | glad | `vendor/glad/glad.h`：glad 0.1.35 于 2022-06-05 生成，OpenGL 4.6 core，`Reproducible: False` | 未发现 glad 自身完整许可文件；生成参数不构成可重复生成保证 |
 | Khronos 平台头 | `vendor/KHR/khrplatform.h`：Khronos 来源说明及 2008–2018 版权 | 头部完整许可文本；当前安装规则未单列通知 |
@@ -139,14 +216,14 @@ CPU-only 仅隔离图形/窗口依赖，**不表示已支持非 Windows 平台**
 | robin_hood | `vendor/robin_hood.h`：3.11.5、上游地址 | 头部完整 MIT 文本和 SPDX 标识；当前安装规则未单列通知 |
 | yaml-cpp | 本地头文件和源码子集；未找到明确库版本/提交标识 | 未找到完整本地许可文件；当前安装规则未单列通知 |
 
-以上记录是本地材料事实，不提供法律结论。“未发现”表示需补齐证据，不表示禁止使用；“头部有完整文本”也不意味着发行包已经附带该通知。当前游戏安装规则仅明确复制 GLFW、stb 的许可，独立 benchmark 安装规则复制本报告但没有单独安装 yaml-cpp 许可。报告不能替代完整的发行许可材料。
+以上记录是本地材料事实，不提供法律结论。“未发现”表示需补齐证据，不表示禁止使用；“头部有完整文本”也不意味着发行包已经附带该通知。当前游戏安装规则明确复制 SDL3、stb 的许可，独立 benchmark 安装规则复制本报告但没有单独安装 yaml-cpp 许可。GLFW 许可撤除只针对不再使用该库的新安装包，不改写历史包。报告不能替代完整的发行许可材料。
 
 ## 未使用材料与风险事项
 
 | 仓库材料 | 当前状态 | 处理含义 |
 | --- | --- | --- |
 | `vendor/irrKlang`、`lib/irrKlang` | 当前生产源码和 CMake 无 active 引用；旧聚合头中的引用位于 `.disabled` 遗留文件 | 没有现行音频模块需要它；不能仅凭库文件存在宣布支持音频。恢复音频需重新决定接入、验证头/DLL 版本和许可 |
-| `lib/glfw` | 当前使用 vendor 源码目标，未链接该目录的 DLL / `.a` | 不是当前 MSVC 游戏的活动二进制依赖 |
+| `vendor/glfw`、`lib/glfw` | S5 后不再配置源码目标，也未链接历史 DLL / `.a` | 按 D11 保留历史材料，不是当前 MSVC 游戏的活动依赖 |
 | `lib/yaml-cpp/libgtest*.a`、`libgmock*.a` | 未被当前测试链接；属于历史 Google Test/Mock 材料，不是 yaml-cpp 库 | 当前测试无需它们；未来采用测试框架应明确来源并按同一工具链构建 |
 | `vendor/stb-master` | 当前工程只接入 `vendor/stb` 选定头；此目录未使用 | 历史审计仅确认 `stb_image.h` 内容相同，未确认整个目录一致；本次不删除材料 |
 | `game/app/legacy/**/*.disabled` | 不参与生产源码编译；包含旧输入、事件、线程池与聚合头 | 搜索出的旧依赖不计入当前模块报告；尤其不能继续将 robin_hood 标为当前输入映射依赖 |
@@ -157,7 +234,7 @@ CPU-only 仅隔离图形/窗口依赖，**不表示已支持非 Windows 平台**
 2. 根据实际发行目标补齐许可/通知安装规则，区分游戏包、runner-only 包、系统运行库和外部工具，不把闲置二进制一并当作必要依赖分发。
 3. 保持 GLM 公共数学接口与其他第三方私有实现边界；如隔离 runner 的 `YAML::Node`，应作为明确的接口改造，而非简单改成 `PRIVATE`。
 4. 变更依赖后重点核验 world 固定种子摘要、scene 顶点布局、纹理解码、renderer 函数加载/截图/计时、telemetry YAML 标量往返及 runner 文件协议/导出。
-5. 本次只更新报告，没有升级、删除、重新生成库文件，也没有改变构建或实现；历史二进制检查结论不冒充当前构建验证。
+5. S5 本次只撤除 GLFW 的活动配置、授权和新包许可安装规则，没有升级、删除、重新生成 vendor/lib 库文件；旧二进制、历史附录和冻结包保持原样，历史二进制检查结论不冒充当前构建验证。
 
 ## 历史附录：M0 至 M2-T3 审计记录
 

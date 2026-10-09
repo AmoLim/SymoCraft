@@ -1,0 +1,89 @@
+{
+  "built_utc": "2026-10-08T05:18:56.7829378+00:00",
+  "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r1-release-001\\SymoCraftD3D12R1Probe.exe",
+  "executable_sha256": "43687e53b31cf4266ef200ef255ee940812c9ba4d5562f186f614efef8a529a8",
+  "production_imports_sha256": "c7af80f5d37910951d36b5944c19eb55ac148d81636a509955a9811b67bcd253",
+  "toolchain": {
+    "compiler_path": "E:/Applications/Microsoft VS/2022/VC/Tools/MSVC/14.38.33130/bin/HostX64/x64/cl.exe",
+    "compiler_file_version": "19.38.33145.0",
+    "msvc_tools_version": "14.38.33130",
+    "visual_studio_path": "E:\\Applications\\Microsoft VS\\2022",
+    "visual_studio_version": "17.0",
+    "windows_sdk_path": "C:\\Program Files (x86)\\Windows Kits\\10\\",
+    "windows_sdk_version": "10.0.22621.0\\",
+    "windows_sdk_library_version": "10.0.22621.0\\",
+    "universal_crt_version": "10.0.22621.0",
+    "dxc_path": "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64/dxc.exe",
+    "dxc_file_version": "1.6.2112.16",
+    "dxc_version": {
+      "exit_code": 0,
+      "output": "dxcompiler.dll: 1.6 - 1.6.2112.16 (e8295973c); dxil.dll: 1.6(101.6.2112.13)"
+    },
+    "cmake_path": "E:\\Applications\\JetBrains\\CLion\\bin\\cmake\\win\\x64\\bin\\cmake.exe",
+    "cmake_version": {
+      "exit_code": 0,
+      "output": "cmake version 4.3.1\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake)."
+    },
+    "ninja_path": "E:\\Applications\\JetBrains\\CLion\\bin\\ninja\\win\\x64\\ninja.exe",
+    "ninja_version": {
+      "exit_code": 0,
+      "output": "1.13.2"
+    }
+  },
+  "sources": [
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\build.ps1",
+      "sha256": "50140cbd3534639e323903aa912259788ead15e33356b52c2ba3bec316c8b087"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\CMakeLists.txt",
+      "sha256": "9a1fb2b1eaf6da2bd930e70105611fdcd2cb6e129ae0b829b5c5f0800521d070"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\package.ps1",
+      "sha256": "e49b7ce0418988a51249b127e1e4aa266f7ade12ca11665d012b316d9c4f1fc1"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\probe.cpp",
+      "sha256": "fe3c414f986e05aa06febe22d15a4520054db320c0a57ec6b2bcd88a5446548d"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\renderer_probe.cpp",
+      "sha256": "c346ff5fd3c2d553c3dc5a9e31da89977fa20503fedb4d95b0e38af48ba237f0"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\renderer_probe.h",
+      "sha256": "d5e5f657958b14319e07d982b79fb952ebe3f14eb21f107ed8a1be34367dc8a8"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\verify-probes.ps1",
+      "sha256": "5d1d3b8646ee138d323b039495b3d21678a2059b959f7101496dffabad49cb30"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\candidate_contract.h",
+      "sha256": "641608b6d3086e89b9be2df8102d78b5acf03ad0c37f01468a566b61ec0ce4f4"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\candidate_tests.cpp",
+      "sha256": "669f9a7ce0c200c58d9a34a537e97b219b07eb381894eb8693baaca83bb6e2b4"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\CMakeLists.txt",
+      "sha256": "936ea3c3b4bbb248e2c1545364f1a0fe7f2038b8442cda76a58c67f3c2612aa5"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\shaders\\probe.hlsl",
+      "sha256": "d6523f6827455d777be860d3ab6d8ca4e7f87521719c28b26413b1fd939984ef"
+    }
+  ],
+  "shaders": [
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r1-release-001\\shaders\\probe-vs.cso",
+      "sha256": "9c0331aa5e17ca93a64d71b8e138bb073b3321b7915c8bc6c1b94b8a803755f0"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r1-release-001\\shaders\\probe-ps.cso",
+      "sha256": "eb1bc70352d9a30d5f493e3d9695780250eb4dc2fc38521eebe5f89f74c4090b"
+    }
+  ]
+}

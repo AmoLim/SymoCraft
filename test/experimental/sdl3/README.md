@@ -1,8 +1,9 @@
 # SDL3 Preparation Probes
 
-These standalone Windows x64/MSVC projects do not switch the production platform.
-SDL vendor sources are used unchanged. The game still links GLFW until P06 review
-and implementation authorization.
+These standalone Windows x64/MSVC projects record preparation evidence only.
+SDL vendor sources are used unchanged. Production Window now uses SDL3 after S2;
+same-source production bridge verification lives in `../platform-sdl3`, which
+imports the actual platform libraries rather than this independent implementation.
 
 From the repository root:
 
@@ -20,7 +21,10 @@ and their window have been destroyed.
 `verify-probes.ps1` launches bounded GL/native/optional Vulkan probes and limited
 failure cases. It also checks a 1920x1080 borderless Benchmark window, NonRudeHWND,
 and WM_CLOSE through wait/poll. It needs desktop execution permission. Use a new
-output directory each time.
+output directory each time. Relative output directories are resolved against the
+repository root and must stay below `out`. Windows process handles are retained
+before waiting so that redirected runs keep their real exit codes, including
+expected failures. Earlier failed evidence is never rewritten.
 
 The input candidate has 185 synthetic checks and no SDL runtime. A fresh physical
 state provider rebuilds held keys/buttons after an active reset without replacing
@@ -41,10 +45,12 @@ GLFW platform into the SDL executable. It is not a full SDL game.
 trace and generated-rule inspection. It does not disconnect the user's network;
 its rejected process proxy and Git transport constraints are not a network sandbox.
 
-The adjacent `../glfw-baseline` project imports the actual frozen Release platform,
+The adjacent `../glfw-baseline` project imports the actual frozen pre-S2 Release platform,
 foundation, GLFW and GLAD libraries instead of recompiling production sources.
 Only Release is allowed to preserve the imported library ABI. Keyboard/pointer
 messages are synthetic; minimize/restore and wait/close operate its real window.
+GLFW comparison tools must keep using their recorded GLFW baseline build, not
+new SDL production libraries. Earlier preparation results remain historical.
 
 Preparation progress and limitations are recorded in
 `docs/milestones/m3-t2/README.md`.

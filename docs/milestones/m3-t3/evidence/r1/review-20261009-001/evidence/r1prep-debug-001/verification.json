@@ -1,0 +1,521 @@
+{
+  "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r1-debug-r1prep-002\\SymoCraftD3D12R1Probe.exe",
+  "executable_sha256": "c3b74ced69b04bf596592711803dbe43324ec7a65cfcfdfef21e304956ac7d3c",
+  "production_imports": {
+    "configuration": "Debug",
+    "production_build": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/platform-debug-r1prep-002",
+    "imports": [
+      {
+        "target": "platform",
+        "archive": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/platform-debug-r1prep-002/game/modules/platform/symocraft_platform.lib",
+        "sha256": "5b93b21a4015df8d82aa7d2c3f5d7cd898a6b11d7498f07086a71e41cda30297"
+      },
+      {
+        "target": "foundation",
+        "archive": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/platform-debug-r1prep-002/game/modules/foundation/symocraft_foundation.lib",
+        "sha256": "01d3994a872d08912ec0773feaf9389c13c33150407c590998a03f143c90d17b"
+      },
+      {
+        "target": "sdl",
+        "archive": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/platform-debug-r1prep-002/vendor/sdl3/SDL3-static.lib",
+        "sha256": "2657ae09f707e30c9b183e54e0a3754ef84d3f3d068deadcd1bfb91088eb89dd"
+      }
+    ],
+    "platform_sources": [
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/include/symocraft/platform/key_snapshot.h",
+        "sha256": "24e66cd938586be44d2cfc2c270f353ac91e823c9edb5638b12c8cf43c87d991"
+      },
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/include/symocraft/platform/process_memory.h",
+        "sha256": "0c6f6f2b8f56aa6f04f7cb0022a44fba9922d63d8168d076fcc3774d888862da"
+      },
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/include/symocraft/platform/window.h",
+        "sha256": "01942fafa229e5cbc97653588deac41aac728c79a144cd278f6a0256137f1ed3"
+      },
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/src/graphics_bridge/graphics_bridge.h",
+        "sha256": "4ed1c1d611f7b5b6178537a2c6fd18577625f022354b47c8a5d425eed866b150"
+      },
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/src/graphics_bridge/native_bridge.h",
+        "sha256": "6048a5c878e97bf709cf630e0a0aeca902ad9c1c87236cbcdc435fe54c35bbaa"
+      },
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/src/graphics_bridge/vulkan_bridge.h",
+        "sha256": "254216f5371597caa6263f40d2c5ef2272ea698f76b83247744134153b444f72"
+      },
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/src/input_state.h",
+        "sha256": "445fe1ea7be1de4ba32cae97ed7a9aef8395752fbbd07d5e1e240b91ac13d3b1"
+      },
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/src/process_memory.cpp",
+        "sha256": "c5378f6f64aa75dd12834335fb028d3c9231d75dd8d8c0259d6be0e3f83a559e"
+      },
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/src/window.cpp",
+        "sha256": "7d5cd113551f34bafd47a080a938edd8345f09e22bfd4f7e15d0f00efa6a832f"
+      }
+    ],
+    "foundation_sources": [
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/foundation/include/symocraft/foundation/diagnostics.h",
+        "sha256": "5e4f44b5c178f480ebdc241473b1cfa6153e628a1156d1d82497328804117263"
+      },
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/foundation/include/symocraft/foundation/document.h",
+        "sha256": "21d6563a4c557ce29825af0a4aa1e67db5d652a7a5234ff65ab6dc2f5fd3dede"
+      },
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/foundation/include/symocraft/foundation/files.h",
+        "sha256": "ab8c1c17584af0924b0ddd2ef77b830464c5b496326faa01fad0301892885a90"
+      },
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/foundation/include/symocraft/foundation/math.h",
+        "sha256": "117dc302b09b62ad6eaa1d457e15e4f4bbb7ab4fdc115618cd61088d4433297b"
+      },
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/foundation/include/symocraft/foundation/memory.h",
+        "sha256": "414f39666f308461e085c16e8711fd346471309b51a0ad5d176066f946996dd4"
+      },
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/foundation/include/symocraft/foundation/types.h",
+        "sha256": "bad8ad76e2d325595519f1b03eab8a9948b103b6a669c0b4d983f0db25e03ced"
+      },
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/foundation/src/document.cpp",
+        "sha256": "c215e2bacd578e4597cd151a20d8f4c2add1d1ed89f5e62e380d002a16f5b557"
+      },
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/foundation/src/files.cpp",
+        "sha256": "01885fcc8a116973b052247a85637deb0050652032c4dbf1942d3b27b0cfe4a0"
+      },
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/foundation/src/legacy/AmoBase.cpp",
+        "sha256": "00ced729834c50031c17095986f8c08d62de22c8fbcea3f8ae4d1c239e5a5730"
+      },
+      {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/foundation/src/legacy/AmoBase.h",
+        "sha256": "6dccb52eaa737e07699b024df9d5a80fdaf33596d12d15acf196a0be138b6206"
+      }
+    ],
+    "production_cache_sha256": "58b292d88c9c7f7a89557bdcb8469ad92d2754fedda6a670b6f8672bb05268af",
+    "dxc": "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64/dxc.exe",
+    "dxc_sha256": "7b088f6bc2c3608f6318ab08d21f6021b50ebd12cac293e607d89537fceb134d",
+    "shader_model": "6.0"
+  },
+  "build_identities": {
+    "built_utc": "2026-10-08T16:47:42.7066769+08:00",
+    "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r1-debug-r1prep-002\\SymoCraftD3D12R1Probe.exe",
+    "executable_sha256": "c3b74ced69b04bf596592711803dbe43324ec7a65cfcfdfef21e304956ac7d3c",
+    "production_imports_sha256": "1806b96244a8e0a960709cf3a9a593001d39c5d32f18509c5d2fc45191c31611",
+    "toolchain": {
+      "compiler_path": "E:/Applications/Microsoft VS/2022/VC/Tools/MSVC/14.38.33130/bin/HostX64/x64/cl.exe",
+      "compiler_file_version": "19.38.33145.0",
+      "msvc_tools_version": "14.38.33130",
+      "visual_studio_path": "E:\\Applications\\Microsoft VS\\2022",
+      "visual_studio_version": "17.0",
+      "windows_sdk_path": "C:\\Program Files (x86)\\Windows Kits\\10\\",
+      "windows_sdk_version": "10.0.22621.0\\",
+      "windows_sdk_library_version": "10.0.22621.0\\",
+      "universal_crt_version": "10.0.22621.0",
+      "dxc_path": "C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64/dxc.exe",
+      "dxc_file_version": "1.6.2112.16",
+      "dxc_version": {
+        "exit_code": 0,
+        "output": "dxcompiler.dll: 1.6 - 1.6.2112.16 (e8295973c); dxil.dll: 1.6(101.6.2112.13)"
+      },
+      "cmake_path": "E:\\Applications\\JetBrains\\CLion\\bin\\cmake\\win\\x64\\bin\\cmake.exe",
+      "cmake_version": {
+        "exit_code": 0,
+        "output": "cmake version 4.3.1\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake)."
+      },
+      "ninja_path": "E:\\Applications\\JetBrains\\CLion\\bin\\ninja\\win\\x64\\ninja.exe",
+      "ninja_version": {
+        "exit_code": 0,
+        "output": "1.13.2"
+      }
+    },
+    "sources": [
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\build.ps1",
+        "sha256": "df2dda5d971a97a82f7bb07fb3c8194d22c42fc70967673a69da91ad4bb67b5f"
+      },
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\CMakeLists.txt",
+        "sha256": "72e4f71fb6ab17d6fb6ab3f16c0e5fd65258e7fdd4b27c430cb3467c11681381"
+      },
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\package.ps1",
+        "sha256": "5081cc0fe81386df7310ecf62f8a0f0e425dc999eba658eb23ea0247b8a00da1"
+      },
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\probe.cpp",
+        "sha256": "438e8bad74b2e95b44407b06bc7fff0791c5c831dff3dd464fec5d74ade8aaf1"
+      },
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\renderer_probe.cpp",
+        "sha256": "c222b02cd202e0b0baeb3fa67da4be6ee8e3bf4b5da80988b4a35ccd230f50b1"
+      },
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\renderer_probe.h",
+        "sha256": "3b20da4fab7a16034f2eb959454dc806c858db399c95e0285dad18d9082ef535"
+      },
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\verify-probes.ps1",
+        "sha256": "881e37ed41f8a865fc6351bb09f43ebbdab5c6c27581f72118dc5c5e4eb67534"
+      },
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\build.ps1",
+        "sha256": "a8a53f891c217f37a7fd6730e5dfe497b8807cf70e3372e7414a9d98a9633626"
+      },
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\candidate_contract.h",
+        "sha256": "641608b6d3086e89b9be2df8102d78b5acf03ad0c37f01468a566b61ec0ce4f4"
+      },
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\candidate_renderer_consumer.cpp",
+        "sha256": "68a0de59e1deb77e3db4434edfd5e9e22cbb032f36d69b60ccbfb08b572071f8"
+      },
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\candidate_renderer.h",
+        "sha256": "0d644e7ad62216593c63c192687fba2ed5a32fda7009369c5fad883a39f61710"
+      },
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\candidate_tests.cpp",
+        "sha256": "669f9a7ce0c200c58d9a34a537e97b219b07eb381894eb8693baaca83bb6e2b4"
+      },
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\check_cpu_boundary.cmake",
+        "sha256": "572c186a5fe32293c1c333a9b9edd0d1ff87940391b0cd3d8c6ab614f89d2ad6"
+      },
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\CMakeLists.txt",
+        "sha256": "7a84eadee78ef8a22bd8141c911960b61217d430e6edfa39ff2e20d5a748e748"
+      },
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\handoff_candidates.h",
+        "sha256": "f2cb5de462a3cf1c7c5f33bf9b88513eb785ce8c2b1e51c5e07aaad8f613097b"
+      },
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\handoff_tests.cpp",
+        "sha256": "66ba7c35243b0589604b42f83d3b5d37c93d3bee1eee8ee7bbd1873e96637352"
+      },
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\shaders\\probe.hlsl",
+        "sha256": "d6523f6827455d777be860d3ab6d8ca4e7f87521719c28b26413b1fd939984ef"
+      }
+    ],
+    "shaders": [
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r1-debug-r1prep-002\\shaders\\probe-vs.cso",
+        "sha256": "9c0331aa5e17ca93a64d71b8e138bb073b3321b7915c8bc6c1b94b8a803755f0"
+      },
+      {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r1-debug-r1prep-002\\shaders\\probe-ps.cso",
+        "sha256": "eb1bc70352d9a30d5f493e3d9695780250eb4dc2fc38521eebe5f89f74c4090b"
+      }
+    ]
+  },
+  "shaders": [
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r1-debug-r1prep-002\\shaders\\probe-vs.cso",
+      "sha256": "9c0331aa5e17ca93a64d71b8e138bb073b3321b7915c8bc6c1b94b8a803755f0"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r1-debug-r1prep-002\\shaders\\probe-ps.cso",
+      "sha256": "eb1bc70352d9a30d5f493e3d9695780250eb4dc2fc38521eebe5f89f74c4090b"
+    }
+  ],
+  "experiment_sources": [
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\build.ps1",
+      "sha256": "df2dda5d971a97a82f7bb07fb3c8194d22c42fc70967673a69da91ad4bb67b5f"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\CMakeLists.txt",
+      "sha256": "72e4f71fb6ab17d6fb6ab3f16c0e5fd65258e7fdd4b27c430cb3467c11681381"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\package.ps1",
+      "sha256": "5081cc0fe81386df7310ecf62f8a0f0e425dc999eba658eb23ea0247b8a00da1"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\probe.cpp",
+      "sha256": "438e8bad74b2e95b44407b06bc7fff0791c5c831dff3dd464fec5d74ade8aaf1"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\renderer_probe.cpp",
+      "sha256": "c222b02cd202e0b0baeb3fa67da4be6ee8e3bf4b5da80988b4a35ccd230f50b1"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\renderer_probe.h",
+      "sha256": "3b20da4fab7a16034f2eb959454dc806c858db399c95e0285dad18d9082ef535"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\verify-probes.ps1",
+      "sha256": "881e37ed41f8a865fc6351bb09f43ebbdab5c6c27581f72118dc5c5e4eb67534"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\build.ps1",
+      "sha256": "a8a53f891c217f37a7fd6730e5dfe497b8807cf70e3372e7414a9d98a9633626"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\candidate_contract.h",
+      "sha256": "641608b6d3086e89b9be2df8102d78b5acf03ad0c37f01468a566b61ec0ce4f4"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\candidate_renderer_consumer.cpp",
+      "sha256": "68a0de59e1deb77e3db4434edfd5e9e22cbb032f36d69b60ccbfb08b572071f8"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\candidate_renderer.h",
+      "sha256": "0d644e7ad62216593c63c192687fba2ed5a32fda7009369c5fad883a39f61710"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\candidate_tests.cpp",
+      "sha256": "669f9a7ce0c200c58d9a34a537e97b219b07eb381894eb8693baaca83bb6e2b4"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\check_cpu_boundary.cmake",
+      "sha256": "572c186a5fe32293c1c333a9b9edd0d1ff87940391b0cd3d8c6ab614f89d2ad6"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\CMakeLists.txt",
+      "sha256": "7a84eadee78ef8a22bd8141c911960b61217d430e6edfa39ff2e20d5a748e748"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\handoff_candidates.h",
+      "sha256": "f2cb5de462a3cf1c7c5f33bf9b88513eb785ce8c2b1e51c5e07aaad8f613097b"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\contract\\handoff_tests.cpp",
+      "sha256": "66ba7c35243b0589604b42f83d3b5d37c93d3bee1eee8ee7bbd1873e96637352"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\experimental\\d3d12-r1\\shaders\\probe.hlsl",
+      "sha256": "d6523f6827455d777be860d3ab6d8ca4e7f87521719c28b26413b1fd939984ef"
+    }
+  ],
+  "portable_package": false,
+  "sources_are_build_origin_records": false,
+  "machine_file": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\evidence\\r1prep-debug-001\\machine.json",
+  "passed": true,
+  "freeze_authorized": false,
+  "scope": "Isolated discrete-adapter D3D12 R1 experiments; explicit zero-extent input and timeout are labelled contract injections, not real zero-pixel propagation or device-loss evidence.",
+  "remaining": "T2 acceptance and the current spec R1 handoff/evidence review are required before R2. This discrete-adapter experiment does not waive unexecuted matrix or later performance requirements and is not gameplay or T3 acceptance.",
+  "cases": [
+    {
+      "case": "hardware",
+      "started_utc": "2026-10-08T08:48:51.6463571+00:00",
+      "elapsed_ms": 11629,
+      "expected_exit_code": 0,
+      "exit_code": 0,
+      "timed_out": false,
+      "timeout_seconds": 60,
+      "injected_test": false,
+      "debug_layer_required": true,
+      "passed": true,
+      "checks": {
+        "process_completed": true,
+        "expected_exit": true,
+        "json_report": true,
+        "backend": true,
+        "hardware_adapter": true,
+        "current_scope_rtx": true,
+        "actual_device_identity": true,
+        "actual_driver_and_capabilities": true,
+        "actual_initial_presentation": true,
+        "present_parameters": true,
+        "debug_layer": true,
+        "clean_debug_errors": true,
+        "clean_debug_warnings": true,
+        "shutdown_completed": true,
+        "success": true,
+        "e01": true,
+        "e02": true,
+        "e03": true,
+        "presented_frames": true,
+        "real_pixels": true,
+        "actual_restored_presentation": true,
+        "adapter_identity": true,
+        "capability_record": true,
+        "screenshot_e01-linear.png": true,
+        "screenshot_e01-srgb.png": true,
+        "screenshot_e02-updated.png": true,
+        "screenshot_e02-empty.png": true,
+        "screenshot_e03-restored.png": true
+      },
+      "failure": null,
+      "report": {
+        "adapter": "NVIDIA GeForce RTX 5070 Ti",
+        "adapter_device_id": 11269,
+        "adapter_luid": "00000000:000144d0",
+        "adapter_vendor_id": 4318,
+        "backend": "D3D12",
+        "cleanup_completed": true,
+        "cpu_vertex_stride": 28,
+        "debug_error_count": 0,
+        "debug_layer_enabled": true,
+        "debug_warning_count": 0,
+        "delete_completed_at_retirement": 4,
+        "delete_inflight_fence": 5,
+        "device_luid_matches_dxgi_adapter": true,
+        "driver": "32.0.16.1664",
+        "e01_passed": true,
+        "e02_passed": true,
+        "e03_passed": true,
+        "elapsed_ms": 11064,
+        "feature_level": "12_0 (requested and created)",
+        "height": 540,
+        "present_flags": 0,
+        "present_sync_interval": 0,
+        "render_target_format": "R8G8B8A8_UNORM_SRGB (swapchain storage R8G8B8A8_UNORM)",
+        "retired_collected": 4,
+        "shader_model": "6_0 (explicit CheckFeatureSupport)",
+        "shutdown_completed": true,
+        "software_adapter": false,
+        "status": "pass",
+        "submitted_frames": 10,
+        "suspended_event_waits": 95,
+        "suspended_submissions": 0,
+        "swapchain_initial_buffer_count": 3,
+        "swapchain_initial_flags": 0,
+        "swapchain_initial_format": 28,
+        "swapchain_initial_height": 480,
+        "swapchain_initial_sample_count": 1,
+        "swapchain_initial_sample_quality": 0,
+        "swapchain_initial_swap_effect": 4,
+        "swapchain_initial_width": 640,
+        "swapchain_initial_windowed": true,
+        "swapchain_restored_buffer_count": 3,
+        "swapchain_restored_flags": 0,
+        "swapchain_restored_format": 28,
+        "swapchain_restored_height": 540,
+        "swapchain_restored_sample_count": 1,
+        "swapchain_restored_sample_quality": 0,
+        "swapchain_restored_swap_effect": 4,
+        "swapchain_restored_width": 720,
+        "swapchain_restored_windowed": true,
+        "texture_format": "R8G8B8A8_UNORM",
+        "timeout_injected": false,
+        "update_completed_at_retirement": 2,
+        "update_inflight_fence": 3,
+        "width": 720,
+        "window_mode": "Native SDL3 / private HWND bridge",
+        "zero_extent_input_is_injected": true
+      },
+      "screenshots": [
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\evidence\\r1prep-debug-001\\hardware\\e01-linear.png",
+          "bytes": 12557,
+          "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\evidence\\r1prep-debug-001\\hardware\\e01-srgb.png",
+          "bytes": 16272,
+          "sha256": "c3a6e00de7c63f2b3ff8a341b16366ea73ceeef325e958d1e30e8e99e5195176"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\evidence\\r1prep-debug-001\\hardware\\e02-empty.png",
+          "bytes": 12531,
+          "sha256": "edfe043daceb01875146f26d7ada8082bce7c45bf9d1d63f791a017bad40e6a6"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\evidence\\r1prep-debug-001\\hardware\\e02-updated.png",
+          "bytes": 12560,
+          "sha256": "15916fe28ba7184104a71cf3ced81a3f0eb03a56bb218b99410d9fa4db1628ce"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\evidence\\r1prep-debug-001\\hardware\\e03-restored.png",
+          "bytes": 16272,
+          "sha256": "6ac8218d2fe0cc28d236fe1a68e4d581e0292e3038ff69f9e889a50db3db3dde"
+        }
+      ],
+      "stdout": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\evidence\\r1prep-debug-001\\hardware\\stdout.log",
+      "stderr": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\evidence\\r1prep-debug-001\\hardware\\stderr.log"
+    },
+    {
+      "case": "injected-timeout",
+      "started_utc": "2026-10-08T08:49:03.3331290+00:00",
+      "elapsed_ms": 591,
+      "expected_exit_code": 1,
+      "exit_code": 1,
+      "timed_out": false,
+      "timeout_seconds": 60,
+      "injected_test": true,
+      "debug_layer_required": true,
+      "passed": true,
+      "checks": {
+        "process_completed": true,
+        "expected_exit": true,
+        "json_report": true,
+        "backend": true,
+        "hardware_adapter": true,
+        "current_scope_rtx": true,
+        "actual_device_identity": true,
+        "actual_driver_and_capabilities": true,
+        "actual_initial_presentation": true,
+        "present_parameters": true,
+        "debug_layer": true,
+        "clean_debug_errors": true,
+        "clean_debug_warnings": true,
+        "expected_failure": true,
+        "original_diagnostic": true,
+        "cleanup_completed": true,
+        "bounded_failure": true
+      },
+      "failure": null,
+      "report": {
+        "adapter": "NVIDIA GeForce RTX 5070 Ti",
+        "adapter_device_id": 11269,
+        "adapter_luid": "00000000:000144d0",
+        "adapter_vendor_id": 4318,
+        "backend": "D3D12",
+        "cleanup_completed": true,
+        "cpu_vertex_stride": 28,
+        "debug_error_count": 0,
+        "debug_layer_enabled": true,
+        "debug_warning_count": 0,
+        "device_luid_matches_dxgi_adapter": true,
+        "driver": "32.0.16.1664",
+        "e01_passed": false,
+        "e02_passed": false,
+        "e03_passed": false,
+        "elapsed_ms": 528,
+        "error": "D3D12 injected GPU wait timeout (simulated fence event)",
+        "feature_level": "12_0 (requested and created)",
+        "present_flags": 0,
+        "present_sync_interval": 0,
+        "render_target_format": "R8G8B8A8_UNORM_SRGB (swapchain storage R8G8B8A8_UNORM)",
+        "shader_model": "6_0 (explicit CheckFeatureSupport)",
+        "shutdown_completed": false,
+        "software_adapter": false,
+        "status": "fail",
+        "swapchain_initial_buffer_count": 3,
+        "swapchain_initial_flags": 0,
+        "swapchain_initial_format": 28,
+        "swapchain_initial_height": 480,
+        "swapchain_initial_sample_count": 1,
+        "swapchain_initial_sample_quality": 0,
+        "swapchain_initial_swap_effect": 4,
+        "swapchain_initial_width": 640,
+        "swapchain_initial_windowed": true,
+        "texture_format": "R8G8B8A8_UNORM",
+        "timeout_injected": true,
+        "window_mode": "Native SDL3 / private HWND bridge"
+      },
+      "screenshots": [
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\evidence\\r1prep-debug-001\\injected-timeout\\e01-linear.png",
+          "bytes": 12557,
+          "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500"
+        }
+      ],
+      "stdout": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\evidence\\r1prep-debug-001\\injected-timeout\\stdout.log",
+      "stderr": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\evidence\\r1prep-debug-001\\injected-timeout\\stderr.log"
+    }
+  ]
+}

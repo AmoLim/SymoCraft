@@ -5,7 +5,7 @@ tags:
 
 # 文档结构与维护参考
 
-更新日期：2026-10-07。面向后续维护者与 agent，说明文档归属、Obsidian 标签、阅读入口和变更边界。本文是目录维护参考，不替代项目 spec、实现说明或验收报告。
+更新日期：2026-10-09。面向后续维护者与 agent，说明文档归属、Obsidian 标签、阅读入口和变更边界。本文是目录维护参考，不替代项目 spec、实现说明或验收报告。
 
 ## 先读什么
 
@@ -20,13 +20,17 @@ tags:
 docs/
 ├── README.md                          # 面向读者的分类导航
 ├── DOCUMENTATION_MAP.md               # 面向维护者与 agent 的归属规则
+├── issue/                            # Agent 未关闭问题、人工审核与证据索引
+│   └── issues.md
 ├── spec/                             # 项目范围、目标设计与规范子模块
 │   ├── project-scope.md
 │   ├── M3-T0-模块软硬边界.md
 │   ├── M3-T1-世界模块重构.md
-│   ├── M3-T2-SDL3迁移.md              # 已选方案与准备/验收契约，原 draft 归档附录；不是实施授权
+│   ├── M3-T2-SDL3迁移.md              # 20261009用户正式批准T2，FB01/MB01方案2已确认；遗留实测风险和原draft保留
+│   ├── m3-t2-fix1-spec.md            # 按 Issues 审核意见定位文件发布失败、补齐诊断；待实施
 │   ├── M3-T1-T3-CPU契约清单.md        # T1 已交付数据与 T3-R1 待冻结输入
 │   ├── M3-T3-渲染器重构.md
+│   ├── M3-T4-draft.md                # 应用/平台/模拟候选契约，物理先独立target再正式模块
 │   ├── git/
 │   │   └── gitspec.md                # 版本控制规范子模块
 │   └── md-organize/
@@ -60,7 +64,8 @@ docs/
 │   ├── m2-t3/                        # 各阶段 evidence 随原报告保留
 │   ├── m3-t0/
 │   ├── m3-t1/
-│   └── m3-t2/                        # SDL3 准备记录、候选契约与实际探针证据
+│   ├── m3-t2/                        # SDL3迁移、固定人工核查入口与交付证据
+│   └── m3-t3/                        # 现代后端实验、固定人工核查入口与交付证据
 └── Obsidian-功能笔记模板/              # 写作规范、模板与示例
 ```
 
@@ -70,6 +75,7 @@ docs/
 
 | 内容 | 归属 | 注意事项 |
 | --- | --- | --- |
+| Agent 尚未关闭的问题 | `issue/issues.md` | 唯一 `Mx-Ix` 编号；简述表每格锚点链接同名附录，人工 review 未确认不得代填为批准；阶段验收仍回到 milestone 固定入口 |
 | 项目范围、未实施方案、任务契约 | `spec/` | 目标设计不等于已实现；明确状态与非目标 |
 | 模块实现、类设计、操作指南、局部修复 | `project/<主题>/` | 优先复用已有主题目录，标明适用版本与源码依据 |
 | M3 起生产模块的实际设计 | `project/architecture/<模块>/` | 单资源对象独立笔记；值/辅助类型按职责合并到具名小节；数据/系统不伪装类。入口：[模块索引](project/architecture/Overview.md)、[对象覆盖清单](project/architecture/对象笔记覆盖清单.md) |
@@ -79,6 +85,7 @@ docs/
 | 性能采样协议、Benchmark 共享固定场景 | `project/benchmark/testing/` | 共享场景需链接通用玩法验收，旧脚本流程注明版本 |
 | 通用玩法、启动失败、连续游玩与回归验收 | `testing/` | 不因与性能场景共享夹具就放入 Benchmark |
 | 阶段验证结果、失败和复测、包交接 | `milestones/<阶段>/` | 保留时间、版本、环境、结果与结论边界 |
+| 本阶段固定人工核查入口 | `milestones/<阶段>/manul-verification.md` | 从阶段 README 链接，随推进原地维护 checkbox 表格；详细约定见 [project-scope](spec/project-scope.md#milestone-人工核查入口) |
 | 旧架构资料 | `legacy/architecture/` | 保留原阶段事实；新模块说明不继续堆入此处 |
 | 历史第三方依赖盘点 | `legacy/third-party-inventory.md` | 属于 legacy，不独立建立依赖板块 |
 | 版本控制规范 | `spec/git/` | spec 的规范子模块 |
@@ -92,7 +99,7 @@ docs/
 
 | 板块标签 | 路径 | 图谱颜色 |
 | --- | --- | --- |
-| `area/meta` | 根 `README.md`、`DOCUMENTATION_MAP.md` | 灰色 |
+| `area/meta` | 根 `README.md`、`DOCUMENTATION_MAP.md`、`issue/` | 灰色 |
 | `area/spec` | `spec/`，含 `git/`、`md-organize/` | 紫色 |
 | `area/build` | `project/build/` | 橙色 |
 | `area/architecture` | `project/architecture/`，含模块索引与构建测试边界 | 青色建议；尚未写入或验证图谱设置 |
@@ -131,6 +138,7 @@ docs/
 ## 引用与维护规则
 
 - 总入口负责导航，本文负责归属规则，任务 spec 负责设计约定，报告负责验证结果；避免在多个入口重复维护测试数量与进度。
+- 新建或继续实施 milestone 时提供固定 `manul-verification.md`，采用 [人工核查模板](Obsidian-功能笔记模板/templates/11-Milestone人工核查.md) 并补 `area/milestones`；子步骤文档回链此入口，避免各处平行维护当前人工结论。跨节点同名文件用带目录的相对链接。
 - 共享入口与跨目录导航优先使用相对 Markdown 链接，兼容普通 Markdown 阅读器；已有 Obsidian 双链可保留，目标名必须唯一可解析。
 - 移动文档时同时检查入链、出链、源码链接、图片链接及锚点；只调整导航，不批量替换历史命令中的路径。
 - `evidence/` 内日志、截图、哈希与结果文件保持原位置和原内容，不为目录美观重排证据。

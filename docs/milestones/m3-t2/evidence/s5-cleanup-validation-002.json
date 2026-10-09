@@ -1,0 +1,232 @@
+﻿{
+    "stage":  "M3-T2-S5",
+    "created_utc":  "2026-10-08T08:30:10.6069757Z",
+    "scope":  "S5-only removal regression; no new GPU/manual acceptance or T3 edits",
+    "source_inputs":  [
+                          {
+                              "path":  "game/app/src/application.cpp",
+                              "sha256":  "8a8d21c73bb6b8c23638cd8352d4e8cc14a4923f6c2160e53391ad4d8098ca02"
+                          },
+                          {
+                              "path":  "game/app/src/startup_options.cpp",
+                              "sha256":  "8aee322ef29b56882b70e50dada015349f8e19164ed19b021f4175bbdb850996"
+                          },
+                          {
+                              "path":  "game/app/src/startup_options.h",
+                              "sha256":  "57280f7bc96160f91e75016c12571683acf011755d456b9025db1840c3b797c4"
+                          },
+                          {
+                              "path":  "test/unit/app/startup_options_tests.cpp",
+                              "sha256":  "28b45dfe8bd95b47988ef25e7573e7d7a0541463e767228230f8406c209a666d"
+                          },
+                          {
+                              "path":  "test/unit/app/CMakeLists.txt",
+                              "sha256":  "e6ffcdf9a41bad1754219d1f4b943972cec5eca342a08365dbcb32e7b2042fc3"
+                          },
+                          {
+                              "path":  "test/experimental/platform-sdl3/main.cpp",
+                              "sha256":  "9f3a2c55120dcb72a6e966d875290f0972997f6a6539485159a7fc7e263534d4"
+                          },
+                          {
+                              "path":  "test/experimental/platform-sdl3/input_tests.cpp",
+                              "sha256":  "46132615be48f8ed5e3757eb48ef80e71c042b30b29c2d73d81c21afa2eeb3f5"
+                          },
+                          {
+                              "path":  "test/experimental/platform-sdl3/input_options.h",
+                              "sha256":  "fa45e30fe8205cbe56c9623a06d89a2b2223ffff9e44cf30f309a7f0cd8cf33a"
+                          },
+                          {
+                              "path":  "test/experimental/platform-sdl3/input_options_tests.cpp",
+                              "sha256":  "b5ce79226b4c8f27766c7288a82ca088c75138d9c5bd197325891952b2eaa111"
+                          },
+                          {
+                              "path":  "test/experimental/platform-sdl3/CMakeLists.txt",
+                              "sha256":  "8d9caafb4fb24920d332984d55e5cfaf8aa9fda14b357957ecc53ec6c3ea9fd0"
+                          }
+                      ],
+    "new_build_directories":  [
+                                  "out/m3-t2/s5/cleanup-main-debug-001",
+                                  "out/m3-t2/s5/cleanup-main-release-001",
+                                  "out/m3-t2/s5/cleanup-probe-debug-001",
+                                  "out/m3-t2/s5/cleanup-probe-release-001"
+                              ],
+    "targeted_tests":  [
+                           {
+                               "configuration":  "debug",
+                               "kind":  "main",
+                               "passed":  38,
+                               "log":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/cleanup-main-debug-001-followup-test.log",
+                               "sha256":  "a8d34a61f5b591d260440825d2c1cffb45b90d50c5d656c872e7122d15a98e58",
+                               "full_main_ctest_rerun":  false
+                           },
+                           {
+                               "configuration":  "debug",
+                               "kind":  "probe",
+                               "passed":  2,
+                               "log":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/cleanup-probe-debug-001-test.log",
+                               "sha256":  "cf3b9c5abc839bc85b2febfcf5fbbe63b2f5ead9e4b2476acdb293c66ed54467",
+                               "full_main_ctest_rerun":  false
+                           },
+                           {
+                               "configuration":  "release",
+                               "kind":  "main",
+                               "passed":  38,
+                               "log":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/cleanup-main-release-001-followup-test.log",
+                               "sha256":  "4b8965089fe2d005bb586a23fba63a956a7f637f7db883a5a9f54590039ce48d",
+                               "full_main_ctest_rerun":  false
+                           },
+                           {
+                               "configuration":  "release",
+                               "kind":  "probe",
+                               "passed":  2,
+                               "log":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/cleanup-probe-release-001-test.log",
+                               "sha256":  "0a1d0957aa65b8c21c8c8df5df2000a119354f31d21892f6af395940d4e5b6d1",
+                               "full_main_ctest_rerun":  false
+                           }
+                       ],
+    "retired_option_rejections":  [
+                                      {
+                                          "case":  "debug-game",
+                                          "executable":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/install/cleanup-main-debug-001/SymoCraft.exe",
+                                          "executable_sha256":  "f922eff012fb5a82cb3e26b2d7e7a8b546073bd0e3ef4b918f206f3633785a7c",
+                                          "exit_code":  64,
+                                          "expected_exit_code":  64,
+                                          "forced_termination":  false,
+                                          "rejected_before_video_init":  true,
+                                          "passed":  true,
+                                          "scope":  "Removed option is rejected, no window or GPU validation performed"
+                                      },
+                                      {
+                                          "case":  "debug-bridge",
+                                          "executable":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/cleanup-probe-debug-001/SymoCraftPlatformSdl3Probe.exe",
+                                          "executable_sha256":  "8307e9aa66e29938ea4852ce39aaab1c6c2a0b46811cfadb350d6f531391a14f",
+                                          "exit_code":  1,
+                                          "expected_exit_code":  1,
+                                          "forced_termination":  false,
+                                          "rejected_before_video_init":  true,
+                                          "passed":  true,
+                                          "scope":  "Removed option is rejected, no window or GPU validation performed"
+                                      },
+                                      {
+                                          "case":  "debug-input",
+                                          "executable":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/cleanup-probe-debug-001/SymoCraftPlatformInputTests.exe",
+                                          "executable_sha256":  "6de7581756adea8cb2d72e1cb3215609e9f83eeea1776e5eaa341cc0c5447543",
+                                          "exit_code":  1,
+                                          "expected_exit_code":  1,
+                                          "forced_termination":  false,
+                                          "rejected_before_video_init":  true,
+                                          "passed":  true,
+                                          "scope":  "Removed option is rejected, no window or GPU validation performed"
+                                      },
+                                      {
+                                          "case":  "release-game",
+                                          "executable":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/install/cleanup-main-release-001/SymoCraft.exe",
+                                          "executable_sha256":  "d6ec8ebb0f226efab4544c2b4702985169f8d068df32d20d4ebc2b6a6c44089d",
+                                          "exit_code":  64,
+                                          "expected_exit_code":  64,
+                                          "forced_termination":  false,
+                                          "rejected_before_video_init":  true,
+                                          "passed":  true,
+                                          "scope":  "Removed option is rejected, no window or GPU validation performed"
+                                      },
+                                      {
+                                          "case":  "release-bridge",
+                                          "executable":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/cleanup-probe-release-001/SymoCraftPlatformSdl3Probe.exe",
+                                          "executable_sha256":  "94fef952ed536a99746058eb3150f8c29bfd30864d9b8625aeda9d6b0e542b52",
+                                          "exit_code":  1,
+                                          "expected_exit_code":  1,
+                                          "forced_termination":  false,
+                                          "rejected_before_video_init":  true,
+                                          "passed":  true,
+                                          "scope":  "Removed option is rejected, no window or GPU validation performed"
+                                      },
+                                      {
+                                          "case":  "release-input",
+                                          "executable":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/cleanup-probe-release-001/SymoCraftPlatformInputTests.exe",
+                                          "executable_sha256":  "f6a42d480d72016ae3751abf02fe7d8ef7f5877cd7abaf97092122114ef84af6",
+                                          "exit_code":  1,
+                                          "expected_exit_code":  1,
+                                          "forced_termination":  false,
+                                          "rejected_before_video_init":  true,
+                                          "passed":  true,
+                                          "scope":  "Removed option is rejected, no window or GPU validation performed"
+                                      }
+                                  ],
+    "retired_option_cases_passed":  6,
+    "production_imports":  [
+                               {
+                                   "configuration":  "Debug",
+                                   "production_build":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/cleanup-main-debug-001",
+                                   "imports":  [
+                                                   {
+                                                       "target":  "platform",
+                                                       "archive":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/cleanup-main-debug-001/game/modules/platform/symocraft_platform.lib",
+                                                       "sha256":  "2212b3ee57234d65460f3b7218147bfdb81cdcb88eb7c10119ca6b5e2bd452d9"
+                                                   },
+                                                   {
+                                                       "target":  "foundation",
+                                                       "archive":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/cleanup-main-debug-001/game/modules/foundation/symocraft_foundation.lib",
+                                                       "sha256":  "06cd7e91ab67d0bca5a8d5512c6b4183b0f8c7d9347854669eae7cc338e4c67f"
+                                                   },
+                                                   {
+                                                       "target":  "sdl",
+                                                       "archive":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/cleanup-main-debug-001/vendor/sdl3/SDL3-static.lib",
+                                                       "sha256":  "823d11803fb3f05cf2c0fb5e93d6fad8a84c3e63ce4af6cf9e3f08d803cb4afa"
+                                                   },
+                                                   {
+                                                       "target":  "glad",
+                                                       "archive":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/cleanup-main-debug-001/game/symocraft_glad.lib",
+                                                       "sha256":  "6faf368e26ff8370d1ff184859e66b39095620d8087a54060f9df3b8092f1c45"
+                                                   }
+                                               ],
+                                   "production_cache_sha256":  "938c09b51f9ec28d9dca89503b53d831901b1a802bdfcf49208f24ee4cca73d5",
+                                   "current_window_source_sha256":  "7d5cd113551f34bafd47a080a938edd8345f09e22bfd4f7e15d0f00efa6a832f",
+                                   "current_input_state_source_sha256":  "445fe1ea7be1de4ba32cae97ed7a9aef8395752fbbd07d5e1e240b91ac13d3b1"
+                               },
+                               {
+                                   "configuration":  "Release",
+                                   "production_build":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/cleanup-main-release-001",
+                                   "imports":  [
+                                                   {
+                                                       "target":  "platform",
+                                                       "archive":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/cleanup-main-release-001/game/modules/platform/symocraft_platform.lib",
+                                                       "sha256":  "d8477e033180be3415e97278e2c160a00ada688bf2d557fc1e71e81556add951"
+                                                   },
+                                                   {
+                                                       "target":  "foundation",
+                                                       "archive":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/cleanup-main-release-001/game/modules/foundation/symocraft_foundation.lib",
+                                                       "sha256":  "a34866544f545f5a8b29ab157ab5338d7436e5c4d7168521b9d33e77de045de2"
+                                                   },
+                                                   {
+                                                       "target":  "sdl",
+                                                       "archive":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/cleanup-main-release-001/vendor/sdl3/SDL3-static.lib",
+                                                       "sha256":  "ef35b63a906606a7d27b730149a9dfa9ca336e6ff747578e5258b5480fc8b730"
+                                                   },
+                                                   {
+                                                       "target":  "glad",
+                                                       "archive":  "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/cleanup-main-release-001/game/symocraft_glad.lib",
+                                                       "sha256":  "5d35b9484b8bda1d386e4952f907dd75a02cd79fd00c939d3c0cf4bc92678780"
+                                                   }
+                                               ],
+                                   "production_cache_sha256":  "b08ca5ef455bed44b5f3729b8d8681748ce78f04cc5067acff7e43ea1c65e67a",
+                                   "current_window_source_sha256":  "7d5cd113551f34bafd47a080a938edd8345f09e22bfd4f7e15d0f00efa6a832f",
+                                   "current_input_state_source_sha256":  "445fe1ea7be1de4ba32cae97ed7a9aef8395752fbbd07d5e1e240b91ac13d3b1"
+                               }
+                           ],
+    "retained_generic_behaviors":  [
+                                       "Ordinary input cases retain Native window",
+                                       "hardware-manual retains OpenGL",
+                                       "wide input parsing and CPU tests remain",
+                                       "Default game and benchmark options unchanged"
+                                   ],
+    "helper_collector_notes":  [
+                                   "First retirement operation completed but post-delete formatting failed; independent completion report verifies absence and retained raw evidence",
+                                   "Initial game CLI collector treated stderr as terminating NativeCommandError and mistakenly expected asset-error exit2; fixed to actual main.cpp usage-error exit64; original logs retained, final 6 CLI cases independently captured"
+                               ],
+    "removal_record":  "docs/milestones/m3-t2/evidence/s5-retired-verification.json",
+    "publication_1175_risk_open":  true,
+    "s5_complete":  false,
+    "t2_approved":  false,
+    "t3_r1_v1_frozen":  false,
+    "t3_r2_started":  false
+}

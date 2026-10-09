@@ -1,0 +1,22 @@
+adapter=NVIDIA GeForce RTX 5070 Ti luid=00000000:000144d0 driver=32.0.16.1664 dedicated_video_bytes=16771973120 shader_model=6_0 (explicit CheckFeatureSupport)
+shader_vs=F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t3\r1-debug-r1prep-002\shaders\probe-vs.cso shader_ps=F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t3\r1-debug-r1prep-002\shaders\probe-ps.cso shader_runtime_compilation=false
+present_resources extent=640x480 buffers=3 rtv=R8G8B8A8_UNORM_SRGB storage=R8G8B8A8_UNORM
+actual_swapchain extent=640x480 format=28 buffers=3 samples=1 quality=0 swap_effect=4 windowed=1 flags=0 present_sync_interval=0 present_flags=0
+renderer=D3D12 window_mode=native debug_layer=enabled hardware_required=true minimum_feature_level=12_0 minimum_shader_model=6_0 frame_ring=3 bounded_wait_ms=2500
+fixture_clip_mapping=x/2-1,1-y/2 z=0.5 world_camera_validation=false vertex_stride=28 position=SINT3@0 uv_layer=FLOAT3@12 normal=FLOAT@24 sampler=point_clamp alpha_clip=0.01 clear_linear_rgba=0,0,0,1
+texture_snapshot extent=2x2 layers=2 cpu_storage=layer_major_top_left_RGBA8 tightly_packed cpu_bytes=32 gpu_upload_bytes=776 row_pitch=256 cpu_borrow_retained=false format=R8G8B8A8_UNORM submitted_fence=1 completed_fence=1
+mesh_snapshot vertices=12 upload_bytes=336 cpu_borrow_retained=false fresh_resource=1 memory=UPLOAD_heap_vertex_buffer
+mesh_create owner=1 slot=0 generation=1
+frame_submit frame_id=1 submitted_fence=2 completed_fence=2 mesh_slot=0 vertices=12 capture=1 present=1 gate_active=0 upload_bytes=0
+screenshot_owned top_left=true rgba_bytes=1228800 readback_row_pitch=2560
+wait_timeout_injection=1 simulated_fence_event_only=true
+fence_wait operation=resize prior submissions target=2 completed_before=2 limit_ms=200 injected=1
+wait_failure operation=resize prior submissions result=258 target=2 completed=2 injected=1 no_second_wait=true
+shutdown_failed_state no_second_wait=true
+release_native_resources retired_pending=0 last_submitted=2 last_completed=2 abandoned=1 retirement_collection_claimed=false
+release_stage=command_lists_allocators_done
+release_stage=mesh_texture_done
+release_stage=swapchain_done
+release_stage=queue_done
+shutdown_abandoned last_submitted=2 last_completed=2 debug_warnings=0 debug_errors=0 retired_collected=0 fence_completion_claimed=0
+shutdown_idempotent no_wait=true

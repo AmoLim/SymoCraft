@@ -4,7 +4,7 @@ status: 已验证（T1适配），已知问题延期
 project: Symocraft
 module: app
 created: 2026-10-05
-updated: 2026-10-06
+updated: 2026-10-08
 tags:
   - area/architecture
 ---
@@ -54,7 +54,7 @@ tags:
 | `void Init(const StartupOptions&, Session* = nullptr)` | main；application.h | Window/context → Registry 注册 → Camera/renderer → pending 定义 → 玩家；设置清理责任标记 | 串行未初始化；Session 非空时校验实际 framebuffer 并写启动元数据 | 二次初始化 logic_error；其他异常上抛，可能部分获取，由 main 调用 Free 清理 | [实现](../../../../game/app/src/application.cpp) / I1/I2 |
 | `void Run(const StartupOptions&, Session* = nullptr)` | main；application.h | 验证纹理层、消费定义创建局部 world、首 mesh、循环模拟/发布/复制/绘制；benchmark 写既有样本和结束诊断 | Init 成功且窗口/Registry/Camera/pending 均存在；不支持失败后续跑；I4/I6 | 缺必要状态 logic_error；其他异常展开局部 query/world，后续 main 调用 Free；不回滚已模拟帧或导出未结束截图 | [实现](../../../../game/app/src/application.cpp) / I2/I4/I6 |
 | `void PrintWorldSummary(const StartupOptions&)` | main；application.h | 局部 PrepareWorld → YAML 输出；不建窗口或 CPU mesh | assets 已预检；配置 view 有效 | 读取/生成/输出异常传播；局部世界自动释放，无可继续会话 | [实现](../../../../game/app/src/application.cpp) / I6 |
-| `void Free()` | main；application.h | pending → renderer → Camera/Registry → Window → GLFW；清空持有者与责任标记 | Run 局部 query/world 已结束；主线程、context 仍有效 | 处理部分初始化；自身无领域 throw，但未声明 noexcept，不承诺所有下游清理失败可恢复 | [实现](../../../../game/app/src/application.cpp) / I1/I2 |
+| `void Free()` | main；application.h | pending → renderer → Camera/Registry → Window/context → 本模块 SDL video；清空持有者与责任标记 | Run 局部 query/world 已结束；主线程、context 在 renderer 释放时仍有效 | 分段清理故障不阻断后续释放，保留首故障、报告次级诊断；不能把清理失败当作正常成功 | [实现](../../../../game/app/src/application.cpp) / I1/I2 |
 | `int main(int argc, char* argv[])` | Windows 进程入口；非模块 API | 参数 → assets 预检 → summary 或 Init/Run → Free → 可选 Export；成功0，参数64，缺资源2，运行/导出错误3，无效采样4 | argv 至返回有效；Session 寿命覆盖 Export；Free 在运行 catch 后，Export 仅捕获 std::exception | 运行 std/非std 异常均记致命错误后清理；未给预检/Free 的所有异常统一退出码保证 | [main](../../../../game/app/src/main.cpp) / I2/I4 |
 
 ### 私有函数预期行为

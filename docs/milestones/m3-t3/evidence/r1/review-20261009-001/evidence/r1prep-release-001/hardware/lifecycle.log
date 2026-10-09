@@ -1,0 +1,210 @@
+adapter=NVIDIA GeForce RTX 5070 Ti luid=00000000:000144d0 driver=32.0.16.1664 dedicated_video_bytes=16771973120 shader_model=6_0 (explicit CheckFeatureSupport)
+shader_vs=F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t3\r1-release-r1prep-001\shaders\probe-vs.cso shader_ps=F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t3\r1-release-r1prep-001\shaders\probe-ps.cso shader_runtime_compilation=false
+present_resources extent=640x480 buffers=3 rtv=R8G8B8A8_UNORM_SRGB storage=R8G8B8A8_UNORM
+actual_swapchain extent=640x480 format=28 buffers=3 samples=1 quality=0 swap_effect=4 windowed=1 flags=0 present_sync_interval=0 present_flags=0
+renderer=D3D12 window_mode=native debug_layer=enabled hardware_required=true minimum_feature_level=12_0 minimum_shader_model=6_0 frame_ring=3 bounded_wait_ms=2500
+fixture_clip_mapping=x/2-1,1-y/2 z=0.5 world_camera_validation=false vertex_stride=28 position=SINT3@0 uv_layer=FLOAT3@12 normal=FLOAT@24 sampler=point_clamp alpha_clip=0.01 clear_linear_rgba=0,0,0,1
+texture_snapshot extent=2x2 layers=2 cpu_storage=layer_major_top_left_RGBA8 tightly_packed cpu_bytes=32 gpu_upload_bytes=776 row_pitch=256 cpu_borrow_retained=false format=R8G8B8A8_UNORM submitted_fence=1 completed_fence=1
+mesh_snapshot vertices=12 upload_bytes=336 cpu_borrow_retained=false fresh_resource=1 memory=UPLOAD_heap_vertex_buffer
+mesh_create owner=1 slot=0 generation=1
+frame_submit frame_id=1 submitted_fence=2 completed_fence=1 mesh_slot=0 vertices=12 capture=1 present=1 gate_active=0 upload_bytes=0
+fence_wait operation=explicit screenshot outside performance sample target=2 completed_before=1 limit_ms=2500 injected=0
+screenshot_owned top_left=true rgba_bytes=1228800 readback_row_pitch=2560
+gate_begin value=1 completed_fence=2 cpu_signal_release_required=true
+frame_submit frame_id=2 submitted_fence=3 completed_fence=2 mesh_slot=0 vertices=12 capture=0 present=0 gate_active=1 upload_bytes=0
+mesh_snapshot vertices=12 upload_bytes=336 cpu_borrow_retained=false fresh_resource=1 memory=UPLOAD_heap_vertex_buffer
+retire_enqueue reason=mesh_update last_use_fence=3 completed_fence=2 in_flight=1
+mesh_update slot=0 generation=1 vertices=12 accepted=true
+gate_end value=1 last_submitted=3 completed_fence=2
+frame_submit frame_id=3 submitted_fence=4 completed_fence=4 mesh_slot=0 vertices=12 capture=1 present=1 gate_active=0 upload_bytes=0
+screenshot_owned top_left=true rgba_bytes=1228800 readback_row_pitch=2560
+gate_begin value=2 completed_fence=4 cpu_signal_release_required=true
+retire_collect reason=mesh_update retire_fence=3 completed_fence=4
+frame_submit frame_id=4 submitted_fence=5 completed_fence=4 mesh_slot=0 vertices=12 capture=0 present=0 gate_active=1 upload_bytes=0
+retire_enqueue reason=mesh_destroy last_use_fence=5 completed_fence=4 in_flight=1
+mesh_destroy slot=0 old_generation=1 new_generation=2 logical_invalidated=true
+mesh_handle_rejected owner=1 slot=0 generation=1 reason=foreign_or_stale
+mesh_handle_rejected owner=1 slot=0 generation=1 reason=foreign_or_stale
+gate_end value=2 last_submitted=5 completed_fence=4
+mesh_snapshot vertices=0 upload_bytes=0 cpu_borrow_retained=false fresh_resource=0 memory=UPLOAD_heap_vertex_buffer
+mesh_create owner=1 slot=0 generation=2
+frame_submit frame_id=5 submitted_fence=6 completed_fence=6 mesh_slot=0 vertices=0 capture=1 present=1 gate_active=0 upload_bytes=0
+screenshot_owned top_left=true rgba_bytes=1228800 readback_row_pitch=2560
+mesh_snapshot vertices=12 upload_bytes=336 cpu_borrow_retained=false fresh_resource=1 memory=UPLOAD_heap_vertex_buffer
+mesh_update slot=0 generation=2 vertices=12 accepted=true
+mesh_snapshot vertices=0 upload_bytes=0 cpu_borrow_retained=false fresh_resource=0 memory=UPLOAD_heap_vertex_buffer
+retire_enqueue reason=mesh_update last_use_fence=0 completed_fence=6 in_flight=0
+retire_collect reason=mesh_destroy retire_fence=5 completed_fence=6
+retire_collect reason=mesh_update retire_fence=0 completed_fence=6
+mesh_update slot=0 generation=2 vertices=0 accepted=true
+frame_submit frame_id=6 submitted_fence=7 completed_fence=7 mesh_slot=0 vertices=0 capture=1 present=1 gate_active=0 upload_bytes=0
+screenshot_owned top_left=true rgba_bytes=1228800 readback_row_pitch=2560
+mesh_snapshot vertices=12 upload_bytes=336 cpu_borrow_retained=false fresh_resource=1 memory=UPLOAD_heap_vertex_buffer
+mesh_update slot=0 generation=2 vertices=12 accepted=true
+e02_completed entering_window_resize=true
+resize_query_before request=800x480
+resize_setsize_begin
+resize_setsize_returned waiting_for_pixels=true
+resize_discarded_prior_command_lists completed_fence=7
+resize_old_backbuffers_released=true
+present_resources extent=800x480 buffers=3 rtv=R8G8B8A8_UNORM_SRGB storage=R8G8B8A8_UNORM
+actual_swapchain extent=800x480 format=28 buffers=3 samples=1 quality=0 swap_effect=4 windowed=1 flags=0 present_sync_interval=0 present_flags=0
+resize_ready extent=800x480 completed_fence=7
+frame_submit frame_id=7 submitted_fence=8 completed_fence=8 mesh_slot=0 vertices=12 capture=1 present=1 gate_active=0 upload_bytes=0
+screenshot_owned top_left=true rgba_bytes=1536000 readback_row_pitch=3328
+window_pixels=800x480
+resize_query_before request=512x384
+resize_setsize_begin
+resize_setsize_returned waiting_for_pixels=true
+resize_discarded_prior_command_lists completed_fence=8
+resize_old_backbuffers_released=true
+present_resources extent=512x384 buffers=3 rtv=R8G8B8A8_UNORM_SRGB storage=R8G8B8A8_UNORM
+actual_swapchain extent=512x384 format=28 buffers=3 samples=1 quality=0 swap_effect=4 windowed=1 flags=0 present_sync_interval=0 present_flags=0
+resize_ready extent=512x384 completed_fence=8
+frame_submit frame_id=8 submitted_fence=9 completed_fence=9 mesh_slot=0 vertices=12 capture=1 present=1 gate_active=0 upload_bytes=0
+screenshot_owned top_left=true rgba_bytes=786432 readback_row_pitch=2048
+window_pixels=512x384
+resize_query_before request=720x540
+resize_setsize_begin
+resize_setsize_returned waiting_for_pixels=true
+resize_discarded_prior_command_lists completed_fence=9
+resize_old_backbuffers_released=true
+present_resources extent=720x540 buffers=3 rtv=R8G8B8A8_UNORM_SRGB storage=R8G8B8A8_UNORM
+actual_swapchain extent=720x540 format=28 buffers=3 samples=1 quality=0 swap_effect=4 windowed=1 flags=0 present_sync_interval=0 present_flags=0
+resize_ready extent=720x540 completed_fence=9
+frame_submit frame_id=9 submitted_fence=10 completed_fence=10 mesh_slot=0 vertices=12 capture=1 present=1 gate_active=0 upload_bytes=0
+screenshot_owned top_left=true rgba_bytes=1555200 readback_row_pitch=3072
+window_pixels=720x540
+resize_suspend extent=0x0 no_gpu_submission=true
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+render_skipped reason=zero_extent submitted_frames=9
+resize_discarded_prior_command_lists completed_fence=10
+resize_old_backbuffers_released=true
+present_resources extent=720x540 buffers=3 rtv=R8G8B8A8_UNORM_SRGB storage=R8G8B8A8_UNORM
+actual_swapchain extent=720x540 format=28 buffers=3 samples=1 quality=0 swap_effect=4 windowed=1 flags=0 present_sync_interval=0 present_flags=0
+resize_ready extent=720x540 completed_fence=10
+frame_submit frame_id=10 submitted_fence=11 completed_fence=11 mesh_slot=0 vertices=12 capture=1 present=1 gate_active=0 upload_bytes=0
+screenshot_owned top_left=true rgba_bytes=1555200 readback_row_pitch=3072
+retire_enqueue reason=mesh_destroy last_use_fence=11 completed_fence=11 in_flight=0
+retire_collect reason=mesh_destroy retire_fence=11 completed_fence=11
+mesh_destroy slot=0 old_generation=2 new_generation=3 logical_invalidated=true
+release_native_resources retired_pending=0 last_submitted=11 last_completed=11 abandoned=0 retirement_collection_claimed=false
+release_stage=command_lists_allocators_done
+release_stage=mesh_texture_done
+release_stage=swapchain_done
+release_stage=queue_done
+shutdown_complete last_submitted=11 last_completed=11 debug_warnings=0 debug_errors=0 retired_collected=4 fence_completion_claimed=1
+shutdown_idempotent no_wait=true
+shutdown_idempotent no_wait=true
+adapter=NVIDIA GeForce RTX 5070 Ti luid=00000000:000144d0 driver=32.0.16.1664 dedicated_video_bytes=16771973120 shader_model=6_0 (explicit CheckFeatureSupport)
+shader_vs=F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t3\r1-release-r1prep-001\shaders\probe-vs.cso shader_ps=F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t3\r1-release-r1prep-001\shaders\probe-ps.cso shader_runtime_compilation=false
+present_resources extent=720x540 buffers=3 rtv=R8G8B8A8_UNORM_SRGB storage=R8G8B8A8_UNORM
+actual_swapchain extent=720x540 format=28 buffers=3 samples=1 quality=0 swap_effect=4 windowed=1 flags=0 present_sync_interval=0 present_flags=0
+renderer=D3D12 window_mode=native debug_layer=enabled hardware_required=true minimum_feature_level=12_0 minimum_shader_model=6_0 frame_ring=3 bounded_wait_ms=2500
+fixture_clip_mapping=x/2-1,1-y/2 z=0.5 world_camera_validation=false vertex_stride=28 position=SINT3@0 uv_layer=FLOAT3@12 normal=FLOAT@24 sampler=point_clamp alpha_clip=0.01 clear_linear_rgba=0,0,0,1
+texture_snapshot extent=2x2 layers=2 cpu_storage=layer_major_top_left_RGBA8 tightly_packed cpu_bytes=32 gpu_upload_bytes=776 row_pitch=256 cpu_borrow_retained=false format=R8G8B8A8_UNORM_SRGB submitted_fence=1 completed_fence=1
+mesh_snapshot vertices=12 upload_bytes=336 cpu_borrow_retained=false fresh_resource=1 memory=UPLOAD_heap_vertex_buffer
+mesh_create owner=2 slot=0 generation=1
+frame_submit frame_id=1 submitted_fence=2 completed_fence=2 mesh_slot=0 vertices=12 capture=1 present=1 gate_active=0 upload_bytes=0
+screenshot_owned top_left=true rgba_bytes=1555200 readback_row_pitch=3072
+release_native_resources retired_pending=0 last_submitted=2 last_completed=2 abandoned=0 retirement_collection_claimed=false
+release_stage=command_lists_allocators_done
+release_stage=mesh_texture_done
+release_stage=swapchain_done
+release_stage=queue_done
+shutdown_complete last_submitted=2 last_completed=2 debug_warnings=0 debug_errors=0 retired_collected=0 fence_completion_claimed=1
+shutdown_idempotent no_wait=true

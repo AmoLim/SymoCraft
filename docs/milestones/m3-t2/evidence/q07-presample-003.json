@@ -1,0 +1,270 @@
+{
+    "date":  "2026-10-09",
+    "role":  "Frozen GLFW repeat exploratory P95/P99 measurement; not matched Q06 acceptance",
+    "source_summary":  "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\q07-glfw-presample-003\\summary.json",
+    "source_summary_sha256":  "22c62f139278a4466a40cc7bc2f99270432ada48af65c0716fa36922eb3b2eef",
+    "source_manifest_sha256":  "355f4fbd7bad1c702ac19f3d2742f74d429b62b974464cb0e76de4f8782ac52a",
+    "planned":  9,
+    "valid":  9,
+    "rounds":  [
+                   {
+                       "scene":  "static",
+                       "repeat":  1,
+                       "frames":  4618,
+                       "p95_ms":  8.5504,
+                       "p99_ms":  9.8316,
+                       "first_frame_ms":  987.3184,
+                       "ws_observed_max_mib":  558.40625,
+                       "private_observed_max_mib":  1149.96484375,
+                       "ws_growth_mib":  -63.5859375,
+                       "private_growth_mib":  -64.70703125,
+                       "memory_points":  30,
+                       "gpu_count":  4617,
+                       "gpu_missing":  1,
+                       "gpu_missing_ratio":  0.00021654395842355997
+                   },
+                   {
+                       "scene":  "static",
+                       "repeat":  2,
+                       "frames":  4894,
+                       "p95_ms":  7.6448,
+                       "p99_ms":  8.7392,
+                       "first_frame_ms":  940.0566,
+                       "ws_observed_max_mib":  488.43359375,
+                       "private_observed_max_mib":  1079.40625,
+                       "ws_growth_mib":  0.98046875,
+                       "private_growth_mib":  0.03125,
+                       "memory_points":  30,
+                       "gpu_count":  4894,
+                       "gpu_missing":  0,
+                       "gpu_missing_ratio":  0
+                   },
+                   {
+                       "scene":  "static",
+                       "repeat":  3,
+                       "frames":  4929,
+                       "p95_ms":  7.6048,
+                       "p99_ms":  8.6711,
+                       "first_frame_ms":  952.195,
+                       "ws_observed_max_mib":  488.49609375,
+                       "private_observed_max_mib":  1080.38671875,
+                       "ws_growth_mib":  0.328125,
+                       "private_growth_mib":  -1.59765625,
+                       "memory_points":  30,
+                       "gpu_count":  4928,
+                       "gpu_missing":  1,
+                       "gpu_missing_ratio":  0.0002028809089064719
+                   },
+                   {
+                       "scene":  "walk",
+                       "repeat":  1,
+                       "frames":  5141,
+                       "p95_ms":  6.7957,
+                       "p99_ms":  7.3349,
+                       "first_frame_ms":  944.5377,
+                       "ws_observed_max_mib":  558.51171875,
+                       "private_observed_max_mib":  1151.078125,
+                       "ws_growth_mib":  3.0859375,
+                       "private_growth_mib":  2.109375,
+                       "memory_points":  30,
+                       "gpu_count":  5140,
+                       "gpu_missing":  1,
+                       "gpu_missing_ratio":  0.00019451468585878233
+                   },
+                   {
+                       "scene":  "walk",
+                       "repeat":  2,
+                       "frames":  4905,
+                       "p95_ms":  7.5245,
+                       "p99_ms":  9.7027,
+                       "first_frame_ms":  919.9854,
+                       "ws_observed_max_mib":  484.85546875,
+                       "private_observed_max_mib":  1076.88671875,
+                       "ws_growth_mib":  0.96484375,
+                       "private_growth_mib":  0.08984375,
+                       "memory_points":  30,
+                       "gpu_count":  4905,
+                       "gpu_missing":  0,
+                       "gpu_missing_ratio":  0
+                   },
+                   {
+                       "scene":  "walk",
+                       "repeat":  3,
+                       "frames":  4949,
+                       "p95_ms":  7.5007,
+                       "p99_ms":  8.7558,
+                       "first_frame_ms":  927.2706,
+                       "ws_observed_max_mib":  484.79296875,
+                       "private_observed_max_mib":  1075.31640625,
+                       "ws_growth_mib":  0.3515625,
+                       "private_growth_mib":  -1.47265625,
+                       "memory_points":  30,
+                       "gpu_count":  4948,
+                       "gpu_missing":  1,
+                       "gpu_missing_ratio":  0.00020206102242877348
+                   },
+                   {
+                       "scene":  "edit",
+                       "repeat":  1,
+                       "frames":  4892,
+                       "p95_ms":  7.5632,
+                       "p99_ms":  8.8403,
+                       "first_frame_ms":  928.379,
+                       "ws_observed_max_mib":  489.50390625,
+                       "private_observed_max_mib":  1080.95703125,
+                       "ws_growth_mib":  1.609375,
+                       "private_growth_mib":  0.71875,
+                       "memory_points":  30,
+                       "gpu_count":  4891,
+                       "gpu_missing":  1,
+                       "gpu_missing_ratio":  0.00020441537203597711
+                   },
+                   {
+                       "scene":  "edit",
+                       "repeat":  2,
+                       "frames":  5095,
+                       "p95_ms":  6.933,
+                       "p99_ms":  7.6157,
+                       "first_frame_ms":  903.4519,
+                       "ws_observed_max_mib":  487.96875,
+                       "private_observed_max_mib":  1079.80859375,
+                       "ws_growth_mib":  1.00390625,
+                       "private_growth_mib":  -0.84765625,
+                       "memory_points":  30,
+                       "gpu_count":  5094,
+                       "gpu_missing":  1,
+                       "gpu_missing_ratio":  0.00019627085377821394
+                   },
+                   {
+                       "scene":  "edit",
+                       "repeat":  3,
+                       "frames":  4948,
+                       "p95_ms":  7.4533,
+                       "p99_ms":  8.7219,
+                       "first_frame_ms":  927.4294,
+                       "ws_observed_max_mib":  489.7421875,
+                       "private_observed_max_mib":  1081.390625,
+                       "ws_growth_mib":  1.59765625,
+                       "private_growth_mib":  0.71484375,
+                       "memory_points":  30,
+                       "gpu_count":  4947,
+                       "gpu_missing":  1,
+                       "gpu_missing_ratio":  0.00020210185933710589
+                   }
+               ],
+    "scenes":  [
+                   {
+                       "scene":  "static",
+                       "p95_ms":  {
+                                      "min":  7.6048,
+                                      "median":  7.6448,
+                                      "max":  8.5504,
+                                      "spread":  0.94559999999999977
+                                  },
+                       "p99_ms":  {
+                                      "min":  8.6711,
+                                      "median":  8.7392,
+                                      "max":  9.8316,
+                                      "spread":  1.1605000000000008
+                                  },
+                       "first_frame_ms":  {
+                                              "min":  940.0566,
+                                              "median":  952.195,
+                                              "max":  987.3184,
+                                              "spread":  47.261799999999994
+                                          },
+                       "ws_observed_max_mib":  {
+                                                   "min":  488.43359375,
+                                                   "median":  488.49609375,
+                                                   "max":  558.40625,
+                                                   "spread":  69.97265625
+                                               },
+                       "private_observed_max_mib":  {
+                                                        "min":  1079.40625,
+                                                        "median":  1080.38671875,
+                                                        "max":  1149.96484375,
+                                                        "spread":  70.55859375
+                                                    }
+                   },
+                   {
+                       "scene":  "walk",
+                       "p95_ms":  {
+                                      "min":  6.7957,
+                                      "median":  7.5007,
+                                      "max":  7.5245,
+                                      "spread":  0.72879999999999967
+                                  },
+                       "p99_ms":  {
+                                      "min":  7.3349,
+                                      "median":  8.7558,
+                                      "max":  9.7027,
+                                      "spread":  2.3678
+                                  },
+                       "first_frame_ms":  {
+                                              "min":  919.9854,
+                                              "median":  927.2706,
+                                              "max":  944.5377,
+                                              "spread":  24.552299999999946
+                                          },
+                       "ws_observed_max_mib":  {
+                                                   "min":  484.79296875,
+                                                   "median":  484.85546875,
+                                                   "max":  558.51171875,
+                                                   "spread":  73.71875
+                                               },
+                       "private_observed_max_mib":  {
+                                                        "min":  1075.31640625,
+                                                        "median":  1076.88671875,
+                                                        "max":  1151.078125,
+                                                        "spread":  75.76171875
+                                                    }
+                   },
+                   {
+                       "scene":  "edit",
+                       "p95_ms":  {
+                                      "min":  6.933,
+                                      "median":  7.4533,
+                                      "max":  7.5632,
+                                      "spread":  0.63020000000000032
+                                  },
+                       "p99_ms":  {
+                                      "min":  7.6157,
+                                      "median":  8.7219,
+                                      "max":  8.8403,
+                                      "spread":  1.2245999999999988
+                                  },
+                       "first_frame_ms":  {
+                                              "min":  903.4519,
+                                              "median":  927.4294,
+                                              "max":  928.379,
+                                              "spread":  24.927099999999996
+                                          },
+                       "ws_observed_max_mib":  {
+                                                   "min":  487.96875,
+                                                   "median":  489.50390625,
+                                                   "max":  489.7421875,
+                                                   "spread":  1.7734375
+                                               },
+                       "private_observed_max_mib":  {
+                                                        "min":  1079.80859375,
+                                                        "median":  1080.95703125,
+                                                        "max":  1081.390625,
+                                                        "spread":  1.58203125
+                                                    }
+                   }
+               ],
+    "options":  [
+
+                ],
+    "budget_approved":  false,
+    "sdl_acceptance_sampled":  false,
+    "fix1_resumed":  false,
+    "interpretation":  [
+                           "Nearest-rank per round. A median of three P95 values is not a pooled percentile.",
+                           "Candidate headroom is a policy choice, not a confidence interval or a proven noise bound.",
+                           "Only three independent 30-second rounds per scene; keep all slow and unfocused frames.",
+                           "Memory limits apply to periodic observations in [10,40)s, not loading/export peaks, VRAM, or a leak guarantee.",
+                           "These old-source measurements must not be combined with current SDL as a matched migration comparison.",
+                           "No acceptance outcome before human budget confirmation and required same-source comparison."
+                       ]
+}

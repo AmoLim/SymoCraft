@@ -1,0 +1,45 @@
+{
+  "recorded_utc": "2026-10-08T08:48:51.6133945+00:00",
+  "computer_name": "AMO",
+  "windows": [
+    {
+      "Caption": "Microsoft Windows 11 专业版",
+      "Version": "10.0.26200",
+      "BuildNumber": "26200",
+      "OSArchitecture": "64 位"
+    }
+  ],
+  "cpu": [
+    {
+      "Name": "AMD Ryzen 7 9700X 8-Core Processor             ",
+      "NumberOfCores": 8,
+      "NumberOfLogicalProcessors": 16
+    }
+  ],
+  "display_inventory": [
+    {
+      "Name": "OrayIddDriver Device",
+      "DriverVersion": "17.50.19.949",
+      "PNPDeviceID": "ROOT\\DISPLAY\\0000"
+    },
+    {
+      "Name": "MuMu Virtual Display Adapter",
+      "DriverVersion": "20.36.41.498",
+      "PNPDeviceID": "ROOT\\DISPLAY\\0001"
+    },
+    {
+      "Name": "AMD Radeon(TM) Graphics",
+      "DriverVersion": "32.0.21043.5001",
+      "PNPDeviceID": "PCI\\VEN_1002&DEV_13C0&SUBSYS_88771043&REV_C5\\4&1EBE6A9C&0&0041"
+    },
+    {
+      "Name": "NVIDIA GeForce RTX 5070 Ti",
+      "DriverVersion": "32.0.16.1664",
+      "PNPDeviceID": "PCI\\VEN_10DE&DEV_2C05&SUBSYS_41811458&REV_A1\\586615B8F42DB04800"
+    }
+  ],
+  "metadata_errors": [],
+  "optional_metadata_is_not_gpu_proof": true,
+  "display_inventory_is_not_selected_adapter_proof": true,
+  "process_is_64_bit": true
+}

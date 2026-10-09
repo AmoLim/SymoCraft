@@ -1,0 +1,704 @@
+{
+  "schema": "symocraft.r1-review-archive",
+  "version": 1,
+  "archived_utc": "2026-10-09T04:01:08Z",
+  "scope": {
+    "node": "M3-T3-R1",
+    "purpose": "Read-only review snapshot of existing evidence",
+    "new_run": false,
+    "runnable_package": false,
+    "freeze_approval": false,
+    "copied_original_bytes": true
+  },
+  "source_root": "out/m3-t3",
+  "archive_root": "docs/milestones/m3-t3/evidence/r1/review-20261009-001",
+  "file_count": 114,
+  "total_bytes": 783092,
+  "missing_requested": [],
+  "files": [
+    {
+      "source": "out/m3-t3/evidence/desktop-release-001/hardware/e01-linear.png",
+      "archive": "evidence/desktop-release-001/hardware/e01-linear.png",
+      "bytes": 12557,
+      "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-001/hardware/e02-empty.png",
+      "archive": "evidence/desktop-release-001/hardware/e02-empty.png",
+      "bytes": 12531,
+      "sha256": "edfe043daceb01875146f26d7ada8082bce7c45bf9d1d63f791a017bad40e6a6"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-001/hardware/e02-updated.png",
+      "archive": "evidence/desktop-release-001/hardware/e02-updated.png",
+      "bytes": 12560,
+      "sha256": "15916fe28ba7184104a71cf3ced81a3f0eb03a56bb218b99410d9fa4db1628ce"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-001/hardware/lifecycle.log",
+      "archive": "evidence/desktop-release-001/hardware/lifecycle.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-001/hardware/stderr.log",
+      "archive": "evidence/desktop-release-001/hardware/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-001/hardware/stdout.log",
+      "archive": "evidence/desktop-release-001/hardware/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-001/injected-timeout/e01-linear.png",
+      "archive": "evidence/desktop-release-001/injected-timeout/e01-linear.png",
+      "bytes": 12557,
+      "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-001/injected-timeout/lifecycle.log",
+      "archive": "evidence/desktop-release-001/injected-timeout/lifecycle.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-001/injected-timeout/stderr.log",
+      "archive": "evidence/desktop-release-001/injected-timeout/stderr.log",
+      "bytes": 67,
+      "sha256": "35ef77518b9e9081898d76e5797c573bccb7fd311d08e749b1fb6ba03862181b"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-001/injected-timeout/stdout.log",
+      "archive": "evidence/desktop-release-001/injected-timeout/stdout.log",
+      "bytes": 280,
+      "sha256": "0f5d24468cc2dca580af29f20ca9e9d381ea06f3a5e7b505a53f721c594aec7f"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-001/machine.json",
+      "archive": "evidence/desktop-release-001/machine.json",
+      "bytes": 1221,
+      "sha256": "b437209f236b7dddbd70f8aafb930993816624c8c8973922cee7991a1917eddb"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-001/verification.json",
+      "archive": "evidence/desktop-release-001/verification.json",
+      "bytes": 13945,
+      "sha256": "389bb1acd13ecaacabef263d2e6a3c94d6ce1a6dd184a1e81f3f3cab303a6ab5"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-002/hardware/e01-linear.png",
+      "archive": "evidence/desktop-release-002/hardware/e01-linear.png",
+      "bytes": 12557,
+      "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-002/hardware/e02-empty.png",
+      "archive": "evidence/desktop-release-002/hardware/e02-empty.png",
+      "bytes": 12531,
+      "sha256": "edfe043daceb01875146f26d7ada8082bce7c45bf9d1d63f791a017bad40e6a6"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-002/hardware/e02-updated.png",
+      "archive": "evidence/desktop-release-002/hardware/e02-updated.png",
+      "bytes": 12560,
+      "sha256": "15916fe28ba7184104a71cf3ced81a3f0eb03a56bb218b99410d9fa4db1628ce"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-002/hardware/lifecycle.log",
+      "archive": "evidence/desktop-release-002/hardware/lifecycle.log",
+      "bytes": 4126,
+      "sha256": "bbc01665dcbd55274425d6e8ef4dbc77b1e4b75abeaa43b307fa1006c99b245a"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-002/hardware/stderr.log",
+      "archive": "evidence/desktop-release-002/hardware/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-002/hardware/stdout.log",
+      "archive": "evidence/desktop-release-002/hardware/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-002/injected-timeout/e01-linear.png",
+      "archive": "evidence/desktop-release-002/injected-timeout/e01-linear.png",
+      "bytes": 12557,
+      "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-002/injected-timeout/lifecycle.log",
+      "archive": "evidence/desktop-release-002/injected-timeout/lifecycle.log",
+      "bytes": 1995,
+      "sha256": "5d3fb77ae05e605ca23e139e69165ec55d3cf030cf8bca605a431e158f5d2abd"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-002/injected-timeout/stderr.log",
+      "archive": "evidence/desktop-release-002/injected-timeout/stderr.log",
+      "bytes": 67,
+      "sha256": "35ef77518b9e9081898d76e5797c573bccb7fd311d08e749b1fb6ba03862181b"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-002/injected-timeout/stdout.log",
+      "archive": "evidence/desktop-release-002/injected-timeout/stdout.log",
+      "bytes": 280,
+      "sha256": "328b42f318534fe7091070728134db342d30c27c4311c164ce20c2cb698f1add"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-002/machine.json",
+      "archive": "evidence/desktop-release-002/machine.json",
+      "bytes": 1221,
+      "sha256": "72933e0e87750ad205079b9ad3915fd44066e712eb2120d3f5139f332e1ec2ce"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-002/verification.json",
+      "archive": "evidence/desktop-release-002/verification.json",
+      "bytes": 13945,
+      "sha256": "5a42c65fb902b56a8e781669a81158a0ec1875996bb83ff0d8a09060071b3eab"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-003/hardware/e01-linear.png",
+      "archive": "evidence/desktop-release-003/hardware/e01-linear.png",
+      "bytes": 12557,
+      "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-003/hardware/e01-srgb.png",
+      "archive": "evidence/desktop-release-003/hardware/e01-srgb.png",
+      "bytes": 16272,
+      "sha256": "c3a6e00de7c63f2b3ff8a341b16366ea73ceeef325e958d1e30e8e99e5195176"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-003/hardware/e02-empty.png",
+      "archive": "evidence/desktop-release-003/hardware/e02-empty.png",
+      "bytes": 12531,
+      "sha256": "edfe043daceb01875146f26d7ada8082bce7c45bf9d1d63f791a017bad40e6a6"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-003/hardware/e02-updated.png",
+      "archive": "evidence/desktop-release-003/hardware/e02-updated.png",
+      "bytes": 12560,
+      "sha256": "15916fe28ba7184104a71cf3ced81a3f0eb03a56bb218b99410d9fa4db1628ce"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-003/hardware/e03-restored.png",
+      "archive": "evidence/desktop-release-003/hardware/e03-restored.png",
+      "bytes": 16272,
+      "sha256": "6ac8218d2fe0cc28d236fe1a68e4d581e0292e3038ff69f9e889a50db3db3dde"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-003/hardware/lifecycle.log",
+      "archive": "evidence/desktop-release-003/hardware/lifecycle.log",
+      "bytes": 14322,
+      "sha256": "64898bd6d67eee95736181671562cc672fe4a0376834273cd23d6580bdd3cc90"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-003/hardware/result.json",
+      "archive": "evidence/desktop-release-003/hardware/result.json",
+      "bytes": 1116,
+      "sha256": "2be8798ac1ac909e2183f03ea5aabfc68ff823d5faa2401b8996df9e3319e11e"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-003/hardware/stderr.log",
+      "archive": "evidence/desktop-release-003/hardware/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-003/hardware/stdout.log",
+      "archive": "evidence/desktop-release-003/hardware/stdout.log",
+      "bytes": 280,
+      "sha256": "13865f37f21a7a76a06bc7d2243fc655d5bcc4aeb7b6a0a4fa0da078f5b9fc03"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-003/injected-timeout/e01-linear.png",
+      "archive": "evidence/desktop-release-003/injected-timeout/e01-linear.png",
+      "bytes": 12557,
+      "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-003/injected-timeout/lifecycle.log",
+      "archive": "evidence/desktop-release-003/injected-timeout/lifecycle.log",
+      "bytes": 2296,
+      "sha256": "320f6a036434abd39b06ab907505ed5ad9d8cd6778fc36684ea496238bfdf5c6"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-003/injected-timeout/result.json",
+      "archive": "evidence/desktop-release-003/injected-timeout/result.json",
+      "bytes": 852,
+      "sha256": "ded21e9a9089b8d0d7d09c7059763092500706d57e9fb79663aa41c216fca903"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-003/injected-timeout/stderr.log",
+      "archive": "evidence/desktop-release-003/injected-timeout/stderr.log",
+      "bytes": 67,
+      "sha256": "35ef77518b9e9081898d76e5797c573bccb7fd311d08e749b1fb6ba03862181b"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-003/injected-timeout/stdout.log",
+      "archive": "evidence/desktop-release-003/injected-timeout/stdout.log",
+      "bytes": 280,
+      "sha256": "692c08e97b31126987a91e44f7d1b1791e37f27ecc6211230544b35747c9b6d3"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-003/machine.json",
+      "archive": "evidence/desktop-release-003/machine.json",
+      "bytes": 1221,
+      "sha256": "d055084cc64ff85daaa2c82227a7b9c63a92a7bec7dadf1bb57676c75aa7659c"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-003/verification.json",
+      "archive": "evidence/desktop-release-003/verification.json",
+      "bytes": 17482,
+      "sha256": "9018b0f17ecfe1d4b75366286481293b06c7fba54c44f06955d6c3d0fb30b47f"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-004/hardware/e01-linear.png",
+      "archive": "evidence/desktop-release-004/hardware/e01-linear.png",
+      "bytes": 12557,
+      "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-004/hardware/e01-srgb.png",
+      "archive": "evidence/desktop-release-004/hardware/e01-srgb.png",
+      "bytes": 16272,
+      "sha256": "c3a6e00de7c63f2b3ff8a341b16366ea73ceeef325e958d1e30e8e99e5195176"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-004/hardware/e02-empty.png",
+      "archive": "evidence/desktop-release-004/hardware/e02-empty.png",
+      "bytes": 12531,
+      "sha256": "edfe043daceb01875146f26d7ada8082bce7c45bf9d1d63f791a017bad40e6a6"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-004/hardware/e02-updated.png",
+      "archive": "evidence/desktop-release-004/hardware/e02-updated.png",
+      "bytes": 12560,
+      "sha256": "15916fe28ba7184104a71cf3ced81a3f0eb03a56bb218b99410d9fa4db1628ce"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-004/hardware/e03-restored.png",
+      "archive": "evidence/desktop-release-004/hardware/e03-restored.png",
+      "bytes": 16272,
+      "sha256": "6ac8218d2fe0cc28d236fe1a68e4d581e0292e3038ff69f9e889a50db3db3dde"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-004/hardware/lifecycle.log",
+      "archive": "evidence/desktop-release-004/hardware/lifecycle.log",
+      "bytes": 17709,
+      "sha256": "2766d3ab8c7d627950ec74ce6d5c7dabed0a25249e5a58f3ee7e468374e152fe"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-004/hardware/result.json",
+      "archive": "evidence/desktop-release-004/hardware/result.json",
+      "bytes": 1117,
+      "sha256": "cde301406122df6aad146a726f9bcff945ab025ef8b5d41db4a61d5c042fb1cf"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-004/hardware/stderr.log",
+      "archive": "evidence/desktop-release-004/hardware/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-004/hardware/stdout.log",
+      "archive": "evidence/desktop-release-004/hardware/stdout.log",
+      "bytes": 280,
+      "sha256": "1423a9315dbdc43514f8802317f03ad3a2e26a3da9154f1893c74b6a186acc9a"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-004/injected-timeout/e01-linear.png",
+      "archive": "evidence/desktop-release-004/injected-timeout/e01-linear.png",
+      "bytes": 12557,
+      "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-004/injected-timeout/lifecycle.log",
+      "archive": "evidence/desktop-release-004/injected-timeout/lifecycle.log",
+      "bytes": 2174,
+      "sha256": "2b19545c30feec288b92f4046fc98eab365b11b37d361dfb485473fec9066eb9"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-004/injected-timeout/result.json",
+      "archive": "evidence/desktop-release-004/injected-timeout/result.json",
+      "bytes": 852,
+      "sha256": "e01916fa41f76c6d44131aded9d063a99dc1716237afa89b812dfaedd90b3fbf"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-004/injected-timeout/stderr.log",
+      "archive": "evidence/desktop-release-004/injected-timeout/stderr.log",
+      "bytes": 67,
+      "sha256": "35ef77518b9e9081898d76e5797c573bccb7fd311d08e749b1fb6ba03862181b"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-004/injected-timeout/stdout.log",
+      "archive": "evidence/desktop-release-004/injected-timeout/stdout.log",
+      "bytes": 280,
+      "sha256": "a13d1dfd19eb11f599d18ad3a1ad0d987b91ffc9371089fd89ecd0ecd515109b"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-004/machine.json",
+      "archive": "evidence/desktop-release-004/machine.json",
+      "bytes": 1221,
+      "sha256": "966fe8bf37c2f4139efb68cdefc8b1212f1ef3488a940be1ff9a8feb4bb3a891"
+    },
+    {
+      "source": "out/m3-t3/evidence/desktop-release-004/verification.json",
+      "archive": "evidence/desktop-release-004/verification.json",
+      "bytes": 17483,
+      "sha256": "c5bfa674e15d6403988447b6e365045ed963e5cb09b2ab1d0f62b33791239de2"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-debug-001/hardware/e01-linear.png",
+      "archive": "evidence/r1prep-debug-001/hardware/e01-linear.png",
+      "bytes": 12557,
+      "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-debug-001/hardware/e01-srgb.png",
+      "archive": "evidence/r1prep-debug-001/hardware/e01-srgb.png",
+      "bytes": 16272,
+      "sha256": "c3a6e00de7c63f2b3ff8a341b16366ea73ceeef325e958d1e30e8e99e5195176"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-debug-001/hardware/e02-empty.png",
+      "archive": "evidence/r1prep-debug-001/hardware/e02-empty.png",
+      "bytes": 12531,
+      "sha256": "edfe043daceb01875146f26d7ada8082bce7c45bf9d1d63f791a017bad40e6a6"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-debug-001/hardware/e02-updated.png",
+      "archive": "evidence/r1prep-debug-001/hardware/e02-updated.png",
+      "bytes": 12560,
+      "sha256": "15916fe28ba7184104a71cf3ced81a3f0eb03a56bb218b99410d9fa4db1628ce"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-debug-001/hardware/e03-restored.png",
+      "archive": "evidence/r1prep-debug-001/hardware/e03-restored.png",
+      "bytes": 16272,
+      "sha256": "6ac8218d2fe0cc28d236fe1a68e4d581e0292e3038ff69f9e889a50db3db3dde"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-debug-001/hardware/lifecycle.log",
+      "archive": "evidence/r1prep-debug-001/hardware/lifecycle.log",
+      "bytes": 15340,
+      "sha256": "54f0f98e85514fb83970411ee17ca02162e60b0e280f5c99747ec1a4c688fd92"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-debug-001/hardware/result.json",
+      "archive": "evidence/r1prep-debug-001/hardware/result.json",
+      "bytes": 1963,
+      "sha256": "6c62975598babbdf337554c0ecd6040651a80eb46841bbf29b3c49d8172a67fa"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-debug-001/hardware/stderr.log",
+      "archive": "evidence/r1prep-debug-001/hardware/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-debug-001/hardware/stdout.log",
+      "archive": "evidence/r1prep-debug-001/hardware/stdout.log",
+      "bytes": 280,
+      "sha256": "a31c4b6d3df3ccc476c750b887461af54333d0b8e751b567b5f98f137c8e9c89"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-debug-001/injected-timeout/e01-linear.png",
+      "archive": "evidence/r1prep-debug-001/injected-timeout/e01-linear.png",
+      "bytes": 12557,
+      "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-debug-001/injected-timeout/lifecycle.log",
+      "archive": "evidence/r1prep-debug-001/injected-timeout/lifecycle.log",
+      "bytes": 2330,
+      "sha256": "4c2b58b1910e356d353b9e9e1c2352a814e67fb60e838aaeaeb4e77a1ac8f340"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-debug-001/injected-timeout/result.json",
+      "archive": "evidence/r1prep-debug-001/injected-timeout/result.json",
+      "bytes": 1351,
+      "sha256": "c42263c11b50b11ffac8eeaa807a34f12fc637895b44f45d501bae6235b6a872"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-debug-001/injected-timeout/stderr.log",
+      "archive": "evidence/r1prep-debug-001/injected-timeout/stderr.log",
+      "bytes": 67,
+      "sha256": "35ef77518b9e9081898d76e5797c573bccb7fd311d08e749b1fb6ba03862181b"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-debug-001/injected-timeout/stdout.log",
+      "archive": "evidence/r1prep-debug-001/injected-timeout/stdout.log",
+      "bytes": 280,
+      "sha256": "8f4fcd0822b7bd2a1b48f6eb942400385a609cfb3507961c826ff11170885799"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-debug-001/machine.json",
+      "archive": "evidence/r1prep-debug-001/machine.json",
+      "bytes": 1294,
+      "sha256": "2d1e06519aea23fcd0cbeff0ed0f48ffc7673b10f3a93633aa026f72c17fbfe9"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-debug-001/verification.json",
+      "archive": "evidence/r1prep-debug-001/verification.json",
+      "bytes": 25025,
+      "sha256": "f1e7b2bf6d1fa58e7c9b19640dd4fe0b48e93cd2ff97ef963a84c0ff0bb1f3fe"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-release-001/hardware/e01-linear.png",
+      "archive": "evidence/r1prep-release-001/hardware/e01-linear.png",
+      "bytes": 12557,
+      "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-release-001/hardware/e01-srgb.png",
+      "archive": "evidence/r1prep-release-001/hardware/e01-srgb.png",
+      "bytes": 16272,
+      "sha256": "c3a6e00de7c63f2b3ff8a341b16366ea73ceeef325e958d1e30e8e99e5195176"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-release-001/hardware/e02-empty.png",
+      "archive": "evidence/r1prep-release-001/hardware/e02-empty.png",
+      "bytes": 12531,
+      "sha256": "edfe043daceb01875146f26d7ada8082bce7c45bf9d1d63f791a017bad40e6a6"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-release-001/hardware/e02-updated.png",
+      "archive": "evidence/r1prep-release-001/hardware/e02-updated.png",
+      "bytes": 12560,
+      "sha256": "15916fe28ba7184104a71cf3ced81a3f0eb03a56bb218b99410d9fa4db1628ce"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-release-001/hardware/e03-restored.png",
+      "archive": "evidence/r1prep-release-001/hardware/e03-restored.png",
+      "bytes": 16272,
+      "sha256": "6ac8218d2fe0cc28d236fe1a68e4d581e0292e3038ff69f9e889a50db3db3dde"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-release-001/hardware/lifecycle.log",
+      "archive": "evidence/r1prep-release-001/hardware/lifecycle.log",
+      "bytes": 15158,
+      "sha256": "28e955d9e912e4fe182273d406953d6211c71dbfb92c8c74c1db8f22c1570eb0"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-release-001/hardware/result.json",
+      "archive": "evidence/r1prep-release-001/hardware/result.json",
+      "bytes": 1963,
+      "sha256": "c03a895021a44a284740c417f1bce3d7be7ea53fdfbeec786278586019293c58"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-release-001/hardware/stderr.log",
+      "archive": "evidence/r1prep-release-001/hardware/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-release-001/hardware/stdout.log",
+      "archive": "evidence/r1prep-release-001/hardware/stdout.log",
+      "bytes": 280,
+      "sha256": "ec1f4ecb0e5bb59ac746b8149ab3f3c95870725928f429008b91b7a8523cb89f"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-release-001/injected-timeout/e01-linear.png",
+      "archive": "evidence/r1prep-release-001/injected-timeout/e01-linear.png",
+      "bytes": 12557,
+      "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-release-001/injected-timeout/lifecycle.log",
+      "archive": "evidence/r1prep-release-001/injected-timeout/lifecycle.log",
+      "bytes": 2334,
+      "sha256": "d863da5ae5195c1d05207b570cf2af9348a80063f85615fc37d2872087694195"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-release-001/injected-timeout/result.json",
+      "archive": "evidence/r1prep-release-001/injected-timeout/result.json",
+      "bytes": 1351,
+      "sha256": "c42263c11b50b11ffac8eeaa807a34f12fc637895b44f45d501bae6235b6a872"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-release-001/injected-timeout/stderr.log",
+      "archive": "evidence/r1prep-release-001/injected-timeout/stderr.log",
+      "bytes": 67,
+      "sha256": "35ef77518b9e9081898d76e5797c573bccb7fd311d08e749b1fb6ba03862181b"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-release-001/injected-timeout/stdout.log",
+      "archive": "evidence/r1prep-release-001/injected-timeout/stdout.log",
+      "bytes": 280,
+      "sha256": "2d02d0c5e20f0e93b15a2084f25cee40a660561f56d04a1403f3fdcb07af2aad"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-release-001/machine.json",
+      "archive": "evidence/r1prep-release-001/machine.json",
+      "bytes": 1294,
+      "sha256": "8fbd2be24ef924424f54539d6da9f2d47c5894673fd6ce3d1a9e3df04fcfce5d"
+    },
+    {
+      "source": "out/m3-t3/evidence/r1prep-release-001/verification.json",
+      "archive": "evidence/r1prep-release-001/verification.json",
+      "bytes": 25068,
+      "sha256": "9c4e2600db2901352fe807eff4ed03fdf6939d0302f6912be06a6985adaf9aa9"
+    },
+    {
+      "source": "out/m3-t3/log/r1/build/cpu-debug-ctest.log",
+      "archive": "log/r1/build/cpu-debug-ctest.log",
+      "bytes": 270,
+      "sha256": "4367a79b15c20b1b3e23df426217613aae54d2b2c22b650637b7be8515ee49ab"
+    },
+    {
+      "source": "out/m3-t3/log/r1/build/cpu-release-ctest.log",
+      "archive": "log/r1/build/cpu-release-ctest.log",
+      "bytes": 270,
+      "sha256": "4367a79b15c20b1b3e23df426217613aae54d2b2c22b650637b7be8515ee49ab"
+    },
+    {
+      "source": "out/m3-t3/log/r1/build/r1prep-cpu-debug-ctest-final-003.log",
+      "archive": "log/r1/build/r1prep-cpu-debug-ctest-final-003.log",
+      "bytes": 599,
+      "sha256": "ada7a0ec5ce2c56ec91926e801f209168833a9ac775a8f525bf9bfad03a370ba"
+    },
+    {
+      "source": "out/m3-t3/log/r1/build/r1prep-cpu-release-ctest-final-004.log",
+      "archive": "log/r1/build/r1prep-cpu-release-ctest-final-004.log",
+      "bytes": 601,
+      "sha256": "3e24c9e081a284552c951ba5fcd9a3b6fdf218fa12f64a1b0be8f1370d73563a"
+    },
+    {
+      "source": "out/m3-t3/log/r1/build/r1prep-stale-import-rejection-001.log",
+      "archive": "log/r1/build/r1prep-stale-import-rejection-001.log",
+      "bytes": 600,
+      "sha256": "2cce6cd6209d1b79f54cd855d50ffcc0d4d5597c65051a128123eebaca5dc09d"
+    },
+    {
+      "source": "out/m3-t3/log/r1/build/release-build-005.log",
+      "archive": "log/r1/build/release-build-005.log",
+      "bytes": 342,
+      "sha256": "e5b0cd38fda5425b687997d3058dd73dd3893c48cb00d06aa8bca69ac84fca03"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/build-identities.json",
+      "archive": "package/d3d12-r1-release-001/build-identities.json",
+      "bytes": 4377,
+      "sha256": "7ea1f01cbeab2263befc4a4f38b5bc98c3adc9110c6560c6407199d79ae76ee2"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/e01-linear.png",
+      "archive": "package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/e01-linear.png",
+      "bytes": 12557,
+      "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/e01-srgb.png",
+      "archive": "package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/e01-srgb.png",
+      "bytes": 16272,
+      "sha256": "c3a6e00de7c63f2b3ff8a341b16366ea73ceeef325e958d1e30e8e99e5195176"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/e02-empty.png",
+      "archive": "package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/e02-empty.png",
+      "bytes": 12531,
+      "sha256": "edfe043daceb01875146f26d7ada8082bce7c45bf9d1d63f791a017bad40e6a6"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/e02-updated.png",
+      "archive": "package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/e02-updated.png",
+      "bytes": 12560,
+      "sha256": "15916fe28ba7184104a71cf3ced81a3f0eb03a56bb218b99410d9fa4db1628ce"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/e03-restored.png",
+      "archive": "package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/e03-restored.png",
+      "bytes": 16272,
+      "sha256": "6ac8218d2fe0cc28d236fe1a68e4d581e0292e3038ff69f9e889a50db3db3dde"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/lifecycle.log",
+      "archive": "package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/lifecycle.log",
+      "bytes": 17524,
+      "sha256": "116788070e05359caea02867439dc7e9bee1408e8b458bb25f1ad89a6af92186"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/result.json",
+      "archive": "package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/result.json",
+      "bytes": 1117,
+      "sha256": "81bc741ea34d27ae665a0a5604d2183ee42f851ae58b8ecba4cf5f11278406cb"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/stderr.log",
+      "archive": "package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/stdout.log",
+      "archive": "package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/stdout.log",
+      "bytes": 280,
+      "sha256": "adc40ded40a6389e7e0ad70ed89979febcba24abef5fac7a53a299d2ff0533a5"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/injected-timeout/e01-linear.png",
+      "archive": "package/d3d12-r1-release-001/evidence/desktop-smoke-001/injected-timeout/e01-linear.png",
+      "bytes": 12557,
+      "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/injected-timeout/lifecycle.log",
+      "archive": "package/d3d12-r1-release-001/evidence/desktop-smoke-001/injected-timeout/lifecycle.log",
+      "bytes": 2202,
+      "sha256": "22f1661efee803c4ed8a4c56d02a821c61c3a940a76a5f8be5e615c911781efa"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/injected-timeout/result.json",
+      "archive": "package/d3d12-r1-release-001/evidence/desktop-smoke-001/injected-timeout/result.json",
+      "bytes": 852,
+      "sha256": "b45cd5b7a6e178f6b8bf3fdd597d23927509471db545875af398839585ead386"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/injected-timeout/stderr.log",
+      "archive": "package/d3d12-r1-release-001/evidence/desktop-smoke-001/injected-timeout/stderr.log",
+      "bytes": 67,
+      "sha256": "35ef77518b9e9081898d76e5797c573bccb7fd311d08e749b1fb6ba03862181b"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/injected-timeout/stdout.log",
+      "archive": "package/d3d12-r1-release-001/evidence/desktop-smoke-001/injected-timeout/stdout.log",
+      "bytes": 280,
+      "sha256": "3987069db0cea6d933849dcf5c88d552b483ab7323942aa6519d1a424b52aa23"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/machine.json",
+      "archive": "package/d3d12-r1-release-001/evidence/desktop-smoke-001/machine.json",
+      "bytes": 1221,
+      "sha256": "ddb0fa10ebd11e0cd81eb38bc0cb9fe4ddd7b0846f0ed7a6ceebbb9e22596043"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/verification.json",
+      "archive": "package/d3d12-r1-release-001/evidence/desktop-smoke-001/verification.json",
+      "bytes": 18333,
+      "sha256": "e60a9de4cd8875373863a767d1721f8e2108f878199cc2405d1a857ad09414e8"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/package-manifest.json",
+      "archive": "package/d3d12-r1-release-001/package-manifest.json",
+      "bytes": 3305,
+      "sha256": "10c60d5fcf44a857c7df7e9f4dc6661b300e9f082c9771956715cdf2a75e11c4"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/production-imports.json",
+      "archive": "package/d3d12-r1-release-001/production-imports.json",
+      "bytes": 2866,
+      "sha256": "c7af80f5d37910951d36b5944c19eb55ac148d81636a509955a9811b67bcd253"
+    },
+    {
+      "source": "out/m3-t3/package/d3d12-r1-release-001/README.txt",
+      "archive": "package/d3d12-r1-release-001/README.txt",
+      "bytes": 1860,
+      "sha256": "d6d2514419d742460766c4ba5db34bb797fc75d1d509012676fef10fcef3c769"
+    }
+  ]
+}
