@@ -24,7 +24,7 @@ int wmain(int argc, wchar_t** argv)
     const unsigned warmup = std::stoul(args.at(L"--warmup-seconds")), sample = std::stoul(args.at(L"--sample-seconds"));
     const bool focused = args.at(L"--focus-policy") == L"strict";
     YAML::Node status; status["protocol_version"] = 2; status["phase"] = "warmup"; status["elapsed_seconds"] = 0;
-    WriteYaml(output / "status.yaml", status);
+    if (mode != L"missing-status") WriteYaml(output / "status.yaml", status);
     std::ofstream frames(output / "frames.csv");
     frames << "frame,phase,elapsed_s,frame_ms,simulation_delta_ms,event_ms,simulation_ms,mesh_ms,pack_ms,render_cpu_ms,upload_cpu_ms,present_ms,instrumentation_ms,gpu_draw_ms,rebuilt_chunks,vertices,upload_bytes,draw_calls,edits,edit_lateness_ms,x,y,z,yaw,focused\n";
     const auto duration = mode == L"short" ? warmup + 1 : warmup + sample;
@@ -56,7 +56,9 @@ int wmain(int argc, wchar_t** argv)
     summary["focus"]["unfocused_seconds_estimate"] = focused ? 0 : duration;
     summary["focus"]["sample_unfocused_seconds_estimate"] = focused ? 0 : duration - warmup;
     if (mode != L"missing-summary") WriteYaml(output / "summary.yaml", summary);
-    status["phase"] = "finished"; WriteYaml(output / "status.yaml", status);
+    status["phase"] = mode == L"exporting-status" ? "exporting" : "finished";
+    if (mode != L"missing-status") WriteYaml(output / "status.yaml", status);
     std::cout << "fixture package=" << Utf8(ExecutablePath().parent_path().wstring()) << '\n';
+    if (mode == L"finished-nonzero") return 3;
     return invalid ? 4 : 0;
 }

@@ -66,6 +66,65 @@ int wmain(int argc, wchar_t** argv)
                 config.output = parent / mode; SetEnvironmentVariableW(L"SYMO_BENCH_FIXTURE", mode);
                 outcome = Run(config); Require(!outcome.passed && outcome.completed == 0, "Invalid fixture accepted");
             }
+            const auto terminal_round = Plan(config.quick).front();
+            for (const auto policy : {"strict", "allow-unfocused"}) {
+                config.focus_policy = policy;
+                for (const auto mode : {L"missing-status", L"exporting-status", L"finished-nonzero"}) {
+                    const auto name = Utf8(mode) + '-' + policy;
+                    config.output = parent / name; SetEnvironmentVariableW(L"SYMO_BENCH_FIXTURE", mode);
+                    outcome = Run(config);
+                    Require(!outcome.passed && !outcome.cancelled && outcome.completed == 0,
+                            "Valid artifacts masked an incomplete or failed game process");
+                    const auto attempt = config.output / "static-1-attempt-1";
+                    const auto capture = attempt / "capture";
+                    const auto result = ReadYaml(attempt / "result.yaml");
+                    Require(!result["passed"].as<bool>() && !result["cancelled"].as<bool>()
+                            && !result["timed_out"].as<bool>() && !result["forced_termination"].as<bool>(),
+                            "Terminal protocol rejection was confused with cancellation or timeout");
+                    const bool nonzero = std::wstring(mode) == L"finished-nonzero";
+                    Require(result["exit_code"].as<unsigned long>() == (nonzero ? 3ul : 0ul),
+                            "Runner lost the rejected process exit code");
+                    Require(!result["error"].as<std::string>().empty(), "Terminal rejection lost its reason");
+                    const auto summary = ReadYaml(capture / "summary.yaml");
+                    Require(summary["completed"].as<bool>() && summary["valid_run"].as<bool>(),
+                            "Terminal rejection fixture did not retain a valid summary");
+                    for (const auto file : {"frames.csv", "memory.csv", "focus.csv"}) {
+                        Require(fs::is_regular_file(capture / file) && fs::file_size(capture / file) > 0,
+                                "Terminal rejection discarded capture artifacts");
+                    }
+                    Require(fs::is_regular_file(attempt / "stdout.log") && fs::is_regular_file(attempt / "stderr.log"),
+                            "Terminal rejection discarded process logs");
+                    if (std::wstring(mode) == L"missing-status") {
+                        Require(!fs::exists(capture / "status.yaml"), "Missing-status fixture unexpectedly published status");
+                    } else {
+                        const auto phase = ReadYaml(capture / "status.yaml")["phase"].as<std::string>();
+                        Require(phase == (nonzero ? "finished" : "exporting"), "Rejected terminal status changed");
+                    }
+                    const auto session = ReadYaml(config.output / "session.yaml");
+                    Require(!session["completed"].as<bool>() && session["completed_rounds"].as<unsigned>() == 0
+                            && session["rounds"][0]["state"].as<std::string>() == "failed",
+                            "Terminal rejection incorrectly completed the session");
+                    Require(!fs::exists(config.output / "walk-1-attempt-1") && !fs::exists(config.output / "edit-1-attempt-1"),
+                            "Runner continued after terminal protocol rejection");
+                    Handle released_lock(CreateFileW((config.output / "session.lock").c_str(), GENERIC_WRITE, 0,
+                                                     nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr));
+                    Require(released_lock.value != INVALID_HANDLE_VALUE, "Rejected session retained its exclusive lock");
+
+                    // Repair only a separate control copy to prove the summary and CSV were otherwise valid.
+                    const auto result_hash = Sha256(attempt / "result.yaml");
+                    const auto summary_hash = Sha256(capture / "summary.yaml");
+                    const auto frames_hash = Sha256(capture / "frames.csv");
+                    const auto control = parent / (name + "-validation-control");
+                    fs::copy(capture, control, fs::copy_options::recursive);
+                    YAML::Node terminal; terminal["protocol_version"] = 2; terminal["phase"] = "finished";
+                    terminal["elapsed_seconds"] = 0; WriteYaml(control / "status.yaml", terminal);
+                    Require(ValidateCapture(control, terminal_round, policy, 0)["valid_run"].as<bool>(),
+                            "Terminal rejection fixture had an unrelated invalid capture");
+                    Require(Sha256(attempt / "result.yaml") == result_hash
+                            && Sha256(capture / "summary.yaml") == summary_hash && Sha256(capture / "frames.csv") == frames_hash,
+                            "Terminal validation control overwrote rejected evidence");
+                }
+            }
             SetEnvironmentVariableW(L"SYMO_BENCH_FIXTURE", L"hang"); config.output = parent / "cancel";
             std::stop_source source;
             std::jthread cancel([&] { std::this_thread::sleep_for(std::chrono::milliseconds(400)); source.request_stop(); });

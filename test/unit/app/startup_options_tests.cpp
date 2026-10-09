@@ -20,6 +20,7 @@ int main()
 {
     try {
         Require(!Parse({}).seed.has_value());
+        Reject({"--unknown-option"});
         Require(Parse({"--seed", "0"}).seed == 0);
         Require(Parse({"--seed", "4294967295"}).seed == 4294967295u);
         const auto options = Parse({"--checkpoint", "four-chunk", "--seed", "42", "--scene", "regression", "--world-summary", "--test-edits"});

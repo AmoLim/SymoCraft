@@ -3,6 +3,7 @@
 //
 
 #include "application.h"
+#include "cleanup_sequence.h"
 #include "startup_options.h"
 #include <symocraft/assets/asset_paths.h>
 #include <symocraft/assets/image.h>
@@ -282,15 +283,15 @@ namespace SymoCraft
                 const double current_frame_time = Window::Time();
                 auto& character = registry.GetComponent<Character::CharacterComponent>(player_id);
                 auto& body = registry.GetComponent<Physics::RigidBody>(player_id);
-                const bool inactive = !window.Focused() || window.Minimized() ||
-                                      window.width <= 0 || window.height <= 0;
+                const bool non_drawable = window.Minimized() || window.width <= 0 || window.height <= 0;
+                const bool inactive = !window.Focused() || non_drawable;
                 sample.focused = !inactive;
                 if (performance && (window.width != options.width || window.height != options.height ||
                                     window.Minimized())) {
                     performance->Invalidate("framebuffer-changed-or-minimized");
                     break;
                 }
-                if (inactive && frame_limit == 0 && !performance)
+                if (!performance && (non_drawable || (inactive && frame_limit == 0)))
                 {
                     window.ResetInput();
                     character.movement_axis = glm::vec3(0.0f);
@@ -443,28 +444,16 @@ namespace SymoCraft
 
         void Free()
         {
-            pending_block_definition.reset();
-            if (renderer_started)
-            {
-                Renderer::Free();
-                renderer_started = false;
-            }
-            camera.reset();
-            if (runtime_registry)
-            {
-                runtime_registry->Clear();
-                runtime_registry.reset();
-            }
-            if (runtime_window)
-            {
-                runtime_window->Destroy();
-                runtime_window.reset();
-            }
-            if (platform_initialized)
-            {
-                Window::Free();
-                platform_initialized = false;
-            }
+            Detail::CleanupSequence cleanup(std::cerr);
+            cleanup.Run("pending block definition", [] { pending_block_definition.reset(); });
+            cleanup.RunOnce("Renderer::Free", renderer_started, [] { Renderer::Free(); });
+            cleanup.Run("camera", [] { camera.reset(); });
+            cleanup.Run("Registry::Clear", [] { if (runtime_registry) runtime_registry->Clear(); });
+            cleanup.Run("registry", [] { runtime_registry.reset(); });
+            cleanup.Run("Window::Destroy", [] { if (runtime_window) runtime_window->Destroy(); });
+            cleanup.Run("window", [] { runtime_window.reset(); });
+            cleanup.RunOnce("Window::Free", platform_initialized, [] { Window::Free(); });
+            cleanup.RethrowFailure();
         }
 
     }

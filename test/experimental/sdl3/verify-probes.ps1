@@ -7,8 +7,17 @@ param(
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+$root = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../../..'))
+$outRoot = [IO.Path]::GetFullPath((Join-Path $root 'out'))
 $executablePath = (Get-Item -LiteralPath $Executable).FullName
-$output = [IO.Path]::GetFullPath($OutputDirectory)
+$output = [IO.Path]::GetFullPath($(if ([IO.Path]::IsPathRooted($OutputDirectory)) {
+    $OutputDirectory
+} else {
+    Join-Path $root $OutputDirectory
+}))
+if (-not $output.StartsWith($outRoot + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) {
+    throw 'Evidence must stay under workspace out.'
+}
 if (Test-Path -LiteralPath $output) { throw 'Use a new directory; earlier probe evidence is never overwritten.' }
 New-Item -ItemType Directory -Path $output | Out-Null
 $cases = @(
@@ -35,14 +44,18 @@ foreach ($case in $cases) {
         $process = Start-Process -FilePath $executablePath -ArgumentList $arguments `
             -WorkingDirectory $output -WindowStyle Hidden -PassThru `
             -RedirectStandardOutput $stdout -RedirectStandardError $stderr
+        # Windows PowerShell needs the handle retained before waiting to read ExitCode.
+        $null = $process.Handle
         $timedOut = -not $process.WaitForExit(30000)
-        if ($timedOut) { $process.Kill(); $process.WaitForExit() }
+        if ($timedOut) { $process.Kill() }
+        $process.WaitForExit()
         $process.Refresh()
+        $exitCode = $process.ExitCode
         $text = [IO.File]::ReadAllText($stdout)
         $errors = [IO.File]::ReadAllText($stderr)
         $report = $null
         try { $report = $text | ConvertFrom-Json } catch { }
-        $passed = -not $timedOut -and $process.ExitCode -eq $case.exit -and $null -ne $report
+        $passed = -not $timedOut -and $null -ne $exitCode -and $exitCode -eq $case.exit -and $null -ne $report
         if ($case.exit -eq 0) {
             $passed = $passed -and $report.status -eq 'pass' -and $report.native_hwnd_valid -and
                 $report.window_destroyed -and $report.sdl_shutdown_completed -and -not $errors.Contains('cleanup:')
@@ -50,7 +63,7 @@ foreach ($case in $cases) {
             $passed = $passed -and $report.status -eq 'fail' -and $errors.Contains($case.diagnostic)
         }
         $results += [pscustomobject]@{
-            case = $case.name; expected_exit_code = $case.exit; exit_code = $process.ExitCode
+            case = $case.name; expected_exit_code = $case.exit; exit_code = $exitCode
             timed_out = $timedOut; passed = $passed; report = $report
         }
     } finally {

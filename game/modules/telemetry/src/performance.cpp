@@ -8,6 +8,7 @@
 #include <locale>
 #include <numeric>
 #include <stdexcept>
+#include <system_error>
 
 namespace SymoCraft::Performance {
     namespace {
@@ -80,7 +81,11 @@ namespace SymoCraft::Performance {
         auto file = Output(temporary);
         file << Data::DumpYaml(state) << '\n';
         file.close();
-        Files::Publish(temporary, directory_ / "status.yaml");
+        try { Files::Publish(temporary, directory_ / "status.yaml"); }
+        catch (const std::system_error& error) {
+            throw std::system_error(error.code(), std::string("Benchmark status phase=") + phase
+                                    + "; " + error.what());
+        }
     }
     void Session::Add(Frame frame)
     {

@@ -48,6 +48,8 @@ if ($TestEdits) { $gameArguments += '--test-edits' }
 if ($gameArguments.Count -gt 0) { $start.ArgumentList = $gameArguments }
 $timer = [Diagnostics.Stopwatch]::StartNew()
 $process = Start-Process @start
+# Keep the OS process handle alive before waiting, including on Windows PowerShell 5.1.
+$processHandle = $process.Handle
 $timedOut = $false
 try {
     if (-not $process.WaitForExit($TimeoutSeconds * 1000)) {
@@ -55,6 +57,7 @@ try {
         $process.Kill()
         $process.WaitForExit()
     }
+    $process.WaitForExit()
     $timer.Stop()
     $process.Refresh()
     $exitCode = $process.ExitCode
@@ -65,7 +68,7 @@ try {
     $frameMatch = [regex]::Match([string]$text, '\[runtime\] loop finished; rendered_frames=(\d+)')
     $renderedFrames = if ($frameMatch.Success) { [int]$frameMatch.Groups[1].Value } else { $null }
     $glDiagnosticCount = [regex]::Matches($errors, 'OpenGL diagnostic').Count
-    $passed = -not $timedOut -and $exitCode -eq $ExpectedExitCode
+    $passed = -not $timedOut -and $null -ne $exitCode -and $exitCode -eq $ExpectedExitCode
     if ($ExpectedExitCode -eq 0) {
         $passed = $passed -and $ready -and $shutdown -and $frameMatch.Success -and
             $glDiagnosticCount -eq 0 -and -not $errors.Contains('[runtime] fatal:')

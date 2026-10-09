@@ -66,7 +66,17 @@ int main(int argc, char* argv[])
     }
 
     // Run's local GL objects have unwound; release renderer objects before the context.
-    SymoCraft::Application::Free();
+    try {
+        SymoCraft::Application::Free();
+    }
+    catch (const std::exception& error) {
+        std::cerr << "[runtime] shutdown failed: " << error.what() << std::endl;
+        if (exit_code == 0) exit_code = 3;
+    }
+    catch (...) {
+        std::cerr << "[runtime] shutdown failed: unexpected non-standard exception" << std::endl;
+        if (exit_code == 0) exit_code = 3;
+    }
     if (performance) {
         try {
             const bool valid = performance->Export(exit_code == 0);
