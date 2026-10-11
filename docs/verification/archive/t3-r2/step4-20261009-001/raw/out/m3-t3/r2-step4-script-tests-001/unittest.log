@@ -1,0 +1,1326 @@
+Failed to find real location of C:\Users\ldh20\AppData\Local\Programs\Python\Python314\python.exe
+test_manifest_all_paths_are_relative_and_file_set_is_exact (__main__.CandidateScriptsTests.test_manifest_all_paths_are_relative_and_file_set_is_exact) ... ERROR
+test_manifest_all_paths_are_relative_and_file_set_is_exact (__main__.CandidateScriptsTests.test_manifest_all_paths_are_relative_and_file_set_is_exact) ... ERROR
+test_manifest_rejects_backend_default_validation_and_policy_changes (__main__.CandidateScriptsTests.test_manifest_rejects_backend_default_validation_and_policy_changes) ... ERROR
+test_manifest_rejects_backend_default_validation_and_policy_changes (__main__.CandidateScriptsTests.test_manifest_rejects_backend_default_validation_and_policy_changes) ... ERROR
+test_manifest_rejects_changed_hash_and_size (__main__.CandidateScriptsTests.test_manifest_rejects_changed_hash_and_size) ... ERROR
+test_manifest_rejects_changed_hash_and_size (__main__.CandidateScriptsTests.test_manifest_rejects_changed_hash_and_size) ... ERROR
+test_manifest_rejects_changed_payload (__main__.CandidateScriptsTests.test_manifest_rejects_changed_payload) ... ERROR
+test_manifest_rejects_changed_payload (__main__.CandidateScriptsTests.test_manifest_rejects_changed_payload) ... ERROR
+test_manifest_rejects_duplicate_and_case_alias (__main__.CandidateScriptsTests.test_manifest_rejects_duplicate_and_case_alias) ... ERROR
+test_manifest_rejects_duplicate_and_case_alias (__main__.CandidateScriptsTests.test_manifest_rejects_duplicate_and_case_alias) ... ERROR
+test_manifest_rejects_missing_and_added_payload (__main__.CandidateScriptsTests.test_manifest_rejects_missing_and_added_payload) ... ERROR
+test_manifest_rejects_missing_and_added_payload (__main__.CandidateScriptsTests.test_manifest_rejects_missing_and_added_payload) ... ERROR
+test_manifest_rejects_parent_absolute_and_noncanonical_paths (__main__.CandidateScriptsTests.test_manifest_rejects_parent_absolute_and_noncanonical_paths) ... ERROR
+test_manifest_rejects_parent_absolute_and_noncanonical_paths (__main__.CandidateScriptsTests.test_manifest_rejects_parent_absolute_and_noncanonical_paths) ... ERROR
+test_manifest_rejects_undeclared_required_file (__main__.CandidateScriptsTests.test_manifest_rejects_undeclared_required_file) ... ERROR
+test_manifest_rejects_undeclared_required_file (__main__.CandidateScriptsTests.test_manifest_rejects_undeclared_required_file) ... ERROR
+test_manifest_release_and_debug_round_trip (__main__.CandidateScriptsTests.test_manifest_release_and_debug_round_trip) ... ERROR
+test_manifest_release_and_debug_round_trip (__main__.CandidateScriptsTests.test_manifest_release_and_debug_round_trip) ... ERROR
+test_package_file_identity_is_exact (__main__.CandidateScriptsTests.test_package_file_identity_is_exact) ... ERROR
+test_package_file_identity_is_exact (__main__.CandidateScriptsTests.test_package_file_identity_is_exact) ... ERROR
+test_package_file_reparse_is_rejected (__main__.CandidateScriptsTests.test_package_file_reparse_is_rejected) ... ERROR
+test_package_file_reparse_is_rejected (__main__.CandidateScriptsTests.test_package_file_reparse_is_rejected) ... ERROR
+test_package_identity_rejects_empty_directory_and_changed_bytes (__main__.CandidateScriptsTests.test_package_identity_rejects_empty_directory_and_changed_bytes) ... ERROR
+test_package_identity_rejects_empty_directory_and_changed_bytes (__main__.CandidateScriptsTests.test_package_identity_rejects_empty_directory_and_changed_bytes) ... ERROR
+test_package_reparse_ancestor_is_rejected (__main__.CandidateScriptsTests.test_package_reparse_ancestor_is_rejected) ... ERROR
+test_package_reparse_ancestor_is_rejected (__main__.CandidateScriptsTests.test_package_reparse_ancestor_is_rejected) ... ERROR
+test_package_scope_normalizes_and_rejects_escape (__main__.CandidateScriptsTests.test_package_scope_normalizes_and_rejects_escape) ... ERROR
+test_package_scope_normalizes_and_rejects_escape (__main__.CandidateScriptsTests.test_package_scope_normalizes_and_rejects_escape) ... ERROR
+test_pe_parser_checks_actual_signature_and_x64_machine (__main__.CandidateScriptsTests.test_pe_parser_checks_actual_signature_and_x64_machine) ... ERROR
+test_pe_parser_checks_actual_signature_and_x64_machine (__main__.CandidateScriptsTests.test_pe_parser_checks_actual_signature_and_x64_machine) ... ERROR
+test_verifier_outside_path_is_rejected (__main__.CandidateScriptsTests.test_verifier_outside_path_is_rejected) ... ERROR
+test_verifier_outside_path_is_rejected (__main__.CandidateScriptsTests.test_verifier_outside_path_is_rejected) ... ERROR
+test_verifier_reparse_package_and_payload_are_rejected (__main__.CandidateScriptsTests.test_verifier_reparse_package_and_payload_are_rejected) ... ERROR
+test_verifier_reparse_package_and_payload_are_rejected (__main__.CandidateScriptsTests.test_verifier_reparse_package_and_payload_are_rejected) ... ERROR
+test_window_bounded_integer_rejects_out_of_range (__main__.CandidateScriptsTests.test_window_bounded_integer_rejects_out_of_range) ... ERROR
+test_window_bounded_integer_rejects_out_of_range (__main__.CandidateScriptsTests.test_window_bounded_integer_rejects_out_of_range) ... ERROR
+test_window_ordinary_arguments_match_existing_cli (__main__.CandidateScriptsTests.test_window_ordinary_arguments_match_existing_cli) ... ERROR
+test_window_ordinary_arguments_match_existing_cli (__main__.CandidateScriptsTests.test_window_ordinary_arguments_match_existing_cli) ... ERROR
+test_window_output_rejects_existing_or_inside_candidate_before_launch (__main__.CandidateScriptsTests.test_window_output_rejects_existing_or_inside_candidate_before_launch) ... ERROR
+test_window_output_rejects_existing_or_inside_candidate_before_launch (__main__.CandidateScriptsTests.test_window_output_rejects_existing_or_inside_candidate_before_launch) ... ERROR
+test_window_package_walk_rejects_redirected_entry (__main__.CandidateScriptsTests.test_window_package_walk_rejects_redirected_entry) ... ERROR
+test_window_package_walk_rejects_redirected_entry (__main__.CandidateScriptsTests.test_window_package_walk_rejects_redirected_entry) ... ERROR
+test_window_paths_reject_root_escape_and_reparse (__main__.CandidateScriptsTests.test_window_paths_reject_root_escape_and_reparse) ... ERROR
+test_window_paths_reject_root_escape_and_reparse (__main__.CandidateScriptsTests.test_window_paths_reject_root_escape_and_reparse) ... ERROR
+
+======================================================================
+ERROR: test_manifest_all_paths_are_relative_and_file_set_is_exact (__main__.CandidateScriptsTests.test_manifest_all_paths_are_relative_and_file_set_is_exact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-g453yy7l\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-g453yy7l\\out'
+
+======================================================================
+ERROR: test_manifest_all_paths_are_relative_and_file_set_is_exact (__main__.CandidateScriptsTests.test_manifest_all_paths_are_relative_and_file_set_is_exact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-g453yy7l'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-g453yy7l'
+
+======================================================================
+ERROR: test_manifest_rejects_backend_default_validation_and_policy_changes (__main__.CandidateScriptsTests.test_manifest_rejects_backend_default_validation_and_policy_changes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-bovaeva5\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-bovaeva5\\out'
+
+======================================================================
+ERROR: test_manifest_rejects_backend_default_validation_and_policy_changes (__main__.CandidateScriptsTests.test_manifest_rejects_backend_default_validation_and_policy_changes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-bovaeva5'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-bovaeva5'
+
+======================================================================
+ERROR: test_manifest_rejects_changed_hash_and_size (__main__.CandidateScriptsTests.test_manifest_rejects_changed_hash_and_size)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-xlijfxd9\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-xlijfxd9\\out'
+
+======================================================================
+ERROR: test_manifest_rejects_changed_hash_and_size (__main__.CandidateScriptsTests.test_manifest_rejects_changed_hash_and_size)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-xlijfxd9'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-xlijfxd9'
+
+======================================================================
+ERROR: test_manifest_rejects_changed_payload (__main__.CandidateScriptsTests.test_manifest_rejects_changed_payload)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-41vltwbg\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-41vltwbg\\out'
+
+======================================================================
+ERROR: test_manifest_rejects_changed_payload (__main__.CandidateScriptsTests.test_manifest_rejects_changed_payload)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-41vltwbg'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-41vltwbg'
+
+======================================================================
+ERROR: test_manifest_rejects_duplicate_and_case_alias (__main__.CandidateScriptsTests.test_manifest_rejects_duplicate_and_case_alias)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-1dozau3l\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-1dozau3l\\out'
+
+======================================================================
+ERROR: test_manifest_rejects_duplicate_and_case_alias (__main__.CandidateScriptsTests.test_manifest_rejects_duplicate_and_case_alias)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-1dozau3l'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-1dozau3l'
+
+======================================================================
+ERROR: test_manifest_rejects_missing_and_added_payload (__main__.CandidateScriptsTests.test_manifest_rejects_missing_and_added_payload)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-zchha_yz\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-zchha_yz\\out'
+
+======================================================================
+ERROR: test_manifest_rejects_missing_and_added_payload (__main__.CandidateScriptsTests.test_manifest_rejects_missing_and_added_payload)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-zchha_yz'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-zchha_yz'
+
+======================================================================
+ERROR: test_manifest_rejects_parent_absolute_and_noncanonical_paths (__main__.CandidateScriptsTests.test_manifest_rejects_parent_absolute_and_noncanonical_paths)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-wgk9zpd2\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-wgk9zpd2\\out'
+
+======================================================================
+ERROR: test_manifest_rejects_parent_absolute_and_noncanonical_paths (__main__.CandidateScriptsTests.test_manifest_rejects_parent_absolute_and_noncanonical_paths)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-wgk9zpd2'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-wgk9zpd2'
+
+======================================================================
+ERROR: test_manifest_rejects_undeclared_required_file (__main__.CandidateScriptsTests.test_manifest_rejects_undeclared_required_file)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-ddp595x7\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-ddp595x7\\out'
+
+======================================================================
+ERROR: test_manifest_rejects_undeclared_required_file (__main__.CandidateScriptsTests.test_manifest_rejects_undeclared_required_file)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-ddp595x7'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-ddp595x7'
+
+======================================================================
+ERROR: test_manifest_release_and_debug_round_trip (__main__.CandidateScriptsTests.test_manifest_release_and_debug_round_trip)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-rl1tyeq9\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-rl1tyeq9\\out'
+
+======================================================================
+ERROR: test_manifest_release_and_debug_round_trip (__main__.CandidateScriptsTests.test_manifest_release_and_debug_round_trip)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-rl1tyeq9'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-rl1tyeq9'
+
+======================================================================
+ERROR: test_package_file_identity_is_exact (__main__.CandidateScriptsTests.test_package_file_identity_is_exact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-x25wg67u\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-x25wg67u\\out'
+
+======================================================================
+ERROR: test_package_file_identity_is_exact (__main__.CandidateScriptsTests.test_package_file_identity_is_exact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-x25wg67u'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-x25wg67u'
+
+======================================================================
+ERROR: test_package_file_reparse_is_rejected (__main__.CandidateScriptsTests.test_package_file_reparse_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-rz5esr49\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-rz5esr49\\out'
+
+======================================================================
+ERROR: test_package_file_reparse_is_rejected (__main__.CandidateScriptsTests.test_package_file_reparse_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-rz5esr49'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-rz5esr49'
+
+======================================================================
+ERROR: test_package_identity_rejects_empty_directory_and_changed_bytes (__main__.CandidateScriptsTests.test_package_identity_rejects_empty_directory_and_changed_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-t89gusx_\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-t89gusx_\\out'
+
+======================================================================
+ERROR: test_package_identity_rejects_empty_directory_and_changed_bytes (__main__.CandidateScriptsTests.test_package_identity_rejects_empty_directory_and_changed_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-t89gusx_'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-t89gusx_'
+
+======================================================================
+ERROR: test_package_reparse_ancestor_is_rejected (__main__.CandidateScriptsTests.test_package_reparse_ancestor_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-k9ty7jvu\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-k9ty7jvu\\out'
+
+======================================================================
+ERROR: test_package_reparse_ancestor_is_rejected (__main__.CandidateScriptsTests.test_package_reparse_ancestor_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-k9ty7jvu'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-k9ty7jvu'
+
+======================================================================
+ERROR: test_package_scope_normalizes_and_rejects_escape (__main__.CandidateScriptsTests.test_package_scope_normalizes_and_rejects_escape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-c49buezu\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-c49buezu\\out'
+
+======================================================================
+ERROR: test_package_scope_normalizes_and_rejects_escape (__main__.CandidateScriptsTests.test_package_scope_normalizes_and_rejects_escape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-c49buezu'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-c49buezu'
+
+======================================================================
+ERROR: test_pe_parser_checks_actual_signature_and_x64_machine (__main__.CandidateScriptsTests.test_pe_parser_checks_actual_signature_and_x64_machine)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-x3nngc1d\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-x3nngc1d\\out'
+
+======================================================================
+ERROR: test_pe_parser_checks_actual_signature_and_x64_machine (__main__.CandidateScriptsTests.test_pe_parser_checks_actual_signature_and_x64_machine)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-x3nngc1d'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-x3nngc1d'
+
+======================================================================
+ERROR: test_verifier_outside_path_is_rejected (__main__.CandidateScriptsTests.test_verifier_outside_path_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-xv80sjo7\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-xv80sjo7\\out'
+
+======================================================================
+ERROR: test_verifier_outside_path_is_rejected (__main__.CandidateScriptsTests.test_verifier_outside_path_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-xv80sjo7'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-xv80sjo7'
+
+======================================================================
+ERROR: test_verifier_reparse_package_and_payload_are_rejected (__main__.CandidateScriptsTests.test_verifier_reparse_package_and_payload_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-8delu85d\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-8delu85d\\out'
+
+======================================================================
+ERROR: test_verifier_reparse_package_and_payload_are_rejected (__main__.CandidateScriptsTests.test_verifier_reparse_package_and_payload_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-8delu85d'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-8delu85d'
+
+======================================================================
+ERROR: test_window_bounded_integer_rejects_out_of_range (__main__.CandidateScriptsTests.test_window_bounded_integer_rejects_out_of_range)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-zln85l41\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-zln85l41\\out'
+
+======================================================================
+ERROR: test_window_bounded_integer_rejects_out_of_range (__main__.CandidateScriptsTests.test_window_bounded_integer_rejects_out_of_range)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-zln85l41'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-zln85l41'
+
+======================================================================
+ERROR: test_window_ordinary_arguments_match_existing_cli (__main__.CandidateScriptsTests.test_window_ordinary_arguments_match_existing_cli)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-48zn0b4p\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-48zn0b4p\\out'
+
+======================================================================
+ERROR: test_window_ordinary_arguments_match_existing_cli (__main__.CandidateScriptsTests.test_window_ordinary_arguments_match_existing_cli)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-48zn0b4p'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-48zn0b4p'
+
+======================================================================
+ERROR: test_window_output_rejects_existing_or_inside_candidate_before_launch (__main__.CandidateScriptsTests.test_window_output_rejects_existing_or_inside_candidate_before_launch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-pb9p633w\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-pb9p633w\\out'
+
+======================================================================
+ERROR: test_window_output_rejects_existing_or_inside_candidate_before_launch (__main__.CandidateScriptsTests.test_window_output_rejects_existing_or_inside_candidate_before_launch)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-pb9p633w'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-pb9p633w'
+
+======================================================================
+ERROR: test_window_package_walk_rejects_redirected_entry (__main__.CandidateScriptsTests.test_window_package_walk_rejects_redirected_entry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-jw11ikqj\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-jw11ikqj\\out'
+
+======================================================================
+ERROR: test_window_package_walk_rejects_redirected_entry (__main__.CandidateScriptsTests.test_window_package_walk_rejects_redirected_entry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-jw11ikqj'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-jw11ikqj'
+
+======================================================================
+ERROR: test_window_paths_reject_root_escape_and_reparse (__main__.CandidateScriptsTests.test_window_paths_reject_root_escape_and_reparse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileNotFoundError: [WinError 3] ϵͳ�Ҳ���ָ����·����: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-2k7m62ut\\out\\m3-t3'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "F:\GameDevelop\OpenGLProject\Symocraft\test\integration\renderer\test_candidate_scripts.py", line 39, in setUp
+    self.allowed.mkdir(parents=True)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1015, in mkdir
+    self.parent.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\pathlib\__init__.py", line 1011, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-2k7m62ut\\out'
+
+======================================================================
+ERROR: test_window_paths_reject_root_escape_and_reparse (__main__.CandidateScriptsTests.test_window_paths_reject_root_escape_and_reparse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 707, in _rmtree_unsafe
+    os.rmdir(path)
+    ~~~~~~~~^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-2k7m62ut'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 975, in cleanup
+    self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 955, in _rmtree
+    _shutil.rmtree(name, onexc=onexc)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 852, in rmtree
+    _rmtree_impl(path, dir_fd, onexc)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\shutil.py", line 711, in _rmtree_unsafe
+    onexc(os.rmdir, path, err)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 927, in onexc
+    _resetperms(path)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 283, in _resetperms
+    _dont_follow_symlinks(_os.chmod, path, 0o700)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\ldh20\AppData\Local\Programs\Python\Python314\Lib\tempfile.py", line 272, in _dont_follow_symlinks
+    func(path, *args, follow_symlinks=False)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [WinError 5] �ܾ����ʡ�: 'C:\\Users\\ldh20\\AppData\\Local\\Packages\\sandbox.{d446af90-a643-4e10-848f-f06bd01a563b}\\AC\\Temp\\symocraft-candidate-cpu-2k7m62ut'
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.157s
+
+FAILED (errors=44)

@@ -1,0 +1,24 @@
+{
+  "case": "invalid-vertex-shader",
+  "modifiedFixtureAsset": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\invalid-vertex-shader\\package\\assets\\shaders\\vs_BlockShader.glsl",
+  "expectedDiagnostic": "Shader compilation failed:",
+  "sourceSha256Before": "47DAB1E3313DD24E139633D32378CB2DED415DAC9DF697958D9AA5A2FB63DD59",
+  "sourceSha256After": "47DAB1E3313DD24E139633D32378CB2DED415DAC9DF697958D9AA5A2FB63DD59",
+  "runtimeResult": {
+    "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\invalid-vertex-shader\\package\\SymoCraft.exe",
+    "workingDirectory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\invalid-vertex-shader\\evidence",
+    "requestedFrames": 1,
+    "renderedFrames": null,
+    "glDiagnosticCount": 0,
+    "processId": 34096,
+    "timedOut": false,
+    "exitCode": 3,
+    "expectedExitCode": 3,
+    "ready": false,
+    "shutdown": true,
+    "elapsedSeconds": 0.5052261,
+    "passed": true
+  },
+  "passed": true,
+  "issues": []
+}

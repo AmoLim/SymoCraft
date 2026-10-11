@@ -1,0 +1,638 @@
+{
+  "recorded_utc": "2026-10-08T06:02:15.2394257Z",
+  "stage": "M3-T2-S4",
+  "user_authorization": "Freeze the runnable S3 verification bundle, defer Y9000P, and continue the next stage",
+  "scope": "Platform declaration and document handoff only; no product/GPU changes or new GUI/hardware run",
+  "s4_handoff_complete": true,
+  "s3_overall_complete": false,
+  "t2_approved": false,
+  "renderer_v1_frozen": false,
+  "production_source_inputs_unchanged": true,
+  "archived_t2_draft_unchanged": true,
+  "source_inputs": [
+    {
+      "path": "test/experimental/platform-handoff/CMakeLists.txt",
+      "sha256": "21a80fa60977db4328b04a7e78a8dc27668dfa1732a72f5e397e5bca65d21669",
+      "bytes": 2176
+    },
+    {
+      "path": "test/experimental/platform-handoff/contracts.cpp",
+      "sha256": "e466fa2b206a0e29af9bd4e1b3945625abfc5c315b726a56d15842423abf1b16",
+      "bytes": 3524
+    },
+    {
+      "path": "game/modules/platform/include/symocraft/platform/window.h",
+      "sha256": "01942fafa229e5cbc97653588deac41aac728c79a144cd278f6a0256137f1ed3",
+      "bytes": 2086
+    },
+    {
+      "path": "game/modules/platform/src/window.cpp",
+      "sha256": "7d5cd113551f34bafd47a080a938edd8345f09e22bfd4f7e15d0f00efa6a832f",
+      "bytes": 26887
+    },
+    {
+      "path": "game/modules/platform/src/input_state.h",
+      "sha256": "445fe1ea7be1de4ba32cae97ed7a9aef8395752fbbd07d5e1e240b91ac13d3b1",
+      "bytes": 8402
+    },
+    {
+      "path": "game/modules/platform/src/graphics_bridge/graphics_bridge.h",
+      "sha256": "4ed1c1d611f7b5b6178537a2c6fd18577625f022354b47c8a5d425eed866b150",
+      "bytes": 542
+    },
+    {
+      "path": "game/modules/platform/src/graphics_bridge/native_bridge.h",
+      "sha256": "6048a5c878e97bf709cf630e0a0aeca902ad9c1c87236cbcdc435fe54c35bbaa",
+      "bytes": 313
+    },
+    {
+      "path": "game/modules/platform/src/graphics_bridge/vulkan_bridge.h",
+      "sha256": "254216f5371597caa6263f40d2c5ef2272ea698f76b83247744134153b444f72",
+      "bytes": 847
+    },
+    {
+      "path": "game/app/src/application.cpp",
+      "sha256": "8a8d21c73bb6b8c23638cd8352d4e8cc14a4923f6c2160e53391ad4d8098ca02",
+      "bytes": 26431
+    },
+    {
+      "path": "cmake/ModuleBoundaries.cmake",
+      "sha256": "cd72ed9c31d083e29520e446647b3718f60b8b4d7151dc65f318e574579febdb",
+      "bytes": 19054
+    },
+    {
+      "path": "test/integration/CheckNegativeBoundaries.cmake",
+      "sha256": "f05d2701f4d5997f219722cd3939bec8857b3fc1f5982884a7b42042f06bcc5c",
+      "bytes": 16002
+    }
+  ],
+  "documents": [
+    {
+      "path": "docs/milestones/m3-t2/README.md",
+      "sha256": "bf79b6864b8b9c7f3c0e6f53590af0660c351b72e2fc80653c5c3e434730ad6d",
+      "bytes": 36548
+    },
+    {
+      "path": "docs/milestones/m3-t2/platform-contract-candidate.md",
+      "sha256": "2fd708de54422619cc5691f3bb9a186cda91875b3fbbe4b397a2d94de86b0cf9",
+      "bytes": 43678
+    },
+    {
+      "path": "docs/milestones/m3-t2/s4-platform-handoff.md",
+      "sha256": "afdff57206fd9d38ce8c9d5ee4e446c56a8ecdc179535203311fe7ff05146352",
+      "bytes": 20056
+    },
+    {
+      "path": "docs/milestones/m3-t2/s3-manual-verification.md",
+      "sha256": "754c461a957c01ccc078f7b70740de63f7969ea8d66194c5aeac4d451e050475",
+      "bytes": 12321
+    },
+    {
+      "path": "docs/spec/M3-T2-SDL3迁移.md",
+      "sha256": "ddd0770b354b31e0dd7206d0ff1ffe718e43c29e42095604f4aac1f441f374b9",
+      "bytes": 55894
+    },
+    {
+      "path": "docs/spec/M3-T3-渲染器重构.md",
+      "sha256": "34a9576806931a2444d51272029efecf88c3f3274649f54ae888ad5fcfd427e4",
+      "bytes": 53213
+    },
+    {
+      "path": "docs/spec/project-scope.md",
+      "sha256": "9677a8c99615ec670ad416c63df0c59e5a5954df320fb0e674891d390fe1426d",
+      "bytes": 63821
+    },
+    {
+      "path": "docs/project/architecture/platform/Platform-namespace-API.md",
+      "sha256": "f287a81d3414e276c3ad39b64ee254550312839c71dca99306ff1208cf9a10c3",
+      "bytes": 8995
+    },
+    {
+      "path": "docs/project/architecture/app/Application-类设计.md",
+      "sha256": "1a94e15e9bfbe79a3a99bcbfd92caf951d59d222ff9efb271d93f96f64c5938d",
+      "bytes": 11228
+    },
+    {
+      "path": "docs/project/architecture/app/App-运行编排-功能.md",
+      "sha256": "2c384fc07ccde1a56eb6aa5360a529270e3ae4d0a3e6553ae5bf79cecfcf8157",
+      "bytes": 8462
+    },
+    {
+      "path": "docs/project/architecture/renderer/Renderer namespace API.md",
+      "sha256": "b261c379848d25100cecb218674e2c6486d21f6ea21987ecf8a73785258e8548",
+      "bytes": 11469
+    },
+    {
+      "path": "docs/README.md",
+      "sha256": "fcd5c254f9e0395d770d6da785d6ceeeb4bb5e52a75d4ed82d004736b329b093",
+      "bytes": 9173
+    },
+    {
+      "path": "docs/DOCUMENTATION_MAP.md",
+      "sha256": "debc254ed337f5decf7547c19bd786d5bc92554b617d860bace75b9c3542e513",
+      "bytes": 12324
+    },
+    {
+      "path": "test/experimental/platform-handoff/README.md",
+      "sha256": "cd061825e99e3c21cae855dc31a613256f2209cb9ebd8ef1d25f2c41dc366540",
+      "bytes": 1778
+    }
+  ],
+  "declaration_runs": [
+    {
+      "build": "out/m3-t2/s4/contract-debug-sdk-002",
+      "configuration": "Debug",
+      "passed": true,
+      "tests": 4,
+      "scope": "Actual declarations and CPU default values only; no SDL, product archives, window or GPU calls",
+      "result": {
+        "path": "out/m3-t2/s4/contract-debug-sdk-002/results.json",
+        "sha256": "28ff7b9930f7c0efcd3b33a34cf8f8cd3369032752ec84dd39661499698ac9ad",
+        "bytes": 1341
+      },
+      "configure_log": {
+        "path": "out/m3-t2/s4/contract-debug-sdk-002-configure.log",
+        "sha256": "7a9a51a98f69a91f7f730ef1b5bed997fa81b8e9a4b44abe30ec247a01e82330",
+        "bytes": 497
+      },
+      "build_log": {
+        "path": "out/m3-t2/s4/contract-debug-sdk-002-build.log",
+        "sha256": "6e3be455612d6f7a6af04410da90335857877d7687c7578b3563b9b3a7e9478d",
+        "bytes": 488
+      },
+      "test_log": {
+        "path": "out/m3-t2/s4/contract-debug-sdk-002-test.log",
+        "sha256": "a5d0786255b5be4db1604e02887446572f4d631ee79542ac31356e669d7acc41",
+        "bytes": 718
+      },
+      "cache": {
+        "path": "out/m3-t2/s4/contract-debug-sdk-002/CMakeCache.txt",
+        "sha256": "36a7fb9b61870039619b8d7b7b7a4146345481082dd76197e0cdeabec58444d1",
+        "bytes": 16125
+      },
+      "commands": {
+        "path": "out/m3-t2/s4/contract-debug-sdk-002/compile_commands.json",
+        "sha256": "f1c6eb5ba4a6d02aece4f8cbf428762e603569f25c7cfa60baa45200d5fd385f",
+        "bytes": 3035
+      },
+      "public_consumer_has_no_private_include": true,
+      "vulkan_headers_enabled": true,
+      "consumers": [
+        {
+          "consumer": "public",
+          "exit_code": 0,
+          "output": [
+            "Platform handoff declarations and default values passed; no SDL, window or GPU execution."
+          ],
+          "sha256": "078fb13c47918e680595124df9d89e6133af44a0d955876f7e9cd5caf8bf8abb"
+        },
+        {
+          "consumer": "gl",
+          "exit_code": 0,
+          "output": [
+            "Platform handoff declarations and default values passed; no SDL, window or GPU execution."
+          ],
+          "sha256": "d649a97d6e291c5c5ad38adadb60043267918bb05c2f1a4e35f83f6e175eaf5b"
+        },
+        {
+          "consumer": "native",
+          "exit_code": 0,
+          "output": [
+            "Platform handoff declarations and default values passed; no SDL, window or GPU execution."
+          ],
+          "sha256": "4470411498c3e4b7567340e170ac1971c5addfe41e40f9e42558248acba9e1ff"
+        },
+        {
+          "consumer": "vulkan",
+          "exit_code": 0,
+          "output": [
+            "Platform handoff declarations and default values passed; no SDL, window or GPU execution."
+          ],
+          "sha256": "d576fb84624c986906f2879b3b410381ab5b3d11b510ddabbdeec93771dbe3dd"
+        }
+      ]
+    },
+    {
+      "build": "out/m3-t2/s4/contract-release-sdk-001",
+      "configuration": "Release",
+      "passed": true,
+      "tests": 4,
+      "scope": "Actual declarations and CPU default values only; no SDL, product archives, window or GPU calls",
+      "result": {
+        "path": "out/m3-t2/s4/contract-release-sdk-001/results.json",
+        "sha256": "f3d5077de043e22280a6e1fbdc8296ddc8dee050a855cd244b9964a87dd5de0a",
+        "bytes": 1343
+      },
+      "configure_log": {
+        "path": "out/m3-t2/s4/contract-release-sdk-001-configure.log",
+        "sha256": "da5ea36f3c127c608ad0be857cdc8fc6b1495c67853d05bcc4989b14b6e1c334",
+        "bytes": 499
+      },
+      "build_log": {
+        "path": "out/m3-t2/s4/contract-release-sdk-001-build.log",
+        "sha256": "6cf726ec46371109ce78b1a3ada6cfa9d954e9238871e292d68c21932041d432",
+        "bytes": 488
+      },
+      "test_log": {
+        "path": "out/m3-t2/s4/contract-release-sdk-001-test.log",
+        "sha256": "59568fc0acbbf22b8a0d563dd8df404d07bf819fdf7d4793df33a533c9eefa04",
+        "bytes": 722
+      },
+      "cache": {
+        "path": "out/m3-t2/s4/contract-release-sdk-001/CMakeCache.txt",
+        "sha256": "64cfada545a74fd8fbd31d94f9fbd8ec6a5376e4453d417dbf0ddaba67857219",
+        "bytes": 16135
+      },
+      "commands": {
+        "path": "out/m3-t2/s4/contract-release-sdk-001/compile_commands.json",
+        "sha256": "fe49720ac0196d546422a6f27326ccfe466c3ee8308f2ac12f13c5e6de742004",
+        "bytes": 3035
+      },
+      "public_consumer_has_no_private_include": true,
+      "vulkan_headers_enabled": true,
+      "consumers": [
+        {
+          "consumer": "public",
+          "exit_code": 0,
+          "output": [
+            "Platform handoff declarations and default values passed; no SDL, window or GPU execution."
+          ],
+          "sha256": "470f3db7659f8a5a6d979e8316f5e5e1d6fe2e7e484d18289987b844847d313c"
+        },
+        {
+          "consumer": "gl",
+          "exit_code": 0,
+          "output": [
+            "Platform handoff declarations and default values passed; no SDL, window or GPU execution."
+          ],
+          "sha256": "470f3db7659f8a5a6d979e8316f5e5e1d6fe2e7e484d18289987b844847d313c"
+        },
+        {
+          "consumer": "native",
+          "exit_code": 0,
+          "output": [
+            "Platform handoff declarations and default values passed; no SDL, window or GPU execution."
+          ],
+          "sha256": "470f3db7659f8a5a6d979e8316f5e5e1d6fe2e7e484d18289987b844847d313c"
+        },
+        {
+          "consumer": "vulkan",
+          "exit_code": 0,
+          "output": [
+            "Platform handoff declarations and default values passed; no SDL, window or GPU execution."
+          ],
+          "sha256": "470f3db7659f8a5a6d979e8316f5e5e1d6fe2e7e484d18289987b844847d313c"
+        }
+      ]
+    },
+    {
+      "build": "out/m3-t2/s4/contract-release-sdk-free-001",
+      "configuration": "Release",
+      "passed": true,
+      "tests": 3,
+      "scope": "Actual declarations and CPU default values only; no SDL, product archives, window or GPU calls",
+      "result": {
+        "path": "out/m3-t2/s4/contract-release-sdk-free-001/results.json",
+        "sha256": "e5e2ab0b79c09f9a680cad129f1deb2622c39a98646e7b1b0a0119cefbee1651",
+        "bytes": 1063
+      },
+      "configure_log": {
+        "path": "out/m3-t2/s4/contract-release-sdk-free-001-configure.log",
+        "sha256": "fd2f113a9b411bea8de94a6a4c89e7ba7561907e4699e1d1d37c45e3bf6a8bc4",
+        "bytes": 504
+      },
+      "build_log": {
+        "path": "out/m3-t2/s4/contract-release-sdk-free-001-build.log",
+        "sha256": "91d9f7ad2e73f9e0b633ec604191ecc5a13e4475c9eba2ccbf10f27528cb553f",
+        "bytes": 364
+      },
+      "test_log": {
+        "path": "out/m3-t2/s4/contract-release-sdk-free-001-test.log",
+        "sha256": "892db40d349e8108639751fb77666a69f244d4183a5ab998fe53cb75e2e8ecc2",
+        "bytes": 624
+      },
+      "cache": {
+        "path": "out/m3-t2/s4/contract-release-sdk-free-001/CMakeCache.txt",
+        "sha256": "7e6a0df220072a07f05e1430126ab36a5232516114c32610e846c1561a3cabf9",
+        "bytes": 16121
+      },
+      "commands": {
+        "path": "out/m3-t2/s4/contract-release-sdk-free-001/compile_commands.json",
+        "sha256": "ab7655150837eb60ce16fedff5d5f635d9e804870399b845d25c04e79e2c4427",
+        "bytes": 2219
+      },
+      "public_consumer_has_no_private_include": true,
+      "vulkan_headers_enabled": false,
+      "consumers": [
+        {
+          "consumer": "public",
+          "exit_code": 0,
+          "output": [
+            "Platform handoff declarations and default values passed; no SDL, window or GPU execution."
+          ],
+          "sha256": "005f1a70c01067c35216908879a2352e3344048f164d490b42ac8301bc10b607"
+        },
+        {
+          "consumer": "gl",
+          "exit_code": 0,
+          "output": [
+            "Platform handoff declarations and default values passed; no SDL, window or GPU execution."
+          ],
+          "sha256": "005f1a70c01067c35216908879a2352e3344048f164d490b42ac8301bc10b607"
+        },
+        {
+          "consumer": "native",
+          "exit_code": 0,
+          "output": [
+            "Platform handoff declarations and default values passed; no SDL, window or GPU execution."
+          ],
+          "sha256": "621d1cf49f26a068b755b885c94e7b3de90b22b7037ffaf239590b882bfb751d"
+        }
+      ]
+    }
+  ],
+  "boundaries": {
+    "passed": true,
+    "cases": 45,
+    "script": {
+      "path": "test/integration/CheckNegativeBoundaries.cmake",
+      "sha256": "f05d2701f4d5997f219722cd3939bec8857b3fc1f5982884a7b42042f06bcc5c",
+      "bytes": 16002
+    },
+    "results": [
+      {
+        "path": "out/m3-t2/s4/boundaries-001/bridge-app-native/result.log",
+        "sha256": "2293d4ab90322d467783350fe263995cf13ffc4f31ec0d6a27dc3b64743b49b8",
+        "bytes": 291
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/bridge-app-vulkan/result.log",
+        "sha256": "27b48919d989fc90633fb95117dc5c19b4eaf17849162a3beb2adadb6b5dcd15",
+        "bytes": 291
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/bridge-cpu-native/result.log",
+        "sha256": "83a8b6da250a2dca293c4ee3a86c7097c70b150ba4d92ec3917371975a85b05e",
+        "bytes": 301
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/bridge-cpu-vulkan/result.log",
+        "sha256": "347f5907d5ac529e1c363a94bd08fb1cc52c8be164d3b21b26319133701b4f13",
+        "bytes": 301
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/bridge-public-vulkan/result.log",
+        "sha256": "b15c4ee8b38d06ea453f92f3d1b193d687faf4af439fcf6d8299dbbd56fbd248",
+        "bytes": 356
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/bridge-public-windows/result.log",
+        "sha256": "77fdc6587ee643cd8cb4002683e689953129000c1f6f58c782c56244c0f31396",
+        "bytes": 346
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/bridge-renderer-native/result.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/bridge-renderer-relative-native/result.log",
+        "sha256": "9456bbd7fdebf9e0b815fac453861499c27aa88ad09987bb0b0984f371de65a6",
+        "bytes": 356
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/bridge-renderer-vulkan/result.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/broad-include/result.log",
+        "sha256": "722ef25e4118c68a3f057f129648966ed44d7c6a95b78ef2f1eaa0d6614b96c1",
+        "bytes": 522
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/duplicate-source/result.log",
+        "sha256": "4f2b1163f7e18c454d836e1aef96e9d0b83681b04c0f61567cc905a60c1dc310",
+        "bytes": 570
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/module-app/result.log",
+        "sha256": "408d507d87f4598e5d44b160ae4f93d280541d343dc749e7e1221157d6a1bafd",
+        "bytes": 286
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/private-cross-include/result.log",
+        "sha256": "c9b020d3b84772e855fc7b0207096a6ce91df19e46fb26c3734a0c9cd79b0af9",
+        "bytes": 321
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/production-test/result.log",
+        "sha256": "ffb5cd6700c90365d9747cb88cf496a8aa994a578b280a777b5069b9a41cc246",
+        "bytes": 296
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/public-private-path/result.log",
+        "sha256": "821c759863e22f55953d4ef37318d379da8233d22786027527347ae346deb51d",
+        "bytes": 567
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/public-sdk/result.log",
+        "sha256": "a6da71edd238e8004f69bf1736198bd6bbfd9117a9c3e85cabb8dfd9f4e114ee",
+        "bytes": 338
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-app-source/result.log",
+        "sha256": "9ebb565b062f13e47c3c8066724a32adaace2b883a84610c3983e640bbe70cc3",
+        "bytes": 309
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-cpu-source/result.log",
+        "sha256": "2999a7ff34cdfa60ab567eb2770eccc4df0cd6181655148bb793e36e4da08d4e",
+        "bytes": 319
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-path-app/result.log",
+        "sha256": "58cf21ce973f653c0f1681b5cf919edd91101b524638c6a826078b82396176e9",
+        "bytes": 541
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-path-cpu/result.log",
+        "sha256": "7b7deec5e4389fbc7ac3a5bc8800f0d2c663cbe8d0655316c98abb9aad728fbe",
+        "bytes": 539
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-path-platform-public/result.log",
+        "sha256": "27e308581152dd6ea46fc7268eee1679742e34140baaeb71368736680559e59f",
+        "bytes": 566
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-path-renderer/result.log",
+        "sha256": "c370e3109f33f5f11f2704bc830db72b6b16b5bb17a5588b2dc69b3c0f9ae5f4",
+        "bytes": 552
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-platform-bridge-source/result.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-platform-bridge/result.log",
+        "sha256": "e9a87e17d8ea0eb62f8acb1de03e36f5d1903f577e6006bb8cb7d8b0e2fc8eb5",
+        "bytes": 341
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-platform-public/result.log",
+        "sha256": "9036469f898bd2ebca98ea9547ead192062f27216a36487be6a01c6d1cd46493",
+        "bytes": 348
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-platform-source/result.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-relative-platform-vendor/result.log",
+        "sha256": "316562dbeb38aaec921584cc5816131cc0a92a4a765351f0cd60f7bf7c6a74aa",
+        "bytes": 378
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-relative-vendor/result.log",
+        "sha256": "1e54c8599ef2c354686693d428262116dd6cda9651fe928422fb753b44d28172",
+        "bytes": 366
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-renderer-source/result.log",
+        "sha256": "d7962841b4c95752d5441bc7a6eb35f64f259fdcdcd1096e7c6e26dd554426a9",
+        "bytes": 327
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-target-app/result.log",
+        "sha256": "237ec51c1ef3e196ad33c2cda7602fff42f5939b7663bbd4417d8cf3433e7f98",
+        "bytes": 476
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-target-cpu/result.log",
+        "sha256": "a623207df22e720bb32eb24953e4a5e702b31f11a13d391a7371d30cb21bbe55",
+        "bytes": 474
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-target-platform-private/result.log",
+        "sha256": "a011c28eef8848b15e699712d618184c2a09419b7086ecf0083e87d2c60f4698",
+        "bytes": 180
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-target-platform-public-expression/result.log",
+        "sha256": "fd2e4011c2c41f93ce423f41834af719ef7f9591638bd096f4d94fdf71b462eb",
+        "bytes": 530
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-target-platform-public/result.log",
+        "sha256": "20f064bb6e41e184f5aeb16de9c7190e38920ffd2165110528f417cbf2d87864",
+        "bytes": 489
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-target-renderer-expression/result.log",
+        "sha256": "e8245fd93b8d0f772e001339cb3a71b5e5a5a7ee9f2d97625fba50f1f77673a0",
+        "bytes": 523
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/sdl-target-renderer/result.log",
+        "sha256": "fe541d3b989fd05ef04ade3eeee11e2450dd6477b289f2822f9ae129ef146b30",
+        "bytes": 482
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/simulation-platform/result.log",
+        "sha256": "0cacb93ad5498cd9ce84a82ab9a7dc08d9b31591774e380f63519d9da572253f",
+        "bytes": 318
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/target-cycle/result.log",
+        "sha256": "189e46794322386521ae755006110fbbe8dbc94d4385db673f93643efcb19558",
+        "bytes": 656
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/target-game-benchmark/result.log",
+        "sha256": "d3c4a8344861c529d209609cc499933fcd6fe135addfe9bcf2eabda83c5a103d",
+        "bytes": 462
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/target-module-app/result.log",
+        "sha256": "0a72d291b67d180820bc5c298bb2c81d4b717e35a97ec59952ebda6b4177c983",
+        "bytes": 440
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/target-production-test/result.log",
+        "sha256": "5023a9d17ab3021454d95f3b8f2440281bbcdb89ed1591ca22161f19bbfc6231",
+        "bytes": 445
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/target-simulation-platform/result.log",
+        "sha256": "6ff6a6d6fe117f017102b917c5d80379cf48cfb845421a103160fd0f693c71a8",
+        "bytes": 451
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/target-world-renderer/result.log",
+        "sha256": "daf6226ccc8abe3adfb959638f3b96f848fd538ba2f211dc94c8642de992a403",
+        "bytes": 441
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/test-include/result.log",
+        "sha256": "fd82f49d794d6e853cf9eefbb67ed09a1178c279293d408e71c704b79519a9a6",
+        "bytes": 534
+      },
+      {
+        "path": "out/m3-t2/s4/boundaries-001/world-renderer/result.log",
+        "sha256": "b89d3a5a8ed4d7b2a417f9e37bccf95dba351b771c1051b5cb9c6f7e6819fb50",
+        "bytes": 305
+      }
+    ],
+    "scope": "Real production validator against approved/rejected source and target fixtures, not future T3 backend target implementation"
+  },
+  "frozen_s3": {
+    "report": {
+      "path": "docs/milestones/m3-t2/evidence/s3-freeze.json",
+      "sha256": "10fdf153a00a9998b86896b5c7b96794d26f62ff001a02bfee400546404e5957",
+      "bytes": 1592
+    },
+    "archive": {
+      "path": "out/m3-t2/s3/frozen/s3-release-001.zip",
+      "sha256": "f7d6cf8ed8d88566fd97bf88f77198ff247dc1fe6df12e132c06738f4f53d181",
+      "bytes": 2452322
+    },
+    "files": 38,
+    "zip_roundtrip_verified": true,
+    "new_frozen_path_runtime_test": false
+  },
+  "preserved_failure": {
+    "build": "out/m3-t2/s4/contract-debug-sdk-001",
+    "configure_log": {
+      "path": "out/m3-t2/s4/contract-debug-sdk-001-configure.log",
+      "sha256": "c0eb7ee5118b6dbc32422e541ac8d37cc03fb01d114c1b47bcdeb99c3d67e78b",
+      "bytes": 2200
+    },
+    "reason": "Restricted-environment C1902 in minimal compiler probe; same toolchain fresh 002 outside sandbox passed; PDB flags unchanged"
+  },
+  "existing_hardware_evidence": {
+    "s3_validation": {
+      "path": "docs/milestones/m3-t2/evidence/s3-validation.json",
+      "sha256": "31ecacec9fda6bc818e0f0a50a3e2eb359b31bda13c879f65dc65cb34e2760aa",
+      "bytes": 25543
+    },
+    "scope": "Previously recorded same-production GL/Native/Vulkan runs, not rerun by the declaration consumers"
+  },
+  "deferred": [
+    "Y9000P physical S3/S5 verification, not cancelled or passed",
+    "Actual Benchmark drawable-size change branch",
+    "Full per-layout/DPI/Benchmark evidence binding",
+    "S5 gameplay/deployment/fault/runner-cancel checks",
+    "Q06 same-source same-condition short samples and Q07 budget approval before SDL acceptance sampling",
+    "Existing performance.export status.yaml publication stability risk",
+    "T2 final acceptance and T3 R1/v1 freeze gates"
+  ],
+  "unverified": [
+    "OS Vulkan DLL unload/reload",
+    "Full Vulkan logical-device/queue/swapchain and in-flight GPU lifetimes",
+    "Production modern Renderer gameplay takeover",
+    "Numerical ordinary-game first-resume frame dt"
+  ]
+}

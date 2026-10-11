@@ -1,0 +1,11 @@
+{
+  "old_start_utc": "2026-10-06T12:54:46.6114862Z",
+  "old_finish_new_start_utc": "2026-10-06T12:54:50.7244441Z",
+  "new_finish_utc": "2026-10-06T12:54:54.3802385Z",
+  "parent_builds_and_runtime_paused": true,
+  "old_exe_sha256": "E7EBFB2FD6B76A49D0267ED011981A72698F064359F2432128F8F5849860D1EA",
+  "new_exe_sha256": "8DC49A0C38B913A25DAB0BB1B47C660180F194EFCD9891DF88F21B2E129CFF77",
+  "probe_source_sha256": "6F205FAA05980B5924A1E85B5F9C22CB6795C8AED6CC217D7354853BE5026ABE",
+  "compiler": "MSVC 19.38.33145.0 /O2 /MD /std:c++20",
+  "ambient_workload": "not externally controlled"
+}

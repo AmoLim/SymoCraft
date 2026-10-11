@@ -1,0 +1,24 @@
+{
+  "case": "invalid-texture-image",
+  "modifiedFixtureAsset": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\invalid-texture-image\\package\\assets\\textures\\texture_atlas.png",
+  "expectedDiagnostic": "Failed to decode texture ",
+  "sourceSha256Before": "EE41E86AF8DFDC70037472B2387B67395D93CF1D807F0FE618025F6F86F9B219",
+  "sourceSha256After": "EE41E86AF8DFDC70037472B2387B67395D93CF1D807F0FE618025F6F86F9B219",
+  "runtimeResult": {
+    "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\invalid-texture-image\\package\\SymoCraft.exe",
+    "workingDirectory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\invalid-texture-image\\evidence",
+    "requestedFrames": 1,
+    "renderedFrames": null,
+    "glDiagnosticCount": 0,
+    "processId": 38808,
+    "timedOut": false,
+    "exitCode": 3,
+    "expectedExitCode": 3,
+    "ready": false,
+    "shutdown": true,
+    "elapsedSeconds": 0.5091446,
+    "passed": true
+  },
+  "passed": true,
+  "issues": []
+}

@@ -1,0 +1,75 @@
+[0/2] Re-checking globbed directories...
+[1/2] Re-running CMake...
+-- Using Win32 for window creation
+-- Configuring done (0.4s)
+-- Generating done (0.2s)
+-- Build files have been written to: F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t0/build/full-debug
+[0/4] Re-checking globbed directories...
+[1/67] Linking CXX executable test\header_foundation_symocraft_foundation_diagnostics_h.exe
+[2/67] Building CXX object test\CMakeFiles\header_platform_symocraft_platform_window_h.dir\public-headers\header_platform_symocraft_platform_window_h.cpp.obj
+[3/67] Linking CXX executable test\header_foundation_symocraft_foundation_document_h.exe
+[4/67] Synchronizing required SymoCraft runtime assets
+[5/67] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_player_h.dir\public-headers\header_simulation_symocraft_simulation_player_h.cpp.obj
+[6/67] Linking CXX executable test\header_foundation_symocraft_foundation_files_h.exe
+[7/67] Linking CXX executable test\header_foundation_symocraft_foundation_math_h.exe
+[8/67] Linking CXX executable test\header_foundation_symocraft_foundation_memory_h.exe
+[9/67] Building CXX object game\modules\platform\CMakeFiles\symocraft_platform.dir\src\window.cpp.obj
+[10/67] Linking CXX static library game\modules\platform\symocraft_platform.lib
+[11/67] Linking CXX executable test\header_foundation_symocraft_foundation_types_h.exe
+[12/67] Linking CXX executable test\header_scene_symocraft_scene_camera_h.exe
+[13/67] Linking CXX executable test\header_scene_symocraft_scene_mesh_h.exe
+[14/67] Building CXX object game\modules\simulation\CMakeFiles\symocraft_simulation.dir\src\player.cpp.obj
+[15/67] Linking CXX executable test\header_assets_symocraft_assets_asset_paths_h.exe
+[16/67] Linking CXX executable test\header_assets_symocraft_assets_image_h.exe
+[17/67] Linking CXX static library game\modules\simulation\symocraft_simulation.lib
+[18/67] Linking CXX executable test\header_world_symocraft_world_benchmark_workload_h.exe
+[19/67] Linking CXX executable test\header_world_symocraft_world_block_h.exe
+[20/67] Linking CXX executable test\header_world_symocraft_world_chunk_manager_h.exe
+[21/67] Building CXX object test\unit\simulation\CMakeFiles\simulation_contract_tests.dir\simulation_contract_tests.cpp.obj
+[22/67] Linking CXX executable test\header_world_symocraft_world_constants_h.exe
+[23/67] Linking CXX executable test\header_world_symocraft_world_generation_h.exe
+[24/67] Linking CXX executable test\header_world_symocraft_world_test_scene_h.exe
+[25/67] Linking CXX executable test\header_world_symocraft_world_world_h.exe
+[26/67] Linking CXX executable test\header_ecs_symocraft_ecs_registry_h.exe
+[27/67] Linking CXX executable test\header_simulation_symocraft_simulation_camera_h.exe
+[28/67] Linking CXX executable test\header_simulation_symocraft_simulation_character_system_h.exe
+[29/67] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\renderer.cpp.obj
+[30/67] Linking CXX executable test\header_simulation_symocraft_simulation_component_h.exe
+[31/67] Linking CXX static library game\modules\renderer\symocraft_renderer.lib
+[32/67] Linking CXX executable test\header_simulation_symocraft_simulation_physics_system_h.exe
+[33/67] Linking CXX executable test\header_simulation_symocraft_simulation_player_h.exe
+[34/67] Linking CXX executable test\header_simulation_symocraft_simulation_player_math_h.exe
+[35/67] Linking CXX executable test\header_simulation_symocraft_simulation_transform_system_h.exe
+[36/67] Linking CXX executable test\header_platform_symocraft_platform_key_snapshot_h.exe
+[37/67] Linking CXX executable test\header_platform_symocraft_platform_process_memory_h.exe
+[38/67] Building CXX object game\app\CMakeFiles\SymoCraft.dir\src\application.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\game\app\src\application.cpp(122): warning C4389: '!=': signed/unsigned mismatch
+F:\GameDevelop\OpenGLProject\Symocraft\game\app\src\application.cpp(122): warning C4389: '!=': signed/unsigned mismatch
+F:\GameDevelop\OpenGLProject\Symocraft\game\app\src\application.cpp(274): warning C4389: '!=': signed/unsigned mismatch
+F:\GameDevelop\OpenGLProject\Symocraft\game\app\src\application.cpp(274): warning C4389: '!=': signed/unsigned mismatch
+[39/67] Linking CXX executable test\header_platform_symocraft_platform_window_h.exe
+[40/67] Linking CXX executable test\header_renderer_symocraft_renderer_gpu_timer_h.exe
+[41/67] Linking CXX executable test\header_simulation_symocraft_simulation_playercontroller_h.exe
+[42/67] Linking CXX executable test\header_renderer_symocraft_renderer_render_stats_h.exe
+[43/67] Linking CXX executable test\header_renderer_symocraft_renderer_renderer_h.exe
+[44/67] Linking CXX executable test\header_telemetry_symocraft_telemetry_document_io_h.exe
+[45/67] Linking CXX executable test\header_telemetry_symocraft_telemetry_performance_h.exe
+[46/67] Linking CXX executable test\unit\assets\image_tests.exe
+[47/67] Linking CXX executable test\unit\foundation\document_tests.exe
+[48/67] Linking CXX executable test\unit\ecs\registry_tests.exe
+[49/67] Linking CXX executable bin\SymoCraft.exe
+[50/67] Linking CXX executable bin\asset_paths_tests.exe
+[51/67] Linking CXX executable test\unit\world\world_generation_tests.exe
+[52/67] Linking CXX executable test\unit\world\mesh_safety_tests.exe
+[53/67] Linking CXX executable test\unit\simulation\player_math_tests.exe
+[54/67] Linking CXX executable test\unit\world\block_config_tests.exe
+[55/67] Linking CXX executable test\unit\simulation\simulation_contract_tests.exe
+[56/67] Linking CXX executable test\unit\platform\key_snapshot_tests.exe
+[57/67] Linking CXX executable test\unit\app\startup_options_tests.exe
+[58/67] Linking CXX executable test\unit\renderer\shader_loading_tests.exe
+[59/67] Linking CXX executable test\unit\renderer\gpu_timer_tests.exe
+[60/67] Linking CXX executable test\unit\renderer\batch_safety_tests.exe
+[61/67] Linking CXX executable test\unit\telemetry\performance_tests.exe
+[62/67] Linking CXX executable test\benchmark\benchmark_process_fixture.exe
+[63/67] Linking CXX executable test\benchmark\benchmark_runner_tests.exe
+[64/67] Linking CXX executable test\benchmark\benchmark_fixture.exe

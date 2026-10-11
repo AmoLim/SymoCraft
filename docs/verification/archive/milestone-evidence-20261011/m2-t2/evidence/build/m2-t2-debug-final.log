@@ -1,0 +1,95 @@
+Visual Studio: E:\Applications\Microsoft VS\2022
+Compiler: E:\Applications\Microsoft VS\2022\VC\Tools\MSVC\14.38.33130\bin\HostX64\x64\cl.exe
+Running: E:\Applications\JetBrains\CLion\bin\cmake\win\x64\bin\cmake.exe --version
+cmake version 4.3.1
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+Running: E:\Applications\JetBrains\CLion\bin\ninja\win\x64\ninja.exe --version
+1.13.2
+Running: E:\Applications\JetBrains\CLion\bin\cmake\win\x64\bin\cmake.exe --preset windows-debug -B F:\GameDevelop\OpenGLProject\Symocraft\out\m2-t2\debug -DCMAKE_MAKE_PROGRAM=E:\Applications\JetBrains\CLion\bin\ninja\win\x64\ninja.exe -DCMAKE_C_COMPILER=E:\Applications\Microsoft VS\2022\VC\Tools\MSVC\14.38.33130\bin\HostX64\x64\cl.exe -DCMAKE_CXX_COMPILER=E:\Applications\Microsoft VS\2022\VC\Tools\MSVC\14.38.33130\bin\HostX64\x64\cl.exe
+-- Using Win32 for window creation
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/debug
+Running: E:\Applications\JetBrains\CLion\bin\cmake\win\x64\bin\cmake.exe --build F:\GameDevelop\OpenGLProject\Symocraft\out\m2-t2\debug --parallel 8
+[1/17] Linking CXX executable tests\player_math_tests.exe
+[2/17] Linking CXX executable tests\shader_loading_tests.exe
+[3/17] Linking CXX executable tests\batch_safety_tests.exe
+[4/17] Synchronizing required SymoCraft runtime assets
+[5/17] Linking CXX executable tests\block_config_tests.exe
+[6/17] Linking CXX executable tests\key_snapshot_tests.exe
+[7/17] Linking CXX executable tests\startup_options_tests.exe
+[8/17] Linking CXX executable bin\asset_paths_tests.exe
+[9/17] Building CXX object tests\CMakeFiles\world_generation_tests.dir\__\src\world\generation.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(51): warning C4458: declaration of 'offset' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(13): note: see declaration of 'RawMemory::offset'
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(59): warning C4458: declaration of 'data' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(11): note: see declaration of 'RawMemory::data'
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(59): warning C4100: 'data': unreferenced formal parameter
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(64): warning C4189: 'new_size': local variable is initialized but not referenced
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(70): warning C4458: declaration of 'data' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(11): note: see declaration of 'RawMemory::data'
+[10/17] Building CXX object tests\CMakeFiles\mesh_safety_tests.dir\__\src\world\generation.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(51): warning C4458: declaration of 'offset' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(13): note: see declaration of 'RawMemory::offset'
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(59): warning C4458: declaration of 'data' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(11): note: see declaration of 'RawMemory::data'
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(59): warning C4100: 'data': unreferenced formal parameter
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(64): warning C4189: 'new_size': local variable is initialized but not referenced
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(70): warning C4458: declaration of 'data' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(11): note: see declaration of 'RawMemory::data'
+[11/17] Building CXX object tests\CMakeFiles\mesh_safety_tests.dir\__\src\world\chunk.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(51): warning C4458: declaration of 'offset' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(13): note: see declaration of 'RawMemory::offset'
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(59): warning C4458: declaration of 'data' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(11): note: see declaration of 'RawMemory::data'
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(59): warning C4100: 'data': unreferenced formal parameter
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(64): warning C4189: 'new_size': local variable is initialized but not referenced
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(70): warning C4458: declaration of 'data' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(11): note: see declaration of 'RawMemory::data'
+[12/17] Building CXX object tests\CMakeFiles\world_generation_tests.dir\__\src\world\chunk.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(51): warning C4458: declaration of 'offset' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(13): note: see declaration of 'RawMemory::offset'
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(59): warning C4458: declaration of 'data' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(11): note: see declaration of 'RawMemory::data'
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(59): warning C4100: 'data': unreferenced formal parameter
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(64): warning C4189: 'new_size': local variable is initialized but not referenced
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(70): warning C4458: declaration of 'data' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(11): note: see declaration of 'RawMemory::data'
+[13/17] Building CXX object CMakeFiles\SymoCraft.dir\src\world\generation.cpp.obj
+[14/17] Linking CXX executable tests\mesh_safety_tests.exe
+[15/17] Building CXX object CMakeFiles\SymoCraft.dir\src\world\chunk.cpp.obj
+[16/17] Linking CXX executable tests\world_generation_tests.exe
+[17/17] Linking CXX executable bin\SymoCraft.exe
+Running: E:\Applications\JetBrains\CLion\bin\cmake\win\x64\bin\ctest.exe --preset windows-debug --test-dir F:\GameDevelop\OpenGLProject\Symocraft\out\m2-t2\debug --output-on-failure --no-tests=error
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/debug
+      Start  1: assets.contracts
+ 1/13 Test  #1: assets.contracts .................   Passed    0.37 sec
+      Start  2: assets.from_source_directory
+ 2/13 Test  #2: assets.from_source_directory .....   Passed    0.34 sec
+      Start  3: assets.game_preflight
+ 3/13 Test  #3: assets.game_preflight ............   Passed    0.34 sec
+      Start  4: assets.game_package
+ 4/13 Test  #4: assets.game_package ..............   Passed    0.11 sec
+      Start  5: renderer.shader_loading
+ 5/13 Test  #5: renderer.shader_loading ..........   Passed    0.11 sec
+      Start  6: player.math
+ 6/13 Test  #6: player.math ......................   Passed    0.08 sec
+      Start  7: renderer.batch_safety
+ 7/13 Test  #7: renderer.batch_safety ............   Passed    0.09 sec
+      Start  8: world.mesh_safety
+ 8/13 Test  #8: world.mesh_safety ................   Passed    0.19 sec
+      Start  9: world.block_config
+ 9/13 Test  #9: world.block_config ...............   Passed    0.20 sec
+      Start 10: input.key_snapshot
+10/13 Test #10: input.key_snapshot ...............   Passed    0.08 sec
+      Start 11: core.startup_options
+11/13 Test #11: core.startup_options .............   Passed    0.08 sec
+      Start 12: world.generation
+12/13 Test #12: world.generation .................   Passed    1.24 sec
+      Start 13: world.summary_cli
+13/13 Test #13: world.summary_cli ................   Passed    3.08 sec
+
+100% tests passed, 0 tests failed out of 13
+
+Total Test time (real) =   6.32 sec

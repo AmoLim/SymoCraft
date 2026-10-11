@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-06T20:46:06.7695530+08:00",
+  "os": "Microsoft Windows 11 专业版",
+  "os_build": "26200",
+  "architecture": "64 位",
+  "cpu": "AMD Ryzen 7 9700X 8-Core Processor             ",
+  "logical_processors": 16,
+  "physical_memory_bytes": 66190954496,
+  "gpus": [
+    {
+      "Name": "OrayIddDriver Device",
+      "DriverVersion": "17.50.19.949"
+    },
+    {
+      "Name": "MuMu Virtual Display Adapter",
+      "DriverVersion": "20.36.41.498"
+    },
+    {
+      "Name": "AMD Radeon(TM) Graphics",
+      "DriverVersion": "32.0.21043.5001"
+    },
+    {
+      "Name": "NVIDIA GeForce RTX 5070 Ti",
+      "DriverVersion": "32.0.16.1664"
+    }
+  ],
+  "active_power_scheme": "电源方案 GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (平衡)",
+  "clock_settings": "User previously reported no CPU/GPU overclock or undervolt; not measured again this run",
+  "measured_temperature_or_frequency": false
+}

@@ -1,0 +1,213 @@
+Start testing: Oct 03 12:48 中国标准时间
+----------------------------------------------------------
+1/13 Testing: assets.contracts
+1/13 Test: assets.contracts
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/bin/asset_paths_tests.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests
+"assets.contracts" start time: Oct 03 12:48 中国标准时间
+Output:
+----------------------------------------------------------
+Asset path contracts and relocated-package probes passed.
+<end of output>
+Test time =   0.15 sec
+----------------------------------------------------------
+Test Passed.
+"assets.contracts" end time: Oct 03 12:48 中国标准时间
+"assets.contracts" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/13 Testing: assets.from_source_directory
+2/13 Test: assets.from_source_directory
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/bin/asset_paths_tests.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft
+"assets.from_source_directory" start time: Oct 03 12:48 中国标准时间
+Output:
+----------------------------------------------------------
+Asset path contracts and relocated-package probes passed.
+<end of output>
+Test time =   0.10 sec
+----------------------------------------------------------
+Test Passed.
+"assets.from_source_directory" end time: Oct 03 12:48 中国标准时间
+"assets.from_source_directory" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/13 Testing: assets.game_preflight
+3/13 Test: assets.game_preflight
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/bin/SymoCraft.exe" "--check-assets"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft
+"assets.game_preflight" start time: Oct 03 12:48 中国标准时间
+Output:
+----------------------------------------------------------
+All required assets are present.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"assets.game_preflight" end time: Oct 03 12:48 中国标准时间
+"assets.game_preflight" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/13 Testing: assets.game_package
+4/13 Test: assets.game_package
+Command: "E:/Applications/JetBrains/CLion/bin/cmake/win/x64/bin/cmake.exe" "-DGAME_EXECUTABLE=F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/bin/SymoCraft.exe" "-DSOURCE_ASSETS=F:/GameDevelop/OpenGLProject/Symocraft/assets" "-DPROBE_PARENT=F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests/package-probes" "-P" "F:/GameDevelop/OpenGLProject/Symocraft/tests/CheckAssetPackage.cmake"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests
+"assets.game_package" start time: Oct 03 12:48 中国标准时间
+Output:
+----------------------------------------------------------
+-- Relocated game package, missing asset, and invalid argument checks passed.
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"assets.game_package" end time: Oct 03 12:48 中国标准时间
+"assets.game_package" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/13 Testing: renderer.shader_loading
+5/13 Test: renderer.shader_loading
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests/shader_loading_tests.exe" "F:/GameDevelop/OpenGLProject/Symocraft/assets/shaders/vs_BlockShader.glsl" "F:/GameDevelop/OpenGLProject/Symocraft/assets/shaders/fs_BlockShader.glsl" "F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests/empty-shader.glsl"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests
+"renderer.shader_loading" start time: Oct 03 12:48 中国标准时间
+Output:
+----------------------------------------------------------
+Shader compilation and linking succeeded: F:/GameDevelop/OpenGLProject/Symocraft/assets/shaders/vs_BlockShader.glsl + F:/GameDevelop/OpenGLProject/Symocraft/assets/shaders/fs_BlockShader.glsl
+Shader compilation and linking succeeded: F:/GameDevelop/OpenGLProject/Symocraft/assets/shaders/vs_BlockShader.glsl + F:/GameDevelop/OpenGLProject/Symocraft/assets/shaders/fs_BlockShader.glsl
+Shader loading and failure cleanup checks passed without an OpenGL context.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"renderer.shader_loading" end time: Oct 03 12:48 中国标准时间
+"renderer.shader_loading" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/13 Testing: player.math
+6/13 Test: player.math
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests/player_math_tests.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests
+"player.math" start time: Oct 03 12:48 中国标准时间
+Output:
+----------------------------------------------------------
+Player fixed-step, voxel-ray, and placement contracts passed.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"player.math" end time: Oct 03 12:48 中国标准时间
+"player.math" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/13 Testing: renderer.batch_safety
+7/13 Test: renderer.batch_safety
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests/batch_safety_tests.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests
+"renderer.batch_safety" start time: Oct 03 12:48 中国标准时间
+Output:
+----------------------------------------------------------
+Batch safety tests passed without an OpenGL context.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"renderer.batch_safety" end time: Oct 03 12:48 中国标准时间
+"renderer.batch_safety" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/13 Testing: world.mesh_safety
+8/13 Test: world.mesh_safety
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests/mesh_safety_tests.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests
+"world.mesh_safety" start time: Oct 03 12:48 中国标准时间
+Output:
+----------------------------------------------------------
+Mesh and chunk lifetime tests passed.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"world.mesh_safety" end time: Oct 03 12:48 中国标准时间
+"world.mesh_safety" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/13 Testing: world.block_config
+9/13 Test: world.block_config
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests/block_config_tests.exe" "F:/GameDevelop/OpenGLProject/Symocraft/assets/configs/blockFormats.yaml"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests
+"world.block_config" start time: Oct 03 12:48 中国标准时间
+Output:
+----------------------------------------------------------
+Block configuration contracts passed.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"world.block_config" end time: Oct 03 12:48 中国标准时间
+"world.block_config" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/13 Testing: input.key_snapshot
+10/13 Test: input.key_snapshot
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests/key_snapshot_tests.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests
+"input.key_snapshot" start time: Oct 03 12:48 中国标准时间
+Output:
+----------------------------------------------------------
+Complete key snapshot and sticky-consumption contracts passed.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"input.key_snapshot" end time: Oct 03 12:48 中国标准时间
+"input.key_snapshot" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/13 Testing: core.startup_options
+11/13 Test: core.startup_options
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests/startup_options_tests.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests
+"core.startup_options" start time: Oct 03 12:48 中国标准时间
+Output:
+----------------------------------------------------------
+Startup seed, scene, checkpoint and mode contracts passed.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"core.startup_options" end time: Oct 03 12:48 中国标准时间
+"core.startup_options" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/13 Testing: world.generation
+12/13 Test: world.generation
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests/world_generation_tests.exe" "F:/GameDevelop/OpenGLProject/Symocraft/assets/configs/blockFormats.yaml"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests
+"world.generation" start time: Oct 03 12:48 中国标准时间
+Output:
+----------------------------------------------------------
+generator_version=1; seed=424242; radius=3; terrain=fnv1a64:d88ef364525f7355; scene=fnv1a64:945aefc4a381a591; edited=fnv1a64:97eb7834bae64491
+<end of output>
+Test time =   0.32 sec
+----------------------------------------------------------
+Test Passed.
+"world.generation" end time: Oct 03 12:48 中国标准时间
+"world.generation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/13 Testing: world.summary_cli
+13/13 Test: world.summary_cli
+Command: "E:/Applications/JetBrains/CLion/bin/cmake/win/x64/bin/cmake.exe" "-DGAME_EXECUTABLE=F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/bin/SymoCraft.exe" "-DOUTPUT_DIRECTORY=F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests/world-summary-probes" "-P" "F:/GameDevelop/OpenGLProject/Symocraft/tests/CheckWorldSummary.cmake"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t2/release/tests
+"world.summary_cli" start time: Oct 03 12:48 中国标准时间
+Output:
+----------------------------------------------------------
+-- Full 441-chunk scene and edit summaries match across two headless processes
+<end of output>
+Test time =   1.38 sec
+----------------------------------------------------------
+Test Passed.
+"world.summary_cli" end time: Oct 03 12:48 中国标准时间
+"world.summary_cli" time elapsed: 00:00:01
+----------------------------------------------------------
+
+End testing: Oct 03 12:48 中国标准时间

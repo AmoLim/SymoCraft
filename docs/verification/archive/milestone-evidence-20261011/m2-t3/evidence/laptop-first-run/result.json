@@ -1,0 +1,86 @@
+﻿{
+    "scenario":  "static",
+    "repeat":  1,
+    "arguments":  [
+                      "--benchmark",
+                      "static",
+                      "--output",
+                      "capture",
+                      "--seed",
+                      "424242",
+                      "--width",
+                      "1920",
+                      "--height",
+                      "1080",
+                      "--vsync",
+                      "0",
+                      "--warmup-seconds",
+                      "60",
+                      "--sample-seconds",
+                      "180"
+                  ],
+    "processId":  27388,
+    "exitCode":  null,
+    "timedOut":  false,
+    "passed":  false,
+    "elapsedSeconds":  242.2563869,
+    "gpuSensorStatus":  "collected; inspect CSV for unsupported fields",
+    "frameMs":  {
+                    "count":  16440,
+                    "mean":  10.948591660583974,
+                    "p95":  12.4323,
+                    "p99":  14.0438,
+                    "max":  30.912
+                },
+    "gpuDrawMs":  {
+                      "count":  16439,
+                      "mean":  0.20984269700101915,
+                      "p95":  0.212992,
+                      "p99":  0.228352,
+                      "max":  1.754112
+                  },
+    "uploadBytes":  {
+                        "count":  16440,
+                        "mean":  57770616,
+                        "p95":  57770616,
+                        "p99":  57770616,
+                        "max":  57770616
+                    },
+    "uploadCpuMs":  {
+                        "count":  16440,
+                        "mean":  4.7032775547445391,
+                        "p95":  5.4378,
+                        "p99":  6.3757,
+                        "max":  10.9734
+                    },
+    "meshMs":  {
+                   "count":  16440,
+                   "mean":  0.0062984854014601355,
+                   "p95":  0.0079,
+                   "p99":  0.0181,
+                   "max":  0.085
+               },
+    "presentMs":  {
+                      "count":  16440,
+                      "mean":  0.59150602189781154,
+                      "p95":  0.7685,
+                      "p99":  1.0568,
+                      "max":  2.2407
+                  },
+    "editFrames":  0,
+    "focusLostFrames":  6531,
+    "playerX":  {
+                    "count":  16440,
+                    "mean":  -2.5,
+                    "p95":  -2.5,
+                    "p99":  -2.5,
+                    "max":  -2.5
+                },
+    "playerY":  {
+                    "count":  16440,
+                    "mean":  161.89999390002893,
+                    "p95":  161.8999939,
+                    "p99":  161.8999939,
+                    "max":  161.8999939
+                }
+}

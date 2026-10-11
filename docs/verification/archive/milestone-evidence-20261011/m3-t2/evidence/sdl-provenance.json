@@ -1,0 +1,17 @@
+{
+  "captured_at": "2026-10-07T12:33:44.1308675+08:00",
+  "version": "3.4.18",
+  "tag": "release-3.4.18",
+  "commit": "829a65d769d935c4852f8159e964312c0957260a",
+  "revision": "release-3.4.18-0-g829a65d76",
+  "source_url": "https://github.com/libsdl-org/SDL/releases/download/release-3.4.18/SDL3-3.4.18.zip",
+  "archive_sha256": "9cd42377704398796071b8597cd7e21da254a43bad98c4199739647adc13fa6f",
+  "vendor_files": 2183,
+  "byte_identical_files": 2183,
+  "comparison_path": "out/m3-t2/sdl-official-vendor-final-comparison.json",
+  "comparison_sha256": "fdbb211cc0f7fd1600a771d0263229d096abdf9325144bc643ad598d85de8d38",
+  "license_path": "vendor/sdl3/LICENSE.txt",
+  "license_sha256": "1c040b8271b37e5076359f8fd54240e371114112924d2df81ef87c7d6a1dfdfd",
+  "vendor_source_modified": false,
+  "old_sdl_directory_retained": false
+}

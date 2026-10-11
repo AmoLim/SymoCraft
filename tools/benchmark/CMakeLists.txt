@@ -31,8 +31,8 @@ target_link_libraries(SymoCraftBenchmark PRIVATE benchmark_core comctl32 comdlg3
 set_target_properties(SymoCraftBenchmark PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${PROJECT_BINARY_DIR}/bin" CXX_EXTENSIONS OFF)
 install(TARGETS SymoCraftBenchmark RUNTIME DESTINATION .)
-install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/docs/project/benchmark/使用与交付.md" DESTINATION . RENAME "BENCHMARK-README.zh-CN.md")
-install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/docs/legacy/third-party-inventory.md" DESTINATION . RENAME "THIRD-PARTY-INVENTORY.md")
+install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/tools/benchmark/README.md" DESTINATION . RENAME "BENCHMARK-README.zh-CN.md")
+install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/docs/third-party.md" DESTINATION . RENAME "THIRD-PARTY-INVENTORY.md")
 if(BUILD_TESTING AND CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
     add_subdirectory("${SYMOCRAFT_REPOSITORY_ROOT}/test/benchmark" "${CMAKE_CURRENT_BINARY_DIR}/test/benchmark")
 endif()

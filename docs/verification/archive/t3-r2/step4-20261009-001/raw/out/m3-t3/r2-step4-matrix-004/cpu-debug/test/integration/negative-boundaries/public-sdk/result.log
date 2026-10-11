@@ -1,0 +1,8 @@
+CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:61 (message):
+  Boundary violation: public header
+  game/modules/world/include/symocraft/world/rejected.h exposes
+  SDK/parser/storage dependency yaml-cpp/yaml.h
+Call Stack (most recent call first):
+  negative-boundaries/public-sdk/probe.cmake:3 (symocraft_check_source_file)
+
+

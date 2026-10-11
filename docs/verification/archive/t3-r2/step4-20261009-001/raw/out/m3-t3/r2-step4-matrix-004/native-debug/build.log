@@ -1,0 +1,499 @@
+[0/2] Re-checking globbed directories...
+[1/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\cmake_pch.c.obj
+[2/440] Building CXX object vendor\sdl3\CMakeFiles\SDL3-static.dir\cmake_pch.cxx.obj
+[3/440] Building CXX object game\modules\platform\CMakeFiles\symocraft_platform.dir\src\process_memory.cpp.obj
+[4/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\dynapi\SDL_dynapi.c.obj
+[5/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\SDL.c.obj
+[6/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\SDL_guid.c.obj
+[7/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\SDL_error.c.obj
+[8/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\SDL_hashtable.c.obj
+[9/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\SDL_hints.c.obj
+[10/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\SDL_list.c.obj
+[11/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\SDL_assert.c.obj
+[12/440] Building CXX object game\modules\foundation\CMakeFiles\symocraft_foundation.dir\src\document.cpp.obj
+[13/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\SDL_properties.c.obj
+[14/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\SDL_utils.c.obj
+[15/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\atomic\SDL_atomic.c.obj
+[16/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\audio\SDL_audiodev.c.obj
+[17/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\audio\SDL_audiocvt.c.obj
+[18/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\SDL_log.c.obj
+[19/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\audio\SDL_audioresample.c.obj
+[20/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\audio\SDL_audioqueue.c.obj
+[21/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\atomic\SDL_spinlock.c.obj
+[22/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\audio\SDL_audiotypecvt.c.obj
+[23/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\audio\SDL_mixer.c.obj
+[24/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\audio\SDL_wave.c.obj
+[25/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\audio\SDL_audio.c.obj
+[26/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\core\SDL_core_unsupported.c.obj
+[27/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\events\SDL_categories.c.obj
+[28/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\events\SDL_clipboardevents.c.obj
+[29/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\events\SDL_displayevents.c.obj
+[30/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\events\SDL_dropevents.c.obj
+[31/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\camera\SDL_camera.c.obj
+[32/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\events\SDL_eventwatch.c.obj
+[33/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\cpuinfo\SDL_cpuinfo.c.obj
+[34/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\events\SDL_keyboard.c.obj
+[35/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\events\SDL_keymap.c.obj
+[36/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\events\SDL_keysym_to_keycode.c.obj
+[37/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\events\SDL_keysym_to_scancode.c.obj
+[38/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\events\SDL_pen.c.obj
+[39/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\events\SDL_quit.c.obj
+[40/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\events\SDL_scancode_tables.c.obj
+[41/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\events\SDL_events.c.obj
+[42/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\events\SDL_touch.c.obj
+[43/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\events\SDL_windowevents.c.obj
+[44/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\events\imKStoUCS.c.obj
+[45/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\filesystem\SDL_filesystem.c.obj
+[46/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\haptic\SDL_haptic.c.obj
+[47/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\hidapi\SDL_hidapi.c.obj
+[48/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\gpu\SDL_gpu.c.obj
+[49/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\events\SDL_mouse.c.obj
+[50/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\io\SDL_asyncio.c.obj
+[51/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\io\generic\SDL_asyncio_generic.c.obj
+[52/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\joystick\controller_type.c.obj
+[53/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\io\SDL_iostream.c.obj
+[54/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\locale\SDL_locale.c.obj
+[55/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\joystick\SDL_steam_virtual_gamepad.c.obj
+[56/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\joystick\SDL_gamepad.c.obj
+[57/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\joystick\SDL_joystick.c.obj
+[58/440] Building CXX object game\modules\platform\CMakeFiles\symocraft_platform.dir\src\window.cpp.obj
+[59/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\main\SDL_runapp.c.obj
+[60/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\main\SDL_main_callbacks.c.obj
+[61/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\misc\SDL_libusb.c.obj
+[62/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\misc\SDL_url.c.obj
+[63/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\SDL_render_unsupported.c.obj
+[64/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\power\SDL_power.c.obj
+[65/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\direct3d\SDL_render_d3d.c.obj
+[66/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\SDL_yuv_sw.c.obj
+[67/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\SDL_render.c.obj
+[68/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\direct3d\SDL_shaders_d3d.c.obj
+[69/440] Building CXX object game\modules\foundation\CMakeFiles\symocraft_foundation.dir\src\files.cpp.obj
+[70/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\direct3d11\SDL_render_d3d11.c.obj
+[71/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\direct3d11\SDL_shaders_d3d11.c.obj
+[72/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\direct3d12\SDL_shaders_d3d12.c.obj
+[73/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\gpu\SDL_pipeline_gpu.c.obj
+[74/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\gpu\SDL_shaders_gpu.c.obj
+[75/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\direct3d12\SDL_render_d3d12.c.obj
+[76/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\gpu\SDL_render_gpu.c.obj
+[77/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\ngage\SDL_render_ngage.c.obj
+[78/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\opengl\SDL_render_gl.c.obj
+[79/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\opengl\SDL_shaders_gl.c.obj
+[80/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\opengles2\SDL_render_gles2.c.obj
+[81/440] Building CXX object game\modules\foundation\CMakeFiles\symocraft_foundation.dir\src\legacy\AmoBase.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\foundation\src\legacy\AmoBase.cpp(338): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\foundation\src\legacy\AmoBase.cpp(363): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\foundation\src\legacy\AmoBase.cpp(388): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\foundation\src\legacy\AmoBase.cpp(413): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\foundation\src\legacy\AmoBase.cpp(438): warning C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+[82/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\psp\SDL_render_psp.c.obj
+[83/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\ps2\SDL_render_ps2.c.obj
+[84/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\software\SDL_blendfillrect.c.obj
+[85/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\opengles2\SDL_shaders_gles2.c.obj
+[86/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\software\SDL_blendline.c.obj
+[87/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\software\SDL_blendpoint.c.obj
+[88/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\software\SDL_drawpoint.c.obj
+[89/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\software\SDL_drawline.c.obj
+[90/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\vitagxm\SDL_render_vita_gxm.c.obj
+[91/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\software\SDL_render_sw.c.obj
+[92/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\vitagxm\SDL_render_vita_gxm_memory.c.obj
+[93/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\software\SDL_triangle.c.obj
+[94/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\vitagxm\SDL_render_vita_gxm_tools.c.obj
+[95/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\vulkan\SDL_shaders_vulkan.c.obj
+[96/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\render\vulkan\SDL_render_vulkan.c.obj
+[97/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\stdlib\SDL_crc16.c.obj
+[98/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\sensor\SDL_sensor.c.obj
+[99/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\stdlib\SDL_iconv.c.obj
+[100/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\stdlib\SDL_crc32.c.obj
+[101/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\stdlib\SDL_malloc.c.obj
+[102/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\stdlib\SDL_memcpy.c.obj
+[103/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\stdlib\SDL_memmove.c.obj
+[104/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\stdlib\SDL_memset.c.obj
+[105/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\stdlib\SDL_mslibc.c.obj
+[106/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\stdlib\SDL_qsort.c.obj
+[107/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\stdlib\SDL_random.c.obj
+[108/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\stdlib\SDL_murmur3.c.obj
+[109/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\stdlib\SDL_strtokr.c.obj
+[110/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\stdlib\SDL_stdlib.c.obj
+[111/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\stdlib\SDL_string.c.obj
+[112/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\storage\SDL_storage.c.obj
+[113/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\time\SDL_time.c.obj
+[114/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\stdlib\SDL_getenv.c.obj
+[115/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_RLEaccel.c.obj
+[116/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_blit_0.c.obj
+[117/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_blit.c.obj
+[118/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_blit_1.c.obj
+[119/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_blit_A.c.obj
+[120/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_blit_N.c.obj
+[121/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_blit_copy.c.obj
+[122/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\thread\SDL_thread.c.obj
+[123/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_blit_auto.c.obj
+[124/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_blit_slow.c.obj
+[125/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_bmp.c.obj
+[126/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\timer\SDL_timer.c.obj
+[127/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_egl.c.obj
+[128/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_fillrect.c.obj
+[129/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_clipboard.c.obj
+[130/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_rotate.c.obj
+[131/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_rect.c.obj
+[132/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_pixels.c.obj
+[133/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_stretch.c.obj
+[134/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_stb.c.obj
+[135/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_video_unsupported.c.obj
+[136/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_surface.c.obj
+[137/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_yuv.c.obj
+[138/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\e_atan2.c.obj
+[139/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\yuv2rgb\yuv_rgb_lsx.c.obj
+[140/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\yuv2rgb\yuv_rgb_std.c.obj
+[141/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\e_exp.c.obj
+[142/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\e_fmod.c.obj
+[143/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\yuv2rgb\yuv_rgb_sse.c.obj
+[144/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\e_log.c.obj
+[145/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\e_log10.c.obj
+[146/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\e_pow.c.obj
+[147/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\e_sqrt.c.obj
+[148/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\e_rem_pio2.c.obj
+[149/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\k_cos.c.obj
+[150/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_video.c.obj
+[151/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\k_rem_pio2.c.obj
+[152/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\k_sin.c.obj
+[153/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\s_atan.c.obj
+[154/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\s_copysign.c.obj
+[155/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\SDL_vulkan_utils.c.obj
+[156/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\s_cos.c.obj
+[157/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\k_tan.c.obj
+[158/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\s_fabs.c.obj
+[159/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\s_isinf.c.obj
+[160/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\s_floor.c.obj
+[161/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\s_isinff.c.obj
+[162/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\s_modf.c.obj
+[163/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\s_scalbn.c.obj
+[164/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\s_isnan.c.obj
+[165/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\s_isnanf.c.obj
+[166/440] Building CXX object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\core\windows\SDL_gameinput.cpp.obj
+[167/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\s_tan.c.obj
+[168/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\libm\s_sin.c.obj
+[169/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\core\windows\pch.c.obj
+[170/440] Building CXX object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\core\windows\pch_cpp.cpp.obj
+[171/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\io\windows\SDL_asyncio_windows_ioring.c.obj
+[172/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\core\windows\SDL_hid.c.obj
+[173/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\core\windows\SDL_xinput.c.obj
+[174/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\core\windows\SDL_immdevice.c.obj
+[175/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\main\windows\SDL_sysmain_runapp.c.obj
+[176/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\misc\windows\SDL_sysurl.c.obj
+[177/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\core\windows\SDL_windows.c.obj
+[178/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\windows\SDL_windowsclipboard.c.obj
+[179/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\windows\SDL_windowsevents.c.obj
+[180/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\windows\SDL_windowsframebuffer.c.obj
+[181/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\windows\SDL_windowsmodes.c.obj
+[182/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\windows\SDL_windowskeyboard.c.obj
+[183/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\windows\SDL_windowsopengles.c.obj
+[184/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\windows\SDL_windowsmessagebox.c.obj
+[185/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\windows\SDL_windowsmouse.c.obj
+[186/440] Building CXX object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\windows\SDL_windowsgameinput.cpp.obj
+[187/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\thread\generic\SDL_syscond.c.obj
+[188/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\windows\SDL_windowsopengl.c.obj
+[189/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\thread\generic\SDL_sysrwlock.c.obj
+[190/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\windows\SDL_windowsrawinput.c.obj
+[191/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\windows\SDL_windowsshape.c.obj
+[192/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\windows\SDL_windowsvulkan.c.obj
+[193/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\windows\SDL_windowswindow.c.obj
+[194/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\thread\windows\SDL_sysrwlock_srw.c.obj
+[195/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\thread\windows\SDL_sysmutex.c.obj
+[196/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\thread\windows\SDL_syscond_cv.c.obj
+[197/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\video\windows\SDL_windowsvideo.c.obj
+[198/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\thread\windows\SDL_syssem.c.obj
+[199/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\storage\steam\SDL_steamstorage.c.obj
+[200/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\storage\generic\SDL_genericstorage.c.obj
+[201/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\thread\windows\SDL_systhread.c.obj
+[202/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\thread\windows\SDL_systls.c.obj
+[203/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\filesystem\windows\SDL_sysfsops.c.obj
+[204/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\locale\windows\SDL_syslocale.c.obj
+[205/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\dialog\SDL_dialog.c.obj
+[206/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\process\SDL_process.c.obj
+[207/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\filesystem\windows\SDL_sysfilesystem.c.obj
+[208/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\tray\SDL_tray_utils.c.obj
+[209/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\loadso\windows\SDL_sysloadso.c.obj
+[210/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\audio\dummy\SDL_dummyaudio.c.obj
+[211/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\time\windows\SDL_systime.c.obj
+[212/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\timer\windows\SDL_systimer.c.obj
+[213/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\joystick\dummy\SDL_sysjoystick.c.obj
+[214/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\dialog\dummy\SDL_dummydialog.c.obj
+[215/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\haptic\dummy\SDL_syshaptic.c.obj
+[216/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\camera\dummy\SDL_camera_dummy.c.obj
+[217/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\tray\dummy\SDL_tray.c.obj
+[218/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\sensor\dummy\SDL_dummysensor.c.obj
+[219/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\main\generic\SDL_sysmain_callbacks.c.obj
+[220/440] Building C object vendor\sdl3\CMakeFiles\SDL3-static.dir\src\process\windows\SDL_windowsprocess.c.obj
+[221/440] Linking CXX static library game\modules\foundation\symocraft_foundation.lib
+[222/440] Linking CXX static library vendor\sdl3\SDL3-static.lib
+[223/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\directives.cpp.obj
+[224/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\binary.cpp.obj
+[225/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\depthguard.cpp.obj
+[226/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emitfromevents.cpp.obj
+[227/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emit.cpp.obj
+[228/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emitter.cpp.obj
+[229/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\convert.cpp.obj
+[230/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emitterstate.cpp.obj
+[231/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\exceptions.cpp.obj
+[232/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\exp.cpp.obj
+[233/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emitterutils.cpp.obj
+[234/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\node.cpp.obj
+[235/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\memory.cpp.obj
+[236/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\null.cpp.obj
+[237/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\nodeevents.cpp.obj
+[238/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\node_data.cpp.obj
+[239/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\nodebuilder.cpp.obj
+[240/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\ostream_wrapper.cpp.obj
+[241/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\regex_yaml.cpp.obj
+[242/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\parse.cpp.obj
+[243/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\parser.cpp.obj
+[244/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\scanner.cpp.obj
+[245/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\scanscalar.cpp.obj
+[246/440] Linking CXX static library game\modules\platform\symocraft_platform.lib
+[247/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\scantag.cpp.obj
+[248/440] Building CXX object game\modules\ecs\CMakeFiles\symocraft_ecs.dir\src\internal.cpp.obj
+[249/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\stream.cpp.obj
+[250/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\scantoken.cpp.obj
+[251/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\simplekey.cpp.obj
+[252/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\tag.cpp.obj
+[253/440] Building CXX object game\modules\ecs\CMakeFiles\symocraft_ecs.dir\src\registry.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\legacy/RawMemory.h(53): warning C4458: declaration of 'offset' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\legacy/RawMemory.h(15): note: see declaration of 'RawMemory::offset'
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\legacy/RawMemory.h(61): warning C4458: declaration of 'data' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\legacy/RawMemory.h(13): note: see declaration of 'RawMemory::data'
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\legacy/RawMemory.h(61): warning C4100: 'data': unreferenced formal parameter
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\legacy/RawMemory.h(66): warning C4189: 'new_size': local variable is initialized but not referenced
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\legacy/RawMemory.h(72): warning C4458: declaration of 'data' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\legacy/RawMemory.h(13): note: see declaration of 'RawMemory::data'
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\registry.cpp(73): warning C4244: 'initializing': conversion from '_Ty' to 'SymoCraft::ECS::EntityIndex', possible loss of data
+        with
+        [
+            _Ty=SymoCraft::ECS::EntityId
+        ]
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\registry.cpp(264): warning C4244: 'return': conversion from '_Ty' to 'SymoCraft::ECS::EntityIndex', possible loss of data
+        with
+        [
+            _Ty=SymoCraft::ECS::EntityId
+        ]
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\src\registry.cpp(293): warning C4244: 'argument': conversion from '_Ty' to 'SymoCraft::ECS::EntityIndex', possible loss of data
+        with
+        [
+            _Ty=SymoCraft::ECS::EntityId
+        ]
+[254/440] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\singledocparser.cpp.obj
+[255/440] Linking CXX static library symocraft_yaml.lib
+[256/440] Compiling D3D12 blocks.vs Shader Model 6.0
+[257/440] Compiling D3D12 blocks.ps Shader Model 6.0
+[258/440] Compiling D3D12 selection.vs Shader Model 6.0
+[259/440] Compiling D3D12 selection.ps Shader Model 6.0
+[260/440] Building C object game\CMakeFiles\symocraft_glad.dir\__\vendor\glad\glad.c.obj
+[261/440] Building CXX object game\modules\world\CMakeFiles\symocraft_world.dir\src\chunk.cpp.obj
+[262/440] Building CXX object game\modules\world\CMakeFiles\symocraft_world.dir\src\block.cpp.obj
+[263/440] Building CXX object game\modules\world\CMakeFiles\symocraft_world.dir\src\chunk_mesher.cpp.obj
+[264/440] Building CXX object game\modules\world\CMakeFiles\symocraft_world.dir\src\world_coordinates.cpp.obj
+[265/440] Building CXX object game\modules\world\CMakeFiles\symocraft_world.dir\src\test_scene.cpp.obj
+[266/440] Linking CXX static library game\modules\ecs\symocraft_ecs.lib
+[267/440] Building CXX object game\modules\world\CMakeFiles\symocraft_world.dir\src\world.cpp.obj
+[268/440] Building CXX object game\modules\assets\CMakeFiles\symocraft_assets.dir\src\asset_paths.cpp.obj
+[269/440] Building CXX object game\modules\world\CMakeFiles\symocraft_world.dir\src\generation.cpp.obj
+[270/440] Linking CXX static library game\modules\world\symocraft_world.lib
+[271/440] Building CXX object game\modules\assets\CMakeFiles\symocraft_assets.dir\src\image_write.cpp.obj
+[272/440] Building CXX object game\modules\assets\CMakeFiles\symocraft_assets.dir\src\image.cpp.obj
+[273/440] Building CXX object game\modules\simulation\CMakeFiles\symocraft_simulation.dir\src\Camera.cpp.obj
+[274/440] Building CXX object game\modules\simulation\CMakeFiles\symocraft_simulation.dir\src\character_system.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(134): warning C4244: 'argument': conversion from 'SymoCraft::ECS::EntityId' to 'SymoCraft::ECS::EntityIndex', possible loss of data
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(134): note: the template instantiation context (the oldest one first) is
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\simulation\src\character_system.cpp(56): note: see reference to class template instantiation 'SymoCraft::ECS::RegistryViewer<SymoCraft::Transform,SymoCraft::Character::PlayerComponent>' being compiled
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(129): note: while compiling class template member function 'const SymoCraft::ECS::Iterator SymoCraft::ECS::RegistryViewer<SymoCraft::Transform,SymoCraft::Character::PlayerComponent>::begin(void) const'
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\simulation\src\character_system.cpp(56): note: see the first reference to 'SymoCraft::ECS::RegistryViewer<SymoCraft::Transform,SymoCraft::Character::PlayerComponent>::begin' in 'SymoCraft::Character::Player::SyncCamera'
+[275/440] Linking C static library game\symocraft_glad.lib
+[276/440] Linking CXX static library game\modules\assets\symocraft_assets.lib
+[277/440] Building CXX object game\modules\simulation\CMakeFiles\symocraft_simulation.dir\src\transform_system.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(134): warning C4244: 'argument': conversion from 'SymoCraft::ECS::EntityId' to 'SymoCraft::ECS::EntityIndex', possible loss of data
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(134): note: the template instantiation context (the oldest one first) is
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\simulation\src\transform_system.cpp(14): note: see reference to class template instantiation 'SymoCraft::ECS::RegistryViewer<SymoCraft::Transform>' being compiled
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(129): note: while compiling class template member function 'const SymoCraft::ECS::Iterator SymoCraft::ECS::RegistryViewer<SymoCraft::Transform>::begin(void) const'
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\simulation\src\transform_system.cpp(14): note: see the first reference to 'SymoCraft::ECS::RegistryViewer<SymoCraft::Transform>::begin' in 'SymoCraft::TransformSystem::Update'
+[278/440] Building CXX object game\modules\simulation\CMakeFiles\symocraft_simulation.dir\src\physics_system.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\simulation\src\physics_system.cpp(229): warning C4100: 'rb1': unreferenced formal parameter
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(134): warning C4244: 'argument': conversion from 'SymoCraft::ECS::EntityId' to 'SymoCraft::ECS::EntityIndex', possible loss of data
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(134): note: the template instantiation context (the oldest one first) is
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\simulation\src\physics_system.cpp(90): note: see reference to class template instantiation 'SymoCraft::ECS::RegistryViewer<SymoCraft::Transform,SymoCraft::Physics::RigidBody,SymoCraft::Physics::HitBox>' being compiled
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(129): note: while compiling class template member function 'const SymoCraft::ECS::Iterator SymoCraft::ECS::RegistryViewer<SymoCraft::Transform,SymoCraft::Physics::RigidBody,SymoCraft::Physics::HitBox>::begin(void) const'
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\simulation\src\physics_system.cpp(90): note: see the first reference to 'SymoCraft::ECS::RegistryViewer<SymoCraft::Transform,SymoCraft::Physics::RigidBody,SymoCraft::Physics::HitBox>::begin' in 'SymoCraft::Physics::Update'
+[279/440] Building CXX object game\modules\simulation\CMakeFiles\symocraft_simulation.dir\src\player.cpp.obj
+[280/440] Building CXX object game\modules\simulation\CMakeFiles\symocraft_simulation.dir\src\playercontroller.cpp.obj
+[281/440] Linking CXX static library game\modules\simulation\symocraft_simulation.lib
+[282/440] Synchronizing required SymoCraft runtime assets
+[283/440] Building CXX object game\modules\telemetry\CMakeFiles\symocraft_telemetry.dir\src\performance.cpp.obj
+[284/440] Building CXX object game\modules\telemetry\CMakeFiles\symocraft_telemetry.dir\src\document_io.cpp.obj
+[285/440] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer_d3d12.dir\src\backend\d3d12\pipeline.cpp.obj
+[286/440] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\error.cpp.obj
+[287/440] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\renderer.cpp.obj
+[288/440] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer_d3d12.dir\src\backend\d3d12\d3d12_backend.cpp.obj
+[289/440] Linking CXX static library game\modules\renderer\symocraft_renderer_d3d12.lib
+[290/440] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\renderer_impl.cpp.obj
+[291/440] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\resource_registry.cpp.obj
+[292/440] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer_legacy_opengl.dir\src\gpu_timer.cpp.obj
+[293/440] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer_legacy_opengl.dir\src\shader.cpp.obj
+[294/440] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\validation.cpp.obj
+[295/440] Building CXX object game\app\CMakeFiles\symocraft_startup.dir\src\startup_options.cpp.obj
+[296/440] Linking CXX static library game\modules\telemetry\symocraft_telemetry.lib
+[297/440] Linking CXX static library game\app\symocraft_startup.lib
+[298/440] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\backend\backend_factory.cpp.obj
+[299/440] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer_legacy_opengl.dir\src\texture.cpp.obj
+[300/440] Linking CXX static library game\modules\renderer\symocraft_renderer.lib
+[301/440] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer_legacy_opengl.dir\src\legacy_renderer.cpp.obj
+[302/440] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer_legacy_opengl.dir\src\shader_program.cpp.obj
+[303/440] Building CXX object test\CMakeFiles\header_foundation_symocraft_foundation_diagnostics_h.dir\public-headers\header_foundation_symocraft_foundation_diagnostics_h.cpp.obj
+[304/440] Building CXX object test\CMakeFiles\header_foundation_symocraft_foundation_document_h.dir\public-headers\header_foundation_symocraft_foundation_document_h.cpp.obj
+[305/440] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer_legacy_opengl.dir\src\performance_memory.cpp.obj
+[306/440] Building CXX object game\app\CMakeFiles\SymoCraft.dir\src\main.cpp.obj
+[307/440] Linking CXX static library game\modules\renderer\symocraft_renderer_legacy_opengl.lib
+[308/440] Building CXX object test\CMakeFiles\header_foundation_symocraft_foundation_memory_h.dir\public-headers\header_foundation_symocraft_foundation_memory_h.cpp.obj
+[309/440] Building CXX object test\CMakeFiles\header_foundation_symocraft_foundation_types_h.dir\public-headers\header_foundation_symocraft_foundation_types_h.cpp.obj
+[310/440] Building CXX object test\CMakeFiles\header_foundation_symocraft_foundation_files_h.dir\public-headers\header_foundation_symocraft_foundation_files_h.cpp.obj
+[311/440] Building CXX object game\app\CMakeFiles\symocraft_app_render_data.dir\src\world_render_cache.cpp.obj
+[312/440] Building CXX object game\app\CMakeFiles\symocraft_app_render_data.dir\src\render_conversion.cpp.obj
+[313/440] Linking CXX static library game\app\symocraft_app_render_data.lib
+[314/440] Building CXX object test\CMakeFiles\header_foundation_symocraft_foundation_math_h.dir\public-headers\header_foundation_symocraft_foundation_math_h.cpp.obj
+[315/440] Building CXX object test\CMakeFiles\header_assets_symocraft_assets_asset_paths_h.dir\public-headers\header_assets_symocraft_assets_asset_paths_h.cpp.obj
+[316/440] Building CXX object test\CMakeFiles\header_scene_symocraft_scene_camera_h.dir\public-headers\header_scene_symocraft_scene_camera_h.cpp.obj
+[317/440] Building CXX object game\app\CMakeFiles\SymoCraft.dir\src\application.cpp.obj
+[318/440] Building CXX object test\CMakeFiles\header_assets_symocraft_assets_image_h.dir\public-headers\header_assets_symocraft_assets_image_h.cpp.obj
+[319/440] Building CXX object test\CMakeFiles\header_scene_symocraft_scene_mesh_h.dir\public-headers\header_scene_symocraft_scene_mesh_h.cpp.obj
+[320/440] Building CXX object game\app\CMakeFiles\SymoCraft.dir\src\game_renderer.cpp.obj
+[321/440] Building CXX object test\CMakeFiles\header_ecs_symocraft_ecs_registry_h.dir\public-headers\header_ecs_symocraft_ecs_registry_h.cpp.obj
+[322/440] Building CXX object test\CMakeFiles\header_world_symocraft_world_block_h.dir\public-headers\header_world_symocraft_world_block_h.cpp.obj
+[323/440] Building CXX object test\CMakeFiles\header_world_symocraft_world_benchmark_workload_h.dir\public-headers\header_world_symocraft_world_benchmark_workload_h.cpp.obj
+[324/440] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_character_system_h.dir\public-headers\header_simulation_symocraft_simulation_character_system_h.cpp.obj
+[325/440] Building CXX object test\CMakeFiles\header_world_symocraft_world_block_definition_h.dir\public-headers\header_world_symocraft_world_block_definition_h.cpp.obj
+[326/440] Building CXX object test\CMakeFiles\header_world_symocraft_world_constants_h.dir\public-headers\header_world_symocraft_world_constants_h.cpp.obj
+[327/440] Building CXX object test\CMakeFiles\header_world_symocraft_world_generation_h.dir\public-headers\header_world_symocraft_world_generation_h.cpp.obj
+[328/440] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_player_h.dir\public-headers\header_simulation_symocraft_simulation_player_h.cpp.obj
+[329/440] Building CXX object test\CMakeFiles\header_world_symocraft_world_test_scene_h.dir\public-headers\header_world_symocraft_world_test_scene_h.cpp.obj
+[330/440] Building CXX object test\CMakeFiles\header_world_symocraft_world_world_h.dir\public-headers\header_world_symocraft_world_world_h.cpp.obj
+[331/440] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_camera_h.dir\public-headers\header_simulation_symocraft_simulation_camera_h.cpp.obj
+[332/440] Building CXX object test\CMakeFiles\header_platform_symocraft_platform_key_snapshot_h.dir\public-headers\header_platform_symocraft_platform_key_snapshot_h.cpp.obj
+[333/440] Building CXX object test\CMakeFiles\header_platform_symocraft_platform_process_memory_h.dir\public-headers\header_platform_symocraft_platform_process_memory_h.cpp.obj
+[334/440] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_transform_system_h.dir\public-headers\header_simulation_symocraft_simulation_transform_system_h.cpp.obj
+[335/440] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_component_h.dir\public-headers\header_simulation_symocraft_simulation_component_h.cpp.obj
+[336/440] Building CXX object test\CMakeFiles\header_platform_symocraft_platform_window_h.dir\public-headers\header_platform_symocraft_platform_window_h.cpp.obj
+[337/440] Building CXX object test\CMakeFiles\header_renderer_symocraft_renderer_error_h.dir\public-headers\header_renderer_symocraft_renderer_error_h.cpp.obj
+[338/440] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_physics_system_h.dir\public-headers\header_simulation_symocraft_simulation_physics_system_h.cpp.obj
+[339/440] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_player_math_h.dir\public-headers\header_simulation_symocraft_simulation_player_math_h.cpp.obj
+[340/440] Building CXX object test\CMakeFiles\header_telemetry_symocraft_telemetry_document_io_h.dir\public-headers\header_telemetry_symocraft_telemetry_document_io_h.cpp.obj
+[341/440] Building CXX object test\CMakeFiles\header_simulation_symocraft_simulation_playercontroller_h.dir\public-headers\header_simulation_symocraft_simulation_playercontroller_h.cpp.obj
+[342/440] Building CXX object test\CMakeFiles\header_telemetry_symocraft_telemetry_performance_h.dir\public-headers\header_telemetry_symocraft_telemetry_performance_h.cpp.obj
+[343/440] Building CXX object test\unit\foundation\CMakeFiles\document_tests.dir\document_tests.cpp.obj
+[344/440] Building CXX object test\unit\foundation\CMakeFiles\files_tests.dir\files_tests.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\test\unit\foundation\../../support/publication_diagnostics.h(54): warning C4996: 'getenv': This function or variable may be unsafe. Consider using _dupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+F:\GameDevelop\OpenGLProject\Symocraft\test\unit\foundation\../../support/publication_diagnostics.h(134): warning C4996: 'getenv': This function or variable may be unsafe. Consider using _dupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+[345/440] Building CXX object test\unit\ecs\CMakeFiles\registry_tests.dir\registry_tests.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(134): warning C4244: 'argument': conversion from 'SymoCraft::ECS::EntityId' to 'SymoCraft::ECS::EntityIndex', possible loss of data
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(134): note: the template instantiation context (the oldest one first) is
+F:\GameDevelop\OpenGLProject\Symocraft\test\unit\ecs\registry_tests.cpp(25): note: see reference to class template instantiation 'SymoCraft::ECS::RegistryViewer<`anonymous-namespace'::Position,`anonymous-namespace'::Velocity>' being compiled
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(129): note: while compiling class template member function 'const SymoCraft::ECS::Iterator SymoCraft::ECS::RegistryViewer<`anonymous-namespace'::Position,`anonymous-namespace'::Velocity>::begin(void) const'
+F:\GameDevelop\OpenGLProject\Symocraft\test\unit\ecs\registry_tests.cpp(25): note: see the first reference to 'SymoCraft::ECS::RegistryViewer<`anonymous-namespace'::Position,`anonymous-namespace'::Velocity>::begin' in 'main'
+[346/440] Building CXX object test\unit\assets\CMakeFiles\asset_paths_tests.dir\asset_paths_tests.cpp.obj
+[347/440] Building CXX object test\CMakeFiles\header_renderer_symocraft_renderer_renderer_h.dir\public-headers\header_renderer_symocraft_renderer_renderer_h.cpp.obj
+[348/440] Building CXX object test\CMakeFiles\header_renderer_symocraft_renderer_types_h.dir\public-headers\header_renderer_symocraft_renderer_types_h.cpp.obj
+[349/440] Building CXX object test\unit\assets\CMakeFiles\image_tests.dir\image_tests.cpp.obj
+[350/440] Building CXX object test\unit\assets\CMakeFiles\image_write_tests.dir\image_write_tests.cpp.obj
+[351/440] Building CXX object test\unit\world\CMakeFiles\mesh_safety_tests.dir\mesh_safety_tests.cpp.obj
+[352/440] Building CXX object test\unit\world\CMakeFiles\world_generation_tests.dir\world_generation_tests.cpp.obj
+[353/440] Building CXX object test\unit\world\CMakeFiles\world_contract_tests.dir\world_contract_tests.cpp.obj
+[354/440] Building CXX object test\unit\world\CMakeFiles\world_allocation_tests.dir\world_allocation_tests.cpp.obj
+[355/440] Building CXX object test\unit\simulation\CMakeFiles\player_math_tests.dir\player_math_tests.cpp.obj
+[356/440] Building CXX object test\unit\world\CMakeFiles\block_config_tests.dir\block_config_tests.cpp.obj
+[357/440] Building CXX object test\unit\world\CMakeFiles\world_cost_probe.dir\world_cost_probe.cpp.obj
+[358/440] Building CXX object test\unit\simulation\CMakeFiles\simulation_contract_tests.dir\simulation_contract_tests.cpp.obj
+[359/440] Building CXX object test\unit\platform\CMakeFiles\key_snapshot_tests.dir\key_snapshot_tests.cpp.obj
+[360/440] Building CXX object test\unit\app\CMakeFiles\startup_options_tests.dir\startup_options_tests.cpp.obj
+[361/440] Building CXX object test\unit\app\CMakeFiles\cleanup_sequence_tests.dir\cleanup_sequence_tests.cpp.obj
+[362/440] Building CXX object test\unit\simulation\CMakeFiles\legacy_gameplay_baseline_tests.dir\legacy_gameplay_baseline_tests.cpp.obj
+[363/440] Building CXX object test\unit\simulation\CMakeFiles\legacy_physics_baseline_tests.dir\legacy_physics_baseline_tests.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(134): warning C4244: 'argument': conversion from 'SymoCraft::ECS::EntityId' to 'SymoCraft::ECS::EntityIndex', possible loss of data
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(134): note: the template instantiation context (the oldest one first) is
+F:\GameDevelop\OpenGLProject\Symocraft\test\unit\simulation\legacy_physics_baseline_tests.cpp(168): note: see reference to class template instantiation 'SymoCraft::ECS::RegistryViewer<SymoCraft::Transform,SymoCraft::Physics::RigidBody,SymoCraft::Physics::HitBox>' being compiled
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\ecs\include\symocraft/ecs/registry.h(129): note: while compiling class template member function 'const SymoCraft::ECS::Iterator SymoCraft::ECS::RegistryViewer<SymoCraft::Transform,SymoCraft::Physics::RigidBody,SymoCraft::Physics::HitBox>::begin(void) const'
+F:\GameDevelop\OpenGLProject\Symocraft\test\unit\simulation\legacy_physics_baseline_tests.cpp(168): note: see the first reference to 'SymoCraft::ECS::RegistryViewer<SymoCraft::Transform,SymoCraft::Physics::RigidBody,SymoCraft::Physics::HitBox>::begin' in '`anonymous-namespace'::OffsetAndCoordinates'
+[364/440] Building CXX object test\unit\telemetry\CMakeFiles\performance_tests.dir\performance_tests.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\test\unit\telemetry\../../support/publication_diagnostics.h(54): warning C4996: 'getenv': This function or variable may be unsafe. Consider using _dupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+F:\GameDevelop\OpenGLProject\Symocraft\test\unit\telemetry\../../support/publication_diagnostics.h(134): warning C4996: 'getenv': This function or variable may be unsafe. Consider using _dupenv_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+[365/440] Building CXX object test\unit\telemetry\CMakeFiles\telemetry_renderer_tests.dir\renderer_performance_tests.cpp.obj
+[366/440] Building CXX object test\unit\renderer\CMakeFiles\gpu_timer_tests.dir\gpu_timer_tests.cpp.obj
+[367/440] Building CXX object test\unit\renderer\CMakeFiles\shader_loading_tests.dir\shader_loading_tests.cpp.obj
+[368/440] Building CXX object test\integration\CMakeFiles\renderer_game_report_probe.dir\renderer\game_report_probe.cpp.obj
+[369/440] Building CXX object test\unit\app\CMakeFiles\app_render_conversion_tests.dir\render_conversion_tests.cpp.obj
+[370/440] Building CXX object test\unit\renderer\CMakeFiles\renderer_public_api_consumer.dir\public_api_consumer.cpp.obj
+[371/440] Building CXX object test\unit\app\CMakeFiles\app_render_cache_tests.dir\render_cache_tests.cpp.obj
+[372/440] Building CXX object test\unit\renderer\CMakeFiles\batch_safety_tests.dir\batch_safety_tests.cpp.obj
+[373/440] Building CXX object test\unit\renderer\CMakeFiles\renderer_facade_tests.dir\facade_tests.cpp.obj
+[374/440] Linking CXX executable test\header_foundation_symocraft_foundation_document_h.exe
+[375/440] Linking CXX executable test\header_foundation_symocraft_foundation_diagnostics_h.exe
+[376/440] Linking CXX executable test\header_foundation_symocraft_foundation_math_h.exe
+[377/440] Linking CXX executable test\header_foundation_symocraft_foundation_files_h.exe
+[378/440] Linking CXX executable test\header_scene_symocraft_scene_mesh_h.exe
+[379/440] Linking CXX executable test\header_scene_symocraft_scene_camera_h.exe
+[380/440] Linking CXX executable test\header_foundation_symocraft_foundation_types_h.exe
+[381/440] Linking CXX executable test\header_foundation_symocraft_foundation_memory_h.exe
+[382/440] Building CXX object test\integration\CMakeFiles\renderer_d3d12_backend_smoke.dir\renderer\d3d12_backend_smoke.cpp.obj
+[383/440] Linking CXX executable test\header_assets_symocraft_assets_image_h.exe
+[384/440] Linking CXX executable test\header_assets_symocraft_assets_asset_paths_h.exe
+[385/440] Linking CXX executable test\header_world_symocraft_world_block_h.exe
+[386/440] Linking CXX executable test\header_world_symocraft_world_benchmark_workload_h.exe
+[387/440] Linking CXX executable test\header_world_symocraft_world_block_definition_h.exe
+[388/440] Linking CXX executable test\header_world_symocraft_world_constants_h.exe
+[389/440] Linking CXX executable test\header_world_symocraft_world_test_scene_h.exe
+[390/440] Linking CXX executable test\header_world_symocraft_world_generation_h.exe
+[391/440] Linking CXX executable test\header_world_symocraft_world_world_h.exe
+[392/440] Linking CXX executable test\header_ecs_symocraft_ecs_registry_h.exe
+[393/440] Linking CXX executable bin\SymoCraft.exe; Recording the production candidate executable and build identities
+Recorded production candidate identities: F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t3\r2-step4-matrix-004\native-debug\candidate-build-identities.json
+[394/440] Linking CXX executable test\header_simulation_symocraft_simulation_camera_h.exe
+[395/440] Linking CXX executable test\header_simulation_symocraft_simulation_character_system_h.exe
+[396/440] Linking CXX executable test\header_simulation_symocraft_simulation_player_h.exe
+[397/440] Linking CXX executable test\header_simulation_symocraft_simulation_component_h.exe
+[398/440] Linking CXX executable test\header_simulation_symocraft_simulation_physics_system_h.exe
+[399/440] Linking CXX executable test\header_simulation_symocraft_simulation_player_math_h.exe
+[400/440] Linking CXX executable test\header_simulation_symocraft_simulation_playercontroller_h.exe
+[401/440] Linking CXX executable test\header_platform_symocraft_platform_key_snapshot_h.exe
+[402/440] Linking CXX executable test\header_platform_symocraft_platform_process_memory_h.exe
+[403/440] Linking CXX executable test\header_simulation_symocraft_simulation_transform_system_h.exe
+[404/440] Linking CXX executable test\header_platform_symocraft_platform_window_h.exe
+[405/440] Linking CXX executable test\header_renderer_symocraft_renderer_error_h.exe
+[406/440] Linking CXX executable test\header_renderer_symocraft_renderer_types_h.exe
+[407/440] Linking CXX executable test\header_renderer_symocraft_renderer_renderer_h.exe
+[408/440] Linking CXX executable test\header_telemetry_symocraft_telemetry_document_io_h.exe
+[409/440] Linking CXX executable test\header_telemetry_symocraft_telemetry_performance_h.exe
+[410/440] Linking CXX executable test\unit\foundation\document_tests.exe
+[411/440] Linking CXX executable test\unit\foundation\files_tests.exe
+[412/440] Linking CXX executable test\unit\assets\image_tests.exe
+[413/440] Linking CXX executable test\unit\assets\image_write_tests.exe
+[414/440] Linking CXX executable test\unit\ecs\registry_tests.exe
+[415/440] Linking CXX executable bin\asset_paths_tests.exe
+[416/440] Linking CXX executable test\unit\world\mesh_safety_tests.exe
+[417/440] Linking CXX executable test\unit\world\world_generation_tests.exe
+[418/440] Linking CXX executable test\unit\world\world_contract_tests.exe
+[419/440] Linking CXX executable test\unit\world\world_allocation_tests.exe
+[420/440] Linking CXX executable test\unit\world\block_config_tests.exe
+[421/440] Linking CXX executable test\unit\simulation\player_math_tests.exe
+[422/440] Linking CXX executable test\unit\world\world_cost_probe.exe
+[423/440] Linking CXX executable test\unit\simulation\simulation_contract_tests.exe
+[424/440] Linking CXX executable test\unit\simulation\legacy_gameplay_baseline_tests.exe
+[425/440] Linking CXX executable test\unit\telemetry\performance_tests.exe
+[426/440] Linking CXX executable test\unit\telemetry\telemetry_renderer_tests.exe
+[427/440] Linking CXX executable test\unit\app\startup_options_tests.exe
+[428/440] Linking CXX executable test\unit\app\cleanup_sequence_tests.exe
+[429/440] Linking CXX executable test\unit\platform\key_snapshot_tests.exe
+[430/440] Linking CXX executable test\unit\simulation\legacy_physics_baseline_tests.exe
+[431/440] Linking CXX executable test\unit\app\app_render_cache_tests.exe
+[432/440] Linking CXX executable test\unit\app\app_render_conversion_tests.exe
+[433/440] Linking CXX executable test\unit\renderer\renderer_public_api_consumer.exe
+[434/440] Linking CXX executable test\unit\renderer\shader_loading_tests.exe
+[435/440] Linking CXX executable test\unit\renderer\batch_safety_tests.exe
+[436/440] Linking CXX executable test\unit\renderer\gpu_timer_tests.exe
+[437/440] Linking CXX executable test\unit\renderer\renderer_facade_tests.exe
+[438/440] Linking CXX executable test\integration\renderer_game_report_probe.exe
+[439/440] Linking CXX executable test\integration\renderer_d3d12_backend_smoke.exe

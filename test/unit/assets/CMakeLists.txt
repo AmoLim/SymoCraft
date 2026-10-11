@@ -6,3 +6,6 @@ set_tests_properties(assets.from_source_directory PROPERTIES WORKING_DIRECTORY "
 set_tests_properties(assets.contracts assets.from_source_directory PROPERTIES TIMEOUT 45)
 symocraft_test_executable(image_tests image_tests.cpp symocraft_assets)
 add_test(NAME assets.image_decode COMMAND image_tests "${SYMOCRAFT_REPOSITORY_ROOT}/assets/textures/texture_atlas.png")
+symocraft_test_executable(image_write_tests image_write_tests.cpp symocraft_assets)
+add_test(NAME assets.image_write COMMAND image_write_tests)
+set_tests_properties(assets.image_write PROPERTIES TIMEOUT 45)

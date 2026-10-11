@@ -1,0 +1,15 @@
+{
+  "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\empty-block-configuration\\package\\SymoCraft.exe",
+  "workingDirectory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\empty-block-configuration\\evidence",
+  "requestedFrames": 1,
+  "renderedFrames": null,
+  "glDiagnosticCount": 0,
+  "processId": 34708,
+  "timedOut": false,
+  "exitCode": 3,
+  "expectedExitCode": 3,
+  "ready": false,
+  "shutdown": true,
+  "elapsedSeconds": 0.4778051,
+  "passed": true
+}

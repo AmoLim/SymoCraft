@@ -1,0 +1,12 @@
+[
+  {
+    "path": "vendor/yaml-cpp/src/stream.h",
+    "pre_change_git_blob": "2bc7a15216592ea981bc2974410cc6fbaf6d14fc",
+    "patched_source_sha256": "8f6920160e8f6208288ba89f3fa9306d5c086dd97d9525537fdef9323516f6bb"
+  },
+  {
+    "path": "vendor/yaml-cpp/src/stream.cpp",
+    "pre_change_git_blob": "b1aa092f69367149cee0788d370f8b00938821fa",
+    "patched_source_sha256": "5419c18e70a7393a8719905409492a150fca1b952477b2ee28ec94c38c04d71b"
+  }
+]

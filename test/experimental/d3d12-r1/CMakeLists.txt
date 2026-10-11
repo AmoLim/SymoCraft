@@ -160,7 +160,9 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
     install(FILES "${shader_directory}/probe-vs.cso" "${shader_directory}/probe-ps.cso"
         DESTINATION shaders COMPONENT R1Fixture)
     install(FILES "${CMAKE_BINARY_DIR}/build-identities.json" "${CMAKE_BINARY_DIR}/production-imports.json"
-        "${CMAKE_CURRENT_SOURCE_DIR}/verify-probes.ps1" DESTINATION . COMPONENT R1Fixture)
+        "${CMAKE_CURRENT_SOURCE_DIR}/verify-probes.py"
+        "${SYMOCRAFT_REPOSITORY_ROOT}/scripts/verification_common.py"
+        "${SYMOCRAFT_REPOSITORY_ROOT}/scripts/scripts_common.py" DESTINATION . COMPONENT R1Fixture)
     install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/sdl3/LICENSE.txt"
         DESTINATION licenses RENAME SDL3-LICENSE.txt COMPONENT R1Fixture)
     set(CMAKE_INSTALL_SYSTEM_RUNTIME_DESTINATION .)

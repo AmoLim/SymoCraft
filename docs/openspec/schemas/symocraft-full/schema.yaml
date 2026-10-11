@@ -1,0 +1,49 @@
+name: symocraft-full
+version: 1
+description: Complex changes; behavior deltas, target mechanisms and one task plan.
+artifacts:
+  - id: proposal
+    generates: proposal.md
+    description: Change intent, scope and capability mapping
+    template: proposal.md
+    instruction: |
+      Paths are relative to the planning root (docs), not the change directory.
+      Before drafting or materially revising, execute ../AGENTS.md section Proposal 前的规格预读.
+      Link existing scope and contracts. Include Why, What Changes, Capabilities and Impact.
+      Do not copy the design or maintain tasks here. Document conflicts rather than choosing silently.
+      Follow DOCUMENTATION_MAP.md. Proposal completion is not implementation authorization.
+    requires: []
+  - id: specs
+    generates: specs/**/*.md
+    description: Behavior deltas and acceptance scenarios
+    template: spec.md
+    instruction: |
+      Read ../AGENTS.md and existing specs in full, including scenarios (paths relative to planning root). Reuse capability paths.
+      Use OpenSpec delta sections. Each Requirement uses SHALL or MUST and has WHEN/THEN Scenarios.
+      Preserve complete modified requirements. Put internal mechanisms in design.md.
+      For document migration, preserve all confirmed constraints and acceptance identities; do not reselect decisions.
+      Use skip_specs: true only when no behavior contract changes. Do not publish unimplemented targets to main specs.
+    requires: [proposal]
+  - id: design
+    generates: design.md
+    description: Target architecture and correctness mechanisms
+    template: design.md
+    instruction: |
+      Explain necessary ownership, lifetime, invalidation, failure state, threading and synchronization.
+      Link behavior specs instead of maintaining a parallel contract. Current implementation is not the target.
+      Multiple important decisions may live in one decisions.md with stable IDs; link it, do not repeat the table.
+      Do not expand scope or replace approved choices while migrating. No N/A placeholders or function catalogues.
+    requires: [proposal, specs]
+  - id: tasks
+    generates: tasks.md
+    description: Sole active plan and verification work
+    template: tasks.md
+    instruction: |
+      Maintain one task checklist grouped by actual intent and dependencies, with acceptance references.
+      Reuse stable work-package IDs. Mark complete only after implementation and agreed checks, not document migration.
+      Read ../AGENTS.md and verification/VERIFICATION.md (paths relative to planning root); planning completion does not approve apply.
+      Do not create execution logs, parallel plans or routine test reports.
+    requires: [design, specs]
+apply:
+  requires: [tasks]
+  tracks: tasks.md

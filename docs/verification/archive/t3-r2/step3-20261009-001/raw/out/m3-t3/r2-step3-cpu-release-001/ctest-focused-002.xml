@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="6"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="Amo"
+	time="0"
+	timestamp="2026-10-09T16:44:21"
+	>
+	<testcase name="assets.image_write" classname="assets.image_write" time="0.0178796" status="run">
+		<properties/>
+		<system-out>CPU PNG packing, channels, flip isolation and error contracts passed.
+</system-out>
+	</testcase>
+	<testcase name="telemetry.renderer_performance" classname="telemetry.renderer_performance" time="0.0453044" status="run">
+		<properties/>
+		<system-out>Legacy schema and stable sparse renderer telemetry passed.
+</system-out>
+	</testcase>
+	<testcase name="app.render_cache" classname="app.render_cache" time="0.0469714" status="run">
+		<properties/>
+		<system-out>Application World render cache: 56 CPU checks passed.
+</system-out>
+	</testcase>
+	<testcase name="app.render_conversion" classname="app.render_conversion" time="0.0197249" status="run">
+		<properties/>
+		<system-out>Application render conversion: 38 CPU checks passed.
+</system-out>
+	</testcase>
+	<testcase name="renderer.public_api_consumer" classname="renderer.public_api_consumer" time="0.0097743" status="run">
+		<properties/>
+		<system-out>R2 public API shape and real production symbols linked; no backend or GPU acceptance.
+</system-out>
+	</testcase>
+	<testcase name="renderer.facade_contract" classname="renderer.facade_contract" time="0.0107594" status="run">
+		<properties/>
+		<system-out>R2 real facade CPU lifecycle: 235 checks passed with test-only recording backend; no GPU or production backend acceptance.
+</system-out>
+	</testcase>
+</testsuite>

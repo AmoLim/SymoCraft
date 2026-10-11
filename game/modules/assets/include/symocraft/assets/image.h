@@ -1,6 +1,7 @@
 #pragma once
 #include <cstdint>
 #include <filesystem>
+#include <span>
 #include <vector>
 
 namespace SymoCraft::Assets {
@@ -13,4 +14,7 @@ namespace SymoCraft::Assets {
     std::vector<std::uint8_t> ReadBytes(const std::filesystem::path& path);
     // Preserves the file's channel count with tightly packed bytes; throws on failure.
     Image DecodeImage(const std::filesystem::path& path, bool flip_vertical = false);
+    // Writes tightly packed top-left pixels, preserving 1..4 channels; throws on failure.
+    void WritePng(const std::filesystem::path& path, int width, int height, int channels,
+                  std::span<const std::uint8_t> pixels, bool flip_vertical = false);
 }

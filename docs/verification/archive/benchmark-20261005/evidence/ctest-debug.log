@@ -1,0 +1,333 @@
+Start testing: Oct 04 13:52 中国标准时间
+----------------------------------------------------------
+1/20 Testing: assets.contracts
+1/20 Test: assets.contracts
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/bin/asset_paths_tests.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests
+"assets.contracts" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+Asset path contracts and relocated-package probes passed.
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Passed.
+"assets.contracts" end time: Oct 04 13:52 中国标准时间
+"assets.contracts" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/20 Testing: assets.from_source_directory
+2/20 Test: assets.from_source_directory
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/bin/asset_paths_tests.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft
+"assets.from_source_directory" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+Asset path contracts and relocated-package probes passed.
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Passed.
+"assets.from_source_directory" end time: Oct 04 13:52 中国标准时间
+"assets.from_source_directory" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/20 Testing: assets.game_preflight
+3/20 Test: assets.game_preflight
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/bin/SymoCraft.exe" "--check-assets"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft
+"assets.game_preflight" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+All required assets are present.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"assets.game_preflight" end time: Oct 04 13:52 中国标准时间
+"assets.game_preflight" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/20 Testing: assets.game_package
+4/20 Test: assets.game_package
+Command: "E:/Applications/JetBrains/CLion/bin/cmake/win/x64/bin/cmake.exe" "-DGAME_EXECUTABLE=F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/bin/SymoCraft.exe" "-DSOURCE_ASSETS=F:/GameDevelop/OpenGLProject/Symocraft/assets" "-DPROBE_PARENT=F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/package-probes" "-P" "F:/GameDevelop/OpenGLProject/Symocraft/tests/CheckAssetPackage.cmake"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests
+"assets.game_package" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+-- Relocated game package, missing asset, and invalid argument checks passed.
+<end of output>
+Test time =   0.12 sec
+----------------------------------------------------------
+Test Passed.
+"assets.game_package" end time: Oct 04 13:52 中国标准时间
+"assets.game_package" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/20 Testing: renderer.shader_loading
+5/20 Test: renderer.shader_loading
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/shader_loading_tests.exe" "F:/GameDevelop/OpenGLProject/Symocraft/assets/shaders/vs_BlockShader.glsl" "F:/GameDevelop/OpenGLProject/Symocraft/assets/shaders/fs_BlockShader.glsl" "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/empty-shader.glsl"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests
+"renderer.shader_loading" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+Shader compilation and linking succeeded: F:/GameDevelop/OpenGLProject/Symocraft/assets/shaders/vs_BlockShader.glsl + F:/GameDevelop/OpenGLProject/Symocraft/assets/shaders/fs_BlockShader.glsl
+Shader compilation and linking succeeded: F:/GameDevelop/OpenGLProject/Symocraft/assets/shaders/vs_BlockShader.glsl + F:/GameDevelop/OpenGLProject/Symocraft/assets/shaders/fs_BlockShader.glsl
+Shader loading and failure cleanup checks passed without an OpenGL context.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"renderer.shader_loading" end time: Oct 04 13:52 中国标准时间
+"renderer.shader_loading" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/20 Testing: player.math
+6/20 Test: player.math
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/player_math_tests.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests
+"player.math" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+Player fixed-step, voxel-ray, and placement contracts passed.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"player.math" end time: Oct 04 13:52 中国标准时间
+"player.math" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/20 Testing: renderer.batch_safety
+7/20 Test: renderer.batch_safety
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/batch_safety_tests.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests
+"renderer.batch_safety" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+Batch safety tests passed without an OpenGL context.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"renderer.batch_safety" end time: Oct 04 13:52 中国标准时间
+"renderer.batch_safety" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/20 Testing: world.mesh_safety
+8/20 Test: world.mesh_safety
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/mesh_safety_tests.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests
+"world.mesh_safety" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+Mesh and chunk lifetime tests passed.
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"world.mesh_safety" end time: Oct 04 13:52 中国标准时间
+"world.mesh_safety" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/20 Testing: world.block_config
+9/20 Test: world.block_config
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/block_config_tests.exe" "F:/GameDevelop/OpenGLProject/Symocraft/assets/configs/blockFormats.yaml"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests
+"world.block_config" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+Block configuration contracts passed.
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"world.block_config" end time: Oct 04 13:52 中国标准时间
+"world.block_config" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/20 Testing: input.key_snapshot
+10/20 Test: input.key_snapshot
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/key_snapshot_tests.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests
+"input.key_snapshot" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+Complete key snapshot and sticky-consumption contracts passed.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"input.key_snapshot" end time: Oct 04 13:52 中国标准时间
+"input.key_snapshot" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/20 Testing: core.startup_options
+11/20 Test: core.startup_options
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/startup_options_tests.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests
+"core.startup_options" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+Startup seed, scene, checkpoint and mode contracts passed.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"core.startup_options" end time: Oct 04 13:52 中国标准时间
+"core.startup_options" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/20 Testing: world.generation
+12/20 Test: world.generation
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/world_generation_tests.exe" "F:/GameDevelop/OpenGLProject/Symocraft/assets/configs/blockFormats.yaml"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests
+"world.generation" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+generator_version=1; seed=424242; radius=3; terrain=fnv1a64:d88ef364525f7355; scene=fnv1a64:945aefc4a381a591; edited=fnv1a64:97eb7834bae64491
+<end of output>
+Test time =   1.23 sec
+----------------------------------------------------------
+Test Passed.
+"world.generation" end time: Oct 04 13:52 中国标准时间
+"world.generation" time elapsed: 00:00:01
+----------------------------------------------------------
+
+13/20 Testing: world.summary_cli
+13/20 Test: world.summary_cli
+Command: "E:/Applications/JetBrains/CLion/bin/cmake/win/x64/bin/cmake.exe" "-DGAME_EXECUTABLE=F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/bin/SymoCraft.exe" "-DOUTPUT_DIRECTORY=F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/world-summary-probes" "-P" "F:/GameDevelop/OpenGLProject/Symocraft/tests/CheckWorldSummary.cmake"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests
+"world.summary_cli" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+-- Full 441-chunk scene and edit summaries match across two headless processes
+<end of output>
+Test time =   3.26 sec
+----------------------------------------------------------
+Test Passed.
+"world.summary_cli" end time: Oct 04 13:52 中国标准时间
+"world.summary_cli" time elapsed: 00:00:03
+----------------------------------------------------------
+
+14/20 Testing: performance.export
+14/20 Test: performance.export
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/performance_tests.exe" "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/performance-probes"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests
+"performance.export" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+Percentiles, warmup, slow frames, missing GPU values and partial exports passed.
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"performance.export" end time: Oct 04 13:52 中国标准时间
+"performance.export" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/20 Testing: performance.gpu_timer
+15/20 Test: performance.gpu_timer
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/gpu_timer_tests.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests
+"performance.gpu_timer" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+GPU query readiness, saturation, frame IDs and cleanup passed without a context.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"performance.gpu_timer" end time: Oct 04 13:52 中国标准时间
+"performance.gpu_timer" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/20 Testing: performance.script_WINDOWS_POWERSHELL
+16/20 Test: performance.script_WINDOWS_POWERSHELL
+Command: "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe" "-NoProfile" "-NonInteractive" "-ExecutionPolicy" "Bypass" "-File" "F:/GameDevelop/OpenGLProject/Symocraft/tests/benchmark_script_tests.ps1" "-BenchmarkScript" "F:/GameDevelop/OpenGLProject/Symocraft/scripts/benchmark.ps1" "-FixtureExecutable" "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/benchmark_process_fixture.exe" "-OutputParent" "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/script-probes/WINDOWS_POWERSHELL"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests
+"performance.script_WINDOWS_POWERSHELL" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+success: passed
+fast-success: passed
+focus-failure: passed
+runtime-failure: passed
+Output protection passed. PowerShell 5.1.26100.9444; no game/GL context was used.
+<end of output>
+Test time =   6.80 sec
+----------------------------------------------------------
+Test Passed.
+"performance.script_WINDOWS_POWERSHELL" end time: Oct 04 13:52 中国标准时间
+"performance.script_WINDOWS_POWERSHELL" time elapsed: 00:00:06
+----------------------------------------------------------
+
+17/20 Testing: performance.script_POWERSHELL_CORE
+17/20 Test: performance.script_POWERSHELL_CORE
+Command: "C:/Users/ldh20/.cache/codex-runtimes/codex-primary-runtime/dependencies/native/powershell/pwsh.exe" "-NoProfile" "-NonInteractive" "-ExecutionPolicy" "Bypass" "-File" "F:/GameDevelop/OpenGLProject/Symocraft/tests/benchmark_script_tests.ps1" "-BenchmarkScript" "F:/GameDevelop/OpenGLProject/Symocraft/scripts/benchmark.ps1" "-FixtureExecutable" "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/benchmark_process_fixture.exe" "-OutputParent" "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tests/script-probes/POWERSHELL_CORE"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/game/../tests
+"performance.script_POWERSHELL_CORE" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+success: passed
+fast-success: passed
+focus-failure: passed
+runtime-failure: passed
+Output protection passed. PowerShell 7.6.5; no game/GL context was used.
+<end of output>
+Test time =   6.43 sec
+----------------------------------------------------------
+Test Passed.
+"performance.script_POWERSHELL_CORE" end time: Oct 04 13:52 中国标准时间
+"performance.script_POWERSHELL_CORE" time elapsed: 00:00:06
+----------------------------------------------------------
+
+18/20 Testing: benchmark.contracts
+18/20 Test: benchmark.contracts
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests/benchmark_runner_tests.exe" "contracts" "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests/benchmark_fixture.exe" "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests/probes"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests
+"benchmark.contracts" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+benchmark contracts passed
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"benchmark.contracts" end time: Oct 04 13:52 中国标准时间
+"benchmark.contracts" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/20 Testing: benchmark.process
+19/20 Test: benchmark.process
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests/benchmark_runner_tests.exe" "process" "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests/benchmark_fixture.exe" "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests/probes"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests
+"benchmark.process" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+benchmark process passed
+<end of output>
+Test time =   3.06 sec
+----------------------------------------------------------
+Test Passed.
+"benchmark.process" end time: Oct 04 13:52 中国标准时间
+"benchmark.process" time elapsed: 00:00:03
+----------------------------------------------------------
+
+20/20 Testing: benchmark.executor
+20/20 Test: benchmark.executor
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests/benchmark_runner_tests.exe" "executor" "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests/benchmark_fixture.exe" "F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests/probes"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/build/benchmark-debug/tools/benchmark/tests
+"benchmark.executor" start time: Oct 04 13:52 中国标准时间
+Output:
+----------------------------------------------------------
+benchmark executor passed
+<end of output>
+Test time =   8.43 sec
+----------------------------------------------------------
+Test Passed.
+"benchmark.executor" end time: Oct 04 13:52 中国标准时间
+"benchmark.executor" time elapsed: 00:00:08
+----------------------------------------------------------
+
+End testing: Oct 04 13:52 中国标准时间

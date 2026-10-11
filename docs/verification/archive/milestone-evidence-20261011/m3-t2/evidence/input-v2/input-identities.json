@@ -1,0 +1,124 @@
+{
+  "created_utc": "2026-10-07T05:30:34.2687893Z",
+  "scope": "Experimental source observations and current binaries; full SDL bound by official archive recheck. Frozen CPU/GLFW libraries are recorded in comparison-rendering.json.",
+  "sources": [
+    {
+      "path": "test/experimental/glfw-baseline/CMakeLists.txt",
+      "sha256": "db03c12c9d4c00b65c31d051dcfb811d56f0718ebfcd06bd35022cc0734458c7"
+    },
+    {
+      "path": "test/experimental/glfw-baseline/main.cpp",
+      "sha256": "004ffc1bc8c0b4ae76375bb6029ec76a963e9d8af653b7cfa0fe6bb29dd7573a"
+    },
+    {
+      "path": "test/experimental/input-comparison/comparison.cmake",
+      "sha256": "86247fd61dd837a15f6a59aff1590398070df49ae4ebb188354e5b33a110ce0f"
+    },
+    {
+      "path": "test/experimental/input-comparison/comparison.cpp",
+      "sha256": "572ecf8fb7291dab0ac7f95cddeb353a57a9e080def2f1315fe1c58224ab34fa"
+    },
+    {
+      "path": "test/experimental/input-comparison/comparison.h",
+      "sha256": "c4adb0805761e52fb7f63f168b2d1695a74287cb88b0602e0a97195802771787"
+    },
+    {
+      "path": "test/experimental/input-comparison/glfw_main.cpp",
+      "sha256": "cdf8bd63b1e78ca415ec0b4ebf288f6832e1129705a1fdc07e4e01243e1a4465"
+    },
+    {
+      "path": "test/experimental/input-comparison/README.md",
+      "sha256": "07a3c617e3849296edb3d3c10dfe3cd6dce72cd5b1d86cd43bed742c58a80518"
+    },
+    {
+      "path": "test/experimental/input-comparison/run.ps1",
+      "sha256": "058d82ea3d233240aaa9df2e9ac239fc42b52c46f172f7f4f002e11b42ba719c"
+    },
+    {
+      "path": "test/experimental/input-comparison/sdl_main.cpp",
+      "sha256": "524bb7377938b8c6eb87ca27f1f06ff7ef8230b453568e7765aef8a8a7e26ce3"
+    },
+    {
+      "path": "test/experimental/input-comparison/verify.ps1",
+      "sha256": "f4f6f844e728ce8dde632a1737e54ad2ce6bfe657e807fcd17d7fb88a5f010b8"
+    },
+    {
+      "path": "test/experimental/sdl3/build.ps1",
+      "sha256": "e27076747f1dbf9140c02697f64e6904ee6910e8b8a082a12b41cdaa07c19cf4"
+    },
+    {
+      "path": "test/experimental/sdl3/CMakeLists.txt",
+      "sha256": "e47f4f6b190e4bfffa1aad76b6a9a7edd8a080e07869eef363638d27a29daf83"
+    },
+    {
+      "path": "test/experimental/sdl3/collect-evidence.ps1",
+      "sha256": "129c6168ca03b1ac4d05634cce050eaddf7169f3a39d5574b35c3afc23a60303"
+    },
+    {
+      "path": "test/experimental/sdl3/collect-input-evidence.ps1",
+      "sha256": "2191dbedb9b11e06c5009f0a35413536012100a36411a1b98c8ae7cff4fb56ee"
+    },
+    {
+      "path": "test/experimental/sdl3/input_candidate_tests.cpp",
+      "sha256": "579393eef2e5609029fddca448ead53dcaa7bd816b8c7529d91f41338aeddf8b"
+    },
+    {
+      "path": "test/experimental/sdl3/input_candidate.h",
+      "sha256": "a6abf4a991677662eda28af8160259434b46fb67e48d0e7b06e506a669ce11d7"
+    },
+    {
+      "path": "test/experimental/sdl3/main.cpp",
+      "sha256": "0f222e880d2007b50be252bf5b0360d5d9d45c69a0ba790c91d864b2a49961f8"
+    },
+    {
+      "path": "test/experimental/sdl3/README.md",
+      "sha256": "2a165f11b822641ec74d71279a78f173257f6558fc8e650589ee2383e6fa3d16"
+    },
+    {
+      "path": "test/experimental/sdl3/runtime_input_tests.cpp",
+      "sha256": "03592cef3735962c06d34f9939147a041cd48069fc2cc5891c64e48f1ece6da4"
+    },
+    {
+      "path": "test/experimental/sdl3/verify-cmake-offline.ps1",
+      "sha256": "7d00bf0d0c25ff087a2fa83cb1889db56e8f437364e248cf4d3f09ff45afd826"
+    },
+    {
+      "path": "test/experimental/sdl3/verify-probes.ps1",
+      "sha256": "d8728ad6e777a0dd48c24e99e008c51a262205b5a51cce4a1e5ecabdbb3ea19d"
+    },
+    {
+      "path": "test/experimental/sdl3/verify-runtime-input.ps1",
+      "sha256": "5e8bd6ec1769a1690f801dc305477d505687080fdd975cb310e804802689e13e"
+    },
+    {
+      "path": "test/experimental/sdl3/verify-vendor-archive.ps1",
+      "sha256": "31c015b8adb5442e74cbd5b6099d1d5f1ed31ebd4fcd4931a09e7de0d539d077"
+    }
+  ],
+  "executables": [
+    {
+      "path": "out/m3-t2/probe/input-comparison-sdl-release-002/SymoCraftSdl3InputComparison.exe",
+      "sha256": "134d5a6bffbf58a90a001e57e5f23a7039a50561a672cecabe01648807bd94b7"
+    },
+    {
+      "path": "out/m3-t2/probe/input-comparison-glfw-release-001/Release/SymoCraftGlfwInputComparison.exe",
+      "sha256": "d26c84cb37a74319e72bb75e7baa88e5f41b47077f82d659dfa1025dff89c671"
+    },
+    {
+      "path": "out/m3-t2/probe/input-comparison-sdl-release-002/SymoCraftSdl3RuntimeInputTests.exe",
+      "sha256": "dcd7a1c0f0d48786ab8bad364bb0286a3c7dc1d5c655e505525aee0c13991717"
+    },
+    {
+      "path": "out/m3-t2/probe/input-comparison-sdl-release-002/SymoCraftSdl3InputCandidateTests.exe",
+      "sha256": "07755edf11535580e1dab243db01a2417174bac2cc7ae05982822671ac4475d2"
+    }
+  ],
+  "production_inputs_compared": 595,
+  "production_changes": [],
+  "production_platform": "GLFW",
+  "audit_root": "out/m3-t2/cmake-3.22-offline-audit-005",
+  "audit_input_manifest_sha256": "fe40a87ee44a60d135a511bcf9ff5561a81ca5a138ca078230c913a06c85ddb5",
+  "continuous_release_build_log": "out/m3-t2/input-comparison-sdl-release-002-build.log",
+  "continuous_release_build_log_sha256": "12bfa1a4ca918381aebd84db3db8761a448265ff1e770bd81847a95fde095318",
+  "hardware_validation": false
+}

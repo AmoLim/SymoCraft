@@ -3,3 +3,6 @@
 
 # Preserve the immutable R1 review copies for their recorded SHA256 identities.
 /docs/milestones/m3-t3/evidence/r1/review-20261009-001/** -text
+
+# Preserve migrated frozen verification payloads and their SHA256 identities.
+/docs/verification/archive/** -text

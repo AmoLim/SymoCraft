@@ -1,12 +1,12 @@
 # SDL S5 Delivery Diagnostics
 
-`verify-sdl-delivery.ps1` runs installed Release packages in fresh, retained
+`verify-sdl-delivery.py` runs installed Release packages in fresh, retained
 fixtures. It never changes the supplied packages or any frozen archive. Build
 `inspect-sdl-delivery.cpp` against the project's existing Release `yaml-cpp`
 archive first and supply its executable as `-ProtocolInspector`.
 
 ```powershell
-& 'F:\GameDevelop\OpenGLProject\Symocraft\test\integration\verify-sdl-delivery.ps1' `
+python 'F:\GameDevelop\OpenGLProject\Symocraft\test\integration\verify-sdl-delivery.py' `
   -GamePackage 'F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t2\s5\install\candidate-release-001' `
   -RunnerPackage 'F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t2\s5\install\candidate-release-001' `
   -ProtocolInspector 'F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t2\s5\inspect-sdl-delivery.exe' `

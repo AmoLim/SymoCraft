@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="11"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="Amo"
+	time="6"
+	timestamp="2026-10-09T14:45:02"
+	>
+	<testcase name="architecture.public_header.renderer.symocraft/renderer/error.h" classname="architecture.public_header.renderer.symocraft/renderer/error.h" time="0.0093609" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.renderer.symocraft/renderer/renderer.h" classname="architecture.public_header.renderer.symocraft/renderer/renderer.h" time="0.0087988" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.renderer.symocraft/renderer/types.h" classname="architecture.public_header.renderer.symocraft/renderer/types.h" time="0.008122" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="renderer.public_api_consumer" classname="renderer.public_api_consumer" time="0.0250838" status="run">
+		<properties/>
+		<system-out>R2 public API shape and real production symbols linked; no backend or GPU acceptance.
+</system-out>
+	</testcase>
+	<testcase name="renderer.facade_contract" classname="renderer.facade_contract" time="0.0316881" status="run">
+		<properties/>
+		<system-out>R2 real facade CPU lifecycle: 235 checks passed with test-only recording backend; no GPU or production backend acceptance.
+</system-out>
+	</testcase>
+	<testcase name="renderer.shader_loading" classname="renderer.shader_loading" time="0.011578" status="run">
+		<properties/>
+		<system-out>Shader compilation and linking succeeded: F:/GameDevelop/OpenGLProject/Symocraft/assets/shaders/vs_BlockShader.glsl + F:/GameDevelop/OpenGLProject/Symocraft/assets/shaders/fs_BlockShader.glsl
+Shader compilation and linking succeeded: F:/GameDevelop/OpenGLProject/Symocraft/assets/shaders/vs_BlockShader.glsl + F:/GameDevelop/OpenGLProject/Symocraft/assets/shaders/fs_BlockShader.glsl
+Shader loading and failure cleanup checks passed without an OpenGL context.
+</system-out>
+	</testcase>
+	<testcase name="renderer.batch_safety" classname="renderer.batch_safety" time="0.209404" status="run">
+		<properties/>
+		<system-out>Batch safety and real-world empty-publication handoff passed with GL call stubs, not a GPU context.
+</system-out>
+	</testcase>
+	<testcase name="performance.gpu_timer" classname="performance.gpu_timer" time="0.0099335" status="run">
+		<properties/>
+		<system-out>GPU query readiness, saturation, frame IDs and cleanup passed without a context.
+</system-out>
+	</testcase>
+	<testcase name="architecture.source_boundaries" classname="architecture.source_boundaries" time="0.408016" status="run">
+		<properties/>
+		<system-out>-- Production source boundaries passed
+</system-out>
+	</testcase>
+	<testcase name="architecture.negative_boundaries" classname="architecture.negative_boundaries" time="4.43131" status="run">
+		<properties/>
+		<system-out>-- Rejected world-renderer
+-- Rejected simulation-platform
+-- Rejected module-app
+-- Rejected production-test
+-- Rejected private-cross-include
+-- Rejected public-sdk
+-- Accepted sdl-platform-source
+-- Rejected sdl-platform-public
+-- Rejected sdl-platform-bridge
+-- Accepted sdl-platform-bridge-source
+-- Rejected sdl-renderer-source
+-- Rejected sdl-app-source
+-- Rejected sdl-cpu-source
+-- Rejected sdl-relative-vendor
+-- Rejected sdl-relative-platform-vendor
+-- Rejected glfw-platform-source
+-- Rejected glfw-renderer-source
+-- Rejected glfw-app-source
+-- Rejected glfw-cpu-source
+-- Rejected glfw-platform-public
+-- Rejected glfw-relative-vendor
+-- Rejected glfw-target-unlinked during real CMake configuration
+-- Rejected glfw-target-renamed during real CMake configuration
+-- Rejected glfw-link-platform during real CMake configuration
+-- Rejected glfw-link-platform-expression during real CMake configuration
+-- Rejected glfw-link-app during real CMake configuration
+-- Rejected glfw-link-library during real CMake con...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="architecture.renderer_boundaries" classname="architecture.renderer_boundaries" time="0.924286" status="run">
+		<properties/>
+		<system-out>-- Actual renderer target, public compile, private native linkage, and CPU-only SDK absence passed; no GPU acceptance.
+</system-out>
+	</testcase>
+</testsuite>

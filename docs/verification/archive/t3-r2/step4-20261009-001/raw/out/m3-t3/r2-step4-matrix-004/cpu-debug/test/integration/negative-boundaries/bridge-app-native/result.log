@@ -1,0 +1,7 @@
+CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:103 (message):
+  Boundary violation: private include game/app/src/probe.cpp ->
+  platform/src/native_bridge.h
+Call Stack (most recent call first):
+  negative-boundaries/bridge-app-native/probe.cmake:3 (symocraft_check_source_file)
+
+

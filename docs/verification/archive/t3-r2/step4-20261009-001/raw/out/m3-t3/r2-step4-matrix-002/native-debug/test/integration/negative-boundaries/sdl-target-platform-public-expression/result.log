@@ -1,0 +1,8 @@
+-- Configuring incomplete, errors occurred!
+CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:342 (message):
+  Boundary violation: SDL target references require a direct approved target:
+  symocraft_platform -> $<BUILD_INTERFACE:SDL3::SDL3-static>
+Call Stack (most recent call first):
+  CMakeLists.txt:9 (symocraft_validate_boundaries)
+
+

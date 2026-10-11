@@ -3,154 +3,109 @@ tags:
   - area/meta
 ---
 
-# 文档结构与维护参考
+# 文档治理与权威归属
 
-更新日期：2026-10-09。面向后续维护者与 agent，说明文档归属、Obsidian 标签、阅读入口和变更边界。本文是目录维护参考，不替代项目 spec、实现说明或验收报告。
+本页是现行文档治理唯一正文。稳定 Agent/Git 规则及规格预读只在 [AGENTS.md](../AGENTS.md) 维护。
+文档是工程知识库，不是教程、源码镜像或执行流水账。同一事实只有一个权威正文，其他位置链接引用。
+当前实现、目标契约、实际验证与用户批准分别维护；不一致时记录缺口，不靠叙述消除问题。
 
 ## 先读什么
 
-1. 从 [技术文档索引](README.md) 选择任务相关入口。
-2. 查阅 [项目范围与验收约定](spec/project-scope.md) 及对应任务 spec，确认目标和非目标。
-3. 修改已有模块前阅读 `project/` 中的相关笔记，并核对源码；遇到旧架构问题时参考 `legacy/architecture/`。
-4. 判断“是否验证通过”时阅读对应报告与证据，不能从 spec、测试用例或目录位置推断完成状态。
+先读 AGENTS、本页及 [scope](scope/project-scope.md)，再按 AGENTS 的规格预读读取现役 specs 和相关 changes。
+当前机制从 [架构入口](architecture/Overview.md) 按模块进入；批准和证据从 [VERIFICATION](verification/VERIFICATION.md) 进入。
+默认全部读取精简的现役 specs（含 scenarios），不是全文加载整个历史文档树。缺少规格覆盖不证明没有实现。
 
-## 目录参考
+## 信息归属
 
-```text
-docs/
-├── README.md                          # 面向读者的分类导航
-├── DOCUMENTATION_MAP.md               # 面向维护者与 agent 的归属规则
-├── issue/                            # Agent 未关闭问题、人工审核与证据索引
-│   └── issues.md
-├── spec/                             # 项目范围、目标设计与规范子模块
-│   ├── project-scope.md
-│   ├── M3-T0-模块软硬边界.md
-│   ├── M3-T1-世界模块重构.md
-│   ├── M3-T2-SDL3迁移.md              # 20261009用户正式批准T2，FB01/MB01方案2已确认；遗留实测风险和原draft保留
-│   ├── m3-t2-fix1-spec.md            # 按 Issues 审核意见定位文件发布失败、补齐诊断；待实施
-│   ├── M3-T1-T3-CPU契约清单.md        # T1 已交付数据与 T3-R1 待冻结输入
-│   ├── M3-T3-渲染器重构.md
-│   ├── M3-T4-draft.md                # 应用/平台/模拟候选契约，物理先独立target再正式模块
-│   ├── git/
-│   │   └── gitspec.md                # 版本控制规范子模块
-│   └── md-organize/
-│       ├── mdspec.md                 # 文档结构与图谱规范
-│       └── tag-inventory.json        # 逐文件标签与例外清单
-├── project/                          # 按工程主题维护的实现与操作说明
-│   ├── architecture/                 # 实际功能、对象、数据与系统契约
-│   │   ├── Overview.md               # 模块、应用和构建测试入口
-│   │   ├── 对象笔记覆盖清单.md        # 符号→定义/target→独立笔记或具名小节
-│   │   └── <模块>/                   # 如 renderer/GpuTimer Class.md
-│   ├── build/                        # 构建、CLion、CMake 与构建问题修复
-│   │   └── build-and-clion.md         # M1 指南，适用范围见文首
-│   └── benchmark/                    # 原生 Benchmark 功能、类、协议与交付
-│       ├── performance/              # 采样策略与 Performance 类设计
-│       ├── testing/                  # 采样协议、固定场景及适用版本
-│       │   ├── README.md
-│       │   ├── performance-baseline.md
-│       │   └── reproducible-scenes.md
-│       └── evidence/                 # Benchmark 局部交付证据，位置不变
-├── testing/                          # 通用玩法与回归验收，不从属于 Benchmark
-│   └── gameplay-smoke.md
-├── legacy/
-│   ├── architecture/                 # M0 至 M2-T3 的历史架构参考
-│   │   └── README.md                 # 各篇文档对应阶段
-│   └── third-party-inventory.md      # 历史依赖盘点
-├── milestones/                       # 按阶段记录的结果、失败、复测与交接
-│   ├── m0/
-│   ├── m1/
-│   ├── m2-a/
-│   ├── m2-t2/
-│   ├── m2-t3/                        # 各阶段 evidence 随原报告保留
-│   ├── m3-t0/
-│   ├── m3-t1/
-│   ├── m3-t2/                        # SDL3迁移、固定人工核查入口与交付证据
-│   └── m3-t3/                        # 现代后端实验、固定人工核查入口与交付证据
-└── Obsidian-功能笔记模板/              # 写作规范、模板与示例
-```
-
-此树展示主要目录职责，不枚举全部类笔记和证据文件。磁盘上的整理 spec 文件名为 `mdspec.md`；引用遵循实际大小写，便于跨平台使用。
-
-## 新文档放哪里
-
-| 内容 | 归属 | 注意事项 |
-| --- | --- | --- |
-| Agent 尚未关闭的问题 | `issue/issues.md` | 唯一 `Mx-Ix` 编号；简述表每格锚点链接同名附录，人工 review 未确认不得代填为批准；阶段验收仍回到 milestone 固定入口 |
-| 项目范围、未实施方案、任务契约 | `spec/` | 目标设计不等于已实现；明确状态与非目标 |
-| 模块实现、类设计、操作指南、局部修复 | `project/<主题>/` | 优先复用已有主题目录，标明适用版本与源码依据 |
-| M3 起生产模块的实际设计 | `project/architecture/<模块>/` | 单资源对象独立笔记；值/辅助类型按职责合并到具名小节；数据/系统不伪装类。入口：[模块索引](project/architecture/Overview.md)、[对象覆盖清单](project/architecture/对象笔记覆盖清单.md) |
-| 构建、CLion、CMake 问题 | `project/build/` | 阶段构建结果仍由报告承载 |
-| Benchmark 功能、进程、文件协议、交付 | `project/benchmark/` | 保持功能、类、协议与实验报告的职责区别 |
-| 性能观测与采样类设计 | `project/benchmark/performance/` | 不把旧计时说明直接当成最新契约 |
-| 性能采样协议、Benchmark 共享固定场景 | `project/benchmark/testing/` | 共享场景需链接通用玩法验收，旧脚本流程注明版本 |
-| 通用玩法、启动失败、连续游玩与回归验收 | `testing/` | 不因与性能场景共享夹具就放入 Benchmark |
-| 阶段验证结果、失败和复测、包交接 | `milestones/<阶段>/` | 保留时间、版本、环境、结果与结论边界 |
-| 本阶段固定人工核查入口 | `milestones/<阶段>/manul-verification.md` | 从阶段 README 链接，随推进原地维护 checkbox 表格；详细约定见 [project-scope](spec/project-scope.md#milestone-人工核查入口) |
-| 旧架构资料 | `legacy/architecture/` | 保留原阶段事实；新模块说明不继续堆入此处 |
-| 历史第三方依赖盘点 | `legacy/third-party-inventory.md` | 属于 legacy，不独立建立依赖板块 |
-| 版本控制规范 | `spec/git/` | spec 的规范子模块 |
-| 文档结构、图谱约定和迁移记录 | `spec/md-organize/` | spec 的规范子模块，不作为工程模块设计目录 |
-
-不要为尚未实施的模块预建空目录，也不要建立第二份平行的“当前架构”真相。后续模块落地时，其维护说明进入对应 `project/<主题>/`，历史资料只增加必要的后续入口。
-
-## Obsidian 板块标签
-
-以 `docs/` 为 vault 根目录，每篇纳管笔记的 YAML `tags` 列表恰好包含一个 `area/*`。下面的归属与目录一致；目录调整时同时更新标签、导航和 [逐文件清单](spec/md-organize/tag-inventory.json)。不能为了改变图谱颜色给笔记添加第二个板块。
-
-| 板块标签 | 路径 | 图谱颜色 |
-| --- | --- | --- |
-| `area/meta` | 根 `README.md`、`DOCUMENTATION_MAP.md`、`issue/` | 灰色 |
-| `area/spec` | `spec/`，含 `git/`、`md-organize/` | 紫色 |
-| `area/build` | `project/build/` | 橙色 |
-| `area/architecture` | `project/architecture/`，含模块索引与构建测试边界 | 青色建议；尚未写入或验证图谱设置 |
-| `area/benchmark` | `project/benchmark/`，含 `performance/`、`testing/` | 蓝色 |
-| `area/testing` | `testing/` | 绿色 |
-| `area/legacy` | `legacy/`，含依赖盘点 | 褐色 |
-| `area/milestones` | `milestones/`，不含证据 | 红色 |
-| `area/templates` | 模板说明与 `examples/`，不含模板源文件 | 粉色 |
-
-可选 `topic/*` 只表达关联主题，默认不添加、最多两个；不改变板块归属。词表为 `build`、`benchmark`、`performance`、`world`、`rendering`、`gameplay`、`resources`。已有 `type`、`status`、`module` 属性照常维护，不再复制成标签。两个模板示例原有的 `示例` 标签保留为兼容标签。
-
-任何 `evidence/` 文件和 `Obsidian-功能笔记模板/templates/` 下的模板源文件均不加标签。前者是不可改写的证据；后者不能在插入新笔记时带入错误板块。正式笔记生成后按最终目录补齐归属，不直接复制示例的 `area/templates`。功能、类、数据、系统、namespace API 与构建契约模板的选择见 [模板使用说明](Obsidian-功能笔记模板/00-使用说明.md#选择模板)；公开接口与内部函数分表记录行为，功能笔记只链接权威契约。模板类型不增加板块归属。
-
-默认图谱按板块着色，关闭标签节点，保留真实跨板块链接，隐藏附件与未解析节点，显示孤立笔记。硬边界指唯一归属与筛选集合，不保证集群固定位置或完全分离。
-
-常用图谱搜索条件如下。它们是切换视图时使用的查询，不是自动生成的独立命名预设。
-
-| 视图 | 查询 |
+| 位置 | 唯一职责 |
 | --- | --- |
-| 默认工程视图 | `tag:#area -tag:#area/meta -tag:#area/templates -path:"/evidence/" -path:"Obsidian-功能笔记模板/templates/"` |
-| 全量文档视图 | `tag:#area -path:"/evidence/" -path:"Obsidian-功能笔记模板/templates/"` |
-| 单板块，例如 Benchmark | `tag:#area/benchmark -path:"/evidence/"` |
-| Git 规范子模块 | `tag:#area/spec path:"spec/git/" -path:"/evidence/"` |
-| 文档整理子模块 | `tag:#area/spec path:"spec/md-organize/" -path:"/evidence/"` |
-| 跨板块性能主题 | `tag:#topic/performance -path:"/evidence/"` |
+| 根 AGENTS.md | 工作边界、稳定 Git 规则、规格预读与命令适配 |
+| README 与工具 README | 项目介绍、构建运行与具体操作，不复制架构 |
+| 本页 | 文档治理，不维护阶段批准表 |
+| scope/ | 项目范围、已确认方向、未来候选与实施边界 |
+| openspec/specs/ | 经源码及适用依据核对的现役公开行为契约 |
+| openspec/changes/ | 目标规格增量、目标设计、重要决策与唯一活动计划 |
+| architecture/ | 当前模块机制、契约引用及工程级正确性约束 |
+| verification/ | 当前验证方法、共享场景、必要证据和 A 类冻结归档 |
+| verification/VERIFICATION.md | 唯一归档索引及关键节点批准记录 |
+| issue/issues.md | 未关闭问题，不复制批准台账 |
+| Git | 已提交历史，不替代未提交唯一材料或必要冻结证据 |
 
-当前归属词表扩展为 9 个板块，新增 `area/architecture` 对应用户要求的实际模块文档目录。图谱既有 8 组设置和历史验证记录不改写，本次没有修改 `.obsidian/graph.json`；第九组颜色仍待用户在 Obsidian 中配置与验证。颜色分组只按板块 tag，不增加重叠的主题颜色组。全量笔记清单需要与实际文件数对照，避免无标签的新笔记被正向筛选隐藏。完整规范和验收边界见 [mdspec](spec/md-organize/mdspec.md)。
+规格只位于 docs/openspec，不建根副本、镜像或平行 docs/spec 计划链。
+development-journal 与 .obsidian 由用户维护，不读取个人正文或修改配置。旧文字及历史授权不是新实施授权。
 
-## 如何判断时效
+## 架构文档
 
-- `legacy/` 是历史参考，不是作废标记，也不是所有机制均被替换的证明。文中的“当前”以其阶段为准。
-- `project/` 表示按工程主题归类，不保证每篇文档适用于最新版本。尤其是 M1 构建指南与 M2-T3 旧脚本采样指南，先读文首范围提示。
-- `spec/` 记录约定；是否已实施、已验证，仍须核对实现与对应证据。
-- 测试用例、自动测试、真实驱动运行、人工游玩、稳定性、性能与指定硬件验收分别记录，不能相互替代。
+默认扁平模块文件，工程级约束集中于 engineering.md。公开行为在现役 spec 权威维护，模块文档链接它，并解释必要机制。
+所有权、生命周期、失效条件、失败后状态、线程与同步约束以及影响正确性的不变量不得省略；不为去重删掉工程知识。
+简单类型共用章节，显然函数和字段不逐项抄录。仅复杂独立契约或明显妨碍模块阅读时拆出笔记。
+不维护逐类/逐函数学习版，不为未实现模块建空文档。稳定不变量编号保留；源码审阅不冒充运行、线程安全或性能已验证。
+当前模块按架构入口定位；只随获授权变更修订受影响内容，不因文档整理扩大功能实施或重选架构。
 
-## 引用与维护规则
+## Spec 与决策
 
-- 总入口负责导航，本文负责归属规则，任务 spec 负责设计约定，报告负责验证结果；避免在多个入口重复维护测试数量与进度。
-- 新建或继续实施 milestone 时提供固定 `manul-verification.md`，采用 [人工核查模板](Obsidian-功能笔记模板/templates/11-Milestone人工核查.md) 并补 `area/milestones`；子步骤文档回链此入口，避免各处平行维护当前人工结论。跨节点同名文件用带目录的相对链接。
-- 共享入口与跨目录导航优先使用相对 Markdown 链接，兼容普通 Markdown 阅读器；已有 Obsidian 双链可保留，目标名必须唯一可解析。
-- 移动文档时同时检查入链、出链、源码链接、图片链接及锚点；只调整导航，不批量替换历史命令中的路径。
-- `evidence/` 内日志、截图、哈希与结果文件保持原位置和原内容，不为目录美观重排证据。
-- 可执行文件、DLL、对象文件、调试符号、完整运行包与逐帧 CSV 留在 `out/`，不放入文档目录。
-- 保留用户已有修改；不要借文档整理改动程序实现、验收状态、历史测试数量或模板示例。
-- 新建或实质更新笔记使用 [Obsidian 模板说明](Obsidian-功能笔记模板/00-使用说明.md)，版本控制遵循 [Git 规范](spec/git/gitspec.md)。
+轻量 symocraft-lite 只有 proposal 和必要 delta specs：短设计及唯一任务清单在 proposal.md。
+复杂 symocraft-full 使用 proposal、delta specs、design、tasks；不再维护额外阶段 spec/active/总结链。
+proposal 写意图、范围和依赖；design 写目标机制；tasks 维护一份按意图和依赖组织的活动计划。
+行为增量使用原生 ADDED/MODIFIED/REMOVED/RENAMED；Requirement 用 SHALL/MUST，Scenario 用 WHEN/THEN。
+MODIFIED 保留完整 requirement 及全部继续有效 scenarios；无行为变化使用 skip_specs: true，不编造游戏需求。
+现役 specs 只接纳经核对的已实现契约；目标不能因设计定稿、planningComplete 或任务打勾变成现役行为。
+重要决策按需要在同一 change 的 decisions.md 集中，保留选择、理由、代价、适用范围和稳定任务限定编号。
+不为每个小步骤建立 change 或 ADR；跨阶段链接原决策，改变时注明替代关系，不重选既定方案。
+已实现选择的长期理由可在当前模块机制中保留；点时批准依据留冻结材料，不把已完成旧计划重新变成活动任务。
 
-## 待独立核对的内容
+## 文档预算与表达
 
-- [M1 构建指南](project/build/build-and-clion.md) 的命令与布局未在本轮重新执行，后续更新应对照当前构建配置与 [模块边界说明](project/build/CMake-模块边界.md)。
-- [M2-T3 采样指南](project/benchmark/testing/performance-baseline.md) 保留旧脚本与候选包流程，不能与 [原生 Benchmark 交付说明](project/benchmark/使用与交付.md) 或新的失焦策略混用。
-- 历史源码链接只提供定位，不固定旧版本；文件存在不表示其中的函数、行号与历史描述仍一致。
-- 模板中的示例占位双链和外部 Obsidian 本机路径不属于项目导航；不为使链接检查全绿而伪造文件。
+| 类型 | 默认动作 |
+| --- | --- |
+| S 局部修复 | 不新建文档/change，仅修正失效说明；行为契约改变按 M |
+| M 普通功能 | 轻量 change，同步受影响模块，不另建计划或总结 |
+| L 复杂任务 | 一个完整 change、一份必要任务清单 |
+| D 重要决策 | 权威位置记录长期理由，不默认逐条 ADR |
+| A 冻结归档 | 关键节点、可复现基准及必要快照的最小充分归档 |
 
-本轮迁移清单与验收记录见 [文档整理 Spec](spec/md-organize/mdspec.md)。
+类型可组合但不重复内容；验收也受预算管理，不享无限文件例外。
+不要求固定模板章节、公开/私有函数表或“不适用”占位。schema 内最小生成模板仅为工具输入，不恢复旧学习模板/示例。
+日常结果在聊天汇报，不默认生成 Summary、实施日志或独立测试报告。默认更新已有文档；新建前明确用途、归属与生命周期。
+
+## 验证与批准
+
+VERIFICATION 是唯一归档索引和批准台账；节点仅为设计冻结、正式实施入口、阶段整体验收通过。
+日常子步骤不建立独立批准记录，但不因此扩大实施范围或取消权限。仅凭用户明确确认登记批准，三个节点不互相推定。
+源码审阅、自动测试、真实运行、性能测量、人工批准与 Obsidian 同步分别记录。OpenSpec status/validate/verify 不替代工程验证。
+真实 sync/archive 前核对本轮授权、适用验证与阶段依据；归档通常也会合并规格，不能用未完成真实任务测试生命周期。
+冻结保留点时版本、环境、配置、复现方法、原始结果与结论边界；迁移保持原字节及哈希，不改历史来源字段或命令。
+允许保存解释关键结论的失败样本，不默认保存全部尝试。原稀疏包和负向夹具局限保留，不补造文件使检查变绿。
+
+### 证据单份归档
+
+必要长期证据的唯一物理保存位置为 `docs/verification/archive/`；VERIFICATION 只维护身份、位置、适用边界与关键节点批准，不复制原始结果或另建平行台账。
+新证据按 A 类最小充分范围直接归档，不要求将 out 结果再复制到 evidence；out 是工作产物位置，现存旧 evidence/out 路径在获授权迁移完成前仍按原身份查验。
+必要范围按结论与可复现性确定，保留原始结果、版本/环境/配置、来源身份、复现依据及解释关键结论的失败样本，不按目录名或成功/失败机械取舍。
+旧证据迁移保持原字节、大小与 SHA256，并登记旧位置到新位置的映射；历史命令、来源字段、稀疏范围与负向状态不改写。新位置和所有必要消费者/引用核对通过后，才按获确认的准确清单清理源副本。
+临时复制以便校验不构成第二权威；迁移失败时保留源，不以缺文件、忽略校验或补造内容实现收口。无法判定、未提交唯一材料及仍被使用的输入暂缓删除。
+只清理已证重复或过期且不丢失独有结论/身份/复现依据的材料，不默认保留全部尝试。当前候选、必要完整运行包、工作输入与暂停任务现场不能由稀疏证据快照替代，不随证据目录自动清理。
+archive 由 Git/GitHub 保留，不加入忽略规则；提交/上传及恢复可用性需分别验证且另获 Git 授权，未上传时明确报告，不能仅凭目录位置宣称远端保存。必要大文件或完整包若不能纳入保存方案，先报告存储缺口，不静默省略或删除唯一包。
+用户将 archive 排除于 Obsidian Sync，不等于 Git 忽略或本地删除；Agent 不修改 Obsidian 配置，不将此约定冒称同步设置已验证。
+新规则不追溯改写冻结字节，不自动授权搬移、删除、运行采样或 Git 写入；具体范围及验证条件由当前获授权 change 承接。
+
+## Git 批次与维护
+
+稳定 Git 规则只在 AGENTS。确有获授权批次时才创建 docs/git/gitspec.md，仅保存当前批次，不累计旧历史。
+当前无提交批次，不创建空计划。替换或清理前核对未提交唯一材料的可靠保存；迁移不授权提交、发布或历史改写。
+日常同步受影响文档，阶段结束/交接/冲突时集中审计；持久知识归权威位置，临时材料按授权清理。
+删除候选先完整汇报，保留复核现场，收到汇报后的明确确认才删除。共享链接相对文件位置；历史命令不批量改写。
+
+## 标签与检查
+
+可维护 docs 笔记保留一个 area/* 归属标签，topic/* 按需要使用。OpenSpec 规格归 area/spec，治理归 area/meta。
+schema 生成模板不是可维护知识笔记；冻结 evidence 与 verification/archive 不批量补标签。
+标签清单 [tag-inventory.json](tag-inventory.json) 是生成查找辅助，不是第二份规则。由 `python tools/openspec/check_documents.py --write-index` 显式刷新；私有注册只保留已有索引信息，不读取正文。旧清单保留历史计数，Obsidian 配置与 UI 结论不覆盖。
+检查路径、入出链、锚点、图片、源码引用、权威重复、契约身份、冻结字节与非文档差异；机械检查不代替语义审阅。
+
+## 过渡状态
+
+文档迁移 change 已完成并归档，不再是活动计划；原字节规划、处置映射和验证边界从 [VERIFICATION](verification/VERIFICATION.md#后续集中与收口) 唯一入口进入。其他活动 change 的授权、任务及暂停状态不受此归档影响。
+原 docs/spec 全部分类迁移或注明退役原因；本批删除其中4篇，其他10篇和旧索引仍只供复核，不继续维护计划。必要来源映射在迁移 design 中说明。
+模块机制、工具操作、来源盘点和共享验证方法已浓缩；2026-10-11 经完整清单汇报及用户明确确认，准确85份旧文档已清理，必要独有历史已最小归档。不建第二当前权威，也不宣称全库无残留。
+9篇退役项目原文已逐字节迁入 verification/archive/project-history-20261011；完整源码迁移表及准确13份非活动 .disabled、7组已证完整重复包、665份旧迁移临时材料已按追加授权清理，最小处置映射/恢复身份/历史验证限制从 VERIFICATION 进入。必要冻结完整包、实际当前候选、失败样本、原始采样、暂停 Fix1 现场及其他任务数据保留；其余10篇旧 spec 仍只读。273份 Benchmark 旧 evidence 在单份归档批起点已不存在，对应 archive 身份核对通过；新批准确处置及完成状态只见 [VERIFICATION](verification/VERIFICATION.md#后续集中与收口)，不将起点缺失冒称本批删除。ProjectShadow 仅作只读参考，不授权功能 sync/archive 或 Git 写操作。

@@ -43,3 +43,7 @@ Desktop.ini
 
 # Local incoming benchmark data; keep curated docs evidence versioned.
 /.temporary
+
+# Local Python bytecode from developer scripts and tests.
+__pycache__/
+*.pyc

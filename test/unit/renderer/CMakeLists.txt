@@ -1,6 +1,17 @@
-symocraft_test_executable(shader_loading_tests shader_loading_tests.cpp symocraft_renderer symocraft_glad)
-symocraft_test_executable(batch_safety_tests batch_safety_tests.cpp symocraft_renderer symocraft_glad symocraft_world)
-symocraft_test_executable(gpu_timer_tests gpu_timer_tests.cpp symocraft_renderer symocraft_glad)
+symocraft_test_executable(renderer_public_api_consumer public_api_consumer.cpp symocraft_renderer)
+symocraft_test_executable(renderer_facade_tests facade_tests.cpp symocraft_renderer)
+target_include_directories(renderer_facade_tests PRIVATE
+    "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/renderer/src")
+add_test(NAME renderer.public_api_consumer COMMAND renderer_public_api_consumer)
+add_test(NAME renderer.facade_contract COMMAND renderer_facade_tests)
+set_tests_properties(renderer.public_api_consumer renderer.facade_contract PROPERTIES TIMEOUT 45)
+
+if(NOT TARGET symocraft_renderer_legacy_opengl)
+    return()
+endif()
+symocraft_test_executable(shader_loading_tests shader_loading_tests.cpp symocraft_renderer_legacy_opengl symocraft_glad)
+symocraft_test_executable(batch_safety_tests batch_safety_tests.cpp symocraft_renderer_legacy_opengl symocraft_glad symocraft_world)
+symocraft_test_executable(gpu_timer_tests gpu_timer_tests.cpp symocraft_renderer_legacy_opengl symocraft_glad)
 foreach(target IN ITEMS shader_loading_tests batch_safety_tests)
     # Existing GLAD function-pointer substitution is restricted to renderer white-box suites.
     target_include_directories(${target} PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/renderer/src")

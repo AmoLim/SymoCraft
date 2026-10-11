@@ -50,21 +50,21 @@ $CTest = "$Root/out/m3-t2/tools/cmake-3.22.6/portable/cmake-3.22.6-windows-x86_6
 $SdkHeaders = 'C:/VulkanSDK/1.4.363.0/Include'
 $EvidenceSuffix = 'recheck-001'
 
-& "$Root/test/experimental/platform-sdl3/build.ps1" -Configuration Debug `
+python "$Root/test/experimental/platform-sdl3/build.py" -Configuration Debug `
     -ProductionBuild "$Root/out/m3-t2/s3/main-debug-001" `
     -BuildDirectory "$Root/out/m3-t2/s3/probe-debug-004" `
     -Vulkan -InputValidation -HeadersRoot $SdkHeaders -CMakePath $CMake
 
-& "$Root/test/experimental/platform-sdl3/build.ps1" -Configuration Release `
+python "$Root/test/experimental/platform-sdl3/build.py" -Configuration Release `
     -ProductionBuild "$Root/out/m3-t2/s3/main-release-001" `
     -BuildDirectory "$Root/out/m3-t2/s3/probe-release-004" `
     -Vulkan -InputValidation -HeadersRoot $SdkHeaders -CMakePath $CMake
 
-& "$Root/test/experimental/platform-sdl3/verify-probes.ps1" `
+python "$Root/test/experimental/platform-sdl3/verify-probes.py" `
     -Executable "$Root/out/m3-t2/s3/probe-debug-004/SymoCraftPlatformSdl3Probe.exe" `
     -OutputDirectory "$Root/out/m3-t2/s3/runtime-probe-debug-$EvidenceSuffix" -Vulkan
 
-& "$Root/test/experimental/platform-sdl3/verify-probes.ps1" `
+python "$Root/test/experimental/platform-sdl3/verify-probes.py" `
     -Executable "$Root/out/m3-t2/s3/probe-release-004/SymoCraftPlatformSdl3Probe.exe" `
     -OutputDirectory "$Root/out/m3-t2/s3/runtime-probe-release-$EvidenceSuffix" -Vulkan
 ```
@@ -135,10 +135,10 @@ argument parser without SDL or a GPU, including Unicode output paths.
 | --- | --- |
 | `SymoCraftPlatformInputStateTests` / `platform.input_state` | Current 263-check private reducer regression: eleven scancodes, short-press latches/repeats, ordered motion/floating wheel, held/Reset, focus/minimize/restore and authoritative fact reconciliation, close and Benchmark isolation. Synthetic data only; not a runtime or hardware pass. |
 | `SymoCraftPlatformInputOptionsTests` / `platform.input_options` | CPU-only argument parsing: seven normal cases, required fresh-directory argument for `hardware-manual`, wide Unicode paths, reordered arguments, duplicate/missing values and unknown-option rejection. No window or hardware acceptance. |
-| `SymoCraftPlatformInputTests` / `verify-input.ps1 -Repeat 3` | Seven real-production runtime cases per iteration (21 child runs), with non-null exit codes, cleanup and fresh summaries. SDL queue fixtures and owned Win32 messages are not physical hardware. |
-| `SymoCraftPlatformAllocationTests` / `verify-allocation.ps1` | Four one-shot allocation failures in the actual imported production library; preserves the prior nonempty snapshot, rejects continued Capture after an event-buffer failure and checks context/window/video cleanup. No production fault switch. |
-| `verify-application.ps1` | Seven owned-window operations against the installed game, with a structured protocol inspector. Three-second diagnostics only, not Q06 sampling or a performance budget. |
-| `hardware-manual` / `run-manual-input.ps1` | Actual production Window, physical keyboard/mouse, default enabled SDL Raw Input policy and recorded observations. No automatic human acceptance. |
+| `SymoCraftPlatformInputTests` / `verify-input.py -Repeat 3` | Seven real-production runtime cases per iteration (21 child runs), with non-null exit codes, cleanup and fresh summaries. SDL queue fixtures and owned Win32 messages are not physical hardware. |
+| `SymoCraftPlatformAllocationTests` / `verify-allocation.py` | Four one-shot allocation failures in the actual imported production library; preserves the prior nonempty snapshot, rejects continued Capture after an event-buffer failure and checks context/window/video cleanup. No production fault switch. |
+| `verify-application.py` | Seven owned-window operations against the installed game, with a structured protocol inspector. Three-second diagnostics only, not Q06 sampling or a performance budget. |
+| `hardware-manual` / `run-manual-input.py` | Actual production Window, physical keyboard/mouse, default enabled SDL Raw Input policy and recorded observations. No automatic human acceptance. |
 
 Run the pure reducer and the two runtime helpers for both configurations:
 
@@ -149,11 +149,11 @@ foreach ($Configuration in @('Debug', 'Release')) {
     & $CTest --test-dir $Probe -C $Configuration --output-on-failure --no-tests=error
     if ($LASTEXITCODE -ne 0) { throw 'Production input-state CTest failed.' }
 
-    & "$Root/test/experimental/platform-sdl3/verify-input.ps1" `
+    python "$Root/test/experimental/platform-sdl3/verify-input.py" `
         -Executable "$Probe/SymoCraftPlatformInputTests.exe" `
         -OutputDirectory "$Root/out/m3-t2/s3/runtime-input-$Name-$EvidenceSuffix" -Repeat 3
 
-    & "$Root/test/experimental/platform-sdl3/verify-allocation.ps1" `
+    python "$Root/test/experimental/platform-sdl3/verify-allocation.py" `
         -Executable "$Probe/SymoCraftPlatformAllocationTests.exe" `
         -OutputDirectory "$Root/out/m3-t2/s3/runtime-allocation-$Name-$EvidenceSuffix"
 }
@@ -198,7 +198,7 @@ helpers' repository-relative output resolution).
 
 ```powershell
 foreach ($Name in @('debug', 'release')) {
-    & "$Root/test/experimental/platform-sdl3/verify-application.ps1" `
+    python "$Root/test/experimental/platform-sdl3/verify-application.py" `
         -Executable "$Root/out/m3-t2/s3/install/main-$Name-001/SymoCraft.exe" `
         -ProtocolInspector "$Root/out/m3-t2/s3/inspect-protocol.exe" `
         -OutputDirectory "$Root/out/m3-t2/s3/runtime-application-$Name-$EvidenceSuffix"
@@ -229,7 +229,7 @@ current imports/source identities and removes inherited fixture/Raw-disable
 environment settings:
 
 ```powershell
-& "$Root/test/experimental/platform-sdl3/run-manual-input.ps1" `
+python "$Root/test/experimental/platform-sdl3/run-manual-input.py" `
     -Executable "$Root/out/m3-t2/s3/probe-release-004/SymoCraftPlatformInputTests.exe" `
     -OutputDirectory "$Root/out/m3-t2/s3/hardware-manual-desktop-$EvidenceSuffix"
 ```

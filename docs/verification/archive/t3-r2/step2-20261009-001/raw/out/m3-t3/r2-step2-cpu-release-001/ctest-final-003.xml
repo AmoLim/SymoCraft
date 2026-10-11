@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="53"
+	failures="1"
+	disabled="0"
+	skipped="0"
+	hostname="Amo"
+	time="9"
+	timestamp="2026-10-09T14:58:34"
+	>
+	<testcase name="architecture.public_header.foundation.symocraft/foundation/diagnostics.h" classname="architecture.public_header.foundation.symocraft/foundation/diagnostics.h" time="0.0101836" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.foundation.symocraft/foundation/document.h" classname="architecture.public_header.foundation.symocraft/foundation/document.h" time="0.0080113" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.foundation.symocraft/foundation/files.h" classname="architecture.public_header.foundation.symocraft/foundation/files.h" time="0.007281" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.foundation.symocraft/foundation/math.h" classname="architecture.public_header.foundation.symocraft/foundation/math.h" time="0.0073778" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.foundation.symocraft/foundation/memory.h" classname="architecture.public_header.foundation.symocraft/foundation/memory.h" time="0.0080557" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.foundation.symocraft/foundation/types.h" classname="architecture.public_header.foundation.symocraft/foundation/types.h" time="0.007835" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.scene.symocraft/scene/camera.h" classname="architecture.public_header.scene.symocraft/scene/camera.h" time="0.0077289" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.scene.symocraft/scene/mesh.h" classname="architecture.public_header.scene.symocraft/scene/mesh.h" time="0.0076298" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.assets.symocraft/assets/asset_paths.h" classname="architecture.public_header.assets.symocraft/assets/asset_paths.h" time="0.0067299" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.assets.symocraft/assets/image.h" classname="architecture.public_header.assets.symocraft/assets/image.h" time="0.0071873" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.world.symocraft/world/benchmark_workload.h" classname="architecture.public_header.world.symocraft/world/benchmark_workload.h" time="0.0065888" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.world.symocraft/world/block.h" classname="architecture.public_header.world.symocraft/world/block.h" time="0.0086111" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.world.symocraft/world/block_definition.h" classname="architecture.public_header.world.symocraft/world/block_definition.h" time="0.007667" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.world.symocraft/world/constants.h" classname="architecture.public_header.world.symocraft/world/constants.h" time="0.0071346" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.world.symocraft/world/generation.h" classname="architecture.public_header.world.symocraft/world/generation.h" time="0.0078455" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.world.symocraft/world/test_scene.h" classname="architecture.public_header.world.symocraft/world/test_scene.h" time="0.0076156" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.world.symocraft/world/world.h" classname="architecture.public_header.world.symocraft/world/world.h" time="0.0065422" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.ecs.symocraft/ecs/registry.h" classname="architecture.public_header.ecs.symocraft/ecs/registry.h" time="0.0075221" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.simulation.symocraft/simulation/camera.h" classname="architecture.public_header.simulation.symocraft/simulation/camera.h" time="0.0071651" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.simulation.symocraft/simulation/character_system.h" classname="architecture.public_header.simulation.symocraft/simulation/character_system.h" time="0.0075257" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.simulation.symocraft/simulation/component.h" classname="architecture.public_header.simulation.symocraft/simulation/component.h" time="0.0073821" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.simulation.symocraft/simulation/physics_system.h" classname="architecture.public_header.simulation.symocraft/simulation/physics_system.h" time="0.0075326" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.simulation.symocraft/simulation/player.h" classname="architecture.public_header.simulation.symocraft/simulation/player.h" time="0.0075871" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.simulation.symocraft/simulation/player_math.h" classname="architecture.public_header.simulation.symocraft/simulation/player_math.h" time="0.0067669" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.simulation.symocraft/simulation/playercontroller.h" classname="architecture.public_header.simulation.symocraft/simulation/playercontroller.h" time="0.006866" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.simulation.symocraft/simulation/transform_system.h" classname="architecture.public_header.simulation.symocraft/simulation/transform_system.h" time="0.0073527" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.renderer.symocraft/renderer/error.h" classname="architecture.public_header.renderer.symocraft/renderer/error.h" time="0.007483" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.renderer.symocraft/renderer/renderer.h" classname="architecture.public_header.renderer.symocraft/renderer/renderer.h" time="0.0093459" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.renderer.symocraft/renderer/types.h" classname="architecture.public_header.renderer.symocraft/renderer/types.h" time="0.0098737" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.telemetry.symocraft/telemetry/document_io.h" classname="architecture.public_header.telemetry.symocraft/telemetry/document_io.h" time="0.007501" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.telemetry.symocraft/telemetry/performance.h" classname="architecture.public_header.telemetry.symocraft/telemetry/performance.h" time="0.0069246" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="foundation.document" classname="foundation.document" time="0.0081015" status="run">
+		<properties/>
+		<system-out>Owned metadata and private YAML adapter contracts passed.
+</system-out>
+	</testcase>
+	<testcase name="foundation.files" classname="foundation.files" time="0.0391727" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":1,"utc_filetime":134360027145865641,"utc":"2026-10-09T06:58:34.586Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"begin","outcome":"begin","phase":"first_publication","operation":"publish","iteration":null,"reader_share":0,"held_reader":"none","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":13,"content_fnv1a64":"09b39b929cce9db2","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":false,"attributes":null,"query_error":2,"content_bytes":null,"content_fnv1a64":null,"content_error":null,"content_state":"unavailable"}},"after":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":13,"content_fnv1a64":"09b39b929cce9db2","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":false,"attributes":null,"query_error":2,"content_bytes":null,"content_fnv1a64":null,"content_error":null,"content_state":"unavailable"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":1,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":2,"utc_filetime":134360027145875636,"utc":"2026-10-09T06:58:34.587Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"success","outcome":"success","phase":"first_publication","operation":"publish","iteration":null,"reader_share":0,"held_reader":"none","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":13,"content_fnv1a64":"09b39b929cce9db2","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":false,"attributes":null,"query_error":2,"content_bytes":null,"content_fnv1a64":null,"content_error":null,"content_state":"unavailable"}},"after":{"source":{"exists":false,"attributes":null,"query_error":2,"content_bytes":null,"content_fnv1a64":null,"content_error":null,"content_state":"unavailable"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":13,"content_fnv1a64":"09b39b929cce9db2","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":1,"expected_rejections":0,"expected_standard_rejections":0}
+First publication passed.
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":3,"utc_filetime":134360027145875636,"utc":"2026-10-09T06:58:34.587Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"begin","outcome":"begin","phase":"closed_target","operation":"publish","iteration":null,"reader_share":0,"held_reader":"none","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":10,"content_fnv1a64":"4127320af4c87fbd","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":13,"content_fnv1a64":"09b39b929cce9db2","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":10,"content_fnv1a64":"4127320af4c87fbd","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":13,"content_fnv1a64":"09b39b929cce9db2","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":2,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":4,"utc_filetime":134360027145920686,"utc":"2026-10-09T06:58:34.592Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"success","outcome":"success","phase":"closed_target","operation":"publish","iteration":null,"reader_share":0,"held_reader":"none","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":10,"content_fnv1a64":"4127320af4c87fbd","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":13,"content_fnv1a64":"09b39b929cce9db2","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":false,"attributes":null,"query_error":2,"content_bytes":null,"content_fnv1a64":null,"content_error":null,"content_state":"unavailable"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":10,"content_fnv1a64":"4127320af4c87fbd","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":2,"expected_rejections":0,"expected_standard_rejections":0}
+Closed-target replacement passed.
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":5,"utc_filetime":134360027145920686,"utc":"2026-10-09T06:58:34.592Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"begin","outcome":"begin","phase":"shared_reader","operation":"publish","iteration":0,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4fa2320b1999c443","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":10,"content_fnv1a64":"4127320af4c87fbd","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4fa2320b1999c443","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":10,"content_fnv1a64":"4127320af4c87fbd","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":3,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":6,"utc_filetime":134360027145940692,"utc":"2026-10-09T06:58:34.594Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"success","outcome":"success","phase":"shared_reader","operation":"publish","iteration":0,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4fa2320b1999c443","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":10,"content_fnv1a64":"4127320af4c87fbd","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":false,"attributes":null,"query_error":2,"content_bytes":null,"content_fnv1a64":null,"content_error":null,"content_state":"unavailable"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4fa2320b1999c443","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":3,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":7,"utc_filetime":134360027145950719,"utc":"2026-10-09T06:58:34.595Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"begin","outcome":"begin","phase":"shared_reader","operation":"publish","iteration":1,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4760b8bb3ed24538","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4fa2320b1999c443","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4760b8bb3ed24538","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4fa2320b1999c443","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":4,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":8,"utc_filetime":134360027145970691,"utc":"2026-10-09T06:58:34.597Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"success","outcome":"success","phase":"shared_reader","operation":"publish","iteration":1,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4760b8bb3ed24538","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4fa2320b1999c443","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":false,"attributes":null,"query_error":2,"content_bytes":null,"content_fnv1a64":null,"content_error":null,"content_state":"unavailable"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4760b8bb3ed24538","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":4,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":9,"utc_filetime":134360027145980722,"utc":"2026-10-09T06:58:34.598Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"begin","outcome":"begin","phase":"shared_reader","operation":"publish","iteration":2,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"34876c2607cfc2f9","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4760b8bb3ed24538","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"34876c2607cfc2f9","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4760b8bb3ed24538","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":5,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":10,"utc_filetime":134360027145990693,"utc":"2026-10-09T06:58:34.599Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"success","outcome":"success","phase":"shared_reader","operation":"publish","iteration":2,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"34876c2607cfc2f9","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4760b8bb3ed24538","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":false,"attributes":null,"query_error":2,"content_bytes":null,"content_fnv1a64":null,"content_error":null,"content_state":"unavailable"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"34876c2607cfc2f9","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":5,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":11,"utc_filetime":134360027146005724,"utc":"2026-10-09T06:58:34.600Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"begin","outcome":"begin","phase":"shared_reader","operation":"publish","iteration":3,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"118e4e4b252627a6","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"34876c2607cfc2f9","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"118e4e4b252627a6","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"34876c2607cfc2f9","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":6,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":12,"utc_filetime":134360027146025774,"utc":"2026-10-09T06:58:34.602Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"success","outcome":"success","phase":"shared_reader","operation":"publish","iteration":3,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"118e4e4b252627a6","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"34876c2607cfc2f9","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":false,"attributes":null,"query_error":2,"content_bytes":null,"content_fnv1a64":null,"content_error":null,"content_state":"unavailable"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"118e4e4b252627a6","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":6,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":13,"utc_filetime":134360027146035760,"utc":"2026-10-09T06:58:34.603Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"begin","outcome":"begin","phase":"shared_reader","operation":"publish","iteration":4,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"192bf54b68672057","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"118e4e4b252627a6","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"192bf54b68672057","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"118e4e4b252627a6","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":7,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":14,"utc_filetime":134360027146045761,"utc":"2026-10-09T06:58:34.604Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"success","outcome":"success","phase":"shared_reader","operation":"publish","iteration":4,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"192bf54b68672057","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"118e4e4b252627a6","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":false,"attributes":null,"query_error":2,"content_bytes":null,"content_fnv1a64":null,"content_error":null,"content_state":"unavailable"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"192bf54b68672057","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":7,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":15,"utc_filetime":134360027146055768,"utc":"2026-10-09T06:58:34.605Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"begin","outcome":"begin","phase":"shared_reader","operation":"publish","iteration":5,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"9dd59f74f9191a7c","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"192bf54b68672057","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"9dd59f74f9191a7c","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"192bf54b68672057","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":8,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":16,"utc_filetime":134360027146075768,"utc":"2026-10-09T06:58:34.607Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"success","outcome":"success","phase":"shared_reader","operation":"publish","iteration":5,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"9dd59f74f9191a7c","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"192bf54b68672057","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":false,"attributes":null,"query_error":2,"content_bytes":null,"content_fnv1a64":null,"content_error":null,"content_state":"unavailable"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"9dd59f74f9191a7c","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":8,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":17,"utc_filetime":134360027146085776,"utc":"2026-10-09T06:58:34.608Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"begin","outcome":"begin","phase":"shared_reader","operation":"publish","iteration":6,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"0d039c734595cdfd","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"9dd59f74f9191a7c","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"0d039c734595cdfd","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"9dd59f74f9191a7c","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":9,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":18,"utc_filetime":134360027146095773,"utc":"2026-10-09T06:58:34.609Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"success","outcome":"success","phase":"shared_reader","operation":"publish","iteration":6,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"0d039c734595cdfd","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"9dd59f74f9191a7c","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":false,"attributes":null,"query_error":2,"content_bytes":null,"content_fnv1a64":null,"content_error":null,"content_state":"unavailable"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"0d039c734595cdfd","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":9,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":19,"utc_filetime":134360027146105786,"utc":"2026-10-09T06:58:34.610Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"begin","outcome":"begin","phase":"shared_reader","operation":"publish","iteration":7,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4d9d53ffa0e6f3ba","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"0d039c734595cdfd","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4d9d53ffa0e6f3ba","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"0d039c734595cdfd","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":10,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":20,"utc_filetime":134360027146127480,"utc":"2026-10-09T06:58:34.612Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"success","outcome":"success","phase":"shared_reader","operation":"publish","iteration":7,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4d9d53ffa0e6f3ba","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"0d039c734595cdfd","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":false,"attributes":null,"query_error":2,"content_bytes":null,"content_fnv1a64":null,"content_error":null,"content_state":"unavailable"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4d9d53ffa0e6f3ba","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":10,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":21,"utc_filetime":134360027146137506,"utc":"2026-10-09T06:58:34.613Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"begin","outcome":"begin","phase":"shared_reader","operation":"publish","iteration":8,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"a0bc3d4bc3ca066b","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4d9d53ffa0e6f3ba","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"a0bc3d4bc3ca066b","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4d9d53ffa0e6f3ba","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":null,"error_code":null,"error_category":null,"failure_class":null,"message":null,"exception_type":null,"operation_events":11,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":22,"utc_filetime":134360027146157481,"utc":"2026-10-09T06:58:34.615Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"unexpected_failure","outcome":"unexpected_failure","phase":"shared_reader","operation":"publish","iteration":8,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"a0bc3d4bc3ca066b","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4d9d53ffa0e6f3ba","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"a0bc3d4bc3ca066b","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4d9d53ffa0e6f3ba","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":1175,"error_code":1175,"error_category":"system","failure_class":"win32_system_error","message":"Cannot publish benchmark status; api=ReplaceFileW flags=0: [NON-UTF-8-BYTE-0xCE]޷[NON-UTF-8-BYTE-0xA8]ɾ[NON-UTF-8-BYTE-0xB3][NON-UTF-8-BYTE-0xFD]Ҫ[NON-UTF-8-BYTE-0xB1][NON-UTF-8-BYTE-0xBB][NON-UTF-8-BYTE-0xCC]滻[NON-UTF-8-BYTE-0xB5][NON-UTF-8-BYTE-0xC4][NON-UTF-8-BYTE-0xCE]ļ[NON-UTF-8-BYTE-0xFE][NON-UTF-8-BYTE-0xA1][NON-UTF-8-BYTE-0xA3]","exception_type":"class std::system_error","operation_events":11,"expected_rejections":0,"expected_standard_rejections":0}
+{"kind":"publication_test","suite":"foundation.files","run_id":"42396-134360027145845601","sequence":23,"utc_filetime":134360027146157481,"utc":"2026-10-09T06:58:34.615Z","pid":42396,"tid":1288,"config":null,"source_sha":null,"exe_sha":null,"event":"outer_failure","outcome":"outer_failure","phase":"shared_reader","operation":"publish","iteration":8,"reader_share":7,"held_reader":"target","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\foundation\\file-probes\\12500451227600-42396","before":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"a0bc3d4bc3ca066b","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4d9d53ffa0e6f3ba","content_error":0,"content_truncated":false,"content_state":"observed"}},"after":{"source":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"a0bc3d4bc3ca066b","content_error":0,"content_truncated":false,"content_state":"observed"},"target":{"exists":true,"attributes":32,"query_error":0,"content_bytes":11,"content_fnv1a64":"4d9d53ffa0e6f3ba","content_error":0,"content_truncated":false,"content_state":"observed"}},"numeric_win32":1175,"error_code":1175,"error_category":"system","failure_class":"win32_system_error","message":"Cannot publish benchmark status; api=ReplaceFileW flags=0: [NON-UTF-8-BYTE-0xCE]޷[NON-UTF-8-BYTE-0xA8]ɾ[NON-UTF-8-BYTE-0xB3][NON-UTF-8-BYTE-0xFD]Ҫ[NON-UTF-8-BYTE-0xB1][NON-UTF-8-BYTE-0xBB][NON-UTF-8-BYTE-0xCC]滻[NON-UTF-8-BYTE-0xB5][NON-UTF-8-BYTE-0xC4][NON-UTF-8-BYTE-0xCE]ļ[NON-UTF-8-BYTE-0xFE][NON-UTF-8-BYTE-0xA1][NON-UTF-8-BYTE-0xA3]","exception_type":"class std::system_error","operation_events":11,"expected_rejections":0,"expected_standard_rejections":0}
+Cannot publish benchmark status; api=ReplaceFileW flags=0: [NON-UTF-8-BYTE-0xCE]޷[NON-UTF-8-BYTE-0xA8]ɾ[NON-UTF-8-BYTE-0xB3][NON-UTF-8-BYTE-0xFD]Ҫ[NON-UTF-8-BYTE-0xB1][NON-UTF-8-BYTE-0xBB][NON-UTF-8-BYTE-0xCC]滻[NON-UTF-8-BYTE-0xB5][NON-UTF-8-BYTE-0xC4][NON-UTF-8-BYTE-0xCE]ļ[NON-UTF-8-BYTE-0xFE][NON-UTF-8-BYTE-0xA1][NON-UTF-8-BYTE-0xA3]
+</system-out>
+	</testcase>
+	<testcase name="assets.contracts" classname="assets.contracts" time="0.161096" status="run">
+		<properties/>
+		<system-out>Asset path contracts and relocated-package probes passed.
+</system-out>
+	</testcase>
+	<testcase name="assets.from_source_directory" classname="assets.from_source_directory" time="0.330535" status="run">
+		<properties/>
+		<system-out>Asset path contracts and relocated-package probes passed.
+</system-out>
+	</testcase>
+	<testcase name="assets.image_decode" classname="assets.image_decode" time="0.0168724" status="run">
+		<properties/>
+		<system-out>CPU image decoding, ownership and error contracts passed.
+</system-out>
+	</testcase>
+	<testcase name="ecs.registry" classname="ecs.registry" time="0.0112388" status="run">
+		<properties/>
+		<system-out>Registry public typed facade and private storage lifecycle passed.
+</system-out>
+	</testcase>
+	<testcase name="world.mesh_safety" classname="world.mesh_safety" time="0.0336613" status="run">
+		<properties/>
+		<system-out>Mesh safety, immutable chunk lifetime and explicit-world ownership tests passed.
+</system-out>
+	</testcase>
+	<testcase name="world.block_config" classname="world.block_config" time="0.0174461" status="run">
+		<properties/>
+		<system-out>Block definition validation and value-ownership contracts passed.
+</system-out>
+	</testcase>
+	<testcase name="world.generation" classname="world.generation" time="0.548503" status="run">
+		<properties/>
+		<system-out>generator_version=1; seed=424242; radius=3; terrain=fnv1a64:d88ef364525f7355; scene=fnv1a64:945aefc4a381a591; edited=fnv1a64:97eb7834bae64491
+</system-out>
+	</testcase>
+	<testcase name="world.contract" classname="world.contract" time="0.422158" status="run">
+		<properties/>
+		<system-out>scratch_capacity_bytes=96; scratch_growths=1; A-B-A builds=2
+World isolation, integer edits, publication, failure recovery, scratch reuse and version/visit contracts passed.
+</system-out>
+	</testcase>
+	<testcase name="world.allocations" classname="world.allocations" time="1.10067" status="run">
+		<properties/>
+		<system-out>failure sweep Definition allocation failure leaked C++ owned resources: ordinal=0
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=256
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=512
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=768
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=1024
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=1280
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=1536
+failure sweep Factory/Chunk/noise allocation failure leaked C++ owned resources: ordinal=0
+failure sweep Generator/noise allocation failure leaked C++ owned resources: ordinal=0
+Real C++ allocation failure sweep passed: definition=1747; factory=57; generator/noise=1; scratch/output=28. Every failed ordinal released tracked resources after owner destruction; retries used same mesher.
+</system-out>
+	</testcase>
+	<testcase name="player.math" classname="player.math" time="0.023119" status="run">
+		<properties/>
+		<system-out>Player fixed-step, voxel-ray, and placement contracts passed.
+</system-out>
+	</testcase>
+	<testcase name="simulation.contracts" classname="simulation.contracts" time="0.0458717" status="run">
+		<properties/>
+		<system-out>Current block is Sand
+Current block is Dirt
+Current block is Grass
+Current block is Cobble Stone
+Simulation explicit-input, camera and deferred-interaction contracts passed
+</system-out>
+	</testcase>
+	<testcase name="performance.export" classname="performance.export" time="0.205408" status="run">
+		<properties/>
+		<system-out>{"kind":"publication_test","suite":"performance.export","run_id":"10724-134360027173643509","sequence":1,"utc_filetime":134360027173653497,"utc":"2026-10-09T06:58:37.365Z","pid":10724,"tid":42900,"config":null,"source_sha":null,"exe_sha":null,"event":"begin","outcome":"begin","phase":"init_normal","operation":"telemetry_initialize","iteration":null,"reader_share":0,"held_reader":"none","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\telemetry\\performance-probes\\12503231214300-10724\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\telemetry\\performance-probes\\12503231214300-10724\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-cpu-release-001\\test\\unit\\telemetry\\performance-probes\\12503231214300-10724","before":{"source":{"exists":false,"attributes":null,"query_error":3,"content_bytes"...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="input.key_snapshot" classname="input.key_snapshot" time="0.0106477" status="run">
+		<properties/>
+		<system-out>Complete key snapshot and sticky-consumption contracts passed.
+</system-out>
+	</testcase>
+	<testcase name="core.startup_options" classname="core.startup_options" time="0.0096469" status="run">
+		<properties/>
+		<system-out>Startup seed, scene, checkpoint and mode contracts passed.
+</system-out>
+	</testcase>
+	<testcase name="core.cleanup_sequence" classname="core.cleanup_sequence" time="0.0089978" status="run">
+		<properties/>
+		<system-out>Ordered application cleanup, failure isolation and repeated-release contracts passed.
+</system-out>
+	</testcase>
+	<testcase name="renderer.public_api_consumer" classname="renderer.public_api_consumer" time="0.0100109" status="run">
+		<properties/>
+		<system-out>R2 public API shape and real production symbols linked; no backend or GPU acceptance.
+</system-out>
+	</testcase>
+	<testcase name="renderer.facade_contract" classname="renderer.facade_contract" time="0.012213" status="run">
+		<properties/>
+		<system-out>R2 real facade CPU lifecycle: 235 checks passed with test-only recording backend; no GPU or production backend acceptance.
+</system-out>
+	</testcase>
+	<testcase name="architecture.source_boundaries" classname="architecture.source_boundaries" time="0.414655" status="run">
+		<properties/>
+		<system-out>-- Production source boundaries passed
+</system-out>
+	</testcase>
+	<testcase name="architecture.negative_boundaries" classname="architecture.negative_boundaries" time="5.74818" status="run">
+		<properties/>
+		<system-out>-- Rejected world-renderer
+-- Rejected simulation-platform
+-- Rejected module-app
+-- Rejected production-test
+-- Rejected private-cross-include
+-- Rejected public-sdk
+-- Accepted sdl-platform-source
+-- Rejected sdl-platform-public
+-- Rejected sdl-platform-bridge
+-- Accepted sdl-platform-bridge-source
+-- Rejected sdl-renderer-source
+-- Rejected sdl-app-source
+-- Rejected sdl-cpu-source
+-- Rejected sdl-relative-vendor
+-- Rejected sdl-relative-platform-vendor
+-- Rejected glfw-platform-source
+-- Rejected glfw-renderer-source
+-- Rejected glfw-app-source
+-- Rejected glfw-cpu-source
+-- Rejected glfw-platform-public
+-- Rejected glfw-relative-vendor
+-- Rejected glfw-target-unlinked during real CMake configuration
+-- Rejected glfw-target-renamed during real CMake configuration
+-- Rejected glfw-link-platform during real CMake configuration
+-- Rejected glfw-link-platform-expression during real CMake configuration
+-- Rejected glfw-link-app during real CMake configuration
+-- Rejected glfw-link-library during real CMake con...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="architecture.renderer_boundaries" classname="architecture.renderer_boundaries" time="0.314882" status="run">
+		<properties/>
+		<system-out>-- Actual renderer target, public compile, private native linkage, and CPU-only SDK absence passed; no GPU acceptance.
+</system-out>
+	</testcase>
+</testsuite>

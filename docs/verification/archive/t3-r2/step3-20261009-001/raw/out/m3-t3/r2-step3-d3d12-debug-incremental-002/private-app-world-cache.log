@@ -1,0 +1,9 @@
+[0/2] Re-checking globbed directories...
+[1/9] Synchronizing required SymoCraft runtime assets
+[2/9] Building CXX object game\app\CMakeFiles\symocraft_app_render_data.dir\src\world_render_cache.cpp.obj
+[3/9] Linking CXX static library game\app\symocraft_app_render_data.lib
+[4/9] Building CXX object test\unit\app\CMakeFiles\app_render_cache_tests.dir\render_cache_tests.cpp.obj
+[5/9] Linking CXX executable test\unit\app\app_render_conversion_tests.exe
+[6/9] Linking CXX executable test\unit\app\app_render_cache_tests.exe
+[7/9] Building CXX object game\app\CMakeFiles\SymoCraft.dir\src\game_renderer.cpp.obj
+[8/9] Linking CXX executable bin\SymoCraft.exe

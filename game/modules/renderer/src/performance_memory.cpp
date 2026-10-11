@@ -1,8 +1,6 @@
 #include <glad/glad.h>
-#include <symocraft/renderer/renderer.h>
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include <stb/stb_image_write.h>
-#include <stdexcept>
+#include <symocraft/renderer/legacy_renderer.h>
+#include <symocraft/assets/image.h>
 #include <vector>
 
 namespace SymoCraft::Renderer {
@@ -12,9 +10,7 @@ namespace SymoCraft::Renderer {
         glReadBuffer(GL_BACK);
         glPixelStorei(GL_PACK_ALIGNMENT, 1);
         glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
-        stbi_flip_vertically_on_write(1);
-        if (!stbi_write_png(path.string().c_str(), width, height, 3, pixels.data(), width * 3))
-            throw std::runtime_error("Cannot write benchmark screenshot");
+        Assets::WritePng(path, width, height, 3, pixels, true);
     }
 
     DeviceMemory SampleDeviceMemory()

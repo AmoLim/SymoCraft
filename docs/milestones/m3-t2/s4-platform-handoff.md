@@ -10,11 +10,13 @@ tags:
   - topic/platform
 ---
 
+> 2026-10-11 文档浓缩后已退役复核源：现行入口见 [权威位置](../../verification/VERIFICATION.md#原位置保留的历史材料)；原文保留点时反馈、历史身份和复核依据，不再维护为当前机制或活动计划，旧勾选不产生新批准。
+
 # M3-T2 S4 平台交接给 T3
 
-本页落实 [T2 正式计划](../../spec/M3-T2-SDL3迁移.md) 的 S4：将已经实现且有对应验证范围的平台能力交给 T3-R1 核对，不实现生产 D3D12/Vulkan 后端，也不冻结候选 `Rendering::Renderer` v1。阶段状态、最新验证与包冻结记录以 [T2 实施记录](README.md) 为准；历史事实分别由 [S2 验证身份](evidence/s2-validation.json) 和 [S3 验证身份](evidence/s3-validation.json) 支持，不能把本页源码核对当成本轮重新运行了其测试。
+本页落实 [T2 正式计划](../../openspec/specs/platform/spec.md) 的 S4：将已经实现且有对应验证范围的平台能力交给 T3-R1 核对，不实现生产 D3D12/Vulkan 后端，也不冻结候选 `Rendering::Renderer` v1。阶段状态、最新验证与包冻结记录以 [T2 实施记录](README.md) 为准；历史事实分别由 [S2 验证身份](../../verification/archive/milestone-evidence-20261011/m3-t2/evidence/s2-validation.json) 和 [S3 验证身份](../../verification/archive/milestone-evidence-20261011/m3-t2/evidence/s3-validation.json) 支持，不能把本页源码核对当成本轮重新运行了其测试。
 
-2026-10-09 用户明确批准 [T2 节点正式通过](README.md#t2-正式节点批准)，并确认 MB01 方案2（704 / 1408 MiB），FB01 方案2保持。T3 的 T2 节点批准前置已解除，R1/v1 冻结及 R2 授权仍独立核对。正式同源 Q06 未完成、首次可操作预算未定及 Win32 1175/Fix1 暂停等保留为 [遗留事实](../../spec/M3-T2-SDL3迁移.md#节点批准与遗留事项)，不将节点批准伪称为这些验证已通过；下方历史门槛不覆盖该明确批准。
+2026-10-09 用户明确批准 [T2 节点正式通过](README.md#t2-正式节点批准)，并确认 MB01 方案2（704 / 1408 MiB），FB01 方案2保持。T3 的 T2 节点批准前置已解除，R1/v1 冻结及 R2 授权仍独立核对。正式同源 Q06 未完成、首次可操作预算未定及 Win32 1175/Fix1 暂停等保留为 [遗留事实](../../verification/VERIFICATION.md#关键节点)，不将节点批准伪称为这些验证已通过；下方历史门槛不覆盖该明确批准。
 
 2026-10-08 用户授权冻结可运行的 S3 验证包并继续下一阶段；当时暂缓 Y9000P，后续最新确认已将 M3 功能/兼容验收改为仅本机 RTX 5070 Ti，见 [[project-scope#M3 本机 RTX 5070 Ti 验收与下一玩法阶段性能门槛|最新验收范围]]。当前 [S3 人工清单](s3-manual-verification.md) 的开发桌面 H01–H15 已由用户填写通过（H14 原文为 `passs`），包括 H04/H07；这是人工反馈，不另行要求重复确认。包/机器/布局/DPI 条件、分项数值和 Benchmark 协议材料仍须按实际证据绑定，不能仅由一列通过补造完整矩阵。真实硬件工具记录可核对来源与正常退出，但不能代替未取得的完整 DPI/Benchmark 数值证据。Y9000P 格保留历史未执行状态，不作为 S3/T2 的当前前置；整体验收状态仍独立保留。
 
@@ -28,8 +30,8 @@ T3 已另获并行进行独立 D3D12 前置实验的授权，本机 RTX 5070 Ti 
 | [Window 实现](../../../game/modules/platform/src/window.cpp) / [真实输入 reducer](../../../game/modules/platform/src/input_state.h) | SDL 只在 platform 私有实现，模式检查、像素查询、输入同步与资源释放 |
 | [GL 私有桥](../../../game/modules/platform/src/graphics_bridge/graphics_bridge.h) / [Native 私有桥](../../../game/modules/platform/src/graphics_bridge/native_bridge.h) / [Vulkan 私有桥](../../../game/modules/platform/src/graphics_bridge/vulkan_bridge.h) | 各 API 的实际签名、借用期与错误表达 |
 | [当前 renderer](../../../game/modules/renderer/src/renderer.cpp) / [当前 app](../../../game/app/src/application.cpp) | 当前 GL AttachContext/Render/Present 与帧边界处理，非候选 Renderer v1 |
-| [边界授权](../../../cmake/ModuleBoundaries.cmake) / [构建与测试边界](../../project/architecture/build/构建与测试边界.md) | 精确私有头白名单、SDL 私有依赖以及 CPU/工具隔离 |
-| [T3 候选 spec](../../spec/M3-T3-渲染器重构.md) / [CPU 交接清单](../../spec/M3-T1-T3-CPU契约清单.md) | 后端先行方向与冻结门槛；纹理数组、中立相机仍属 T3 候选 |
+| [边界授权](../../../cmake/ModuleBoundaries.cmake) / [构建与测试边界](../../verification/archive/project-history-20261011/architecture/build/构建与测试边界.md) | 精确私有头白名单、SDL 私有依赖以及 CPU/工具隔离 |
+| [T3 候选 spec](../../openspec/changes/m3-t3-renderer/proposal.md) / [CPU 交接清单](../../openspec/changes/m3-t3-renderer/design.md#architecture) | 后端先行方向与冻结门槛；纹理数组、中立相机仍属 T3 候选 |
 
 本文的 `Window` 不表示新增 `Platform::Window` 类。`GraphicsBridge`、`NativeBridge`、`VulkanBridge` 位于 `SymoCraft::Platform`，通过授权私有友元访问 `SymoCraft::Window`，不改变窗口类型所有者。
 
@@ -134,7 +136,7 @@ platform 私有链接 `SDL3::SDL3-static`、私有定义 `SDL_MAIN_HANDLED`，�
 
 ## 证明范围与待办
 
-本轮 S4 声明/边界核对结果见 [验证身份](evidence/s4-validation.json)：Debug/Release 各 4/4 独立公开/GL/Native/Vulkan 消费者、无 Vulkan SDK 路径的 Release 3/3，以及生产边界脚本 45/45。它们只编译真实声明并检查 CPU 默认值，不链接生产库或执行 SDL/GPU；下表真实桥接成绩是有各自原始身份的既有结果，不是本轮声明测试取得的新硬件成绩。S3 冻结包及 ZIP 校验见 [冻结身份](evidence/s3-freeze.json)。
+本轮 S4 声明/边界核对结果见 [验证身份](../../verification/archive/milestone-evidence-20261011/m3-t2/evidence/s4-validation.json)：Debug/Release 各 4/4 独立公开/GL/Native/Vulkan 消费者、无 Vulkan SDK 路径的 Release 3/3，以及生产边界脚本 45/45。它们只编译真实声明并检查 CPU 默认值，不链接生产库或执行 SDL/GPU；下表真实桥接成绩是有各自原始身份的既有结果，不是本轮声明测试取得的新硬件成绩。S3 冻结包及 ZIP 校验见 [冻结身份](../../verification/archive/milestone-evidence-20261011/m3-t2/evidence/s3-freeze.json)。
 
 | 能力 | 已有证据范围 | 保留的限制 |
 | --- | --- | --- |

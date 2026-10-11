@@ -2,7 +2,7 @@
 
 Symocraft 是一个面向 Windows x64 的 C++20 单机体素游戏工程，由课程原型逐步演进为可维护、可测量的图形与游戏引擎项目。项目同时关注游戏玩法、模块契约，以及从世界模拟到 GPU 呈现的数据流。
 
-当前可玩路径使用 **SDL3 + OpenGL 4.6 Core**，支持固定世界中的移动、跳跃、方块放置与破坏。现代渲染路线是先由 **D3D12** 接管现有玩法，再接入 **Vulkan**；OpenGL 仅作为过渡与回归对照，不以永久维护三个等价后端为目标。现代后端实验不等于生产玩法接管已经完成。
+默认可玩路径使用 **SDL3 + OpenGL 4.6 Core**，支持固定世界中的移动、跳跃、方块放置与破坏。**D3D12 已接入同一游戏循环并交付生产候选**，需显式启用构建和运行选项；人工玩法及 R3 整组验收尚未完成。后续接入 **Vulkan**；OpenGL 仅作为过渡与回归对照，不以永久维护三个等价后端为目标。
 
 完整范围、阶段 spec 与验收约定见 [项目约定](docs/README.md#项目约定)；实现说明和验证证据从 [技术文档](docs/README.md) 进入。
 
@@ -16,7 +16,7 @@ Symocraft 是一个面向 Windows x64 的 C++20 单机体素游戏工程，由�
 - **性能观测**：CPU 模拟、网格和上传成本，异步 GPU 绘制计时、present 等待、内存及绘制统计；CPU 提交时间不冒充 GPU 执行时间。
 - **Benchmark**：独立 Windows 原生执行器，支持 static / walk / edit 场景、重复采样、取消、重试与结果导出。
 
-M3-T0 模块迁移和 M3-T1 世界重构已有实现与阶段证据。**M3-T2 已于 2026-10-09 获正式节点批准**；T3 现代渲染接管仍在推进。节点批准不代表所有遗留问题、性能预算或整个 M3 已通过，详细状态以各阶段报告为准。
+M3-T0 模块迁移和 M3-T1 世界重构已有实现与阶段证据。**M3-T2 已于 2026-10-09 获正式节点批准**；T3 R1 已冻结，R2 顺序1至4已交付 D3D12 门面、后端、游戏转接与候选包。默认切换、Vulkan 和完整 T3 验收未完成，关键节点与归档以 [验证索引](docs/verification/VERIFICATION.md) 为准。
 
 ## 项目范围与方向
 
@@ -51,7 +51,7 @@ out/            本机构建、运行包与采样产物，不纳入版本控制
 | --- | --- |
 | foundation | 基础类型、文件与通用底层契约 |
 | scene | 中立场景数据与共享数据契约 |
-| assets | 资源读取与图像解码 |
+| assets | 资源定位、图像解码与 PNG 写出 |
 | ecs | 实体与组件存储 |
 | world | 世界生成、查询、编辑及 CPU 网格 |
 | simulation | 角色运动、碰撞与模拟推进 |
@@ -59,13 +59,13 @@ out/            本机构建、运行包与采样产物，不纳入版本控制
 | renderer | 图形资源、绘制与后端实现 |
 | telemetry | 性能采样、统计与导出 |
 
-模块职责、依赖方向和公开接口见 [架构索引](docs/project/architecture/Overview.md)。物理核心的进一步独立化、渲染 PImpl 与现代后端属于后续重构路线，不能由目录名称推定已经完成。
+模块职责、依赖方向和公开接口见 [架构索引](docs/architecture/Overview.md)。Renderer PImpl 与私有 D3D12 后端已有实现，CPU-only 可消费无图形 SDK 的门面；独立物理 target、Vulkan 与计算服务仍是后续计划，不由目录名称推定完成。
 
 ## 构建与测试
 
 开发环境：**CLion + MSVC + CMake**。需要 Visual Studio 2022 C++ 工具、Windows SDK、英语编译器语言包、CMake 3.22 或更新版本，以及 Ninja。共享 presets 使用 `VSLANG=1033`；支持 CLion 自带的 CMake 和 Ninja。
 
-当前游戏需要实际支持 OpenGL 4.6 Core 的驱动。CPU-only 和资源单元测试不需要窗口或 GPU；真实图形验证仍需对应设备与驱动。
+默认 OpenGL 游戏需要实际支持 OpenGL 4.6 Core 的驱动。D3D12 构建另需 SDK 的 D3D12/DXGI 头和库、DXC（不是 FXC）及 Python 3.10+；当前候选仍包含旧 GL 对照路径。CPU-only 和资源单元测试不需要窗口或 GPU；真实图形验证仍需对应设备与驱动。
 
 在已初始化的 x64 Visual Studio 开发终端中执行：
 
@@ -79,16 +79,18 @@ cmake --build --preset windows-release
 ctest --preset windows-release --no-tests=error
 ```
 
-普通 64 位 PowerShell 可使用辅助脚本：
+普通终端可使用 Python 3.10+ 辅助脚本（Windows 构建需要 64 位 Python）：
 
 ```powershell
-./scripts/build.ps1 -Configuration Debug -CLionPath 'C:/path/to/CLion'
-./scripts/build.ps1 -Configuration Release -Action Install -CLionPath 'C:/path/to/CLion'
+python scripts/build.py --configuration Debug --clion-path 'C:/path/to/CLion'
+python scripts/build.py --configuration Release --action Install --clion-path 'C:/path/to/CLion'
 ```
 
 将 CLion 路径替换为实际安装位置，或设置 `CLION_HOME`。脚本默认执行配置、构建与测试，不安装工具或修改系统设置；Install 动作在检查后生成开发用安装目录。
 
-CLion 中使用名为 **Symocraft MSVC** 的 Visual Studio toolchain，选择 amd64/x64 并启用两个 presets。详见 [构建与 CLion 指南](docs/project/build/build-and-clion.md)。
+`scripts/` 的构建、benchmark、运行验证、资源故障验证及输入快照逻辑均使用 Python 标准库。旧 `.ps1` 仅作为启动兼容层保留，不再承载业务逻辑；新命令直接使用 `.py`。入口、参数和迁移边界见 [脚本说明](scripts/README.md)。
+
+CLion 中使用名为 **Symocraft MSVC** 的 Visual Studio toolchain，选择 amd64/x64 并启用两个 presets。工具参数见 [脚本说明](scripts/README.md)，正确性边界见 [工程契约](docs/architecture/engineering.md)。
 
 ### 独立构建边界
 
@@ -100,17 +102,20 @@ CLion 中使用名为 **Symocraft MSVC** 的 Visual Studio toolchain，选择 am
 | `SYMOCRAFT_BUILD_BENCHMARK` | 构建原生 Benchmark |
 | `SYMOCRAFT_BUILD_CPU_MODULES` | 构建 CPU 模块 |
 | `SYMOCRAFT_CPU_ONLY` | 仅构建 CPU 模块及适用测试，关闭游戏和 Benchmark |
+| `SYMOCRAFT_RENDER_D3D12` | 默认 OFF；启用私有 D3D12 后端，不改变游戏默认 OpenGL；要求游戏构建，CPU-only 会强制关闭 |
 | `BUILD_TESTING` | 是否构建测试 |
 
 例如，在上述开发终端中建立独立 CPU-only 目录：
 
 ```powershell
 cmake --preset windows-debug -B out/build/cpu-debug -DSYMOCRAFT_CPU_ONLY=ON
-cmake --build out/build/cpu-debug
+cmake -E env VSLANG=1033 cmake --build out/build/cpu-debug
 ctest --test-dir out/build/cpu-debug --output-on-failure --no-tests=error
 ```
 
 测试覆盖资源定位、世界确定性与编辑、模块契约、失败清理等行为。Shader 加载单元测试使用驱动替身，不能代替真实 GLSL 编译；真实 SDL3、窗口输入和 GPU 实验各自留证，不用 CPU 测试推定图形或人工玩法通过。
+
+自定义目录的直接 build 不继承 configure preset 环境，须全程保持 `VSLANG=1033`；示例显式传入该变量。VS x64 环境与英语编译器语言包仍须预先具备。
 
 ## 运行
 
@@ -129,7 +134,20 @@ ctest --test-dir out/build/cpu-debug --output-on-failure --no-tests=error
 - 普通启动使用随机 seed 并记录实际值；指定 seed 仅保证在相同生成版本、配置及构建环境下复现初始世界，不承诺任意编译器或平台间一致。
 - `--world-summary` 无窗口输出 YAML；`--test-edits` 是固定启动编辑序列，不是玩家输入回放。
 
-回归场景与 checkpoint 见 [固定世界与边界场景](docs/project/benchmark/testing/reproducible-scenes.md)。完整游戏的旧资源加载路径在 Unicode 支持验证完成前，建议使用 ASCII 安装路径。
+回归场景与 checkpoint 见 [共享场景](docs/verification/scenarios.md)。完整游戏的旧资源加载路径在 Unicode 支持验证完成前，建议使用 ASCII 安装路径。
+
+### D3D12 候选
+
+在已初始化的 x64 Visual Studio 开发终端中，用独立目录构建：
+
+```powershell
+cmake --preset windows-release -B out/m3-t3/d3d12-release -DSYMOCRAFT_RENDER_D3D12=ON -DSYMOCRAFT_BUILD_BENCHMARK=OFF
+cmake -E env VSLANG=1033 cmake --build out/m3-t3/d3d12-release
+ctest --test-dir out/m3-t3/d3d12-release --output-on-failure --no-tests=error
+./out/m3-t3/d3d12-release/bin/SymoCraft.exe --renderer d3d12 --smoke-frames 120 --seed 424242
+```
+
+当前 D3D12 POST_BUILD 身份记录要求构建目录位于 `out/m3-t3/` 下，单配置 Ninja、游戏开启、CPU-only 关闭且 Benchmark 关闭；以上例子遵循实际脚本检查，本轮未重新执行构建。`--renderer d3d12` 仅在启用该后端的构建中可用；默认仍为 `opengl`。验证层默认开启，需可用的 D3D12 Debug Layer；不具备时可显式设置 `--validation 0`，不自动降级。`vulkan` 参数已可解析，但后端未实施，具名报错且不隐式回退。候选与关键节点依据从 [验证索引](docs/verification/VERIFICATION.md) 进入。Debug 候选仅作本机开发诊断，不可对外再分发。
 
 `cmake --install out/build/windows-release` 默认生成 `out/install/windows-release`。这是开发用 staging，不是已经通过无开发环境部署验收的最终发布包。
 
@@ -156,9 +174,9 @@ ctest --test-dir out/build/cpu-debug --output-on-failure --no-tests=error
 ./out/build/windows-release/bin/SymoCraftBenchmark.exe
 ```
 
-执行器与游戏分进程运行，支持三场景采样及原始帧数据、摘要、日志和图表导出。正式冻结协议采用每场景预热 60 秒、采样 180 秒、重复三轮；失焦记录进入分析，最小化等无效条件仍独立判定。操作与交付见 [Benchmark 使用与交付](docs/project/benchmark/使用与交付.md)。
+执行器与游戏分进程运行，支持三场景采样及原始帧数据、摘要、日志和图表导出。原生 GUI 当前仍使用 OpenGL 协议，不能选择现代后端或消费现代 CSV；D3D12 独立验证器不等于 GUI 已适配。操作见 [Benchmark README](tools/benchmark/README.md)，采样与结果有效性见 [验证方法](docs/verification/methods.md)。
 
-2026-10-05 已归档三档整机的 OpenGL 基线：开发机 Ryzen 7 9700X / RTX 5070 Ti / 64 GB、指定中端 Y9000P i7-12700H / RTX 3070 Ti Laptop / 32 GB，以及指定低端 i7-10750H / GTX 1650 / 约 16 GB。具体身份、条件和结果见 [基准冻结记录](docs/project/benchmark/exp/Benchmark-基准冻结-20261005.md)。
+2026-10-05 已归档三档整机的 OpenGL 基线：开发机 Ryzen 7 9700X / RTX 5070 Ti / 64 GB、指定中端 Y9000P i7-12700H / RTX 3070 Ti Laptop / 32 GB，以及指定低端 i7-10750H / GTX 1650 / 约 16 GB。具体身份、条件和结果统一见 [验证索引](docs/verification/VERIFICATION.md)。
 
 当前 M3 功能与兼容验收限定开发本机 RTX 5070 Ti。**下一玩法功能开始实施前，仍必须验证届时候选版本在指定中低端整机上的性能**。旧 OpenGL 数据不能代替新后端实测；设备分档不是最低配置认证，数据有效也不等于性能达标或 M4 通过。
 
@@ -177,9 +195,29 @@ ctest --test-dir out/build/cpu-debug --output-on-failure --no-tests=error
 
 T2 批准未关闭 Win32 1175 文件发布问题；Fix1 当前暂停，正式同源 GLFW / SDL3 Q06 对照与首次可操作时间预算仍未完成。树叶面剔除、视角跳变等已记录问题继续保留。不要把节点批准或局部成功记录读成所有测试全绿、全部预算达标或最终发布通过。
 
-阶段入口：[T0](docs/milestones/m3-t0/README.md)、[T1](docs/milestones/m3-t1/README.md)、[T2](docs/milestones/m3-t2/README.md)、[T3](docs/milestones/m3-t3/README.md)。待处理问题见 [Issues](docs/issue/issues.md)，依赖及通知材料见 [第三方依赖盘点](docs/legacy/third-party-inventory.md)。
+当前规格和活动计划从 [文档导航](docs/README.md) 进入；milestones 保留历史交接与反馈，不维护第二套活动计划。待处理问题见 [Issues](docs/issue/issues.md)，依赖及通知材料见 [第三方依赖盘点](docs/third-party.md)。
 
 构建成功、启动成功、玩法通过、性能达标、长时稳定性和独立交付分别验收；README 是项目入口，不替代阶段证据。
+
+## OpenSpec
+
+规划材料只在 `docs/openspec/`，现役公开行为在 specs，目标/决策/唯一计划在 changes；正确性机制仍在模块架构，批准与归档只在验证索引。先读 [AGENTS](AGENTS.md) 和 [文档治理](docs/DOCUMENTATION_MAP.md)。
+
+工具复用全局 OpenSpec 1.14.1、Node 20.19+ 与 Python 3.10+，不向游戏添加 npm 依赖，也不要求 npm 全局命令已在 PATH。项目根运行：
+
+```powershell
+python tools/openspec/run.py list --json
+python tools/openspec/run.py status --change m3-t3-renderer --json
+python tools/openspec/run.py instructions proposal --change m3-t3-renderer --json
+python tools/openspec/run.py validate --all --strict --json
+python tools/openspec/check_workflows.py
+python tools/openspec/check_documents.py
+```
+
+从其他目录使用入口绝对路径。普通任务默认 symocraft-lite，复杂任务显式选 symocraft-full；按 AGENTS 独立完整预读现役 scenarios 后再起草。不在工程根直接初始化第二套目录，不手改官方技能；技能更新使用 `python tools/openspec/run.py update`。
+更新技能前暂停其他会话对托管文件的编辑。入口会拒绝检测到的并行变动，但不是文件锁或多文件事务；中断后保留现场复核，不自动回滚已发布内容。
+首次接入已隔离生成并核对官方技能；wrapper 不是安装器。schema 工具带实验性提示；沙盒 realpath 误报时申请复验，不关闭路径校验。
+原生 allowedEditRoots 只列 docs，业务 apply 前仍确认代码根授权。工具验证与任务完成不是工程验收，真实 sync/archive、提交及清场均需对应授权。原 docs/spec/旧计划只是复核现场，不持续维护。
 
 ## 学习参考
 

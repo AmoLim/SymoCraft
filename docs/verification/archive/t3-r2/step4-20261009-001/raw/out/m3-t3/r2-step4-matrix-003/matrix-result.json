@@ -1,0 +1,16 @@
+{
+  "source_root": "F:\\GameDevelop\\OpenGLProject\\Symocraft",
+  "source_input_count": 4256,
+  "source_unchanged": false,
+  "completed": false,
+  "cases": [
+    {
+      "configuration": "Debug",
+      "mode": "cpu",
+      "build_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-003\\cpu-debug",
+      "configure_exit": 0,
+      "build_exit": 0
+    }
+  ],
+  "failure": "Build inputs changed; rebuild from a stable source snapshot."
+}

@@ -1,0 +1,42 @@
+cmake_minimum_required(VERSION 3.22)
+project(SymoCraftD3D12R1CpuCandidate LANGUAGES C CXX)
+
+get_filename_component(SYMOCRAFT_REPOSITORY_ROOT "${CMAKE_CURRENT_LIST_DIR}/../../../.." ABSOLUTE)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+include(CTest)
+set(r1_testing "${BUILD_TESTING}")
+set(BUILD_TESTING OFF)
+set(SYMOCRAFT_CPU_ONLY ON CACHE BOOL "R1 uses only real CPU production targets" FORCE)
+set(SYMOCRAFT_BUILD_GAME OFF CACHE BOOL "No game or GPU dependencies in R1 CPU tests" FORCE)
+set(SYMOCRAFT_BUILD_BENCHMARK OFF CACHE BOOL "No benchmark in R1 CPU tests" FORCE)
+add_subdirectory("${SYMOCRAFT_REPOSITORY_ROOT}" production EXCLUDE_FROM_ALL)
+set(BUILD_TESTING "${r1_testing}")
+
+add_library(symocraft_r1_renderer_api INTERFACE)
+target_compile_features(symocraft_r1_renderer_api INTERFACE cxx_std_20)
+target_include_directories(symocraft_r1_renderer_api INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}")
+target_link_libraries(symocraft_r1_renderer_api INTERFACE symocraft_scene)
+
+add_executable(SymoCraftD3D12R1CandidateTests candidate_tests.cpp)
+target_link_libraries(SymoCraftD3D12R1CandidateTests PRIVATE symocraft_r1_renderer_api)
+add_executable(SymoCraftD3D12R1PublicConsumer candidate_renderer_consumer.cpp)
+target_link_libraries(SymoCraftD3D12R1PublicConsumer PRIVATE symocraft_r1_renderer_api)
+add_executable(SymoCraftD3D12R1HandoffTests handoff_tests.cpp)
+target_link_libraries(SymoCraftD3D12R1HandoffTests PRIVATE
+    symocraft_r1_renderer_api symocraft_assets symocraft_simulation)
+foreach(target IN ITEMS SymoCraftD3D12R1CandidateTests SymoCraftD3D12R1PublicConsumer SymoCraftD3D12R1HandoffTests)
+    if(MSVC)
+        target_compile_options(${target} PRIVATE /W4 /utf-8)
+    else()
+        target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic)
+    endif()
+endforeach()
+
+if(BUILD_TESTING)
+    add_test(NAME r1.candidate_contract COMMAND SymoCraftD3D12R1CandidateTests)
+    add_test(NAME r1.public_consumer COMMAND SymoCraftD3D12R1PublicConsumer)
+    add_test(NAME r1.production_handoff COMMAND SymoCraftD3D12R1HandoffTests
+        "${SYMOCRAFT_REPOSITORY_ROOT}/assets/textures/texture_atlas.png")
+    add_test(NAME r1.cpu_dependency_boundary COMMAND "${CMAKE_COMMAND}"
+        "-DBUILD_DIRECTORY=${CMAKE_BINARY_DIR}" -P "${CMAKE_CURRENT_SOURCE_DIR}/check_cpu_boundary.cmake")
+endif()

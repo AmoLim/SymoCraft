@@ -1,0 +1,14 @@
+{
+  "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\cmake-build-debug\\m0-original-host\\Debug\\SymoCraft.exe",
+  "workingDirectory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\cmake-build-debug\\m0-original-host\\Debug",
+  "startedAt": "2026-09-17T14:18:48.7504332+08:00",
+  "elapsedSeconds": 7.198,
+  "observationLimitSeconds": 15,
+  "processId": 8120,
+  "naturalExitCode": 3,
+  "forcedStopAtObservationLimit": false,
+  "sampledPeakWorkingSetBytes": 409088000,
+  "lastWindowTitle": "SymoCraft",
+  "probeError": null,
+  "interpretation": "Startup observation only; survival is not gameplay, rendering, or performance acceptance."
+}

@@ -1,0 +1,63 @@
+{
+  "source_root": "F:\\GameDevelop\\OpenGLProject\\Symocraft",
+  "source_input_count": 4244,
+  "source_unchanged": true,
+  "completed": true,
+  "cases": [
+    {
+      "configuration": "Debug",
+      "mode": "cpu",
+      "build_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\cpu-debug",
+      "configure_exit": 0,
+      "build_exit": 0,
+      "ctest_exit": 0,
+      "known_failures": [],
+      "disabled": 1,
+      "enabled_passed": 59
+    },
+    {
+      "configuration": "Debug",
+      "mode": "native",
+      "build_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug",
+      "configure_exit": 0,
+      "build_exit": 0,
+      "ctest_exit": 8,
+      "known_failures": [
+        "foundation.files"
+      ],
+      "disabled": 1,
+      "enabled_passed": 67,
+      "legacy_numeric_win32": [
+        1175
+      ]
+    },
+    {
+      "configuration": "Release",
+      "mode": "cpu",
+      "build_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\cpu-release",
+      "configure_exit": 0,
+      "build_exit": 0,
+      "ctest_exit": 0,
+      "known_failures": [],
+      "disabled": 0,
+      "enabled_passed": 60
+    },
+    {
+      "configuration": "Release",
+      "mode": "native",
+      "build_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release",
+      "configure_exit": 0,
+      "build_exit": 0,
+      "ctest_exit": 8,
+      "known_failures": [
+        "foundation.files"
+      ],
+      "disabled": 0,
+      "enabled_passed": 68,
+      "legacy_numeric_win32": [
+        1175
+      ]
+    }
+  ],
+  "failure": null
+}

@@ -1,0 +1,138 @@
+[
+  {
+    "name": "old-world-summary",
+    "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\build\\benchmark-release\\bin\\SymoCraft.exe",
+    "exit_code": 0,
+    "expected": 0,
+    "arguments": [
+      "--world-summary",
+      "--seed",
+      "424242",
+      "--scene",
+      "regression",
+      "--checkpoint",
+      "four-chunk",
+      "--test-edits"
+    ]
+  },
+  {
+    "name": "new-world-summary",
+    "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t0\\install\\full-release\\SymoCraft.exe",
+    "exit_code": 0,
+    "expected": 0,
+    "arguments": [
+      "--world-summary",
+      "--seed",
+      "424242",
+      "--scene",
+      "regression",
+      "--checkpoint",
+      "four-chunk",
+      "--test-edits"
+    ]
+  },
+  {
+    "name": "old-static",
+    "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\build\\benchmark-release\\bin\\SymoCraft.exe",
+    "exit_code": 0,
+    "expected": 0,
+    "arguments": [
+      "--benchmark",
+      "static",
+      "--output",
+      "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t0\\runtime-001\\old-static",
+      "--seed",
+      "424242",
+      "--warmup-seconds",
+      "5",
+      "--sample-seconds",
+      "15",
+      "--focus-policy",
+      "allow-unfocused"
+    ]
+  },
+  {
+    "name": "new-static",
+    "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t0\\install\\full-release\\SymoCraft.exe",
+    "exit_code": 0,
+    "expected": 0,
+    "arguments": [
+      "--benchmark",
+      "static",
+      "--output",
+      "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t0\\runtime-001\\new-static",
+      "--seed",
+      "424242",
+      "--warmup-seconds",
+      "5",
+      "--sample-seconds",
+      "15",
+      "--focus-policy",
+      "allow-unfocused"
+    ]
+  },
+  {
+    "name": "new-edit",
+    "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t0\\install\\full-release\\SymoCraft.exe",
+    "exit_code": 0,
+    "expected": 0,
+    "arguments": [
+      "--benchmark",
+      "edit",
+      "--output",
+      "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t0\\runtime-001\\new-edit",
+      "--seed",
+      "424242",
+      "--warmup-seconds",
+      "5",
+      "--sample-seconds",
+      "15",
+      "--focus-policy",
+      "allow-unfocused"
+    ]
+  },
+  {
+    "name": "debug-smoke",
+    "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t0\\build\\full-debug\\bin\\SymoCraft.exe",
+    "exit_code": 0,
+    "expected": 0,
+    "arguments": [
+      "--scene",
+      "regression",
+      "--seed",
+      "424242",
+      "--smoke-frames",
+      "120"
+    ]
+  },
+  {
+    "name": "fault-shader",
+    "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t0\\runtime-001\\fault-shader\\SymoCraft.exe",
+    "exit_code": 3,
+    "expected": 3,
+    "arguments": [
+      "--smoke-frames",
+      "1"
+    ]
+  },
+  {
+    "name": "fault-texture",
+    "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t0\\runtime-001\\fault-texture\\SymoCraft.exe",
+    "exit_code": 3,
+    "expected": 3,
+    "arguments": [
+      "--smoke-frames",
+      "1"
+    ]
+  },
+  {
+    "name": "fault-block-config",
+    "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t0\\runtime-001\\fault-block-config\\SymoCraft.exe",
+    "exit_code": 3,
+    "expected": 3,
+    "arguments": [
+      "--smoke-frames",
+      "1"
+    ]
+  }
+]

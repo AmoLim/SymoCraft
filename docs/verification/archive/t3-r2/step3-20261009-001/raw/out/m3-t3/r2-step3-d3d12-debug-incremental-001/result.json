@@ -1,0 +1,13 @@
+{
+  "schema": "symocraft.renderer-incremental-build",
+  "version": 3,
+  "started_utc": "2026-10-09T08:41:03.6784222Z",
+  "finished_utc": "2026-10-09T08:41:05.4103504Z",
+  "build_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step3-d3d12-debug-001",
+  "output_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step3-d3d12-debug-incremental-001",
+  "status": "failed",
+  "baseline_compilations": 1,
+  "production_callers": null,
+  "probes": [],
+  "error": "The initial build was not settled. Rerun after production changes finish."
+}

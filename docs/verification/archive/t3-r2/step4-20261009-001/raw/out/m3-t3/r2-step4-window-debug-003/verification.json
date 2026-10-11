@@ -1,0 +1,804 @@
+{
+  "schema": "symocraft.d3d12-production-window-verification.v1",
+  "run_id": "9efefe2a-b0d8-45d4-8e46-1fd82c3e242e",
+  "started_utc": "2026-10-09T12:36:59.128964+00:00",
+  "finished_utc": "2026-10-09T12:37:25.485652+00:00",
+  "success": true,
+  "failure": null,
+  "package_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002",
+  "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\SymoCraft.exe",
+  "working_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-window-debug-003\\unrelated-cwd",
+  "arguments": [
+    "--renderer",
+    "d3d12",
+    "--msaa",
+    "4",
+    "--validation",
+    "1",
+    "--seed",
+    "424242",
+    "--scene",
+    "regression",
+    "--checkpoint",
+    "four-chunk"
+  ],
+  "package_identity": [
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\assets\\configs\\blockFormats.yaml",
+      "bytes": 1153,
+      "sha256": "263fa328d9a44f83cecb9f4b06a6d444dbcebeb75025e48b4a55b3cd956417f9"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\assets\\shaders\\d3d12\\blocks.ps.dxil",
+      "bytes": 9671,
+      "sha256": "098ead3343c314a0c37b6bec3adc9c92c18b9f8352ddef691c2e98afa301ad1d"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\assets\\shaders\\d3d12\\blocks.vs.dxil",
+      "bytes": 10849,
+      "sha256": "e82ba14eb2672b9c998a595de942a28a9303e89a1107ce27a2f99f7b46c23787"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\assets\\shaders\\d3d12\\selection.ps.dxil",
+      "bytes": 5978,
+      "sha256": "159262d6ec8624de92574ebfcc809725111518092c026b0133514d3fc7eb94d5"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\assets\\shaders\\d3d12\\selection.vs.dxil",
+      "bytes": 8505,
+      "sha256": "a3ab8df4f0ca548fa2bb542fa3c6832229702eea4a639be1ac83de991bfdaf79"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\assets\\shaders\\fs_BlockShader.glsl",
+      "bytes": 383,
+      "sha256": "66b2fd0547223fe471464287a3fc39cc438643eb8dfa60aedb03456c718defc7"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\assets\\shaders\\fs_FrameShader.glsl",
+      "bytes": 182,
+      "sha256": "4b702e82f03db31a921bc72e9501e3f941ab7e4b835f7df86dffaf0a91e1fd35"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\assets\\shaders\\vs_BlockShader.glsl",
+      "bytes": 429,
+      "sha256": "47dab1e3313dd24e139633d32378cb2ded415dac9df697958d9aa5a2fb63dd59"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\assets\\shaders\\vs_FrameShader.glsl",
+      "bytes": 212,
+      "sha256": "5b4b8b0e94abe3af2d21494d27eed77a0afd9fed10ce904d451cc3d8cc68bc3c"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\assets\\textures\\texture_atlas.png",
+      "bytes": 62011,
+      "sha256": "ee41e86af8dfdc70037472b2387b67395d93cf1d807f0fe618025f6f86f9b219"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\concrt140d.dll",
+      "bytes": 725504,
+      "sha256": "029961c22e8d0040d4e0fc38c2966e7a8a6849377dff74580322add378c306de"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\Apache-2.0-LICENSE.txt",
+      "bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\FastNoiseLite-license-source.h",
+      "bytes": 112999,
+      "sha256": "e7d4728478e157fa6d1e2b6fad5260e4dc2b3ca54d9169142128f8a15d207cdc"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\glad-LICENSE.txt",
+      "bytes": 3005,
+      "sha256": "639dc341a1342372b384eeea3a54a51d334f6b3141c9752685b615d0028300cd"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\GLM-LICENSE.txt",
+      "bytes": 1078,
+      "sha256": "515522447bcc62ba0bd87b7045270752a34f2ffd3943f47a29e59fbdd689ef8b"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\Khronos-license-source.h",
+      "bytes": 11442,
+      "sha256": "5ee5d5c2c6b2abd028cec8dc1a24e995bb47b075654a6fc55f3a1293de36943f"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\RobinHood-license-source.h",
+      "bytes": 97493,
+      "sha256": "263fb95030cf98df5b3574b1e8abc3c973df1a77e1c972bf6f658fa23e520d10"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\SDL3-e_log-license-source.txt",
+      "bytes": 4819,
+      "sha256": "46e694952cfad1263b20e706f88ee0894d969a0a30b3c06b618572cebd1670e4"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\SDL3-hidapi-BSD-LICENSE.txt",
+      "bytes": 1534,
+      "sha256": "30eb1bef29b46f8ba7ab8b416035dbd93cb034a45481dd97815b944284582cd2"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\SDL3-hidapi-LICENSE.txt",
+      "bytes": 530,
+      "sha256": "7d3b087c34f35d4d538e3bcddd1ff8f66e92f9ef336881999482800ddf840913"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\SDL3-LICENSE.txt",
+      "bytes": 884,
+      "sha256": "1c040b8271b37e5076359f8fd54240e371114112924d2df81ef87c7d6a1dfdfd"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\SDL3-miniz-license-source.txt",
+      "bytes": 232484,
+      "sha256": "caedfea041a85a868245f044cb9c17b3d3c69e3d92242e62757f6c120bb2d3fc"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\SDL3-SDL_opengl-license-source.txt",
+      "bytes": 126683,
+      "sha256": "a8e7681bfff83d2156b4f088b792789c30da791ce4581c7ae64545e80a3522a1"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\SDL3-SDL_opengl_glext-license-source.txt",
+      "bytes": 864070,
+      "sha256": "1abb28891c9b0661b6ff3749de2671da5fe12beb5bcb1833b2d6bdf5c89ecdf8"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\SDL3-SDL_qsort-license-source.txt",
+      "bytes": 21389,
+      "sha256": "edfdd99506d8e71ed7d53ba485daf9240b7669786755f086c58a25245c122760"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\SDL3-SDL_rotate-license-source.txt",
+      "bytes": 22112,
+      "sha256": "5cfd02459d7bbc384564331dc2883a3ee67525c58a55c7eccd340440e283d10d"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\SDL3-SDL_strtokr-license-source.txt",
+      "bytes": 2808,
+      "sha256": "2d2129b5b92f2abce59f8b87656de0f74094a1614051e458e696fd4f8f216d7d"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\SDL3-stb_image-license-source.txt",
+      "bytes": 292371,
+      "sha256": "6741ecbd17740f45aa2fac0c9dc82d3079fe28860630a2755fe001827cc06ba5"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\SDL3-vk_platform-license-source.txt",
+      "bytes": 2828,
+      "sha256": "c4cabbcf699c90cde344095ae54da9435d117951aad114ba3a540c5997d7906f"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\SDL3-vulkan_win32-license-source.txt",
+      "bytes": 15112,
+      "sha256": "fa3a9263d1764b82b634180ec5d3010adc216108bae11c02b157f733073f87f8"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\SDL3-yuv2rgb-LICENSE.txt",
+      "bytes": 1480,
+      "sha256": "f7d74004cc75778cae46c5f0139f244d67c07ef64cf51937e8272352197dcb18"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\SOURCES.txt",
+      "bytes": 2717,
+      "sha256": "1b75bd6dd347c16293e6590cadcb6a3ba142d49a1ead4db2542b54d2825af6cb"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\stb-LICENSE.txt",
+      "bytes": 2547,
+      "sha256": "11dd149dbc50748419a22fcec275b5bcfb4c2d86d9fba8802e5c4ffd40c94609"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\licenses\\yaml-cpp-LICENSE.txt",
+      "bytes": 1061,
+      "sha256": "aa6fcc27be034e41e21dd832f9175bfe694a48491d9e14ff0fa278e19ad14f1b"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\msvcp140_1d.dll",
+      "bytes": 41096,
+      "sha256": "c9bfe7c46faa3b30db3a4adecb065a6ddaef4e1c5a5b2a6c39bfa1a2a1876ab7"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\msvcp140_2d.dll",
+      "bytes": 454792,
+      "sha256": "e8fba6574d8dd0bb3cd8fd8768f3f261d081c4d7efacf6023450e778d0bd1edc"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\msvcp140d.dll",
+      "bytes": 920712,
+      "sha256": "d9df63d3ec36c68d64d445c9f9960e5b19c499765fd88bfe6ae86fbc51c290a2"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\msvcp140d_atomic_wait.dll",
+      "bytes": 101880,
+      "sha256": "bd9e9d2b003cfce77533643c19d1ec61432064814a526da28ff0ee316924c382"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\msvcp140d_codecvt_ids.dll",
+      "bytes": 35704,
+      "sha256": "2ffb392aeab521395865092e6ee21efea1b563e645dff7d9e2ab7c20776b9ca5"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\package-manifest.json",
+      "bytes": 10728,
+      "sha256": "b3db1103f9241f926a5dcf5f0df11eb0ec55315f4b302e5b0e03fb1c8e9ce8f8"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\provenance\\candidate-build-identities.json",
+      "bytes": 591151,
+      "sha256": "8aeea7f71fce08e94f868f7652b32fdc49d4a74a681620ad67f577d1a28cbd7e"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\provenance\\dependencies.json",
+      "bytes": 19140,
+      "sha256": "3f4900efe1c642534fec89b03da609fe55076ac4c9a9381319eac3d41ce5258c"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\provenance\\imports-concrt140d.dll.log",
+      "bytes": 528,
+      "sha256": "a3308d26eb315a02bc2fbea1849bddb4079b24b64d020272bd26b2e75df0683b"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\provenance\\imports-msvcp140_1d.dll.log",
+      "bytes": 504,
+      "sha256": "06430d11d35f1a3f6273e8f3895259dffb9447bf57479296a210f8126698f214"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\provenance\\imports-msvcp140_2d.dll.log",
+      "bytes": 529,
+      "sha256": "ab7c77b76af4590a9dfb3f350235cd9b6637f12e11d2db2ba53a3d8d84c04665"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\provenance\\imports-msvcp140d.dll.log",
+      "bytes": 508,
+      "sha256": "e8fe18c5a1e6b400c689824c5134d7ea0a38bfe3313b88ac039a424968da55b5"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\provenance\\imports-msvcp140d_atomic_wait.dll.log",
+      "bytes": 557,
+      "sha256": "157bf4fea1bbe80556962c42b4fd4c76f751b3b77e37762a9a4ba165d83a9f0b"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\provenance\\imports-msvcp140d_codecvt_ids.dll.log",
+      "bytes": 514,
+      "sha256": "597bc1b246c6efcaa3ca049f4e17e12e5e229c3a64dbafcfa0a1b436ef78b91c"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\provenance\\imports-SymoCraft.exe.log",
+      "bytes": 776,
+      "sha256": "859977386e0bb6f25aadf49e6e098c5802138696205484cdb996f32005e59294"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\provenance\\imports-ucrtbased.dll.log",
+      "bytes": 1491,
+      "sha256": "16c435984d34f949d5bbd1ca019863083ad38ac99895b0565fac73b68009f2a7"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\provenance\\imports-vcruntime140_1d.dll.log",
+      "bytes": 489,
+      "sha256": "b067d3b5992def91a93992e4e694be3e23d34e9e4d6839e5dfbad6e884830bdf"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\provenance\\imports-vcruntime140d.dll.log",
+      "bytes": 505,
+      "sha256": "1c967afcc3b659e94f0738d7b3c486a03664b3c1fe058ef438fa8953d9290f3a"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\provenance\\install.log",
+      "bytes": 5531,
+      "sha256": "3472fe756102359cc9bcb87e406f6e6dceaaeb850380bd638473dc38d9e61491"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\provenance\\ninja-freshness.log",
+      "bytes": 208,
+      "sha256": "cd94f6ffd9f58826376e2c9e2b4b91bcce1e27136950cfbeef13fef10b56f402"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\README.txt",
+      "bytes": 1813,
+      "sha256": "db45a5213b390e164c8e049a84b5c3e3c3c4ec8a9697dcefb92d8a6fede1472b"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\SymoCraft.exe",
+      "bytes": 6352384,
+      "sha256": "766081a2462a58f645d7b4d538b73b135ad80c6a527f2ecd4c7906e66dd686a2"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\ucrtbased.dll",
+      "bytes": 2238032,
+      "sha256": "59f2a1ec9590a7d363d1fc9745835d40eed8c149d7286691fb69f6f621385b5e"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\vcruntime140_1d.dll",
+      "bytes": 64512,
+      "sha256": "77fa5815192e6ef22a28885d8f3d5d08f7bd711cd34416319b168f0391e7a051"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\package\\d3d12-game-debug-002\\vcruntime140d.dll",
+      "bytes": 185472,
+      "sha256": "216fd2a38868c7d2fd672eb4b5c122d2a4487eb453aa01d3c63f9faf01deef8f"
+    }
+  ],
+  "runner_identity": {
+    "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\integration\\renderer\\verify-d3d12-window.py",
+    "bytes": 20931,
+    "sha256": "14eb5089ad0fc0c0c129317ce9405c635d7db2356cb439b76ab658cdb9cdd0aa"
+  },
+  "process_id": 34528,
+  "window_handle": "0x600fa8",
+  "actual_renderer": {
+    "backend": "D3D12",
+    "device_name": "NVIDIA GeForce RTX 5070 Ti",
+    "device_identity": "LUID=00000000:0001435b vendor=0x10de device=0x2c05",
+    "driver_version": "32.0.16.1664",
+    "actual_samples": 4,
+    "present_mode": "Fifo",
+    "validation_enabled": true
+  },
+  "requested_close": "Window",
+  "requested_resize": true,
+  "requested_outer_size": [
+    1280,
+    720
+  ],
+  "ready_observed": true,
+  "exit_code": 0,
+  "forced_termination": false,
+  "continuously_minimized": true,
+  "minimize_duration_ms": 12508.125100001052,
+  "world_summary_observed": true,
+  "shutdown_observed": true,
+  "rendered_frames": 376,
+  "actions": [
+    {
+      "phase": "ready",
+      "utc": "2026-10-09T12:37:06.289131+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": false,
+      "visible": true,
+      "foreground": true,
+      "client_width": 1024,
+      "client_height": 576,
+      "outer_width": 1038,
+      "outer_height": 614
+    },
+    {
+      "phase": "minimized-start",
+      "utc": "2026-10-09T12:37:06.393278+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:06.394251+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:06.895451+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:07.396574+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:07.897846+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:08.403931+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:08.930340+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:09.440630+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:09.947650+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:10.459863+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:10.970907+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:11.483607+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:11.988011+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:12.513300+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:13.079532+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:13.652393+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:14.185167+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:14.710185+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:15.223449+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:15.786791+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:16.310361+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:16.820684+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:17.333522+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:17.857894+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:18.374244+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-hold",
+      "utc": "2026-10-09T12:37:18.901356+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "minimized-end",
+      "utc": "2026-10-09T12:37:18.903429+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": true,
+      "visible": true,
+      "foreground": false,
+      "client_width": 0,
+      "client_height": 0,
+      "outer_width": 159,
+      "outer_height": 27
+    },
+    {
+      "phase": "restored-foreground",
+      "utc": "2026-10-09T12:37:19.014468+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": false,
+      "visible": true,
+      "foreground": true,
+      "client_width": 1024,
+      "client_height": 576,
+      "outer_width": 1038,
+      "outer_height": 614
+    },
+    {
+      "phase": "resized",
+      "utc": "2026-10-09T12:37:21.126622+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": false,
+      "visible": true,
+      "foreground": true,
+      "client_width": 1265,
+      "client_height": 682,
+      "outer_width": 1280,
+      "outer_height": 720
+    },
+    {
+      "phase": "before-close",
+      "utc": "2026-10-09T12:37:23.157587+00:00",
+      "process_id": 34528,
+      "hwnd": "0x600fa8",
+      "iconic": false,
+      "visible": true,
+      "foreground": false,
+      "client_width": 1265,
+      "client_height": 682,
+      "outer_width": 1280,
+      "outer_height": 720
+    }
+  ],
+  "production_pause_resume": {
+    "suspended_extent": [
+      1280,
+      720
+    ],
+    "suspended_rendered_frames": 129,
+    "resumed_extent": [
+      1280,
+      720
+    ],
+    "resumed_rendered_frames": 129,
+    "suspended_log": "[runtime] suspended; minimized=1; extent=1280,720; rendered_frames=129",
+    "resumed_log": "[runtime] resumed; extent=1280,720; rendered_frames=129"
+  },
+  "no_render_while_suspended_observed": true,
+  "render_count_advanced_after_resume": true,
+  "manual_gameplay_acceptance": false,
+  "fifteen_minute_session": false,
+  "r3_acceptance": false,
+  "escape_input_exercised": false,
+  "actual_device_lost_exercised": false,
+  "actual_in_flight_timeout_exercised": false,
+  "limits_seconds": {
+    "startup": 180,
+    "action": 15,
+    "normal_close": 30,
+    "minimized_hold": 12
+  },
+  "limitations": [
+    "Real complete-game window lifecycle verification, not the 14-item manual gameplay or 15-minute acceptance.",
+    "OS client/window rectangles are observations, not Renderer GetInfo framebuffer extent or a screenshot.",
+    "Production pause/resume render-count logs prove the ordinary suspended loop issued no Render calls; no native fence/Present counter or resumed-pixel capture is included.",
+    "WM_CLOSE targets only the PID-verified HWND; Escape remains manual real-keyboard input. No global keyboard injection is used.",
+    "Actual validated renderer identity is required; unavailable Debug Layer fails instead of silently disabling validation."
+  ],
+  "artifacts": [
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-window-debug-003\\game.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-window-debug-003\\game.stdout.log",
+      "bytes": 6562,
+      "sha256": "f84c7c7d8306ca07b8bc84329fd9170bf6be41b472ec857adb498ba805ceae85"
+    }
+  ]
+}

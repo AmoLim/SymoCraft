@@ -1,0 +1,10 @@
+F:\GameDevelop\OpenGLProject\Symocraft\src\core\window.cpp (line 85) Info: 
+[2026-09-17 09:00:19]: Monitor size: 2560, 1440
+F:\GameDevelop\OpenGLProject\Symocraft\src\core\window.cpp (line 99) Info: 
+[2026-09-17 09:00:19]: Window created. 
+OpenGL vendor: NVIDIA Corporation
+OpenGL renderer: NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2
+OpenGL version: 4.6.0 NVIDIA 616.64
+Shader compilation and linking succeeded: F:\GameDevelop\OpenGLProject\Symocraft\out\m2-a\runs\debug-faults\empty-block-configuration\package\assets\shaders\vs_BlockShader.glsl + F:\GameDevelop\OpenGLProject\Symocraft\out\m2-a\runs\debug-faults\empty-block-configuration\package\assets\shaders\fs_BlockShader.glsl
+Shader compilation and linking succeeded: F:\GameDevelop\OpenGLProject\Symocraft\out\m2-a\runs\debug-faults\empty-block-configuration\package\assets\shaders\vs_FrameShader.glsl + F:\GameDevelop\OpenGLProject\Symocraft\out\m2-a\runs\debug-faults\empty-block-configuration\package\assets\shaders\fs_FrameShader.glsl
+[runtime] shutdown complete; exit_code=3

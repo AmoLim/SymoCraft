@@ -1,0 +1,3 @@
+[runtime] fatal: Shader compilation failed: F:\GameDevelop\OpenGLProject\Symocraft\out\m2-a\runs\debug-faults\invalid-vertex-shader\package\assets\shaders\vs_BlockShader.glsl
+0(2) : error C0000: syntax error, unexpected reserved word "this" at token "this"
+

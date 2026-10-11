@@ -1,0 +1,29 @@
+F:\GameDevelop\OpenGLProject\Symocraft\src\core\window.cpp (line 55) Info: 
+[2026-09-17 02:20:48]: Monitor size: 1920, 1200
+F:\GameDevelop\OpenGLProject\Symocraft\src\core\window.cpp (line 69) Info: 
+[2026-09-17 02:20:48]: Window created. 
+GLAD initialized.
+Hello OpenGL 4.6
+F:\GameDevelop\OpenGLProject\Symocraft\src\renderer\shader.cpp (line 6) Log: 
+[2026-09-17 02:20:48]: Compiling shader: ../assets/shaders/vs_BlockShader.glsl
+F:\GameDevelop\OpenGLProject\Symocraft\src\renderer\shader.cpp (line 6) Log: 
+[2026-09-17 02:20:48]: Compiling shader: ../assets/shaders/fs_BlockShader.glsl
+F:\GameDevelop\OpenGLProject\Symocraft\src\renderer\shader_program.cpp (line 118) Log: 
+[2026-09-17 02:20:48]: Shader compilation and linking succeeded
+<Vertex:../assets/shaders/vs_BlockShader.glsl>
+<Fragment:../assets/shaders/fs_BlockShader.glsl>
+
+F:\GameDevelop\OpenGLProject\Symocraft\src\renderer\shader.cpp (line 6) Log: 
+[2026-09-17 02:20:48]: Compiling shader: ../assets/shaders/vs_FrameShader.glsl
+F:\GameDevelop\OpenGLProject\Symocraft\src\renderer\shader.cpp (line 6) Log: 
+[2026-09-17 02:20:48]: Compiling shader: ../assets/shaders/fs_FrameShader.glsl
+F:\GameDevelop\OpenGLProject\Symocraft\src\renderer\shader_program.cpp (line 118) Log: 
+[2026-09-17 02:20:48]: Shader compilation and linking succeeded
+<Vertex:../assets/shaders/vs_FrameShader.glsl>
+<Fragment:../assets/shaders/fs_FrameShader.glsl>
+
+0
+F:\GameDevelop\OpenGLProject\Symocraft\src\world\chunk.cpp (line 157) Info: 
+[2026-09-17 02:20:48]: The range is between: 0 - 1
+ The seed is 1406165256
+block removed 1

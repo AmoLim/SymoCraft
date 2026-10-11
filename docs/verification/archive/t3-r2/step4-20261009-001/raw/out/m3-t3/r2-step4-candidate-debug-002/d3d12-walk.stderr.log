@@ -1,0 +1,6 @@
+D3D12 asset configs/blockFormats.yaml: weakly_canonical: 拒绝访问。: "F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t3\r2-step4-candidate-debug-002\package with spaces\assets"
+D3D12 asset textures/texture_atlas.png: weakly_canonical: 拒绝访问。: "F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t3\r2-step4-candidate-debug-002\package with spaces\assets"
+D3D12 asset shaders/d3d12/blocks.vs.dxil: weakly_canonical: 拒绝访问。: "F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t3\r2-step4-candidate-debug-002\package with spaces\assets"
+D3D12 asset shaders/d3d12/blocks.ps.dxil: weakly_canonical: 拒绝访问。: "F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t3\r2-step4-candidate-debug-002\package with spaces\assets"
+D3D12 asset shaders/d3d12/selection.vs.dxil: weakly_canonical: 拒绝访问。: "F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t3\r2-step4-candidate-debug-002\package with spaces\assets"
+D3D12 asset shaders/d3d12/selection.ps.dxil: weakly_canonical: 拒绝访问。: "F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t3\r2-step4-candidate-debug-002\package with spaces\assets"

@@ -1,0 +1,23 @@
+-- Configuring done (0.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: F:/GameDevelop/OpenGLProject/Symocraft/out/benchmark-native/boundaries/runner-only
+[1/2] Building CXX object tools\benchmark\CMakeFiles\SymoCraftBenchmark.dir\src\gui.cpp.obj
+[2/2] Linking CXX executable bin\SymoCraftBenchmark.exe
+-- runner-only: build and dependency boundary passed
+-- Using Win32 for window creation
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: F:/GameDevelop/OpenGLProject/Symocraft/out/benchmark-native/boundaries/game-only
+[1/6] Synchronizing required SymoCraft runtime assets
+[2/6] Building CXX object game\CMakeFiles\SymoCraft.dir\__\src\main.cpp.obj
+[3/6] Building CXX object game\CMakeFiles\SymoCraft.dir\__\src\renderer\performance_memory.cpp.obj
+[4/6] Building CXX object game\CMakeFiles\SymoCraft.dir\__\src\core\performance.cpp.obj
+[5/6] Building CXX object game\CMakeFiles\SymoCraft.dir\__\src\core\application.cpp.obj
+[6/6] Linking CXX executable bin\SymoCraft.exe
+-- game-only: build and dependency boundary passed
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: F:/GameDevelop/OpenGLProject/Symocraft/out/benchmark-native/boundaries/standalone-runner
+[1/2] Building CXX object CMakeFiles\SymoCraftBenchmark.dir\src\gui.cpp.obj
+[2/2] Linking CXX executable bin\SymoCraftBenchmark.exe
+-- standalone-runner: build and dependency boundary passed

@@ -1,0 +1,16 @@
+[0/2] Re-checking globbed directories...
+[1/16] Synchronizing required SymoCraft runtime assets
+[2/16] Building CXX object test\CMakeFiles\header_renderer_symocraft_renderer_renderer_h.dir\public-headers\header_renderer_symocraft_renderer_renderer_h.cpp.obj
+[3/16] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\backend\backend_factory.cpp.obj
+[4/16] Building CXX object test\CMakeFiles\header_renderer_symocraft_renderer_types_h.dir\public-headers\header_renderer_symocraft_renderer_types_h.cpp.obj
+[5/16] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\renderer.cpp.obj
+[6/16] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\resource_registry.cpp.obj
+[7/16] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\validation.cpp.obj
+[8/16] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\renderer_impl.cpp.obj
+[9/16] Linking CXX static library game\modules\renderer\symocraft_renderer.lib
+[10/16] Linking CXX executable test\header_renderer_symocraft_renderer_types_h.exe
+[11/16] Linking CXX executable test\header_renderer_symocraft_renderer_renderer_h.exe
+[12/16] Building CXX object test\unit\renderer\CMakeFiles\renderer_public_api_consumer.dir\public_api_consumer.cpp.obj
+[13/16] Linking CXX executable test\unit\renderer\renderer_public_api_consumer.exe
+[14/16] Building CXX object test\unit\renderer\CMakeFiles\renderer_facade_tests.dir\facade_tests.cpp.obj
+[15/16] Linking CXX executable test\unit\renderer\renderer_facade_tests.exe

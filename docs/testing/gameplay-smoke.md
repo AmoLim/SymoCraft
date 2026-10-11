@@ -4,6 +4,10 @@ tags:
   - topic/gameplay
 ---
 
+> 2026-10-11 旧导航引用已失效，已改指现行权威或明确归档入口；历史命令、结果和批准含义保持不变。
+
+> 2026-10-11 文档浓缩后已退役复核源：现行入口见 [权威位置](../verification/scenarios.md)；原文保留点时反馈、历史身份和复核依据，不再维护为当前机制或活动计划，旧勾选不产生新批准。
+
 # M2 玩法冒烟验收
 
 ## 状态与范围
@@ -12,11 +16,11 @@ tags:
 
 M0 仅做过局部启动观测和一次 Release Esc 退出，见 [M0 报告](../milestones/m0/README.md)。这些历史记录保留；M2-A 当前结果与证据见 [M2-A 报告](../milestones/m2-a/README.md) 和本文的局部证据表，不用旧版本结果替代当前复测。
 
-M2-T2 已加入 [固定 seed 与边界场景](../project/benchmark/testing/reproducible-scenes.md)，供下表用例复现位置和几何；[本项验证报告](../milestones/m2-t2/README.md) 只记录生成与有限帧验证，不改变下表的人工验收状态。
+M2-T2 已加入 [固定 seed 与边界场景](../verification/archive/project-history-20261011/benchmark/testing/reproducible-scenes.md)，供下表用例复现位置和几何；[本项验证报告](../milestones/m2-t2/README.md) 只记录生成与有限帧验证，不改变下表的人工验收状态。
 
 M2 目标是保住现有单机体素玩法，并得到能够正常启动、交互、退出的游戏版本。当前世界为固定的 441 个已创建区块，外围一圈不绘制，内圈最多 361 个区块参与绘制，不是无限地图。存档、联网、动态区块流式加载和完整生存系统不因本表而自动进入 M2 范围。
 
-M0 语义基线见 [架构与数据流](../legacy/architecture/current-data-flow.md)；M2-A 当前变化见 [玩家循环](../legacy/architecture/player-loop.md) 与 [应用生命周期](../legacy/architecture/application-lifecycle.md)。重点代码为 [主循环与按键](../../game/app/src/application.cpp)、[射线编辑](../../game/modules/simulation/src/playercontroller.cpp)、[角色](../../game/modules/simulation/src/character_system.cpp)、[碰撞](../../game/modules/simulation/src/physics_system.cpp)。
+原 M0/M2-A 技术导航已失效；M0 风险与证据限定见 [历史原文摘录](../verification/archive/docs-navigation-20261011/historical-extracts.json)，M2-A 点时变化由上文原报告定位。现行机制另见 [玩家循环](../architecture/simulation.md) 与 [应用生命周期](../architecture/app.md)，不将它们当作 M0/M2 快照。现行代码入口为 [主循环与按键](../../game/app/src/application.cpp)、[射线编辑](../../game/modules/simulation/src/playercontroller.cpp)、[角色](../../game/modules/simulation/src/character_system.cpp)、[碰撞](../../game/modules/simulation/src/physics_system.cpp)。
 
 2026-10-05 用户在本聊天明确确认桌面与 Y9000P 已完成完整验收。连续玩法表中的 `pass` 和项目范围的 M2-T4 勾选按此确认保留，不是本轮 Git 整理实测。下方 14 项表的逐项结果仍是 M2-A 历史记录；本次未取得新的逐项日志、版本、机器时长或资源曲线，不补造这些记录，也不由此通过后续 60 分钟稳定性或 M3-T0 整体验收。
 
@@ -27,11 +31,11 @@ M0 语义基线见 [架构与数据流](../legacy/architecture/current-data-flow
 | 范围 | 已观察或实测结果 | 证据与仍缺少的部分 |
 | --- | --- | --- |
 | 自动测试 | Debug、Release 各 9 项测试通过 | 见 [M2-A 报告](../milestones/m2-a/README.md) 的构建测试证据；不是 14 项人工玩法通过 |
-| 有限帧桌面启动 | 最终 Debug 探针完成 120 帧，退出码 `0`，GL 诊断计数 `0` | [探针结果](../milestones/m2-a/evidence/debug-final-120/result.json)；不证明完整视角、窗口与长时玩法 |
-| 基础交互 | 安装目录 Release 已观察少量移动、跳跃落地和 E 键切换材料 | [跳跃画面](../milestones/m2-a/evidence/release-input-retest/02-jump.png)、[落地移动画面](../milestones/m2-a/evidence/release-input-retest/03-landed-moved.png)、[运行日志](../milestones/m2-a/evidence/release-input-retest/stdout.log)；未完整覆盖各方向、斜向速度、奔跑、重复跳跃和边界接触 |
-| 鼠标编辑 | 首次交互记录中有拆除和放置后的截图 | [拆除画面](../milestones/m2-a/evidence/release-interactive/02-removed.png)、[放置画面](../milestones/m2-a/evidence/release-interactive/03-placed.png)；未覆盖完整材料循环、持续按键、双键和区块交界 |
-| 进程正常结束 | `release-final-exit` 记录约 `106.164` 秒、`7500` 帧、退出码 `0`，未超时 | [退出记录](../milestones/m2-a/evidence/release-final-exit/result.json)；电脑操作被用户 Esc 停止后仅等待进程结束，不能归因为自动 Esc 用例完成，也未完成窗口关闭与重启的整组用例 |
-| 真实资源损坏 | 非法 shader、损坏 PNG、空 YAML 三个隔离副本均按预期退出码 `3` 结束 | [故障汇总](../milestones/m2-a/evidence/debug-faults/summary.json)；不支持图形能力等其他失败场景仍待验收 |
+| 有限帧桌面启动 | 最终 Debug 探针完成 120 帧，退出码 `0`，GL 诊断计数 `0` | [探针结果](../verification/archive/milestone-evidence-20261011/m2-a/evidence/debug-final-120/result.json)；不证明完整视角、窗口与长时玩法 |
+| 基础交互 | 安装目录 Release 已观察少量移动、跳跃落地和 E 键切换材料 | [跳跃画面](../verification/archive/milestone-evidence-20261011/m2-a/evidence/release-input-retest/02-jump.png)、[落地移动画面](../verification/archive/milestone-evidence-20261011/m2-a/evidence/release-input-retest/03-landed-moved.png)、[运行日志](../verification/archive/milestone-evidence-20261011/m2-a/evidence/release-input-retest/stdout.log)；未完整覆盖各方向、斜向速度、奔跑、重复跳跃和边界接触 |
+| 鼠标编辑 | 首次交互记录中有拆除和放置后的截图 | [拆除画面](../verification/archive/milestone-evidence-20261011/m2-a/evidence/release-interactive/02-removed.png)、[放置画面](../verification/archive/milestone-evidence-20261011/m2-a/evidence/release-interactive/03-placed.png)；未覆盖完整材料循环、持续按键、双键和区块交界 |
+| 进程正常结束 | `release-final-exit` 记录约 `106.164` 秒、`7500` 帧、退出码 `0`，未超时 | [退出记录](../verification/archive/milestone-evidence-20261011/m2-a/evidence/release-final-exit/result.json)；电脑操作被用户 Esc 停止后仅等待进程结束，不能归因为自动 Esc 用例完成，也未完成窗口关闭与重启的整组用例 |
+| 真实资源损坏 | 非法 shader、损坏 PNG、空 YAML 三个隔离副本均按预期退出码 `3` 结束 | [故障汇总](../verification/archive/milestone-evidence-20261011/m2-a/evidence/debug-faults/summary.json)；不支持图形能力等其他失败场景仍待验收 |
 
 初次存在键盘未响应的观察，后续切换英文输入法后按键有响应。期间输入实现与测试条件也发生变化，证据不足以把初次现象单独归因于粘滞按键或输入法；不得据此宣称所有焦点与输入问题已解决。
 

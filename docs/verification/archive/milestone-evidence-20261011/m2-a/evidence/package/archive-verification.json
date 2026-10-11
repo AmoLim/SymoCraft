@@ -1,0 +1,15 @@
+{
+  "verifiedAt": "2026-09-17T21:15:14.8293783+08:00",
+  "archive": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\packages\\Symocraft-M2-A-windows-x64.zip",
+  "archiveBytes": 330565,
+  "archiveSha256": "4591F50DEBD9A6E1359659BC054AF5586666311D4CB783B1E7472BD22C0181DE",
+  "manifestSha256": "E2B4E883A58084E3AD0A966346107DA01E93E8DA4F469CA0B8B1878316737168",
+  "checkedPayloadFiles": 9,
+  "archiveFileCount": 10,
+  "allPayloadHashesMatch": true,
+  "workingDirectory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\package-validation\\m2-a\\unrelated-working-directory",
+  "preflightExitCode": 0,
+  "graphicalWindowOpened": false,
+  "note": "Archive integrity and asset-presence preflight only; no new graphical or gameplay acceptance.",
+  "passed": true
+}

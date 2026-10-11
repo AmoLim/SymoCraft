@@ -1,60 +1,39 @@
+# Compatibility launcher only; all automation lives in the adjacent Python script.
 [CmdletBinding()]
 param(
-    [Parameter(Mandatory = $true)]
-    [string]$OutputDirectory
+    [Parameter(Mandatory)][string]$OutputDirectory
 )
-
-Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
-$root = (Resolve-Path (Split-Path $PSScriptRoot)).Path
-$output = [IO.Path]::GetFullPath((Join-Path $root $OutputDirectory))
-if (-not $output.StartsWith($root + [IO.Path]::DirectorySeparatorChar, [StringComparison]::OrdinalIgnoreCase)) {
-    throw 'The snapshot must stay inside the workspace.'
-}
-if (Test-Path -LiteralPath $output) {
-    throw 'Use a new directory; existing migration evidence is never overwritten.'
-}
-
-Push-Location $root
-try {
-    $paths = @('CMakeLists.txt', 'CMakePresets.json',
-        'docs/project/benchmark/使用与交付.md', 'docs/legacy/third-party-inventory.md') + @(
-        & rg --files --hidden -g '!.git/**' -g '!test/experimental/**' game cmake test scripts tools/benchmark vendor assets
-    )
-    if ($LASTEXITCODE -ne 0) { throw 'Input inventory failed.' }
-    $source = Join-Path $output 'source'
-    New-Item -ItemType Directory -Path $source | Out-Null
-    $files = @($paths | Sort-Object -Unique | ForEach-Object {
-        $original = Get-Item -LiteralPath $_
-        $hash = (Get-FileHash -LiteralPath $_ -Algorithm SHA256).Hash.ToLowerInvariant()
-        $destination = Join-Path $source $_
-        New-Item -ItemType Directory -Path (Split-Path $destination) -Force | Out-Null
-        Copy-Item -LiteralPath $_ -Destination $destination
-        if ((Get-FileHash -LiteralPath $destination -Algorithm SHA256).Hash.ToLowerInvariant() -ne $hash -or
-            (Get-FileHash -LiteralPath $_ -Algorithm SHA256).Hash.ToLowerInvariant() -ne $hash) {
-            throw "Input changed during capture: $_"
+$python = $null
+$prefix = @()
+$candidates = if ($env:SYMOCRAFT_PYTHON) { @($env:SYMOCRAFT_PYTHON) } else { @('python.exe', 'py.exe') }
+foreach ($candidate in $candidates) {
+    $candidatePrefix = if ([IO.Path]::GetFileName($candidate) -eq 'py.exe') { @('-3') } else { @() }
+    try {
+        $version = & $candidate @candidatePrefix --version 2>&1
+        if ($LASTEXITCODE -eq 0 -and "$version" -match '^Python 3\.(\d+)' -and [int]$Matches[1] -ge 10) {
+            $python = $candidate
+            $prefix = $candidatePrefix
+            break
         }
-        [ordered]@{path = $_.Replace('\', '/'); bytes = $original.Length; sha256 = $hash}
-    })
-    $head = & git rev-parse HEAD
-    if ($LASTEXITCODE -ne 0) { throw 'Cannot read Git identity.' }
-    & git status --porcelain=v1 | Set-Content -LiteralPath (Join-Path $output 'git-status.txt') -Encoding UTF8
-    & git diff --binary -- . ':!vendor/sdl3' | Set-Content -LiteralPath (Join-Path $output 'tracked-changes.patch') -Encoding UTF8
-    if ($LASTEXITCODE -ne 0) { throw 'Cannot capture tracked changes.' }
-    [ordered]@{
-        captured_at = (Get-Date).ToString('o')
-        git_head = $head
-        scope = 'Conservative root CMake/presets, game, cmake, test (excluding isolated experimental probes), scripts, tools/benchmark, vendor, assets and the two installed benchmark documents. Includes dirty and untracked inputs; not a compiler-read trace.'
-        restore_policy = 'Reference only. Never reset or overwrite the live worktree automatically.'
-        count = $files.Count
-        files = $files
-    } | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $output 'build-inputs.json') -Encoding UTF8
-    [ordered]@{
-        output = $output
-        count = $files.Count
-        manifest_sha256 = (Get-FileHash -LiteralPath (Join-Path $output 'build-inputs.json') -Algorithm SHA256).Hash.ToLowerInvariant()
-        byte_verified = $true
-    } | ConvertTo-Json
-} finally {
-    Pop-Location
+    } catch { }
 }
+if (-not $python) { throw 'Python 3.10+ is required. Install Python or set SYMOCRAFT_PYTHON to its executable.' }
+$pythonArguments = @($prefix) + @((Join-Path $PSScriptRoot 'capture-migration-inputs.py'))
+foreach ($entry in $PSBoundParameters.GetEnumerator()) {
+    if (@('Verbose', 'Debug', 'ErrorAction', 'WarningAction', 'InformationAction', 'ProgressAction',
+          'ErrorVariable', 'WarningVariable', 'InformationVariable', 'OutVariable', 'OutBuffer', 'PipelineVariable') -contains $entry.Key) { continue }
+    if ($entry.Value -is [System.Management.Automation.SwitchParameter]) {
+        if ($entry.Value.IsPresent) { $pythonArguments += "-$($entry.Key)" }
+    } else {
+        $value = $entry.Value
+        $pythonArguments += "-$($entry.Key)"
+        $pythonArguments += @($value | ForEach-Object { [string]$_ })
+    }
+}
+# Native stderr is data here; Python's exit status determines success.
+$ErrorActionPreference = 'Continue'
+& $python @pythonArguments 2>&1 | Tee-Object -Variable outputLines | ForEach-Object { Write-Output ([string]$_) }
+$code = $LASTEXITCODE
+$ErrorActionPreference = 'Stop'
+if ($code -ne 0) { throw ($outputLines -join "`n") }

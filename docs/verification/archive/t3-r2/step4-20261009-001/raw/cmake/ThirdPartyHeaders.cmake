@@ -1,0 +1,22 @@
+include_guard(GLOBAL)
+
+# Each view exposes one dependency, never the vendor root or private .cpp files.
+function(symocraft_header_view target)
+    set(view "${CMAKE_BINARY_DIR}/header-views/${target}")
+    foreach(entry IN LISTS ARGN)
+        set(source "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/${entry}")
+        if(IS_DIRECTORY "${source}")
+            file(GLOB_RECURSE headers CONFIGURE_DEPENDS RELATIVE "${SYMOCRAFT_REPOSITORY_ROOT}/vendor"
+                "${source}/*.h" "${source}/*.hpp" "${source}/*.inl")
+        else()
+            set(headers "${entry}")
+        endif()
+        foreach(header IN LISTS headers)
+            if(NOT header MATCHES "/src/")
+                configure_file("${SYMOCRAFT_REPOSITORY_ROOT}/vendor/${header}" "${view}/${header}" COPYONLY)
+            endif()
+        endforeach()
+    endforeach()
+    add_library(${target} INTERFACE)
+    target_include_directories(${target} SYSTEM INTERFACE "${view}")
+endfunction()

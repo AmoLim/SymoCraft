@@ -1,0 +1,10 @@
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=0
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=256
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=512
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=768
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=1024
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=1280
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=1536
+failure sweep Factory/Chunk/noise allocation failure leaked C++ owned resources: ordinal=0
+failure sweep Generator/noise allocation failure leaked C++ owned resources: ordinal=0
+Real C++ allocation failure sweep passed: definition=1747; factory=57; generator/noise=1; scratch/output=28. Every failed ordinal released tracked resources after owner destruction; retries used same mesher.

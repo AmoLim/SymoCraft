@@ -1,0 +1,1 @@
+add_library(historical_window_library INTERFACE)

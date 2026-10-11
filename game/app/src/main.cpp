@@ -3,12 +3,43 @@
 #include <symocraft/assets/asset_paths.h>
 #include "startup_options.h"
 #include <symocraft/telemetry/performance.h>
+#include <symocraft/renderer/error.h>
 
 #include <iostream>
 #include <exception>
 #include <string_view>
 #include <vector>
 #include <memory>
+
+namespace {
+
+const char* ErrorCategoryName(SymoCraft::Rendering::RenderErrorCategory category) noexcept {
+    using Category = SymoCraft::Rendering::RenderErrorCategory;
+    switch (category) {
+    case Category::InvalidInput: return "InvalidInput";
+    case Category::InvalidHandle: return "InvalidHandle";
+    case Category::AllocationFailure: return "AllocationFailure";
+    case Category::Unsupported: return "Unsupported";
+    case Category::AssetUnavailable: return "AssetUnavailable";
+    case Category::InitializationFailure: return "InitializationFailure";
+    case Category::DeviceLost: return "DeviceLost";
+    case Category::SubmissionFailure: return "SubmissionFailure";
+    case Category::Timeout: return "Timeout";
+    case Category::InvalidState: return "InvalidState";
+    case Category::WrongThread: return "WrongThread";
+    case Category::ReentrantCall: return "ReentrantCall";
+    }
+    return "Unknown";
+}
+
+void PrintRenderError(const SymoCraft::Rendering::RenderError& error) {
+    std::cerr << "[renderer] " << error.BackendName() << " " << error.Operation()
+              << ": " << error.what() << "; category=" << ErrorCategoryName(error.Category())
+              << "; native=" << error.NativeCode()
+              << "; diagnostic=" << error.Diagnostic() << std::endl;
+}
+
+} // namespace
 
 int main(int argc, char* argv[])
 {
@@ -22,8 +53,12 @@ int main(int argc, char* argv[])
         std::cerr << SymoCraft::StartupUsage << '\n' << error.what() << '\n';
         return 64;
     }
-    if (!SymoCraft::Assets::CheckRequiredAssets(std::cerr))
-        return 2;
+    try {
+        if (!SymoCraft::Application::CheckAssets(options, std::cerr)) return 2;
+    } catch (const SymoCraft::Rendering::RenderError& error) {
+        PrintRenderError(error);
+        return 3;
+    }
     if (options.check_assets)
     {
         std::cout << "All required assets are present.\n";
@@ -54,9 +89,15 @@ int main(int argc, char* argv[])
             SymoCraft::Application::Run(options, performance.get());
         }
     }
+    catch (const SymoCraft::Rendering::RenderError& error)
+    {
+        PrintRenderError(error);
+        exit_code = 3;
+    }
     catch (const std::exception& error)
     {
-        std::cerr << "[runtime] fatal: " << error.what() << std::endl;
+        std::cerr << "[runtime] fatal: " << error.what()
+                  << "; requested_backend=" << options.renderer << std::endl;
         exit_code = 3;
     }
     catch (...)
@@ -65,9 +106,14 @@ int main(int argc, char* argv[])
         exit_code = 3;
     }
 
-    // Run's local GL objects have unwound; release renderer objects before the context.
+    // Release all graphics ownership while the borrowed Window is still alive.
     try {
         SymoCraft::Application::Free();
+    }
+    catch (const SymoCraft::Rendering::RenderError& error) {
+        std::cerr << "[runtime] shutdown failed; requested_backend=" << options.renderer << '\n';
+        PrintRenderError(error);
+        if (exit_code == 0) exit_code = 3;
     }
     catch (const std::exception& error) {
         std::cerr << "[runtime] shutdown failed: " << error.what() << std::endl;

@@ -1,0 +1,24 @@
+{
+  "case": "empty-block-configuration",
+  "modifiedFixtureAsset": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\empty-block-configuration\\package\\assets\\configs\\blockFormats.yaml",
+  "expectedDiagnostic": "Failed to load block configuration: Block configuration must be a nonempty mapping",
+  "sourceSha256Before": "263FA328D9A44F83CECB9F4B06A6D444DBCEBEB75025E48B4A55B3CD956417F9",
+  "sourceSha256After": "263FA328D9A44F83CECB9F4B06A6D444DBCEBEB75025E48B4A55B3CD956417F9",
+  "runtimeResult": {
+    "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\empty-block-configuration\\package\\SymoCraft.exe",
+    "workingDirectory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\empty-block-configuration\\evidence",
+    "requestedFrames": 1,
+    "renderedFrames": null,
+    "glDiagnosticCount": 0,
+    "processId": 34708,
+    "timedOut": false,
+    "exitCode": 3,
+    "expectedExitCode": 3,
+    "ready": false,
+    "shutdown": true,
+    "elapsedSeconds": 0.4778051,
+    "passed": true
+  },
+  "passed": true,
+  "issues": []
+}

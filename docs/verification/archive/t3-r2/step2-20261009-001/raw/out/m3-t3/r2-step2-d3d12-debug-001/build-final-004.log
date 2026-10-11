@@ -1,0 +1,4 @@
+[0/2] Re-checking globbed directories...
+[1/4] Synchronizing required SymoCraft runtime assets
+[2/4] Building CXX object test\integration\CMakeFiles\renderer_d3d12_backend_smoke.dir\renderer\d3d12_backend_smoke.cpp.obj
+[3/4] Linking CXX executable test\integration\renderer_d3d12_backend_smoke.exe

@@ -1,0 +1,13 @@
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m1-validation/english-release
+    Start 1: assets.contracts
+1/4 Test #1: assets.contracts .................   Passed    0.12 sec
+    Start 2: assets.from_source_directory
+2/4 Test #2: assets.from_source_directory .....   Passed    0.11 sec
+    Start 3: assets.game_preflight
+3/4 Test #3: assets.game_preflight ............   Passed    0.02 sec
+    Start 4: assets.game_package
+4/4 Test #4: assets.game_package ..............   Passed    0.11 sec
+
+100% tests passed, 0 tests failed out of 4
+
+Total Test time (real) =   0.36 sec

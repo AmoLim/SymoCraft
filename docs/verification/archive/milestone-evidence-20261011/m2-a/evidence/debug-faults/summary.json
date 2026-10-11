@@ -1,0 +1,81 @@
+{
+  "sourceExecutable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\debug\\bin\\SymoCraft.exe",
+  "sourceAssets": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\debug\\bin\\assets",
+  "checkedSourceAssetsModified": false,
+  "fixtureDirectoriesRetained": true,
+  "passed": true,
+  "cases": [
+    {
+      "case": "invalid-vertex-shader",
+      "modifiedFixtureAsset": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\invalid-vertex-shader\\package\\assets\\shaders\\vs_BlockShader.glsl",
+      "expectedDiagnostic": "Shader compilation failed:",
+      "sourceSha256Before": "47DAB1E3313DD24E139633D32378CB2DED415DAC9DF697958D9AA5A2FB63DD59",
+      "sourceSha256After": "47DAB1E3313DD24E139633D32378CB2DED415DAC9DF697958D9AA5A2FB63DD59",
+      "runtimeResult": {
+        "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\invalid-vertex-shader\\package\\SymoCraft.exe",
+        "workingDirectory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\invalid-vertex-shader\\evidence",
+        "requestedFrames": 1,
+        "renderedFrames": null,
+        "glDiagnosticCount": 0,
+        "processId": 34096,
+        "timedOut": false,
+        "exitCode": 3,
+        "expectedExitCode": 3,
+        "ready": false,
+        "shutdown": true,
+        "elapsedSeconds": 0.5052261,
+        "passed": true
+      },
+      "passed": true,
+      "issues": []
+    },
+    {
+      "case": "invalid-texture-image",
+      "modifiedFixtureAsset": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\invalid-texture-image\\package\\assets\\textures\\texture_atlas.png",
+      "expectedDiagnostic": "Failed to decode texture ",
+      "sourceSha256Before": "EE41E86AF8DFDC70037472B2387B67395D93CF1D807F0FE618025F6F86F9B219",
+      "sourceSha256After": "EE41E86AF8DFDC70037472B2387B67395D93CF1D807F0FE618025F6F86F9B219",
+      "runtimeResult": {
+        "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\invalid-texture-image\\package\\SymoCraft.exe",
+        "workingDirectory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\invalid-texture-image\\evidence",
+        "requestedFrames": 1,
+        "renderedFrames": null,
+        "glDiagnosticCount": 0,
+        "processId": 38808,
+        "timedOut": false,
+        "exitCode": 3,
+        "expectedExitCode": 3,
+        "ready": false,
+        "shutdown": true,
+        "elapsedSeconds": 0.5091446,
+        "passed": true
+      },
+      "passed": true,
+      "issues": []
+    },
+    {
+      "case": "empty-block-configuration",
+      "modifiedFixtureAsset": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\empty-block-configuration\\package\\assets\\configs\\blockFormats.yaml",
+      "expectedDiagnostic": "Failed to load block configuration: Block configuration must be a nonempty mapping",
+      "sourceSha256Before": "263FA328D9A44F83CECB9F4B06A6D444DBCEBEB75025E48B4A55B3CD956417F9",
+      "sourceSha256After": "263FA328D9A44F83CECB9F4B06A6D444DBCEBEB75025E48B4A55B3CD956417F9",
+      "runtimeResult": {
+        "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\empty-block-configuration\\package\\SymoCraft.exe",
+        "workingDirectory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\empty-block-configuration\\evidence",
+        "requestedFrames": 1,
+        "renderedFrames": null,
+        "glDiagnosticCount": 0,
+        "processId": 34708,
+        "timedOut": false,
+        "exitCode": 3,
+        "expectedExitCode": 3,
+        "ready": false,
+        "shutdown": true,
+        "elapsedSeconds": 0.4778051,
+        "passed": true
+      },
+      "passed": true,
+      "issues": []
+    }
+  ]
+}

@@ -4,6 +4,7 @@
 
 #include "application.h"
 #include "cleanup_sequence.h"
+#include "game_renderer.h"
 #include "startup_options.h"
 #include <symocraft/assets/asset_paths.h>
 #include <symocraft/assets/image.h>
@@ -12,8 +13,6 @@
 #include <symocraft/world/benchmark_workload.h>
 #include <symocraft/platform/window.h>
 #include <symocraft/platform/process_memory.h>
-#include <symocraft/renderer/renderer.h>
-#include <symocraft/renderer/gpu_timer.h>
 #include <symocraft/ecs/registry.h>
 #include <symocraft/simulation/transform_system.h>
 #include <symocraft/simulation/character_system.h>
@@ -27,6 +26,7 @@
 #include <symocraft/simulation/playercontroller.h>
 #include <algorithm>
 #include <iostream>
+#include <limits>
 #include <memory>
 #include <optional>
 #include <stdexcept>
@@ -46,7 +46,7 @@ namespace SymoCraft
         static std::unique_ptr<ECS::Registry> runtime_registry;
         static std::optional<World::BlockDefinition> pending_block_definition;
         static bool platform_initialized = false;
-        static bool renderer_started = false;
+        static std::unique_ptr<Detail::GameRenderer> runtime_renderer;
 
         struct PreparedWorld {
             std::unique_ptr<World::VoxelWorld> instance;
@@ -116,32 +116,32 @@ namespace SymoCraft
             std::cout << Data::DumpYaml(world.report) << std::endl;
         }
 
+        bool CheckAssets(const StartupOptions& options, std::ostream& errors)
+        {
+            return Detail::CheckRendererAssets(options, errors);
+        }
+
         void Init(const StartupOptions& options, Performance::Session* performance)
         {
             if (platform_initialized)
                 throw std::logic_error("Application is already initialized");
+            const auto window_mode = Detail::SelectWindowMode(options);
             const auto window_start = Performance::Clock::now();
             Window::Init();
             platform_initialized = true;
             runtime_window.reset(Window::Create("SymoCraft", performance ? options.width : 0,
                                                performance ? options.height : 0, performance != nullptr,
-                                               performance && options.focus_policy == "allow-unfocused"));
+                                               performance && options.focus_policy == "allow-unfocused", window_mode));
             if (!runtime_window)
                 throw std::runtime_error("Cannot create the game window");
-            Renderer::AttachContext(*runtime_window);
+            Detail::AttachRendererContext(*runtime_window, options);
             if (performance) {
-                performance->startup["window_and_context"] = Performance::Milliseconds(window_start);
-                Renderer::SetVsync(options.vsync);
-                const auto& device = Renderer::Device();
-                performance->metadata["gl_vendor"] = device.vendor;
-                performance->metadata["gl_renderer"] = device.renderer;
-                performance->metadata["gl_version"] = device.version;
-                performance->metadata["msaa_samples"] = device.msaa_samples;
+                performance->startup[options.renderer == "opengl" ? "window_and_context" : "window"] = Performance::Milliseconds(window_start);
                 performance->metadata["framebuffer_width"] = runtime_window->width;
                 performance->metadata["framebuffer_height"] = runtime_window->height;
                 performance->metadata["window_mode"] = "borderless-windowed";
                 performance->metadata["taskbar_policy"] = "preserve-shell-z-order";
-                if (runtime_window->width != options.width || runtime_window->height != options.height)
+                if (runtime_window->width != static_cast<int>(options.width) || runtime_window->height != static_cast<int>(options.height))
                     throw std::runtime_error("Actual framebuffer " + std::to_string(runtime_window->width) + "x" +
                         std::to_string(runtime_window->height) + " does not match requested benchmark resolution " +
                         std::to_string(options.width) + "x" + std::to_string(options.height));
@@ -156,15 +156,14 @@ namespace SymoCraft
             registry.RegisterComponent<Character::CharacterComponent>("CharacterComponent");
             registry.RegisterComponent<Character::PlayerComponent>("PlayerComponent");
 
-            renderer_started = true;
             const auto renderer_start = Performance::Clock::now();
             camera = std::make_unique<Camera>(registry, static_cast<float>(runtime_window->width),
                                               static_cast<float>(runtime_window->height));
-            Renderer::Init();
+            runtime_renderer = std::make_unique<Detail::GameRenderer>(*runtime_window, options, performance != nullptr);
             pending_block_definition = ReadBlockDefinition();
             if (performance) {
                 performance->startup["shaders_buffers_and_block_config"] = Performance::Milliseconds(renderer_start);
-                performance->metadata["allocated_vbo_bytes"] = Renderer::AllocatedBufferBytes();
+                runtime_renderer->DescribeSession(*performance);
             }
             player_id = Simulation::CreatePlayer(registry, *camera);
             input_state = {};
@@ -182,24 +181,19 @@ namespace SymoCraft
             return intent;
         }
 
-        static CameraView CurrentCamera(const Window& window)
-        {
-            return {camera->GetCameraProjMat(window.GetAspectRatio()), camera->GetCameraViewMat()};
-        }
-
-        static void UpdateInteraction(ECS::Registry& registry, World::VoxelWorld& world,
+        static std::optional<glm::vec3> UpdateInteraction(ECS::Registry& registry, World::VoxelWorld& world,
                                        const InputSnapshot& input, bool allow_input)
         {
             const PlayerController::InteractionInput interaction{
                 allow_input, input.right_button, input.left_button, input_state.selected_block};
             const auto result = PlayerController::DoRayCast(registry, world, player_id, interaction, block_place_debounce);
             if (result.edit) world.TryEdit(*result.edit);
-            Renderer::SetSelection(result.selection);
+            return result.selection;
         }
 
         void Run(const StartupOptions& options, Performance::Session* performance)
         {
-            if (!runtime_window || !runtime_registry || !camera || !pending_block_definition)
+            if (!runtime_window || !runtime_registry || !camera || !runtime_renderer || !pending_block_definition)
                 throw std::logic_error("Application Run requires a fresh successful Init");
             const auto frame_limit = options.frame_limit;
             Window& window = *runtime_window;
@@ -207,8 +201,12 @@ namespace SymoCraft
             const auto texture_start = Performance::Clock::now();
 
             const std::string texture_path = Assets::Resolve("textures/texture_atlas.png").string();
-            pending_block_definition->ValidateTextureLayers(Renderer::LoadTextureAtlas(texture_path));
+            pending_block_definition->ValidateTextureLayers(runtime_renderer->LoadAtlas(texture_path));
             if (performance) performance->startup["texture_decode_and_upload"] = Performance::Milliseconds(texture_start);
+            if (performance && runtime_renderer->Modern()) {
+                const auto upload = runtime_renderer->AtlasUpload();
+                performance->AddStartupUpload({upload.cpu_ms, upload.bytes, upload.calls});
+            }
 
             if (!performance) window.SetCursorMode(CursorMode::Lock);
 
@@ -228,16 +226,22 @@ namespace SymoCraft
             Character::Player::SyncCamera(registry, camera->entity_id);
             const auto first_mesh_start = Performance::Clock::now();
             const auto first_mesh_count = world.RebuildDirtyMeshes();
+            const double first_mesh_ms = Performance::Milliseconds(first_mesh_start);
+            Detail::MeshUpload initial_upload;
+            if (runtime_renderer->Modern()) initial_upload = runtime_renderer->Synchronize(world);
             if (performance) {
-                performance->startup["first_mesh"] = Performance::Milliseconds(first_mesh_start);
+                performance->startup["first_mesh"] = first_mesh_ms;
                 performance->metadata["first_mesh_chunks"] = first_mesh_count;
+                if (runtime_renderer->Modern()) {
+                    performance->AddStartupUpload({initial_upload.cpu_ms, initial_upload.bytes, initial_upload.calls});
+                    performance->startup["first_upload_cpu"] = initial_upload.cpu_ms;
+                    performance->metadata["first_upload_bytes"] = initial_upload.bytes;
+                    performance->metadata["camera_contract"] = "actual Camera getters; degrees to radians; RH, near 0.1, far 2000; world-space identity model";
+                    performance->metadata["atlas_contract"] = "512x512 RGBA8; 64 bottom-row-first layers of 64x64 top-left texels; mesh V=1-V exactly once; Linear";
+                }
                 performance->startup["ready_from_main_entry"] = Performance::Milliseconds(performance->entry);
             }
-            std::unique_ptr<GpuTimer> gpu_timer;
             if (performance) {
-                gpu_timer = std::make_unique<GpuTimer>();
-                performance->metadata["gpu_timer_supported"] = gpu_timer->Supported();
-                performance->metadata["nvx_memory_supported"] = Renderer::Device().nvx_memory_supported;
                 performance->metadata["edit_interval_seconds"] = Benchmark::EditInterval;
                 performance->metadata["edit_plan"] = "M2-T2 forward 16 writes, then reverse 16 writes; repeat";
                 performance->metadata["walk_plan"] = "real physics, x=-20.5..20.5, z=-6.5, speed=4.4, endpoint reversal; no input replay";
@@ -247,6 +251,7 @@ namespace SymoCraft
             Physics::ResetTiming();
             double previous_frame_time = Window::Time();
             bool paused = false;
+            bool paused_minimized = false;
             unsigned int rendered_frames = 0;
             std::cout << "[runtime] ready; chunks=" << world.ChunkCount()
                       << "; loading_ms=" << (previous_frame_time - loading_start) * 1000.0
@@ -258,6 +263,7 @@ namespace SymoCraft
             double next_memory_time = 0.0;
             std::uint64_t applied_edits = 0;
             bool walk_forward = true;
+            std::uint64_t next_frame_id = 1;
 
             // -------------------------------------------------------------------
             // Render Loop
@@ -285,14 +291,21 @@ namespace SymoCraft
                 auto& body = registry.GetComponent<Physics::RigidBody>(player_id);
                 const bool non_drawable = window.Minimized() || window.width <= 0 || window.height <= 0;
                 const bool inactive = !window.Focused() || non_drawable;
+                runtime_renderer->Resize();
                 sample.focused = !inactive;
-                if (performance && (window.width != options.width || window.height != options.height ||
+                if (performance && (window.width != static_cast<int>(options.width) || window.height != static_cast<int>(options.height) ||
                                     window.Minimized())) {
                     performance->Invalidate("framebuffer-changed-or-minimized");
                     break;
                 }
                 if (!performance && (non_drawable || (inactive && frame_limit == 0)))
                 {
+                    if (!paused || paused_minimized != window.Minimized()) {
+                        std::cout << "[runtime] suspended; minimized=" << window.Minimized()
+                                  << "; extent=" << window.width << ',' << window.height
+                                  << "; rendered_frames=" << rendered_frames << std::endl;
+                    }
+                    paused_minimized = window.Minimized();
                     window.ResetInput();
                     character.movement_axis = glm::vec3(0.0f);
                     character.apply_jump_force = false;
@@ -311,6 +324,10 @@ namespace SymoCraft
                     body.velocity.x = body.velocity.z = 0.0f;
                     Physics::ResetTiming();
                     paused = true;
+                }
+                if (paused) {
+                    std::cout << "[runtime] resumed; extent=" << window.width << ',' << window.height
+                              << "; rendered_frames=" << rendered_frames << std::endl;
                 }
                 const float delta_time = paused ? 0.0f : static_cast<float>(std::clamp(current_frame_time - previous_frame_time, 0.0, 0.1));
                 paused = false;
@@ -367,56 +384,67 @@ namespace SymoCraft
                     std::cout << "[runtime] returned player to safe spawn" << std::endl;
                 }
                 Character::Player::SyncCamera(registry, camera->entity_id);
-                UpdateInteraction(registry, world, window.Input(), !performance);
+                const auto selection = UpdateInteraction(registry, world, window.Input(), !performance);
                 sample.simulation_ms = Performance::Milliseconds(simulation_start);
 
                 const auto mesh_start = Performance::Clock::now();
                 sample.rebuilt_chunks = world.RebuildDirtyMeshes();
                 sample.mesh_ms = Performance::Milliseconds(mesh_start);
                 const auto pack_start = Performance::Clock::now();
-                world.VisitMeshes([](const World::WorldMeshRecord& record) { Renderer::AppendMesh(record.vertices); });
+                const auto upload = runtime_renderer->Synchronize(world);
                 sample.pack_ms = Performance::Milliseconds(pack_start);
 
                 if (performance) {
                     const auto instrumentation_start = Performance::Clock::now();
-                    for (const auto& result : gpu_timer->Poll()) performance->SetGpu(result.frame, result.milliseconds);
+                    runtime_renderer->PollGpu(*performance);
                     if (sample.elapsed >= next_memory_time) {
                         const auto process = Platform::SampleProcessMemory();
-                        const auto device = Renderer::SampleDeviceMemory();
                         Performance::Memory memory;
                         memory.elapsed = sample.elapsed;
                         memory.working_set_bytes = process.working_set_bytes;
                         memory.private_bytes = process.private_bytes;
-                        memory.device_dedicated_kib = device.dedicated_kib;
-                        memory.device_available_kib = device.available_kib;
+                        runtime_renderer->SampleDeviceMemory(memory);
                         performance->Add(memory);
                         next_memory_time = sample.elapsed + 1.0;
                     }
-                    gpu_timer->BeginFrame(performance->NextFrame());
                     sample.instrumentation_ms = Performance::Milliseconds(instrumentation_start);
                 }
 
-                const auto render_start = Performance::Clock::now();
-                RenderStats stats;
-                Renderer::SetViewport(window.width, window.height);
-                Renderer::Render(CurrentCamera(window), performance ? &stats : nullptr, gpu_timer.get());
-                if (gpu_timer) gpu_timer->EndFrame();
-                sample.render_cpu_ms = Performance::Milliseconds(render_start);
-
-                const auto present_start = Performance::Clock::now();
-                Renderer::Present(window);
+                if (next_frame_id == std::numeric_limits<std::uint64_t>::max())
+                    throw std::overflow_error("game frame identity exhausted");
+                const auto frame = runtime_renderer->Render(next_frame_id++, *camera, selection, performance);
                 const auto present_end = Performance::Clock::now();
-                sample.present_ms = Performance::Milliseconds(present_start, present_end);
+                sample.render_cpu_ms = frame.render_cpu_ms;
+                sample.present_ms = frame.present_ms;
                 sample.frame_ms = Performance::Milliseconds(previous_present, present_end);
                 previous_present = present_end;
                 if (performance) {
-                    sample.vertices = stats.vertices; sample.upload_bytes = stats.upload_bytes;
-                    sample.draw_calls = stats.draw_calls; sample.upload_cpu_ms = stats.upload_cpu_ms;
+                    const auto& stats = frame.result.statistics;
+                    sample.vertices = stats.drawn_vertices; sample.upload_bytes = stats.upload_bytes;
+                    sample.draw_calls = stats.draw_calls; sample.upload_cpu_ms = frame.upload_cpu_ms;
+                    if (runtime_renderer->Modern()) {
+                        sample.frame_id = frame.result.frame_id;
+                        sample.cpu_prepare_ms = std::chrono::duration<double, std::milli>(stats.cpu_prepare).count();
+                        sample.cpu_submit_ms = std::chrono::duration<double, std::milli>(stats.cpu_submit).count();
+                        sample.resource_upload_bytes = upload.bytes;
+                        sample.render_upload_bytes = stats.upload_bytes;
+                        sample.upload_calls = upload.calls;
+                        sample.upload_cpu_ms = upload.cpu_ms;
+                        if (upload.bytes > std::numeric_limits<std::uint64_t>::max() - stats.upload_bytes)
+                            throw std::overflow_error("frame upload byte count exhausted");
+                        sample.upload_bytes += upload.bytes;
+                        if (frame.result.status != Rendering::FrameStatus::Presented) {
+                            performance->Invalidate("renderer-frame-skipped");
+                            // A skipped Present can still have a pending GPU result for this ID.
+                        }
+                    }
                     sample.x = transform.position.x; sample.y = transform.position.y; sample.z = transform.position.z; sample.yaw = transform.yaw;
                     performance->Add(sample);
                     if (rendered_frames == 0) {
-                        performance->startup["first_upload_cpu"] = stats.upload_cpu_ms;
-                        performance->metadata["first_upload_bytes"] = stats.upload_bytes;
+                        if (!runtime_renderer->Modern()) {
+                            performance->startup["first_upload_cpu"] = frame.upload_cpu_ms;
+                            performance->metadata["first_upload_bytes"] = stats.upload_bytes;
+                        }
                         performance->startup["first_frame_swap_return_from_main_entry"] = Performance::Milliseconds(performance->entry, present_end);
                     }
                 }
@@ -425,18 +453,19 @@ namespace SymoCraft
                     window.Close();
             }
             if (performance) {
-                for (const auto& result : gpu_timer->Poll()) performance->SetGpu(result.frame, result.milliseconds);
+                runtime_renderer->PollGpu(*performance);
                 performance->metadata["final_world_digest"] = world.Digest();
                 performance->metadata["total_scheduled_edits_applied"] = applied_edits;
                 // Diagnostic readback is outside all warmup/sample timing, never per-frame.
                 if (performance->completed) {
-                    UpdateInteraction(registry, world, window.Input(), false);
-                    world.VisitMeshes([](const World::WorldMeshRecord& record) { Renderer::AppendMesh(record.vertices); });
-                    Renderer::Render(CurrentCamera(window));
-                    Renderer::CaptureFramebuffer(window.width, window.height, performance->Directory() / "final-frame.png");
+                    const auto selection = UpdateInteraction(registry, world, window.Input(), false);
+                    runtime_renderer->Synchronize(world);
+                    runtime_renderer->Capture(next_frame_id++, *camera, selection,
+                                              performance->Directory() / "final-frame.png", *performance);
                     performance->metadata["screenshot"] = "final-frame.png; extra render/readback after measurement";
                 }
             }
+            runtime_renderer->ReleaseWorld(world.Identity());
             std::cout << "[runtime] loop finished; rendered_frames=" << rendered_frames
                       << "; player=" << transform.position.x << ',' << transform.position.y << ',' << transform.position.z
                       << std::endl;
@@ -446,7 +475,8 @@ namespace SymoCraft
         {
             Detail::CleanupSequence cleanup(std::cerr);
             cleanup.Run("pending block definition", [] { pending_block_definition.reset(); });
-            cleanup.RunOnce("Renderer::Free", renderer_started, [] { Renderer::Free(); });
+            cleanup.Run("renderer shutdown", [] { if (runtime_renderer) runtime_renderer->Shutdown(); });
+            cleanup.Run("renderer", [] { runtime_renderer.reset(); });
             cleanup.Run("camera", [] { camera.reset(); });
             cleanup.Run("Registry::Clear", [] { if (runtime_registry) runtime_registry->Clear(); });
             cleanup.Run("registry", [] { runtime_registry.reset(); });

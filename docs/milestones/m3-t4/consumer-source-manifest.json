@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-09",
+  "stage": "M3-T4-P01",
+  "kind": "working-tree-static-consumer-audit",
+  "head": "b01f0068b27447456cfb6fa1462fe9a6ea11c856",
+  "dirtyWorkingTree": true,
+  "scope": "Interface refinement and static consumer audit only. Not a clean-HEAD snapshot, build manifest, runtime evidence, or implementation authorization.",
+  "recheck": "Recheck affected consumers against T3 handoff before implementation. File hashes identify observed working-tree inputs, not approval or test results.",
+  "files": [
+    {
+      "path": "game/app/src/main.cpp",
+      "sha256": "721219e63f9b160e052a0df19392e2430dc15b46a6476a9849d3e44ce52cffc6",
+      "bytes": 4193
+    },
+    {
+      "path": "game/app/src/application.cpp",
+      "sha256": "29803734ed466dec5bb0f77b3be2863299a61a7e810e351ae831d586377cd344",
+      "bytes": 28060
+    },
+    {
+      "path": "game/app/src/application.h",
+      "sha256": "89b6897cdca577e2ba916a3ff66aecfdfc0a84d42d1ce7acc5574b9dad6eedda",
+      "bytes": 514
+    },
+    {
+      "path": "game/app/src/game_renderer.h",
+      "sha256": "8e4069a78585bfdd995dd751017f5ea823cf2b2b214068fcf6bc8ccf721e9b74",
+      "bytes": 2145
+    },
+    {
+      "path": "game/app/src/game_renderer.cpp",
+      "sha256": "cd2bff5847aaa426be6f6063ab88dd27205286a5454beb0e5b7d1e0c4a120443",
+      "bytes": 15741
+    },
+    {
+      "path": "game/app/src/render_conversion.h",
+      "sha256": "c93da7f5bd33a351b8e656f136bdc67b276cea31ce4c2381c956b6450e702c0a",
+      "bytes": 399
+    },
+    {
+      "path": "game/app/src/render_conversion.cpp",
+      "sha256": "e29d2393ab40682c4e9662f1c9107736c47d22274a0cbc649f4c895a67a42f31",
+      "bytes": 3302
+    },
+    {
+      "path": "game/app/src/cleanup_sequence.h",
+      "sha256": "6b6f1d68a2f3a78e0d0cfd186cc12685b196bdbe106a73b0e6ecc4f31dcb7feb",
+      "bytes": 2227
+    },
+    {
+      "path": "game/app/src/startup_options.h",
+      "sha256": "d3e4494e3386edaf36500c371d92967c3a17507f6756d4372ab4335ad7afc63d",
+      "bytes": 1680
+    },
+    {
+      "path": "game/app/CMakeLists.txt",
+      "sha256": "5ec8541f008594c974832c04a0d626772664d06c99a1ae999c69cbbf5d8f41cd",
+      "bytes": 1826
+    },
+    {
+      "path": "game/modules/platform/include/symocraft/platform/window.h",
+      "sha256": "01942fafa229e5cbc97653588deac41aac728c79a144cd278f6a0256137f1ed3",
+      "bytes": 2086
+    },
+    {
+      "path": "game/modules/platform/src/window.cpp",
+      "sha256": "7d5cd113551f34bafd47a080a938edd8345f09e22bfd4f7e15d0f00efa6a832f",
+      "bytes": 26887
+    },
+    {
+      "path": "game/modules/platform/src/input_state.h",
+      "sha256": "445fe1ea7be1de4ba32cae97ed7a9aef8395752fbbd07d5e1e240b91ac13d3b1",
+      "bytes": 8402
+    },
+    {
+      "path": "game/modules/simulation/include/symocraft/simulation/player.h",
+      "sha256": "59066ab3aeec46126ba41d06c2e61b1d9c8084c38ac2fcbd5ff9013c741e1fd9",
+      "bytes": 1053
+    },
+    {
+      "path": "game/modules/simulation/src/player.cpp",
+      "sha256": "c37434f26e45ac497398b6d93131f25ac612af0633cf107bb55421bd1809eeed",
+      "bytes": 4661
+    },
+    {
+      "path": "game/modules/simulation/include/symocraft/simulation/camera.h",
+      "sha256": "2fbca42162a862d88d040370be78852e3fe9d7c6380a1a02096f48f5973d53d8",
+      "bytes": 1007
+    },
+    {
+      "path": "game/modules/simulation/src/Camera.cpp",
+      "sha256": "93629d3ecefc1fcf59b3db7e504462e936a0b3675fca2a92710ea96ca2bbab51",
+      "bytes": 2160
+    },
+    {
+      "path": "game/modules/simulation/src/character_system.cpp",
+      "sha256": "51d27fa50c42ed9dbbac3b78a612f82c83f6e6535216681a1304358fac63f4da",
+      "bytes": 2928
+    },
+    {
+      "path": "game/modules/simulation/src/physics_system.cpp",
+      "sha256": "67e5c9bc072ca74107001c3cc4fac15d4c94b9a85d41f0ea0f2cc9ccae41032c",
+      "bytes": 19426
+    },
+    {
+      "path": "game/modules/simulation/src/playercontroller.cpp",
+      "sha256": "5a619bfb0485efb73cf6da19ac8847ffca15e122f7e83ab8d3ec455f62398d69",
+      "bytes": 3846
+    },
+    {
+      "path": "game/modules/simulation/CMakeLists.txt",
+      "sha256": "443606aa0e05cef482b530389813fd9b0617237c17555f3ac35fb78d45f3ecef",
+      "bytes": 540
+    },
+    {
+      "path": "game/modules/telemetry/include/symocraft/telemetry/performance.h",
+      "sha256": "ecfabeaaf3607d934d284db86ef271fa2732ebdb72ffb65d55d884cbbd97ab7c",
+      "bytes": 3710
+    },
+    {
+      "path": "game/modules/telemetry/src/performance.cpp",
+      "sha256": "d61f16d14b83b1d683836aeac37fa416d067a17cd89f4894eb66f8a4fb561e40",
+      "bytes": 18580
+    },
+    {
+      "path": "game/modules/renderer/include/symocraft/renderer/types.h",
+      "sha256": "39102091898f03c5c01f4a6844265e55b2787ee0222be17fd1514b0ea4dffbe7",
+      "bytes": 4641
+    },
+    {
+      "path": "game/modules/renderer/legacy/include/symocraft/renderer/legacy_renderer.h",
+      "sha256": "cdec693f89c06a5b4b21df50ee584042d3106eacfd63abb3d9316846029ed083",
+      "bytes": 1445
+    },
+    {
+      "path": "game/modules/ecs/include/symocraft/ecs/registry.h",
+      "sha256": "8866d4378a5029d6feec8089595fe7106fc1c21f0e00616682935ce8bcd88e36",
+      "bytes": 6437
+    },
+    {
+      "path": "game/modules/ecs/src/registry.cpp",
+      "sha256": "e4c9cf59089e9e7f328a526dc0c4b9c58dd8705f8566b00cee167f3cca826056",
+      "bytes": 12188
+    },
+    {
+      "path": "game/modules/ecs/src/internal.cpp",
+      "sha256": "3102507d90854892ccdfe216010396e4c44ebaf804219994a9a2c823ff6051d5",
+      "bytes": 7008
+    },
+    {
+      "path": "game/modules/foundation/src/legacy/AmoBase.cpp",
+      "sha256": "00ced729834c50031c17095986f8c08d62de22c8fbcea3f8ae4d1c239e5a5730",
+      "bytes": 17957
+    },
+    {
+      "path": "test/unit/simulation/simulation_contract_tests.cpp",
+      "sha256": "cc2bd1cdbd254f2c9b39ed65a578e8fc92674375bf5aa9600ba9dcc5b929f480",
+      "bytes": 7503
+    },
+    {
+      "path": "test/unit/simulation/player_math_tests.cpp",
+      "sha256": "89917f7b640899f7c7ee50a937440b1a9a01c7eab10bd372f209b0ff6eeea52c",
+      "bytes": 6365
+    },
+    {
+      "path": "test/unit/app/render_conversion_tests.cpp",
+      "sha256": "29c6115015ad6baa491e132094282a3d08d5cebf05cef26b5bf3b555127577b1",
+      "bytes": 11216
+    },
+    {
+      "path": "test/unit/app/cleanup_sequence_tests.cpp",
+      "sha256": "7525ceaea15705a4daf437456b52756661f272dd1983995c2a18611611db9ff3",
+      "bytes": 4331
+    },
+    {
+      "path": "test/unit/platform/key_snapshot_tests.cpp",
+      "sha256": "6ba8a985b2d4a96af72a92f3eb4bd8b854ab129f773691acf425c3a0f8b1e9d9",
+      "bytes": 2280
+    },
+    {
+      "path": "test/unit/telemetry/performance_tests.cpp",
+      "sha256": "e9a5c6545edb614b3056c63de4f6fbaf6a0cdb28253c04a1d6316f528c8a3a7d",
+      "bytes": 12384
+    },
+    {
+      "path": "test/unit/telemetry/renderer_performance_tests.cpp",
+      "sha256": "928fe6f2865af724ec704ec94922353f6bfc9d5cc3dd761278a698b904db8043",
+      "bytes": 14361
+    },
+    {
+      "path": "test/integration/renderer/d3d12_backend_smoke.cpp",
+      "sha256": "32151e4074c73f136766fc284560e1fb5f8885bdd07b653b10a79142e8948216",
+      "bytes": 52197
+    },
+    {
+      "path": "test/integration/renderer/game_report_probe.cpp",
+      "sha256": "1e1b26ac309d499c1c9529809ec95c7ed91a6b7586a0d0b192d618c35fb258e6",
+      "bytes": 17510
+    },
+    {
+      "path": "cmake/PublicHeaderTests.cmake",
+      "sha256": "19655865d58dc5fe16e6afc3a03f51f4d9fdd910c9a222877beba6b763217eae",
+      "bytes": 1390
+    },
+    {
+      "path": "cmake/ModuleBoundaries.cmake",
+      "sha256": "f9943e653dd8875328eb4c156db5cec60a685687e2a012a46ad8d66b3ce2a1b5",
+      "bytes": 28124
+    },
+    {
+      "path": "test/integration/VerifyBuildMatrix.cmake",
+      "sha256": "6581094a8d903147584f89d74f8677237bf53722e79f6f6b6f9e47b80c2db5b1",
+      "bytes": 8233
+    },
+    {
+      "path": "tools/benchmark/src/runner.cpp",
+      "sha256": "89f390fc14c24b9275c58607935b3bba32b258a96a384c6e2ae0b787a0282a40",
+      "bytes": 23138
+    },
+    {
+      "path": "tools/benchmark/CMakeLists.txt",
+      "sha256": "e7d70ba52f7914c1697f695c3038dc19033a3ab2157f1ed4ded2ae026867549e",
+      "bytes": 2378
+    }
+  ]
+}

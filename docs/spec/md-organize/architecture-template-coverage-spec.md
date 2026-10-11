@@ -9,13 +9,19 @@ tags:
   - area/spec
 ---
 
+> 2026-10-11 旧导航引用已失效，已改指现行权威或明确归档入口；历史命令、结果和批准含义保持不变。
+
 # Architecture 模板与函数行为覆盖 Spec
+
+> 2026-10-10 OpenSpec 迁移后已退役：本页仅保留原文供复核，元数据、待办及“当前”等文字均属原记录时点，不是现役规格、规则或活动计划。旧逐函数覆盖任务取消，不延续旧铺开授权。现役入口见 [新权威位置](../../DOCUMENTATION_MAP.md)；来源映射见 [迁移 design](../../openspec/changes/docs-openspec-migration/design.md#来源映射)。旧源未删除，清场须另行确认。
+
+> 2026-10-10 已退役：本页仅保留历史整理原文供复核，不是现行规则或继续铺开的任务。当前按 [DOCUMENTATION_MAP](../../DOCUMENTATION_MAP.md#架构文档) 维护模块关键契约，取消逐函数全覆盖、强制模板及两类行为表要求。以下旧进度和待办不构成新会话授权，清场待用户复核确认。
 
 ## 状态与范围
 
 2026-10-06 根据聊天中的简单 spec 归档，当时仅授权保存。随后实施模板与四篇样板及系统 Mermaid 表达；用户再要求“继续进行spec的工作吧”，已授权铺开，不再等待样板实施确认。当前 43 篇适用设计/功能笔记中 28 篇具备两类行为表，15 篇尚待整理，不能标成全量完成。前序实施段落保留当时快照，当前进度以文末铺开记录为准。
 
-归属依据：[mdspec](mdspec.md)。前序工作：[数据与系统笔记迁移 Spec](data-system-migration-spec.md)。审核入口：[模块架构索引](../../project/architecture/Overview.md)、[对象笔记覆盖清单](../../project/architecture/对象笔记覆盖清单.md)。
+归属依据：[mdspec](mdspec.md)。前序工作：[数据与系统笔记迁移 Spec](data-system-migration-spec.md)。审核入口：[模块架构索引](../../architecture/Overview.md)、[对象笔记覆盖清单](../../DOCUMENTATION_MAP.md#架构文档)。
 
 目标：让每个已确定主体的公开接口与内部函数都能逐项审核，清楚区分职责、正常行为、前提、失败后状态与依据。前序术语统一解决了名称表达，但未解决公开/内部函数混写、多个函数压缩在一段文字中等结构问题。
 
@@ -27,8 +33,8 @@ tags:
 
 | 模板 | 调整 | 对应当前 architecture |
 | --- | --- | --- |
-| [09-namespace API设计](../../Obsidian-功能笔记模板/templates/09-namespace API设计.md) | 新增：公开入口、内部函数、namespace 状态及初始化/清理顺序 | Renderer、ChunkManager、Application，以及 Assets 等函数集合 |
-| [10-构建与依赖契约](../../Obsidian-功能笔记模板/templates/10-构建与依赖契约.md) | 新增：CMake 入口、内部检查函数、target 可见性及生成产物 | 构建契约设计 |
+| [09-namespace API设计](../../DOCUMENTATION_MAP.md#文档预算与表达) | 新增：公开入口、内部函数、namespace 状态及初始化/清理顺序 | Renderer、ChunkManager、Application，以及 Assets 等函数集合 |
+| [10-构建与依赖契约](../../DOCUMENTATION_MAP.md#文档预算与表达) | 新增：CMake 入口、内部检查函数、target 可见性及生成产物 | 构建契约设计 |
 | `03/04-类设计` | 补齐：公开接口与私有函数分别记录，消除重复接口表 | GpuTimer、Window、Registry、Camera、Batch 等 |
 | `07-数据与存储设计` | 补齐：数据访问接口、内部存储操作及失效规则 | Scene、组件存储、Image、Block 等 |
 | `08-系统与数据流设计` | 补齐：系统入口、内部算法函数及执行顺序 | Simulation、Physics 等 |
@@ -54,7 +60,7 @@ tags:
 
 ### 填写要求
 
-- 遵循 [mdspec：文稿风格](mdspec.md#文稿风格)：默认精简、精准，保留逐函数契约；用户显式指出阅读不明确的位置后再定点扩充。
+- 以下是退役时的逐函数写法；现行表达规则见 [DOCUMENTATION_MAP](../../DOCUMENTATION_MAP.md#文档预算与表达)，不再要求逐函数覆盖。
 - 每个已定义的函数都有明确审核落点；行为不同的 overload 分开，不用“其他辅助函数”笼统归纳。调用其他主体的函数时链接其权威笔记，不重复抄写。
 - 引用、指针、view 和 handle 的返回行为必须说明所有权、有效期及失效条件。
 - 区分实现保证、调用者前提、目标行为和已知缺口。当前设计只写现有实现；目标行为放本次变更，不能把期望写成已有保证。
@@ -106,9 +112,9 @@ namespace API 模板记录实际状态负责人、借用关系与启动/使用/�
 
 | 样板 | 公开表记录 | 私有表记录 | 当前审核重点 |
 | --- | --- | --- | --- |
-| [Renderer](../../project/architecture/renderer/Renderer%20namespace%20API.md#公开接口预期行为) | 15 个公开入口 | 1 个 Debug callback | namespace API 实际形态、初始化与重载部分失败、GPU 与借用边界 |
-| [GpuTimer](../../project/architecture/renderer/GpuTimer%20Class.md#公开接口预期行为) | 8 个可调用接口 + 2 个删除的特殊成员 | 明确不适用：无私有函数 | 非完整 state machine、槽回收、零绘制段与 Poll 部分完成 |
-| [Simulation](../../project/architecture/simulation/Simulation-系统设计.md#公开接口预期行为) | 18 行，含 2 行链接 FixedStepBudget 独立契约 | 7 个 Physics static helper | 公开 PlayerMath 不误标私有、内部碰撞行为、跨调用预算负责人 |
+| [Renderer](../../architecture/renderer.md) | 15 个公开入口 | 1 个 Debug callback | namespace API 实际形态、初始化与重载部分失败、GPU 与借用边界 |
+| [GpuTimer](../../architecture/renderer.md) | 8 个可调用接口 + 2 个删除的特殊成员 | 明确不适用：无私有函数 | 非完整 state machine、槽回收、零绘制段与 Poll 部分完成 |
+| [Simulation](../../architecture/simulation.md) | 18 行，含 2 行链接 FixedStepBudget 独立契约 | 7 个 Physics static helper | 公开 PlayerMath 不误标私有、内部碰撞行为、跨调用预算负责人 |
 | [构建契约](../../project/architecture/build/构建契约设计.md#公开接口预期行为) | 4 个项目集成入口 | 4 个检查器 helper，注明测试授权 | CMake 实际作用域、configure/generate/build、无失败事务回滚 |
 
 Renderer 的 type 按真实主体改为 namespace API设计，构建契约改为构建设计；其余属性、板块、文件名和旧标题锚点保留。私有表覆盖内部函数，不把私有成员或其他对象的方法虚构为本主体函数。表格按当前实现填写，缺口不当作新增保证。
@@ -137,8 +143,8 @@ Renderer 的 type 按真实主体改为 namespace API设计，构建契约改为
 | assets | 原摘要按实际主体改 type 为 namespace API设计；7 个公开函数、2 个 TU helper；Image N/A/值语义，功能索引 | 3/3；旧文件名、旧标题锚点与 I1-I3 归属保留 |
 | simulation | Camera 14 个显式方法、FixedStepBudget 两项、RigidBody::zero_forces、纯数据 N/A、功能索引 | 5/5；系统样板不复制为第二套正文 |
 | scene | 纯数据两表及 span 别名/构造复制移动说明；功能借用/复制流程图 | 2/2；不虚构 Scene manager |
-| platform | Window 22 项显式成员 + 3 项输入接口；Impl、两 helper、四 callback；功能索引 | 3/3，含新增 [Platform API](../../project/architecture/platform/Platform-namespace-API.md) |
-| telemetry | Session 11 项（两个 Add 分开）、Output/Optional；数据 N/A 与功能索引 | 4/4，含新增 [Telemetry API](../../project/architecture/telemetry/Telemetry-namespace-API.md) |
+| platform | Window 22 项显式成员 + 3 项输入接口；Impl、两 helper、四 callback；功能索引 | 3/3，含新增 [Platform API](../../architecture/platform.md) |
+| telemetry | Session 11 项（两个 Add 分开）、Output/Optional；数据 N/A 与功能索引 | 4/4，含新增 [Telemetry API](../../architecture/telemetry.md) |
 | foundation | Value 24 项显式接口，构造与索引 overload 分开；as visit 内部分支 | 1/3；诊断/旧分配器两篇未完成 |
 | build | 功能入口链接原构建权威表，configure 分支用 Mermaid | 2/2；不新增运行验证 |
 | world / ecs / app | 未补齐本轮行为表 | 0/5、0/6、0/2；原对象覆盖不等于函数逐项覆盖 |

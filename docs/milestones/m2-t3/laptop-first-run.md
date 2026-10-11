@@ -3,6 +3,8 @@ tags:
   - area/milestones
 ---
 
+> 2026-10-11 文档浓缩后已退役复核源：现行入口见 [权威位置](../../verification/VERIFICATION.md#原位置保留的历史材料)；原文保留点时反馈、历史身份和复核依据，不再维护为当前机制或活动计划，旧勾选不产生新批准。
+
 # Y9000P 首轮采样诊断与脚本修复
 
 日期：2026-10-03。本次检查用户从 Y9000P 返回的正式 static-1 数据。**游戏完成了约定时长，但因失焦无效；同时发现并修复采样脚本的 Windows PowerShell 5.1 兼容性问题。** 不将该轮转为有效基线，不修改用户原始结果，笔记本九轮正式验收仍待执行。
@@ -11,7 +13,7 @@ tags:
 
 ## 已确认事实
 
-原始上传目录为 `docs/testing/laptop-baseline-001(1)/laptop-baseline-001`，本次未移动或删除。小型日志副本见 [机器条件](evidence/laptop-first-run/machine.json)、[脚本结果](evidence/laptop-first-run/result.json)、[游戏输出](evidence/laptop-first-run/stdout.log) 和 [应用摘要](evidence/laptop-first-run/summary.yaml)。
+原始上传目录为 `docs/testing/laptop-baseline-001(1)/laptop-baseline-001`，本次未移动或删除。小型日志副本见 [机器条件](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/laptop-first-run/machine.json)、[脚本结果](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/laptop-first-run/result.json)、[游戏输出](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/laptop-first-run/stdout.log) 和 [应用摘要](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/laptop-first-run/summary.yaml)。
 
 - 游戏 exe SHA256 与桌面基线一致，为 `381211C0FF055F2420BE0B5AD8CD11564ACA6324D12DA5EF207A5094D81B9C3F`。
 - 实际 GL renderer 为 NVIDIA GeForce RTX 3070 Ti Laptop GPU/PCIe/SSE2，驱动 595.59；纹理/着色器正常加载，并非不支持 OpenGL 或缺资源导致本次停止。
@@ -39,13 +41,13 @@ PowerShell 位置与进程目录的差异、解析 API 的契约见 [Microsoft a
 
 测试人为分离 PowerShell 与原生进程目录，覆盖相对路径/空格路径、成功及立即退出、退出码 0/3/4、失焦失败、失败后不再启动后续轮次、GPU 缺失样本统计、预热排除和旧目录保护。Windows PowerShell 5.1 测试固定注册；找到 PowerShell 7 时额外注册对应测试，因此本机总计 17 项，只有 Windows PowerShell 的环境为 16 项。
 
-修复前成功夹具也被记录成 `exitCode: null`，且写到原生目录；[复现日志](evidence/script-fix/m2-t3-script-fix-reproduced.log) 保留。测试启动环境中另遇到 CTest 继承的 Path/PATH 重复大小写，已仅在测试子进程内规范化，不修改用户系统环境。
+修复前成功夹具也被记录成 `exitCode: null`，且写到原生目录；[复现日志](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/script-fix/m2-t3-script-fix-reproduced.log) 保留。测试启动环境中另遇到 CTest 继承的 Path/PATH 重复大小写，已仅在测试子进程内规范化，不修改用户系统环境。
 
-修复后 [Release 17/17](evidence/script-fix/m2-t3-script-fix-release-tests.log)、[Debug 17/17](evidence/script-fix/m2-t3-script-fix-debug-tests.log) 通过；真实桌面游戏未重新采样。构建后 Release exe 哈希仍与原候选一致，原桌面九轮证据保留不动。
+修复后 [Release 17/17](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/script-fix/m2-t3-script-fix-release-tests.log)、[Debug 17/17](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/script-fix/m2-t3-script-fix-debug-tests.log) 通过；真实桌面游戏未重新采样。构建后 Release exe 哈希仍与原候选一致，原桌面九轮证据保留不动。
 
 ## 笔记本重试
 
-补丁为 `out/packages/Symocraft-M2-T3-benchmark-fix.zip`，只含脚本、说明及补丁身份记录。将其中 `scripts/benchmark.ps1` 更新到笔记本原 `m2-t3/scripts/benchmark.ps1`，不替换 exe 或 assets。旧包及其原始清单继续保留历史身份，补丁后的脚本哈希以 [补丁身份](evidence/script-fix/patch-identity.json) 为准。
+补丁为 `out/packages/Symocraft-M2-T3-benchmark-fix.zip`，只含脚本、说明及补丁身份记录。将其中 `scripts/benchmark.ps1` 更新到笔记本原 `m2-t3/scripts/benchmark.ps1`，不替换 exe 或 assets。旧包及其原始清单继续保留历史身份，补丁后的脚本哈希以 [补丁身份](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/script-fix/patch-identity.json) 为准。
 
 在笔记本包目录先执行三场景短测：
 

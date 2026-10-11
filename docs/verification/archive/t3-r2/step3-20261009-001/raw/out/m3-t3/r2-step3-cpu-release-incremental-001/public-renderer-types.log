@@ -1,0 +1,23 @@
+[0/2] Re-checking globbed directories...
+[1/23] Synchronizing required SymoCraft runtime assets
+[2/23] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\backend\backend_factory.cpp.obj
+[3/23] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\validation.cpp.obj
+[4/23] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\resource_registry.cpp.obj
+[5/23] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\renderer.cpp.obj
+[6/23] Building CXX object game\app\CMakeFiles\symocraft_app_render_data.dir\src\render_conversion.cpp.obj
+[7/23] Building CXX object game\modules\renderer\CMakeFiles\symocraft_renderer.dir\src\renderer_impl.cpp.obj
+[8/23] Building CXX object game\app\CMakeFiles\symocraft_app_render_data.dir\src\world_render_cache.cpp.obj
+[9/23] Linking CXX static library game\modules\renderer\symocraft_renderer.lib
+[10/23] Linking CXX static library game\app\symocraft_app_render_data.lib
+[11/23] Building CXX object test\CMakeFiles\header_renderer_symocraft_renderer_renderer_h.dir\public-headers\header_renderer_symocraft_renderer_renderer_h.cpp.obj
+[12/23] Linking CXX executable test\header_renderer_symocraft_renderer_renderer_h.exe
+[13/23] Building CXX object test\CMakeFiles\header_renderer_symocraft_renderer_types_h.dir\public-headers\header_renderer_symocraft_renderer_types_h.cpp.obj
+[14/23] Linking CXX executable test\header_renderer_symocraft_renderer_types_h.exe
+[15/23] Building CXX object test\unit\renderer\CMakeFiles\renderer_public_api_consumer.dir\public_api_consumer.cpp.obj
+[16/23] Linking CXX executable test\unit\renderer\renderer_public_api_consumer.exe
+[17/23] Building CXX object test\unit\app\CMakeFiles\app_render_conversion_tests.dir\render_conversion_tests.cpp.obj
+[18/23] Building CXX object test\unit\app\CMakeFiles\app_render_cache_tests.dir\render_cache_tests.cpp.obj
+[19/23] Linking CXX executable test\unit\app\app_render_conversion_tests.exe
+[20/23] Building CXX object test\unit\renderer\CMakeFiles\renderer_facade_tests.dir\facade_tests.cpp.obj
+[21/23] Linking CXX executable test\unit\app\app_render_cache_tests.exe
+[22/23] Linking CXX executable test\unit\renderer\renderer_facade_tests.exe

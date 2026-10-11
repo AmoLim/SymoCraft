@@ -1,0 +1,1265 @@
+[
+  {
+    "run": "static-1",
+    "allFrames": 42202,
+    "sampleFrames": 31611,
+    "firstSampleS": 60.0015263,
+    "lastSampleS": 239.9981228,
+    "frameMs": {
+      "count": 31611,
+      "min": 5.114,
+      "max": 10.8132,
+      "mean": 5.6943063142576955,
+      "p95": 6.4195,
+      "p99": 6.9016
+    },
+    "fps": 175.6140159682223,
+    "gpuMissingSampleFrames": 1,
+    "edits": 0,
+    "rebuiltChunks": 0,
+    "x": {
+      "count": 31611,
+      "min": -2.5,
+      "max": -2.5,
+      "mean": -2.5,
+      "p95": -2.5,
+      "p99": -2.5
+    },
+    "y": {
+      "count": 31611,
+      "min": 161.8999939,
+      "max": 161.8999939,
+      "mean": 161.8999939,
+      "p95": 161.8999939,
+      "p99": 161.8999939
+    },
+    "z": {
+      "count": 31611,
+      "min": -2.5,
+      "max": -2.5,
+      "mean": -2.5,
+      "p95": -2.5,
+      "p99": -2.5
+    },
+    "yaw": [
+      45.0
+    ],
+    "vertices": {
+      "count": 31611,
+      "min": 2063250,
+      "max": 2063250,
+      "mean": 2063250.0,
+      "p95": 2063250,
+      "p99": 2063250
+    },
+    "drawCalls": {
+      "count": 31611,
+      "min": 2,
+      "max": 2,
+      "mean": 2.0,
+      "p95": 2,
+      "p99": 2
+    },
+    "uploadBytes": {
+      "count": 31611,
+      "min": 57770616,
+      "max": 57770616,
+      "mean": 57770616.0,
+      "p95": 57770616,
+      "p99": 57770616
+    },
+    "packMs": {
+      "count": 31611,
+      "min": 2.1536,
+      "max": 5.3976,
+      "mean": 2.47194705324096,
+      "p95": 2.9047,
+      "p99": 3.2393
+    },
+    "renderCpuMs": {
+      "count": 31611,
+      "min": 2.6529,
+      "max": 4.9594,
+      "mean": 2.9185290215431334,
+      "p95": 3.3462,
+      "p99": 3.6241
+    },
+    "editLatenessMs": {
+      "count": 31611,
+      "min": 0.0,
+      "max": 0.0,
+      "mean": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "memorySamples": 180,
+    "workingSetMiB": {
+      "count": 180,
+      "min": 499.5,
+      "max": 505.390625,
+      "mean": 502.46399739583336,
+      "p95": 505.078125,
+      "p99": 505.328125
+    },
+    "privateMiB": {
+      "count": 180,
+      "min": 1103.609375,
+      "max": 1103.88671875,
+      "mean": 1103.7898654513888,
+      "p95": 1103.88671875,
+      "p99": 1103.88671875
+    },
+    "workingSetDeltaMiB": 5.890625,
+    "privateDeltaMiB": 0.27734375,
+    "sensorsAllRunNotOnlySample": {
+      "GPU-d43c9988-ca07-1112-9c89-be697511f1d0": {
+        "name": "NVIDIA GeForce RTX 5070 Ti",
+        "driver": "616.64",
+        "temperatureC": {
+          "count": 242,
+          "min": 46.0,
+          "max": 49.0,
+          "mean": 47.87190082644628,
+          "p95": 49.0,
+          "p99": 49.0
+        },
+        "deviceUsedMiB": {
+          "count": 242,
+          "min": 2226.0,
+          "max": 2721.0,
+          "mean": 2600.371900826446,
+          "p95": 2627.0,
+          "p99": 2709.0
+        }
+      }
+    },
+    "rawSha256": {
+      "frames.csv": "2810b035cd46416641bbf839d63fa11e61d45fc4eaf3a5f28b10a4c92ac6e6a8",
+      "memory.csv": "210a7a2de380ffa98b42a0caf0f46b8edbbb0cf6704e1737c853269fd4fd839b",
+      "gpu-sensors.csv": "3551fc657f805f81a9ceeee84812b4067527df38cf741596a032fbcfe7d2be50"
+    }
+  },
+  {
+    "run": "static-2",
+    "allFrames": 42152,
+    "sampleFrames": 31550,
+    "firstSampleS": 60.0055277,
+    "lastSampleS": 239.9998839,
+    "frameMs": {
+      "count": 31550,
+      "min": 5.0728,
+      "max": 9.3835,
+      "mean": 5.705232342313788,
+      "p95": 6.4649,
+      "p99": 6.9518
+    },
+    "fps": 175.277699487072,
+    "gpuMissingSampleFrames": 1,
+    "edits": 0,
+    "rebuiltChunks": 0,
+    "x": {
+      "count": 31550,
+      "min": -2.5,
+      "max": -2.5,
+      "mean": -2.5,
+      "p95": -2.5,
+      "p99": -2.5
+    },
+    "y": {
+      "count": 31550,
+      "min": 161.8999939,
+      "max": 161.8999939,
+      "mean": 161.8999939,
+      "p95": 161.8999939,
+      "p99": 161.8999939
+    },
+    "z": {
+      "count": 31550,
+      "min": -2.5,
+      "max": -2.5,
+      "mean": -2.5,
+      "p95": -2.5,
+      "p99": -2.5
+    },
+    "yaw": [
+      45.0
+    ],
+    "vertices": {
+      "count": 31550,
+      "min": 2063250,
+      "max": 2063250,
+      "mean": 2063250.0,
+      "p95": 2063250,
+      "p99": 2063250
+    },
+    "drawCalls": {
+      "count": 31550,
+      "min": 2,
+      "max": 2,
+      "mean": 2.0,
+      "p95": 2,
+      "p99": 2
+    },
+    "uploadBytes": {
+      "count": 31550,
+      "min": 57770616,
+      "max": 57770616,
+      "mean": 57770616.0,
+      "p95": 57770616,
+      "p99": 57770616
+    },
+    "packMs": {
+      "count": 31550,
+      "min": 2.1526,
+      "max": 4.4851,
+      "mean": 2.474265622820919,
+      "p95": 2.9089,
+      "p99": 3.2196
+    },
+    "renderCpuMs": {
+      "count": 31550,
+      "min": 2.6151,
+      "max": 4.7928,
+      "mean": 2.924319137876387,
+      "p95": 3.366,
+      "p99": 3.6455
+    },
+    "editLatenessMs": {
+      "count": 31550,
+      "min": 0.0,
+      "max": 0.0,
+      "mean": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "memorySamples": 180,
+    "workingSetMiB": {
+      "count": 180,
+      "min": 498.8828125,
+      "max": 504.74609375,
+      "mean": 501.7907986111111,
+      "p95": 504.49609375,
+      "p99": 504.74609375
+    },
+    "privateMiB": {
+      "count": 180,
+      "min": 1101.9609375,
+      "max": 1102.24609375,
+      "mean": 1102.1864366319444,
+      "p95": 1102.24609375,
+      "p99": 1102.24609375
+    },
+    "workingSetDeltaMiB": 5.86328125,
+    "privateDeltaMiB": 0.15234375,
+    "sensorsAllRunNotOnlySample": {
+      "GPU-d43c9988-ca07-1112-9c89-be697511f1d0": {
+        "name": "NVIDIA GeForce RTX 5070 Ti",
+        "driver": "616.64",
+        "temperatureC": {
+          "count": 241,
+          "min": 48.0,
+          "max": 49.0,
+          "mean": 48.98755186721991,
+          "p95": 49.0,
+          "p99": 49.0
+        },
+        "deviceUsedMiB": {
+          "count": 241,
+          "min": 2227.0,
+          "max": 2606.0,
+          "mean": 2595.2821576763486,
+          "p95": 2603.0,
+          "p99": 2603.0
+        }
+      }
+    },
+    "rawSha256": {
+      "frames.csv": "2483c3e0b161cf2b35aaec5ba2224956f3d032b8e623309cb4ac6bc5937e827d",
+      "memory.csv": "d839fce38aac0427ba9ab02724eb06f57b4a6b08ab5ddad0ba31ef0bb3eecbe7",
+      "gpu-sensors.csv": "731aa4ccd3ec50238eb2c64166ce3d6ff6a3ad4f0881aa7c6df06168c64f817c"
+    }
+  },
+  {
+    "run": "static-3",
+    "allFrames": 42385,
+    "sampleFrames": 31612,
+    "firstSampleS": 60.0023796,
+    "lastSampleS": 239.9955407,
+    "frameMs": {
+      "count": 31612,
+      "min": 4.9621,
+      "max": 9.2675,
+      "mean": 5.694006589269898,
+      "p95": 6.4386,
+      "p99": 6.9098
+    },
+    "fps": 175.62326005812068,
+    "gpuMissingSampleFrames": 0,
+    "edits": 0,
+    "rebuiltChunks": 0,
+    "x": {
+      "count": 31612,
+      "min": -2.5,
+      "max": -2.5,
+      "mean": -2.5,
+      "p95": -2.5,
+      "p99": -2.5
+    },
+    "y": {
+      "count": 31612,
+      "min": 161.8999939,
+      "max": 161.8999939,
+      "mean": 161.8999939,
+      "p95": 161.8999939,
+      "p99": 161.8999939
+    },
+    "z": {
+      "count": 31612,
+      "min": -2.5,
+      "max": -2.5,
+      "mean": -2.5,
+      "p95": -2.5,
+      "p99": -2.5
+    },
+    "yaw": [
+      45.0
+    ],
+    "vertices": {
+      "count": 31612,
+      "min": 2063250,
+      "max": 2063250,
+      "mean": 2063250.0,
+      "p95": 2063250,
+      "p99": 2063250
+    },
+    "drawCalls": {
+      "count": 31612,
+      "min": 2,
+      "max": 2,
+      "mean": 2.0,
+      "p95": 2,
+      "p99": 2
+    },
+    "uploadBytes": {
+      "count": 31612,
+      "min": 57770616,
+      "max": 57770616,
+      "mean": 57770616.0,
+      "p95": 57770616,
+      "p99": 57770616
+    },
+    "packMs": {
+      "count": 31612,
+      "min": 2.1737,
+      "max": 4.462,
+      "mean": 2.4961156143236747,
+      "p95": 2.9239,
+      "p99": 3.239
+    },
+    "renderCpuMs": {
+      "count": 31612,
+      "min": 2.6097,
+      "max": 4.5409,
+      "mean": 2.920499908262685,
+      "p95": 3.3661,
+      "p99": 3.6288
+    },
+    "editLatenessMs": {
+      "count": 31612,
+      "min": 0.0,
+      "max": 0.0,
+      "mean": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "memorySamples": 180,
+    "workingSetMiB": {
+      "count": 180,
+      "min": 499.94140625,
+      "max": 512.26953125,
+      "mean": 502.5033203125,
+      "p95": 505.27734375,
+      "p99": 512.20703125
+    },
+    "privateMiB": {
+      "count": 180,
+      "min": 1100.12109375,
+      "max": 1112.14453125,
+      "mean": 1104.2231553819445,
+      "p95": 1105.3515625,
+      "p99": 1112.14453125
+    },
+    "workingSetDeltaMiB": 5.3359375,
+    "privateDeltaMiB": -1.21875,
+    "sensorsAllRunNotOnlySample": {
+      "GPU-d43c9988-ca07-1112-9c89-be697511f1d0": {
+        "name": "NVIDIA GeForce RTX 5070 Ti",
+        "driver": "616.64",
+        "temperatureC": {
+          "count": 242,
+          "min": 48.0,
+          "max": 50.0,
+          "mean": 49.78099173553719,
+          "p95": 50.0,
+          "p99": 50.0
+        },
+        "deviceUsedMiB": {
+          "count": 242,
+          "min": 2227.0,
+          "max": 2621.0,
+          "mean": 2602.1776859504134,
+          "p95": 2615.0,
+          "p99": 2615.0
+        }
+      }
+    },
+    "rawSha256": {
+      "frames.csv": "3ba50bbdf5733c77f76ef1265e56a6aa29cc79b0310984e5524cdb709d6f2c45",
+      "memory.csv": "f3261dc592e29242a30bb138790bc999ce5bfff9cca049d8655391d997396220",
+      "gpu-sensors.csv": "d588529866ba771c6480843931f3b22645fd8c983f39689694d441ca3cdcf3d8"
+    }
+  },
+  {
+    "run": "walk-1",
+    "allFrames": 42438,
+    "sampleFrames": 31754,
+    "firstSampleS": 60.0007335,
+    "lastSampleS": 239.9942553,
+    "frameMs": {
+      "count": 31754,
+      "min": 5.0546,
+      "max": 10.5888,
+      "mean": 5.668581599168609,
+      "p95": 6.4456,
+      "p99": 6.9469
+    },
+    "fps": 176.41097380456984,
+    "gpuMissingSampleFrames": 0,
+    "edits": 0,
+    "rebuiltChunks": 0,
+    "x": {
+      "count": 31754,
+      "min": -20.53017807,
+      "max": 20.53017807,
+      "mean": 0.45820447126699637,
+      "p95": 18.55016708,
+      "p99": 20.1268425
+    },
+    "y": {
+      "count": 31754,
+      "min": 161.8999939,
+      "max": 161.8999939,
+      "mean": 161.8999939,
+      "p95": 161.8999939,
+      "p99": 161.8999939
+    },
+    "z": {
+      "count": 31754,
+      "min": -6.5,
+      "max": -6.5,
+      "mean": -6.5,
+      "p95": -6.5,
+      "p99": -6.5
+    },
+    "yaw": [
+      0.0,
+      180.0
+    ],
+    "vertices": {
+      "count": 31754,
+      "min": 2063226,
+      "max": 2063226,
+      "mean": 2063226.0,
+      "p95": 2063226,
+      "p99": 2063226
+    },
+    "drawCalls": {
+      "count": 31754,
+      "min": 1,
+      "max": 1,
+      "mean": 1.0,
+      "p95": 1,
+      "p99": 1
+    },
+    "uploadBytes": {
+      "count": 31754,
+      "min": 57770328,
+      "max": 57770328,
+      "mean": 57770328.0,
+      "p95": 57770328,
+      "p99": 57770328
+    },
+    "packMs": {
+      "count": 31754,
+      "min": 2.2038,
+      "max": 4.9581,
+      "mean": 2.5059000220444667,
+      "p95": 2.9301,
+      "p99": 3.2487
+    },
+    "renderCpuMs": {
+      "count": 31754,
+      "min": 2.5922,
+      "max": 5.4747,
+      "mean": 2.8648907444731373,
+      "p95": 3.3025,
+      "p99": 3.5953
+    },
+    "editLatenessMs": {
+      "count": 31754,
+      "min": 0.0,
+      "max": 0.0,
+      "mean": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "memorySamples": 180,
+    "workingSetMiB": {
+      "count": 180,
+      "min": 495.56640625,
+      "max": 504.78515625,
+      "mean": 498.7830295138889,
+      "p95": 501.27734375,
+      "p99": 504.78125
+    },
+    "privateMiB": {
+      "count": 180,
+      "min": 1099.46484375,
+      "max": 1107.60546875,
+      "mean": 1099.9766710069443,
+      "p95": 1099.75,
+      "p99": 1107.60546875
+    },
+    "workingSetDeltaMiB": 5.8359375,
+    "privateDeltaMiB": 0.28515625,
+    "sensorsAllRunNotOnlySample": {
+      "GPU-d43c9988-ca07-1112-9c89-be697511f1d0": {
+        "name": "NVIDIA GeForce RTX 5070 Ti",
+        "driver": "616.64",
+        "temperatureC": {
+          "count": 241,
+          "min": 49.0,
+          "max": 50.0,
+          "mean": 49.96680497925311,
+          "p95": 50.0,
+          "p99": 50.0
+        },
+        "deviceUsedMiB": {
+          "count": 241,
+          "min": 2219.0,
+          "max": 2741.0,
+          "mean": 2601.7676348547716,
+          "p95": 2639.0,
+          "p99": 2726.0
+        }
+      }
+    },
+    "rawSha256": {
+      "frames.csv": "d589229bce9503fcbc39da1849ea5c210d22eca25a9015d52329fd71faba0c40",
+      "memory.csv": "eaedf14f6a5017b85ff53d473b2bf53c2f8e5efc3b5d05ade042970bf6635422",
+      "gpu-sensors.csv": "890500f8dd766b8249fa1ae8dcb8993dfd0e244b80e0bc814e53dd74c87e09f9"
+    }
+  },
+  {
+    "run": "walk-2",
+    "allFrames": 42591,
+    "sampleFrames": 31809,
+    "firstSampleS": 60.0027667,
+    "lastSampleS": 239.9966611,
+    "frameMs": {
+      "count": 31809,
+      "min": 4.8856,
+      "max": 9.4749,
+      "mean": 5.658757952151906,
+      "p95": 6.4156,
+      "p99": 6.9133
+    },
+    "fps": 176.71722460221525,
+    "gpuMissingSampleFrames": 1,
+    "edits": 0,
+    "rebuiltChunks": 0,
+    "x": {
+      "count": 31809,
+      "min": -20.53017807,
+      "max": 20.53017807,
+      "mean": 0.4752413067028757,
+      "p95": 18.55016708,
+      "p99": 20.1268425
+    },
+    "y": {
+      "count": 31809,
+      "min": 161.8999939,
+      "max": 161.8999939,
+      "mean": 161.8999939,
+      "p95": 161.8999939,
+      "p99": 161.8999939
+    },
+    "z": {
+      "count": 31809,
+      "min": -6.5,
+      "max": -6.5,
+      "mean": -6.5,
+      "p95": -6.5,
+      "p99": -6.5
+    },
+    "yaw": [
+      0.0,
+      180.0
+    ],
+    "vertices": {
+      "count": 31809,
+      "min": 2063226,
+      "max": 2063226,
+      "mean": 2063226.0,
+      "p95": 2063226,
+      "p99": 2063226
+    },
+    "drawCalls": {
+      "count": 31809,
+      "min": 1,
+      "max": 1,
+      "mean": 1.0,
+      "p95": 1,
+      "p99": 1
+    },
+    "uploadBytes": {
+      "count": 31809,
+      "min": 57770328,
+      "max": 57770328,
+      "mean": 57770328.0,
+      "p95": 57770328,
+      "p99": 57770328
+    },
+    "packMs": {
+      "count": 31809,
+      "min": 2.1444,
+      "max": 5.1411,
+      "mean": 2.4691750605174634,
+      "p95": 2.9138,
+      "p99": 3.2641
+    },
+    "renderCpuMs": {
+      "count": 31809,
+      "min": 2.6282,
+      "max": 4.8027,
+      "mean": 2.9421645792071427,
+      "p95": 3.4029,
+      "p99": 3.6774
+    },
+    "editLatenessMs": {
+      "count": 31809,
+      "min": 0.0,
+      "max": 0.0,
+      "mean": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "memorySamples": 180,
+    "workingSetMiB": {
+      "count": 180,
+      "min": 496.546875,
+      "max": 501.71484375,
+      "mean": 499.0418402777778,
+      "p95": 501.46484375,
+      "p99": 501.71484375
+    },
+    "privateMiB": {
+      "count": 180,
+      "min": 1100.8671875,
+      "max": 1102.68359375,
+      "mean": 1101.4613715277778,
+      "p95": 1102.68359375,
+      "p99": 1102.68359375
+    },
+    "workingSetDeltaMiB": 5.16796875,
+    "privateDeltaMiB": -1.6640625,
+    "sensorsAllRunNotOnlySample": {
+      "GPU-d43c9988-ca07-1112-9c89-be697511f1d0": {
+        "name": "NVIDIA GeForce RTX 5070 Ti",
+        "driver": "616.64",
+        "temperatureC": {
+          "count": 242,
+          "min": 49.0,
+          "max": 50.0,
+          "mean": 49.97107438016529,
+          "p95": 50.0,
+          "p99": 50.0
+        },
+        "deviceUsedMiB": {
+          "count": 242,
+          "min": 2201.0,
+          "max": 2602.0,
+          "mean": 2577.1487603305786,
+          "p95": 2598.0,
+          "p99": 2601.0
+        }
+      }
+    },
+    "rawSha256": {
+      "frames.csv": "4f25853ce6fbd2327f3aa9eac8e5ca171fc841b1c4dd12f2c344eff2ac023cfc",
+      "memory.csv": "3731ee55d91e091ac2f579858ee1a27ea73218746ab71d66b5e97054cf0b1d24",
+      "gpu-sensors.csv": "7ab4b8c538cb9c11793c1a5b0d4d7732d2faa1c781cfabc6c0d621a28389dc72"
+    }
+  },
+  {
+    "run": "walk-3",
+    "allFrames": 42487,
+    "sampleFrames": 31909,
+    "firstSampleS": 60.0046507,
+    "lastSampleS": 239.9974167,
+    "frameMs": {
+      "count": 31909,
+      "min": 5.0255,
+      "max": 9.8456,
+      "mean": 5.640979588830738,
+      "p95": 6.4147,
+      "p99": 6.8838
+    },
+    "fps": 177.27417450331177,
+    "gpuMissingSampleFrames": 0,
+    "edits": 0,
+    "rebuiltChunks": 0,
+    "x": {
+      "count": 31909,
+      "min": -20.53017807,
+      "max": 20.53017807,
+      "mean": 0.48862448815110254,
+      "p95": 18.55016708,
+      "p99": 20.1268425
+    },
+    "y": {
+      "count": 31909,
+      "min": 161.8999939,
+      "max": 161.8999939,
+      "mean": 161.8999939,
+      "p95": 161.8999939,
+      "p99": 161.8999939
+    },
+    "z": {
+      "count": 31909,
+      "min": -6.5,
+      "max": -6.5,
+      "mean": -6.5,
+      "p95": -6.5,
+      "p99": -6.5
+    },
+    "yaw": [
+      0.0,
+      180.0
+    ],
+    "vertices": {
+      "count": 31909,
+      "min": 2063226,
+      "max": 2063226,
+      "mean": 2063226.0,
+      "p95": 2063226,
+      "p99": 2063226
+    },
+    "drawCalls": {
+      "count": 31909,
+      "min": 1,
+      "max": 1,
+      "mean": 1.0,
+      "p95": 1,
+      "p99": 1
+    },
+    "uploadBytes": {
+      "count": 31909,
+      "min": 57770328,
+      "max": 57770328,
+      "mean": 57770328.0,
+      "p95": 57770328,
+      "p99": 57770328
+    },
+    "packMs": {
+      "count": 31909,
+      "min": 2.1477,
+      "max": 4.6637,
+      "mean": 2.4534604719671567,
+      "p95": 2.883,
+      "p99": 3.1972
+    },
+    "renderCpuMs": {
+      "count": 31909,
+      "min": 2.5895,
+      "max": 5.5238,
+      "mean": 2.889476921871572,
+      "p95": 3.3287,
+      "p99": 3.588
+    },
+    "editLatenessMs": {
+      "count": 31909,
+      "min": 0.0,
+      "max": 0.0,
+      "mean": 0.0,
+      "p95": 0.0,
+      "p99": 0.0
+    },
+    "memorySamples": 180,
+    "workingSetMiB": {
+      "count": 180,
+      "min": 496.921875,
+      "max": 502.79296875,
+      "mean": 499.84210069444447,
+      "p95": 502.54296875,
+      "p99": 502.79296875
+    },
+    "privateMiB": {
+      "count": 180,
+      "min": 1101.0546875,
+      "max": 1101.21484375,
+      "mean": 1101.0934895833334,
+      "p95": 1101.21484375,
+      "p99": 1101.21484375
+    },
+    "workingSetDeltaMiB": 5.87109375,
+    "privateDeltaMiB": 0.15234375,
+    "sensorsAllRunNotOnlySample": {
+      "GPU-d43c9988-ca07-1112-9c89-be697511f1d0": {
+        "name": "NVIDIA GeForce RTX 5070 Ti",
+        "driver": "616.64",
+        "temperatureC": {
+          "count": 242,
+          "min": 49.0,
+          "max": 50.0,
+          "mean": 49.90495867768595,
+          "p95": 50.0,
+          "p99": 50.0
+        },
+        "deviceUsedMiB": {
+          "count": 242,
+          "min": 2205.0,
+          "max": 2601.0,
+          "mean": 2568.4876033057853,
+          "p95": 2586.0,
+          "p99": 2601.0
+        }
+      }
+    },
+    "rawSha256": {
+      "frames.csv": "80ca42e28928f07040cfc65ee48131094aa883f60aa3bbaf5d133b4167bce186",
+      "memory.csv": "7a06e51c2387e79e063b9e7109fac9452cdf8d75c72a1f6b1141adbb7a10cee1",
+      "gpu-sensors.csv": "b7cc024fcec08f15d2ce45a168a04b0aa6a0d4ef3cc1ee6a801f9e55e4e26813"
+    }
+  },
+  {
+    "run": "edit-1",
+    "allFrames": 42804,
+    "sampleFrames": 32044,
+    "firstSampleS": 60.0033503,
+    "lastSampleS": 239.9964857,
+    "frameMs": {
+      "count": 32044,
+      "min": 4.8955,
+      "max": 9.6275,
+      "mean": 5.617229965048058,
+      "p95": 6.4423,
+      "p99": 7.1348
+    },
+    "fps": 178.023688939615,
+    "gpuMissingSampleFrames": 0,
+    "edits": 720,
+    "rebuiltChunks": 2160,
+    "x": {
+      "count": 32044,
+      "min": -2.5,
+      "max": -2.5,
+      "mean": -2.5,
+      "p95": -2.5,
+      "p99": -2.5
+    },
+    "y": {
+      "count": 32044,
+      "min": 161.8999939,
+      "max": 161.8999939,
+      "mean": 161.8999939,
+      "p95": 161.8999939,
+      "p99": 161.8999939
+    },
+    "z": {
+      "count": 32044,
+      "min": -2.5,
+      "max": -2.5,
+      "mean": -2.5,
+      "p95": -2.5,
+      "p99": -2.5
+    },
+    "yaw": [
+      45.0
+    ],
+    "vertices": {
+      "count": 32044,
+      "min": 2063226,
+      "max": 2063250,
+      "mean": 2063245.4911996005,
+      "p95": 2063250,
+      "p99": 2063250
+    },
+    "drawCalls": {
+      "count": 32044,
+      "min": 1,
+      "max": 2,
+      "mean": 1.9374297840469354,
+      "p95": 2,
+      "p99": 2
+    },
+    "uploadBytes": {
+      "count": 32044,
+      "min": 57770280,
+      "max": 57770616,
+      "mean": 57770513.78055174,
+      "p95": 57770616,
+      "p99": 57770616
+    },
+    "packMs": {
+      "count": 32044,
+      "min": 2.1355,
+      "max": 4.2136,
+      "mean": 2.4542863843465237,
+      "p95": 2.8733,
+      "p99": 3.176
+    },
+    "renderCpuMs": {
+      "count": 32044,
+      "min": 2.6145,
+      "max": 4.7434,
+      "mean": 2.918408494569966,
+      "p95": 3.3755,
+      "p99": 3.6465
+    },
+    "editLatenessMs": {
+      "count": 32044,
+      "min": 0.0,
+      "max": 6.6733,
+      "mean": 0.06414248533266954,
+      "p95": 0.0,
+      "p99": 3.1275
+    },
+    "memorySamples": 180,
+    "workingSetMiB": {
+      "count": 180,
+      "min": 497.23828125,
+      "max": 505.99609375,
+      "mean": 502.98250868055555,
+      "p95": 505.74609375,
+      "p99": 505.99609375
+    },
+    "privateMiB": {
+      "count": 180,
+      "min": 1100.40625,
+      "max": 1104.4375,
+      "mean": 1104.3307508680555,
+      "p95": 1104.4375,
+      "p99": 1104.4375
+    },
+    "workingSetDeltaMiB": 5.9140625,
+    "privateDeltaMiB": 0.15234375,
+    "sensorsAllRunNotOnlySample": {
+      "GPU-d43c9988-ca07-1112-9c89-be697511f1d0": {
+        "name": "NVIDIA GeForce RTX 5070 Ti",
+        "driver": "616.64",
+        "temperatureC": {
+          "count": 241,
+          "min": 49.0,
+          "max": 50.0,
+          "mean": 49.95850622406639,
+          "p95": 50.0,
+          "p99": 50.0
+        },
+        "deviceUsedMiB": {
+          "count": 241,
+          "min": 2198.0,
+          "max": 2602.0,
+          "mean": 2572.4896265560164,
+          "p95": 2587.0,
+          "p99": 2602.0
+        }
+      }
+    },
+    "rawSha256": {
+      "frames.csv": "5aaff2c8025293d20f80273fcd9814eb100a87acab8d51db0e4f1964c78994ce",
+      "memory.csv": "27e9128b893c6db60b8d4093e597ad78530c26b4e818550768fe835f565f51c0",
+      "gpu-sensors.csv": "3fffc45ecf28a914024950705a720e96e8cb8fb87b5cb3ca403a32d4d6a5d814"
+    }
+  },
+  {
+    "run": "edit-2",
+    "allFrames": 43282,
+    "sampleFrames": 32508,
+    "firstSampleS": 60.0032423,
+    "lastSampleS": 239.9984275,
+    "frameMs": {
+      "count": 32508,
+      "min": 4.9039,
+      "max": 8.4933,
+      "mean": 5.537128519133752,
+      "p95": 6.2538,
+      "p99": 6.9771
+    },
+    "fps": 180.59902285895353,
+    "gpuMissingSampleFrames": 1,
+    "edits": 720,
+    "rebuiltChunks": 2160,
+    "x": {
+      "count": 32508,
+      "min": -2.5,
+      "max": -2.5,
+      "mean": -2.5,
+      "p95": -2.5,
+      "p99": -2.5
+    },
+    "y": {
+      "count": 32508,
+      "min": 161.8999939,
+      "max": 161.8999939,
+      "mean": 161.8999939,
+      "p95": 161.8999939,
+      "p99": 161.8999939
+    },
+    "z": {
+      "count": 32508,
+      "min": -2.5,
+      "max": -2.5,
+      "mean": -2.5,
+      "p95": -2.5,
+      "p99": -2.5
+    },
+    "yaw": [
+      45.0
+    ],
+    "vertices": {
+      "count": 32508,
+      "min": 2063226,
+      "max": 2063250,
+      "mean": 2063245.4780361757,
+      "p95": 2063250,
+      "p99": 2063250
+    },
+    "drawCalls": {
+      "count": 32508,
+      "min": 1,
+      "max": 2,
+      "mean": 1.9367540297772856,
+      "p95": 2,
+      "p99": 2
+    },
+    "uploadBytes": {
+      "count": 32508,
+      "min": 57770280,
+      "max": 57770616,
+      "mean": 57770513.67146549,
+      "p95": 57770616,
+      "p99": 57770616
+    },
+    "packMs": {
+      "count": 32508,
+      "min": 2.1615,
+      "max": 4.4896,
+      "mean": 2.475224701611911,
+      "p95": 2.9098,
+      "p99": 3.2006
+    },
+    "renderCpuMs": {
+      "count": 32508,
+      "min": 2.5887,
+      "max": 4.818,
+      "mean": 2.940402636274148,
+      "p95": 3.419,
+      "p99": 3.7049
+    },
+    "editLatenessMs": {
+      "count": 32508,
+      "min": 0.0,
+      "max": 6.7491,
+      "mean": 0.05997225298388397,
+      "p95": 0.0,
+      "p99": 2.8531
+    },
+    "memorySamples": 180,
+    "workingSetMiB": {
+      "count": 180,
+      "min": 499.21484375,
+      "max": 505.15234375,
+      "mean": 502.1607855902778,
+      "p95": 504.83984375,
+      "p99": 505.08984375
+    },
+    "privateMiB": {
+      "count": 180,
+      "min": 1105.26171875,
+      "max": 1105.375,
+      "mean": 1105.3439887152779,
+      "p95": 1105.375,
+      "p99": 1105.375
+    },
+    "workingSetDeltaMiB": 5.9375,
+    "privateDeltaMiB": 0.11328125,
+    "sensorsAllRunNotOnlySample": {
+      "GPU-d43c9988-ca07-1112-9c89-be697511f1d0": {
+        "name": "NVIDIA GeForce RTX 5070 Ti",
+        "driver": "616.64",
+        "temperatureC": {
+          "count": 242,
+          "min": 49.0,
+          "max": 50.0,
+          "mean": 49.97933884297521,
+          "p95": 50.0,
+          "p99": 50.0
+        },
+        "deviceUsedMiB": {
+          "count": 242,
+          "min": 2194.0,
+          "max": 2683.0,
+          "mean": 2574.293388429752,
+          "p95": 2606.0,
+          "p99": 2674.0
+        }
+      }
+    },
+    "rawSha256": {
+      "frames.csv": "b1626165926747a8e5365665f5e81c3539e01fd477f2d73913bfe5f77da51b2c",
+      "memory.csv": "0199e814cba2e464fda28fa5fce1a86102151df1d5acc9c1e6c45df180318716",
+      "gpu-sensors.csv": "32886f0165408c734d0a00acd87878d64bffae3478ed9359ecb27ac3d55fa4c2"
+    }
+  },
+  {
+    "run": "edit-3",
+    "allFrames": 42364,
+    "sampleFrames": 31824,
+    "firstSampleS": 60.0031139,
+    "lastSampleS": 239.9958028,
+    "frameMs": {
+      "count": 31824,
+      "min": 4.9995,
+      "max": 10.0418,
+      "mean": 5.656048501131221,
+      "p95": 6.5427,
+      "p99": 7.2284
+    },
+    "fps": 176.8018785199593,
+    "gpuMissingSampleFrames": 1,
+    "edits": 720,
+    "rebuiltChunks": 2160,
+    "x": {
+      "count": 31824,
+      "min": -2.5,
+      "max": -2.5,
+      "mean": -2.5,
+      "p95": -2.5,
+      "p99": -2.5
+    },
+    "y": {
+      "count": 31824,
+      "min": 161.8999939,
+      "max": 161.8999939,
+      "mean": 161.8999939,
+      "p95": 161.8999939,
+      "p99": 161.8999939
+    },
+    "z": {
+      "count": 31824,
+      "min": -2.5,
+      "max": -2.5,
+      "mean": -2.5,
+      "p95": -2.5,
+      "p99": -2.5
+    },
+    "yaw": [
+      45.0
+    ],
+    "vertices": {
+      "count": 31824,
+      "min": 2063226,
+      "max": 2063250,
+      "mean": 2063245.458898944,
+      "p95": 2063250,
+      "p99": 2063250
+    },
+    "drawCalls": {
+      "count": 31824,
+      "min": 1,
+      "max": 2,
+      "mean": 1.9365573152337858,
+      "p95": 2,
+      "p99": 2
+    },
+    "uploadBytes": {
+      "count": 31824,
+      "min": 57770280,
+      "max": 57770616,
+      "mean": 57770513.21116139,
+      "p95": 57770616,
+      "p99": 57770616
+    },
+    "packMs": {
+      "count": 31824,
+      "min": 2.1496,
+      "max": 4.1029,
+      "mean": 2.446505433006536,
+      "p95": 2.8571,
+      "p99": 3.1783
+    },
+    "renderCpuMs": {
+      "count": 31824,
+      "min": 2.6059,
+      "max": 5.6085,
+      "mean": 2.8821638386123682,
+      "p95": 3.3063,
+      "p99": 3.5708
+    },
+    "editLatenessMs": {
+      "count": 31824,
+      "min": 0.0,
+      "max": 6.6056,
+      "mean": 0.0684757604323784,
+      "p95": 0.0,
+      "p99": 3.4198
+    },
+    "memorySamples": 180,
+    "workingSetMiB": {
+      "count": 180,
+      "min": 498.84375,
+      "max": 506.2578125,
+      "mean": 501.87276475694443,
+      "p95": 504.5859375,
+      "p99": 506.1953125
+    },
+    "privateMiB": {
+      "count": 180,
+      "min": 1101.91015625,
+      "max": 1105.953125,
+      "mean": 1102.0962890625,
+      "p95": 1102.06640625,
+      "p99": 1105.953125
+    },
+    "workingSetDeltaMiB": 5.8671875,
+    "privateDeltaMiB": 0.1484375,
+    "sensorsAllRunNotOnlySample": {
+      "GPU-d43c9988-ca07-1112-9c89-be697511f1d0": {
+        "name": "NVIDIA GeForce RTX 5070 Ti",
+        "driver": "616.64",
+        "temperatureC": {
+          "count": 241,
+          "min": 49.0,
+          "max": 50.0,
+          "mean": 49.983402489626556,
+          "p95": 50.0,
+          "p99": 50.0
+        },
+        "deviceUsedMiB": {
+          "count": 241,
+          "min": 2197.0,
+          "max": 2606.0,
+          "mean": 2573.02489626556,
+          "p95": 2596.0,
+          "p99": 2599.0
+        }
+      }
+    },
+    "rawSha256": {
+      "frames.csv": "d41fca550f2ae0f4b778e8c13593d58e7dc067137e7c5e2037b1460483d912b1",
+      "memory.csv": "17b80480ebcbfed642ab2e3af77119847a060d471e9fcf76b527c93fccbb573a",
+      "gpu-sensors.csv": "0ccdcc072a0c2858e573dc2554f3208629068cfc37029861394a4c21edf96af4"
+    }
+  }
+]

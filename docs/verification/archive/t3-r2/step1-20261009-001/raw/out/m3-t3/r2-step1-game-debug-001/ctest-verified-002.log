@@ -1,0 +1,27 @@
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step1-game-debug-001
+      Start 30: architecture.public_header.renderer.symocraft/renderer/error.h
+ 1/11 Test #30: architecture.public_header.renderer.symocraft/renderer/error.h ......   Passed    0.01 sec
+      Start 31: architecture.public_header.renderer.symocraft/renderer/renderer.h
+ 2/11 Test #31: architecture.public_header.renderer.symocraft/renderer/renderer.h ...   Passed    0.01 sec
+      Start 32: architecture.public_header.renderer.symocraft/renderer/types.h
+ 3/11 Test #32: architecture.public_header.renderer.symocraft/renderer/types.h ......   Passed    0.01 sec
+      Start 52: renderer.public_api_consumer
+ 4/11 Test #52: renderer.public_api_consumer ........................................   Passed    0.01 sec
+      Start 53: renderer.facade_contract
+ 5/11 Test #53: renderer.facade_contract ............................................   Passed    0.01 sec
+      Start 54: renderer.shader_loading
+ 6/11 Test #54: renderer.shader_loading .............................................   Passed    0.01 sec
+      Start 55: renderer.batch_safety
+ 7/11 Test #55: renderer.batch_safety ...............................................   Passed    0.20 sec
+      Start 56: performance.gpu_timer
+ 8/11 Test #56: performance.gpu_timer ...............................................   Passed    0.01 sec
+      Start 60: architecture.source_boundaries
+ 9/11 Test #60: architecture.source_boundaries ......................................   Passed    0.29 sec
+      Start 61: architecture.negative_boundaries
+10/11 Test #61: architecture.negative_boundaries ....................................   Passed    4.92 sec
+      Start 62: architecture.renderer_boundaries
+11/11 Test #62: architecture.renderer_boundaries ....................................   Passed    0.80 sec
+
+100% tests passed, 0 tests failed out of 11
+
+Total Test time (real) =   6.30 sec

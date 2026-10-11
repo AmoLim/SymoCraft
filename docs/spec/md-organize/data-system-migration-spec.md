@@ -9,7 +9,13 @@ tags:
   - area/spec
 ---
 
+> 2026-10-11 旧导航引用已失效，已改指现行权威或明确归档入口；历史命令、结果和批准含义保持不变。
+
 # 数据与系统笔记迁移 Spec
+
+> 2026-10-10 OpenSpec 迁移后已退役：本页仅保留原文供复核，元数据、待办及“当前”等文字均属原记录时点，不是现役规格、规则或活动计划。旧逐对象及模板任务取消，不迁成新的活动任务。现役入口见 [新权威位置](../../DOCUMENTATION_MAP.md)；来源映射见 [迁移 design](../../openspec/changes/docs-openspec-migration/design.md#来源映射)。旧源未删除，清场须另行确认。
+
+> 2026-10-10 已退役：本页只保留历史迁移原文供复核。现行规则见 [DOCUMENTATION_MAP](../../DOCUMENTATION_MAP.md#架构文档)，按模块合并关键契约，不再要求单对象独立笔记或填写模板。以下旧待办不构成新实施授权，旧正文清理待用户复核确认。
 
 ## 状态与交付边界
 
@@ -17,7 +23,7 @@ tags:
 
 2026-10-06 追加工作规格：对各生产模块已确定对象逐个整理，补齐 GpuTimer 等审核入口。当时只更新 spec，随后按用户确认实施。范围从首批 DOD 适配扩展到下文对象覆盖，原“暂不拆”不再是省略对象理由，不扩大工程重设计范围。
 
-归属规范：[mdspec](mdspec.md)。写法依据：[模板使用说明](../../Obsidian-功能笔记模板/00-使用说明.md)、[07 数据与存储设计](../../Obsidian-功能笔记模板/templates/07-数据与存储设计.md)、[08 系统与数据流设计](../../Obsidian-功能笔记模板/templates/08-系统与数据流设计.md)。当前实现入口：[模块架构索引](../../project/architecture/Overview.md)。
+归属规范：[mdspec](mdspec.md)。写法依据：[模板使用说明](../../DOCUMENTATION_MAP.md#文档预算与表达)、[07 数据与存储设计](../../DOCUMENTATION_MAP.md#文档预算与表达)、[08 系统与数据流设计](../../DOCUMENTATION_MAP.md#文档预算与表达)。当前实现入口：[模块架构索引](../../architecture/Overview.md)。
 
 [面向对象与数据导向架构初稿](../project-architecture/面向对象与数据导向架构设计初稿.md)只作为候选设计背景；其中 Application 实例、VoxelWorld、SimulationSession、网格版本或异步机制不得被迁入当前实现章节。
 
@@ -55,11 +61,11 @@ tags:
 
 | 当前笔记 | 计划目标 | 操作与责任分配 |
 | --- | --- | --- |
-| 原 `scene/Scene-共享场景数据-类设计.md` | [Scene 数据](../../project/architecture/scene/Scene-共享场景数据-数据设计.md) | 改名为数据设计；保留布局、CameraView 副本、MeshView 借用及公开头边界 |
-| 原 `simulation/Simulation-类设计.md` | [Simulation 数据](../../project/architecture/simulation/Simulation-数据设计.md) | 改名为数据设计；维护输入/交互值、组件、所有者、有效期及状态负责人 |
-| 同上，结合 [Simulation 功能](../../project/architecture/simulation/Simulation-功能.md) 和实际调用方 | `simulation/Simulation-系统设计.md` | 抽出系统入口、查询读写集、处理顺序、每帧/固定步区别、交互提交、暂停与重置；不重复字段表 |
-| [ECS 类设计](../../project/architecture/ecs/ECS-存储边界-类设计.md) | 原路径保留 | 聚焦 Registry 独占 Storage、接口转发、不可复制、Free/析构及生命周期；不把 Registry 变成纯数据记录 |
-| 同上，结合 ECS 实现与 [存储边界功能](../../project/architecture/ecs/ECS-存储边界.md) | `ecs/ECS-组件存储-数据设计.md` | 抽出实体表、类型注册、组件池、查询、结构变化、引用失效和 T4 未解决风险 |
+| 原 `scene/Scene-共享场景数据-类设计.md` | [Scene 数据](../../architecture/scene.md) | 改名为数据设计；保留布局、CameraView 副本、MeshView 借用及公开头边界 |
+| 原 `simulation/Simulation-类设计.md` | [Simulation 数据](../../architecture/simulation.md) | 改名为数据设计；维护输入/交互值、组件、所有者、有效期及状态负责人 |
+| 同上，结合 [Simulation 功能](../../architecture/simulation.md) 和实际调用方 | `simulation/Simulation-系统设计.md` | 抽出系统入口、查询读写集、处理顺序、每帧/固定步区别、交互提交、暂停与重置；不重复字段表 |
+| [ECS 类设计](../../architecture/ecs.md) | 原路径保留 | 聚焦 Registry 独占 Storage、接口转发、不可复制、Free/析构及生命周期；不把 Registry 变成纯数据记录 |
+| 同上，结合 ECS 实现与 [存储边界功能](../../architecture/ecs.md) | `ecs/ECS-组件存储-数据设计.md` | 抽出实体表、类型注册、组件池、查询、结构变化、引用失效和 T4 未解决风险 |
 
 Scene 和 Simulation 原文件只在正式迁移时移除，同期修正可维护文档中的入链；不长期保留双份正文或默认建立跳转页。ECS 原路径不移动。新系统/数据笔记通过链接连接功能与实际所有者。
 
@@ -82,10 +88,10 @@ Scene 和 Simulation 原文件只在正式迁移时移除，同期修正可维�
 
 | 笔记 / 区域 | 本轮计划 |
 | --- | --- |
-| [Camera](../../project/architecture/simulation/Camera-类设计.md)、[Window](../../project/architecture/platform/Window-类设计.md) | 复用已有独立类笔记，补齐逐对象审核字段与关联辅助类型覆盖位置 |
-| [World](../../project/architecture/world/World-类设计.md)、[Generator](../../project/architecture/world/Generator-类设计.md) | World 汇总保留世界存储摘要，Chunk/Block 分别建对象笔记，Generator 复用已有笔记；生成与网格系统专项仍不自动扩写 |
-| [Renderer](../../project/architecture/renderer/Renderer%20namespace%20API.md)、[Telemetry](../../project/architecture/telemetry/Telemetry-采样与导出-类设计.md) | 模块汇总降为协作者摘要与导航，GpuTimer/Batch/Shader/ShaderProgram/Texture/TextureArray、Session 分别整理独立笔记 |
-| [Assets](../../project/architecture/assets/Assets-资源读取与解码-类设计.md)、[Foundation](../../project/architecture/foundation/Foundation-基础契约-类设计.md) | Image 数据契约和 Value 对象契约分别具备独立审核入口；函数不虚构成类 |
+| [Camera](../../architecture/simulation.md)、[Window](../../architecture/platform.md) | 复用已有独立类笔记，补齐逐对象审核字段与关联辅助类型覆盖位置 |
+| [World](../../architecture/world.md)、[Generator](../../architecture/world.md) | World 汇总保留世界存储摘要，Chunk/Block 分别建对象笔记，Generator 复用已有笔记；生成与网格系统专项仍不自动扩写 |
+| [Renderer](../../architecture/renderer.md)、[Telemetry](../../architecture/telemetry.md) | 模块汇总降为协作者摘要与导航，GpuTimer/Batch/Shader/ShaderProgram/Texture/TextureArray、Session 分别整理独立笔记 |
+| [Assets](../../architecture/assets.md)、[Foundation](../../architecture/foundation.md) | Image 数据契约和 Value 对象契约分别具备独立审核入口；函数不虚构成类 |
 | app、构建契约及其余功能文档 | 如实记录当前 namespace 与值类型；同步对象覆盖导航，不虚构 Application 或构建管理类 |
 | `project/benchmark/` | 本次不拆现有类/功能笔记；其协议与实验不因新模板重分类 |
 | `legacy/`、`milestones/`、`evidence/` | 不重写历史设计与结论；可维护历史文档仅修正必要导航，证据文件不可改写或移动 |
@@ -115,7 +121,7 @@ Scene 和 Simulation 原文件只在正式迁移时移除，同期修正可维�
 | ecs | [Registry、Iterator、RegistryViewer](../../../game/modules/ecs/include/symocraft/ecs/registry.h)、[Internal::ComponentContainer](../../../game/modules/ecs/src/component_container.h) | 原 `ecs/ECS-存储边界-类设计.md` 聚焦 Registry；新增 `ecs/Iterator-类设计.md`、`ecs/RegistryViewer-类设计.md`、`ecs/ComponentContainer-类设计.md`，连接首批存储数据笔记。Storage/SparseSetPool 与保留的 RawMemory/SizedMemory 明确覆盖位置和未启用边界 |
 | simulation | Camera、[PlayerMath::FixedStepBudget](../../../game/modules/simulation/include/symocraft/simulation/player_math.h)，组件/输入/交互记录和系统函数 | 复用 `simulation/Camera-类设计.md`，新增 `simulation/FixedStepBudget-类设计.md`；各组件和值类型由首批 Simulation 数据笔记分节覆盖，系统笔记维护处理顺序与引用 |
 | platform | [Window](../../../game/modules/platform/include/symocraft/platform/window.h)、[GraphicsBridge](../../../game/modules/platform/src/graphics_bridge/graphics_bridge.h)，输入与内存采样值 | 复用 `platform/Window-类设计.md`，明确 Window::Impl 小节；GraphicsBridge 作为无实例的受限接口在平台功能笔记分节；输入/快照/ProcessMemory 各有覆盖小节 |
-| renderer | [GpuTimer](../../../game/modules/renderer/include/symocraft/renderer/gpu_timer.h)、[Batch<T>](../../../game/modules/renderer/src/batch.hpp)、[Shader](../../../game/modules/renderer/src/shader.h)、[ShaderProgram](../../../game/modules/renderer/src/shader_program.h)、[Texture / TextureArray](../../../game/modules/renderer/src/texture.h) | `renderer/GpuTimer-类设计.md`、`renderer/Batch-类设计.md`、`renderer/Shader-类设计.md`、`renderer/ShaderProgram-类设计.md`、`renderer/Texture-类设计.md`、`renderer/TextureArray-类设计.md`；命名遵循实际符号 GpuTimer，不另建 GPUTimer 同义笔记 |
+| renderer | [GpuTimer](../../../game/modules/renderer/legacy/include/symocraft/renderer/gpu_timer.h)、[Batch<T>](../../../game/modules/renderer/src/batch.hpp)、[Shader](../../../game/modules/renderer/src/shader.h)、[ShaderProgram](../../../game/modules/renderer/src/shader_program.h)、[Texture / TextureArray](../../../game/modules/renderer/src/texture.h) | `renderer/GpuTimer-类设计.md`、`renderer/Batch-类设计.md`、`renderer/Shader-类设计.md`、`renderer/ShaderProgram-类设计.md`、`renderer/Texture-类设计.md`、`renderer/TextureArray-类设计.md`；命名遵循实际符号 GpuTimer，不另建 GPUTimer 同义笔记 |
 | telemetry | [Performance::Session、SessionConfig、Frame、Memory](../../../game/modules/telemetry/include/symocraft/telemetry/performance.h) | `telemetry/Session-类设计.md`；SessionConfig/Frame/Memory 及 YAML 适配行为在关联数据/功能笔记的明确小节维护，保留与 benchmark 协议的链接 |
 | app / startup | 当前 [Application](../../../game/app/src/application.h) 是命名空间；[StartupOptions](../../../game/app/src/startup_options.h)、PreparedWorld 是值结构 | 现有 app 运行编排与 Application 笔记必须注明真实形态并分节覆盖启动/准备值；不虚构已实现 Application 实例。批准未来实例设计时另标候选状态 |
 | 构建 / 测试边界 | CMake target、测试入口与 include 白名单，不是引擎对象类 | 原构建笔记保留，不为“每模块一类”新增管理类。测试 fixture 与工具进程对象不纳入生产对象数 |
@@ -126,7 +132,7 @@ Renderer 的 Result/Slot、VertexAttribute、DrawArraysIndirectCommand、ShaderV
 
 ### GpuTimer 的强制审核内容
 
-当前 [Renderer 汇总](../../project/architecture/renderer/Renderer%20namespace%20API.md) 仅列出部分槽位成员、约束和简化接口，不是完全没有提及 GpuTimer；缺口是没有独立、完整的对象审核入口。计划从该汇总抽出 GpuTimer 的真实契约，相关 I4 以旧编号和来源记录迁移关系，不因拆笔记删除或重编号其历史依据。
+当前 [Renderer 汇总](../../architecture/renderer.md) 仅列出部分槽位成员、约束和简化接口，不是完全没有提及 GpuTimer；缺口是没有独立、完整的对象审核入口。计划从该汇总抽出 GpuTimer 的真实契约，相关 I4 以旧编号和来源记录迁移关系，不因拆笔记删除或重编号其历史依据。
 
 独立笔记至少覆盖以下实际项目，不允许仅用“异步 GPU 计时”一句话代替：
 
@@ -141,7 +147,7 @@ Renderer 的 Result/Slot、VertexAttribute、DrawArraysIndirectCommand、ShaderV
 
 ### 全局覆盖清单与审核入口
 
-正式整理新增 [对象笔记覆盖清单](../../project/architecture/对象笔记覆盖清单.md)，现已创建。每个主体一行，包含模块、完整符号、源码定义与构建归属、活动/保留/批准候选状态及依据、主笔记与小节、独立/合并理由、审核缺口和验证依据。
+正式整理新增 [对象笔记覆盖清单](../../DOCUMENTATION_MAP.md#架构文档)，现已创建。每个主体一行，包含模块、完整符号、源码定义与构建归属、活动/保留/批准候选状态及依据、主笔记与小节、独立/合并理由、审核缺口和验证依据。
 
 独立对象链接独立笔记；合并的值/辅助类型必须链接专用小节或明确锚点，不能只指向十几个对象混杂的模块总页。全局清单与各模块入口交叉链接，Overview 的模块表区分功能/系统流程、独立对象、数据契约。用户应能从模块入口直接找到 GpuTimer、Batch、Session 等对象，而不必搜索 class_name 或从源码猜测覆盖位置。
 
@@ -170,8 +176,8 @@ Renderer 的 Result/Slot、VertexAttribute、DrawArraysIndirectCommand、ShaderV
 
 | 示例 | 来源与演示重点 |
 | --- | --- |
-| [Symocraft-Scene-数据设计示例](../../Obsidian-功能笔记模板/examples/Symocraft-Scene-数据设计示例.md) | 从 Scene 笔记及公开头抽出顶点、相机值与网格视图；演示无需虚构类的值契约、尺寸与借用失效，以及“不适用”项 |
-| [Symocraft-Simulation-系统设计示例](../../Obsidian-功能笔记模板/examples/Symocraft-Simulation-系统设计示例.md) | 从 Simulation 笔记和 app 实际调用链抽出普通玩法更新；演示读写集、逐事件/每帧/固定步、同帧编辑和串行限制 |
+| [Symocraft-Scene-数据设计示例](../../DOCUMENTATION_MAP.md#文档预算与表达) | 从 Scene 笔记及公开头抽出顶点、相机值与网格视图；演示无需虚构类的值契约、尺寸与借用失效，以及“不适用”项 |
+| [Symocraft-Simulation-系统设计示例](../../DOCUMENTATION_MAP.md#文档预算与表达) | 从 Simulation 笔记和 app 实际调用链抽出普通玩法更新；演示读写集、逐事件/每帧/固定步、同帧编辑和串行限制 |
 
 两份示例采用对应新模板的三段结构，元数据分别为 `type: 数据设计` / `系统设计`、`status: 草稿`、`project: Symocraft`、实际 module、`tags: [示例, area/templates]`。正文标明摘录日期、来源、核对与未测范围；不是新的生产设计权威副本。
 
@@ -240,7 +246,7 @@ Renderer 的 Result/Slot、VertexAttribute、DrawArraysIndirectCommand、ShaderV
 
 用户随后明确授权实施。Scene 与 Simulation 原类笔记直接改名为数据笔记，旧文件移除、可维护入链同步；新增 Simulation 系统、ECS 存储数据和 15 个单主体笔记。原 Camera/Window/Generator/Registry 复用补充；模块汇总仅保留协作/数据摘要与真实门面形态，完成变更归入当前设计，本次变更写“无”。
 
-[对象笔记覆盖清单](../../project/architecture/对象笔记覆盖清单.md)登记 76 个主体（含数据、私有辅助、门面与保留声明，不是 76 个独立类）；[模块入口](../../project/architecture/Overview.md)直接链接各资源对象。architecture 笔记由 26 篇变为 44 篇。新建/拆出的笔记均为草稿，说明仅源码核对；旧已验证状态仍限定 T0。
+[对象笔记覆盖清单](../../DOCUMENTATION_MAP.md#架构文档)登记 76 个主体（含数据、私有辅助、门面与保留声明，不是 76 个独立类）；[模块入口](../../architecture/Overview.md)直接链接各资源对象。architecture 笔记由 26 篇变为 44 篇。新建/拆出的笔记均为草稿，说明仅源码核对；旧已验证状态仍限定 T0。
 
 新增笔记明确记录 Shader/ShaderProgram 无资源释放析构、Texture 非虚析构、TextureArray 实际 64×64 tile/GPU atlas 复制、GpuTimer 缺少完整顺序保护及零绘制段语义、Registry 版本/Iterator 截断/组件删除与分配失败风险；不以原注释或期望补造当前保证，不改引擎实现。
 

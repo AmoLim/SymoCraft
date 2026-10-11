@@ -1,0 +1,13 @@
+Relative output did not follow PowerShell location: F:\GameDevelop\OpenGLProject\Symocraft\out\m2-t3\script-reproductio
+n\424f55c84b59402082d77e1536d49fcc\shell directory\success\static-1\result.json; Benchmark invalid or failed; inspect F
+:\GameDevelop\OpenGLProject\Symocraft\out\m2-t3\script-reproduction\424f55c84b59402082d77e1536d49fcc\native directory\s
+uccess\static-1. Remaining runs were not started.
+At F:\GameDevelop\OpenGLProject\Symocraft\tests\benchmark_script_tests.ps1:33 char:58
++ ... ultPath)) { throw "Relative output did not follow PowerShell location ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Relative output...re not started.:String) [], RuntimeException
+    + FullyQualifiedErrorId : Relative output did not follow PowerShell location: F:\GameDevelop\OpenGLProject\Symocra 
+   ft\out\m2-t3\script-reproduction\424f55c84b59402082d77e1536d49fcc\shell directory\success\static-1\result.json; Be  
+  nchmark invalid or failed; inspect F:\GameDevelop\OpenGLProject\Symocraft\out\m2-t3\script-reproduction\424f55c84b   
+ 59402082d77e1536d49fcc\native directory\success\static-1. Remaining runs were not started.
+ 

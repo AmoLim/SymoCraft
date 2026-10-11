@@ -1,0 +1,640 @@
+{
+  "client_date": "2026-10-08",
+  "created_utc": "2026-10-08T05:01:15.3303101Z",
+  "stage": "M3-T2-S3",
+  "implementation_complete": true,
+  "s3_overall_complete": false,
+  "manual_acceptance_passed": false,
+  "t2_approved": false,
+  "scope": "Production SDL3 input/window behavior implementation and scoped actual-library validation; remaining hardware/window gaps are not accepted",
+  "relevant_source_identity": [
+    {
+      "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/src/window.cpp",
+      "sha256": "7d5cd113551f34bafd47a080a938edd8345f09e22bfd4f7e15d0f00efa6a832f",
+      "bytes": 26887
+    },
+    {
+      "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/modules/platform/src/input_state.h",
+      "sha256": "445fe1ea7be1de4ba32cae97ed7a9aef8395752fbbd07d5e1e240b91ac13d3b1",
+      "bytes": 8402
+    },
+    {
+      "path": "F:/GameDevelop/OpenGLProject/Symocraft/game/app/src/application.cpp",
+      "sha256": "8a8d21c73bb6b8c23638cd8352d4e8cc14a4923f6c2160e53391ad4d8098ca02",
+      "bytes": 26431
+    },
+    {
+      "path": "F:/GameDevelop/OpenGLProject/Symocraft/test/experimental/platform-sdl3/input_tests.cpp",
+      "sha256": "f90f2003915c90b6a5ef891340271f4d9caee0380f15a8ff538e8c1e87eab010",
+      "bytes": 40773
+    },
+    {
+      "path": "F:/GameDevelop/OpenGLProject/Symocraft/test/experimental/platform-sdl3/input_state_tests.cpp",
+      "sha256": "a81b418a69bddbf72e39e6aa52b8298421bf18cd7ea133c58d37b355f7a5026d",
+      "bytes": 18834
+    },
+    {
+      "path": "F:/GameDevelop/OpenGLProject/Symocraft/test/experimental/platform-sdl3/allocation_tests.cpp",
+      "sha256": "1b1ed281fe04e70c35d56f9de056c59f0b2abe234bfe68e94aa6e0df6919fe30",
+      "bytes": 16165
+    },
+    {
+      "path": "F:/GameDevelop/OpenGLProject/Symocraft/test/experimental/platform-sdl3/input_test_events.h",
+      "sha256": "b4c8fb7d226d86855f366639cea52d391ef352383831dedd70e350256868c519",
+      "bytes": 1522
+    },
+    {
+      "path": "F:/GameDevelop/OpenGLProject/Symocraft/test/experimental/platform-sdl3/CMakeLists.txt",
+      "sha256": "2a43a571a9b9bf1a66901c5438b1341499d6b3c1b17f0034798a7e2381416013",
+      "bytes": 8398
+    },
+    {
+      "path": "F:/GameDevelop/OpenGLProject/Symocraft/test/experimental/platform-sdl3/build.ps1",
+      "sha256": "03da5a48a784e677388b2c44143a342834508b89a235420053e6d08a5b949e61",
+      "bytes": 5596
+    },
+    {
+      "path": "F:/GameDevelop/OpenGLProject/Symocraft/test/experimental/platform-sdl3/verify-probes.ps1",
+      "sha256": "cd60328be390b4ec3f590d9ddb172057ebb147723e183a83d23ad14e024f18ac",
+      "bytes": 9433
+    },
+    {
+      "path": "F:/GameDevelop/OpenGLProject/Symocraft/test/experimental/platform-sdl3/verify-input.ps1",
+      "sha256": "012b43e473b47c5ddcb930159eeee36f4092a7d65a8a3baa9bccef948c8a2384",
+      "bytes": 6634
+    },
+    {
+      "path": "F:/GameDevelop/OpenGLProject/Symocraft/test/experimental/platform-sdl3/verify-allocation.ps1",
+      "sha256": "93cd57b3d839c09aee1fbbcd0c40822a7e96d716b2525eaca7ca968f6e8c7cca",
+      "bytes": 8401
+    },
+    {
+      "path": "F:/GameDevelop/OpenGLProject/Symocraft/test/experimental/platform-sdl3/verify-application.ps1",
+      "sha256": "20895a1c8c860afbb11af923f09615cd1d600d7575941fdf91b0e6390b23fc55",
+      "bytes": 12145
+    },
+    {
+      "path": "F:/GameDevelop/OpenGLProject/Symocraft/test/experimental/platform-sdl3/run-manual-input.ps1",
+      "sha256": "6617c4c9efefb267e7de89112fa89f1dd07ebe7fbf0cc618fb6aa620aa6420f2",
+      "bytes": 4735
+    },
+    {
+      "path": "F:/GameDevelop/OpenGLProject/Symocraft/test/experimental/platform-sdl3/run-package-input.ps1",
+      "sha256": "245813c63604a3858c3e65a21446dcad77aa36f58d18cc60ed94ab4d9fc50ecd",
+      "bytes": 2592
+    }
+  ],
+  "configurations": [
+    {
+      "configuration": "debug",
+      "production_build": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/main-debug-001",
+      "enabled_main_tests": 62,
+      "disabled_main_tests": "world.allocations",
+      "main_ctest": {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/main-debug-001-final-test.log",
+        "sha256": "65072f559e6f6e270af48719f9d72c807d65b32e1348722b02b3388ea34a6572",
+        "bytes": 11895
+      },
+      "production_imports": {
+        "configuration": "Debug",
+        "production_build": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/main-debug-001",
+        "imports": [
+          {
+            "target": "platform",
+            "archive": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/main-debug-001/game/modules/platform/symocraft_platform.lib",
+            "sha256": "be4cc32e1b026dc0c428b5a83db05fcc3571c8a96047daf4324a677f2361e208"
+          },
+          {
+            "target": "foundation",
+            "archive": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/main-debug-001/game/modules/foundation/symocraft_foundation.lib",
+            "sha256": "8e1abcaf6038bceab07ea2033f906cd750ddaaf99aef635303912b0a3b3f3228"
+          },
+          {
+            "target": "sdl",
+            "archive": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/main-debug-001/vendor/sdl3/SDL3-static.lib",
+            "sha256": "8fb32fa6ad3f5f4286ca47fc4e7d31a618fc83520f1b2d98a6440e506b548141"
+          },
+          {
+            "target": "glad",
+            "archive": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/main-debug-001/game/symocraft_glad.lib",
+            "sha256": "3ac95e2f2e3c2724324659f1079a08fa8af2572d57634fecef5aa682bbd5552c"
+          }
+        ],
+        "production_cache_sha256": "0e43e0b04384abfc7e32b622bc8c0c32a776d43b302049753778dab61cbb8f47",
+        "current_window_source_sha256": "7d5cd113551f34bafd47a080a938edd8345f09e22bfd4f7e15d0f00efa6a832f",
+        "current_input_state_source_sha256": "445fe1ea7be1de4ba32cae97ed7a9aef8395752fbbd07d5e1e240b91ac13d3b1"
+      },
+      "input_probe_executable": {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/probe-debug-003/SymoCraftPlatformInputTests.exe",
+        "sha256": "37a3ea426b0581605b0687cfa126e524486af48751ee131b4f0a71100d686601",
+        "bytes": 3780096
+      },
+      "actual_private_reducer": {
+        "status": "pass",
+        "checks": 263,
+        "scope": "actual production private InputState; synthetic data only; no SDL runtime or hardware"
+      },
+      "reducer_log": {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/probe-debug-003-pure-checks.log",
+        "sha256": "3bf83e349345001bd756d8b861bc79411a6e8294b1333b083c7471d6d2661a32",
+        "bytes": 128
+      },
+      "input_runtime_summary": {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/runtime-input-debug-003/summary.json",
+        "sha256": "66446bc0a14bc0881df12e01b061559a9184396e40d2d419f37e525e273dab21",
+        "bytes": 27531
+      },
+      "input_passed_cases": 21,
+      "input_partial_cases": 0,
+      "allocation_summary": {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/runtime-allocation-debug-002/summary.json",
+        "sha256": "a2d5c503ae8fcf0f2e7d7210d0da397add2374b531687cb07a42f2bc6a5500e6",
+        "bytes": 8958
+      },
+      "allocation_passed_cases": 4,
+      "nonempty_snapshot_preservation_observed": true,
+      "bridge_summary": {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/runtime-probe-debug-001/summary.json",
+        "sha256": "d4fba2f689818cace76191f4b575cea12f3e9179da4493875e33dc8d82a614f1",
+        "bytes": 36471
+      },
+      "bridge_passed_cases": 17,
+      "game_summary": {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/game-debug-001/result.json",
+        "sha256": "05ec10d6206ad699cf1d3b1202cf6d07ddd6878d4cd0c3eb687246a7a3ab824c",
+        "bytes": 570
+      },
+      "game": {
+        "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\s3\\install\\main-debug-001\\SymoCraft.exe",
+        "workingDirectory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\s3\\game-debug-001",
+        "requestedFrames": 120,
+        "arguments": [
+          "--smoke-frames",
+          "120",
+          "--seed",
+          "424242"
+        ],
+        "renderedFrames": 120,
+        "glDiagnosticCount": 0,
+        "processId": 12528,
+        "timedOut": false,
+        "exitCode": 0,
+        "expectedExitCode": 0,
+        "ready": true,
+        "shutdown": true,
+        "elapsedSeconds": 4.7661333,
+        "passed": true
+      },
+      "production_compile_commands": {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/main-debug-001/compile_commands.json",
+        "sha256": "a73825d8292149809c3bbb2877909e7098a9b7d3e537f9d0f241fdfd605ec4ee",
+        "bytes": 483935
+      },
+      "external_vulkan_sdk_compilation": false,
+      "sdl_private_contract_leaks": 0
+    },
+    {
+      "configuration": "release",
+      "production_build": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/main-release-001",
+      "enabled_main_tests": 63,
+      "disabled_main_tests": null,
+      "main_ctest": {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/main-release-001-final-test.log",
+        "sha256": "8c7562d0a5b0f524b08a81d2d8a5a4763f71064a64c1c97e6f3e74aa2bbae1ed",
+        "bytes": 11815
+      },
+      "production_imports": {
+        "configuration": "Release",
+        "production_build": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/main-release-001",
+        "imports": [
+          {
+            "target": "platform",
+            "archive": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/main-release-001/game/modules/platform/symocraft_platform.lib",
+            "sha256": "73c45d43876d83a5a23814c88988925870d50522a931557cc877ebd6d9d718eb"
+          },
+          {
+            "target": "foundation",
+            "archive": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/main-release-001/game/modules/foundation/symocraft_foundation.lib",
+            "sha256": "5309361c755a826a515f2ff30a9d710f9d63483a2d3dad29915d76d8050178a5"
+          },
+          {
+            "target": "sdl",
+            "archive": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/main-release-001/vendor/sdl3/SDL3-static.lib",
+            "sha256": "26bc7c7acca98c9ffc8f022b7c13314f3d441c87c7474deccfcbea7cebd5271e"
+          },
+          {
+            "target": "glad",
+            "archive": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/main-release-001/game/symocraft_glad.lib",
+            "sha256": "348570340d53a34a4edc8ed60cf9fdf18f76c0cdd28eef0dd051a133c08346b7"
+          }
+        ],
+        "production_cache_sha256": "df46bd9f9222c858ba3df672ef486b047953c3533300dfe966cf287f6ee7c67a",
+        "current_window_source_sha256": "7d5cd113551f34bafd47a080a938edd8345f09e22bfd4f7e15d0f00efa6a832f",
+        "current_input_state_source_sha256": "445fe1ea7be1de4ba32cae97ed7a9aef8395752fbbd07d5e1e240b91ac13d3b1"
+      },
+      "input_probe_executable": {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/probe-release-003/SymoCraftPlatformInputTests.exe",
+        "sha256": "e17480845309334c4d9e14bb1fd570350ee370a4290aeb471b846f1b1286d37e",
+        "bytes": 1515008
+      },
+      "actual_private_reducer": {
+        "status": "pass",
+        "checks": 263,
+        "scope": "actual production private InputState; synthetic data only; no SDL runtime or hardware"
+      },
+      "reducer_log": {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/probe-release-003-pure-checks.log",
+        "sha256": "3bf83e349345001bd756d8b861bc79411a6e8294b1333b083c7471d6d2661a32",
+        "bytes": 128
+      },
+      "input_runtime_summary": {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/runtime-input-release-003/summary.json",
+        "sha256": "7bb6ef518e014ea0c06944b2331e9235b7a213b05203aba5ba8ae7dd2e581890",
+        "bytes": 27547
+      },
+      "input_passed_cases": 21,
+      "input_partial_cases": 0,
+      "allocation_summary": {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/runtime-allocation-release-002/summary.json",
+        "sha256": "17dda63750ad716d137e404c14addb54eac94b79947239254a66a2ba74b9110f",
+        "bytes": 8988
+      },
+      "allocation_passed_cases": 4,
+      "nonempty_snapshot_preservation_observed": true,
+      "bridge_summary": {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/runtime-probe-release-001/summary.json",
+        "sha256": "c29277185cf873ff108643ba41430cca5567f48592d735d92487d6ef0514f7cb",
+        "bytes": 36485
+      },
+      "bridge_passed_cases": 17,
+      "game_summary": {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/game-release-001/result.json",
+        "sha256": "710ecbb33cb93d096eb55b7eaf3d08fccc2fac6d3ae7ed13a5b20fb5273f42fa",
+        "bytes": 574
+      },
+      "game": {
+        "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\s3\\install\\main-release-001\\SymoCraft.exe",
+        "workingDirectory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\s3\\game-release-001",
+        "requestedFrames": 120,
+        "arguments": [
+          "--smoke-frames",
+          "120",
+          "--seed",
+          "424242"
+        ],
+        "renderedFrames": 120,
+        "glDiagnosticCount": 0,
+        "processId": 34812,
+        "timedOut": false,
+        "exitCode": 0,
+        "expectedExitCode": 0,
+        "ready": true,
+        "shutdown": true,
+        "elapsedSeconds": 1.9419608,
+        "passed": true
+      },
+      "production_compile_commands": {
+        "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/main-release-001/compile_commands.json",
+        "sha256": "51a0795339e519949c7b9e57aed4841908881c99d9d897dafd45939efad91907",
+        "bytes": 485285
+      },
+      "external_vulkan_sdk_compilation": false,
+      "sdl_private_contract_leaks": 0
+    }
+  ],
+  "application_summary": {
+    "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/application-release-004/summary.json",
+    "sha256": "2e4f72eb5ce54a3dcea0defb3f42aa8608e17cd210faeaf10c720ace0463ac00",
+    "bytes": 7529
+  },
+  "application_passed_cases": 6,
+  "application_partial_cases": 1,
+  "application_size_change_validation_complete": false,
+  "application_observed_results": [
+    {
+      "case": "paused-close",
+      "passed": true,
+      "partial": false,
+      "actual_owned_action": true,
+      "pixels_before": [
+        960,
+        600
+      ],
+      "pixels_after": null,
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "protocol": null,
+      "arguments": [
+        "--seed",
+        "424242"
+      ]
+    },
+    {
+      "case": "minimized-close",
+      "passed": true,
+      "partial": false,
+      "actual_owned_action": true,
+      "pixels_before": [
+        960,
+        600
+      ],
+      "pixels_after": null,
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "protocol": null,
+      "arguments": [
+        "--seed",
+        "424242"
+      ]
+    },
+    {
+      "case": "allow-unfocused",
+      "passed": true,
+      "partial": false,
+      "actual_owned_action": true,
+      "pixels_before": [
+        1920,
+        1080
+      ],
+      "pixels_after": null,
+      "exit_code": 0,
+      "timed_out": false,
+      "error": null,
+      "protocol": {
+        "protocol": true,
+        "completed": true,
+        "valid_run": true,
+        "window_not_focused": false,
+        "framebuffer_changed_or_minimized": false,
+        "duration_not_completed": false,
+        "runtime_error": false,
+        "total_frames": 486,
+        "unfocused_frames": 485,
+        "terrain_digest": "fnv1a64:cd80ebb0446c15c6",
+        "world_digest": "fnv1a64:bddd435ea737fa62"
+      },
+      "arguments": [
+        "--seed",
+        "424242",
+        "--benchmark",
+        "static",
+        "--output",
+        "\"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\s3\\application-release-004\\allow-unfocused/run\"",
+        "--warmup-seconds",
+        "0",
+        "--sample-seconds",
+        "3",
+        "--width",
+        "1920",
+        "--height",
+        "1080",
+        "--vsync",
+        "0",
+        "--focus-policy",
+        "allow-unfocused"
+      ]
+    },
+    {
+      "case": "strict-unfocused",
+      "passed": true,
+      "partial": false,
+      "actual_owned_action": true,
+      "pixels_before": [
+        1920,
+        1080
+      ],
+      "pixels_after": null,
+      "exit_code": 4,
+      "timed_out": false,
+      "error": null,
+      "protocol": {
+        "protocol": true,
+        "completed": true,
+        "valid_run": false,
+        "window_not_focused": true,
+        "framebuffer_changed_or_minimized": false,
+        "duration_not_completed": false,
+        "runtime_error": false,
+        "total_frames": 464,
+        "unfocused_frames": 463,
+        "terrain_digest": "fnv1a64:cd80ebb0446c15c6",
+        "world_digest": "fnv1a64:bddd435ea737fa62"
+      },
+      "arguments": [
+        "--seed",
+        "424242",
+        "--benchmark",
+        "static",
+        "--output",
+        "\"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\s3\\application-release-004\\strict-unfocused/run\"",
+        "--warmup-seconds",
+        "0",
+        "--sample-seconds",
+        "3",
+        "--width",
+        "1920",
+        "--height",
+        "1080",
+        "--vsync",
+        "0",
+        "--focus-policy",
+        "strict"
+      ]
+    },
+    {
+      "case": "benchmark-minimized",
+      "passed": true,
+      "partial": false,
+      "actual_owned_action": true,
+      "pixels_before": [
+        1920,
+        1080
+      ],
+      "pixels_after": null,
+      "exit_code": 4,
+      "timed_out": false,
+      "error": null,
+      "protocol": {
+        "protocol": true,
+        "completed": false,
+        "valid_run": false,
+        "window_not_focused": false,
+        "framebuffer_changed_or_minimized": true,
+        "duration_not_completed": true,
+        "runtime_error": false,
+        "total_frames": 5,
+        "unfocused_frames": 5,
+        "terrain_digest": "fnv1a64:cd80ebb0446c15c6",
+        "world_digest": "fnv1a64:bddd435ea737fa62"
+      },
+      "arguments": [
+        "--seed",
+        "424242",
+        "--benchmark",
+        "static",
+        "--output",
+        "\"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\s3\\application-release-004\\benchmark-minimized/run\"",
+        "--warmup-seconds",
+        "0",
+        "--sample-seconds",
+        "3",
+        "--width",
+        "1920",
+        "--height",
+        "1080",
+        "--vsync",
+        "0",
+        "--focus-policy",
+        "allow-unfocused"
+      ]
+    },
+    {
+      "case": "benchmark-resized",
+      "passed": false,
+      "partial": true,
+      "actual_owned_action": true,
+      "pixels_before": [
+        1920,
+        1080
+      ],
+      "pixels_after": [
+        1920,
+        1080
+      ],
+      "exit_code": null,
+      "timed_out": false,
+      "error": "Fixture unavailable: the fixed benchmark window rejected the forced size request; production invalidation was not exercised.",
+      "protocol": null,
+      "arguments": [
+        "--seed",
+        "424242",
+        "--benchmark",
+        "static",
+        "--output",
+        "\"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\s3\\application-release-004\\benchmark-resized/run\"",
+        "--warmup-seconds",
+        "0",
+        "--sample-seconds",
+        "3",
+        "--width",
+        "1920",
+        "--height",
+        "1080",
+        "--vsync",
+        "0",
+        "--focus-policy",
+        "allow-unfocused"
+      ]
+    },
+    {
+      "case": "benchmark-close",
+      "passed": true,
+      "partial": false,
+      "actual_owned_action": true,
+      "pixels_before": [
+        1920,
+        1080
+      ],
+      "pixels_after": null,
+      "exit_code": 4,
+      "timed_out": false,
+      "error": null,
+      "protocol": {
+        "protocol": true,
+        "completed": false,
+        "valid_run": false,
+        "window_not_focused": false,
+        "framebuffer_changed_or_minimized": false,
+        "duration_not_completed": true,
+        "runtime_error": false,
+        "total_frames": 1,
+        "unfocused_frames": 1,
+        "terrain_digest": "fnv1a64:cd80ebb0446c15c6",
+        "world_digest": "fnv1a64:bddd435ea737fa62"
+      },
+      "arguments": [
+        "--seed",
+        "424242",
+        "--benchmark",
+        "static",
+        "--output",
+        "\"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\s3\\application-release-004\\benchmark-close/run\"",
+        "--warmup-seconds",
+        "0",
+        "--sample-seconds",
+        "3",
+        "--width",
+        "1920",
+        "--height",
+        "1080",
+        "--vsync",
+        "0",
+        "--focus-policy",
+        "allow-unfocused"
+      ]
+    }
+  ],
+  "application_diagnostic_scope": "Warmup 0 seconds/sample 3 seconds; not Q06 comparison or Q07 budget acceptance",
+  "viewed_actual_screenshot": {
+    "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/application-release-004/allow-unfocused/run/final-frame.png",
+    "sha256": "3d4765d8bafd5388c2d60cd5ec4cc41e335d1b6416bebb1c692c299fc3b01851",
+    "bytes": 983580
+  },
+  "screenshot_inspection": "Nonblank 1920x1080 game image with textured stone/grass/sky and red selection outline; inspected visually",
+  "manual_tool_startup": {
+    "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/manual-tool-startup-002/result.json",
+    "sha256": "5c0f6ed53b21d912a77e97a31280a912cb653e68380dfe19d248ed848ed0ec17",
+    "bytes": 2365
+  },
+  "manual_startup_scope": "GL window, presentation path, one initial JSONL observation and owned WM_CLOSE cleanup; no physical keyboard/mouse actions",
+  "candidate_package_identity": {
+    "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/install/candidate-release-002/package-identity.json",
+    "sha256": "188e9437b7eef40ebcafbb28a7f4ffdce286b508247ecc00d86f5d43eead0cc9",
+    "bytes": 6291
+  },
+  "candidate_game": {
+    "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/install/candidate-release-002/SymoCraft.exe",
+    "sha256": "b947527ac6e790fa0b0c0830dfede7699dc023f2a4e39e94d75879fdf7e0842b",
+    "bytes": 1985536
+  },
+  "candidate_input_tool": {
+    "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/install/candidate-release-002/SymoCraftPlatformInputTests.exe",
+    "sha256": "e17480845309334c4d9e14bb1fd570350ee370a4290aeb471b846f1b1286d37e",
+    "bytes": 1515008
+  },
+  "actual_game_imports": {
+    "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s3/game-release-dependents-001.log",
+    "sha256": "6ffa1fafdba3c51534d631d93f21e44cf1937fa115d0f26dc21467c2931e52a3",
+    "bytes": 970
+  },
+  "import_identity_note": "Inspected candidate-release-001 game binary is byte-identical to candidate-release-002 validated game binary",
+  "archived_draft_unchanged": true,
+  "preserved_attempts": [
+    "runtime-input-*-001: 6/21 executed, 15 foreground-denied partial each",
+    "runtime-input-debug-002: 21/21; release-002: 18/21 plus 3 foreground-denied partial",
+    "runtime-allocation-*-001: 4/4 allocation cleanup, but previous empty baseline cannot prove nonempty snapshot preservation",
+    "application-release-001: live stdout read sharing fixture error, not product behavior",
+    "application-release-002/003: focus grant partial and fixed-window size request not observed; 003 native coordinates DPI-virtualized",
+    "application-release-004: 6/7, fixed window still refuses size request; unavailable case retained and fixture cleanup is not a successful product exit",
+    "probe-debug-001 initial input compilation warnings were test-only intermediate; final probe-003 compiles clean"
+  ],
+  "unverified": [
+    "Physical held mouse buttons/Reset and release while unfocused",
+    "Default Raw Input, alternative keyboard layouts and actual ordered motion/wheel hardware",
+    "100/150/200 percent DPI, available multimonitor conditions and taskbar usability",
+    "Actual benchmark client/drawable size-change invalidation (fixture could not change its fixed size)",
+    "Forced idle-wait timeout proof; real OS events may wake earlier",
+    "Dynamic ordinary-game first resumed dt trace; branch is source-audited only",
+    "Y9000P production hardware and both-machine S5 15-minute gameplay",
+    "Q06 same-condition GLFW/SDL sampling, Q07 user-approved budget numbers and S4/S5"
+  ],
+  "prior_file_publication_stability_closed": false,
+  "prior_file_publication_risk": "S2 performance.export intermittently failed MoveFileExW(status.tmp -> status.yaml) with access denied; cause unknown and CPU-only does not link SDL. Latest S3 CTest success does not close it.",
+  "prior_file_publication_evidence": {
+    "path": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s2/performance-publish-recheck-001/summary.json",
+    "sha256": "8f8e2cf387be8350254db091b9b35001316e7307f5a6ab19d0176211dcb72391",
+    "bytes": 97063
+  }
+}

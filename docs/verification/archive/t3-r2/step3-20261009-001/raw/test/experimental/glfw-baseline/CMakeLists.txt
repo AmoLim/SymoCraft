@@ -1,0 +1,48 @@
+cmake_minimum_required(VERSION 3.22)
+project(SymoCraftGlfwBaselineProbe LANGUAGES C CXX)
+if(NOT WIN32 OR NOT MSVC OR NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
+    message(FATAL_ERROR "The baseline probe requires Windows x64 and MSVC")
+endif()
+if(CMAKE_CONFIGURATION_TYPES)
+    set(CMAKE_CONFIGURATION_TYPES "Release" CACHE STRING "Must match the imported Release libraries" FORCE)
+elseif(NOT CMAKE_BUILD_TYPE STREQUAL "Release")
+    message(FATAL_ERROR "Use Release to match the imported baseline library ABI")
+endif()
+
+get_filename_component(SYMOCRAFT_ROOT "${CMAKE_CURRENT_LIST_DIR}/../../.." ABSOLUTE)
+set(SYMOCRAFT_BASELINE_SOURCE "${SYMOCRAFT_ROOT}/out/m3-t2/baseline-input-001/source" CACHE PATH "Frozen GLFW source input")
+set(SYMOCRAFT_BASELINE_BUILD "${SYMOCRAFT_ROOT}/out/m3-t2/build/glfw-release" CACHE PATH "Matching Release build")
+foreach(dependency IN ITEMS platform foundation glfw glad)
+    if(dependency STREQUAL "glfw")
+        set(archive "${SYMOCRAFT_BASELINE_BUILD}/vendor/glfw/src/glfw3.lib")
+    elseif(dependency STREQUAL "glad")
+        set(archive "${SYMOCRAFT_BASELINE_BUILD}/game/symocraft_glad.lib")
+    else()
+        set(archive "${SYMOCRAFT_BASELINE_BUILD}/game/modules/${dependency}/symocraft_${dependency}.lib")
+    endif()
+    if(NOT EXISTS "${archive}")
+        message(FATAL_ERROR "Missing actual baseline library: ${archive}")
+    endif()
+    add_library(baseline_${dependency} STATIC IMPORTED)
+    set_target_properties(baseline_${dependency} PROPERTIES IMPORTED_LOCATION "${archive}")
+endforeach()
+
+set(SYMOCRAFT_REPOSITORY_ROOT "${SYMOCRAFT_BASELINE_SOURCE}")
+include("${SYMOCRAFT_BASELINE_SOURCE}/cmake/ThirdPartyHeaders.cmake")
+symocraft_header_view(baseline_glad_headers glad/glad.h KHR/khrplatform.h)
+add_executable(SymoCraftGlfwBaselineProbe main.cpp)
+target_compile_features(SymoCraftGlfwBaselineProbe PRIVATE cxx_std_20)
+target_compile_options(SymoCraftGlfwBaselineProbe PRIVATE /W4 /utf-8)
+target_include_directories(SymoCraftGlfwBaselineProbe PRIVATE
+    "${SYMOCRAFT_BASELINE_SOURCE}/game/modules/platform/include"
+    "${SYMOCRAFT_BASELINE_SOURCE}/game/modules/platform/src/graphics_bridge")
+target_link_libraries(SymoCraftGlfwBaselineProbe PRIVATE
+    baseline_platform baseline_foundation baseline_glfw baseline_glad baseline_glad_headers user32 gdi32 shell32 Psapi)
+
+add_executable(SymoCraftGlfwInputComparison ../input-comparison/glfw_main.cpp)
+target_include_directories(SymoCraftGlfwInputComparison PRIVATE
+    "${SYMOCRAFT_BASELINE_SOURCE}/game/modules/platform/src/graphics_bridge")
+target_link_libraries(SymoCraftGlfwInputComparison PRIVATE
+    baseline_platform baseline_glfw baseline_glad baseline_glad_headers gdi32 shell32 Psapi)
+include("${CMAKE_CURRENT_LIST_DIR}/../input-comparison/comparison.cmake")
+symocraft_input_comparison(SymoCraftGlfwInputComparison "GLFW")

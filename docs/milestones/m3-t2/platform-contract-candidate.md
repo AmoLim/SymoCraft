@@ -9,19 +9,23 @@ tags:
   - area/milestones
 ---
 
+> 2026-10-11 旧导航引用已失效，已改指现行权威或明确归档入口；历史命令、结果和批准含义保持不变。
+
+> 2026-10-11 文档浓缩后已退役复核源：现行入口见 [权威位置](../../verification/VERIFICATION.md#原位置保留的历史材料)；原文保留点时反馈、历史身份和复核依据，不再维护为当前机制或活动计划，旧勾选不产生新批准。
+
 # M3-T2 平台契约与失败责任候选
 
-**当前状态（2026-10-09）：用户已选定 MB01 方案2：working set ≤ 704 MiB、private bytes ≤ 1408 MiB，并明确批准 T2 节点正式通过。** FB01 方案2的 10 / 12 ms 上限保持。批准依据与遗留事项见 [正式节点批准](README.md#t2-正式节点批准) 和 [正式计划](../../spec/M3-T2-SDL3迁移.md#节点批准与遗留事项)。下方准备期“不通过”表述保留为历史，不覆盖本次明确批准；已知失败、002 废弃及 Fix1 暂停事实不改。
+**当前状态（2026-10-09）：用户已选定 MB01 方案2：working set ≤ 704 MiB、private bytes ≤ 1408 MiB，并明确批准 T2 节点正式通过。** FB01 方案2的 10 / 12 ms 上限保持。批准依据与遗留事项见 [正式节点批准](README.md#t2-正式节点批准) 和 [正式计划](../../verification/VERIFICATION.md#关键节点)。下方准备期“不通过”表述保留为历史，不覆盖本次明确批准；已知失败、002 废弃及 Fix1 暂停事实不改。
 
-本文是 [T2 正式计划](../../spec/M3-T2-SDL3迁移.md) 的 P05 准备产物及已选契约，不是 T2 节点验收通过记录。用户已批准 P06；S1 依赖隔离及 S2 生产 SDL3 窗口/桥接已完成，见 [实施记录](README.md#s2-窗口与桥接)。GL 六项入口保留签名并 checked，Native/Vulkan 仅从授权私有桥接消费。2026-10-08 已进入 [S3 实施与验证](README.md#s3-输入与窗口行为)，增加真实生产库输入/分配故障回归与 [硬件操作清单](s3-manual-verification.md)，未执行人工格保持未验证，不重新要求 Q04/P06 或原工具手感批准。下方八项三方案决策继续保留，不重新待选。树叶剔除与视角突变继续延期，留基线记录，不作为准备工作的前置阻断。
+本文是 [T2 正式计划](../../openspec/specs/platform/spec.md) 的 P05 准备产物及已选契约，不是 T2 节点验收通过记录。用户已批准 P06；S1 依赖隔离及 S2 生产 SDL3 窗口/桥接已完成，见 [实施记录](README.md#s2-窗口与桥接)。GL 六项入口保留签名并 checked，Native/Vulkan 仅从授权私有桥接消费。2026-10-08 已进入 [S3 实施与验证](README.md#s3-输入与窗口行为)，增加真实生产库输入/分配故障回归与 [硬件操作清单](s3-manual-verification.md)，未执行人工格保持未验证，不重新要求 Q04/P06 或原工具手感批准。下方八项三方案决策继续保留，不重新待选。树叶剔除与视角突变继续延期，留基线记录，不作为准备工作的前置阻断。
 
 2026-10-08 后续授权：用户要求暂不执行 Y9000P 验证，冻结可运行 S3 包并推进 S4。开发桌面清单的通过填写与实际硬件日志分别保留，见 [冻结与交接记录](README.md#s4-t3-契约交接) 和 [平台交接契约](s4-platform-handoff.md)。Y9000P 是延期，不是免验、通过或 D09 范围变更；本次授权不关闭 T2、预算或 R1/v1 冻结门槛。
 
-S5 交付事实见 [候选与遗留验证](s5-delivery-status.md)：活动 GLFW 已退役，部署/取消及真实库回归留证，通用 Release package 已冻结；Win32 1175 发布稳定性仍开放，按本次用户节点批准列为遗留风险，不改写成已修复。硬件范围以最新 [[M3-T2-SDL3迁移#当前本机 RTX 5070 Ti 验收范围|T2 正式范围]] 为准，只限定本机 RTX 5070 Ti。用户已明确撤销 S5 核显验证并删除专用包及代码，只留 [最小历史记录](evidence/s5-retired-verification.json)：此前请求后仍取 NVIDIA，偏好恢复，不改判 AMD 能力；不再提供核显执行入口或要求补验。Y9000P/GTX 1650 整机性能验证延至下一玩法开发前，不复写历史安排或八项三方案选择。FB01/MB01 已确认，T2 已正式通过；正式同源 Q06 和首次可操作预算仍作为遗留事项保留，不伪造实测通过。
+S5 交付事实见 [候选与遗留验证](s5-delivery-status.md)：活动 GLFW 已退役，部署/取消及真实库回归留证，通用 Release package 已冻结；Win32 1175 发布稳定性仍开放，按本次用户节点批准列为遗留风险，不改写成已修复。硬件范围以最新 [T2 正式范围](../../scope/project-scope.md#m3-本机-rtx-5070-ti-验收与下一玩法阶段性能门槛) 为准，只限定本机 RTX 5070 Ti。用户已明确撤销 S5 核显验证并删除专用包及代码，只留 [最小历史记录](../../verification/archive/milestone-evidence-20261011/m3-t2/evidence/s5-retired-verification.json)：此前请求后仍取 NVIDIA，偏好恢复，不改判 AMD 能力；不再提供核显执行入口或要求补验。Y9000P/GTX 1650 整机性能验证延至下一玩法开发前，不复写历史安排或八项三方案选择。FB01/MB01 已确认，T2 已正式通过；正式同源 Q06 和首次可操作预算仍作为遗留事项保留，不伪造实测通过。
 
 本次沿用已有 `Window::Impl`、应用主循环和静态 Init/Free 调用路径，只补充换库、三种窗口用途及失败释放所需契约。不建立完整 Runtime/SimulationSession 管理器，不在此实施 Renderer PImpl 或应用对象重构；这些工作分别留 T3/T4。原草稿附录不修改。
 
-权威起点：[Window 公共头](../../../game/modules/platform/include/symocraft/platform/window.h)、[当前窗口实现](../../../game/modules/platform/src/window.cpp)、[私有图形桥接](../../../game/modules/platform/src/graphics_bridge/graphics_bridge.h)、[应用生命周期](../../../game/app/src/application.cpp)、[Window 设计](../../project/architecture/platform/Window-类设计.md)。
+权威起点：[Window 公共头](../../../game/modules/platform/include/symocraft/platform/window.h)、[当前窗口实现](../../../game/modules/platform/src/window.cpp)、[私有图形桥接](../../../game/modules/platform/src/graphics_bridge/graphics_bridge.h)、[应用生命周期](../../../game/app/src/application.cpp)、[Window 设计](../../architecture/platform.md)。
 
 ## P06 用户决策表
 
@@ -129,7 +133,7 @@ S5 交付事实见 [候选与遗留验证](s5-delivery-status.md)：活动 GLFW 
 
 历史判定草案（不激活上述停用数值）：固定身份/画面/时长/策略，逐轮同时检查两个上限，不用平均掩盖最坏轮，不将工作集与 private bytes 相加。条件导致的无效轮按 Q06 最多补一次；程序/发布故障直接停，保留而不反复重跑。超过已确认上限时仅按 Q06 追加一组同参数复测，原超限不删除；仍有超限则记“未通过 / 待明确处置”，不继续挑绿。内存选择不自动批准帧时、首次可操作时间、同源 Q06 或整个 Q07。
 
-证据：[逐轮与三方案小型汇总](evidence/q07-presample-002.json)、[原始运行摘要](../../../out/m3-t2/q07-glfw-presample-002/summary.json)、[程序/资源/工具与机器身份](../../../out/m3-t2/q07-glfw-presample-002/manifest.json)、[原 GLFW 身份](evidence/glfw-baseline-identity.json)。`001` 只有机器信息准备失败，启动游戏为零；改用只读电源查询后新 `002` 完成九轮，不是补跑或覆盖产品失败。原 CSV/现场保留在 `out`，不写入冻结包。所有 Fix1 原失败仍保持原样。
+证据：[逐轮与三方案小型汇总](../../verification/archive/milestone-evidence-20261011/m3-t2/evidence/q07-presample-002.json)、[原始运行摘要](../../../out/m3-t2/q07-glfw-presample-002/summary.json)、[程序/资源/工具与机器身份](../../../out/m3-t2/q07-glfw-presample-002/manifest.json)、[原 GLFW 身份](../../verification/archive/milestone-evidence-20261011/m3-t2/evidence/glfw-baseline-identity.json)。`001` 只有机器信息准备失败，启动游戏为零；改用只读电源查询后新 `002` 完成九轮，不是补跑或覆盖产品失败。原 CSV/现场保留在 `out`，不写入冻结包。所有 Fix1 原失败仍保持原样。
 
 #### 2026-10-09 P95/P99 重复采样
 
@@ -147,7 +151,7 @@ S5 交付事实见 [候选与遗留验证](s5-delivery-status.md)：活动 GLFW 
 
 本组共 44,371 个正式采样帧，GPU 查询缺失 7 个（约 0.0158%），缺失不填零；每轮内存窗口均 30 点。working set / private bytes 全组最大周期观察为 558.51 / 1151.08 MiB，仍不是全过程峰值或无泄漏证明。2026-10-09 用户明确废弃 002，**003 是当前预算唯一活动预采样依据**；002 原记录保留，不混入统计或验收对比。这不代表两组性能提升已被证明。FB01/MB01 均已按方案2确认，T2 节点另由用户正式批准；首次可操作预算未定、正式同源 Q06/A11 证据和发布稳定性仍作遗留记录，Fix1 继续暂停。
 
-证据：[本组小型汇总](evidence/q07-presample-003.json)、[本组原始运行摘要](../../../out/m3-t2/q07-glfw-presample-003/summary.json)、[本组身份与条件](../../../out/m3-t2/q07-glfw-presample-003/manifest.json)。分析生成时只输出测量数据（`MetricsOnly`），显式记录 2026-10-09，预算候选为空、批准状态为 false；这是用户预算/节点批准前的测量快照，原文件不改写，后续决定另记于下方及 [节点批准记录](evidence/t2-approval-20261009.json)。
+证据：[本组小型汇总](../../verification/archive/milestone-evidence-20261011/m3-t2/evidence/q07-presample-003.json)、[本组原始运行摘要](../../../out/m3-t2/q07-glfw-presample-003/summary.json)、[本组身份与条件](../../../out/m3-t2/q07-glfw-presample-003/manifest.json)。分析生成时只输出测量数据（`MetricsOnly`），显式记录 2026-10-09，预算候选为空、批准状态为 false；这是用户预算/节点批准前的测量快照，原文件不改写，后续决定另记于下方及 [节点批准记录](../../verification/archive/t2-approval-20261009/approval.json)。
 
 #### MB01 内存预算确认
 
@@ -155,7 +159,7 @@ S5 交付事实见 [候选与遗留验证](s5-delivery-status.md)：活动 GLFW 
 
 | 最终敲定方案 | 候选方案1：紧约束 | 候选方案2：平衡（已选） | 候选方案3：宽余量 |
 | --- | --- | --- | --- |
-| MB01：**方案2，2026-10-09 已确认**；[正式决策附录](../../spec/M3-T2-SDL3迁移.md#内存预算决策附录) | working set ≤ 704 MiB；private bytes ≤ 1344 MiB。较早检出私有提交增长 | working set ≤ **704 MiB**；private bytes ≤ **1408 MiB**。采用用户明确确认值 | working set ≤ 768 MiB；private bytes ≤ 1536 MiB。空间更大，但较迟发现增长 |
+| MB01：**方案2，2026-10-09 已确认**；[正式决策附录](platform-contract-candidate.md#mb01-内存预算确认) | working set ≤ 704 MiB；private bytes ≤ 1344 MiB。较早检出私有提交增长 | working set ≤ **704 MiB**；private bytes ≤ **1408 MiB**。采用用户明确确认值 | working set ≤ 768 MiB；private bytes ≤ 1536 MiB。空间更大，但较迟发现增长 |
 
 适用范围为 FB01 同一本机 RTX 5070 Ti、Release、固定画面/工作负载与完整前台短采样轮次；每轮只取 `10 <= elapsed_s < 40`、约每秒采集的两个指标各自**观察最大值**，逐轮同时检查，不相加、不用平均或百分位掩盖最大值。工作集是进程驻留工作集，private bytes 是私有提交字节，不是 VRAM；不覆盖加载、截图/导出或瞬时/全过程峰值，不认定无泄漏。超限仅按 Q06 追加一组同参数复测并保留原超限；产品/发布故障保留，不当成绩、不反复补跑。
 
@@ -175,7 +179,7 @@ S5 交付事实见 [候选与遗留验证](s5-delivery-status.md)：活动 GLFW 
 
 已确认的判定规则：每场景三轮均逐轮同时满足 P95 和 P99 上限才报告该场景数值通过；三场景分别报告，不混池、不取平均或只报最佳轮。frame_ms 沿用相邻交换缓冲返回之间的间隔，不是物理显示延迟，CPU/GPU/present 分位数不相加。成绩超限仅按 Q06 追加一组同参数复测，保留原超限；若追加组仍有超限则未通过，若全部满足也必须同时报告初次超限及复测通过，不能写首次全部通过。产品/发布故障不当成绩，不靠追加采样掩盖。
 
-FB01 当次用户确认只冻结上述阈值及比较规则，已同步 [正式计划](../../spec/M3-T2-SDL3迁移.md#短采样与预算确认)；同日后续 MB01 与 T2 节点批准分别按 [内存确认](#mb01-内存预算确认) 和 [正式节点批准](README.md#t2-正式节点批准) 记录。正式同源 GLFW/SDL 对照仍未完成，不把旧 GLFW 003 直接与当前 SDL 当同源 A/B。当前不执行新采样、不恢复 Fix1，不伪造首次可操作预算或 Q06/A11 实测通过。
+FB01 当次用户确认只冻结上述阈值及比较规则，已同步 [正式计划](platform-contract-candidate.md#mb01-内存预算确认)；同日后续 MB01 与 T2 节点批准分别按 [内存确认](#mb01-内存预算确认) 和 [正式节点批准](README.md#t2-正式节点批准) 记录。正式同源 GLFW/SDL 对照仍未完成，不把旧 GLFW 003 直接与当前 SDL 当同源 A/B。当前不执行新采样、不恢复 Fix1，不伪造首次可操作预算或 Q06/A11 实测通过。
 
 ### Q08 生产实施授权
 
@@ -192,7 +196,7 @@ FB01 当次用户确认只冻结上述阈值及比较规则，已同步 [正式�
 | 入口 | 候选增量或保留行为 | 冻结前必须确定 |
 | --- | --- | --- |
 | Init/Free | Init 成功后记录本模块取得的 SDL video 初始化责任；重复 Init 不增加本模块持有次数。Free 只释放本模块取得的责任，重复调用安全 | P02 验证普通 main 的私有入口准备；Free 的前提是所有窗口及所借用图形资源已释放，不替调用者销毁 GPU 对象 |
-| Create | 增加项目中立的 OpenGL/Native/Vulkan 用途。现有默认创建仍为 OpenGL；窗口和需要的 GL context 全部成功后才发布拥有的 Window | Q01 末参模式已写入生产头；标题借用仅持续到调用结束；当前转换与失败保证以 [Window 实现契约](../../project/architecture/platform/Window-类设计.md) 为准，硬件 DPI 仍须 S3 验证 |
+| Create | 增加项目中立的 OpenGL/Native/Vulkan 用途。现有默认创建仍为 OpenGL；窗口和需要的 GL context 全部成功后才发布拥有的 Window | Q01 末参模式已写入生产头；标题借用仅持续到调用结束；当前转换与失败保证以 [Window 实现契约](../../architecture/platform.md) 为准，硬件 DPI 仍须 S3 验证 |
 | Destroy/析构 | Destroy 幂等，销毁本 Window 所有的 GL context 和系统窗口；析构只兜底 Destroy，不结束全局 video 生命周期 | renderer 和借用 HWND/surface 的调用方已结束使用；失败窗口不对外发布；不允许一半窗口仍可继续绘制 |
 | PollInt | SDL 事件先转换为中立事实；过滤窗口 ID，同时处理全局退出。发布这一帧有序指针事件和失焦标记，不直接修改 ECS/相机或提交图形命令 | 等待取得的首事件如何暂存；事件缓冲失败如何保留具名诊断并停止本帧，不能伪装成成功空输入 |
 | CaptureInput/Input | 11 个项目 Key 映射 scancode，每键按现行规则消费一次；短按/同帧按放锁存到一次采样。Input 仍为同步借用，不跨下一次变更/销毁保存 | 最终按住态与未消费短按态分开；repeat 不制造新短按；Benchmark 仅消费 Escape，不采纳玩家键鼠 |
@@ -310,7 +314,7 @@ SDK 不安装 GPU 驱动，安装新版 SDK 也不证明设备支持相同版本
 
 ### 仓库复测与证据
 
-以下为可复现步骤，实际已执行结果单独记录在上方，不以命令文本代替结果。使用现有 [构建脚本](../../../test/experimental/sdl3/build.ps1) 和 [真实窗口验证脚本](../../../test/experimental/sdl3/verify-probes.ps1)，继续固定 MSVC 14.38 与 portable CMake 3.22.6。显式使用绝对路径，Debug/Release 各用一个全新目录；示例 `001` 已存在时改用新编号，不覆盖旧证据。
+以下为可复现步骤，实际已执行结果单独记录在上方，不以命令文本代替结果。使用现有 [构建脚本](../../../test/experimental/sdl3/build.py) 和 [真实窗口验证脚本](../../../test/experimental/sdl3/verify-probes.py)，继续固定 MSVC 14.38 与 portable CMake 3.22.6。显式使用绝对路径，Debug/Release 各用一个全新目录；示例 `001` 已存在时改用新编号，不覆盖旧证据。
 
 ```powershell
 $Root = 'F:/GameDevelop/OpenGLProject/Symocraft'
@@ -338,7 +342,7 @@ foreach ($Configuration in @('Debug', 'Release')) {
 | 所有权与来源 | 真实扩展、instance/surface 创建和逆序清理，无 cleanup 诊断；入口继续来自 SDL loader，不因 SDK 有 `vulkan-1.lib` 就新增另一入口来源 |
 | 准备范围 | 新结果只关闭对应 SDK 环境/头源准备项，不自动关闭完整失败矩阵、生产 SDL 游戏、双机验收或 T3 GPU 后端 |
 
-现有 [无下载路径审计脚本](../../../test/experimental/sdl3/verify-cmake-offline.ps1) 仍将 `vulkan_headers_are_installed_sdk` 固定写为 `false`，输入 manifest 也未纳入外部 SDK 头；不能直接把它传入 SDK 路径后的旧式摘要当作 SDK 身份证明。复测需新增独立 SDK 身份清单；若后续扩展此审计脚本，再按实际头源生成标记和外部输入清单，历史证据不改写。安装器下载与环境安装是一次性准备，不改变 Q05/S1 的工程无自动下载依赖要求。
+现有 [无下载路径审计脚本](../../../test/experimental/sdl3/verify-cmake-offline.py) 仍将 `vulkan_headers_are_installed_sdk` 固定写为 `false`，输入 manifest 也未纳入外部 SDK 头；不能直接把它传入 SDK 路径后的旧式摘要当作 SDK 身份证明。复测需新增独立 SDK 身份清单；若后续扩展此审计脚本，再按实际头源生成标记和外部输入清单，历史证据不改写。安装器下载与环境安装是一次性准备，不改变 Q05/S1 的工程无自动下载依赖要求。
 
 返回 [Q04](#q04-vulkan-探针头源)。
 
@@ -396,7 +400,7 @@ Vulkan 的 `VK_SUBOPTIMAL_KHR` 仍可呈现，但需适时按新表面信息重�
 
 DXGI 也区分状态与故障；遮挡状态不等于设备丢失。不过 flip-model 交换链不会返回 `DXGI_STATUS_OCCLUDED`，不能将其写成未来 D3D12 的通用必经行为。设备移除/重置与正常状态仍需后端分别处理。[Microsoft DXGI 状态](https://learn.microsoft.com/en-us/windows/win32/direct3ddxgi/dxgi-status)、[Microsoft Present](https://learn.microsoft.com/en-us/windows/win32/api/dxgi/nf-dxgi-idxgiswapchain-present)
 
-因此，现代 API 的 acquire/submit/fence/present 与恢复策略归**拥有交换链、设备和 GPU 在途资源的 renderer 后端**，不归仅拥有系统窗口的 platform。[T3 接口设计](../../spec/M3-T3-渲染器重构.md#公开数据与接口契约) 已拟定 `FrameResult` 表达 Presented/Skipped 及原因、`RenderError` 表达不可恢复故障；后端在帧边界处理 resize、零像素暂停和重建，应用以后不再额外调用 GL 桥接 `Present`。这是后续设计方向，不是已经实现的 GPU 能力。
+因此，现代 API 的 acquire/submit/fence/present 与恢复策略归**拥有交换链、设备和 GPU 在途资源的 renderer 后端**，不归仅拥有系统窗口的 platform。[T3 接口设计](../../openspec/changes/m3-t3-renderer/design.md) 已拟定 `FrameResult` 表达 Presented/Skipped 及原因、`RenderError` 表达不可恢复故障；后端在帧边界处理 resize、零像素暂停和重建，应用以后不再额外调用 GL 桥接 `Present`。这是后续设计方向，不是已经实现的 GPU 能力。
 
 选方案1仍可由后端将致命 `HRESULT`/`VkResult` 转为拥有原生码文字的 `RenderError`，将正常或约定可恢复状态转为 `FrameResult`/后端内部状态。选方案3也仍需上述分类和恢复设计，不能仅把原生码包进 `BridgeResult` 就认为支持了现代 API 迁移。
 
@@ -415,7 +419,7 @@ DXGI 也区分状态与故障；遮挡状态不等于设备丢失。不过 flip-
 
 方案3适合明确要求平台桥接结构化显式检查的方向，方案2适合偏好 `bool`/出参且接受逐点检查成本的方向；本次都不采用，保留对照不等于要求再次选择，也不建立尚未实验的完整 RHI。
 
-**本表八项选择已完成，Q04 已关闭，P06 已获用户批准，Q08 的 S1–S5 授权已生效。** 2026-10-09 FB01/MB01 均已确认方案2，T2 节点由用户另行正式批准；首次可操作时间预算仍未定。剩余失败和验证缺口按 [遗留事项](../../spec/M3-T2-SDL3迁移.md#节点批准与遗留事项) 保留，不凭空补造阈值或通过证据。
+**本表八项选择已完成，Q04 已关闭，P06 已获用户批准，Q08 的 S1–S5 授权已生效。** 2026-10-09 FB01/MB01 均已确认方案2，T2 节点由用户另行正式批准；首次可操作时间预算仍未定。剩余失败和验证缺口按 [遗留事项](../../verification/VERIFICATION.md#关键节点) 保留，不凭空补造阈值或通过证据。
 
 返回 [Q02](#q02-gl-桥接失败表达) 或 [P06 决策表](#p06-用户决策表)。
 

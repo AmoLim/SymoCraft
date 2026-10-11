@@ -2,14 +2,14 @@
 type: 未关闭问题清单
 status: open
 project: Symocraft
-updated: 2026-10-08
+updated: 2026-10-11
 tags:
   - area/meta
 ---
 
 # Agent 尚未关闭的 Issues
 
-维护 Agent 已发现但尚未关闭的问题；本次同步范围为 2026-10-08 的 T2 文件发布审计，不代表项目全部未关闭项。阶段验收和人工批准仍以对应 milestone 的固定人工核查入口为准。
+维护 Agent 已发现但尚未关闭的问题；本页保留 2026-10-08 的 T2 文件发布审计，并于 2026-10-11 补充 S5 日志导航核对，不代表项目全部未关闭项。关键节点批准只以 [VERIFICATION](../verification/VERIFICATION.md#关键节点) 为准；旧人工页保留点时反馈，不另作批准台账。
 
 编号为 `Mx-Ix`，前一个 `x` 是 milestone 编号，后一个是该 milestone 内递增且不复用的 issue 序号。每行三个单元格均链接到同名附录。`review` 记录人工意见；未取得意见时明确写待审核，Agent 建议不冒充人工决定。关闭后从未关闭主表移除，保留编号、附录、关闭依据和人工审核记录，不删除原始失败证据。
 
@@ -19,7 +19,7 @@ tags:
 | --------------- | ------------------------------------------------------------------------ | ------- |
 | [M3-I1](#m3-i1) | T2 文件发布仍间歇失败：ReplaceFileW 出现 Win32 1175，普通无测试自身持有读者的替换也失败；影响状态协议、采样与稳定交付 | Open不阻塞 |
 | [M3-I2](#m3-i2) | 发布失败的数值错误码及阶段诊断不完整：主工程 40 次独立重复中的四次失败均未记录 numeric_win32；妨碍根因定位与准确归类。     | Open不阻塞 |
-| [M3-I3](#m3-i3) | S5 完整测试证据索引仍引用日志旧路径；日志已归档且主工程三份摘要匹配，但按索引不能直接复核。                          | 无所谓     |
+| [M3-I3](#m3-i3) | S5 冻结索引保留日志旧路径；18份日志已补当前导航并匹配身份，其他历史路径未全部核对。                          | 无所谓     |
 
 ## 附录
 
@@ -27,9 +27,9 @@ tags:
 
 **详细描述与可能影响**
 
-状态：未关闭。影响节点：M3-T2 的 A01/A11、S5 和最终交付批准。
+状态：未关闭。关联 M3-T2 的 A01/A11、S5 发布稳定性及后续交付风险；T2 已于 2026-10-09 获用户节点批准，不将风险开放重新解释为节点未批准。
 
-2026-10-08 Fix1 已开始部分诊断实施，随后按用户明确要求暂停，不继续修复或管理员追踪。新增真实 1175、完整测试仍失败，详见 [Fix1 暂停事实](../spec/M3-T2-Fix1-spec.md#当前暂停)。转向有效完整轮次的 P95/P99 和内存预算预采样，不将暂缓修复等同于风险关闭、协议放宽或最终交付批准。
+2026-10-08 Fix1 已开始部分诊断实施，随后按用户明确要求暂停，不继续修复或管理员追踪。新增真实 1175、完整测试仍失败，详见 [Fix1 暂停事实](../openspec/changes/m3-t2-publication-fix1/proposal.md)。转向有效完整轮次的 P95/P99 和内存预算预采样，不将暂缓修复等同于风险关闭、协议放宽或最终交付批准。
 
 旧 `MoveFileExW` 在目标存在兼容共享读者时失败，确定性红/绿验证支持改用 `ReplaceFileW`。现行实现先调用 `ReplaceFileW`，仅在 `ERROR_FILE_NOT_FOUND` 时尝试一次不覆盖目标的 `MoveFileExW`；无重试、休眠或吞错。该条件是 API 错误码，不是独立的“目标缺失”判定。窄修复解决旧 API 的兼容读者缺口，不等于稳定性已达标。
 
@@ -53,7 +53,7 @@ Debug files 第 5 次在普通 closed-target 替换处失败，尚未进入共�
 
 **归档证据**
 
-- [S5 交付状态与未关闭项](../milestones/m3-t2/s5-delivery-status.md#未关闭项)、[T2 人工核查入口](../milestones/m3-t2/manul-verification.md)：现行交付门槛，重点 T2-M08；人工意见仍待确认。
+- [S5 交付状态与未关闭项](../milestones/m3-t2/s5-delivery-status.md#未关闭项)、[T2 人工核查入口](../milestones/m3-t2/manual-verification.md)：保留当时 T2-M08 意见和失败事实；当前批准与遗留边界以 VERIFICATION 为准，不再以旧待确认文字覆盖后续决定。
 - [窄修复红/绿摘要](../../out/m3-t2/s5/publish-audit-001/summary.json)、[旧实现失败日志](../../out/m3-t2/s5/publish-audit-001/files-before-runtime.log)、[新实现初次通过日志](../../out/m3-t2/s5/publish-audit-001/files-after-runtime.log)：只证明兼容读者缺口的修复。摘要内旧 `files-after.exe` 身份是历史记录；同名程序后来重新编译，当前身份见下一项。
 - [直接诊断摘要及逐次日志索引](../../out/m3-t2/s5/publish-audit-001/diagnostic-002/summary.json)：16/20，记录当前直接诊断程序身份及四次 1175。
 - [主工程独立重复摘要](../../out/m3-t2/s5/publication-repeat-003/summary.json)：40 次运行及原始 stdout/stderr、失败现场文件和摘要；本次审计核对其中 108 项文件身份均匹配。`publication-repeat-001/-002` 是采集器中断记录，不计作完整 40 次结果。
@@ -72,7 +72,7 @@ Debug files 第 5 次在普通 closed-target 替换处失败，尚未进入共�
 
 历史主工程重复摘要的四次失败均为非零退出，但 `numeric_win32` 为空。当时 `files_tests.cpp` 仅在共享读者循环的 catch 中输出数值错误码、循环下标、share 和路径属性；普通 closed-target 替换、读者关闭后恢复等路径没有同等失败记录。历史 Release 主工程测试程序也不含增强共享读者诊断，摘要已明确其诊断字段不存在，不能拿当前源码快照冒充当时程序修订。
 
-Fix1 已增加结构化全操作记录、API 可选日志和 telemetry 原错误码/阶段上下文，新失败能直接记录 1175；原始缺码不回填。诊断完整性校验仍有缺口，V01 未完成，M3-I2 不关闭。用户已暂停该工作，详见 [当前暂停](../spec/M3-T2-Fix1-spec.md#当前暂停)。
+Fix1 已增加结构化全操作记录、API 可选日志和 telemetry 原错误码/阶段上下文，新失败能直接记录 1175；原始缺码不回填。诊断完整性校验仍有缺口，V01 未完成，M3-I2 不关闭。用户已暂停该工作，详见 [当前暂停](../openspec/changes/m3-t2-publication-fix1/proposal.md)。
 
 错误对象保留 Win32 错误码，不等于每份原始日志都输出了该码。完整 Debug 诊断复测与直接诊断证明发生过 1175，但不能直接把主工程四次重复失败逐一断言为数值码 1175。缺少阶段、即时错误码及现场关联信息会妨碍来源定位，也可能把不同失败机制合并。
 
@@ -89,18 +89,12 @@ Fix1 已增加结构化全操作记录、API 可选日志和 telemetry 原错误
 
 **详细描述与可能影响**
 
-状态：未关闭；关联 [M3-I1](#m3-i1) 的证据可追溯性。
+状态：保留待收口复核，未新增人工关闭决定；关联 [M3-I1](#m3-i1) 的证据可追溯性。
 
-`s5-validation.json` 的 `main_and_matrix_tests` 中，三份主工程测试日志仍引用 `out/m3-t2/s5/` 下的旧路径；当前实际位于 `out/m3-t2/log/s5/build/`。三份归档日志的 SHA-256 与索引记录全部匹配，所以不是这三份证据丢失或结果改写，而是索引未提供有效导航。这里仅确认这三份主工程日志，不把其他矩阵/探针路径未经逐项核对就判为丢失或全部修复。
+原 `s5-validation.json` 的三份主工程测试日志引用 `out/m3-t2/s5/` 旧路径，当前实际位于 `out/m3-t2/log/s5/build/`；旧记录未改变，不是这三份证据丢失或结果改写。2026-10-11 扩展核对至 `main_and_matrix_tests` 全部12项、`build_and_install_matrix` 两项及 `executable_imports.dependents` 四项：18份日志在当前分类目录找到唯一匹配，文件大小及 SHA256 均符合原索引。
 
-旧路径会使审核者按摘要无法直接复核 62/63、64/64 和明确 1175 的现场。应区分历史执行路径与当前导航：历史快照和执行事实保留原值，通过可维护的路径对照或旁置导航提供当前归档入口，不重写原始证据。
+旧路径不能直接打开，现统一从 [S5 历史日志导航](../verification/VERIFICATION.md#s5-历史日志导航)进入，可复核 62/63、64/64 和明确 1175 的原现场。只补导航，不重新执行测试、不把失败改为通过；其余源码身份、包文件、探针结果及其他历史路径未由本次核对证明全部完整。
 
 **归档证据**
 
-| 索引记录的旧路径 | 当前归档入口 | SHA-256 核对 |
-| --- | --- | --- |
-| `out/m3-t2/s5/main-debug-001-test.log` | [Debug 首轮](../../out/m3-t2/log/s5/build/main-debug-001-test.log) | 匹配 `c437c2e84a0b87e500fdb9d115279878e4688acc281bebe33fc2295f489c2c1d` |
-| `out/m3-t2/s5/main-debug-001-followup-test.log` | [Debug 诊断复测](../../out/m3-t2/log/s5/build/main-debug-001-followup-test.log) | 匹配 `82f483de213628c6c74a24c1bda7295d4339febdfc00c40a65a802b32f441779` |
-| `out/m3-t2/s5/main-release-001-test.log` | [Release 完整测试](../../out/m3-t2/log/s5/build/main-release-001-test.log) | 匹配 `29c430617566adf4d42238ce0775703d77721980d68f1b95779213d922a48d58` |
-
-索引来源：[S5 验证身份](../milestones/m3-t2/evidence/s5-validation.json) 的 `main_and_matrix_tests`。本次只登记问题与三份日志当前入口，不改动该历史证据文件，也不将当前入口补充视为所有历史入链已修复。
+路径对照唯一维护于上述 VERIFICATION 章节；完整点时大小、SHA256 和测试结果来自 [S5 验证身份](../verification/archive/milestone-evidence-20261011/m3-t2/evidence/s5-validation.json)。原 JSON、日志和失败现场保持原字节；本页不再复制另一份路径/哈希表，也不把导航补齐视为全库历史入链闭合。

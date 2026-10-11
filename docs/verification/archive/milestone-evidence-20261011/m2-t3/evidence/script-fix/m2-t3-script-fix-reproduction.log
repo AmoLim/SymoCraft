@@ -1,0 +1,23 @@
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t3/release
+    Start 16: performance.script_WINDOWS_POWERSHELL
+1/1 Test #16: performance.script_WINDOWS_POWERSHELL ...***Failed    0.73 sec
+Relative output did not follow PowerShell location: F:\GameDevelop\OpenGLProject\Symocraft\out\m2-t3\release\tests\scri
+pt-probes\WINDOWS_POWERSHELL\677fea98fa5244f2ab07b32bc2682413\shell directory\success\static-1\result.json; Item has al
+ready been added. Key in dictionary: 'Path'  Key being added: 'PATH'
+At F:\GameDevelop\OpenGLProject\Symocraft\tests\benchmark_script_tests.ps1:33 char:58
++ ... ultPath)) { throw "Relative output did not follow PowerShell location ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Relative output...g added: 'PATH':String) [], RuntimeException
+    + FullyQualifiedErrorId : Relative output did not follow PowerShell location: F:\GameDevelop\OpenGLProject\Symocra 
+   ft\out\m2-t3\release\tests\script-probes\WINDOWS_POWERSHELL\677fea98fa5244f2ab07b32bc2682413\shell directory\succe  
+  ss\static-1\result.json; Item has already been added. Key in dictionary: 'Path'  Key being added: 'PATH'
+ 
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.74 sec
+
+The following tests FAILED:
+	 16 - performance.script_WINDOWS_POWERSHELL (Failed)
+Errors while running CTest

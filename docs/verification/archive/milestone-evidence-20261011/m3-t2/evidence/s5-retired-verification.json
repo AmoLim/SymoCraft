@@ -1,0 +1,510 @@
+﻿{
+    "stage":  "M3-T2-S5",
+    "recorded_utc":  "2026-10-08T08:20:18.8233244Z",
+    "action":  "User withdrew S5 integrated GPU verification and requested dedicated package/code removal",
+    "scope":  "S5 only, as expressly confirmed; no T3 edits/deletions by this cleanup",
+    "retired_archive_sha256":  "683db812bc321115d32a23c436fc55328ec0f01d0466481d0756e25038dac37d",
+    "retired_archive_deleted":  true,
+    "deleted_targets":  [
+                            "amd-igpu-frozen-runtime-001",
+                            "amd-igpu-manual-001",
+                            "amd-igpu-manual-002",
+                            "amd-igpu-manual-003",
+                            "amd-igpu-runtime-002",
+                            "igpu-default-game-release-001",
+                            "igpu-default-game-release-002",
+                            "igpu-default-input-debug-001",
+                            "igpu-default-input-release-001",
+                            "igpu-default-probe-debug-002",
+                            "igpu-default-probe-release-001",
+                            "igpu-default-probe-release-002",
+                            "igpu-freeze-qa-001",
+                            "igpu-freeze-qa-002",
+                            "igpu-freeze-roundtrip-001",
+                            "igpu-guard-boundaries-001",
+                            "igpu-guard-boundaries-002",
+                            "igpu-guard-cpu-001",
+                            "igpu-main-debug-001",
+                            "igpu-main-release-001",
+                            "igpu-probe-debug-001",
+                            "igpu-probe-release-001",
+                            "install/igpu-main-debug-001",
+                            "install/igpu-main-release-001",
+                            "install/s5-amd-igpu-release-001",
+                            "install/s5-amd-igpu-release-002",
+                            "frozen/s5-amd-igpu-release-001",
+                            "frozen/s5-amd-igpu-release-001.zip",
+                            "frozen/s5-amd-igpu-release-001.zip.sha256",
+                            "freeze-integrated-package.ps1",
+                            "IGPU-FREEZE-README.md",
+                            "prepare-integrated-package.ps1",
+                            "run-integrated-builds.ps1",
+                            "run-integrated-default-game.ps1",
+                            "run-integrated-default-regression.ps1",
+                            "verify-igpu-guard-cpu.ps1",
+                            "igpu-main-debug-001-build-inputs.json",
+                            "igpu-main-debug-001-build.log",
+                            "igpu-main-debug-001-configure.log",
+                            "igpu-main-debug-001-install.log",
+                            "igpu-main-debug-001-targeted-test.log",
+                            "igpu-main-release-001-build-inputs.json",
+                            "igpu-main-release-001-build.log",
+                            "igpu-main-release-001-configure.log",
+                            "igpu-main-release-002-build-inputs.json",
+                            "igpu-main-release-002-build.log",
+                            "igpu-main-release-002-configure.log",
+                            "igpu-main-release-002-install.log",
+                            "igpu-main-release-002-targeted-test.log",
+                            "igpu-probe-debug-001-build.log",
+                            "igpu-probe-debug-001-test.log",
+                            "igpu-probe-release-001-build.log",
+                            "igpu-probe-release-001-test.log",
+                            "igpu-source-inputs-001.json",
+                            "igpu-source-inputs-002.json"
+                        ],
+    "deleted_target_count":  55,
+    "all_listed_targets_absent":  true,
+    "pre_removal_independent_inventory":  {
+                                              "files":  4424,
+                                              "bytes":  1019781689,
+                                              "scope":  "Independent read-only inventory before removal, not a post-deletion recount"
+                                          },
+    "retained_evidence":  [
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-frozen-runtime-001/registry-before.json",
+                                  "bytes":  1750,
+                                  "sha256":  "5bd53331a75ed667d6d0c207c35c0023213fbc4d0ed8d13c18858c18be3ce96b"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-frozen-runtime-001/registry-request.json",
+                                  "bytes":  1744,
+                                  "sha256":  "e4e2b2ef78012fbeecc31576020144506b2a1f874c386814d9b3a84a78d1d4bc"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-frozen-runtime-001/registry-restoration.json",
+                                  "bytes":  4120,
+                                  "sha256":  "00f11681a4e8ec59040557c6c37b738b7ce8dc17d1bf3c2555c678f2ba3d811a"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-frozen-runtime-001/summary.json",
+                                  "bytes":  15953,
+                                  "sha256":  "dd91d9e4b487a967b8a3764fdf7ec5f8e00e5feecb466c9935b224eecbcddba4"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-frozen-runtime-001/bridge-gl-8-frames/result.json",
+                                  "bytes":  3257,
+                                  "sha256":  "cfc50a332294e5136f5ee1c495db3dea54043192fb19f54e17671480fe48964f"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-frozen-runtime-001/bridge-gl-8-frames/stderr.log",
+                                  "bytes":  483,
+                                  "sha256":  "2b3a036f03c3227d7c7db50bf693e8d5eecfa39f16879e8dc9bbc6f075589b7d"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-frozen-runtime-001/bridge-gl-8-frames/stdout.log",
+                                  "bytes":  1293,
+                                  "sha256":  "9d0f55dc7fa3aa5d8c7698a8c9261bd4bd208ecc8a6155938696beca07902236"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-frozen-runtime-001/game-120-frames/result.json",
+                                  "bytes":  1337,
+                                  "sha256":  "5e16ba6b35de7465c88c0131dfda66442983335e642fd34dad17f397c1544fbb"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-frozen-runtime-001/game-120-frames/stderr.log",
+                                  "bytes":  181,
+                                  "sha256":  "9b6dedc086a9453b0f657ae6842783504206c8f1dac390a02d1fccc847a5c584"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-frozen-runtime-001/game-120-frames/stdout.log",
+                                  "bytes":  449,
+                                  "sha256":  "2f44fdbdd7aed965268257a9fd01bd114e0397073a0e4b177304748bff741852"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-frozen-runtime-001/input-queue/result.json",
+                                  "bytes":  2709,
+                                  "sha256":  "0412ac44bace1dabdf4c100fc5d2a8d8e96f92b3b46d48f58ccec5a70c06991b"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-frozen-runtime-001/input-queue/stderr.log",
+                                  "bytes":  480,
+                                  "sha256":  "da7e86ee0e70776d83c1a9accb37c48a079f818e3d27abe30c5e76ec5347b1da"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-frozen-runtime-001/input-queue/stdout.log",
+                                  "bytes":  996,
+                                  "sha256":  "620df2f744816f237c6e10edd970a8d795c408889e735ac997a648a369f4dda8"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-001/registry-before.json",
+                                  "bytes":  1750,
+                                  "sha256":  "5bd53331a75ed667d6d0c207c35c0023213fbc4d0ed8d13c18858c18be3ce96b"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-001/registry-request.json",
+                                  "bytes":  1744,
+                                  "sha256":  "e4e2b2ef78012fbeecc31576020144506b2a1f874c386814d9b3a84a78d1d4bc"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-001/registry-restoration.json",
+                                  "bytes":  4120,
+                                  "sha256":  "00f11681a4e8ec59040557c6c37b738b7ce8dc17d1bf3c2555c678f2ba3d811a"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-001/summary.json",
+                                  "bytes":  15919,
+                                  "sha256":  "f0a6647ee19d2557eda8419488ed61438717c1ff81957ca618c9c76a7c862ecd"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-001/bridge-gl-8-frames/result.json",
+                                  "bytes":  3239,
+                                  "sha256":  "4f3e10630472c02e607397e01a361978c0f02ed46ef6862a907c40f77c109840"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-001/bridge-gl-8-frames/stderr.log",
+                                  "bytes":  483,
+                                  "sha256":  "c2b27e998d8a863c96c089cc39d9b7caa3a220ada1ee9570d935e6a7221971b7"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-001/bridge-gl-8-frames/stdout.log",
+                                  "bytes":  1293,
+                                  "sha256":  "9d0f55dc7fa3aa5d8c7698a8c9261bd4bd208ecc8a6155938696beca07902236"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-001/game-120-frames/result.json",
+                                  "bytes":  1330,
+                                  "sha256":  "8e232b444372d0d5d92702599b0d902468aff37ee354cd3c95d6397d760afab3"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-001/game-120-frames/stderr.log",
+                                  "bytes":  181,
+                                  "sha256":  "9b6dedc086a9453b0f657ae6842783504206c8f1dac390a02d1fccc847a5c584"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-001/game-120-frames/stdout.log",
+                                  "bytes":  449,
+                                  "sha256":  "ed501cbb5fa1258c8105832dc00ea78a02d71c6a2bb5a49d4f552a580069927f"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-001/input-queue/result.json",
+                                  "bytes":  2700,
+                                  "sha256":  "8c43914e78c8c646fbd3bb1c48e8a1b0d13014daba5da04498343b0e34c59d0d"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-001/input-queue/stderr.log",
+                                  "bytes":  480,
+                                  "sha256":  "2787809fcaeddc872ff0aaae1dc286ab1d15f547202027e73178035118b34598"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-001/input-queue/stdout.log",
+                                  "bytes":  996,
+                                  "sha256":  "620df2f744816f237c6e10edd970a8d795c408889e735ac997a648a369f4dda8"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-002/registry-before.json",
+                                  "bytes":  1750,
+                                  "sha256":  "5bd53331a75ed667d6d0c207c35c0023213fbc4d0ed8d13c18858c18be3ce96b"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-002/registry-request.json",
+                                  "bytes":  1744,
+                                  "sha256":  "e4e2b2ef78012fbeecc31576020144506b2a1f874c386814d9b3a84a78d1d4bc"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-002/registry-restoration.json",
+                                  "bytes":  4120,
+                                  "sha256":  "00f11681a4e8ec59040557c6c37b738b7ce8dc17d1bf3c2555c678f2ba3d811a"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-002/summary.json",
+                                  "bytes":  15918,
+                                  "sha256":  "ad7691fe4c0ad16940759bbf84949c45b7f524205a720e8065682b8ac77818ec"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-002/bridge-gl-8-frames/result.json",
+                                  "bytes":  3239,
+                                  "sha256":  "32fc68d97d8a1f8f2801d0114b8456ac9c35487f4979b928467a3c325fbbde6f"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-002/bridge-gl-8-frames/stderr.log",
+                                  "bytes":  483,
+                                  "sha256":  "2d423066246fd480bbb228a9d79cd9c2acd113ac32a846ae17b0191fe47321ca"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-002/bridge-gl-8-frames/stdout.log",
+                                  "bytes":  1293,
+                                  "sha256":  "9d0f55dc7fa3aa5d8c7698a8c9261bd4bd208ecc8a6155938696beca07902236"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-002/game-120-frames/result.json",
+                                  "bytes":  1329,
+                                  "sha256":  "0a1093970a426c0018d27c9b5aed7e83ad947dafc2fdfc5418de0ed4e26a307f"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-002/game-120-frames/stderr.log",
+                                  "bytes":  181,
+                                  "sha256":  "9b6dedc086a9453b0f657ae6842783504206c8f1dac390a02d1fccc847a5c584"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-002/game-120-frames/stdout.log",
+                                  "bytes":  449,
+                                  "sha256":  "31a84e8833e904367846bbcb71781db25fdd2f03654c4893949da7e1cc22b75d"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-002/input-queue/result.json",
+                                  "bytes":  2700,
+                                  "sha256":  "986857cec61d3f0f53ceb27e8d33a90fa5c91b1cca5832658887c4f1a66cbdd9"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-002/input-queue/stderr.log",
+                                  "bytes":  480,
+                                  "sha256":  "fbd76b60ca442a453add0729da8d783aae95b7f53a3958ed7be149980d143ef6"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-002/input-queue/stdout.log",
+                                  "bytes":  996,
+                                  "sha256":  "620df2f744816f237c6e10edd970a8d795c408889e735ac997a648a369f4dda8"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-003/registry-before.json",
+                                  "bytes":  1750,
+                                  "sha256":  "5bd53331a75ed667d6d0c207c35c0023213fbc4d0ed8d13c18858c18be3ce96b"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-003/registry-request.json",
+                                  "bytes":  1744,
+                                  "sha256":  "e4e2b2ef78012fbeecc31576020144506b2a1f874c386814d9b3a84a78d1d4bc"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-003/registry-restoration.json",
+                                  "bytes":  4120,
+                                  "sha256":  "00f11681a4e8ec59040557c6c37b738b7ce8dc17d1bf3c2555c678f2ba3d811a"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-003/summary.json",
+                                  "bytes":  15920,
+                                  "sha256":  "d0196971dbde5307de06e450b7cf0155cea35f1c0fa38f78315228eaeec68d4e"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-003/bridge-gl-8-frames/result.json",
+                                  "bytes":  3239,
+                                  "sha256":  "e96c25cf8a1bed0a31a1692769c9a7b1e25de5e7593c9a98e740c82c36bc6db4"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-003/bridge-gl-8-frames/stderr.log",
+                                  "bytes":  483,
+                                  "sha256":  "5356b7fdae15902a2b3debbf59524738daa40fce12bf4193c4c146415828566d"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-003/bridge-gl-8-frames/stdout.log",
+                                  "bytes":  1293,
+                                  "sha256":  "9d0f55dc7fa3aa5d8c7698a8c9261bd4bd208ecc8a6155938696beca07902236"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-003/game-120-frames/result.json",
+                                  "bytes":  1330,
+                                  "sha256":  "59b68421e1ff33c272c097dfe52e9633bc470bf80a261954930cc3d41dfc2ba7"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-003/game-120-frames/stderr.log",
+                                  "bytes":  181,
+                                  "sha256":  "9b6dedc086a9453b0f657ae6842783504206c8f1dac390a02d1fccc847a5c584"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-003/game-120-frames/stdout.log",
+                                  "bytes":  449,
+                                  "sha256":  "bd780f4f8317c929130e4a5d5d499c5e664258c79720bd7970cbe775620f7ac5"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-003/input-queue/result.json",
+                                  "bytes":  2701,
+                                  "sha256":  "dfd376d3f3cafdf0f1616afbd08c0862c429393a030399c6b5f8ada96daa36c0"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-003/input-queue/stderr.log",
+                                  "bytes":  480,
+                                  "sha256":  "3d7cffd0b99cfb51870e8f0a5525575fc6005fd9081d31b78d19813026ab4232"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-003/input-queue/stdout.log",
+                                  "bytes":  996,
+                                  "sha256":  "620df2f744816f237c6e10edd970a8d795c408889e735ac997a648a369f4dda8"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-runtime-002/registry-before.json",
+                                  "bytes":  1702,
+                                  "sha256":  "4ad1f4d12237cd671000619d7dbeba156999e3ce74bb55b3a741540fd0982370"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-runtime-002/registry-request.json",
+                                  "bytes":  1696,
+                                  "sha256":  "dcb0dc798027a80085f0eba791db620a988fb94a67425d0d68045acd48dc5e69"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-runtime-002/registry-restoration.json",
+                                  "bytes":  4048,
+                                  "sha256":  "c219313a23086c69d22a0eb1e57d5c257374a032acb231640397c4f99994c54a"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-runtime-002/summary.json",
+                                  "bytes":  15899,
+                                  "sha256":  "76f559c3376a977043f5ccf50b1f242693bb1ea3629bc5657cc4eae480ab50a9"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-runtime-002/bridge-gl-8-frames/result.json",
+                                  "bytes":  3230,
+                                  "sha256":  "7516d7750df415cb8f6af5c7712235034c30541580ace61a6a5682206011ad9a"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-runtime-002/bridge-gl-8-frames/stderr.log",
+                                  "bytes":  483,
+                                  "sha256":  "528992f2926a66b6497a49995664daeca127e3059e07a187538181b3ce221ad6"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-runtime-002/bridge-gl-8-frames/stdout.log",
+                                  "bytes":  1293,
+                                  "sha256":  "9d0f55dc7fa3aa5d8c7698a8c9261bd4bd208ecc8a6155938696beca07902236"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-runtime-002/game-120-frames/result.json",
+                                  "bytes":  1333,
+                                  "sha256":  "6a95b73c24d2a2b5b3f14d77498bb4ae4cafbcf12f8f9e8655eeb18a2824201e"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-runtime-002/game-120-frames/stderr.log",
+                                  "bytes":  181,
+                                  "sha256":  "9b6dedc086a9453b0f657ae6842783504206c8f1dac390a02d1fccc847a5c584"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-runtime-002/game-120-frames/stdout.log",
+                                  "bytes":  449,
+                                  "sha256":  "a0536f378c81d5e24e5387798fb1d1f8c7fae9e4177484b2cf0c011f2c1c676d"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-runtime-002/input-queue/result.json",
+                                  "bytes":  2694,
+                                  "sha256":  "32c1aef6abdb37b6dee1ace7e7a6b72c29001f152628e20c5f96d1edee2f163f"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-runtime-002/input-queue/stderr.log",
+                                  "bytes":  480,
+                                  "sha256":  "deefc645582b36c495b98e08030d28a9419c0e981685547df3d7ce764a71fcb9"
+                              },
+                              {
+                                  "path":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-runtime-002/input-queue/stdout.log",
+                                  "bytes":  996,
+                                  "sha256":  "620df2f744816f237c6e10edd970a8d795c408889e735ac997a648a369f4dda8"
+                              }
+                          ],
+    "retained_files":  65,
+    "retained_bytes":  173288,
+    "historical_runs":  [
+                            {
+                                "historical_name":  "amd-igpu-runtime-002",
+                                "summary":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-runtime-002/summary.json",
+                                "passed":  false,
+                                "actual_devices":  [
+                                                       "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+                                                       "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+                                                       "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2"
+                                                   ],
+                                "exit_codes":  [
+                                                   3,
+                                                   1,
+                                                   1
+                                               ],
+                                "preference_restoration_verified":  true,
+                                "user_followup":  false
+                            },
+                            {
+                                "historical_name":  "amd-igpu-frozen-runtime-001",
+                                "summary":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-frozen-runtime-001/summary.json",
+                                "passed":  false,
+                                "actual_devices":  [
+                                                       "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+                                                       "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+                                                       "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2"
+                                                   ],
+                                "exit_codes":  [
+                                                   3,
+                                                   1,
+                                                   1
+                                               ],
+                                "preference_restoration_verified":  true,
+                                "user_followup":  false
+                            },
+                            {
+                                "historical_name":  "amd-igpu-manual-001",
+                                "summary":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-001/summary.json",
+                                "passed":  false,
+                                "actual_devices":  [
+                                                       "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+                                                       "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+                                                       "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2"
+                                                   ],
+                                "exit_codes":  [
+                                                   3,
+                                                   1,
+                                                   1
+                                               ],
+                                "preference_restoration_verified":  true,
+                                "user_followup":  true
+                            },
+                            {
+                                "historical_name":  "amd-igpu-manual-002",
+                                "summary":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-002/summary.json",
+                                "passed":  false,
+                                "actual_devices":  [
+                                                       "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+                                                       "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+                                                       "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2"
+                                                   ],
+                                "exit_codes":  [
+                                                   3,
+                                                   1,
+                                                   1
+                                               ],
+                                "preference_restoration_verified":  true,
+                                "user_followup":  true
+                            },
+                            {
+                                "historical_name":  "amd-igpu-manual-003",
+                                "summary":  "out/m3-t2/s5/retired-verification-20261008/amd-igpu-manual-003/summary.json",
+                                "passed":  false,
+                                "actual_devices":  [
+                                                       "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+                                                       "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2",
+                                                       "NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2"
+                                                   ],
+                                "exit_codes":  [
+                                                   3,
+                                                   1,
+                                                   1
+                                               ],
+                                "preference_restoration_verified":  true,
+                                "user_followup":  true
+                            }
+                        ],
+    "retained_scope":  "Historical failed GPU selection and preference restoration only; no runnable binary, source copy, launcher, SDK, or active package manifest retained",
+    "historical_result":  "Five Validate runs observed NVIDIA, game/bridge/input exit3/1/1; AMD capability neither proved nor disproved; prior outcomes not reclassified",
+    "initial_collector_error":  "Removal completed and archives verified unchanged; subsequent report formatting failed because PS5 Measure-Object did not expose ordered-dictionary bytes; completion independently checks all absent targets and retained actual files",
+    "preference_restoration_verified_in_all_runs":  true,
+    "original_archives_unchanged":  [
+                                        {
+                                            "sha256":  "b676a8ab472c97c8e93cf910e91076150bb186ddf6bc076b5cbb9f87ff193211",
+                                            "path":  "out/m3-t2/s5/frozen/s5-release-001.zip"
+                                        },
+                                        {
+                                            "sha256":  "f7d6cf8ed8d88566fd97bf88f77198ff247dc1fe6df12e132c06738f4f53d181",
+                                            "path":  "out/m3-t2/s3/frozen/s3-release-001.zip"
+                                        },
+                                        {
+                                            "sha256":  "6aeb4cb0c5bb5ef6cbfac8e4b8fed57abef074517adbcfb20cfcbadf54b2a082",
+                                            "path":  "out/m3-t2/Symocraft-M3-T2-GLFW-baseline-windows-x64.zip"
+                                        }
+                                    ],
+    "publication_1175_risk_open":  true,
+    "s5_complete":  false,
+    "t2_approved":  false,
+    "t3_r1_v1_frozen":  false
+}

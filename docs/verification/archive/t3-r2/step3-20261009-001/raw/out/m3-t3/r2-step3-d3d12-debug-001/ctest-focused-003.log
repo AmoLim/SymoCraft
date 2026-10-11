@@ -1,0 +1,21 @@
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step3-d3d12-debug-001
+    Start 40: assets.image_write
+1/8 Test #40: assets.image_write ...............   Passed    0.02 sec
+    Start 50: telemetry.renderer_performance
+2/8 Test #50: telemetry.renderer_performance ...   Passed    0.13 sec
+    Start 54: app.render_cache
+3/8 Test #54: app.render_cache .................   Passed    0.18 sec
+    Start 55: app.render_conversion
+4/8 Test #55: app.render_conversion ............   Passed    0.04 sec
+    Start 56: renderer.public_api_consumer
+5/8 Test #56: renderer.public_api_consumer .....   Passed    0.03 sec
+    Start 57: renderer.facade_contract
+6/8 Test #57: renderer.facade_contract .........   Passed    0.03 sec
+    Start 58: renderer.shader_loading
+7/8 Test #58: renderer.shader_loading ..........   Passed    0.01 sec
+    Start 59: renderer.batch_safety
+8/8 Test #59: renderer.batch_safety ............   Passed    0.21 sec
+
+100% tests passed, 0 tests failed out of 8
+
+Total Test time (real) =   0.68 sec

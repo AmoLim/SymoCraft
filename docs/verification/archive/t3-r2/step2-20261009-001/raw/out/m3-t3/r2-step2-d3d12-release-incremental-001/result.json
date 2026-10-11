@@ -1,0 +1,101 @@
+{
+  "schema": "symocraft.renderer-incremental-build",
+  "version": 2,
+  "started_utc": "2026-10-09T06:56:13.4046140Z",
+  "finished_utc": "2026-10-09T06:56:29.2264400Z",
+  "build_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-d3d12-release-001",
+  "output_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step2-d3d12-release-incremental-001",
+  "status": "passed",
+  "baseline_compilations": 0,
+  "probes": [
+    {
+      "probe": "private-backend-contract",
+      "header": "game/modules/renderer/src/backend/render_backend.h",
+      "sha256": "967E5163A5B25FAF24487E71B56E9AD58947DA303A1814FDF2CE4BE8BC89450A",
+      "original_mtime_utc": "2026-10-09T05:27:28.5888649Z",
+      "probe_mtime_utc": "2026-10-09T06:56:14.1347179Z",
+      "restored_mtime": true,
+      "compiled_owners": {
+        "coreRenderer": 4,
+        "legacyRenderer": 0,
+        "nativeD3D12": 1,
+        "world": 0,
+        "simulation": 0,
+        "app": 0,
+        "benchmark": 0,
+        "publicConsumer": 0,
+        "facadeTests": 1
+      },
+      "compiled_shaders": 0,
+      "relinked_public_consumer": true,
+      "status": "passed"
+    },
+    {
+      "probe": "public-renderer-types",
+      "header": "game/modules/renderer/include/symocraft/renderer/types.h",
+      "sha256": "39102091898F03C5C01F4A6844265E55B2787EE0222BE17FD1514B0EA4DFFBE7",
+      "original_mtime_utc": "2026-10-09T05:08:25.9160355Z",
+      "probe_mtime_utc": "2026-10-09T06:56:17.5447287Z",
+      "restored_mtime": true,
+      "compiled_owners": {
+        "coreRenderer": 5,
+        "legacyRenderer": 0,
+        "nativeD3D12": 1,
+        "world": 0,
+        "simulation": 0,
+        "app": 0,
+        "benchmark": 0,
+        "publicConsumer": 1,
+        "facadeTests": 1
+      },
+      "compiled_shaders": 0,
+      "relinked_public_consumer": true,
+      "status": "passed"
+    },
+    {
+      "probe": "private-d3d12-pipeline",
+      "header": "game/modules/renderer/src/backend/d3d12/pipeline.h",
+      "sha256": "32A26689506E5E78EDCFE9816E5AA85652BF170FF6413471358D65B76A14FD53",
+      "original_mtime_utc": "2026-10-09T06:22:00.1750482Z",
+      "probe_mtime_utc": "2026-10-09T06:56:25.3893716Z",
+      "restored_mtime": true,
+      "compiled_owners": {
+        "coreRenderer": 0,
+        "legacyRenderer": 0,
+        "nativeD3D12": 2,
+        "world": 0,
+        "simulation": 0,
+        "app": 0,
+        "benchmark": 0,
+        "publicConsumer": 0,
+        "facadeTests": 0
+      },
+      "compiled_shaders": 0,
+      "relinked_public_consumer": true,
+      "status": "passed"
+    },
+    {
+      "probe": "private-d3d12-shader",
+      "header": "assets/shaders/hlsl/draw_constants.hlsli",
+      "sha256": "CDC75B90AD85324F87116C05945C79B56C5A40887F2A76723D7DC78FD633F1E4",
+      "original_mtime_utc": "2026-10-09T06:21:59.2508941Z",
+      "probe_mtime_utc": "2026-10-09T06:56:28.4440792Z",
+      "restored_mtime": true,
+      "compiled_owners": {
+        "coreRenderer": 0,
+        "legacyRenderer": 0,
+        "nativeD3D12": 0,
+        "world": 0,
+        "simulation": 0,
+        "app": 0,
+        "benchmark": 0,
+        "publicConsumer": 0,
+        "facadeTests": 0
+      },
+      "compiled_shaders": 4,
+      "relinked_public_consumer": false,
+      "status": "passed"
+    }
+  ],
+  "error": null
+}
