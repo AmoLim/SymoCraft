@@ -1,3 +1,6 @@
+# This directory is also included directly by tools/benchmark's standalone build.
+find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)
+
 add_executable(benchmark_fixture "${SYMOCRAFT_REPOSITORY_ROOT}/test/support/benchmark_fixture.cpp"
     "${SYMOCRAFT_REPOSITORY_ROOT}/cmake/windows-utf8.manifest")
 target_link_libraries(benchmark_fixture PRIVATE benchmark_core)
@@ -16,8 +19,16 @@ add_executable(benchmark_process_fixture "${SYMOCRAFT_REPOSITORY_ROOT}/test/supp
 target_compile_features(benchmark_process_fixture PRIVATE cxx_std_20)
 target_compile_options(benchmark_process_fixture PRIVATE /W4 /utf-8)
 set_target_properties(benchmark_process_fixture PROPERTIES CXX_EXTENSIONS OFF)
+add_test(NAME performance.script_python
+    COMMAND "${Python3_EXECUTABLE}" "${CMAKE_CURRENT_SOURCE_DIR}/benchmark_script_tests.py"
+        --benchmark-script "${SYMOCRAFT_REPOSITORY_ROOT}/scripts/benchmark.py"
+        --fixture-executable "$<TARGET_FILE:benchmark_process_fixture>"
+        --output-parent "${CMAKE_CURRENT_BINARY_DIR}/script-probes/python")
+set_tests_properties(performance.script_python PROPERTIES TIMEOUT 90)
+
+# Optional compatibility checks, not a PowerShell dependency of the collector.
 find_program(SYMOCRAFT_WINDOWS_POWERSHELL NAMES powershell.exe
-    HINTS "$ENV{SystemRoot}/System32/WindowsPowerShell/v1.0" REQUIRED)
+    HINTS "$ENV{SystemRoot}/System32/WindowsPowerShell/v1.0")
 find_program(SYMOCRAFT_POWERSHELL_CORE NAMES pwsh.exe)
 foreach(shell IN ITEMS WINDOWS_POWERSHELL POWERSHELL_CORE)
     if(SYMOCRAFT_${shell})
@@ -27,6 +38,7 @@ foreach(shell IN ITEMS WINDOWS_POWERSHELL POWERSHELL_CORE)
                 -BenchmarkScript "${SYMOCRAFT_REPOSITORY_ROOT}/scripts/benchmark.ps1"
                 -FixtureExecutable "$<TARGET_FILE:benchmark_process_fixture>"
                 -OutputParent "${CMAKE_CURRENT_BINARY_DIR}/script-probes/${shell}")
-        set_tests_properties(performance.script_${shell} PROPERTIES TIMEOUT 90)
+        set_tests_properties(performance.script_${shell} PROPERTIES TIMEOUT 90
+            ENVIRONMENT "SYMOCRAFT_PYTHON=${Python3_EXECUTABLE}")
     endif()
 endforeach()

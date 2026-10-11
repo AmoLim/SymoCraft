@@ -22,7 +22,7 @@ FXC and older shader profiles are not fallbacks.
 From the repository root:
 
 ```powershell
-./test/experimental/d3d12-r1/build.ps1 -BuildPlatform -Configuration Debug `
+python ./test/experimental/d3d12-r1/build.py -BuildPlatform -Configuration Debug `
   -ProductionBuild out/m3-t3/platform-debug `
   -BuildDirectory out/m3-t3/r1-debug-001 `
   -DxcPath 'C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64/dxc.exe'
@@ -51,7 +51,7 @@ declaration-only public consumer, 82 production handoff checks, and actual CPU
 cache/compiler/link boundary checks without SDL, DXC, or GPU libraries:
 
 ```powershell
-./test/experimental/d3d12-r1/contract/build.ps1 -Configuration Debug `
+python ./test/experimental/d3d12-r1/contract/build.py -Configuration Debug `
   -BuildDirectory out/m3-t3/r1-cpu-handoff-debug-new
 ```
 
@@ -63,7 +63,7 @@ Debug Layer is required by default; missing validation support is a failure,
 not an implied successful run.
 
 ```powershell
-./test/experimental/d3d12-r1/verify-probes.ps1 `
+python ./test/experimental/d3d12-r1/verify-probes.py `
   -Executable ./out/m3-t3/r1-debug-001/SymoCraftD3D12R1Probe.exe `
   -OutputDirectory out/m3-t3/evidence/desktop-debug-001 -RunTimeoutProbe
 ```
@@ -95,7 +95,7 @@ R1 freeze.
 After a successful Release build, create a fresh fixture-only package:
 
 ```powershell
-./test/experimental/d3d12-r1/package.ps1 `
+python ./test/experimental/d3d12-r1/package.py `
   -BuildDirectory out/m3-t3/r1-release-001 `
   -OutputDirectory out/m3-t3/package/d3d12-r1-release-001
 ```

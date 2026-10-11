@@ -1,11 +1,11 @@
 # Fix1 Independent Publication Collector
 
-`collect-runs.ps1` runs the real `foundation.files` and `performance.export` test executables. It does not build a replacement publication implementation, start a GUI or Process Monitor, change registry settings, retry failed publication, sleep, or delete existing evidence.
+`collect-runs.py` runs the real `foundation.files` and `performance.export` test executables. It does not build a replacement publication implementation, start a GUI or Process Monitor, change registry settings, retry failed publication, sleep, or delete existing evidence.
 
 Each invocation requires a new output directory and the exact executable paths. Each child process receives its own fresh `case-parent` directory; test-created descendants and failed source/target files stay at their original locations. `stdout.log`, `stderr.log`, `result.json`, `runs.jsonl`, `manifest.json`, and `summary.json` record actual attempts, process exits, timeout, source/executable/library identities, raw JSONL diagnostics, and the retained file scene. Source identity is a digest of the explicitly listed Fix1 source inputs, not a Git commit or a claim that an executable was built from those inputs; build provenance must also be recorded by the build owner.
 
 ```powershell
-& .\test\experimental\publication-fix1\collect-runs.ps1 `
+python .\test\experimental\publication-fix1\collect-runs.py `
   -BuildDir 'F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t2\fix1\build-debug-001' `
   -Config Debug -Test both `
   -FilesExe 'F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t2\fix1\build-debug-001\test\unit\foundation\files_tests.exe' `

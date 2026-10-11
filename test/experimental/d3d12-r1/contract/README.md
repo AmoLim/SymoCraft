@@ -36,9 +36,9 @@ SDL, DXC, D3D12 or Vulkan or link any graphics library. MSVC still needs its nor
 Windows C/C++ toolchain; foundation contains its existing Windows file support.
 
 ```powershell
-./test/experimental/d3d12-r1/contract/build.ps1 -Configuration Debug `
+python ./test/experimental/d3d12-r1/contract/build.py -Configuration Debug `
   -BuildDirectory out/m3-t3/r1-cpu-handoff-debug-new
-./test/experimental/d3d12-r1/contract/build.ps1 -Configuration Release `
+python ./test/experimental/d3d12-r1/contract/build.py -Configuration Release `
   -BuildDirectory out/m3-t3/r1-cpu-handoff-release-new
 ```
 

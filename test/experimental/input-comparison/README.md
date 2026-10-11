@@ -10,14 +10,14 @@ not a replacement for gameplay, physics or world verification.
 From the repository root, build SDL with:
 
 ```powershell
-./test/experimental/sdl3/build.ps1 -Configuration Release -InputComparison -BuildDirectory out/m3-t2/probe/input-comparison-sdl-release-002
+python ./test/experimental/sdl3/build.py -Configuration Release -InputComparison -BuildDirectory out/m3-t2/probe/input-comparison-sdl-release-002
 ```
 
 The option is off by default, so the ordinary SDL API probe remains independent
 of saved GLFW libraries. Build the adjacent `../glfw-baseline` Release project
 for the actual GLFW platform comparison.
 
-From the repository root, `./test/experimental/input-comparison/run.ps1` runs
+From the repository root, `./test/experimental/input-comparison/run.py` runs
 GLFW then SDL, each with a fresh evidence directory. `-Backend SDL3` selects only
 SDL; `-SystemScale 0` is an explicitly unscaled diagnostic candidate, not a change
 to the adopted migration policy. Default SDL scale 1 is a comparison candidate,
@@ -43,5 +43,5 @@ not part of the production project's eleven-key mapping.
 Compare short/held/released keys, wheel and slow/fast pointer movements using the
 same mouse/settings; hold W while switching out, release outside and return;
 minimize/restore, change cursor modes and close. Hardware layouts and feel still
-require explicit human results. Automated `verify.ps1` renders twelve frames in
+require explicit human results. Automated `verify.py` renders twelve frames in
 seven configurations; it cannot approve hardware input or sustained gameplay.
