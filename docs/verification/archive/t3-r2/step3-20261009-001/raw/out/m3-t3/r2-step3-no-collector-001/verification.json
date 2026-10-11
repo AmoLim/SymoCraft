@@ -1,0 +1,59 @@
+{
+  "schema": "symocraft.t3.r2-step3-no-collector-smoke",
+  "recorded_utc": "2026-10-09T08:53:26.1926670Z",
+  "cases": [
+    {
+      "configuration": "debug",
+      "arguments": [
+        "--renderer",
+        "d3d12",
+        "--seed",
+        "424242",
+        "--smoke-frames",
+        "400",
+        "--msaa",
+        "4",
+        "--validation",
+        "1"
+      ],
+      "requested_smoke_frames": 400,
+      "actual_frame_count_instrumented": false,
+      "collector_enabled": false,
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_ms": 7005,
+      "exe_sha256": "3641d93e6ccd95b935c2eca364fe17dc894cac9c6bccef75b22041e960580e28",
+      "exe_unchanged": true,
+      "success": true,
+      "debug_output_stream_captured": false
+    },
+    {
+      "configuration": "release",
+      "arguments": [
+        "--renderer",
+        "d3d12",
+        "--seed",
+        "424242",
+        "--smoke-frames",
+        "400",
+        "--msaa",
+        "4",
+        "--validation",
+        "1"
+      ],
+      "requested_smoke_frames": 400,
+      "actual_frame_count_instrumented": false,
+      "collector_enabled": false,
+      "exit_code": 0,
+      "timed_out": false,
+      "elapsed_ms": 3236,
+      "exe_sha256": "27c9b0d61cecf2ee3b2ead936fa4e2ed37cf7a03c165ac87ba8c394466c68b83",
+      "exe_unchanged": true,
+      "success": true,
+      "debug_output_stream_captured": false
+    }
+  ],
+  "success": true,
+  "proves_fifteen_minute_gameplay": false,
+  "proves_zero_debug_messages": false
+}

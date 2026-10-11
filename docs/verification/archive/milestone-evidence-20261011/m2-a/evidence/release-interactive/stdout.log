@@ -1,0 +1,23 @@
+F:\GameDevelop\OpenGLProject\Symocraft\src\core\window.cpp (line 85) Info: 
+[2026-09-17 08:47:07]: Monitor size: 2560, 1440
+F:\GameDevelop\OpenGLProject\Symocraft\src\core\window.cpp (line 99) Info: 
+[2026-09-17 08:47:07]: Window created. 
+OpenGL vendor: NVIDIA Corporation
+OpenGL renderer: NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2
+OpenGL version: 4.6.0 NVIDIA 616.64
+Shader compilation and linking succeeded: F:\GameDevelop\OpenGLProject\Symocraft\out\m2-a\release\bin\assets\shaders\vs_BlockShader.glsl + F:\GameDevelop\OpenGLProject\Symocraft\out\m2-a\release\bin\assets\shaders\fs_BlockShader.glsl
+Shader compilation and linking succeeded: F:\GameDevelop\OpenGLProject\Symocraft\out\m2-a\release\bin\assets\shaders\vs_FrameShader.glsl + F:\GameDevelop\OpenGLProject\Symocraft\out\m2-a\release\bin\assets\shaders\fs_FrameShader.glsl
+F:\GameDevelop\OpenGLProject\Symocraft\src\world\chunk.cpp (line 171) Info: 
+[2026-09-17 08:47:07]: The range is between: 0 - 1
+ The seed is -441074313
+[runtime] ready; chunks=441; loading_ms=312.626; spawn=0.5,95.95,0.5
+block removed 1
+Current block is Cobble Stone
+block removed 2
+block removed 3
+Current block is Grass
+block removed 4
+block removed 5
+block removed 6
+[runtime] loop finished; rendered_frames=18162; player=4.8836,96.9,-0.719625
+[runtime] shutdown complete; exit_code=0

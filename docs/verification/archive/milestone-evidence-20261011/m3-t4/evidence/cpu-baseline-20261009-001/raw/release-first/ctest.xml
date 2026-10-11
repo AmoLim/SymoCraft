@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="59"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="Amo"
+	time="9"
+	timestamp="2026-10-09T17:26:02"
+	>
+	<testcase name="architecture.public_header.foundation.symocraft/foundation/diagnostics.h" classname="architecture.public_header.foundation.symocraft/foundation/diagnostics.h" time="0.0128507" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.foundation.symocraft/foundation/document.h" classname="architecture.public_header.foundation.symocraft/foundation/document.h" time="0.0121461" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.foundation.symocraft/foundation/files.h" classname="architecture.public_header.foundation.symocraft/foundation/files.h" time="0.0125812" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.foundation.symocraft/foundation/math.h" classname="architecture.public_header.foundation.symocraft/foundation/math.h" time="0.0118012" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.foundation.symocraft/foundation/memory.h" classname="architecture.public_header.foundation.symocraft/foundation/memory.h" time="0.0111113" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.foundation.symocraft/foundation/types.h" classname="architecture.public_header.foundation.symocraft/foundation/types.h" time="0.011174" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.scene.symocraft/scene/camera.h" classname="architecture.public_header.scene.symocraft/scene/camera.h" time="0.0111894" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.scene.symocraft/scene/mesh.h" classname="architecture.public_header.scene.symocraft/scene/mesh.h" time="0.0105713" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.assets.symocraft/assets/asset_paths.h" classname="architecture.public_header.assets.symocraft/assets/asset_paths.h" time="0.0109638" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.assets.symocraft/assets/image.h" classname="architecture.public_header.assets.symocraft/assets/image.h" time="0.0117283" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.world.symocraft/world/benchmark_workload.h" classname="architecture.public_header.world.symocraft/world/benchmark_workload.h" time="0.0116984" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.world.symocraft/world/block.h" classname="architecture.public_header.world.symocraft/world/block.h" time="0.0116388" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.world.symocraft/world/block_definition.h" classname="architecture.public_header.world.symocraft/world/block_definition.h" time="0.0118823" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.world.symocraft/world/constants.h" classname="architecture.public_header.world.symocraft/world/constants.h" time="0.0121249" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.world.symocraft/world/generation.h" classname="architecture.public_header.world.symocraft/world/generation.h" time="0.0128868" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.world.symocraft/world/test_scene.h" classname="architecture.public_header.world.symocraft/world/test_scene.h" time="0.0126269" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.world.symocraft/world/world.h" classname="architecture.public_header.world.symocraft/world/world.h" time="0.0148974" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.ecs.symocraft/ecs/registry.h" classname="architecture.public_header.ecs.symocraft/ecs/registry.h" time="0.0279968" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.simulation.symocraft/simulation/camera.h" classname="architecture.public_header.simulation.symocraft/simulation/camera.h" time="0.0141869" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.simulation.symocraft/simulation/character_system.h" classname="architecture.public_header.simulation.symocraft/simulation/character_system.h" time="0.0140092" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.simulation.symocraft/simulation/component.h" classname="architecture.public_header.simulation.symocraft/simulation/component.h" time="0.0130478" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.simulation.symocraft/simulation/physics_system.h" classname="architecture.public_header.simulation.symocraft/simulation/physics_system.h" time="0.0134365" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.simulation.symocraft/simulation/player.h" classname="architecture.public_header.simulation.symocraft/simulation/player.h" time="0.0131919" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.simulation.symocraft/simulation/player_math.h" classname="architecture.public_header.simulation.symocraft/simulation/player_math.h" time="0.0133756" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.simulation.symocraft/simulation/playercontroller.h" classname="architecture.public_header.simulation.symocraft/simulation/playercontroller.h" time="0.01333" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.simulation.symocraft/simulation/transform_system.h" classname="architecture.public_header.simulation.symocraft/simulation/transform_system.h" time="0.0134809" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.renderer.symocraft/renderer/error.h" classname="architecture.public_header.renderer.symocraft/renderer/error.h" time="0.0140144" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.renderer.symocraft/renderer/renderer.h" classname="architecture.public_header.renderer.symocraft/renderer/renderer.h" time="0.0192728" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.renderer.symocraft/renderer/types.h" classname="architecture.public_header.renderer.symocraft/renderer/types.h" time="0.0245336" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.telemetry.symocraft/telemetry/document_io.h" classname="architecture.public_header.telemetry.symocraft/telemetry/document_io.h" time="0.0276062" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="architecture.public_header.telemetry.symocraft/telemetry/performance.h" classname="architecture.public_header.telemetry.symocraft/telemetry/performance.h" time="0.0329357" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="foundation.document" classname="foundation.document" time="0.0266522" status="run">
+		<properties/>
+		<system-out>Owned metadata and private YAML adapter contracts passed.
+</system-out>
+	</testcase>
+	<testcase name="foundation.files" classname="foundation.files" time="0.885902" status="run">
+		<properties/>
+		<system-out>{"kind":"publication_test","suite":"foundation.files","run_id":"40656-134360115632324633","sequence":1,"utc_filetime":134360115632369734,"utc":"2026-10-09T09:26:03.236Z","pid":40656,"tid":46488,"config":null,"source_sha":null,"exe_sha":null,"event":"begin","outcome":"begin","phase":"first_publication","operation":"publish","iteration":null,"reader_share":0,"held_reader":"none","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t4\\cpu-baseline-20261009-001\\release-001\\build\\test\\unit\\foundation\\file-probes\\21349101408200-40656\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t4\\cpu-baseline-20261009-001\\release-001\\build\\test\\unit\\foundation\\file-probes\\21349101408200-40656\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t4\\cpu-baseline-20261009-001\\release-001\\build\\test\\unit\\foundation\\file-probes\\21349101408200-40656","before":{"source":{"exists":true,"attributes":3...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="assets.contracts" classname="assets.contracts" time="0.365546" status="run">
+		<properties/>
+		<system-out>Asset path contracts and relocated-package probes passed.
+</system-out>
+	</testcase>
+	<testcase name="assets.from_source_directory" classname="assets.from_source_directory" time="0.309039" status="run">
+		<properties/>
+		<system-out>Asset path contracts and relocated-package probes passed.
+</system-out>
+	</testcase>
+	<testcase name="assets.image_decode" classname="assets.image_decode" time="0.0370276" status="run">
+		<properties/>
+		<system-out>CPU image decoding, ownership and error contracts passed.
+</system-out>
+	</testcase>
+	<testcase name="assets.image_write" classname="assets.image_write" time="0.0492857" status="run">
+		<properties/>
+		<system-out>CPU PNG packing, channels, flip isolation and error contracts passed.
+</system-out>
+	</testcase>
+	<testcase name="ecs.registry" classname="ecs.registry" time="0.0245959" status="run">
+		<properties/>
+		<system-out>Registry public typed facade and private storage lifecycle passed.
+</system-out>
+	</testcase>
+	<testcase name="world.mesh_safety" classname="world.mesh_safety" time="0.0539274" status="run">
+		<properties/>
+		<system-out>Mesh safety, immutable chunk lifetime and explicit-world ownership tests passed.
+</system-out>
+	</testcase>
+	<testcase name="world.block_config" classname="world.block_config" time="0.0343607" status="run">
+		<properties/>
+		<system-out>Block definition validation and value-ownership contracts passed.
+</system-out>
+	</testcase>
+	<testcase name="world.generation" classname="world.generation" time="0.487305" status="run">
+		<properties/>
+		<system-out>generator_version=1; seed=424242; radius=3; terrain=fnv1a64:d88ef364525f7355; scene=fnv1a64:945aefc4a381a591; edited=fnv1a64:97eb7834bae64491
+</system-out>
+	</testcase>
+	<testcase name="world.contract" classname="world.contract" time="0.456128" status="run">
+		<properties/>
+		<system-out>scratch_capacity_bytes=96; scratch_growths=1; A-B-A builds=2
+World isolation, integer edits, publication, failure recovery, scratch reuse and version/visit contracts passed.
+</system-out>
+	</testcase>
+	<testcase name="world.allocations" classname="world.allocations" time="0.934943" status="run">
+		<properties/>
+		<system-out>failure sweep Definition allocation failure leaked C++ owned resources: ordinal=0
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=256
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=512
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=768
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=1024
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=1280
+failure sweep Definition allocation failure leaked C++ owned resources: ordinal=1536
+failure sweep Factory/Chunk/noise allocation failure leaked C++ owned resources: ordinal=0
+failure sweep Generator/noise allocation failure leaked C++ owned resources: ordinal=0
+Real C++ allocation failure sweep passed: definition=1747; factory=57; generator/noise=1; scratch/output=28. Every failed ordinal released tracked resources after owner destruction; retries used same mesher.
+</system-out>
+	</testcase>
+	<testcase name="player.math" classname="player.math" time="0.0216818" status="run">
+		<properties/>
+		<system-out>Player fixed-step, voxel-ray, and placement contracts passed.
+</system-out>
+	</testcase>
+	<testcase name="simulation.contracts" classname="simulation.contracts" time="0.0464322" status="run">
+		<properties/>
+		<system-out>Current block is Sand
+Current block is Dirt
+Current block is Grass
+Current block is Cobble Stone
+Simulation explicit-input, camera and deferred-interaction contracts passed
+</system-out>
+	</testcase>
+	<testcase name="simulation.legacy_physics_baseline" classname="simulation.legacy_physics_baseline" time="0.272199" status="run">
+		<properties/>
+		<system-out>[PASS] single-step integration order
+[PASS] limit and sensor
+[PASS] zero/multiple/long steps and reset
+[PASS] landing and support removal
+[PASS] ground tolerance
+[PASS] wall and low ceiling
+[PASS] corner tie and moving out
+[PASS] offset and negative/chunk coordinates
+[PASS] nonminimum tie fallthrough
+[PASS] multi-block scan order
+[PASS] offset penetration correction
+[PASS] world queries are read-only
+[PASS] outside world and nonsolid
+[PASS] real world rays
+[PASS] registry traversal
+Legacy production physics baseline: 15 cases passed
+</system-out>
+	</testcase>
+	<testcase name="simulation.legacy_gameplay_baseline" classname="simulation.legacy_gameplay_baseline" time="0.094873" status="run">
+		<properties/>
+		<system-out>[PASS] zero_step_accepted_jump
+Current block is Sand
+[PASS] one_input_character_rule_many_steps
+[PASS] ordered_pointer_per_event_clipping
+Current block is Grass
+Current block is Sand
+Current block is Grass
+Current block is Cobble Stone
+[PASS] held_input_material_cooldown
+[PASS] sensor_character_rules
+[PASS] deferred_placement_commit_and_cooldown
+[PASS] rejected_placement_consumes_cooldown
+[PASS] disabled_input_selection_and_ray_miss
+[PASS] ordinary_support_removal_after_physics
+</system-out>
+	</testcase>
+	<testcase name="performance.export" classname="performance.export" time="0.0680762" status="run">
+		<properties/>
+		<system-out>{"kind":"publication_test","suite":"performance.export","run_id":"33152-134360115673253062","sequence":1,"utc_filetime":134360115673273068,"utc":"2026-10-09T09:26:07.327Z","pid":33152,"tid":3856,"config":null,"source_sha":null,"exe_sha":null,"event":"begin","outcome":"begin","phase":"init_normal","operation":"telemetry_initialize","iteration":null,"reader_share":0,"held_reader":"none","expected":"success","expected_win32":null,"source":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t4\\cpu-baseline-20261009-001\\release-001\\build\\test\\unit\\telemetry\\performance-probes\\21353193142000-33152\\status.tmp","destination":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t4\\cpu-baseline-20261009-001\\release-001\\build\\test\\unit\\telemetry\\performance-probes\\21353193142000-33152\\status.yaml","output_directory":"F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t4\\cpu-baseline-20261009-001\\release-001\\build\\test\\unit\\telemetry\\performance-probes\\21353193142000-33152","before":{"source":{"e...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="telemetry.renderer_performance" classname="telemetry.renderer_performance" time="0.0472059" status="run">
+		<properties/>
+		<system-out>Legacy schema and stable sparse renderer telemetry passed.
+</system-out>
+	</testcase>
+	<testcase name="input.key_snapshot" classname="input.key_snapshot" time="0.0117593" status="run">
+		<properties/>
+		<system-out>Complete key snapshot and sticky-consumption contracts passed.
+</system-out>
+	</testcase>
+	<testcase name="core.startup_options" classname="core.startup_options" time="0.0114881" status="run">
+		<properties/>
+		<system-out>Startup seed, scene, checkpoint, renderer and mode contracts passed.
+</system-out>
+	</testcase>
+	<testcase name="core.cleanup_sequence" classname="core.cleanup_sequence" time="0.0111141" status="run">
+		<properties/>
+		<system-out>Ordered application cleanup, failure isolation and repeated-release contracts passed.
+</system-out>
+	</testcase>
+	<testcase name="app.render_cache" classname="app.render_cache" time="0.0483845" status="run">
+		<properties/>
+		<system-out>Application World render cache: 56 CPU checks passed.
+</system-out>
+	</testcase>
+	<testcase name="app.render_conversion" classname="app.render_conversion" time="0.0182351" status="run">
+		<properties/>
+		<system-out>Application render conversion: 38 CPU checks passed.
+</system-out>
+	</testcase>
+	<testcase name="renderer.public_api_consumer" classname="renderer.public_api_consumer" time="0.0115526" status="run">
+		<properties/>
+		<system-out>R2 public API shape and real production symbols linked; no backend or GPU acceptance.
+</system-out>
+	</testcase>
+	<testcase name="renderer.facade_contract" classname="renderer.facade_contract" time="0.0132653" status="run">
+		<properties/>
+		<system-out>R2 real facade CPU lifecycle: 235 checks passed with test-only recording backend; no GPU or production backend acceptance.
+</system-out>
+	</testcase>
+	<testcase name="architecture.source_boundaries" classname="architecture.source_boundaries" time="0.353639" status="run">
+		<properties/>
+		<system-out>-- Production source boundaries passed
+</system-out>
+	</testcase>
+	<testcase name="architecture.negative_boundaries" classname="architecture.negative_boundaries" time="4.44584" status="run">
+		<properties/>
+		<system-out>-- Rejected world-renderer
+-- Rejected simulation-platform
+-- Rejected module-app
+-- Rejected production-test
+-- Rejected private-cross-include
+-- Rejected public-sdk
+-- Accepted sdl-platform-source
+-- Rejected sdl-platform-public
+-- Rejected sdl-platform-bridge
+-- Accepted sdl-platform-bridge-source
+-- Rejected sdl-renderer-source
+-- Rejected sdl-app-source
+-- Rejected sdl-cpu-source
+-- Rejected sdl-relative-vendor
+-- Rejected sdl-relative-platform-vendor
+-- Rejected glfw-platform-source
+-- Rejected glfw-renderer-source
+-- Rejected glfw-app-source
+-- Rejected glfw-cpu-source
+-- Rejected glfw-platform-public
+-- Rejected glfw-relative-vendor
+-- Rejected glfw-target-unlinked during real CMake configuration
+-- Rejected glfw-target-renamed during real CMake configuration
+-- Rejected glfw-link-platform during real CMake configuration
+-- Rejected glfw-link-platform-expression during real CMake configuration
+-- Rejected glfw-link-app during real CMake configuration
+-- Rejected glfw-link-library during real CMake con...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="architecture.renderer_boundaries" classname="architecture.renderer_boundaries" time="0.173545" status="run">
+		<properties/>
+		<system-out>-- Actual renderer target, public compile, private native linkage, and CPU-only SDK absence passed; no GPU acceptance.
+</system-out>
+	</testcase>
+</testsuite>

@@ -1,0 +1,27 @@
+{
+  "exit_code": 0,
+  "arguments": [
+    "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\test\\integration\\renderer_d3d12_backend_smoke.exe",
+    "--output-dir",
+    "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-native-probes-debug-002\\normal",
+    "--shader-root",
+    "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\bin\\assets\\shaders\\d3d12",
+    "--atlas",
+    "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\textures\\texture_atlas.png",
+    "--run-id",
+    "35760f85-2eb3-49af-b3d7-efe3557974ea",
+    "--expected-device-name",
+    "NVIDIA GeForce RTX 5070 Ti",
+    "--mode",
+    "normal",
+    "--samples",
+    "4",
+    "--vsync",
+    "false"
+  ],
+  "inputs": {
+    "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\test\\integration\\renderer_d3d12_backend_smoke.exe": "03f91aa8211da3116a49a614becead07bc949b1bbf4d34278430064f3abeeabc",
+    "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\integration\\renderer\\d3d12_backend_smoke.cpp": "32151e4074c73f136766fc284560e1fb5f8885bdd07b653b10a79142e8948216"
+  },
+  "inputs_unchanged": true
+}

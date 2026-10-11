@@ -1,0 +1,9 @@
+Hash verified: SymoCraft.exe
+Hash verified: assets\configs\blockFormats.yaml
+Hash verified: assets\shaders\fs_BlockShader.glsl
+Hash verified: assets\shaders\fs_FrameShader.glsl
+Hash verified: assets\shaders\vs_BlockShader.glsl
+Hash verified: assets\shaders\vs_FrameShader.glsl
+Hash verified: assets\textures\texture_atlas.png
+All required assets are present.
+PASS: seven installed files match their sources; installed preflight passed from repository working directory.

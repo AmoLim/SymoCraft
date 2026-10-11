@@ -1,0 +1,26 @@
+[
+  {
+    "Probe": "private-renderer",
+    "Header": "game/modules/renderer/src/batch.hpp",
+    "Sha256": "48488177C7869AF80DF53FB4CE88C75D4F6190A72C992D487B0BE8AE8F1DA2AA",
+    "CompiledOwners": {
+      "world": 0,
+      "simulation": 0,
+      "renderer": 1,
+      "app": 0
+    },
+    "Relinked": true
+  },
+  {
+    "Probe": "public-scene",
+    "Header": "game/modules/scene/include/symocraft/scene/mesh.h",
+    "Sha256": "07CF335BBAB6B6A6E80C6D538CB94AF7D73C9CA42565E744A671DB9ADC44C8A5",
+    "CompiledOwners": {
+      "world": 4,
+      "simulation": 2,
+      "renderer": 2,
+      "app": 1
+    },
+    "Relinked": true
+  }
+]

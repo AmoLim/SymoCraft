@@ -1,0 +1,79 @@
+metadata:
+  schema_version: 2
+  protocol_version: 2
+  workload_version: 2
+  focus_policy: strict
+  benchmark: edit
+  warmup_seconds: 60
+  sample_seconds: 180
+  requested_framebuffer_width: 1920
+  requested_framebuffer_height: 1080
+  requested_vsync: false
+  percentile_method: nearest-rank, ceil(p*N)-1; no outlier removal
+  frame_time_scope: consecutive SwapBuffers return intervals; not physical display latency
+  gpu_time_scope: sum of GL_TIME_ELAPSED around draw calls, excluding explicit uploads/clear/swap
+  memory_scope: process working set/private bytes; NVX memory is device-wide driver estimate, not process VRAM
+  cpu_temperature: missing; no portable sensor interface enabled
+  gpu_temperature: not collected by game; an external collector may supply it separately
+  build_configuration: Release
+  msvc_version: 193833145
+startup_ms: ~
+completed: true
+valid_run: false
+invalid_reasons:
+  - window-not-focused
+  - framebuffer-changed-or-minimized
+total_frames: 2
+focus:
+  transitions: 1
+  unfocused_frames: 1
+  sample_unfocused_frames: 1
+  unfocused_seconds_estimate: 0.10000000000000001
+  sample_unfocused_seconds_estimate: 0.10000000000000001
+  duration_method: sum frame intervals classified by focus at event polling; approximate
+frame_ms:
+  count: 2
+  min: 100
+  max: 100
+  mean: 100
+  p50: 100
+  p95: 100
+  p99: 100
+gpu_draw_ms:
+  count: 0
+gpu_missing_sample_frames: 2
+mesh_ms:
+  count: 2
+  min: 0
+  max: 0
+  mean: 0
+  p50: 0
+  p95: 0
+  p99: 0
+upload_cpu_ms:
+  count: 2
+  min: 0
+  max: 0
+  mean: 0
+  p50: 0
+  p95: 0
+  p99: 0
+cpu_submit_excluding_upload_ms:
+  count: 2
+  min: 0
+  max: 0
+  mean: 0
+  p50: 0
+  p95: 0
+  p99: 0
+present_wait_cpu_ms:
+  count: 2
+  min: 0
+  max: 0
+  mean: 0
+  p50: 0
+  p95: 0
+  p99: 0
+sample_edits: 2
+sample_rebuilt_chunks: 4
+throughput_fps: 10

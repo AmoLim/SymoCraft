@@ -1,0 +1,99 @@
+Start testing: Oct 09 17:00 中国标准时间
+----------------------------------------------------------
+37/57 Testing: assets.image_write
+37/57 Test: assets.image_write
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step3-cpu-release-001/test/unit/assets/image_write_tests.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step3-cpu-release-001/test/unit/assets
+"assets.image_write" start time: Oct 09 17:00 中国标准时间
+Output:
+----------------------------------------------------------
+CPU PNG packing, channels, flip isolation and error contracts passed.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"assets.image_write" end time: Oct 09 17:00 中国标准时间
+"assets.image_write" time elapsed: 00:00:00
+----------------------------------------------------------
+
+47/57 Testing: telemetry.renderer_performance
+47/57 Test: telemetry.renderer_performance
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step3-cpu-release-001/test/unit/telemetry/telemetry_renderer_tests.exe" "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step3-cpu-release-001/test/unit/telemetry/renderer-performance-probes"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step3-cpu-release-001/test/unit/telemetry
+"telemetry.renderer_performance" start time: Oct 09 17:00 中国标准时间
+Output:
+----------------------------------------------------------
+Legacy schema and stable sparse renderer telemetry passed.
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"telemetry.renderer_performance" end time: Oct 09 17:00 中国标准时间
+"telemetry.renderer_performance" time elapsed: 00:00:00
+----------------------------------------------------------
+
+51/57 Testing: app.render_cache
+51/57 Test: app.render_cache
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step3-cpu-release-001/test/unit/app/app_render_cache_tests.exe" "F:/GameDevelop/OpenGLProject/Symocraft/assets/textures/texture_atlas.png"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step3-cpu-release-001/test/unit/app
+"app.render_cache" start time: Oct 09 17:00 中国标准时间
+Output:
+----------------------------------------------------------
+Application World render cache: 56 CPU checks passed.
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"app.render_cache" end time: Oct 09 17:00 中国标准时间
+"app.render_cache" time elapsed: 00:00:00
+----------------------------------------------------------
+
+52/57 Testing: app.render_conversion
+52/57 Test: app.render_conversion
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step3-cpu-release-001/test/unit/app/app_render_conversion_tests.exe" "F:/GameDevelop/OpenGLProject/Symocraft/assets/textures/texture_atlas.png"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step3-cpu-release-001/test/unit/app
+"app.render_conversion" start time: Oct 09 17:00 中国标准时间
+Output:
+----------------------------------------------------------
+Application render conversion: 38 CPU checks passed.
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"app.render_conversion" end time: Oct 09 17:00 中国标准时间
+"app.render_conversion" time elapsed: 00:00:00
+----------------------------------------------------------
+
+53/57 Testing: renderer.public_api_consumer
+53/57 Test: renderer.public_api_consumer
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step3-cpu-release-001/test/unit/renderer/renderer_public_api_consumer.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step3-cpu-release-001/test/unit/renderer
+"renderer.public_api_consumer" start time: Oct 09 17:00 中国标准时间
+Output:
+----------------------------------------------------------
+R2 public API shape and real production symbols linked; no backend or GPU acceptance.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"renderer.public_api_consumer" end time: Oct 09 17:00 中国标准时间
+"renderer.public_api_consumer" time elapsed: 00:00:00
+----------------------------------------------------------
+
+54/57 Testing: renderer.facade_contract
+54/57 Test: renderer.facade_contract
+Command: "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step3-cpu-release-001/test/unit/renderer/renderer_facade_tests.exe"
+Directory: F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step3-cpu-release-001/test/unit/renderer
+"renderer.facade_contract" start time: Oct 09 17:00 中国标准时间
+Output:
+----------------------------------------------------------
+R2 real facade CPU lifecycle: 235 checks passed with test-only recording backend; no GPU or production backend acceptance.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"renderer.facade_contract" end time: Oct 09 17:00 中国标准时间
+"renderer.facade_contract" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 09 17:00 中国标准时间

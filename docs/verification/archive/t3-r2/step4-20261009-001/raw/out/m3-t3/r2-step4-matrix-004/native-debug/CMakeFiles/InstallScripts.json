@@ -1,0 +1,30 @@
+{
+	"InstallScripts" : 
+	[
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/game/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/game/modules/foundation/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/game/modules/scene/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/game/modules/assets/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/game/modules/ecs/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/game/modules/world/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/game/modules/simulation/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/game/modules/telemetry/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/vendor/sdl3/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/game/modules/platform/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/game/modules/renderer/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/game/app/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/test/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/test/unit/foundation/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/test/unit/assets/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/test/unit/ecs/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/test/unit/world/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/test/unit/simulation/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/test/unit/telemetry/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/test/unit/platform/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/test/unit/app/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/test/unit/renderer/cmake_install.cmake",
+		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/test/integration/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

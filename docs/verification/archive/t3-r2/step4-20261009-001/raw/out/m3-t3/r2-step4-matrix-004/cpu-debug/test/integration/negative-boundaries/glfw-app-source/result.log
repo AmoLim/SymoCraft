@@ -1,0 +1,7 @@
+CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:52 (message):
+  Boundary violation: retired GLFW headers cannot enter production:
+  game/app/src/rejected.cpp -> GLFW/glfw3.h
+Call Stack (most recent call first):
+  negative-boundaries/glfw-app-source/probe.cmake:3 (symocraft_check_source_file)
+
+

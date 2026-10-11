@@ -1,0 +1,26 @@
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t3/release
+    Start 16: performance.script_WINDOWS_POWERSHELL
+1/1 Test #16: performance.script_WINDOWS_POWERSHELL ...***Failed    1.02 sec
+Relative output did not follow PowerShell location: F:\GameDevelop\OpenGLProject\Symocraft\out\m2-t3\release\tests\scri
+pt-probes\WINDOWS_POWERSHELL\a388b77f707e4a4f9d10429ff9d4ce02\shell directory\success\static-1\result.json; Benchmark i
+nvalid or failed; inspect F:\GameDevelop\OpenGLProject\Symocraft\out\m2-t3\release\tests\script-probes\WINDOWS_POWERSHE
+LL\a388b77f707e4a4f9d10429ff9d4ce02\native directory\success\static-1. Remaining runs were not started.
+At F:\GameDevelop\OpenGLProject\Symocraft\tests\benchmark_script_tests.ps1:38 char:58
++ ... ultPath)) { throw "Relative output did not follow PowerShell location ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Relative output...re not started.:String) [], RuntimeException
+    + FullyQualifiedErrorId : Relative output did not follow PowerShell location: F:\GameDevelop\OpenGLProject\Symocra 
+   ft\out\m2-t3\release\tests\script-probes\WINDOWS_POWERSHELL\a388b77f707e4a4f9d10429ff9d4ce02\shell directory\succe  
+  ss\static-1\result.json; Benchmark invalid or failed; inspect F:\GameDevelop\OpenGLProject\Symocraft\out\m2-t3\rel   
+ ease\tests\script-probes\WINDOWS_POWERSHELL\a388b77f707e4a4f9d10429ff9d4ce02\native directory\success\static-1. Re    
+maining runs were not started.
+ 
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   1.03 sec
+
+The following tests FAILED:
+	 16 - performance.script_WINDOWS_POWERSHELL (Failed)
+Errors while running CTest

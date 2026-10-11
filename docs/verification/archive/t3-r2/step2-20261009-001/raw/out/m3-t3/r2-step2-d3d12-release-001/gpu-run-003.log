@@ -1,0 +1,4 @@
+normal-samples-1: success=True, exit=0, timeout=False
+normal-samples-4: success=True, exit=0, timeout=False
+missing-shader: success=True, exit=0, timeout=False
+bad-shader: success=True, exit=0, timeout=False

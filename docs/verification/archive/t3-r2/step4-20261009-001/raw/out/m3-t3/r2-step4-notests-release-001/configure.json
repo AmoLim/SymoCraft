@@ -1,0 +1,25 @@
+{
+  "command": [
+    "C:\\Program Files\\CMake\\bin\\cmake.exe",
+    "-S",
+    "F:\\GameDevelop\\OpenGLProject\\Symocraft",
+    "-B",
+    "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-notests-release-001",
+    "-G",
+    "Ninja",
+    "-DCMAKE_BUILD_TYPE=Release",
+    "-DCMAKE_MAKE_PROGRAM=E:\\Applications\\JetBrains\\CLion\\bin\\ninja\\win\\x64\\ninja.exe",
+    "-DPython3_EXECUTABLE=C:\\Users\\ldh20\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+    "-DSYMOCRAFT_BUILD_GAME=ON",
+    "-DSYMOCRAFT_BUILD_CPU_MODULES=ON",
+    "-DSYMOCRAFT_BUILD_BENCHMARK=OFF",
+    "-DSYMOCRAFT_CPU_ONLY=OFF",
+    "-DSYMOCRAFT_RENDER_D3D12=ON",
+    "-DBUILD_TESTING=OFF",
+    "-DSYMOCRAFT_DXC=C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.22621.0\\x64\\dxc.exe"
+  ],
+  "exit_code": 1,
+  "elapsed_seconds": 62.63391000000047,
+  "stdout": "configure.stdout.log",
+  "stderr": "configure.stderr.log"
+}

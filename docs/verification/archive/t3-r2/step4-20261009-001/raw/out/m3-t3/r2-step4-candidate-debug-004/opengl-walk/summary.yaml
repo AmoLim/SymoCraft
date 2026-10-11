@@ -1,0 +1,377 @@
+metadata:
+  schema_version: 2
+  protocol_version: 2
+  workload_version: 2
+  focus_policy: allow-unfocused
+  benchmark: walk
+  warmup_seconds: 0
+  sample_seconds: 3
+  requested_framebuffer_width: 1920
+  requested_framebuffer_height: 1080
+  requested_vsync: false
+  percentile_method: nearest-rank, ceil(p*N)-1; no outlier removal
+  frame_time_scope: consecutive SwapBuffers return intervals; not physical display latency
+  gpu_time_scope: sum of GL_TIME_ELAPSED around draw calls, excluding explicit uploads/clear/swap
+  memory_scope: process working set/private bytes; NVX memory is device-wide driver estimate, not process VRAM
+  cpu_temperature: missing; no portable sensor interface enabled
+  gpu_temperature: not collected by game; an external collector may supply it separately
+  build_configuration: Debug
+  msvc_version: 193833145
+  framebuffer_width: 1920
+  framebuffer_height: 1080
+  window_mode: borderless-windowed
+  taskbar_policy: preserve-shell-z-order
+  gl_vendor: NVIDIA Corporation
+  gl_renderer: NVIDIA GeForce RTX 5070 Ti/PCIe/SSE2
+  gl_version: 4.6.0 NVIDIA 616.64
+  msaa_samples: 4
+  allocated_vbo_bytes: 280001200
+  gpu_timer_supported: true
+  nvx_memory_supported: true
+  world:
+    generation:
+      generator_version: 1
+      seed: 424242
+      radius: 10
+      vegetation: true
+      chunk_dimensions:
+        - 16
+        - 256
+        - 16
+      noise_type: FastNoiseLite-1.0.1/OpenSimplex2/FBm
+      octaves: 8
+      lacunarity: 1.60000002
+      gain: 0.5
+      coordinate_scale: 1.5
+      height_exponent: 1.19000006
+      min_height: 55
+      max_height: 145
+      sea_level: 85
+      noise_seeds:
+        - 290620814
+        - 757298223
+        - 2041512569
+      frequencies:
+        - 0.00572999986
+        - 0.0199999996
+        - 0.100000001
+      weights:
+        - 1
+        - 0.200000003
+        - 0.0299999993
+      vegetation_rng: mix32-v1/seed+chunk-x+chunk-z/mt19937/raw-modulo
+      vegetation_candidate_extent: 10
+      vegetation_roll: raw%100>98
+      write_order: chunk-x,chunk-z; all-terrain-before-vegetation; last-write-wins
+      digest_schema: fnv1a64-v1/le-coord-i32x2/block-u16x4/chunk-x,z/block-y,x,z
+      block_formats:
+        - id: 1
+          textures:
+            - 63
+            - 63
+            - 63
+          transparent: true
+          solid: false
+          blendable: false
+          light_source: false
+          light_level: 0
+        - id: 2
+          textures:
+            - 16
+            - 8
+            - 0
+          transparent: false
+          solid: true
+          blendable: false
+          light_source: false
+          light_level: 0
+        - id: 3
+          textures:
+            - 1
+            - 1
+            - 1
+          transparent: false
+          solid: true
+          blendable: false
+          light_source: false
+          light_level: 0
+        - id: 4
+          textures:
+            - 0
+            - 0
+            - 0
+          transparent: false
+          solid: true
+          blendable: false
+          light_source: false
+          light_level: 0
+        - id: 5
+          textures:
+            - 2
+            - 2
+            - 2
+          transparent: false
+          solid: true
+          blendable: false
+          light_source: false
+          light_level: 0
+        - id: 6
+          textures:
+            - 20
+            - 12
+            - 20
+          transparent: false
+          solid: true
+          blendable: false
+          light_source: false
+          light_level: 0
+        - id: 7
+          textures:
+            - 28
+            - 28
+            - 28
+          transparent: true
+          solid: true
+          blendable: true
+          light_source: false
+          light_level: 0
+        - id: 8
+          textures:
+            - 4
+            - 4
+            - 4
+          transparent: false
+          solid: true
+          blendable: false
+          light_source: false
+          light_level: 0
+        - id: 9
+          textures:
+            - 10
+            - 11
+            - 10
+          transparent: true
+          solid: false
+          blendable: false
+          light_source: false
+          light_level: 0
+        - id: 10
+          textures:
+            - 5
+            - 5
+            - 5
+          transparent: false
+          solid: true
+          blendable: false
+          light_source: false
+          light_level: 0
+        - id: 11
+          textures:
+            - 3
+            - 3
+            - 3
+          transparent: false
+          solid: true
+          blendable: false
+          light_source: false
+          light_level: 0
+    seed_source: explicit
+    chunks: 441
+    terrain_digest: fnv1a64:cd80ebb0446c15c6
+    scene:
+      name: regression
+      version: 1
+      floor_y: 160
+      pad_min_xz: -24
+      pad_max_xz: 24
+      fov_degrees: 45
+      checkpoints:
+        - name: spawn
+          position: [-20.5, 161.899994, -6.5]
+          yaw: 0
+          pitch: -10
+        - name: positive-x
+          position: [14.5, 161.899994, 2.5]
+          yaw: -63.4350014
+          pitch: -25.1599998
+        - name: negative-x
+          position: [-17.5, 161.899994, 2.5]
+          yaw: -63.4350014
+          pitch: -25.1599998
+        - name: four-chunk
+          position: [-2.5, 161.899994, -2.5]
+          yaw: 45
+          pitch: -20.3999996
+        - name: wall-corner
+          position: [6.5, 161.899994, 6.5]
+          yaw: 45
+          pitch: 0
+        - name: low-ceiling
+          position: [-6.5, 161.899994, 6.5]
+          yaw: 0
+          pitch: 0
+        - name: single-block
+          position: [20.5, 168, 20.5]
+          yaw: -90
+          pitch: -60
+      route:
+        name: walk-positive-x-v1
+        mode: manual-waypoints-not-input-replay
+        walk_speed: 4.4000001
+        yaw: 0
+        pitch: -10
+        waypoints:
+          - [-20.5, 161.899994, -6.5]
+          - [-16.5, 161.899994, -6.5]
+          - [-0.5, 161.899994, -6.5]
+          - [15.5, 161.899994, -6.5]
+          - [20.5, 161.899994, -6.5]
+      edit_plan:
+        mode: ordered-world-writes-not-player-input
+        manual_min_interval_seconds: 0.25
+        operations:
+          - position: [15, 161, 0]
+            before: 5
+            after: 1
+          - position: [15, 161, 0]
+            before: 1
+            after: 8
+          - position: [16, 161, 0]
+            before: 5
+            after: 1
+          - position: [16, 161, 0]
+            before: 1
+            after: 11
+          - position: [-17, 161, 0]
+            before: 5
+            after: 1
+          - position: [-17, 161, 0]
+            before: 1
+            after: 8
+          - position: [-16, 161, 0]
+            before: 5
+            after: 1
+          - position: [-16, 161, 0]
+            before: 1
+            after: 11
+          - position: [-1, 161, -1]
+            before: 5
+            after: 1
+          - position: [-1, 161, -1]
+            before: 1
+            after: 8
+          - position: [-1, 161, 0]
+            before: 5
+            after: 1
+          - position: [-1, 161, 0]
+            before: 1
+            after: 11
+          - position: [0, 161, -1]
+            before: 5
+            after: 1
+          - position: [0, 161, -1]
+            before: 1
+            after: 8
+          - position: [0, 161, 0]
+            before: 5
+            after: 1
+          - position: [0, 161, 0]
+            before: 1
+            after: 11
+    scene_digest: fnv1a64:bddd435ea737fa62
+    test_edits_applied: false
+    final_digest: fnv1a64:bddd435ea737fa62
+    initial_pose:
+      checkpoint: spawn
+      position:
+        - -20.5
+        - 161.899994
+        - -6.5
+      yaw: 0
+      pitch: -10
+      fov: 45
+  first_mesh_chunks: 361
+  edit_interval_seconds: 0.25
+  edit_plan: M2-T2 forward 16 writes, then reverse 16 writes; repeat
+  walk_plan: real physics, x=-20.5..20.5, z=-6.5, speed=4.4, endpoint reversal; no input replay
+  first_upload_bytes: 57770328
+  final_world_digest: fnv1a64:bddd435ea737fa62
+  total_scheduled_edits_applied: 0
+  screenshot: final-frame.png; extra render/readback after measurement
+startup_ms:
+  argument_preflight_and_collector_setup: 9.8773999999999997
+  window_and_context: 560.15350000000001
+  shaders_buffers_and_block_config: 27.941299999999998
+  texture_decode_and_upload: 4.9707999999999997
+  world_allocation: 307.64339999999999
+  terrain: 610.58600000000001
+  vegetation: 9.6725999999999992
+  fixtures_digests_and_metadata: 880.5444
+  first_mesh: 4530.4593000000004
+  ready_from_main_entry: 6960.6638999999996
+  first_upload_cpu: 32.026699999999998
+  first_frame_swap_return_from_main_entry: 7207.4961999999996
+completed: true
+valid_run: true
+invalid_reasons:
+  []
+total_frames: 241
+focus:
+  transitions: 1
+  unfocused_frames: 178
+  sample_unfocused_frames: 178
+  unfocused_seconds_estimate: 2.5117176000000012
+  sample_unfocused_seconds_estimate: 2.5117176000000012
+  duration_method: sum frame intervals classified by focus at event polling; approximate
+frame_ms:
+  count: 241
+  min: 6.2426000000000004
+  max: 197.6447
+  mean: 12.481426141078835
+  p50: 9.423
+  p95: 20.488700000000001
+  p99: 46.557699999999997
+gpu_draw_ms:
+  count: 240
+  min: 0.080159999999999995
+  max: 0.81369599999999997
+  mean: 0.12059973333333325
+  p50: 0.108608
+  p95: 0.11484800000000001
+  p99: 0.43081599999999998
+gpu_missing_sample_frames: 1
+mesh_ms:
+  count: 241
+  min: 0.0080000000000000002
+  max: 0.53410000000000002
+  mean: 0.018188796680497915
+  p50: 0.014999999999999999
+  p95: 0.029399999999999999
+  p99: 0.099099999999999994
+upload_cpu_ms:
+  count: 241
+  min: 2.9510999999999998
+  max: 32.026699999999998
+  mean: 5.874653941908714
+  p50: 4.2329999999999997
+  p95: 11.1736
+  p99: 15.715400000000001
+cpu_submit_excluding_upload_ms:
+  count: 241
+  min: 2.7910000000000004
+  max: 64.136300000000006
+  mean: 4.7129161825726147
+  p50: 4.0941000000000001
+  p95: 7.1930000000000014
+  p99: 14.227799999999998
+present_wait_cpu_ms:
+  count: 241
+  min: 0.23960000000000001
+  max: 39.453400000000002
+  mean: 1.2123311203319505
+  p50: 0.4224
+  p95: 4.8624999999999998
+  p99: 18.043099999999999
+sample_edits: 0
+sample_rebuilt_chunks: 0
+throughput_fps: 80.119049593924345

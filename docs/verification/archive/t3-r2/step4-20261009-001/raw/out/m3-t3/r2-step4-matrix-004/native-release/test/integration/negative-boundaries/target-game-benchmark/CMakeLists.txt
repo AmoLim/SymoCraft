@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.22)
+project(NegativeBoundary LANGUAGES NONE)
+set(SYMOCRAFT_REPOSITORY_ROOT "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-release/test/integration/negative-boundaries/target-game-benchmark")
+add_subdirectory(tools/benchmark)
+add_subdirectory(game/app)
+add_subdirectory(game/modules/world)
+include("F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake")
+symocraft_validate_boundaries()

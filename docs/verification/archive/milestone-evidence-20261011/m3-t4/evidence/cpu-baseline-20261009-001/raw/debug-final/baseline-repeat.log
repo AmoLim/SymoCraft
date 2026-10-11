@@ -1,0 +1,17 @@
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t4/cpu-b02-debug/build
+    Start 46: simulation.legacy_physics_baseline
+    Test #46: simulation.legacy_physics_baseline ....   Passed    0.82 sec
+    Start 46: simulation.legacy_physics_baseline
+    Test #46: simulation.legacy_physics_baseline ....   Passed    0.65 sec
+    Start 46: simulation.legacy_physics_baseline
+1/2 Test #46: simulation.legacy_physics_baseline ....   Passed    0.64 sec
+    Start 47: simulation.legacy_gameplay_baseline
+    Test #47: simulation.legacy_gameplay_baseline ...   Passed    0.47 sec
+    Start 47: simulation.legacy_gameplay_baseline
+    Test #47: simulation.legacy_gameplay_baseline ...   Passed    0.30 sec
+    Start 47: simulation.legacy_gameplay_baseline
+2/2 Test #47: simulation.legacy_gameplay_baseline ...   Passed    0.29 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   3.20 sec

@@ -1,0 +1,8 @@
+-- Configuring incomplete, errors occurred!
+CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:297 (message):
+  Boundary violation: symocraft_renderer exposes private SDL include path
+  F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-debug/test/integration/negative-boundaries/sdl-path-renderer/vendor/sdl3/include
+Call Stack (most recent call first):
+  CMakeLists.txt:9 (symocraft_validate_boundaries)
+
+

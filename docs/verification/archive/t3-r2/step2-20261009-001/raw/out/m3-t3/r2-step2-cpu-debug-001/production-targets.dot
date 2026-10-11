@@ -1,0 +1,37 @@
+digraph SymoCraft {
+  "symocraft_foundation" -> "symocraft_math" [label="LINK_LIBRARIES"];
+  "symocraft_foundation" -> "symocraft_math" [label="INTERFACE_LINK_LIBRARIES"];
+  "symocraft_scene" -> "symocraft_foundation" [label="INTERFACE_LINK_LIBRARIES"];
+  "symocraft_assets" -> "symocraft_foundation" [label="LINK_LIBRARIES"];
+  "symocraft_assets" -> "symocraft_image_decoder" [label="LINK_LIBRARIES"];
+  "symocraft_assets" -> "symocraft_foundation" [label="INTERFACE_LINK_LIBRARIES"];
+  "symocraft_assets" -> "symocraft_image_decoder" [label="INTERFACE_LINK_LIBRARIES (LINK_ONLY)"];
+  "symocraft_ecs" -> "symocraft_foundation" [label="LINK_LIBRARIES"];
+  "symocraft_ecs" -> "symocraft_foundation" [label="INTERFACE_LINK_LIBRARIES"];
+  "symocraft_world" -> "symocraft_foundation" [label="LINK_LIBRARIES"];
+  "symocraft_world" -> "symocraft_scene" [label="LINK_LIBRARIES"];
+  "symocraft_world" -> "symocraft_yaml" [label="LINK_LIBRARIES"];
+  "symocraft_world" -> "symocraft_noise" [label="LINK_LIBRARIES"];
+  "symocraft_world" -> "symocraft_foundation" [label="INTERFACE_LINK_LIBRARIES"];
+  "symocraft_world" -> "symocraft_scene" [label="INTERFACE_LINK_LIBRARIES"];
+  "symocraft_world" -> "symocraft_yaml" [label="INTERFACE_LINK_LIBRARIES (LINK_ONLY)"];
+  "symocraft_world" -> "symocraft_noise" [label="INTERFACE_LINK_LIBRARIES (LINK_ONLY)"];
+  "symocraft_simulation" -> "symocraft_foundation" [label="LINK_LIBRARIES"];
+  "symocraft_simulation" -> "symocraft_scene" [label="LINK_LIBRARIES"];
+  "symocraft_simulation" -> "symocraft_ecs" [label="LINK_LIBRARIES"];
+  "symocraft_simulation" -> "symocraft_world" [label="LINK_LIBRARIES"];
+  "symocraft_simulation" -> "symocraft_foundation" [label="INTERFACE_LINK_LIBRARIES"];
+  "symocraft_simulation" -> "symocraft_scene" [label="INTERFACE_LINK_LIBRARIES"];
+  "symocraft_simulation" -> "symocraft_ecs" [label="INTERFACE_LINK_LIBRARIES"];
+  "symocraft_simulation" -> "symocraft_world" [label="INTERFACE_LINK_LIBRARIES"];
+  "symocraft_telemetry" -> "symocraft_foundation" [label="LINK_LIBRARIES"];
+  "symocraft_telemetry" -> "symocraft_yaml" [label="LINK_LIBRARIES"];
+  "symocraft_telemetry" -> "symocraft_foundation" [label="INTERFACE_LINK_LIBRARIES"];
+  "symocraft_telemetry" -> "symocraft_yaml" [label="INTERFACE_LINK_LIBRARIES (LINK_ONLY)"];
+  "symocraft_renderer_api" -> "symocraft_scene" [label="INTERFACE_LINK_LIBRARIES"];
+  "symocraft_renderer_backend_contract" -> "symocraft_renderer_api" [label="INTERFACE_LINK_LIBRARIES"];
+  "symocraft_renderer" -> "symocraft_renderer_api" [label="LINK_LIBRARIES"];
+  "symocraft_renderer" -> "symocraft_renderer_backend_contract" [label="LINK_LIBRARIES"];
+  "symocraft_renderer" -> "symocraft_renderer_api" [label="INTERFACE_LINK_LIBRARIES"];
+  "symocraft_renderer" -> "symocraft_renderer_backend_contract" [label="INTERFACE_LINK_LIBRARIES (LINK_ONLY)"];
+}

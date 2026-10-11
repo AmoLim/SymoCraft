@@ -1,0 +1,30 @@
+schema: symocraft-lite
+
+context: |
+  Symocraft is a Windows x64 C++20 voxel game using MSVC, CMake/Ninja and SDL3.
+  Default renderer is legacy OpenGL 4.6; D3D12 is an opt-in production candidate.
+  Vulkan, an independent physics target and a compute service are not implemented.
+  Planning root is docs; the implementation root is its parent, not the CLI root.
+  Rules are ../AGENTS.md and DOCUMENTATION_MAP.md (relative to planning root).
+  Each proposing Agent independently executes ../AGENTS.md section Proposal 前的规格预读.
+  Use the project-root Python tools/openspec/run.py entry for all OpenSpec commands.
+  Native actionContext.allowedEditRoots lists docs only: before apply, confirm current authorization for the C++ code root. Never rewrite CLI output.
+  Default symocraft-lite; explicitly choose symocraft-full for complex tasks.
+  Write Chinese content; retain structural English headers, SHALL/MUST and WHEN/THEN.
+  Current specs are a bounded, code-reviewed baseline, not a claim of full repository or runtime validation.
+  T2 approval does not close publication risks. Fix1 remains paused. R1 freeze/R2 entry does not approve R3, default switch or Vulkan.
+  T4 has local CPU baseline/core authorization, but only the baseline was delivered; full T4 production migration is not authorized.
+  Migration is not implementation, Git write, real sync/archive or acceptance authorization.
+  Approvals and archive index exist only in verification/VERIFICATION.md. Architecture owns current correctness mechanisms, not a duplicate spec.
+  Automation uses Python standard library. No game npm dependency, UE assumptions, source-project IDs or global configuration edits.
+
+rules:
+  proposal:
+    - Execute the 规格预读 process in ../AGENTS.md independently before drafting or materially revising; link relevant current specs and dependencies.
+    - Keep one canonical plan; preserve current authority and distinguish target, implementation, verification and approval.
+  specs:
+    - Preserve stable task-qualified acceptance IDs and all still-valid scenarios. Do not invent behavior or promote unimplemented targets to current specs.
+  design:
+    - Preserve correctness-relevant ownership, lifetime, invalidation, failure states, threading and synchronization. No function-by-function learning catalogue.
+  tasks:
+    - Mark only demonstrated implementation/checks complete. Do not turn historical authorization, document migration or planningComplete into approval.

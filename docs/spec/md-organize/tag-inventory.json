@@ -1,22 +1,22 @@
 {
   "schemaVersion": 1,
-  "updated": "2026-10-08",
+  "updated": "2026-10-10",
   "vaultRoot": "docs",
-  "spec": "spec/md-organize/mdspec.md",
+  "spec": "DOCUMENTATION_MAP.md",
   "uiVerification": "pending-native-pipe-unavailable",
   "counts": {
-    "managed": 118,
-    "defaultView": 107,
+    "managed": 150,
+    "defaultView": 146,
     "areas": {
-      "meta": 3,
-      "templates": 7,
-      "legacy": 10,
-      "milestones": 15,
-      "architecture": 50,
+      "architecture": 59,
       "benchmark": 17,
       "build": 3,
-      "spec": 12,
-      "testing": 1
+      "legacy": 10,
+      "meta": 4,
+      "milestones": 36,
+      "spec": 17,
+      "testing": 1,
+      "verification": 3
     }
   },
   "managed": [
@@ -28,60 +28,42 @@
       ]
     },
     {
-      "path": "Obsidian-功能笔记模板/00-使用说明.md",
-      "area": "area/templates",
-      "tags": [
-        "area/templates"
-      ]
-    },
-    {
-      "path": "Obsidian-功能笔记模板/01-类设计模板-使用说明.md",
-      "area": "area/templates",
-      "tags": [
-        "area/templates"
-      ]
-    },
-    {
-      "path": "Obsidian-功能笔记模板/02-示例与演进维护.md",
-      "area": "area/templates",
-      "tags": [
-        "area/templates"
-      ]
-    },
-    {
-      "path": "Obsidian-功能笔记模板/examples/D3D12Lab-A2持续清屏-功能示例.md",
-      "area": "area/templates",
-      "tags": [
-        "示例",
-        "area/templates"
-      ]
-    },
-    {
-      "path": "Obsidian-功能笔记模板/examples/D3D12Lab-App-类示例.md",
-      "area": "area/templates",
-      "tags": [
-        "示例",
-        "area/templates"
-      ]
-    },
-    {
-      "path": "Obsidian-功能笔记模板/examples/Symocraft-Scene-数据设计示例.md",
-      "area": "area/templates",
-      "tags": [
-        "示例",
-        "area/templates"
-      ]
-    },
-    {
-      "path": "Obsidian-功能笔记模板/examples/Symocraft-Simulation-系统设计示例.md",
-      "area": "area/templates",
-      "tags": [
-        "示例",
-        "area/templates"
-      ]
-    },
-    {
       "path": "README.md",
+      "area": "area/meta",
+      "tags": [
+        "area/meta"
+      ]
+    },
+    {
+      "path": "architecture/Overview.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "architecture/benchmark.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "architecture/engineering.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "architecture/renderer.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "development-journal/project-home.md",
       "area": "area/meta",
       "tags": [
         "area/meta"
@@ -262,6 +244,13 @@
       ]
     },
     {
+      "path": "milestones/m3-t2/manual-verification.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
       "path": "milestones/m3-t2/manul-verification.md",
       "area": "area/milestones",
       "tags": [
@@ -276,7 +265,160 @@
       ]
     },
     {
-      "path": "milestones/m3-t3/manul-verification.md",
+      "path": "milestones/m3-t2/s3-manual-verification.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
+      "path": "milestones/m3-t2/s4-platform-handoff.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones",
+        "topic/platform"
+      ]
+    },
+    {
+      "path": "milestones/m3-t2/s5-delivery-status.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
+      "path": "milestones/m3-t3/README.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones",
+        "topic/rendering"
+      ]
+    },
+    {
+      "path": "milestones/m3-t3/manual-verification.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
+      "path": "milestones/m3-t3/r2-entry.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones",
+        "topic/rendering"
+      ]
+    },
+    {
+      "path": "milestones/m3-t3/r2-step1-implementation.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones",
+        "topic/rendering"
+      ]
+    },
+    {
+      "path": "milestones/m3-t3/r2-step2-implementation.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones",
+        "topic/rendering"
+      ]
+    },
+    {
+      "path": "milestones/m3-t3/r2-step3-implementation.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones",
+        "topic/rendering"
+      ]
+    },
+    {
+      "path": "milestones/m3-t3/r2-step4-implementation.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones",
+        "topic/rendering"
+      ]
+    },
+    {
+      "path": "milestones/m3-t3/r2/r2-entry.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones",
+        "topic/rendering"
+      ]
+    },
+    {
+      "path": "milestones/m3-t3/r2/r2-step1-implementation.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones",
+        "topic/rendering"
+      ]
+    },
+    {
+      "path": "milestones/m3-t3/r2/r2-step2-implementation.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones",
+        "topic/rendering"
+      ]
+    },
+    {
+      "path": "milestones/m3-t3/r2/r2-step3-implementation.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones",
+        "topic/rendering"
+      ]
+    },
+    {
+      "path": "milestones/m3-t3/r2/r2-step4-implementation.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones",
+        "topic/rendering"
+      ]
+    },
+    {
+      "path": "milestones/m3-t4/README.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
+      "path": "milestones/m3-t4/consumer-audit.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
+      "path": "milestones/m3-t4/cpu-behavior-baseline.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones",
+        "topic/simulation"
+      ]
+    },
+    {
+      "path": "milestones/m3-t4/interface-contract-candidate.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
+      "path": "milestones/m3-t4/interface-decisions.md",
+      "area": "area/milestones",
+      "tags": [
+        "area/milestones"
+      ]
+    },
+    {
+      "path": "milestones/m3-t4/manual-verification.md",
       "area": "area/milestones",
       "tags": [
         "area/milestones"
@@ -308,6 +450,22 @@
       "area": "area/architecture",
       "tags": [
         "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/app/GameRenderer-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture",
+        "topic/rendering"
+      ]
+    },
+    {
+      "path": "project/architecture/app/WorldRenderCache-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture",
+        "topic/rendering"
       ]
     },
     {
@@ -437,6 +595,13 @@
       ]
     },
     {
+      "path": "project/architecture/renderer/D3D12Backend-私有类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
       "path": "project/architecture/renderer/GpuTimer Class.md",
       "area": "area/architecture",
       "tags": [
@@ -451,7 +616,21 @@
       ]
     },
     {
+      "path": "project/architecture/renderer/Renderer-PImpl-类设计.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
       "path": "project/architecture/renderer/Renderer-显式场景输入-功能.md",
+      "area": "area/architecture",
+      "tags": [
+        "area/architecture"
+      ]
+    },
+    {
+      "path": "project/architecture/renderer/ResourceRegistry-私有类设计.md",
       "area": "area/architecture",
       "tags": [
         "area/architecture"
@@ -783,21 +962,42 @@
       ]
     },
     {
-      "path": "spec/M3-T0-模块软硬边界.md",
+      "path": "scope/C-Scripting-Policy.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
       ]
     },
     {
-      "path": "spec/M3-T1-T3-CPU契约清单.md",
+      "path": "scope/future-scope.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
       ]
     },
     {
-      "path": "spec/M3-T1-世界模块重构.md",
+      "path": "scope/project-scope.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "spec/M3/M3-T0-模块软硬边界.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "spec/M3/M3-T1-T3-CPU契约清单.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "spec/M3/M3-T1-世界模块重构.md",
       "area": "area/spec",
       "tags": [
         "area/spec",
@@ -805,7 +1005,21 @@
       ]
     },
     {
-      "path": "spec/M3-T3-渲染器重构.md",
+      "path": "spec/M3/M3-T2-Fix1-spec.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "spec/M3/M3-T2-SDL3迁移.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "spec/M3/M3-T3-渲染器重构.md",
       "area": "area/spec",
       "tags": [
         "area/spec",
@@ -813,14 +1027,21 @@
       ]
     },
     {
-      "path": "spec/M3-T2-SDL3迁移.md",
+      "path": "spec/M3/M3-T4-应用平台与模拟模块接口.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
       ]
     },
     {
-      "path": "spec/M3-T2-Fix1-spec.md",
+      "path": "spec/M3/decisions.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "spec/M3/spec.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
@@ -862,64 +1083,78 @@
       ]
     },
     {
-      "path": "spec/project-scope.md",
-      "area": "area/spec",
-      "tags": [
-        "area/spec"
-      ]
-    },
-    {
       "path": "testing/gameplay-smoke.md",
       "area": "area/testing",
       "tags": [
         "area/testing",
         "topic/gameplay"
       ]
+    },
+    {
+      "path": "verification/VERIFICATION.md",
+      "area": "area/verification",
+      "tags": [
+        "area/verification"
+      ]
+    },
+    {
+      "path": "verification/methods.md",
+      "area": "area/verification",
+      "tags": [
+        "area/verification"
+      ]
+    },
+    {
+      "path": "verification/scenarios.md",
+      "area": "area/verification",
+      "tags": [
+        "area/verification"
+      ]
     }
   ],
   "excludedMarkdown": [
     {
-      "path": "Obsidian-功能笔记模板/templates/01-轻量功能.md",
+      "path": "obsidian-note-templates/templates/01-轻量功能.md",
       "reason": "reusable-template"
     },
     {
-      "path": "Obsidian-功能笔记模板/templates/02-完整功能.md",
+      "path": "obsidian-note-templates/templates/02-完整功能.md",
       "reason": "reusable-template"
     },
     {
-      "path": "Obsidian-功能笔记模板/templates/03-轻量类设计.md",
+      "path": "obsidian-note-templates/templates/03-轻量类设计.md",
       "reason": "reusable-template"
     },
     {
-      "path": "Obsidian-功能笔记模板/templates/04-完整类设计.md",
+      "path": "obsidian-note-templates/templates/04-完整类设计.md",
       "reason": "reusable-template"
     },
     {
-      "path": "Obsidian-功能笔记模板/templates/05-技术实验.md",
+      "path": "obsidian-note-templates/templates/05-技术实验.md",
       "reason": "reusable-template"
     },
     {
-      "path": "Obsidian-功能笔记模板/templates/06-问题修复.md",
+      "path": "obsidian-note-templates/templates/06-问题修复.md",
       "reason": "reusable-template"
     },
     {
-      "path": "Obsidian-功能笔记模板/templates/07-数据与存储设计.md",
+      "path": "obsidian-note-templates/templates/07-数据与存储设计.md",
       "reason": "reusable-template"
     },
     {
-      "path": "Obsidian-功能笔记模板/templates/08-系统与数据流设计.md",
+      "path": "obsidian-note-templates/templates/08-系统与数据流设计.md",
       "reason": "reusable-template"
     },
     {
-      "path": "Obsidian-功能笔记模板/templates/09-namespace API设计.md",
+      "path": "obsidian-note-templates/templates/09-namespace API设计.md",
       "reason": "reusable-template"
     },
     {
-      "path": "Obsidian-功能笔记模板/templates/10-构建与依赖契约.md",
+      "path": "obsidian-note-templates/templates/10-构建与依赖契约.md",
       "reason": "reusable-template"
     },
     {
-      "path": "Obsidian-功能笔记模板/templates/11-Milestone人工核查.md",
+      "path": "obsidian-note-templates/templates/11-Milestone人工核查.md",
       "reason": "reusable-template"
     },
     {
@@ -933,7 +1168,7 @@
       "reason": "Keep original evidence byte-for-byte; exclude from graph"
     },
     {
-      "pathPattern": "Obsidian-功能笔记模板/templates/**",
+      "pathPattern": "obsidian-note-templates/templates/**",
       "reason": "Do not inject ownership into reusable templates"
     }
   ],
@@ -941,8 +1176,8 @@
     {
       "tag": "示例",
       "paths": [
-        "Obsidian-功能笔记模板/examples/D3D12Lab-A2持续清屏-功能示例.md",
-        "Obsidian-功能笔记模板/examples/D3D12Lab-App-类示例.md"
+        "obsidian-note-templates/examples/D3D12Lab-A2持续清屏-功能示例.md",
+        "obsidian-note-templates/examples/D3D12Lab-App-类示例.md"
       ]
     }
   ],
@@ -1000,5 +1235,13 @@
         "issue": "unclassified-path-left-untouched"
       }
     ]
+  },
+  "documentationSync": {
+    "date": "2026-10-10",
+    "scope": "Current navigation, source-backed implementation status and tag registration; private journal entries preserved without reading their content.",
+    "runtimeVerification": "not-run",
+    "uiVerification": "not-run",
+    "graphConfigurationTouched": false,
+    "historicalVerificationPreserved": true
   }
 }

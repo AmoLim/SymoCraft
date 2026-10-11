@@ -1,0 +1,8 @@
+CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:77 (message):
+  Boundary violation: direct SDL vendor include bypasses private target
+  headers: game/modules/world/src/rejected.cpp ->
+  ../../../../vendor/sdl3/include/SDL3/SDL.h
+Call Stack (most recent call first):
+  negative-boundaries/sdl-relative-vendor/probe.cmake:3 (symocraft_check_source_file)
+
+

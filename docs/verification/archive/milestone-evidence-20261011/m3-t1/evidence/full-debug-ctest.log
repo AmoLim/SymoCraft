@@ -1,0 +1,136 @@
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t1/build/full-debug
+      Start  1: architecture.public_header.foundation.symocraft/foundation/diagnostics.h
+ 1/62 Test  #1: architecture.public_header.foundation.symocraft/foundation/diagnostics.h ........   Passed    0.07 sec
+      Start  2: architecture.public_header.foundation.symocraft/foundation/document.h
+ 2/62 Test  #2: architecture.public_header.foundation.symocraft/foundation/document.h ...........   Passed    0.07 sec
+      Start  3: architecture.public_header.foundation.symocraft/foundation/files.h
+ 3/62 Test  #3: architecture.public_header.foundation.symocraft/foundation/files.h ..............   Passed    0.07 sec
+      Start  4: architecture.public_header.foundation.symocraft/foundation/math.h
+ 4/62 Test  #4: architecture.public_header.foundation.symocraft/foundation/math.h ...............   Passed    0.07 sec
+      Start  5: architecture.public_header.foundation.symocraft/foundation/memory.h
+ 5/62 Test  #5: architecture.public_header.foundation.symocraft/foundation/memory.h .............   Passed    0.07 sec
+      Start  6: architecture.public_header.foundation.symocraft/foundation/types.h
+ 6/62 Test  #6: architecture.public_header.foundation.symocraft/foundation/types.h ..............   Passed    0.07 sec
+      Start  7: architecture.public_header.scene.symocraft/scene/camera.h
+ 7/62 Test  #7: architecture.public_header.scene.symocraft/scene/camera.h .......................   Passed    0.07 sec
+      Start  8: architecture.public_header.scene.symocraft/scene/mesh.h
+ 8/62 Test  #8: architecture.public_header.scene.symocraft/scene/mesh.h .........................   Passed    0.07 sec
+      Start  9: architecture.public_header.assets.symocraft/assets/asset_paths.h
+ 9/62 Test  #9: architecture.public_header.assets.symocraft/assets/asset_paths.h ................   Passed    0.07 sec
+      Start 10: architecture.public_header.assets.symocraft/assets/image.h
+10/62 Test #10: architecture.public_header.assets.symocraft/assets/image.h ......................   Passed    0.08 sec
+      Start 11: architecture.public_header.world.symocraft/world/benchmark_workload.h
+11/62 Test #11: architecture.public_header.world.symocraft/world/benchmark_workload.h ...........   Passed    0.07 sec
+      Start 12: architecture.public_header.world.symocraft/world/block.h
+12/62 Test #12: architecture.public_header.world.symocraft/world/block.h ........................   Passed    0.07 sec
+      Start 13: architecture.public_header.world.symocraft/world/block_definition.h
+13/62 Test #13: architecture.public_header.world.symocraft/world/block_definition.h .............   Passed    0.07 sec
+      Start 14: architecture.public_header.world.symocraft/world/constants.h
+14/62 Test #14: architecture.public_header.world.symocraft/world/constants.h ....................   Passed    0.07 sec
+      Start 15: architecture.public_header.world.symocraft/world/generation.h
+15/62 Test #15: architecture.public_header.world.symocraft/world/generation.h ...................   Passed    0.07 sec
+      Start 16: architecture.public_header.world.symocraft/world/test_scene.h
+16/62 Test #16: architecture.public_header.world.symocraft/world/test_scene.h ...................   Passed    0.07 sec
+      Start 17: architecture.public_header.world.symocraft/world/world.h
+17/62 Test #17: architecture.public_header.world.symocraft/world/world.h ........................   Passed    0.07 sec
+      Start 18: architecture.public_header.ecs.symocraft/ecs/registry.h
+18/62 Test #18: architecture.public_header.ecs.symocraft/ecs/registry.h .........................   Passed    0.07 sec
+      Start 19: architecture.public_header.simulation.symocraft/simulation/camera.h
+19/62 Test #19: architecture.public_header.simulation.symocraft/simulation/camera.h .............   Passed    0.07 sec
+      Start 20: architecture.public_header.simulation.symocraft/simulation/character_system.h
+20/62 Test #20: architecture.public_header.simulation.symocraft/simulation/character_system.h ...   Passed    0.07 sec
+      Start 21: architecture.public_header.simulation.symocraft/simulation/component.h
+21/62 Test #21: architecture.public_header.simulation.symocraft/simulation/component.h ..........   Passed    0.07 sec
+      Start 22: architecture.public_header.simulation.symocraft/simulation/physics_system.h
+22/62 Test #22: architecture.public_header.simulation.symocraft/simulation/physics_system.h .....   Passed    0.07 sec
+      Start 23: architecture.public_header.simulation.symocraft/simulation/player.h
+23/62 Test #23: architecture.public_header.simulation.symocraft/simulation/player.h .............   Passed    0.07 sec
+      Start 24: architecture.public_header.simulation.symocraft/simulation/player_math.h
+24/62 Test #24: architecture.public_header.simulation.symocraft/simulation/player_math.h ........   Passed    0.07 sec
+      Start 25: architecture.public_header.simulation.symocraft/simulation/playercontroller.h
+25/62 Test #25: architecture.public_header.simulation.symocraft/simulation/playercontroller.h ...   Passed    0.07 sec
+      Start 26: architecture.public_header.simulation.symocraft/simulation/transform_system.h
+26/62 Test #26: architecture.public_header.simulation.symocraft/simulation/transform_system.h ...   Passed    0.07 sec
+      Start 27: architecture.public_header.platform.symocraft/platform/key_snapshot.h
+27/62 Test #27: architecture.public_header.platform.symocraft/platform/key_snapshot.h ...........   Passed    0.07 sec
+      Start 28: architecture.public_header.platform.symocraft/platform/process_memory.h
+28/62 Test #28: architecture.public_header.platform.symocraft/platform/process_memory.h .........   Passed    0.06 sec
+      Start 29: architecture.public_header.platform.symocraft/platform/window.h
+29/62 Test #29: architecture.public_header.platform.symocraft/platform/window.h .................   Passed    0.07 sec
+      Start 30: architecture.public_header.renderer.symocraft/renderer/gpu_timer.h
+30/62 Test #30: architecture.public_header.renderer.symocraft/renderer/gpu_timer.h ..............   Passed    0.07 sec
+      Start 31: architecture.public_header.renderer.symocraft/renderer/render_stats.h
+31/62 Test #31: architecture.public_header.renderer.symocraft/renderer/render_stats.h ...........   Passed    0.07 sec
+      Start 32: architecture.public_header.renderer.symocraft/renderer/renderer.h
+32/62 Test #32: architecture.public_header.renderer.symocraft/renderer/renderer.h ...............   Passed    0.07 sec
+      Start 33: architecture.public_header.telemetry.symocraft/telemetry/document_io.h
+33/62 Test #33: architecture.public_header.telemetry.symocraft/telemetry/document_io.h ..........   Passed    0.07 sec
+      Start 34: architecture.public_header.telemetry.symocraft/telemetry/performance.h
+34/62 Test #34: architecture.public_header.telemetry.symocraft/telemetry/performance.h ..........   Passed    0.07 sec
+      Start 35: foundation.document
+35/62 Test #35: foundation.document .............................................................   Passed    0.17 sec
+      Start 36: assets.contracts
+36/62 Test #36: assets.contracts ................................................................   Passed    0.22 sec
+      Start 37: assets.from_source_directory
+37/62 Test #37: assets.from_source_directory ....................................................   Passed    0.11 sec
+      Start 38: assets.image_decode
+38/62 Test #38: assets.image_decode .............................................................   Passed    0.12 sec
+      Start 39: ecs.registry
+39/62 Test #39: ecs.registry ....................................................................   Passed    0.09 sec
+      Start 40: world.mesh_safety
+40/62 Test #40: world.mesh_safety ...............................................................   Passed    0.28 sec
+      Start 41: world.block_config
+41/62 Test #41: world.block_config ..............................................................   Passed    0.21 sec
+      Start 42: world.generation
+42/62 Test #42: world.generation ................................................................   Passed    1.08 sec
+      Start 43: world.contract
+43/62 Test #43: world.contract ..................................................................   Passed    0.87 sec
+      Start 44: world.allocations
+44/62 Test #44: world.allocations ...............................................................***Failed    0.26 sec
+allocation failure ordinal=6; live before=745/17058552 bytes, after=746/17060600 bytes
+Definition allocation failure leaked C++ owned resources
+
+      Start 45: player.math
+45/62 Test #45: player.math .....................................................................   Passed    0.07 sec
+      Start 46: simulation.contracts
+46/62 Test #46: simulation.contracts ............................................................   Passed    0.23 sec
+      Start 47: performance.export
+47/62 Test #47: performance.export ..............................................................   Passed    0.24 sec
+      Start 48: input.key_snapshot
+48/62 Test #48: input.key_snapshot ..............................................................   Passed    0.07 sec
+      Start 49: core.startup_options
+49/62 Test #49: core.startup_options ............................................................   Passed    0.08 sec
+      Start 50: renderer.shader_loading
+50/62 Test #50: renderer.shader_loading .........................................................   Passed    0.14 sec
+      Start 51: renderer.batch_safety
+51/62 Test #51: renderer.batch_safety ...........................................................   Passed    0.09 sec
+      Start 52: performance.gpu_timer
+52/62 Test #52: performance.gpu_timer ...........................................................   Passed    0.09 sec
+      Start 53: assets.game_preflight
+53/62 Test #53: assets.game_preflight ...........................................................   Passed    0.02 sec
+      Start 54: assets.game_package
+54/62 Test #54: assets.game_package .............................................................   Passed    0.12 sec
+      Start 55: world.summary_cli
+55/62 Test #55: world.summary_cli ...............................................................   Passed    2.96 sec
+      Start 56: architecture.source_boundaries
+56/62 Test #56: architecture.source_boundaries ..................................................   Passed    0.22 sec
+      Start 57: architecture.negative_boundaries
+57/62 Test #57: architecture.negative_boundaries ................................................   Passed    1.13 sec
+      Start 58: benchmark.contracts
+58/62 Test #58: benchmark.contracts .............................................................   Passed    0.24 sec
+      Start 59: benchmark.process
+59/62 Test #59: benchmark.process ...............................................................   Passed    3.26 sec
+      Start 60: benchmark.executor
+60/62 Test #60: benchmark.executor ..............................................................   Passed    8.33 sec
+      Start 61: performance.script_WINDOWS_POWERSHELL
+61/62 Test #61: performance.script_WINDOWS_POWERSHELL ...........................................   Passed    7.03 sec
+      Start 62: performance.script_POWERSHELL_CORE
+62/62 Test #62: performance.script_POWERSHELL_CORE ..............................................   Passed    6.45 sec
+
+98% tests passed, 1 tests failed out of 62
+
+Total Test time (real) =  36.58 sec
+
+The following tests FAILED:
+	 44 - world.allocations (Failed)
+Errors while running CTest

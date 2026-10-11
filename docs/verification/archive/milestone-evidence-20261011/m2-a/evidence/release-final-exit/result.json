@@ -1,0 +1,15 @@
+{
+  "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\install\\m2-a\\SymoCraft.exe",
+  "workingDirectory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\release-final-exit",
+  "requestedFrames": 0,
+  "renderedFrames": 7500,
+  "glDiagnosticCount": 0,
+  "processId": 46500,
+  "timedOut": false,
+  "exitCode": 0,
+  "expectedExitCode": 0,
+  "ready": true,
+  "shutdown": true,
+  "elapsedSeconds": 106.1642443,
+  "passed": true
+}

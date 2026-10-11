@@ -1,0 +1,10 @@
+{
+  "created_utc": "2026-10-07T05:20:50.0567512Z",
+  "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t2\\probe\\input-comparison-sdl-release-002\\SymoCraftSdl3RuntimeInputTests.exe",
+  "executable_sha256": "dcd7a1c0f0d48786ab8bad364bb0286a3c7dc1d5c655e505525aee0c13991717",
+  "exit_code": 2,
+  "checks": 118,
+  "passed": false,
+  "synthetic_own_window_messages": true,
+  "hardware_validation": false
+}

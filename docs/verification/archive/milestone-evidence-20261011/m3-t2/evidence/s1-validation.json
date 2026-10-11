@@ -1,0 +1,320 @@
+{
+  "captured_utc": "2026-10-07T07:42:20.1277936Z",
+  "scope": "M3-T2 S1 dependency isolation, not SDL production window behavior or T2 node acceptance",
+  "user_approval": {
+    "Q04": "Closed after user confirmation of passing validation",
+    "Q08": "Sequential S1-S5 implementation authorization is effective",
+    "P06": "Passed by explicit user approval",
+    "date": "2026-10-07"
+  },
+  "tests": [
+    {
+      "evidence": {
+        "path": "out/m3-t2/s1/main-debug-002-test.log",
+        "sha256": "3b5f69e2bb59087e0fde9fdf948a3d2fdf6d3cb003fe0280c6b5c5d203155484"
+      },
+      "enabled_tests_passed": 61,
+      "world_allocations_disabled": true
+    },
+    {
+      "evidence": {
+        "path": "out/m3-t2/s1/main-release-001-test.log",
+        "sha256": "62f7a80dc2a08d69c4f933fc8110032a55d0322d90f5c970458c72095899a287"
+      },
+      "enabled_tests_passed": 62,
+      "world_allocations_disabled": false
+    },
+    {
+      "evidence": {
+        "path": "out/m3-t2/s1/matrix-debug-001-cpu-only-test.log",
+        "sha256": "bdc6366097cb9626fefec57a36b2486df989e8375f19c698dc7117ee38442ff9"
+      },
+      "enabled_tests_passed": 44,
+      "world_allocations_disabled": true
+    },
+    {
+      "evidence": {
+        "path": "out/m3-t2/s1/matrix-release-001-cpu-only-test.log",
+        "sha256": "3f633fdd99ccc5f661429ca4482c77bfa8a4f9ae3755c8a6f8cdb32669f133a7"
+      },
+      "enabled_tests_passed": 45,
+      "world_allocations_disabled": false
+    },
+    {
+      "evidence": {
+        "path": "out/m3-t2/s1/matrix-debug-001-standalone-runner-test.log",
+        "sha256": "4b4cd8039fc45a19ae3c1fb0916652cb4dd391d019c11d2c9d0b68861e9e3655"
+      },
+      "enabled_tests_passed": 5,
+      "world_allocations_disabled": false
+    },
+    {
+      "evidence": {
+        "path": "out/m3-t2/s1/matrix-release-001-standalone-runner-test.log",
+        "sha256": "b15879b1a742acb00b1b3ed35454d0dd16f2dbf5bc2b33fcd1962447dfa09f3d"
+      },
+      "enabled_tests_passed": 5,
+      "world_allocations_disabled": false
+    },
+    {
+      "evidence": {
+        "path": "out/m3-t2/s1/matrix-debug-001-game-only-test.log",
+        "sha256": "d3233f2476026cac547035277bc936a041a82b700121719aa9478329c0d76e7d"
+      },
+      "enabled_tests_passed": 56,
+      "world_allocations_disabled": true
+    },
+    {
+      "evidence": {
+        "path": "out/m3-t2/s1/matrix-release-001-game-only-test.log",
+        "sha256": "c79fafcdf9bebbe74143880c5acbccc2855d2bfa8f15fbe4432aa940db0210a5"
+      },
+      "enabled_tests_passed": 57,
+      "world_allocations_disabled": false
+    }
+  ],
+  "build_matrices": [
+    {
+      "configuration": "Debug",
+      "build_install_modes": [
+        "no-tests",
+        "cpu-only",
+        "standalone-runner",
+        "root-runner-only",
+        "game-only"
+      ],
+      "tools_modes": [
+        "runner-only",
+        "game-only",
+        "standalone-runner",
+        "cpu-only"
+      ],
+      "evidence": [
+        {
+          "path": "out/m3-t2/s1/matrix-debug-001.log",
+          "sha256": "d44e3ff113c31751d6a93442a035ceda2e0e1e9aa405c6d47bbfd6dc73340d0f"
+        },
+        {
+          "path": "out/m3-t2/s1/tools-debug-001.log",
+          "sha256": "1e74350e13089ac391a3934720d44bc9c0ec7158165c21b5be001ded482253f2"
+        }
+      ]
+    },
+    {
+      "configuration": "Release",
+      "build_install_modes": [
+        "no-tests",
+        "cpu-only",
+        "standalone-runner",
+        "root-runner-only",
+        "game-only"
+      ],
+      "tools_modes": [
+        "runner-only",
+        "game-only",
+        "standalone-runner",
+        "cpu-only"
+      ],
+      "evidence": [
+        {
+          "path": "out/m3-t2/s1/matrix-release-001.log",
+          "sha256": "2004cc7294968a57f6466ff15b13f4bab75e6d413bad2626094779a8b9c98a6d"
+        },
+        {
+          "path": "out/m3-t2/s1/tools-release-001.log",
+          "sha256": "225b7964d28aee09d356c9f1c366e0cf3b56630a8d2e872a389764b2f4df5939"
+        }
+      ]
+    }
+  ],
+  "compile_contracts": [
+    {
+      "configuration": "Debug",
+      "runtime": "/MDd",
+      "sdl_source_commands": 215,
+      "platform_source_commands": 2,
+      "boundary_positive_cases": 3,
+      "boundary_negative_cases": 33,
+      "real_header_visibility_cases": 4,
+      "generated_graph_sdk_or_vulkan_import_lib": false,
+      "evidence": [
+        {
+          "path": "out/m3-t2/s1/main-debug-002/compile_commands.json",
+          "sha256": "652023d043060b4c9079ffe988090ecb343f2e769ff9059fdf3028d211950aba"
+        },
+        {
+          "path": "out/m3-t2/s1/main-debug-002/production-dependencies.tsv",
+          "sha256": "10958bc2bdb10016ce8be36aa8d7ba75c2bf69d9da7baba592ad5c8e34524f70"
+        },
+        {
+          "path": "out/m3-t2/s1/header-visibility-debug-002/summary.json",
+          "sha256": "2f901e59a98a90698820928050d37e2656e50265d3f9596494b49bf49b5b551b"
+        }
+      ]
+    },
+    {
+      "configuration": "Release",
+      "runtime": "/MD",
+      "sdl_source_commands": 215,
+      "platform_source_commands": 2,
+      "boundary_positive_cases": 3,
+      "boundary_negative_cases": 33,
+      "real_header_visibility_cases": 4,
+      "generated_graph_sdk_or_vulkan_import_lib": false,
+      "evidence": [
+        {
+          "path": "out/m3-t2/s1/main-release-001/compile_commands.json",
+          "sha256": "662e329c52026cd8b3621238e4addc101c6344f29c2c4686800add4438a6a17f"
+        },
+        {
+          "path": "out/m3-t2/s1/main-release-001/production-dependencies.tsv",
+          "sha256": "10958bc2bdb10016ce8be36aa8d7ba75c2bf69d9da7baba592ad5c8e34524f70"
+        },
+        {
+          "path": "out/m3-t2/s1/header-visibility-release-001/summary.json",
+          "sha256": "84e03dd459bbf4bd0d534ff4ee8167a8f47673a81ba7fd1dbfefda9a40ca425a"
+        }
+      ]
+    }
+  ],
+  "installed_game_packages": [
+    {
+      "directory": "out/m3-t2/s1/install/main-debug-002",
+      "sdl_license": {
+        "path": "out/m3-t2/s1/install/main-debug-002/licenses/SDL3-LICENSE.txt",
+        "sha256": "1c040b8271b37e5076359f8fd54240e371114112924d2df81ef87c7d6a1dfdfd"
+      },
+      "executable": {
+        "path": "out/m3-t2/s1/install/main-debug-002/SymoCraft.exe",
+        "sha256": "5049bdd318acc820779f71d5ac5a87780f1baea795b9e1664a9a2eba32888fe7"
+      },
+      "sdl_dll_count": 0
+    },
+    {
+      "directory": "out/m3-t2/s1/matrix-debug-001/install/no-tests",
+      "sdl_license": {
+        "path": "out/m3-t2/s1/matrix-debug-001/install/no-tests/licenses/SDL3-LICENSE.txt",
+        "sha256": "1c040b8271b37e5076359f8fd54240e371114112924d2df81ef87c7d6a1dfdfd"
+      },
+      "executable": {
+        "path": "out/m3-t2/s1/matrix-debug-001/install/no-tests/SymoCraft.exe",
+        "sha256": "29c81552737d2e1ad408c257087488c5dbfcf7d876eac63cd4017b16f469f9a0"
+      },
+      "sdl_dll_count": 0
+    },
+    {
+      "directory": "out/m3-t2/s1/matrix-debug-001/install/game-only",
+      "sdl_license": {
+        "path": "out/m3-t2/s1/matrix-debug-001/install/game-only/licenses/SDL3-LICENSE.txt",
+        "sha256": "1c040b8271b37e5076359f8fd54240e371114112924d2df81ef87c7d6a1dfdfd"
+      },
+      "executable": {
+        "path": "out/m3-t2/s1/matrix-debug-001/install/game-only/SymoCraft.exe",
+        "sha256": "6bdd0ef62eb2f5b0bd039c0bcbc3037b97ea4a2d37380ffd7923ec5a04a71cf2"
+      },
+      "sdl_dll_count": 0
+    },
+    {
+      "directory": "out/m3-t2/s1/install/main-release-001",
+      "sdl_license": {
+        "path": "out/m3-t2/s1/install/main-release-001/licenses/SDL3-LICENSE.txt",
+        "sha256": "1c040b8271b37e5076359f8fd54240e371114112924d2df81ef87c7d6a1dfdfd"
+      },
+      "executable": {
+        "path": "out/m3-t2/s1/install/main-release-001/SymoCraft.exe",
+        "sha256": "3ce4b922e6dc512e67f0427e127fc2b90f53257ea3087f1d4d06469c6ade13c2"
+      },
+      "sdl_dll_count": 0
+    },
+    {
+      "directory": "out/m3-t2/s1/matrix-release-001/install/no-tests",
+      "sdl_license": {
+        "path": "out/m3-t2/s1/matrix-release-001/install/no-tests/licenses/SDL3-LICENSE.txt",
+        "sha256": "1c040b8271b37e5076359f8fd54240e371114112924d2df81ef87c7d6a1dfdfd"
+      },
+      "executable": {
+        "path": "out/m3-t2/s1/matrix-release-001/install/no-tests/SymoCraft.exe",
+        "sha256": "39b5b714a35d468ee28be09681a308ebc56fac566c825eb0683496875466cd91"
+      },
+      "sdl_dll_count": 0
+    },
+    {
+      "directory": "out/m3-t2/s1/matrix-release-001/install/game-only",
+      "sdl_license": {
+        "path": "out/m3-t2/s1/matrix-release-001/install/game-only/licenses/SDL3-LICENSE.txt",
+        "sha256": "1c040b8271b37e5076359f8fd54240e371114112924d2df81ef87c7d6a1dfdfd"
+      },
+      "executable": {
+        "path": "out/m3-t2/s1/matrix-release-001/install/game-only/SymoCraft.exe",
+        "sha256": "20ba5c539c898a58ea29068eb9c2782a481e4a4e9492a24f53eac61c744c59a6"
+      },
+      "sdl_dll_count": 0
+    }
+  ],
+  "source_identities": [
+    {
+      "path": "cmake/ThirdPartyGame.cmake",
+      "sha256": "22e68a5a8e27d30e318a8079bdd0e4ee257071f71d89b471d48fa49cda5ec9d8"
+    },
+    {
+      "path": "cmake/ModuleBoundaries.cmake",
+      "sha256": "2a85675e95ca6cca3336d2840daf6911332bdba9057f8df0c6878ab461eb7616"
+    },
+    {
+      "path": "game/modules/platform/CMakeLists.txt",
+      "sha256": "0f71f2feddce89fe925d91f6b76ee2efa0cbb7d67d4a3cdafe4f7ff34cacba78"
+    },
+    {
+      "path": "game/app/CMakeLists.txt",
+      "sha256": "1d5a3b5b190797b69c834aabb8af918b7964f4d72a6496ef9db6a44794d15d0a"
+    },
+    {
+      "path": "game/modules/platform/src/window.cpp",
+      "sha256": "0b23db80f7ca4482bec8fd34703f7edfd16e0195cac747afa24338b37b6bce69"
+    },
+    {
+      "path": "test/integration/CheckNegativeBoundaries.cmake",
+      "sha256": "550c6b450d7a6dd069f6227f02e118c22278bdae315449aa1175a5b8189ea915"
+    },
+    {
+      "path": "test/integration/VerifyBuildMatrix.cmake",
+      "sha256": "bbe788f69f3aea333fe33e984a2deafbc1d026c4111db5a326cdd9de1d69f537"
+    },
+    {
+      "path": "test/integration/verify-tool-boundaries.cmake",
+      "sha256": "f6249e10a38723f29fdcb0dd94a40083e16def9d86904bc077b4263334bacad4"
+    },
+    {
+      "path": "docs/legacy/third-party-inventory.md",
+      "sha256": "38e2915568f1d9d979edee9b4d7ebd29d3d1775c298c497262659000ea61271b"
+    }
+  ],
+  "preserved_failures": [
+    "out/m3-t2/s1/main-debug-001",
+    "out/m3-t2/s1/header-visibility-debug-001",
+    "out/m3-t2/s1/no-download-release-001"
+  ],
+  "next_step": "S2 window and bridge replacement, including SDL_SetMainReady before the first SDL initialization",
+  "passed": true,
+  "no_download_audit": {
+    "evidence": {
+      "path": "out/m3-t2/s1/no-download-release-002/summary.json",
+      "sha256": "8ec150679fa429a2709f518c8b15de269e4675e0b38f5436850fa89600d9decf"
+    },
+    "executed_commands": 55719,
+    "network_commands": 0,
+    "changed_inputs": 0,
+    "input_count": 4758,
+    "network_limit": "Not a physical air gap or a network sandbox. The user network stays connected. Process-only proxy refusal and Git file-only transport do not constrain tools that ignore those settings. The evidence covers only this executed configure path and its inspected generated Ninja rules."
+  },
+  "vendor": {
+    "evidence": {
+      "path": "out/m3-t2/s1/vendor-recheck-001.json",
+      "sha256": "985cc2115945e07dc730d1efd1a25df5650d8db5caa8284152620e0346eaa5a7"
+    },
+    "identical_files": 2183,
+    "archive_sha256": "9cd42377704398796071b8597cd7e21da254a43bad98c4199739647adc13fa6f",
+    "license_sha256": "1c040b8271b37e5076359f8fd54240e371114112924d2df81ef87c7d6a1dfdfd"
+  },
+  "production_window": "GLFW; SDL static dependency is prepared but not used by window.cpp yet"
+}

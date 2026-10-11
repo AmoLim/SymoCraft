@@ -1,0 +1,45 @@
+cmake version 4.3.1
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+1.13.2
+-- Using Win32 for window creation
+-- Configuring done (0.1s)
+-- Generating done (0.1s)
+-- Build files have been written to: F:/GameDevelop/OpenGLProject/Symocraft/out/m2-a/debug
+[1/10] Synchronizing required SymoCraft runtime assets
+[2/10] Building CXX object tests\CMakeFiles\block_config_tests.dir\block_config_tests.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(51): warning C4458: declaration of 'offset' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(13): note: see declaration of 'RawMemory::offset'
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(59): warning C4458: declaration of 'data' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(11): note: see declaration of 'RawMemory::data'
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(59): warning C4100: 'data': unreferenced formal parameter
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(64): warning C4189: 'new_size': local variable is initialized but not referenced
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(70): warning C4458: declaration of 'data' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(11): note: see declaration of 'RawMemory::data'
+[3/10] Building CXX object tests\CMakeFiles\mesh_safety_tests.dir\__\src\world\chunk.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(51): warning C4458: declaration of 'offset' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(13): note: see declaration of 'RawMemory::offset'
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(59): warning C4458: declaration of 'data' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(11): note: see declaration of 'RawMemory::data'
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(59): warning C4100: 'data': unreferenced formal parameter
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(64): warning C4189: 'new_size': local variable is initialized but not referenced
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(70): warning C4458: declaration of 'data' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(11): note: see declaration of 'RawMemory::data'
+F:\GameDevelop\OpenGLProject\Symocraft\src\world\chunk.cpp(139): warning C4305: 'argument': truncation from 'double' to 'float'
+F:\GameDevelop\OpenGLProject\Symocraft\src\world\chunk.cpp(140): warning C4305: 'argument': truncation from 'double' to 'float'
+F:\GameDevelop\OpenGLProject\Symocraft\src\world\chunk.cpp(141): warning C4305: 'argument': truncation from 'double' to 'float'
+[4/10] Building CXX object tests\CMakeFiles\block_config_tests.dir\__\src\world\block.cpp.obj
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(51): warning C4458: declaration of 'offset' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(13): note: see declaration of 'RawMemory::offset'
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(59): warning C4458: declaration of 'data' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(11): note: see declaration of 'RawMemory::data'
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(59): warning C4100: 'data': unreferenced formal parameter
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(64): warning C4189: 'new_size': local variable is initialized but not referenced
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(70): warning C4458: declaration of 'data' hides class member
+F:\GameDevelop\OpenGLProject\Symocraft\include\MemoryAllocator/RawMemory.h(11): note: see declaration of 'RawMemory::data'
+[5/10] Linking CXX executable tests\mesh_safety_tests.exe
+[6/10] Building CXX object CMakeFiles\SymoCraft.dir\src\world\block.cpp.obj
+[7/10] Building CXX object CMakeFiles\SymoCraft.dir\src\world\chunk.cpp.obj
+[8/10] Building CXX object CMakeFiles\SymoCraft.dir\src\core\application.cpp.obj
+[9/10] Linking CXX executable tests\block_config_tests.exe
+[10/10] Linking CXX executable bin\SymoCraft.exe

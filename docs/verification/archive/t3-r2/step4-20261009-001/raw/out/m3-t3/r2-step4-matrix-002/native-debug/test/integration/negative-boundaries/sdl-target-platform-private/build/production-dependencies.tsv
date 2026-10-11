@@ -1,0 +1,3 @@
+target	property	dependency	raw_reference
+symocraft_platform	LINK_LIBRARIES	SDL3::SDL3-static	SDL3::SDL3-static
+symocraft_platform	INTERFACE_LINK_LIBRARIES	SDL3::SDL3-static	$<LINK_ONLY:SDL3::SDL3-static>

@@ -1,0 +1,54 @@
+Microsoft (R) COFF/PE Dumper Version 14.44.35222.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file cmake-build-debug\m0-original-host\Debug\SymoCraft.exe
+
+File Type: EXECUTABLE IMAGE
+
+  Image has the following dependencies:
+
+    KERNEL32.dll
+    USER32.dll
+    GDI32.dll
+    SHELL32.dll
+    MSVCP140D.dll
+    VCRUNTIME140D.dll
+    VCRUNTIME140_1D.dll
+    ucrtbased.dll
+
+Dump of file cmake-build-debug\m0-original-host\Release\SymoCraft.exe
+
+File Type: EXECUTABLE IMAGE
+
+  Image has the following dependencies:
+
+    KERNEL32.dll
+    USER32.dll
+    GDI32.dll
+    SHELL32.dll
+    MSVCP140.dll
+    VCRUNTIME140.dll
+    VCRUNTIME140_1.dll
+    api-ms-win-crt-stdio-l1-1-0.dll
+    api-ms-win-crt-heap-l1-1-0.dll
+    api-ms-win-crt-string-l1-1-0.dll
+    api-ms-win-crt-math-l1-1-0.dll
+    api-ms-win-crt-runtime-l1-1-0.dll
+    api-ms-win-crt-filesystem-l1-1-0.dll
+    api-ms-win-crt-time-l1-1-0.dll
+    api-ms-win-crt-convert-l1-1-0.dll
+    api-ms-win-crt-utility-l1-1-0.dll
+    api-ms-win-crt-locale-l1-1-0.dll
+
+  Summary
+
+        1000 .00cfg
+       54000 .data
+        6000 .idata
+       18000 .pdata
+       9F000 .rdata
+        4000 .reloc
+        2000 .rsrc
+      177000 .text
+        1000 .tls

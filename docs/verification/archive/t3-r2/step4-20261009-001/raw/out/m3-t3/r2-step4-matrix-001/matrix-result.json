@@ -1,0 +1,20 @@
+{
+  "source_root": "F:\\GameDevelop\\OpenGLProject\\Symocraft",
+  "source_input_count": 4237,
+  "source_unchanged": false,
+  "completed": false,
+  "cases": [
+    {
+      "configuration": "Debug",
+      "mode": "cpu",
+      "build_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-001\\cpu-debug",
+      "configure_exit": 1,
+      "build_exit": null,
+      "ctest_exit": null,
+      "known_failures": [],
+      "enabled_passed": 0,
+      "disabled": 0
+    }
+  ],
+  "failure": "Configure failed: cpu Debug"
+}

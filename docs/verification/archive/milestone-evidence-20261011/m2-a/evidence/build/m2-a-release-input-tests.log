@@ -1,0 +1,36 @@
+cmake version 4.3.1
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+1.13.2
+-- Using Win32 for window creation
+-- Configuring done (0.1s)
+-- Generating done (0.1s)
+-- Build files have been written to: F:/GameDevelop/OpenGLProject/Symocraft/out/m2-a/release
+[1/5] Building CXX object tests\CMakeFiles\key_snapshot_tests.dir\key_snapshot_tests.cpp.obj
+[2/5] Linking CXX executable tests\key_snapshot_tests.exe
+[3/5] Synchronizing required SymoCraft runtime assets
+[4/5] Building CXX object CMakeFiles\SymoCraft.dir\src\core\application.cpp.obj
+[5/5] Linking CXX executable bin\SymoCraft.exe
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m2-a/release
+    Start 1: assets.contracts
+1/9 Test #1: assets.contracts .................   Passed    0.16 sec
+    Start 2: assets.from_source_directory
+2/9 Test #2: assets.from_source_directory .....   Passed    0.13 sec
+    Start 3: assets.game_preflight
+3/9 Test #3: assets.game_preflight ............   Passed    0.02 sec
+    Start 4: assets.game_package
+4/9 Test #4: assets.game_package ..............   Passed    0.10 sec
+    Start 5: player.math
+5/9 Test #5: player.math ......................   Passed    0.01 sec
+    Start 6: renderer.batch_safety
+6/9 Test #6: renderer.batch_safety ............   Passed    0.01 sec
+    Start 7: world.mesh_safety
+7/9 Test #7: world.mesh_safety ................   Passed    0.01 sec
+    Start 8: world.block_config
+8/9 Test #8: world.block_config ...............   Passed    0.02 sec
+    Start 9: input.key_snapshot
+9/9 Test #9: input.key_snapshot ...............   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 9
+
+Total Test time (real) =   0.48 sec

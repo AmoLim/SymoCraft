@@ -1,0 +1,18 @@
+[0/2] Re-checking globbed directories...
+[1/2] Re-running CMake...
+-- Using Win32 for window creation
+-- Configuring done (0.5s)
+-- Generating done (0.2s)
+-- Build files have been written to: F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t1/build/full-debug
+[0/4] Re-checking globbed directories...
+[1/14] Synchronizing required SymoCraft runtime assets
+[2/14] Building CXX object test\unit\world\CMakeFiles\mesh_safety_tests.dir\mesh_safety_tests.cpp.obj
+[3/14] Building CXX object test\unit\world\CMakeFiles\world_generation_tests.dir\world_generation_tests.cpp.obj
+[4/14] Building CXX object test\unit\world\CMakeFiles\world_contract_tests.dir\world_contract_tests.cpp.obj
+[5/14] Building CXX object test\unit\world\CMakeFiles\world_allocation_tests.dir\world_allocation_tests.cpp.obj
+[6/14] Linking CXX executable test\unit\world\mesh_safety_tests.exe
+[7/14] Linking CXX executable test\unit\world\world_generation_tests.exe
+[8/14] Linking CXX executable test\unit\world\world_contract_tests.exe
+[9/14] Building CXX object test\unit\world\CMakeFiles\world_cost_probe.dir\world_cost_probe.cpp.obj
+[10/14] Linking CXX executable test\unit\world\world_allocation_tests.exe
+[11/14] Linking CXX executable test\unit\world\world_cost_probe.exe

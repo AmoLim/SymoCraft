@@ -1,0 +1,2380 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-10-11T08:41:06.876695+00:00",
+  "meaning": "Historical relocation and retirement identity, not game verification or approval.",
+  "documents": [
+    {
+      "source": "docs/project/architecture/app/App-\u4f11\u7720\u6e90\u7801\u6e05\u5355.md",
+      "destination": "docs/verification/archive/project-history-20261011/architecture/app/App-\u4f11\u7720\u6e90\u7801\u6e05\u5355.md",
+      "bytes": 4609,
+      "sha256": "efab54d5637a69a61d9ec1327d4050f9695d3b7196ca376b3a2366baaecaba56",
+      "originalParent": "docs/project/architecture/app"
+    },
+    {
+      "source": "docs/project/architecture/build/\u6784\u5efa\u4e0e\u6d4b\u8bd5\u8fb9\u754c.md",
+      "destination": "docs/verification/archive/project-history-20261011/architecture/build/\u6784\u5efa\u4e0e\u6d4b\u8bd5\u8fb9\u754c.md",
+      "bytes": 14426,
+      "sha256": "a27a85165776e9f4e80ce8eb80cd3acdb3daa4a4ada700b3908744060b04d630",
+      "originalParent": "docs/project/architecture/build"
+    },
+    {
+      "source": "docs/project/architecture/build/\u6784\u5efa\u5951\u7ea6\u8bbe\u8ba1.md",
+      "destination": "docs/verification/archive/project-history-20261011/architecture/build/\u6784\u5efa\u5951\u7ea6\u8bbe\u8ba1.md",
+      "bytes": 12070,
+      "sha256": "c1ea9a00c1c7c293fba556e183a3989ca7df1b6f81d5c8d63e52f0ee4b951d84",
+      "originalParent": "docs/project/architecture/build"
+    },
+    {
+      "source": "docs/project/benchmark/Benchmark-1080p\u7a97\u53e3\u4fee\u590d.md",
+      "destination": "docs/verification/archive/project-history-20261011/benchmark/Benchmark-1080p\u7a97\u53e3\u4fee\u590d.md",
+      "bytes": 9510,
+      "sha256": "84d21a34d8cdb98e79cff59f20a5eba2ec435917eecdbb3cf53de9c7d9a10aee",
+      "originalParent": "docs/project/benchmark"
+    },
+    {
+      "source": "docs/project/benchmark/testing/performance-baseline.md",
+      "destination": "docs/verification/archive/project-history-20261011/benchmark/testing/performance-baseline.md",
+      "bytes": 8371,
+      "sha256": "a2412dba475b39900ec283fbca6c1853b7823fdcabc3e2f128b9408b3c6f8878",
+      "originalParent": "docs/project/benchmark/testing"
+    },
+    {
+      "source": "docs/project/benchmark/testing/reproducible-scenes.md",
+      "destination": "docs/verification/archive/project-history-20261011/benchmark/testing/reproducible-scenes.md",
+      "bytes": 7694,
+      "sha256": "c65cea5ea157a54f2bcc2b54e2a3ff144f87bf9fec533e4b3d743d06c5a45846",
+      "originalParent": "docs/project/benchmark/testing"
+    },
+    {
+      "source": "docs/project/build/build-and-clion.md",
+      "destination": "docs/verification/archive/project-history-20261011/build/build-and-clion.md",
+      "bytes": 12835,
+      "sha256": "61df6d4943d87e4a84354cf4534eb038f77f33bab2bd38a617c05661b4ee3dcb",
+      "originalParent": "docs/project/build"
+    },
+    {
+      "source": "docs/project/build/CMake-\u6a21\u5757\u8fb9\u754c.md",
+      "destination": "docs/verification/archive/project-history-20261011/build/CMake-\u6a21\u5757\u8fb9\u754c.md",
+      "bytes": 4949,
+      "sha256": "425648227829b44e85eb305b2b77c1b5ff3a80993c1d3aaf6cecb14c2b7f1a39",
+      "originalParent": "docs/project/build"
+    },
+    {
+      "source": "docs/project/build/CMake-\u81ea\u5b9a\u4e49\u6784\u5efa\u76ee\u5f55\u65e5\u5fd7\u4fee\u590d.md",
+      "destination": "docs/verification/archive/project-history-20261011/build/CMake-\u81ea\u5b9a\u4e49\u6784\u5efa\u76ee\u5f55\u65e5\u5fd7\u4fee\u590d.md",
+      "bytes": 4412,
+      "sha256": "61331d1d1bb43ea34bc882e255f02f7f4287865ae22f631d5a7eab8189d78fcf",
+      "originalParent": "docs/project/build"
+    }
+  ],
+  "readOnlyReviewSources": [
+    {
+      "path": "docs/spec/M3/M3-T1-T3-CPU\u5951\u7ea6\u6e05\u5355.md",
+      "bytes": 9998,
+      "sha256": "b58c3e1304f0ef82536c0aa31613fcbfef52e97d062fe50f71ee221d3bc5b863"
+    },
+    {
+      "path": "docs/spec/M3/M3-T1-\u4e16\u754c\u6a21\u5757\u91cd\u6784.md",
+      "bytes": 81288,
+      "sha256": "58b873c8d8decf3adbf9cfb146c9f2325b0547de5788f00beca2415ca88c29ea"
+    },
+    {
+      "path": "docs/spec/M3/M3-T2-Fix1-spec.md",
+      "bytes": 18369,
+      "sha256": "02de989cf080b98ae7d56e78825357c65699906bc7dd51c3094201d4316f8be9"
+    },
+    {
+      "path": "docs/spec/M3/M3-T2-SDL3\u8fc1\u79fb.md",
+      "bytes": 68759,
+      "sha256": "6109007b1ddd468107bef8567bbc1b3c8b4092c9671e4877e6158a01942b41ed"
+    },
+    {
+      "path": "docs/spec/M3/M3-T3-\u6e32\u67d3\u5668\u91cd\u6784.md",
+      "bytes": 63179,
+      "sha256": "ea5354b8e043a99ab6aab46e2da5f42457b80e48b7b974327b069a5a1c320307"
+    },
+    {
+      "path": "docs/spec/M3/M3-T4-\u5e94\u7528\u5e73\u53f0\u4e0e\u6a21\u62df\u6a21\u5757\u63a5\u53e3.md",
+      "bytes": 209254,
+      "sha256": "7c4b1f43f8788e7a5d66abb29c58848568c7596cb146e6196008833659a6c42a"
+    },
+    {
+      "path": "docs/spec/md-organize/architecture-template-coverage-spec.md",
+      "bytes": 19226,
+      "sha256": "e045e40bd42ef7cc5a45f54d9dd5da70bc1e613d3855a2e2a6da640ada6f46de"
+    },
+    {
+      "path": "docs/spec/md-organize/data-system-migration-spec.md",
+      "bytes": 32448,
+      "sha256": "1088c7688c61244ddeaa394d100aa6833217c86f79705e020be15e4b6717cd08"
+    },
+    {
+      "path": "docs/spec/md-organize/mdspec.md",
+      "bytes": 2592,
+      "sha256": "b6ac0a0d94b6a8947a0d2c362eeea493ec9852d080c6ca50175287061c1a0f4f"
+    },
+    {
+      "path": "docs/spec/project-architecture/\u9762\u5411\u5bf9\u8c61\u4e0e\u6570\u636e\u5bfc\u5411\u67b6\u6784\u8bbe\u8ba1\u521d\u7a3f.md",
+      "bytes": 110800,
+      "sha256": "b67cc46a37bed75bb9b12487e4d4065bacf4268cfe5100ce5ec2b7cd1d860e25"
+    }
+  ],
+  "sourceRecovery": {
+    "commit": "b01f0068b27447456cfb6fa1462fe9a6ea11c856",
+    "transform": "Replace every LF byte with CRLF in the Git blob; verify byte count and SHA256 before use. Never restore the live worktree automatically.",
+    "files": [
+      {
+        "path": "game/app/legacy/aggregate/core.h.disabled",
+        "bytes": 1477,
+        "sha256": "370845d3b4459d786666ddbea5256ce8d8417eee5ef7e2fdcf8c4b6a84486c0a",
+        "originalPath": "include/core.h",
+        "gitPath": "game/app/legacy/aggregate/core.h.disabled",
+        "gitBlobSha256": "f0fa969febb0f4485b3db979fd11994c339deace9e2d141f2eba4bea9b5235e7"
+      },
+      {
+        "path": "game/app/legacy/aggregate/utils.h.disabled",
+        "bytes": 1433,
+        "sha256": "e8f512e032f067d81e66fc552becc84dbe2d3ca1f4c9cfe8f4cf34988188573a",
+        "originalPath": "include/core/utils.h",
+        "gitPath": "game/app/legacy/aggregate/utils.h.disabled",
+        "gitBlobSha256": "35643449eff6f026711be9899b0cbbd5954f5389d4500a1817a1c06b8cdc264a"
+      },
+      {
+        "path": "game/app/legacy/event/event.cpp.disabled",
+        "bytes": 1794,
+        "sha256": "10050f7160cc2bec5933746b8ba3ae5758b9a1ebe39d7ce20662ace920273c57",
+        "originalPath": "src/event/event.cpp",
+        "gitPath": "game/app/legacy/event/event.cpp.disabled",
+        "gitBlobSha256": "85a9def84cd9cf47be77d18e03aa0ce2125d29a77c725ae871d6dfd66bd21cad"
+      },
+      {
+        "path": "game/app/legacy/event/event.h.disabled",
+        "bytes": 1804,
+        "sha256": "2f17242a2f83a1cb7972e898b2df75bd593836c5e1c5b3d4748a9cb70f4d0250",
+        "originalPath": "include/event/event.h",
+        "gitPath": "game/app/legacy/event/event.h.disabled",
+        "gitBlobSha256": "9c96873cfd1b8d468fed75588b4f802cf4e17f739f7ac5f14ec5c9d47e202376"
+      },
+      {
+        "path": "game/app/legacy/input/input.cpp.disabled",
+        "bytes": 1274,
+        "sha256": "83088f63301590bc8b416a8c64fbfbeac5e96ea375c3f89f57a890eb082d5df9",
+        "originalPath": "src/input/input.cpp",
+        "gitPath": "game/app/legacy/input/input.cpp.disabled",
+        "gitBlobSha256": "963ca235eabc355ec9f6cb38919b4786ac5c6eb17d30bf909051fe9fdf040cb7"
+      },
+      {
+        "path": "game/app/legacy/input/input.h.disabled",
+        "bytes": 910,
+        "sha256": "69e1326e40c6853933ad15ba53e616827d80ec5bf0eb92b0e688f617da1671cd",
+        "originalPath": "include/input/input.h",
+        "gitPath": "game/app/legacy/input/input.h.disabled",
+        "gitBlobSha256": "f4b9edbec0ee1aec03f381c5bc854d715756566fe0d7ed9cab6110f1b5fad36d"
+      },
+      {
+        "path": "game/app/legacy/input/key_bindings.cpp.disabled",
+        "bytes": 1040,
+        "sha256": "d1cc6ebd9c0fbe6013e1b31a77dd2fbb227f0ac37ec5d6d0d657345cff85db87",
+        "originalPath": "src/input/key_bindings.cpp",
+        "gitPath": "game/app/legacy/input/key_bindings.cpp.disabled",
+        "gitBlobSha256": "6a8a542c12b2eabc92a3af4e0250a032d90aa8b6584de0658f0f80be1e7dc687"
+      },
+      {
+        "path": "game/app/legacy/input/key_bindings.h.disabled",
+        "bytes": 708,
+        "sha256": "2ad22f5497fe9c4d8929963cb87c0efb3a6dc0e820726d1d7b35225235c4cbcc",
+        "originalPath": "include/input/key_bindings.h",
+        "gitPath": "game/app/legacy/input/key_bindings.h.disabled",
+        "gitBlobSha256": "bfe1e91d37a0f2e57aad08d6389a404be4e31c20d24a6b2c10cd8532cf649168"
+      },
+      {
+        "path": "game/app/legacy/input/key_handler.cpp.disabled",
+        "bytes": 448,
+        "sha256": "dbab8a0d5136eaf4215d107b8f7f4416f7a1e4624ad640ca59ce61d18ec5c2c9",
+        "originalPath": "src/input/key_handler.cpp",
+        "gitPath": "game/app/legacy/input/key_handler.cpp.disabled",
+        "gitBlobSha256": "7aad172b5ba7db458e7cea79b582024080d17914a3126090c8f86bff9f92e5e2"
+      },
+      {
+        "path": "game/app/legacy/input/key_handler.h.disabled",
+        "bytes": 235,
+        "sha256": "f3f6c0933c3096f3db46b7fc8ba4c68ead90d4939f9a66ff8794949ee305ca6b",
+        "originalPath": "include/input/key_handler.h",
+        "gitPath": "game/app/legacy/input/key_handler.h.disabled",
+        "gitBlobSha256": "8cafc3c49323cb9556dcf152ed2c2a913c49ed9975e18976a2ae4d79c6df17a0"
+      },
+      {
+        "path": "game/app/legacy/thread_pool/global_thread_pool.cpp.disabled",
+        "bytes": 3779,
+        "sha256": "8ea637a0e0ec076020db25e30f28782fa77a87af455ec6e5b9041e10eb91544a",
+        "originalPath": "src/core/global_thread_pool.cpp",
+        "gitPath": "game/app/legacy/thread_pool/global_thread_pool.cpp.disabled",
+        "gitBlobSha256": "a92d6731bb58e65246c550d0c117b10877c98093797fcc99e0a7c0e3d5edb832"
+      },
+      {
+        "path": "game/app/legacy/thread_pool/global_thread_pool.h.disabled",
+        "bytes": 2757,
+        "sha256": "1b1f335f342b031aa69f97521b65371c08d0f302d880235a711a098fb45952dc",
+        "originalPath": "include/core/global_thread_pool.h",
+        "gitPath": "game/app/legacy/thread_pool/global_thread_pool.h.disabled",
+        "gitBlobSha256": "b682ac93bcee41ad336aaca9fb70e76a6ff49242bea15d78599b372fbb30a5a6"
+      },
+      {
+        "path": "game/app/legacy/thread_pool/pool.hpp.disabled",
+        "bytes": 5276,
+        "sha256": "c60c11d1e1eb67279fd55136a847838773222faa504990145a69953e58d0df39",
+        "originalPath": "include/core/pool.hpp",
+        "gitPath": "game/app/legacy/thread_pool/pool.hpp.disabled",
+        "gitBlobSha256": "1209d9a4dd8762f760157bd16c861a84cebd46daaa16c70e23b217a12e5cd054"
+      }
+    ]
+  },
+  "retiredMigrationTable": {
+    "path": "docs/project/architecture/source-migration.tsv",
+    "bytes": 17383,
+    "sha256": "5ee88cf4cd4b9f652602611916d4adb73d7da4932bf3a17c044e1335e53b397a"
+  },
+  "previousCleanup": [
+    {
+      "path": "docs/legacy/architecture/README.md",
+      "bytes": 2167,
+      "sha256": "8b4f054403bf64f528ff1ac0f623a188cd6b7e3cd12cb7cd5eb4e72151ec4024",
+      "group": "legacy-review",
+      "canonicalTargets": [
+        "docs/architecture/Overview.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/legacy/architecture/application-lifecycle.md",
+      "bytes": 19127,
+      "sha256": "cfa243abd83bf9f5c75e26c9e13d2baf3356ab795c373a8122968da484e875e0",
+      "group": "legacy-review",
+      "canonicalTargets": [
+        "docs/architecture/app.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/legacy/architecture/asset-paths.md",
+      "bytes": 22126,
+      "sha256": "3d074eb50b904f0b959fce44e9db15b8d9da04b0c4732a7505a4a3cf122cd714",
+      "group": "legacy-review",
+      "canonicalTargets": [
+        "docs/architecture/assets.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/legacy/architecture/current-data-flow.md",
+      "bytes": 15288,
+      "sha256": "07d0139f299d77c0b4bb35af90cb848453140926ccf0fb7d03653b997c4228bb",
+      "group": "legacy-review",
+      "canonicalTargets": [
+        "docs/architecture/Overview.md",
+        "docs/verification/archive/docs-navigation-20261011/historical-extracts.json"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/legacy/architecture/mesh-safety.md",
+      "bytes": 8977,
+      "sha256": "cd8fabdc7755a037ead2f25aff124e2ffbeba48a6a08faf10e5c1f89b4189130",
+      "group": "legacy-review",
+      "canonicalTargets": [
+        "docs/architecture/renderer.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/legacy/architecture/performance-observation.md",
+      "bytes": 11820,
+      "sha256": "25bffcaee4008449a47edaa4068cc84583b83fe8309143f7c9f71e64e6bce476",
+      "group": "legacy-review",
+      "canonicalTargets": [
+        "docs/architecture/telemetry.md",
+        "docs/verification/archive/docs-navigation-20261011/historical-extracts.json"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/legacy/architecture/player-loop.md",
+      "bytes": 15106,
+      "sha256": "c5e346cd898624a608e465d7305cbd796a4b78ca752c4f74669cea0c5be993e5",
+      "group": "legacy-review",
+      "canonicalTargets": [
+        "docs/architecture/simulation.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/legacy/architecture/runtime-resources.md",
+      "bytes": 8344,
+      "sha256": "c69a94d391043c6159eb76c0c341b8b3ec8e312ef1ab7752b28e764d931c70de",
+      "group": "legacy-review",
+      "canonicalTargets": [
+        "docs/architecture/renderer.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/legacy/architecture/world-generation.md",
+      "bytes": 10746,
+      "sha256": "e6c7b0cba3c9135126fd79144a2017be1931dff6a71b2a6212fa73baf18697fd",
+      "group": "legacy-review",
+      "canonicalTargets": [
+        "docs/architecture/world.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/legacy/third-party-inventory.md",
+      "bytes": 50234,
+      "sha256": "0587232bdb93760c8505fdaf1e21acd6e40f3d78f82bd468aca66cd887a05dfc",
+      "group": "legacy-review",
+      "canonicalTargets": [
+        "docs/third-party.md",
+        "docs/verification/archive/docs-navigation-20261011/historical-extracts.json"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/milestones/m3-t3/r2/r2-entry.md",
+      "bytes": 6608,
+      "sha256": "a728fc0d442a91c46a7d38bcaa2e9bdd991f76f2fc5674759b0a19db2b0a04f2",
+      "group": "r2-report-copy",
+      "canonicalTargets": [
+        "docs/milestones/m3-t3/r2-entry.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/milestones/m3-t3/r2/r2-step1-implementation.md",
+      "bytes": 10823,
+      "sha256": "4bade73c8e1404e8aa520f3fd95c372bf618badaa4038ca87bd0c050f2610d8e",
+      "group": "r2-report-copy",
+      "canonicalTargets": [
+        "docs/milestones/m3-t3/r2-step1-implementation.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/milestones/m3-t3/r2/r2-step2-implementation.md",
+      "bytes": 11761,
+      "sha256": "04d6321eb39e707fd36b07d7d6bcfb4292ccec8ddcd84363fb0fcd1769eaba61",
+      "group": "r2-report-copy",
+      "canonicalTargets": [
+        "docs/milestones/m3-t3/r2-step2-implementation.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/milestones/m3-t3/r2/r2-step3-implementation.md",
+      "bytes": 10042,
+      "sha256": "54c111186e8d3d36055d79c59b4a1a928f313c8a2b19528b8c3c691f7f69fd8c",
+      "group": "r2-report-copy",
+      "canonicalTargets": [
+        "docs/milestones/m3-t3/r2-step3-implementation.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/milestones/m3-t3/r2/r2-step4-implementation.md",
+      "bytes": 12390,
+      "sha256": "2c7479418ea1ebb6b87eb772caee67ce977e330d0af44319b8b6d47ef261a48e",
+      "group": "r2-report-copy",
+      "canonicalTargets": [
+        "docs/milestones/m3-t3/r2-step4-implementation.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/Overview.md",
+      "bytes": 8944,
+      "sha256": "d1f1095d88aefbd52b80d4b2ee8c24a6151f0d8ca8c5c6b0136c83f6be9fbf23",
+      "group": "formerly-deferred",
+      "canonicalTargets": [
+        "docs/architecture/Overview.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/app/App-\u8fd0\u884c\u7f16\u6392-\u529f\u80fd.md",
+      "bytes": 11519,
+      "sha256": "9fbe9754e65c75bf8848aeb95cf04c23dcb1863f44951f7774ab0efec97c5288",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/app.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/app/Application-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 11602,
+      "sha256": "52e6b0cfe104c6ddde58a66a1dcff9031438ce4f54ce0ab572c54833012b5d94",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/app.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/app/GameRenderer-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 11814,
+      "sha256": "f2b6b51ed4ca031aeab4cd7274ad6505ba72cd5289a3f9ae5808bb31a42c9ab7",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/app.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/app/WorldRenderCache-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 9709,
+      "sha256": "c5e8bc1166a8b5a1a63d923b868fd2fe8ea42f038f7a11389fee8ba7863886fa",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/app.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/assets/Assets-\u8d44\u6e90\u8bfb\u53d6\u4e0e\u89e3\u7801-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 5871,
+      "sha256": "a07fbd0d19a5498f8d5b5dcef1c4ec2996c04eb1a82fc763b9cec1356a0f68da",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/assets.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/assets/Assets-\u8d44\u6e90\u8bfb\u53d6\u4e0e\u89e3\u7801.md",
+      "bytes": 4617,
+      "sha256": "da44efc0736f5fd5383fecf1dc8c138ebdf4aa1da193d152e9aec661a87a649c",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/assets.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/assets/Image-\u6570\u636e\u8bbe\u8ba1.md",
+      "bytes": 3854,
+      "sha256": "8b32f6d21aef27f922623e7ab0bb8add0c477a253cce5557458fbaf6c2186b15",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/assets.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/ecs/ComponentContainer-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 3460,
+      "sha256": "3fd510991e2deab7ff675a6e39df7f5f37cf1270ddf95fc501bcb497ca454960",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/ecs.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/ecs/ECS-\u5b58\u50a8\u8fb9\u754c-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 4041,
+      "sha256": "7caf049c5fa8c1bbc4a0003dd50aab253a3fb7a2d8f5cb95b884630a458ab2a7",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/ecs.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/ecs/ECS-\u5b58\u50a8\u8fb9\u754c.md",
+      "bytes": 3454,
+      "sha256": "e29ccfbc2e025e43b0a6fa5e74a1a8e5f6bab449003f9d4ce6bf7a94ab304a80",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/ecs.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/ecs/ECS-\u7ec4\u4ef6\u5b58\u50a8-\u6570\u636e\u8bbe\u8ba1.md",
+      "bytes": 4874,
+      "sha256": "d05ebb69a9f21352e76b9aeb5dd2b8f967423f5f7a23b4d5d21a8d3c65518eec",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/ecs.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/ecs/Iterator-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 2344,
+      "sha256": "407830214175c970d04cd80ee272359cb810900580a0288b673ba4fcd2e9952c",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/ecs.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/ecs/RegistryViewer-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 2287,
+      "sha256": "e30dc3868c0f816877818e8c749268b52ecf937b5c36c830a36f115b0dc59cd2",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/ecs.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/foundation/Foundation-\u57fa\u7840\u5951\u7ea6-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 2630,
+      "sha256": "905c2efe6f3b64f709c0a487f64a44e4f0e7d80a79d437925d1d7386bca38932",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/foundation.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/foundation/Foundation-\u57fa\u7840\u5951\u7ea6.md",
+      "bytes": 3379,
+      "sha256": "dc4c41942520dacd2be62fb21022cdf356c1d8b150f2223e36b895c3c4716fed",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/foundation.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/foundation/Value-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 7077,
+      "sha256": "d7f8a0bcb949da0cc2bca4d9d780c7719b3573ebdb0c5b77b977f277e4376b82",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/foundation.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/platform/Platform-namespace-API.md",
+      "bytes": 9387,
+      "sha256": "842490ce1caad59e9e87ab54f512797c4068717c6e58ec3357d8c0629db68cea",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/platform.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/platform/Platform-\u7a97\u53e3\u4e0e\u8f93\u5165-\u529f\u80fd.md",
+      "bytes": 11487,
+      "sha256": "1b0814e3dc1b5a1dc7f3d543a5085b32ef5edbb62075609929fab08f8afb3d71",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/platform.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/platform/Window-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 17646,
+      "sha256": "0f0983a7428a26bf8a750040301829e599bd4bb0c9ed54c7bebe72cd1ffe5665",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/platform.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/renderer/Batch-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 7447,
+      "sha256": "819a583f5f0a137e6cdd18ef0b2c7a7ef35428becb94c87a2d36d973f4e02018",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/renderer.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/renderer/D3D12Backend-\u79c1\u6709\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 28683,
+      "sha256": "c92d42090dd23cef6655726c21553a180fb23b1e56af5d5ac3ee66d0738a201e",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/renderer.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/renderer/GpuTimer Class.md",
+      "bytes": 10359,
+      "sha256": "f312134e14394b4d94fef3cb60d43dd86155bad0bacfa5d8b67c486c8ca7bba5",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/renderer.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/renderer/Renderer namespace API.md",
+      "bytes": 12535,
+      "sha256": "73ed08b337632e6647f08fb9d2edd1a5019724a1c6d70fb5a84077de2bd4a568",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/renderer.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/renderer/Renderer-PImpl-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 19362,
+      "sha256": "eb8821732753b5cc97604314adc61ef92292b015ab1d0ec83d6523337a352f65",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/renderer.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/renderer/Renderer-\u663e\u5f0f\u573a\u666f\u8f93\u5165-\u529f\u80fd.md",
+      "bytes": 7814,
+      "sha256": "3ee7ce70efd3d7c1c7c1bbfe15cb38686f9d0d51cb7f795d7f426f54eba29a87",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/renderer.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/renderer/ResourceRegistry-\u79c1\u6709\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 12630,
+      "sha256": "cb122effd0010f05048c61ebefaf808550f6e85f624242ff494f01aca7d3ac34",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/renderer.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/renderer/Shader-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 4258,
+      "sha256": "d69cfd86dc9eeb90004827bf0b507681ce9b780d72af70ef5b7b0e1258769ff7",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/renderer.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/renderer/ShaderProgram-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 7976,
+      "sha256": "360f45ddb16dad8ae8571c52d73d4683bc713bbcaf25071974f6799814f5591c",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/renderer.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/renderer/Texture-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 5445,
+      "sha256": "1a3abc2e1001ca2507cac8ff2056464a92bd5808ccdf31d84848125e23cd1c6b",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/renderer.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/renderer/TextureArray-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 4746,
+      "sha256": "4226f868d0fcec9fe6cb89ec6a3e3694ba6b0c52ecea8a5cf7923484c0e4c78c",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/renderer.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/scene/Scene-\u5171\u4eab\u573a\u666f\u6570\u636e-\u6570\u636e\u8bbe\u8ba1.md",
+      "bytes": 5219,
+      "sha256": "7729ef00f88c492334f243068dd1a13222de1ebc98e2debeb1d800ecbd1eeb5b",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/scene.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/scene/Scene-\u5171\u4eab\u573a\u666f\u6570\u636e.md",
+      "bytes": 4525,
+      "sha256": "b556811bc6e89b7300111a4c82db0dfd37550b6de1d9a42915382333638a36be",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/scene.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/simulation/Camera-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 6920,
+      "sha256": "4d8b88546335f068d043ac1ac99549d89a29b70f041ce2fab966ebb16534e638",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/simulation.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/simulation/FixedStepBudget-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 3521,
+      "sha256": "546e45d8eb09552ccd885735c1625128a494a7ba82bd25abb453b63cae9bdc99",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/simulation.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/simulation/Simulation-\u529f\u80fd.md",
+      "bytes": 7940,
+      "sha256": "ff078b325b76c0dab17becaf97f79d6f6ff418788e53610a7e949bf60681a296",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/simulation.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/simulation/Simulation-\u6570\u636e\u8bbe\u8ba1.md",
+      "bytes": 8217,
+      "sha256": "e6c6433dfdab6948f8ed233d01b90a30d299dc130e48003146fd5a927e523bf3",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/simulation.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/simulation/Simulation-\u7cfb\u7edf\u8bbe\u8ba1.md",
+      "bytes": 19616,
+      "sha256": "2be4aecdce7920793cd0c1aa6fc1631e8cb24bbd998376dd41d424ba58a3dce3",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/simulation.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/telemetry/Session-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 7500,
+      "sha256": "1a9c28f9681fb25ab3d96f26cd5665dca5092e3489aeb0c30a969671e68f6ae7",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/telemetry.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/telemetry/Telemetry-namespace-API.md",
+      "bytes": 4631,
+      "sha256": "293ad8a4654b895533e5e488d7c0273796221375e05e90cee145fc19ecbb127e",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/telemetry.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/telemetry/Telemetry-\u91c7\u6837\u4e0e\u5bfc\u51fa-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 4806,
+      "sha256": "726e2a6bd0843cce3b0b3fff4dc5276ff2daf8f7d9f580b70116bb4856308a6e",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/telemetry.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/telemetry/Telemetry-\u91c7\u6837\u4e0e\u5bfc\u51fa.md",
+      "bytes": 4868,
+      "sha256": "7bc77a13215c666b7c3221610d63379842be102d93b223fee35b220dd520dae3",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/telemetry.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/world/Block-\u6570\u636e\u8bbe\u8ba1.md",
+      "bytes": 5214,
+      "sha256": "a0628c6ad57701c2f0c0333a33e8007dcf71227717926dd40a9e6947165194c8",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/world.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/world/BlockDefinition-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 5227,
+      "sha256": "b20a899230c9b8a67490079276c0f2a6bbba861fe33fb29a614c40739d2bf384",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/world.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/world/Chunk-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 4634,
+      "sha256": "45055fac9c5b1eb86c23ce911cdcddda384586ff064e26e62e501495bc34e56a",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/world.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/world/ChunkMesher-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 5977,
+      "sha256": "6117b8366a1f23d044c641682ba878e3681ee98f5501e1361ad7c44d11bc4754",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/world.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/world/Generator-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 6034,
+      "sha256": "e4215afcf5be55e85effa10f03d522579c006a481fb57b5ba4b6d5aa183bb8e9",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/world.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/world/World-namespace-API.md",
+      "bytes": 5367,
+      "sha256": "f71492da1d915227f2a687df252a9f2e5cc1b83e2ad98eea856839de999c454a",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/world.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/world/World-\u529f\u80fd.md",
+      "bytes": 6432,
+      "sha256": "82bbffe390ff08f1a1c0fa216876afd89f2e05d8bc47a3f4bf0a9a4f381fc982",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/world.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/world/World-\u6570\u636e\u8bbe\u8ba1.md",
+      "bytes": 7431,
+      "sha256": "09a229ebc0f8869e4620181e8759fa7ee898693e8657bc1c3e184d6a9f5d5a5b",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/world.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/world/World-\u7c7b\u8bbe\u8ba1.md",
+      "bytes": 8910,
+      "sha256": "0d8b2a4eee50e056110f0d440d29a57820115c6a26e74c1b8122565cf188b29d",
+      "group": "module-notes",
+      "canonicalTargets": [
+        "docs/architecture/world.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/architecture/\u5bf9\u8c61\u7b14\u8bb0\u8986\u76d6\u6e05\u5355.md",
+      "bytes": 29917,
+      "sha256": "d56a283f60accd05a88ddd0b6342d65854003b885f112dafd57856f6f47900ca",
+      "group": "formerly-deferred",
+      "canonicalTargets": [
+        "docs/DOCUMENTATION_MAP.md#\u67b6\u6784\u6587\u6863"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/benchmark/Benchmark-App\u7c7b.md",
+      "bytes": 5283,
+      "sha256": "2f5114e73a5f2b0a53d00eb52242e839c1da85f43e76d7978e8a3cd520159bbd",
+      "group": "formerly-deferred",
+      "canonicalTargets": [
+        "docs/architecture/benchmark.md",
+        "docs/verification/archive/docs-navigation-20261011/historical-extracts.json"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/benchmark/Benchmark-Process\u7c7b.md",
+      "bytes": 4429,
+      "sha256": "03d2f7f692be32a87114ef8d1ebe19a00d2b046d8c213a169042856c70787cbd",
+      "group": "formerly-deferred",
+      "canonicalTargets": [
+        "docs/architecture/benchmark.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/benchmark/Benchmark-\u6267\u884c\u4e0e\u5bfc\u51fa.md",
+      "bytes": 8670,
+      "sha256": "2d435bba7efb43347edd3966f35469f82c9c4d14be360c43ec94a34294f04eb5",
+      "group": "formerly-deferred",
+      "canonicalTargets": [
+        "docs/architecture/benchmark.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/benchmark/Benchmark-\u6587\u4ef6\u534f\u8bae.md",
+      "bytes": 6072,
+      "sha256": "aeadd3f56124ea2c8e8f1e662014a27e08cc3ff2eca367271d06cc33c3951257",
+      "group": "formerly-deferred",
+      "canonicalTargets": [
+        "docs/architecture/benchmark.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/benchmark/exp/Benchmark-GTX1650\u4f4e\u7aef\u673a\u57fa\u7ebf.md",
+      "bytes": 5523,
+      "sha256": "3a5056bf3f1e192be307980f6c77f6dd7327a16622756bfff39d0b4b6c3a670b",
+      "group": "benchmark-report-copy",
+      "canonicalTargets": [
+        "docs/verification/archive/benchmark-20261005/reports/Benchmark-GTX1650\u4f4e\u7aef\u673a\u57fa\u7ebf.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/benchmark/exp/Benchmark-Y9000P\u4e2d\u7aef\u673a\u57fa\u7ebf.md",
+      "bytes": 4779,
+      "sha256": "96081b82ad65ec5dd5b7e9503fb26838071ac5ee686cfa29c0d275097872e9d6",
+      "group": "benchmark-report-copy",
+      "canonicalTargets": [
+        "docs/verification/archive/benchmark-20261005/reports/Benchmark-Y9000P\u4e2d\u7aef\u673a\u57fa\u7ebf.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/benchmark/exp/Benchmark-\u4fee\u590d\u7248\u684c\u9762\u65e5\u5e38\u4f7f\u7528\u57fa\u7ebf.md",
+      "bytes": 6054,
+      "sha256": "a6f2567c906821ba4459806d21eee9a6e3b53d7570bdd2c46bcb40f9b61e5493",
+      "group": "benchmark-report-copy",
+      "canonicalTargets": [
+        "docs/verification/archive/benchmark-20261005/reports/Benchmark-\u4fee\u590d\u7248\u684c\u9762\u65e5\u5e38\u4f7f\u7528\u57fa\u7ebf.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/benchmark/exp/Benchmark-\u57fa\u51c6\u51bb\u7ed3-20261005.md",
+      "bytes": 6408,
+      "sha256": "5dbe642d2376b55919260f3881bc48c436e8cb44cddb278c324b3e08f867f5ad",
+      "group": "benchmark-report-copy",
+      "canonicalTargets": [
+        "docs/verification/archive/benchmark-20261005/reports/Benchmark-\u57fa\u51c6\u51bb\u7ed3-20261005.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/benchmark/exp/Benchmark-\u672c\u673a\u57fa\u7ebf-20261005.md",
+      "bytes": 4792,
+      "sha256": "49b28e3bd785ec11124bca6ddda86be952cdb7b17d8dfff461ba9b2cd4c39bdd",
+      "group": "benchmark-report-copy",
+      "canonicalTargets": [
+        "docs/verification/archive/benchmark-20261005/reports/Benchmark-\u672c\u673a\u57fa\u7ebf-20261005.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/benchmark/exp/Benchmark-\u684c\u9762\u4ea4\u4ed8\u9a8c\u8bc1.md",
+      "bytes": 6398,
+      "sha256": "628349e43d65d27058a7d220b04c7cf35bf29f4feb0b11d9bf0cd58206169aed",
+      "group": "benchmark-report-copy",
+      "canonicalTargets": [
+        "docs/verification/archive/benchmark-20261005/reports/Benchmark-\u684c\u9762\u4ea4\u4ed8\u9a8c\u8bc1.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/benchmark/performance/Performance-Session\u7c7b.md",
+      "bytes": 5072,
+      "sha256": "4bc909fa4120b46fcaccc84e80ebcfcb98d9fe6b9147ec222f3fd6c97c750674",
+      "group": "formerly-deferred",
+      "canonicalTargets": [
+        "docs/architecture/telemetry.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/benchmark/performance/Performance-\u5931\u7126\u91c7\u6837.md",
+      "bytes": 5913,
+      "sha256": "65d82224af845f6878e14c5cf6644d62eb6ee65c3b7729cb7edbfab1f6934705",
+      "group": "formerly-deferred",
+      "canonicalTargets": [
+        "docs/architecture/telemetry.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/benchmark/testing/README.md",
+      "bytes": 3289,
+      "sha256": "487990daf58ae587b251f31e4c88356ae03fe69001c4953867306ae17635dbf6",
+      "group": "formerly-deferred",
+      "canonicalTargets": [
+        "docs/verification/methods.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/project/benchmark/\u4f7f\u7528\u4e0e\u4ea4\u4ed8.md",
+      "bytes": 7214,
+      "sha256": "f0e89998cc3d3db558d2497ba66f788e49bb1d71a0a8be6d84e4170dc154de30",
+      "group": "formerly-deferred",
+      "canonicalTargets": [
+        "tools/benchmark/README.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/spec/M3/M3-T0-\u6a21\u5757\u8f6f\u786c\u8fb9\u754c.md",
+      "bytes": 33610,
+      "sha256": "c850713e2fa6fd1f1fc188712df9cbbce23b5ceeeb3a299a02f7dc0007e24dc1",
+      "group": "retired-spec-navigation",
+      "canonicalTargets": [
+        "docs/openspec/specs/module-boundaries/spec.md",
+        "docs/milestones/m3-t0/README.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/spec/M3/decisions.md",
+      "bytes": 3449,
+      "sha256": "db5ae38d2fb4cdc05d7374742eec9a661910bcdccf04e5d49cf69c72ecb66019",
+      "group": "retired-spec-navigation",
+      "canonicalTargets": [
+        "docs/openspec/changes/m3-t3-renderer/decisions.md",
+        "docs/verification/VERIFICATION.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/spec/M3/spec.md",
+      "bytes": 2409,
+      "sha256": "8bb35fc53176b74a63ee7e72e6bdfb85f3b755788280927472df7ce44c84be61",
+      "group": "retired-spec-navigation",
+      "canonicalTargets": [
+        "docs/scope/project-scope.md",
+        "docs/README.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    },
+    {
+      "path": "docs/spec/git/gitspec.md",
+      "bytes": 1461,
+      "sha256": "e05f181a4af81a673c0f2b67977b46d99cb3903f8cea41adfc63b75a76131ce0",
+      "group": "retired-spec-navigation",
+      "canonicalTargets": [
+        "AGENTS.md"
+      ],
+      "status": "Previously user-authorized exact deletion completed; temporary full-text recovery copy now retires."
+    }
+  ],
+  "previousVerification": {
+    "path": ".temporary/docs-cleanup-20261011/verification-final.json",
+    "sha256": "a42537544078be35e43a4cd0a0d8b7d71e5009771e1ce5aa923bdbb0e8d01c82",
+    "result": {
+      "deletedCount": 85,
+      "modified": [
+        "docs/DOCUMENTATION_MAP.md",
+        "docs/openspec/changes/docs-openspec-migration/design.md",
+        "docs/openspec/changes/docs-openspec-migration/proposal.md",
+        "docs/openspec/changes/docs-openspec-migration/tasks.md",
+        "docs/tag-inventory.json",
+        "docs/verification/VERIFICATION.md"
+      ],
+      "added": [],
+      "unchangedScopeFiles": 14243,
+      "frozenFilesCompared": 13772,
+      "officialFilesCompared": 7,
+      "oldRecordsCompared": 26,
+      "recoveryCopiesCompared": 85,
+      "outMetadataFilesCompared": 163301,
+      "headUnchanged": true,
+      "gitIndexUnchanged": true,
+      "documents": {
+        "documents": 105,
+        "links": 2053,
+        "wikiLinks": 148,
+        "errors": [],
+        "warnings": []
+      },
+      "errors": []
+    },
+    "bytes": 739
+  },
+  "runtimeDuplicates": [
+    {
+      "source": "out/m3-t3/r2-step4-candidate-debug-001/package with spaces",
+      "retained": "out/m3-t3/package/d3d12-game-debug-001",
+      "files": 49,
+      "bytes": 12098724,
+      "treeSha256": "f9563c6ad38e11840ca9949388f4fa259e665714c64b90eabe101ef4b2a95496",
+      "basis": "Exact relative file set and every file byte equal; only the package subtree is removed. Parent results, raw samples and failure fixtures remain unchanged."
+    },
+    {
+      "source": "out/m3-t3/r2-step4-candidate-debug-002/package with spaces",
+      "retained": "out/m3-t3/package/d3d12-game-debug-001",
+      "files": 49,
+      "bytes": 12098724,
+      "treeSha256": "f9563c6ad38e11840ca9949388f4fa259e665714c64b90eabe101ef4b2a95496",
+      "basis": "Exact relative file set and every file byte equal; only the package subtree is removed. Parent results, raw samples and failure fixtures remain unchanged."
+    },
+    {
+      "source": "out/m3-t3/r2-step4-candidate-debug-003/package with spaces",
+      "retained": "out/m3-t3/package/d3d12-game-debug-001",
+      "files": 49,
+      "bytes": 12098724,
+      "treeSha256": "f9563c6ad38e11840ca9949388f4fa259e665714c64b90eabe101ef4b2a95496",
+      "basis": "Exact relative file set and every file byte equal; only the package subtree is removed. Parent results, raw samples and failure fixtures remain unchanged."
+    },
+    {
+      "source": "out/m3-t3/r2-step4-candidate-release-001/package with spaces",
+      "retained": "out/m3-t3/package/d3d12-game-release-001",
+      "files": 47,
+      "bytes": 4572857,
+      "treeSha256": "f278b26f9741bb26ea3aea5932f1de6d6ee58b7c8567aa568d7593f483fc97b6",
+      "basis": "Exact relative file set and every file byte equal; only the package subtree is removed. Parent results, raw samples and failure fixtures remain unchanged."
+    },
+    {
+      "source": "out/m3-t2/s5/freeze-roundtrip-001",
+      "retained": "out/m3-t2/s5/frozen/s5-release-001",
+      "files": 43,
+      "bytes": 8598295,
+      "treeSha256": "4afeec7bf7f789d8ca9175730269616e85390ed0164d7daced0a28aaac4d07f9",
+      "basis": "Exact relative file set and every file byte equal; only the package subtree is removed. Parent results, raw samples and failure fixtures remain unchanged."
+    },
+    {
+      "source": "out/m2-t3/archive/benchmark-window-fix/package-probe/SymoCraft-Benchmark-windows-x64",
+      "retained": "out/m2-t3/packages/benchmark-window-fix/runtime",
+      "files": 20,
+      "bytes": 2718637,
+      "treeSha256": "30eb7faf35c68b459be9dfbd9b6d48638c7d1eb9a062e6f9576f0de6105cabb1",
+      "basis": "Exact relative file set and every file byte equal; only the package subtree is removed. Parent results, raw samples and failure fixtures remain unchanged."
+    },
+    {
+      "source": "out/m2-t3/archive/benchmark-sampling/desktop-windowfix-20261004-0844Z/package/SymoCraft-Benchmark-windows-x64",
+      "retained": "out/m2-t3/packages/benchmark-window-fix/runtime",
+      "files": 20,
+      "bytes": 2718637,
+      "treeSha256": "30eb7faf35c68b459be9dfbd9b6d48638c7d1eb9a062e6f9576f0de6105cabb1",
+      "basis": "Exact relative file set and every file byte equal; only the package subtree is removed. Parent results, raw samples and failure fixtures remain unchanged."
+    }
+  ],
+  "temporaryRetirement": [
+    {
+      "path": ".temporary/openspec-migration-20261010",
+      "files": 32,
+      "bytes": 4582174,
+      "treeSha256": "1e9c2cef600f9352b2b95aef6b72571533a254be93c48453d5b904b7d4bfda9c",
+      "basis": "Exact migration review scope; knowledge mappings and historical identities/limits transferred to this record, not a permanent copy of the execution log."
+    },
+    {
+      "path": ".temporary/docs-closeout-20261010",
+      "files": 202,
+      "bytes": 6143110,
+      "treeSha256": "6548ea20672f74b1dd3a61dd5b5fc7ece5cbeebb413f13ca08739a93e7560796",
+      "basis": "Exact migration review scope; knowledge mappings and historical identities/limits transferred to this record, not a permanent copy of the execution log."
+    },
+    {
+      "path": ".temporary/docs-closeout-review-20261011",
+      "files": 6,
+      "bytes": 3311400,
+      "treeSha256": "6c3038ff44fdd4e2c721c2cc54568473561185ac1b58e35023d618d019af49ab",
+      "basis": "Exact migration review scope; knowledge mappings and historical identities/limits transferred to this record, not a permanent copy of the execution log."
+    },
+    {
+      "path": ".temporary/docs-navigation-review-20261011",
+      "files": 313,
+      "bytes": 7476047,
+      "treeSha256": "17acc8c1db2d32717687a1e165dea75b564c9edbcda57f585649d30ad029df19",
+      "basis": "Exact migration review scope; knowledge mappings and historical identities/limits transferred to this record, not a permanent copy of the execution log."
+    },
+    {
+      "path": ".temporary/docs-cleanup-20261011",
+      "files": 93,
+      "bytes": 30059898,
+      "treeSha256": "99cc2c3530c16b459966e09b6cc0006b951a8b506c8e705c9f13e658237aae0f",
+      "basis": "Exact migration review scope; knowledge mappings and historical identities/limits transferred to this record, not a permanent copy of the execution log."
+    },
+    {
+      "path": ".temporary/bootstrap-openspec.py",
+      "bytes": 3858,
+      "sha256": "4b16a507be0a60169e008b137dd13cde9b17893c9581efe9f5e079d0ae7e42df",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    },
+    {
+      "path": ".temporary/docs-cleanup-20261011.py",
+      "bytes": 9309,
+      "sha256": "20d2e0074d9a0563e23cde933594b88b9a1dd0567f50516185e585af0b139ed1",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    },
+    {
+      "path": ".temporary/docs-closeout-audit.py",
+      "bytes": 6771,
+      "sha256": "03ddc678ef453971e1df1ba5ff7468e88c8907de0d06d92b0d8615ab6726adf5",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    },
+    {
+      "path": ".temporary/docs-closeout-review.py",
+      "bytes": 22360,
+      "sha256": "0b18fd109a3c9ae96154663ebe5cfd5f9b4574a571479dd1730286c90eb314c9",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    },
+    {
+      "path": ".temporary/docs-navigation-migration.py",
+      "bytes": 28610,
+      "sha256": "558dc6d0b1d6b7e03e8e4d5b7e05aa27e6c919142410492d817767382813943e",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    },
+    {
+      "path": ".temporary/docs-pilot-20261010.py",
+      "bytes": 17779,
+      "sha256": "f95774092a54f2ef86055c4b83edd49246d9a149b8a65feea2962dfffd6edafa",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    },
+    {
+      "path": ".temporary/docs-pilot-baseline-20261010.json",
+      "bytes": 2622937,
+      "sha256": "2b8b8d51c4dcadfe304a2f5aa3ce4ee4c6d9923f909af0f72d8322f526707c09",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    },
+    {
+      "path": ".temporary/docs-pilot-validation-20261010.json",
+      "bytes": 1929156,
+      "sha256": "c9aba784e1fdd2d444b09ebb91a1f4bd3210ad847be11613111022033669a38b",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    },
+    {
+      "path": ".temporary/neat-doc-audit.py",
+      "bytes": 13877,
+      "sha256": "492cfd5666b489ffce72bb66fa7fe36e3f65a70a2c3de60a14bf28c12bf29ecd",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    },
+    {
+      "path": ".temporary/neat-doc-baseline.json",
+      "bytes": 2585406,
+      "sha256": "a89c8ee4dbe3e59ac92185f31cffa4928bb70f35ec6ad2026fca0de3f8bea51f",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    },
+    {
+      "path": ".temporary/neat-doc-changes.diff",
+      "bytes": 300586,
+      "sha256": "552bdfce00d1cdfff0bd9cb1d0b09d9783d55a696859245f39f824c9d0fb727f",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    },
+    {
+      "path": ".temporary/openspec-migration-audit.py",
+      "bytes": 6659,
+      "sha256": "888cd177205b98116876522bad8616199a8a8a44df0aeb7a29e4a930c9f46ef6",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    },
+    {
+      "path": ".temporary/pilot-independent-validation-final.json",
+      "bytes": 163733,
+      "sha256": "6a61caa62281b7f5a9fe6ac9129d4870a9b07a1afe3e881669bdb834bdc381cc",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    },
+    {
+      "path": ".temporary/pilot-independent-validation-integrated.json",
+      "bytes": 241109,
+      "sha256": "f2b1f5fa21c63e3aa3073553716eccc931bc40a0128a15da672396751f592ab7",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    },
+    {
+      "path": ".temporary/pilot-independent-validation.py",
+      "bytes": 35567,
+      "sha256": "a1de1cc1ac759d1e96e1bf9b8952545d93ba7e410c2e7dbe838b6fde16b9e085",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    },
+    {
+      "path": ".temporary/pilot-validator-self-test.json",
+      "bytes": 74,
+      "sha256": "6b19951bb850ef0bb076d5f84a682d246d4d9496323d4ffe1dc6382cf4c7db1f",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    },
+    {
+      "path": ".temporary/route-closeout-links.py",
+      "bytes": 6995,
+      "sha256": "4527a0a224dacd6a65d8d5382bedc7eed3421d67c24c66e1bc42eb9fa71e05b4",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    },
+    {
+      "path": ".temporary/route-openspec-links.py",
+      "bytes": 4914,
+      "sha256": "f7ccee3f504f7364ca96b3572dd6f3d0f70d50946da48f35006282f9fe862e14",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    },
+    {
+      "path": "docs/openspec-migration-context.tmp.md",
+      "bytes": 16928,
+      "sha256": "bbc50f274aaf3118a778b0fdc542852bb34d073b8b49a0e8b28a247c8fbe05ff",
+      "basis": "One-off migration helper, snapshot or context; not a current consumer or rule."
+    }
+  ],
+  "finalVerification": {
+    "checkedAt": "2026-10-11T09:02:34.650441+00:00",
+    "regressions": [
+      {
+        "command": [
+          "python",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "tools/openspec",
+          "-p",
+          "test_document_*.py",
+          "-v"
+        ],
+        "exitCode": 0,
+        "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSha256": "13cc9d5160f2bf8b14d30b117ae1d12b7a4e582cba3b41ec5b1f614a34e425ce",
+        "result": {
+          "tests": 22,
+          "passed": true
+        }
+      },
+      {
+        "command": [
+          "python",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "test/scripts",
+          "-p",
+          "test_developer_scripts.py",
+          "-v"
+        ],
+        "exitCode": 0,
+        "stdoutSha256": "3a865f8f393265941d968ec823c92dfc5aac200265d9255b16d3a5acd7b90378",
+        "stderrSha256": "f2aa415d5dc6ada69d24aefacd59d9ab68c81b28bd72ddcf5cb32d22a7572863",
+        "result": {
+          "tests": 18,
+          "passed": true
+        }
+      },
+      {
+        "command": [
+          "python",
+          "-B",
+          "tools/openspec/check_workflows.py"
+        ],
+        "exitCode": 0,
+        "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderrSha256": "d7902b3f3af2af06caea134a688ab879860985fdab6e62c0a174b7f2acf780ae",
+        "result": {
+          "tests": 21,
+          "passed": true
+        }
+      },
+      {
+        "command": [
+          "python",
+          "tools/openspec/run.py",
+          "validate",
+          "--all",
+          "--strict",
+          "--json"
+        ],
+        "exitCode": 0,
+        "stdoutSha256": "002a77f9a6bc0aaa8b5a4431d1431417cf8f3129cddd93b0c4922b36da545143",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "result": {
+          "totals": {
+            "items": 10,
+            "passed": 10,
+            "failed": 0
+          },
+          "byType": {
+            "change": {
+              "items": 4,
+              "passed": 4,
+              "failed": 0
+            },
+            "spec": {
+              "items": 6,
+              "passed": 6,
+              "failed": 0
+            }
+          }
+        }
+      },
+      {
+        "command": [
+          "python",
+          "-B",
+          "tools/openspec/check_documents.py"
+        ],
+        "exitCode": 0,
+        "stdoutSha256": "68ed51103bc6eb3589a83f6701cb45c567db1ba5b75c790ba39468912a03d7ba",
+        "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "result": {
+          "documents": 96,
+          "links": 1957,
+          "wikiLinks": 147,
+          "historicalLinks": 5,
+          "errors": [],
+          "warnings": []
+        }
+      }
+    ],
+    "baselineIdentity": {
+      "path": ".temporary/docs-retirement-20261011/baseline.json",
+      "bytes": 29806075,
+      "sha256": "1ed434a73d312e2caf31611923c56f2dafe2f167320c1c2901d9498c01e53d47"
+    },
+    "baselineFiles": 18468,
+    "gitIdentity": {
+      "head": "b01f0068b27447456cfb6fa1462fe9a6ea11c856",
+      "indexSha256": "e1ea53579652b3ac0ebc10ae40fd6d4fafd660e496a1b06f70d6e5debbc3e718"
+    },
+    "gitHeadAndIndexUnchanged": true,
+    "unchangedScopeFiles": 18427,
+    "authorizedChangedFiles": [
+      "docs/DOCUMENTATION_MAP.md",
+      "docs/milestones/m1/README.md",
+      "docs/milestones/m2-t2/README.md",
+      "docs/milestones/m2-t3/README.md",
+      "docs/milestones/m3-t0/README.md",
+      "docs/milestones/m3-t2/s4-platform-handoff.md",
+      "docs/milestones/m3-t3/manual-verification.md",
+      "docs/openspec/changes/docs-openspec-migration/design.md",
+      "docs/openspec/changes/docs-openspec-migration/proposal.md",
+      "docs/openspec/changes/docs-openspec-migration/tasks.md",
+      "docs/scope/project-scope.md",
+      "docs/tag-inventory.json",
+      "docs/testing/gameplay-smoke.md",
+      "docs/verification/VERIFICATION.md",
+      "tools/openspec/check_documents.py",
+      "tools/openspec/test_document_checks.py"
+    ],
+    "externalChanges": [
+      {
+        "path": "docs/.obsidian/workspace.json",
+        "bytes": 8599,
+        "sha256": "b3b41be503da1b90691ce921cdedc5aebe5ad8f6ef4f12a513b435a426f606fc",
+        "startingSha256": "eced9f32d704bdd0a55dfe835f76410787da8bb4ed1cd9e8d9d7e7e5a2212d58",
+        "meaning": "Out-of-scope concurrent UI/personal-state difference observed; author not inferred. This agent did not write or revert it, and it is not counted as an authorized edit or unchanged setting."
+      }
+    ],
+    "exactRemovedScopeFiles": [
+      "docs/openspec-migration-context.tmp.md",
+      "docs/project/architecture/app/App-\u4f11\u7720\u6e90\u7801\u6e05\u5355.md",
+      "docs/project/architecture/build/\u6784\u5efa\u4e0e\u6d4b\u8bd5\u8fb9\u754c.md",
+      "docs/project/architecture/build/\u6784\u5efa\u5951\u7ea6\u8bbe\u8ba1.md",
+      "docs/project/architecture/source-migration.tsv",
+      "docs/project/benchmark/Benchmark-1080p\u7a97\u53e3\u4fee\u590d.md",
+      "docs/project/benchmark/testing/performance-baseline.md",
+      "docs/project/benchmark/testing/reproducible-scenes.md",
+      "docs/project/build/CMake-\u6a21\u5757\u8fb9\u754c.md",
+      "docs/project/build/CMake-\u81ea\u5b9a\u4e49\u6784\u5efa\u76ee\u5f55\u65e5\u5fd7\u4fee\u590d.md",
+      "docs/project/build/build-and-clion.md",
+      "game/app/legacy/aggregate/core.h.disabled",
+      "game/app/legacy/aggregate/utils.h.disabled",
+      "game/app/legacy/event/event.cpp.disabled",
+      "game/app/legacy/event/event.h.disabled",
+      "game/app/legacy/input/input.cpp.disabled",
+      "game/app/legacy/input/input.h.disabled",
+      "game/app/legacy/input/key_bindings.cpp.disabled",
+      "game/app/legacy/input/key_bindings.h.disabled",
+      "game/app/legacy/input/key_handler.cpp.disabled",
+      "game/app/legacy/input/key_handler.h.disabled",
+      "game/app/legacy/thread_pool/global_thread_pool.cpp.disabled",
+      "game/app/legacy/thread_pool/global_thread_pool.h.disabled",
+      "game/app/legacy/thread_pool/pool.hpp.disabled"
+    ],
+    "exactAddedScopeFiles": [
+      "docs/verification/archive/project-history-20261011/architecture/app/App-\u4f11\u7720\u6e90\u7801\u6e05\u5355.md",
+      "docs/verification/archive/project-history-20261011/architecture/build/\u6784\u5efa\u4e0e\u6d4b\u8bd5\u8fb9\u754c.md",
+      "docs/verification/archive/project-history-20261011/architecture/build/\u6784\u5efa\u5951\u7ea6\u8bbe\u8ba1.md",
+      "docs/verification/archive/project-history-20261011/benchmark/Benchmark-1080p\u7a97\u53e3\u4fee\u590d.md",
+      "docs/verification/archive/project-history-20261011/benchmark/testing/performance-baseline.md",
+      "docs/verification/archive/project-history-20261011/benchmark/testing/reproducible-scenes.md",
+      "docs/verification/archive/project-history-20261011/build/CMake-\u6a21\u5757\u8fb9\u754c.md",
+      "docs/verification/archive/project-history-20261011/build/CMake-\u81ea\u5b9a\u4e49\u6784\u5efa\u76ee\u5f55\u65e5\u5fd7\u4fee\u590d.md",
+      "docs/verification/archive/project-history-20261011/build/build-and-clion.md",
+      "docs/verification/archive/project-history-20261011/retirement-manifest.json"
+    ],
+    "frozenFilesCompared": 13772,
+    "frozenSetStartingSha256": "f4ec6d03042df2a6f5022afa9ec51b3752b8547c5ef618116556a64cc96e4346",
+    "existingFrozenBytesUnchanged": true,
+    "officialFilesCompared": 7,
+    "officialFilesUnchanged": true,
+    "readOnlyReviewSourcesUnchanged": 10,
+    "outMetadataFilesCompared": 163301,
+    "outFilesRemoved": 277,
+    "otherOutMetadataUnchanged": true,
+    "realResultDirectoriesMetadataUnchanged": [
+      "5090-result",
+      "hongmeng-result",
+      "laptop-result",
+      "this-result",
+      "yecat-result"
+    ],
+    "originalEvidenceCopiesRetained": 273,
+    "runtimeDuplicatePackages": 7,
+    "runtimeBytesRemoved": 54904598,
+    "oldMigrationTemporaryFilesRemoved": 665,
+    "exactArchiveCopies": 9,
+    "exactGitSourceRecoveryChecks": 13,
+    "notRun": [
+      "Game/Benchmark production build",
+      "Game runtime",
+      "GPU/performance sampling",
+      "New package/relink",
+      "Obsidian UI/cloud",
+      "Project Git writes",
+      "Real OpenSpec sync/archive"
+    ],
+    "meaning": "Current batch protection, document/consumer/workflow validation only; not full-repository residue elimination, runtime correctness, game acceptance or new source-tree binary identity. Starting baseline and full logs retire after this minimum record is saved."
+  },
+  "retainedPackageChecks": [
+    {
+      "path": "out/m3-t2/s3/frozen/s3-release-001/freeze-identity.json",
+      "bytes": 7780,
+      "sha256": "3eab313c2313919ba72a8978a612691b3d707483318f7beda65cd7ffb1ed9866",
+      "checkedEntries": 37
+    },
+    {
+      "path": "out/m3-t2/s3/frozen/s3-release-001/package/package-identity.json",
+      "bytes": 6291,
+      "sha256": "188e9437b7eef40ebcafbb28a7f4ffdce286b508247ecc00d86f5d43eead0cc9",
+      "checkedEntries": 24
+    },
+    {
+      "path": "out/m3-t2/s5/frozen/s5-release-001/freeze-identity.json",
+      "bytes": 11347,
+      "sha256": "f38e2e030c1f770677e456e54ede89d2b9e35b12987d66d80e1c3517b29236d0",
+      "checkedEntries": 42
+    },
+    {
+      "path": "out/m3-t2/s5/frozen/s5-release-001/package/package-identity.json",
+      "bytes": 9782,
+      "sha256": "9eedbfc6998f146f9239e95abfc2f5e986e4d3e33da634f867e812b93c46fb92",
+      "checkedEntries": 24
+    },
+    {
+      "path": "out/m3-t3/package/d3d12-r1-release-001/package-manifest.json",
+      "bytes": 3305,
+      "sha256": "10c60d5fcf44a857c7df7e9f4dc6661b300e9f082c9771956715cdf2a75e11c4",
+      "checkedEntries": 16
+    },
+    {
+      "path": "out/m3-t3/package/py-r1-001/package-manifest.json",
+      "bytes": 3739,
+      "sha256": "860361b6d0113b047bb193e6a5963e228120c03e512d4f692f58ad87117f0feb",
+      "checkedEntries": 19
+    },
+    {
+      "path": "out/m3-t3/package/d3d12-game-debug-002/package-manifest.json",
+      "bytes": 10728,
+      "sha256": "b3db1103f9241f926a5dcf5f0df11eb0ec55315f4b302e5b0e03fb1c8e9ce8f8",
+      "checkedEntries": 58
+    },
+    {
+      "path": "out/m3-t3/package/d3d12-game-release-002/package-manifest.json",
+      "bytes": 10384,
+      "sha256": "dbf317beb24ad0ece7d9535216bbf919999bb2501f479adf19a4c8a3464ff086",
+      "checkedEntries": 56
+    },
+    {
+      "path": "out/m3-t2/s3/frozen/s3-release-001.zip",
+      "bytes": 2452322,
+      "sha256": "f7d6cf8ed8d88566fd97bf88f77198ff247dc1fe6df12e132c06738f4f53d181",
+      "retainedDirectory": "out/m3-t2/s3/frozen/s3-release-001",
+      "zipPrefix": "",
+      "checkedEntries": 38
+    },
+    {
+      "path": "out/m3-t2/s5/frozen/s5-release-001.zip",
+      "bytes": 3189126,
+      "sha256": "b676a8ab472c97c8e93cf910e91076150bb186ddf6bc076b5cbb9f87ff193211",
+      "retainedDirectory": "out/m3-t2/s5/frozen/s5-release-001",
+      "zipPrefix": "",
+      "checkedEntries": 43
+    },
+    {
+      "path": "out/m2-t3/packages/benchmark-window-fix/distribution/SymoCraft-Benchmark-windows-x64.zip",
+      "bytes": 1165655,
+      "sha256": "12771d0db58308d28e015f27bbdf4c076998d56ac0cf14d52deed712fc314bbf",
+      "retainedDirectory": "out/m2-t3/packages/benchmark-window-fix/runtime",
+      "zipPrefix": "SymoCraft-Benchmark-windows-x64/",
+      "checkedEntries": 20
+    },
+    {
+      "path": "out/m3-t3/r2-step4-candidate-debug-004/package with spaces",
+      "retainedCurrentCandidate": "out/m3-t3/package/d3d12-game-debug-002",
+      "files": 59,
+      "bytes": 13687236,
+      "treeSha256": "22d058709896dd75d1948caaff52ee19e5b5d46a89b4206525e7fc9192f2edb6"
+    },
+    {
+      "path": "out/m3-t3/r2-step4-candidate-release-002/package with spaces",
+      "retainedCurrentCandidate": "out/m3-t3/package/d3d12-game-release-002",
+      "files": 57,
+      "bytes": 6161388,
+      "treeSha256": "4d626442029a1d14a78e1a4d7782db2beda10ea2f0c9ad3bee55729459088b8e"
+    }
+  ],
+  "runtimeLimits": "Point-in-time package completeness and duplicate identity only, not runtime/acceptance or consistency with the source tree after 13 dormant files were removed. Unproved other packages, raw samples, failure fixtures and paused Fix1 remain.",
+  "previousCleanupLimits": "Required engineering knowledge and six unique historical extracts are retained at canonical targets. Temporary full-text learning-note recovery copies retire; not every deleted old document is promised recoverable from Git. Retained old specs remain read-only.",
+  "historicalAuditSummaries": [
+    {
+      "path": ".temporary/openspec-migration-20261010/audit.json",
+      "bytes": 12953,
+      "sha256": "5bfe11a130dc95117ac0c3cc4e5cd64fc7036f75bf246e8c8b928eaa26596216",
+      "recordTime": "2026-10-11T03:36:10.089676+00:00",
+      "interpretation": "Historical input set and checker rules only; never merged with this retirement validation.",
+      "summary": {
+        "changedCount": 153,
+        "missingCount": 0,
+        "errorsCount": 2,
+        "errorsKinds": {
+          "Production input changed": 2
+        },
+        "errorsSamples": [
+          "Production input changed: test/scripts/test_developer_scripts.py",
+          "Production input changed: scripts/capture-migration-inputs.py"
+        ],
+        "warningsCount": 3,
+        "warningsKinds": {
+          "user-confirmed-external-parallel-edit": 3
+        },
+        "warningsSamples": [
+          {
+            "file": "tools/openspec/check_workflows.py",
+            "state": "user-confirmed-external-parallel-edit",
+            "before": "d1675ef1b7d7b7eea0a5ee60e2955e7008453796202eff185bc8cba64ea3d7e2",
+            "observed": "7b28f738bf837c3871744593a6ad2d4e451565d49afb1c91e857231ede43d97c"
+          },
+          {
+            "file": "AGENTS.md",
+            "state": "user-confirmed-external-parallel-edit",
+            "before": "7e11684c9445329b94cf8843b2bdb03c31e36a60a2026ece40b0d2fa70ca4593",
+            "observed": "b6120144f2e290634d39e2ca9b2fdc5adf7fa587f8d609dbf9f4f9c196c810c1"
+          },
+          {
+            "file": "docs/DOCUMENTATION_MAP.md",
+            "state": "user-confirmed-external-parallel-edit",
+            "before": "3f6a35dc3c4791cb6fe5f3ef82b106e9af76c5282505b00eeb186d6fd96c6d0a",
+            "observed": "08ba4b63f6197742a81e1acd38e59ac068dc66ce6675a872a038c1279bdaae00"
+          }
+        ],
+        "protected": 13769,
+        "retiredBodiesCompared": 14,
+        "officialFilesCompared": 7,
+        "addedCount": 56
+      }
+    },
+    {
+      "path": ".temporary/docs-closeout-20261010/audit.json",
+      "bytes": 9115,
+      "sha256": "7ad2e78bd5447e9702c19caa5d3e18347bf4fbc67783022a1ab595be2d5dca29",
+      "recordTime": "2026-10-11T05:02:35.703702+00:00",
+      "interpretation": "Historical input set and checker rules only; never merged with this retirement validation.",
+      "summary": {
+        "changedCount": 145,
+        "missingCount": 0,
+        "addedCount": 11,
+        "errorsCount": 0,
+        "errorsKinds": {},
+        "errorsSamples": [],
+        "frozenCompared": 13769,
+        "officialCompared": 7,
+        "consumerChangesCount": 2,
+        "consumerChanges": [
+          "scripts/capture-migration-inputs.py",
+          "tools/benchmark/CMakeLists.txt"
+        ],
+        "testFixtureChangesCount": 1,
+        "testFixtureChanges": [
+          "test/scripts/test_developer_scripts.py"
+        ],
+        "retiredBodiesCompared": 122,
+        "archiveReportCopiesCompared": 6,
+        "narrowFixtureChangeVerified": true
+      }
+    },
+    {
+      "path": ".temporary/docs-closeout-review-20261011/validation.json",
+      "bytes": 37501,
+      "sha256": "521d7a3ecf9b70c393d5a9571ebb4bb0b1cead22c9f6f1867ee32776bd1d8e5f",
+      "recordTime": "2026-10-11T05:12:29.751779+00:00",
+      "interpretation": "Historical input set and checker rules only; never merged with this retirement validation.",
+      "summary": {
+        "changedCount": 3,
+        "addedCount": 0,
+        "missingCount": 0,
+        "errorsCount": 0,
+        "errorsKinds": {},
+        "errorsSamples": [],
+        "protectedCompared": 13769,
+        "officialCompared": 7,
+        "s5Navigation": {
+          "logsCompared": 18,
+          "entries": [
+            {
+              "original": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/main-debug-001-followup-test.log",
+              "current": "out/m3-t2/log/s5/build/main-debug-001-followup-test.log",
+              "bytes": 25308,
+              "sha256": "82f483de213628c6c74a24c1bda7295d4339febdfc00c40a65a802b32f441779"
+            },
+            {
+              "original": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/main-debug-001-test.log",
+              "current": "out/m3-t2/log/s5/build/main-debug-001-test.log",
+              "bytes": 24462,
+              "sha256": "c437c2e84a0b87e500fdb9d115279878e4688acc281bebe33fc2295f489c2c1d"
+            },
+            {
+              "original": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/main-release-001-test.log",
+              "current": "out/m3-t2/log/s5/build/main-release-001-test.log",
+              "bytes": 23940,
+              "sha256": "29c430617566adf4d42238ce0775703d77721980d68f1b95779213d922a48d58"
+            },
+            {
+              "original": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/matrix-debug-001-cpu-only-test-final-002.log",
+              "current": "out/m3-t2/log/s5/build/matrix-debug-001-cpu-only-test-final-002.log",
+              "bytes": 9764,
+              "sha256": "b47db51faf52133a2b83d52d1cc9972381389c5bbe03539098d9eb2bfc1e0378"
+            },
+            {
+              "original": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/matrix-debug-001-cpu-only-test.log",
+              "current": "out/m3-t2/log/s5/build/matrix-debug-001-cpu-only-test.log",
+              "bytes": 18152,
+              "sha256": "bf4b5051538512f638b62464405644a8d35ca89e377b131dd8a50746a65dd978"
+            },
+            {
+              "original": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/matrix-debug-001-game-only-test.log",
+              "current": "out/m3-t2/log/s5/runtime/matrix-debug-001-game-only-test.log",
+              "bytes": 22518,
+              "sha256": "f44d7288c52c9f81bc5ad9b06ead3371bd36f6528c47b96611cd722baee63b20"
+            },
+            {
+              "original": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/matrix-debug-001-standalone-runner-test.log",
+              "current": "out/m3-t2/log/s5/benchmark/matrix-debug-001-standalone-runner-test.log",
+              "bytes": 1800,
+              "sha256": "469f217024647aa334058becbe57c714335ea28eceb9544ff168b1491750aad9"
+            },
+            {
+              "original": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/matrix-release-001-cpu-only-test.log",
+              "current": "out/m3-t2/log/s5/build/matrix-release-001-cpu-only-test.log",
+              "bytes": 17992,
+              "sha256": "921d1dba7d2bfec0990e295772a8ac0bc5e7bfe09428c650a871d017cb5ac95e"
+            },
+            {
+              "original": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/matrix-release-001-game-only-test.log",
+              "current": "out/m3-t2/log/s5/runtime/matrix-release-001-game-only-test.log",
+              "bytes": 22358,
+              "sha256": "132b69614381a4768c7cd3469d40671397c249ea9de69890668ea8504db2fde7"
+            },
+            {
+              "original": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/matrix-release-001-standalone-runner-test.log",
+              "current": "out/m3-t2/log/s5/benchmark/matrix-release-001-standalone-runner-test.log",
+              "bytes": 1808,
+              "sha256": "1223033757436d0843bcd8d1512dc72be7b993d7a7acdc5559f94c5ca6db40e6"
+            },
+            {
+              "original": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/probe-debug-001-test.log",
+              "current": "out/m3-t2/log/s5/platform/probe-debug-001-test.log",
+              "bytes": 764,
+              "sha256": "e7ddc654c63b20f2676ead68c5ad1660446d608d11035d0d1df10faef2aa1d46"
+            },
+            {
+              "original": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/probe-release-001-test.log",
+              "current": "out/m3-t2/log/s5/platform/probe-release-001-test.log",
+              "bytes": 772,
+              "sha256": "6dedee0f40b47992f7f67c3eac2febdabed713036dc0f0db52c2938cb64eb92a"
+            },
+            {
+              "original": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/matrix-debug-001.log",
+              "current": "out/m3-t2/log/s5/build/matrix-debug-001.log",
+              "bytes": 1178,
+              "sha256": "93f9a49b199b96d84f55ee27324d113b8da44ed9fd7351d1bd5400d05a0ef03f"
+            },
+            {
+              "original": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/matrix-release-001.log",
+              "current": "out/m3-t2/log/s5/build/matrix-release-001.log",
+              "bytes": 1182,
+              "sha256": "2818834538cad50f60faa265948b6ec5a2edc84496e9f2435c32506ba2f4a599"
+            },
+            {
+              "original": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/SymoCraft-debug-dependents.log",
+              "current": "out/m3-t2/log/s5/build/SymoCraft-debug-dependents.log",
+              "bytes": 747,
+              "sha256": "3077c4a7514edbfd9ac20a9881f02c1fba0c0f351e3b3be3fff6b2ef281232f6"
+            },
+            {
+              "original": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/SymoCraftBenchmark-debug-dependents.log",
+              "current": "out/m3-t2/log/s5/benchmark/SymoCraftBenchmark-debug-dependents.log",
+              "bytes": 792,
+              "sha256": "db4c50284fe6d81a5708773267fcfbfbd058104a1ca7a3e5c895e41c581e744e"
+            },
+            {
+              "original": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/SymoCraft-release-dependents.log",
+              "current": "out/m3-t2/log/s5/build/SymoCraft-release-dependents.log",
+              "bytes": 1007,
+              "sha256": "88c967537f019320a6492039c8271d8bae8b8e8eab65a4c2c6bf2fda25513b8e"
+            },
+            {
+              "original": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t2/s5/SymoCraftBenchmark-release-dependents.log",
+              "current": "out/m3-t2/log/s5/benchmark/SymoCraftBenchmark-release-dependents.log",
+              "bytes": 938,
+              "sha256": "374976f6750a9be78fba983810275662660bd7245b84ce7b815e3bbaf0b5c7ff"
+            }
+          ],
+          "errors": []
+        },
+        "r2Copies": {
+          "reportsCompared": 5,
+          "differentTargetFilesCompared": 28,
+          "pairs": [
+            {
+              "retained": "docs/milestones/m3-t3/r2-entry.md",
+              "candidate": "docs/milestones/m3-t3/r2/r2-entry.md",
+              "normalizedEqual": true
+            },
+            {
+              "retained": "docs/milestones/m3-t3/r2-step1-implementation.md",
+              "candidate": "docs/milestones/m3-t3/r2/r2-step1-implementation.md",
+              "normalizedEqual": true
+            },
+            {
+              "retained": "docs/milestones/m3-t3/r2-step2-implementation.md",
+              "candidate": "docs/milestones/m3-t3/r2/r2-step2-implementation.md",
+              "normalizedEqual": true
+            },
+            {
+              "retained": "docs/milestones/m3-t3/r2-step3-implementation.md",
+              "candidate": "docs/milestones/m3-t3/r2/r2-step3-implementation.md",
+              "normalizedEqual": true
+            },
+            {
+              "retained": "docs/milestones/m3-t3/r2-step4-implementation.md",
+              "candidate": "docs/milestones/m3-t3/r2/r2-step4-implementation.md",
+              "normalizedEqual": true
+            }
+          ],
+          "differentTargets": [
+            {
+              "report": "r2-step1-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step1-20261009-001/raw/out/m3-t3/r2-step1-cpu-debug-002/ctest-verified-002.log",
+              "copy": "out/m3-t3/r2-step1-cpu-debug-002/ctest-verified-002.log",
+              "identity": "file:304734f3f6d8d11a27c3be9cab0c3236973bcd9b6b8b885f56ba1aef217790a5:10051#"
+            },
+            {
+              "report": "r2-step1-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step1-20261009-001/raw/out/m3-t3/r2-step1-cpu-release-002/ctest-verified-002.log",
+              "copy": "out/m3-t3/r2-step1-cpu-release-002/ctest-verified-002.log",
+              "identity": "file:293981cbfe916b3a5aca682cd9809c753ffe7fc31d5802bbd84941e6e69e90f2:9969#"
+            },
+            {
+              "report": "r2-step1-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step1-20261009-001/raw/out/m3-t3/r2-step1-cpu-debug-002/ctest-verified-002.xml",
+              "copy": "out/m3-t3/r2-step1-cpu-debug-002/ctest-verified-002.xml",
+              "identity": "file:4ead3b7ddb5c7e0049aa12fc5ed9186bf726b95b96a3ca87aab6f67590ba732d:16694#"
+            },
+            {
+              "report": "r2-step1-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step1-20261009-001/raw/out/m3-t3/r2-step1-cpu-release-002/renderer-targets.tsv",
+              "copy": "out/m3-t3/r2-step1-cpu-release-002/renderer-targets.tsv",
+              "identity": "file:8a06a9286021f41b225354344943b4b2d39aab3c7639e97eb284d4bacc79096b:78179#"
+            },
+            {
+              "report": "r2-step1-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step1-20261009-001/raw/out/m3-t3/r2-step1-cpu-release-002/compile_commands.json",
+              "copy": "out/m3-t3/r2-step1-cpu-release-002/compile_commands.json",
+              "identity": "file:d3c359378519eb716d48efbf985cbefa8ef3209ab6fe291160b708d22e6042b9:130350#"
+            },
+            {
+              "report": "r2-step1-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step1-20261009-001/raw/out/m3-t3/r2-step1-cpu-release-002/build.ninja",
+              "copy": "out/m3-t3/r2-step1-cpu-release-002/build.ninja",
+              "identity": "file:3c6e33b156ab346cbc92fcab854bf3319500051f08b7d4a389dd1700ec0b529a:456628#"
+            },
+            {
+              "report": "r2-step1-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step1-20261009-001/raw/out/m3-t3/r2-step1-game-debug-001/ctest-verified-002.log",
+              "copy": "out/m3-t3/r2-step1-game-debug-001/ctest-verified-002.log",
+              "identity": "file:ca00a8f92537fbdca6b5c4f83ee158243fc6837e62d929c2ab3624b2e109ecd1:1959#"
+            },
+            {
+              "report": "r2-step1-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step1-20261009-001/raw/out/m3-t3/r2-step1-game-release-001/ctest-verified-002.log",
+              "copy": "out/m3-t3/r2-step1-game-release-001/ctest-verified-002.log",
+              "identity": "file:092e838594320b9c118a91ccad415df57ed4f96459dc3a5112175ed04c778dba:1961#"
+            },
+            {
+              "report": "r2-step1-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step1-20261009-001/raw/out/m3-t3/r2-step1-game-release-001/renderer-targets.tsv",
+              "copy": "out/m3-t3/r2-step1-game-release-001/renderer-targets.tsv",
+              "identity": "file:2394787e658f2c75245fe394899146aad0891d9220c6a39c93219a62a8768e93:133391#"
+            },
+            {
+              "report": "r2-step1-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step1-20261009-001/raw/out/m3-t3/r2-step1-cpu-no-tests-release-002/configuration-check-001.json",
+              "copy": "out/m3-t3/r2-step1-cpu-no-tests-release-002/configuration-check-001.json",
+              "identity": "file:290ec8a72ccd8f1924be35f7f1ed2a9c1ab94473ee83f6d53786fc91895e93fe:333#"
+            },
+            {
+              "report": "r2-step1-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step1-20261009-001/raw/out/m3-t3/r2-step1-benchmark-only-release-001/configuration-check-001.json",
+              "copy": "out/m3-t3/r2-step1-benchmark-only-release-001/configuration-check-001.json",
+              "identity": "file:95d0b722f49f650d4c8d6283c3863ba6ac7dbe206e9e178e4775cab16c07a931:337#"
+            },
+            {
+              "report": "r2-step1-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step1-20261009-001/raw/out/m3-t3/evidence/r2-step1-cpu-debug-incremental-001/result.json",
+              "copy": "out/m3-t3/evidence/r2-step1-cpu-debug-incremental-001/result.json",
+              "identity": "file:3a52f53ec4c2ffcb2372eebc7e85e5c2538669ba36f104e1500bbb567078b4b7:1850#"
+            },
+            {
+              "report": "r2-step1-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step1-20261009-001/raw/out/m3-t3/evidence/r2-step1-cpu-release-incremental-001/result.json",
+              "copy": "out/m3-t3/evidence/r2-step1-cpu-release-incremental-001/result.json",
+              "identity": "file:39af28208e05db35d25f80bcf061878878e213f2527084c69ad3fa9a0324ee0a:1854#"
+            },
+            {
+              "report": "r2-step1-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step1-20261009-001/raw/out/m3-t3/evidence/r2-step1-game-release-incremental-001/result.json",
+              "copy": "out/m3-t3/evidence/r2-step1-game-release-incremental-001/result.json",
+              "identity": "file:4101339d6994cef5722c77b6e025dc9ba0466393645cdadc09e2f8dcfe33eb48:1856#"
+            },
+            {
+              "report": "r2-step2-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step2-20261009-001/raw/game/modules/renderer/src/backend/d3d12/d3d12_backend.cpp",
+              "copy": "game/modules/renderer/src/backend/d3d12/d3d12_backend.cpp",
+              "identity": "file:59dea6123c2389f956928bd10eb0293fe5cfbada866ce298e7ea41efe9990aeb:65868#"
+            },
+            {
+              "report": "r2-step2-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step2-20261009-001/raw/game/modules/renderer/src/backend/d3d12/pipeline.cpp",
+              "copy": "game/modules/renderer/src/backend/d3d12/pipeline.cpp",
+              "identity": "file:3f12a1b65fdfe4cf9d0b90a4b17a22fb4fa3523f6304c680f93e77f888d86ab3:11757#"
+            },
+            {
+              "report": "r2-step2-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step2-20261009-001/raw/assets/shaders/hlsl/blocks.hlsl",
+              "copy": "assets/shaders/hlsl/blocks.hlsl",
+              "identity": "file:45ec9d842b817261e0f0a390b4186be4218096f751e392670bccf239f8b9fc58:793#"
+            },
+            {
+              "report": "r2-step2-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step2-20261009-001/raw/out/m3-t3/r2-step2-gpu-debug-005/verification.json",
+              "copy": "out/m3-t3/r2-step2-gpu-debug-005/verification.json",
+              "identity": "file:97c1091a5500f4ee0ed922cad4bde155dfa30841e30f06d14f24b7753d2e742d:46680#"
+            },
+            {
+              "report": "r2-step2-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step2-20261009-001/raw/out/m3-t3/r2-step2-gpu-release-005/verification.json",
+              "copy": "out/m3-t3/r2-step2-gpu-release-005/verification.json",
+              "identity": "file:3fddbad572a2fc6af09fcc903395c5668ab9ffa1ba85b9d9b8bd8c83fe94cd14:46921#"
+            },
+            {
+              "report": "r2-step3-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step3-20261009-001/raw/out/m3-t3/r2-step3-gl-selection-001/verification.json",
+              "copy": "out/m3-t3/r2-step3-gl-selection-001/verification.json",
+              "identity": "file:0d47cbe3fc5c6d8d348e4b6b1fa4308a36a23cfec4aae9abf60b7c474c660611:2438#"
+            },
+            {
+              "report": "r2-step3-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step3-20261009-001/raw/out/m3-t3/r2-step3-game-debug-004/verification.json",
+              "copy": "out/m3-t3/r2-step3-game-debug-004/verification.json",
+              "identity": "file:785def51ca27eb8c34d9ab6050681efd47bacc979e33ef43ecf23b1fa217e71b:53735#"
+            },
+            {
+              "report": "r2-step3-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step3-20261009-001/raw/out/m3-t3/r2-step3-game-release-004/verification.json",
+              "copy": "out/m3-t3/r2-step3-game-release-004/verification.json",
+              "identity": "file:6827341c0437d75ff67f3819809dcf97d8055c2f88c6554c4c6851aa31c6f567:66816#"
+            },
+            {
+              "report": "r2-step3-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step3-20261009-001/raw/out/m3-t3/r2-step3-game-release-004/image-observations.json",
+              "copy": "out/m3-t3/r2-step3-game-release-004/image-observations.json",
+              "identity": "file:afed951e1d393711f81642ec0f1a536001bdde10b800fc4f1fc57b5b5200dbf8:5599#"
+            },
+            {
+              "report": "r2-step4-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step4-20261009-001/raw/out/m3-t3/r2-step4-notests-matrix-001/closure.json",
+              "copy": "out/m3-t3/r2-step4-notests-matrix-001/closure.json",
+              "identity": "file:f89a57ea3486a98d2096ceeaf72227201f0e26eaf3cf04ab7e6cbb8dca509074:1802#"
+            },
+            {
+              "report": "r2-step4-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step4-20261009-001/raw/out/m3-t3/r2-step4-candidate-debug-004/verification.json",
+              "copy": "out/m3-t3/r2-step4-candidate-debug-004/verification.json",
+              "identity": "file:f480d257c84df6d84a7532b804cd6ebc00f0ef226de86c3ecc71e2bdefedb08e:246451#"
+            },
+            {
+              "report": "r2-step4-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step4-20261009-001/raw/out/m3-t3/r2-step4-candidate-release-002/verification.json",
+              "copy": "out/m3-t3/r2-step4-candidate-release-002/verification.json",
+              "identity": "file:44d22c4ce8405bdc7a4d80f814ba8ef3123b82442c1cd9a047a34d199ee00c50:226968#"
+            },
+            {
+              "report": "r2-step4-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step4-20261009-001/raw/out/m3-t3/r2-step4-window-debug-003/verification.json",
+              "copy": "out/m3-t3/r2-step4-window-debug-003/verification.json",
+              "identity": "file:5453d92be3e666d8c931d7fcb090e8d5175dfeaacee6ea6ff69bb1d62fdbf785:29608#"
+            },
+            {
+              "report": "r2-step4-implementation.md",
+              "retained": "docs/milestones/m3-t3/evidence/r2/step4-20261009-001/raw/out/m3-t3/r2-step4-window-release-004/verification.json",
+              "copy": "out/m3-t3/r2-step4-window-release-004/verification.json",
+              "identity": "file:06ba81080aba8d0711218de2032bd0a9cd59d2071c4b4b0b9bdac44d8a19b5b8:29209#"
+            }
+          ],
+          "errors": []
+        },
+        "candidateLinksCount": 3
+      }
+    },
+    {
+      "path": ".temporary/docs-navigation-review-20261011/validation.json",
+      "bytes": 7984,
+      "sha256": "515492432a04be776437c6f75d0c744a4f5ac9f9feb77189f63e98b68f369f61",
+      "recordTime": "2026-10-11T06:20:40.943922+00:00",
+      "interpretation": "Historical input set and checker rules only; never merged with this retirement validation.",
+      "summary": {
+        "changedCount": 125,
+        "addedCount": 3,
+        "missingCount": 0,
+        "navigationDocumentsCompared": 114,
+        "twoReferenceRevisionVerified": true,
+        "retiredOriginalBodiesCompared": 122,
+        "archiveOriginalReportCopiesCompared": 6,
+        "unchangedProtectedFiles": 13768,
+        "officialCompared": 7,
+        "errorsCount": 0,
+        "errorsKinds": {},
+        "errorsSamples": []
+      }
+    },
+    {
+      "path": ".temporary/docs-navigation-review-20261011/validation-final.json",
+      "bytes": 8031,
+      "sha256": "600e989056907be055471738dbe474ceafd5dab9300d343924f359e4b3ce14fd",
+      "recordTime": "2026-10-11T06:24:30.955076+00:00",
+      "interpretation": "Historical input set and checker rules only; never merged with this retirement validation.",
+      "summary": {
+        "changedCount": 125,
+        "addedCount": 3,
+        "missingCount": 0,
+        "navigationDocumentsCompared": 114,
+        "twoReferenceRevisionVerified": true,
+        "semanticNavigationCorrectionsCompared": 3,
+        "retiredOriginalBodiesCompared": 122,
+        "archiveOriginalReportCopiesCompared": 6,
+        "unchangedProtectedFiles": 13768,
+        "officialCompared": 7,
+        "errorsCount": 0,
+        "errorsKinds": {},
+        "errorsSamples": []
+      }
+    },
+    {
+      "path": ".temporary/docs-pilot-validation-20261010.json",
+      "bytes": 1929156,
+      "sha256": "c9aba784e1fdd2d444b09ebb91a1f4bd3210ad847be11613111022033669a38b",
+      "recordTime": "2026-10-10T06:02:41.713899+00:00",
+      "interpretation": "Historical input set and checker rules only; never merged with this retirement validation.",
+      "summary": {
+        "head_unchanged": true,
+        "baseline_files": 2045,
+        "documents": 161,
+        "links": 2722,
+        "changedCount": 75,
+        "addedCount": 12222,
+        "removedCount": 0,
+        "evidence_changedCount": 0,
+        "nondoc_changedCount": 0,
+        "missing_linksCount": 0,
+        "missing_anchorsCount": 0,
+        "missing_wikiCount": 0,
+        "historical_missingCount": 2
+      }
+    },
+    {
+      "path": ".temporary/pilot-independent-validation-integrated.json",
+      "bytes": 241109,
+      "sha256": "f2b1f5fa21c63e3aa3073553716eccc931bc40a0128a15da672396751f592ab7",
+      "recordTime": "2026-10-10T05:58:25.054278+00:00",
+      "interpretation": "Historical input set and checker rules only; never merged with this retirement validation.",
+      "summary": {
+        "scope": "Independent mechanical documentation-migration validation; no runtime, GPU, UI, performance or human-approval validation",
+        "head": "b01f0068b27447456cfb6fa1462fe9a6ea11c856",
+        "counts": {
+          "allowed_archive_attribute_change": 1,
+          "allowed_inventory_change": 1,
+          "archive_payload_files_present": 6570,
+          "baseline_files_checked": 2045,
+          "baseline_original_evidence_checked": 1557,
+          "changed_existing_markdown": 73,
+          "historical_internal_records_checked": 7937,
+          "historical_manifest_snapshot_locator_exceptions": 1,
+          "historical_manifests_checked": 38,
+          "maintainable_markdown_checked": 161,
+          "markdown_links_checked": 2919,
+          "migration_entries_checked": 6570,
+          "migration_sources_not_in_start_baseline": 5641,
+          "original_evidence_files_present": 7198,
+          "original_evidence_files_without_start_baseline": 5641,
+          "original_historical_internal_records_checked": 7937,
+          "private_inventory_entries_not_read": 1,
+          "tag_inventory_entries_checked": 150,
+          "unchanged_historical_link_exceptions": 2,
+          "wiki_links_checked": 194
+        },
+        "errorsCount": 924,
+        "errorsKinds": {
+          "migration_source_byte_count_mismatch": 6,
+          "migration_source_sha256_mismatch": 6,
+          "historical_copy_missing_file": 426,
+          "historical_original_missing_file": 426,
+          "historical_copy_byte_count_mismatch": 15,
+          "historical_copy_sha256_mismatch": 15,
+          "historical_original_byte_count_mismatch": 15,
+          "historical_original_sha256_mismatch": 15
+        },
+        "errorsSamples": [
+          {
+            "check": "migration_source_byte_count_mismatch",
+            "file": "docs/project/benchmark/exp/Benchmark-GTX1650\u4f4e\u7aef\u673a\u57fa\u7ebf.md"
+          },
+          {
+            "check": "migration_source_sha256_mismatch",
+            "file": "docs/project/benchmark/exp/Benchmark-GTX1650\u4f4e\u7aef\u673a\u57fa\u7ebf.md"
+          },
+          {
+            "check": "migration_source_byte_count_mismatch",
+            "file": "docs/project/benchmark/exp/Benchmark-Y9000P\u4e2d\u7aef\u673a\u57fa\u7ebf.md"
+          }
+        ],
+        "warningsCount": 1,
+        "warningsKinds": {
+          "start_baseline_did_not_cover_all_original_evidence": 1
+        },
+        "warningsSamples": [
+          {
+            "check": "start_baseline_did_not_cover_all_original_evidence",
+            "files": 5641,
+            "boundary": "Current historical manifests can check their recorded identities; a missing start baseline cannot prove all bytes unchanged since this pilot began."
+          }
+        ],
+        "historical_link_exceptionsCount": 2,
+        "historical_link_exceptions": [
+          {
+            "file": "test/experimental/platform-sdl3/README.md",
+            "url": "../../../out/m3-t2/s3/inspect-protocol.exe",
+            "reason": "unchanged historical path in start baseline"
+          },
+          {
+            "file": "test/experimental/platform-sdl3/README.md",
+            "url": "../../../out/m3-t2/s3/inspect-protocol.cpp",
+            "reason": "unchanged historical path in start baseline"
+          }
+        ],
+        "limitsCount": 4,
+        "limits": [
+          "Private journal and Obsidian bodies are excluded and never read.",
+          "Immutable original and copied evidence Markdown is excluded from link rewriting and active tag requirements.",
+          "Historical source paths and source-identity hashes are not current-source requirements.",
+          "Semantic contract completeness and approval meaning require independent source review, not this mechanical checker."
+        ]
+      }
+    },
+    {
+      "path": ".temporary/pilot-independent-validation-final.json",
+      "bytes": 163733,
+      "sha256": "6a61caa62281b7f5a9fe6ac9129d4870a9b07a1afe3e881669bdb834bdc381cc",
+      "recordTime": "2026-10-10T06:04:33.554538+00:00",
+      "interpretation": "Historical input set and checker rules only; never merged with this retirement validation.",
+      "summary": {
+        "scope": "Independent mechanical documentation-migration validation; no runtime, GPU, UI, performance or human-approval validation",
+        "head": "b01f0068b27447456cfb6fa1462fe9a6ea11c856",
+        "counts": {
+          "allowed_archive_attribute_change": 1,
+          "allowed_inventory_change": 1,
+          "archive_payload_files_present": 6570,
+          "archive_payload_git_ignore_checked": 6570,
+          "archive_payload_git_ignored": 0,
+          "baseline_files_checked": 2045,
+          "baseline_original_evidence_checked": 1557,
+          "changed_existing_markdown": 73,
+          "embedded_package_manifests_checked": 31,
+          "embedded_package_records_healthy_hash_checked": 1111,
+          "embedded_package_records_source_copy_identity_checked": 1552,
+          "historical_internal_records_checked": 7937,
+          "historical_manifest_snapshot_locator_exceptions": 1,
+          "historical_manifests_checked": 38,
+          "maintainable_markdown_checked": 161,
+          "markdown_links_checked": 2920,
+          "migration_entries_checked": 6570,
+          "migration_original_baseline_entries": 929,
+          "migration_sources_not_in_start_baseline": 5641,
+          "original_baseline_report_banner_only_exceptions": 6,
+          "original_evidence_files_present": 7198,
+          "original_evidence_files_without_start_baseline": 5641,
+          "original_historical_internal_records_checked": 7937,
+          "owning_frozen_internal_records_checked": 6385,
+          "owning_frozen_manifests_checked": 7,
+          "private_inventory_entries_not_read": 1,
+          "retained_embedded_package_payload_limitations": 441,
+          "retained_embedded_payload_byte_count_mismatch": 15,
+          "retained_embedded_payload_missing_file": 426,
+          "retained_embedded_payload_sha256_mismatch": 15,
+          "tag_inventory_entries_checked": 150,
+          "unchanged_historical_link_exceptions": 2,
+          "wiki_links_checked": 194
+        },
+        "errorsCount": 0,
+        "errorsKinds": {},
+        "errorsSamples": [],
+        "warningsCount": 442,
+        "warningsKinds": {
+          "retained_embedded_package_payload_status": 441,
+          "start_baseline_did_not_cover_all_original_evidence": 1
+        },
+        "warningsSamples": [
+          {
+            "check": "retained_embedded_package_payload_status",
+            "file": "t3-r1/review-20261009-001/package/d3d12-r1-release-001/package-manifest.json",
+            "payload": "concrt140.dll",
+            "source_copy_identical": true,
+            "original_payload_status": [
+              "missing_file"
+            ]
+          },
+          {
+            "check": "retained_embedded_package_payload_status",
+            "file": "t3-r1/review-20261009-001/package/d3d12-r1-release-001/package-manifest.json",
+            "payload": "licenses/SDL3-LICENSE.txt",
+            "source_copy_identical": true,
+            "original_payload_status": [
+              "missing_file"
+            ]
+          },
+          {
+            "check": "retained_embedded_package_payload_status",
+            "file": "t3-r1/review-20261009-001/package/d3d12-r1-release-001/package-manifest.json",
+            "payload": "msvcp140_1.dll",
+            "source_copy_identical": true,
+            "original_payload_status": [
+              "missing_file"
+            ]
+          }
+        ],
+        "historical_link_exceptionsCount": 2,
+        "historical_link_exceptions": [
+          {
+            "file": "test/experimental/platform-sdl3/README.md",
+            "url": "../../../out/m3-t2/s3/inspect-protocol.exe",
+            "reason": "unchanged historical path in start baseline"
+          },
+          {
+            "file": "test/experimental/platform-sdl3/README.md",
+            "url": "../../../out/m3-t2/s3/inspect-protocol.cpp",
+            "reason": "unchanged historical path in start baseline"
+          }
+        ],
+        "limitsCount": 5,
+        "limits": [
+          "Private journal and Obsidian bodies are excluded and never read.",
+          "Immutable original and copied evidence Markdown is excluded from link rewriting and active tag requirements.",
+          "Historical source paths and source-identity hashes are not current-source requirements.",
+          "Exactly scoped embedded package manifests are retained artifact identities, not promises of complete runnable payloads; sparse and negative fixtures are recorded without rewriting their statuses.",
+          "Semantic contract completeness and approval meaning require independent source review, not this mechanical checker."
+        ]
+      }
+    },
+    {
+      "path": ".temporary/pilot-validator-self-test.json",
+      "bytes": 74,
+      "sha256": "6b19951bb850ef0bb076d5f84a682d246d4d9496323d4ffe1dc6382cf4c7db1f",
+      "recordTime": "2026-10-10T06:01:57.984571+00:00",
+      "interpretation": "Historical input set and checker rules only; never merged with this retirement validation.",
+      "summary": {
+        "tests": 42,
+        "failures": 0,
+        "errors": 0,
+        "passed": true
+      }
+    }
+  ],
+  "historicalAuditLimits": [
+    "Initial OpenSpec audit retains its two production-input differences and three user-confirmed concurrent ProjectShadow edits; later narrow authorized consumer adaptations do not overwrite that result.",
+    "Pilot integrated 924 errors and final zero errors describe different checker rules; original coverage missed 5641 evidence files. Final retained sparse/negative payload limitations remain 426 missing files and 15 size/SHA mismatches, not complete runnable packages.",
+    "Original audit baselines and source bodies retire, so these preserved summaries/identities are not full replayable historical baselines. Current protection is checked independently against this batch baseline.",
+    "No private journal reading, Obsidian UI/cloud verification, game/GPU/performance execution, new human acceptance or real OpenSpec sync/archive."
+  ],
+  "historicalGitBatchRecovery": {
+    "commit": "b01f0068b27447456cfb6fa1462fe9a6ea11c856",
+    "path": "docs/spec/git/gitspec.md",
+    "gitBlobBytes": 104737,
+    "gitBlobSha256": "fd421955268b2a669c040d4dc44c12e49d6f557aa2d7c7c01e2df8f15e3de747",
+    "oldBaselineSha256": "84c550ca724e9cb4c42c2670e1c99c043ec9f239014a2615eae3307c8394cf02",
+    "navigationDelta": [
+      {
+        "line": 713,
+        "gitText": "- \u672c\u6587\u4ece [\u6280\u672f\u6587\u6863\u7d22\u5f15](../../README.md) \u8fdb\u5165\uff1b\u9879\u76ee\u8303\u56f4\u89c1 [\u9879\u76ee scope](../project-scope.md)\u3002",
+        "baselineText": "- \u672c\u6587\u4ece [\u6280\u672f\u6587\u6863\u7d22\u5f15](../../README.md) \u8fdb\u5165\uff1b\u9879\u76ee\u8303\u56f4\u89c1 [\u9879\u76ee scope](project-scope.md)\u3002"
+      }
+    ],
+    "meaning": "Old batch history only; all line content except this one navigation link matches after splitlines normalization. No present Git-write authority or byte-identical baseline recovery claim."
+  },
+  "temporaryPreserved": [
+    ".temporary/*-result",
+    ".temporary/__pycache__",
+    "Other task sites and any material outside the exact registered scope."
+  ],
+  "sourceRetirementChecks": {
+    "removed": 13,
+    "gitRecoveryBytesExact": true,
+    "activeCompileInstallCallOrT4RecoveryDependenciesFound": false,
+    "productionSourceBoundary": "passed",
+    "retiredSourceTargetNegativeProbe": "rejected retired.cpp.disabled by ModuleBoundaries.cmake:216 as expected",
+    "gameBuildOrRuntime": "not run",
+    "t5FullAudit": "not performed"
+  },
+  "currentBatchTemporaryRetirement": {
+    "directory": ".temporary/docs-retirement-20261011",
+    "files": 13,
+    "bytes": 30054612,
+    "treeSha256": "13a54c62a9fd87dc1985a90713e387bb73dc971d8f158488ae2fa7da10f4f288",
+    "helper": {
+      "path": ".temporary/docs-retirement-20261011.py",
+      "bytes": 40980,
+      "sha256": "4664ef406a49eb5b4dea53a37d44e6b708dfd15d05555319e33ede07e31dd960"
+    },
+    "meaning": "This batch own one-off helper, independent baseline and negative CMake fixture retire after final checks; not a new permanent audit tree.",
+    "status": "Removed; exact current-batch directory and helper absence verified after final protection checks.",
+    "removedFilesIncludingHelper": 14
+  }
+}

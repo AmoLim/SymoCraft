@@ -1,0 +1,290 @@
+{
+  "old-static": {
+    "columns": [
+      "frame",
+      "phase",
+      "elapsed_s",
+      "frame_ms",
+      "simulation_delta_ms",
+      "event_ms",
+      "simulation_ms",
+      "mesh_ms",
+      "pack_ms",
+      "render_cpu_ms",
+      "upload_cpu_ms",
+      "present_ms",
+      "instrumentation_ms",
+      "gpu_draw_ms",
+      "rebuilt_chunks",
+      "vertices",
+      "upload_bytes",
+      "draw_calls",
+      "edits",
+      "edit_lateness_ms",
+      "x",
+      "y",
+      "z",
+      "yaw",
+      "focused"
+    ],
+    "measured_frames": 2340,
+    "edits": 0.0,
+    "rebuilt_chunks": 0.0,
+    "position_x": {
+      "min": -2.5,
+      "max": -2.5
+    },
+    "vertices": {
+      "min": 2063250.0,
+      "max": 2063250.0
+    },
+    "upload_bytes": {
+      "min": 57770616.0,
+      "max": 57770616.0
+    },
+    "draw_calls": {
+      "min": 2.0,
+      "max": 2.0
+    }
+  },
+  "new-static": {
+    "columns": [
+      "frame",
+      "phase",
+      "elapsed_s",
+      "frame_ms",
+      "simulation_delta_ms",
+      "event_ms",
+      "simulation_ms",
+      "mesh_ms",
+      "pack_ms",
+      "render_cpu_ms",
+      "upload_cpu_ms",
+      "present_ms",
+      "instrumentation_ms",
+      "gpu_draw_ms",
+      "rebuilt_chunks",
+      "vertices",
+      "upload_bytes",
+      "draw_calls",
+      "edits",
+      "edit_lateness_ms",
+      "x",
+      "y",
+      "z",
+      "yaw",
+      "focused"
+    ],
+    "measured_frames": 2449,
+    "edits": 0.0,
+    "rebuilt_chunks": 0.0,
+    "position_x": {
+      "min": -2.5,
+      "max": -2.5
+    },
+    "vertices": {
+      "min": 2063250.0,
+      "max": 2063250.0
+    },
+    "upload_bytes": {
+      "min": 57770616.0,
+      "max": 57770616.0
+    },
+    "draw_calls": {
+      "min": 2.0,
+      "max": 2.0
+    }
+  },
+  "old-walk": {
+    "columns": [
+      "frame",
+      "phase",
+      "elapsed_s",
+      "frame_ms",
+      "simulation_delta_ms",
+      "event_ms",
+      "simulation_ms",
+      "mesh_ms",
+      "pack_ms",
+      "render_cpu_ms",
+      "upload_cpu_ms",
+      "present_ms",
+      "instrumentation_ms",
+      "gpu_draw_ms",
+      "rebuilt_chunks",
+      "vertices",
+      "upload_bytes",
+      "draw_calls",
+      "edits",
+      "edit_lateness_ms",
+      "x",
+      "y",
+      "z",
+      "yaw",
+      "focused"
+    ],
+    "measured_frames": 2213,
+    "edits": 0.0,
+    "rebuilt_chunks": 0.0,
+    "position_x": {
+      "min": -20.53017807,
+      "max": 20.53017807
+    },
+    "vertices": {
+      "min": 2063226.0,
+      "max": 2063226.0
+    },
+    "upload_bytes": {
+      "min": 57770328.0,
+      "max": 57770328.0
+    },
+    "draw_calls": {
+      "min": 1.0,
+      "max": 1.0
+    }
+  },
+  "new-walk": {
+    "columns": [
+      "frame",
+      "phase",
+      "elapsed_s",
+      "frame_ms",
+      "simulation_delta_ms",
+      "event_ms",
+      "simulation_ms",
+      "mesh_ms",
+      "pack_ms",
+      "render_cpu_ms",
+      "upload_cpu_ms",
+      "present_ms",
+      "instrumentation_ms",
+      "gpu_draw_ms",
+      "rebuilt_chunks",
+      "vertices",
+      "upload_bytes",
+      "draw_calls",
+      "edits",
+      "edit_lateness_ms",
+      "x",
+      "y",
+      "z",
+      "yaw",
+      "focused"
+    ],
+    "measured_frames": 2367,
+    "edits": 0.0,
+    "rebuilt_chunks": 0.0,
+    "position_x": {
+      "min": -20.53017807,
+      "max": 20.53017807
+    },
+    "vertices": {
+      "min": 2063226.0,
+      "max": 2063226.0
+    },
+    "upload_bytes": {
+      "min": 57770328.0,
+      "max": 57770328.0
+    },
+    "draw_calls": {
+      "min": 1.0,
+      "max": 1.0
+    }
+  },
+  "old-edit": {
+    "columns": [
+      "frame",
+      "phase",
+      "elapsed_s",
+      "frame_ms",
+      "simulation_delta_ms",
+      "event_ms",
+      "simulation_ms",
+      "mesh_ms",
+      "pack_ms",
+      "render_cpu_ms",
+      "upload_cpu_ms",
+      "present_ms",
+      "instrumentation_ms",
+      "gpu_draw_ms",
+      "rebuilt_chunks",
+      "vertices",
+      "upload_bytes",
+      "draw_calls",
+      "edits",
+      "edit_lateness_ms",
+      "x",
+      "y",
+      "z",
+      "yaw",
+      "focused"
+    ],
+    "measured_frames": 2354,
+    "edits": 60.0,
+    "rebuilt_chunks": 180.0,
+    "position_x": {
+      "min": -2.5,
+      "max": -2.5
+    },
+    "vertices": {
+      "min": 2063226.0,
+      "max": 2063250.0
+    },
+    "upload_bytes": {
+      "min": 57770280.0,
+      "max": 57770616.0
+    },
+    "draw_calls": {
+      "min": 1.0,
+      "max": 2.0
+    }
+  },
+  "new-edit": {
+    "columns": [
+      "frame",
+      "phase",
+      "elapsed_s",
+      "frame_ms",
+      "simulation_delta_ms",
+      "event_ms",
+      "simulation_ms",
+      "mesh_ms",
+      "pack_ms",
+      "render_cpu_ms",
+      "upload_cpu_ms",
+      "present_ms",
+      "instrumentation_ms",
+      "gpu_draw_ms",
+      "rebuilt_chunks",
+      "vertices",
+      "upload_bytes",
+      "draw_calls",
+      "edits",
+      "edit_lateness_ms",
+      "x",
+      "y",
+      "z",
+      "yaw",
+      "focused"
+    ],
+    "measured_frames": 2391,
+    "edits": 60.0,
+    "rebuilt_chunks": 180.0,
+    "position_x": {
+      "min": -2.5,
+      "max": -2.5
+    },
+    "vertices": {
+      "min": 2063226.0,
+      "max": 2063250.0
+    },
+    "upload_bytes": {
+      "min": 57770280.0,
+      "max": 57770616.0
+    },
+    "draw_calls": {
+      "min": 1.0,
+      "max": 2.0
+    }
+  }
+}

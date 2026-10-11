@@ -1,0 +1,45 @@
+target	type	property	raw_value
+symocraft_yaml_headers	INTERFACE_LIBRARY	TYPE	INTERFACE_LIBRARY
+symocraft_yaml_headers	INTERFACE_LIBRARY	SOURCES	
+symocraft_yaml_headers	INTERFACE_LIBRARY	INCLUDE_DIRECTORIES	
+symocraft_yaml_headers	INTERFACE_LIBRARY	INTERFACE_INCLUDE_DIRECTORIES	F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step1-benchmark-only-release-001/header-views/symocraft_yaml_headers
+symocraft_yaml_headers	INTERFACE_LIBRARY	LINK_LIBRARIES	
+symocraft_yaml_headers	INTERFACE_LIBRARY	INTERFACE_LINK_LIBRARIES	
+symocraft_yaml_headers	INTERFACE_LIBRARY	COMPILE_DEFINITIONS	
+symocraft_yaml_headers	INTERFACE_LIBRARY	INTERFACE_COMPILE_DEFINITIONS	
+symocraft_yaml_headers	INTERFACE_LIBRARY	COMPILE_OPTIONS	
+symocraft_yaml_headers	INTERFACE_LIBRARY	INTERFACE_COMPILE_OPTIONS	
+symocraft_yaml_headers	INTERFACE_LIBRARY	INTERFACE_COMPILE_FEATURES	
+symocraft_yaml	STATIC_LIBRARY	TYPE	STATIC_LIBRARY
+symocraft_yaml	STATIC_LIBRARY	SOURCES	F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/binary.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/convert.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/depthguard.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/directives.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/emit.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/emitfromevents.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/emitter.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/emitterstate.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/emitterutils.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/exceptions.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/exp.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/memory.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/node.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/node_data.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/nodebuilder.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/nodeevents.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/null.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/ostream_wrapper.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/parse.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/parser.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/regex_yaml.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/scanner.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/scanscalar.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/scantag.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/scantoken.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/simplekey.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/singledocparser.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/stream.cpp;F:/GameDevelop/OpenGLProject/Symocraft/vendor/yaml-cpp/src/tag.cpp
+symocraft_yaml	STATIC_LIBRARY	INCLUDE_DIRECTORIES	
+symocraft_yaml	STATIC_LIBRARY	INTERFACE_INCLUDE_DIRECTORIES	
+symocraft_yaml	STATIC_LIBRARY	LINK_LIBRARIES	symocraft_yaml_headers
+symocraft_yaml	STATIC_LIBRARY	INTERFACE_LINK_LIBRARIES	symocraft_yaml_headers
+symocraft_yaml	STATIC_LIBRARY	COMPILE_DEFINITIONS	
+symocraft_yaml	STATIC_LIBRARY	INTERFACE_COMPILE_DEFINITIONS	
+symocraft_yaml	STATIC_LIBRARY	COMPILE_OPTIONS	/utf-8
+symocraft_yaml	STATIC_LIBRARY	INTERFACE_COMPILE_OPTIONS	
+symocraft_yaml	STATIC_LIBRARY	INTERFACE_COMPILE_FEATURES	cxx_std_20
+benchmark_core	STATIC_LIBRARY	TYPE	STATIC_LIBRARY
+benchmark_core	STATIC_LIBRARY	SOURCES	src/platform.cpp;src/runner.cpp
+benchmark_core	STATIC_LIBRARY	INCLUDE_DIRECTORIES	F:/GameDevelop/OpenGLProject/Symocraft/tools/benchmark/include
+benchmark_core	STATIC_LIBRARY	INTERFACE_INCLUDE_DIRECTORIES	F:/GameDevelop/OpenGLProject/Symocraft/tools/benchmark/include
+benchmark_core	STATIC_LIBRARY	LINK_LIBRARIES	symocraft_yaml;bcrypt;advapi32;powrprof;user32
+benchmark_core	STATIC_LIBRARY	INTERFACE_LINK_LIBRARIES	symocraft_yaml;$<LINK_ONLY:bcrypt>;$<LINK_ONLY:advapi32>;$<LINK_ONLY:powrprof>;$<LINK_ONLY:user32>
+benchmark_core	STATIC_LIBRARY	COMPILE_DEFINITIONS	UNICODE;_UNICODE;WIN32_LEAN_AND_MEAN;NOMINMAX
+benchmark_core	STATIC_LIBRARY	INTERFACE_COMPILE_DEFINITIONS	UNICODE;_UNICODE;WIN32_LEAN_AND_MEAN;NOMINMAX
+benchmark_core	STATIC_LIBRARY	COMPILE_OPTIONS	/W4;/utf-8;/permissive-
+benchmark_core	STATIC_LIBRARY	INTERFACE_COMPILE_OPTIONS	
+benchmark_core	STATIC_LIBRARY	INTERFACE_COMPILE_FEATURES	cxx_std_20
+SymoCraftBenchmark	EXECUTABLE	TYPE	EXECUTABLE
+SymoCraftBenchmark	EXECUTABLE	SOURCES	src/main.cpp;src/gui.cpp;runner.manifest
+SymoCraftBenchmark	EXECUTABLE	INCLUDE_DIRECTORIES	
+SymoCraftBenchmark	EXECUTABLE	INTERFACE_INCLUDE_DIRECTORIES	
+SymoCraftBenchmark	EXECUTABLE	LINK_LIBRARIES	benchmark_core;comctl32;comdlg32;shell32;ole32
+SymoCraftBenchmark	EXECUTABLE	INTERFACE_LINK_LIBRARIES	
+SymoCraftBenchmark	EXECUTABLE	COMPILE_DEFINITIONS	
+SymoCraftBenchmark	EXECUTABLE	INTERFACE_COMPILE_DEFINITIONS	
+SymoCraftBenchmark	EXECUTABLE	COMPILE_OPTIONS	/W4;/utf-8;/permissive-
+SymoCraftBenchmark	EXECUTABLE	INTERFACE_COMPILE_OPTIONS	
+SymoCraftBenchmark	EXECUTABLE	INTERFACE_COMPILE_FEATURES	

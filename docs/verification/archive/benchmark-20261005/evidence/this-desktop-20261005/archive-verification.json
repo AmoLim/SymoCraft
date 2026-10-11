@@ -1,0 +1,931 @@
+{
+  "schema_version": 1,
+  "archived_date": "2026-10-05",
+  "source_directory": ".temporary/this-result",
+  "canonical_source_relative": "export-20261005-025102-348Z/results",
+  "raw_archive_directory": "out/benchmarks/archive/this-desktop-20261005",
+  "source_preserved": true,
+  "supplied_manifest_verified_files": 82,
+  "full_archive_verified_files": 170,
+  "curated_verified_files": 57,
+  "zip_verification": {
+    "verified_files": 83,
+    "sha256": "7286dc7bc7a2187da70aa001fb4eb5015c7a6dc91c1924693321821319eab401",
+    "run_export_capture_matches": 54,
+    "session_equal": true
+  },
+  "scope": "Byte-identical local copies, not off-machine backup; original manifest covers full export, not docs subset",
+  "analyzer_path": "out/benchmarks/analyze-freeze-20261005.ps1",
+  "analyzer_sha256": "d1a9c723ddbbe54f214c66333e8e42e08ffd739285f02992f9d6131661c832f9",
+  "source_files": [
+    {
+      "path": "export-20261005-025102-348Z/archive.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "export-20261005-025102-348Z/archive.stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "export-20261005-025102-348Z/archive.yaml",
+      "bytes": 73,
+      "sha256": "b9b4996ca2dc24d469e71c2a04f2530a8bd4576c744ade9194c5f9d1caabfc8a"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results.zip",
+      "bytes": 22014867,
+      "sha256": "7286dc7bc7a2187da70aa001fb4eb5015c7a6dc91c1924693321821319eab401"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/session.yaml",
+      "bytes": 2923,
+      "sha256": "01c20e2905371ab3af54bdc6f31286df40d274a6cb1368cf603595d8c51069ae"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/sha256.yaml",
+      "bytes": 8251,
+      "sha256": "c668b96a90ed7c25f40851d0de8ce798d97456d8b6464eeb54b90edf0d2d104b"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-1-attempt-1/result.yaml",
+      "bytes": 1085,
+      "sha256": "c35da52ab31db857a96cd6bc65c96321281e769c94f2c93118ff1fec1faeaa83"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-1-attempt-1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-1-attempt-1/stdout.log",
+      "bytes": 6697,
+      "sha256": "ee272643c353bb0eb6b1e6a3c9767b40da09ef3d3b223529fcd39c9f80daaf39"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-1-attempt-1/capture/final-frame.png",
+      "bytes": 983285,
+      "sha256": "4bfc661dd914160b0ff76bfe8d1e2f37b9454382635ecb5cc93c6549e9d0ad42"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-1-attempt-1/capture/focus.csv",
+      "bytes": 36,
+      "sha256": "cc255aeec6a7fe73a962a4d5f93ddca07a1900430dc9416cae4398d6fca8481d"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-1-attempt-1/capture/frames.csv",
+      "bytes": 6976941,
+      "sha256": "cd14ac8811fdbd4f375e2d3ee88abf05833cc90cf0625349e6ae2be7fb04faa9"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-1-attempt-1/capture/memory.csv",
+      "bytes": 12422,
+      "sha256": "bbe3e41025faaee823c03ffbb06bb1f6065fce051e3235d2ab308a3693baf073"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-1-attempt-1/capture/status.yaml",
+      "bytes": 58,
+      "sha256": "ec0747cf8c6fc702b6ba9ffe42bd7ef819929a048a5273b27a8e817aed640a94"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-1-attempt-1/capture/summary.yaml",
+      "bytes": 10508,
+      "sha256": "bfce620f00482b381dbb3b31dd504118a6fc24c75c9a460f92fa25418b5f7abb"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-2-attempt-1/result.yaml",
+      "bytes": 1097,
+      "sha256": "e1ab7eaa2c8a20cfad752fda421a9457a518cfa12ac46e4d912a7dacab38f5ce"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-2-attempt-1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-2-attempt-1/stdout.log",
+      "bytes": 6697,
+      "sha256": "21ca7295e08a3ad675aea17d02a96af938b1548110eda5d1d7315911e1e1bfd8"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-2-attempt-1/capture/final-frame.png",
+      "bytes": 983285,
+      "sha256": "4bfc661dd914160b0ff76bfe8d1e2f37b9454382635ecb5cc93c6549e9d0ad42"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-2-attempt-1/capture/focus.csv",
+      "bytes": 36,
+      "sha256": "6b91113cb00d7fd8b43bf55e80c3368f3506a4a6ac4175aaecb1d72eb31f2ad3"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-2-attempt-1/capture/frames.csv",
+      "bytes": 7286803,
+      "sha256": "b7647fb24709ab40746a052f4f0f72f7a0c2fb55d1cb195c34048dc036c4c10c"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-2-attempt-1/capture/memory.csv",
+      "bytes": 12423,
+      "sha256": "9ea548ccb592be80f59cb2dcb170e09099d598b8b0357836420200c88de33d81"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-2-attempt-1/capture/status.yaml",
+      "bytes": 58,
+      "sha256": "ec0747cf8c6fc702b6ba9ffe42bd7ef819929a048a5273b27a8e817aed640a94"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-2-attempt-1/capture/summary.yaml",
+      "bytes": 10497,
+      "sha256": "3e622bfb3d7b500a4624c6080a0d06581fff837ee2225dbeb1aa57a15d22a6df"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-3-attempt-1/result.yaml",
+      "bytes": 1097,
+      "sha256": "de2801bc797fff7cdf9ca0f17190afc76e8e9d4d9c316a3d84baffb115d93527"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-3-attempt-1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-3-attempt-1/stdout.log",
+      "bytes": 6697,
+      "sha256": "9ebd6388bf2fb6af19bc9b6df58de1cf11eeef623d963f19c9ebd7dbbc64c199"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-3-attempt-1/capture/final-frame.png",
+      "bytes": 983285,
+      "sha256": "4bfc661dd914160b0ff76bfe8d1e2f37b9454382635ecb5cc93c6549e9d0ad42"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-3-attempt-1/capture/focus.csv",
+      "bytes": 36,
+      "sha256": "6b91113cb00d7fd8b43bf55e80c3368f3506a4a6ac4175aaecb1d72eb31f2ad3"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-3-attempt-1/capture/frames.csv",
+      "bytes": 7290886,
+      "sha256": "78b856de3097a5aaf5165882e82a81d4589573767c7443e92cffb73a5b080e02"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-3-attempt-1/capture/memory.csv",
+      "bytes": 12417,
+      "sha256": "87f049bc34e29806c36d6b6623cb63410b2eb55bac535c5f8983dce55a09dfa3"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-3-attempt-1/capture/status.yaml",
+      "bytes": 58,
+      "sha256": "ec0747cf8c6fc702b6ba9ffe42bd7ef819929a048a5273b27a8e817aed640a94"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/edit-3-attempt-1/capture/summary.yaml",
+      "bytes": 10511,
+      "sha256": "30e1fd36f9e24c7c42c3e403b7cb9d1eef79a64d2571e8360f667243f4a4a347"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-1-attempt-1/result.yaml",
+      "bytes": 1061,
+      "sha256": "9377b6020cc2f80c0ef270ded0952b9cba863cce871029cee3fb9f6fce12da70"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-1-attempt-1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-1-attempt-1/stdout.log",
+      "bytes": 6697,
+      "sha256": "865f72287bd0eb1a37ed342575dfa9142702071253ff1b94e310bb27686e734d"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-1-attempt-1/capture/final-frame.png",
+      "bytes": 983580,
+      "sha256": "3d4765d8bafd5388c2d60cd5ec4cc41e335d1b6416bebb1c692c299fc3b01851"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-1-attempt-1/capture/focus.csv",
+      "bytes": 52,
+      "sha256": "828f390c1a3b8fb01c58e5852f9a364fd76b7a1c69dcbc81c67bf8755424cc5c"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-1-attempt-1/capture/frames.csv",
+      "bytes": 7276759,
+      "sha256": "ea85d6546ec9117d24a6488af3e48a91cca48ae8f248e657377bea818f5a545c"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-1-attempt-1/capture/memory.csv",
+      "bytes": 12419,
+      "sha256": "21e2f33fb32c2a96be23a6f1e9f10995bc499ff4a06735c842320c51d83086ff"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-1-attempt-1/capture/status.yaml",
+      "bytes": 58,
+      "sha256": "ec0747cf8c6fc702b6ba9ffe42bd7ef819929a048a5273b27a8e817aed640a94"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-1-attempt-1/capture/summary.yaml",
+      "bytes": 10452,
+      "sha256": "c4ce115040b57feb8b50f12de9b505bd06ca401e1e432f603d8d14671a7a77ab"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-2-attempt-1/result.yaml",
+      "bytes": 1086,
+      "sha256": "8f13c57c58beec4ee1a9ddd0a066e25fa63a5e5ac8b0e4ce21a080b847ba8c5e"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-2-attempt-1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-2-attempt-1/stdout.log",
+      "bytes": 6697,
+      "sha256": "a8d97a10d240f131254036666234a2da5347a92df94b55c7f6edbe4a54a22538"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-2-attempt-1/capture/final-frame.png",
+      "bytes": 983580,
+      "sha256": "3d4765d8bafd5388c2d60cd5ec4cc41e335d1b6416bebb1c692c299fc3b01851"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-2-attempt-1/capture/focus.csv",
+      "bytes": 36,
+      "sha256": "6b91113cb00d7fd8b43bf55e80c3368f3506a4a6ac4175aaecb1d72eb31f2ad3"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-2-attempt-1/capture/frames.csv",
+      "bytes": 7192760,
+      "sha256": "4aee2b98b63e310e976fbf3b49ecddfafa20c53178a2fc82d3d09e8fcdb9cb83"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-2-attempt-1/capture/memory.csv",
+      "bytes": 12423,
+      "sha256": "25aa8a5ba2a46747c12f0babb24e8c2620340c59c4c0d2746320979cd104ab86"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-2-attempt-1/capture/status.yaml",
+      "bytes": 58,
+      "sha256": "ec0747cf8c6fc702b6ba9ffe42bd7ef819929a048a5273b27a8e817aed640a94"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-2-attempt-1/capture/summary.yaml",
+      "bytes": 10528,
+      "sha256": "591773019db05236b00dc9996de7a2b51a0f8cbb95324961b9b94bd3790b6a1a"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-3-attempt-1/result.yaml",
+      "bytes": 1096,
+      "sha256": "7b536997766457f318cdd299e3520b86884794296ccee587f20424adc20c5635"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-3-attempt-1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-3-attempt-1/stdout.log",
+      "bytes": 6697,
+      "sha256": "b7224fd76987fdf0b3b931752196bde0ff744e4f0284340f1c5dd8cc172225fe"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-3-attempt-1/capture/final-frame.png",
+      "bytes": 983580,
+      "sha256": "3d4765d8bafd5388c2d60cd5ec4cc41e335d1b6416bebb1c692c299fc3b01851"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-3-attempt-1/capture/focus.csv",
+      "bytes": 36,
+      "sha256": "6b91113cb00d7fd8b43bf55e80c3368f3506a4a6ac4175aaecb1d72eb31f2ad3"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-3-attempt-1/capture/frames.csv",
+      "bytes": 7188789,
+      "sha256": "6c656887e0fab35e4588ba97f9e8e8727066e44d4e21c6f17591370223db971c"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-3-attempt-1/capture/memory.csv",
+      "bytes": 12431,
+      "sha256": "8f44f65217abc0cc4af79e26f581aa08fb0d4a71e4cce886a6e998a637d4e8b0"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-3-attempt-1/capture/status.yaml",
+      "bytes": 58,
+      "sha256": "ec0747cf8c6fc702b6ba9ffe42bd7ef819929a048a5273b27a8e817aed640a94"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/static-3-attempt-1/capture/summary.yaml",
+      "bytes": 10529,
+      "sha256": "a4bdbcb53225e9d2aab070c5466a2b5e744d905e153c7a0b923a3bc1c8082783"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-1-attempt-1/result.yaml",
+      "bytes": 1097,
+      "sha256": "7196c1fbd3fe1d9ee3d030c66d0a83e5bdfea1e7d0ffab6c37958d292493f619"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-1-attempt-1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-1-attempt-1/stdout.log",
+      "bytes": 6689,
+      "sha256": "a62d8fca2ace371e8d78178e033cb992171fafdc967a0559d55116071d3c9e3f"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-1-attempt-1/capture/final-frame.png",
+      "bytes": 298971,
+      "sha256": "582dfb1cb52ff7e0f059a1198d678c93cc21a0791fd2d91be7382be2e21d9dfe"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-1-attempt-1/capture/focus.csv",
+      "bytes": 36,
+      "sha256": "51c6f2f8e6bbdcf1d0ec875d9da7226c1740f689999a4a958b170a7b21465ae0"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-1-attempt-1/capture/frames.csv",
+      "bytes": 7246148,
+      "sha256": "54e704fd7d05a0207ebafbc8f8bbcf118f610bac1abcef67f5368ecb3ec3976f"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-1-attempt-1/capture/memory.csv",
+      "bytes": 12416,
+      "sha256": "c8f2d488dc049c7fa1c20b3092690e6c7dd92f0be0b788ce0dbe96729b0cc73c"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-1-attempt-1/capture/status.yaml",
+      "bytes": 58,
+      "sha256": "ec0747cf8c6fc702b6ba9ffe42bd7ef819929a048a5273b27a8e817aed640a94"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-1-attempt-1/capture/summary.yaml",
+      "bytes": 10481,
+      "sha256": "f4041663bb07c8b29ae5758e117038002abe5262c0b5acabd43c5642a3255df0"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-2-attempt-1/result.yaml",
+      "bytes": 1062,
+      "sha256": "b396cbaa900419c1b4885b6cfacb66ae01d6b975055e7b3d4c008b5ef109d5c7"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-2-attempt-1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-2-attempt-1/stdout.log",
+      "bytes": 6689,
+      "sha256": "10d5c6185b005af888c0784f502bbfb904fc6ef8ca5d588af75440ddfaa3862b"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-2-attempt-1/capture/final-frame.png",
+      "bytes": 298971,
+      "sha256": "582dfb1cb52ff7e0f059a1198d678c93cc21a0791fd2d91be7382be2e21d9dfe"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-2-attempt-1/capture/focus.csv",
+      "bytes": 36,
+      "sha256": "cc255aeec6a7fe73a962a4d5f93ddca07a1900430dc9416cae4398d6fca8481d"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-2-attempt-1/capture/frames.csv",
+      "bytes": 7263361,
+      "sha256": "a2108dd6a255d96a87d89c9ab8652bac7fc2ebe20084564458963dae445985f4"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-2-attempt-1/capture/memory.csv",
+      "bytes": 12426,
+      "sha256": "295afa324cf344befc4021365843cfdd0e3ad3ea302c281c6c30af2952b0fd21"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-2-attempt-1/capture/status.yaml",
+      "bytes": 58,
+      "sha256": "ec0747cf8c6fc702b6ba9ffe42bd7ef819929a048a5273b27a8e817aed640a94"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-2-attempt-1/capture/summary.yaml",
+      "bytes": 10445,
+      "sha256": "c87ba4cb6128de7165fef9cbe9885f9a40296683c476b6ec72d93a427dbf37e0"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-3-attempt-1/result.yaml",
+      "bytes": 1096,
+      "sha256": "ac88b6171b6b99e6e5f0e6b2e8915b662c74a09e309af47d558571e305e853f6"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-3-attempt-1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-3-attempt-1/stdout.log",
+      "bytes": 6689,
+      "sha256": "21b3081f61ed5e885c53f1f936985b3c86294e32e9602345b6b409497f179932"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-3-attempt-1/capture/final-frame.png",
+      "bytes": 298971,
+      "sha256": "582dfb1cb52ff7e0f059a1198d678c93cc21a0791fd2d91be7382be2e21d9dfe"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-3-attempt-1/capture/focus.csv",
+      "bytes": 36,
+      "sha256": "6b91113cb00d7fd8b43bf55e80c3368f3506a4a6ac4175aaecb1d72eb31f2ad3"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-3-attempt-1/capture/frames.csv",
+      "bytes": 7344385,
+      "sha256": "7ba4d5bb5b961b5b73c17a30f29f16d66b418606a29efabb19416762b85dc934"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-3-attempt-1/capture/memory.csv",
+      "bytes": 12415,
+      "sha256": "040fe6fb1c9cfbac83f3b70f7a6183e50286159d92a55a438b75fb5d084b34e3"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-3-attempt-1/capture/status.yaml",
+      "bytes": 58,
+      "sha256": "ec0747cf8c6fc702b6ba9ffe42bd7ef819929a048a5273b27a8e817aed640a94"
+    },
+    {
+      "path": "export-20261005-025102-348Z/results/walk-3-attempt-1/capture/summary.yaml",
+      "bytes": 10468,
+      "sha256": "c00c49fe7cb212cd49c2b55c48a85985f4ff5d404bef8ebc58f32a773dcdab96"
+    },
+    {
+      "path": "run-20261005-015945-723Z/session.lock",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "run-20261005-015945-723Z/session.yaml",
+      "bytes": 2923,
+      "sha256": "01c20e2905371ab3af54bdc6f31286df40d274a6cb1368cf603595d8c51069ae"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-1-attempt-1/result.yaml",
+      "bytes": 1085,
+      "sha256": "c35da52ab31db857a96cd6bc65c96321281e769c94f2c93118ff1fec1faeaa83"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-1-attempt-1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-1-attempt-1/stdout.log",
+      "bytes": 7169,
+      "sha256": "a2adb97e32e58430e1b3ecbbc3924309fd1461d2dd163a9f21e1442a7fcdf394"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-1-attempt-1/capture/final-frame.png",
+      "bytes": 983285,
+      "sha256": "4bfc661dd914160b0ff76bfe8d1e2f37b9454382635ecb5cc93c6549e9d0ad42"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-1-attempt-1/capture/focus.csv",
+      "bytes": 36,
+      "sha256": "cc255aeec6a7fe73a962a4d5f93ddca07a1900430dc9416cae4398d6fca8481d"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-1-attempt-1/capture/frames.csv",
+      "bytes": 6976941,
+      "sha256": "cd14ac8811fdbd4f375e2d3ee88abf05833cc90cf0625349e6ae2be7fb04faa9"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-1-attempt-1/capture/memory.csv",
+      "bytes": 12422,
+      "sha256": "bbe3e41025faaee823c03ffbb06bb1f6065fce051e3235d2ab308a3693baf073"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-1-attempt-1/capture/status.yaml",
+      "bytes": 58,
+      "sha256": "ec0747cf8c6fc702b6ba9ffe42bd7ef819929a048a5273b27a8e817aed640a94"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-1-attempt-1/capture/summary.yaml",
+      "bytes": 10508,
+      "sha256": "bfce620f00482b381dbb3b31dd504118a6fc24c75c9a460f92fa25418b5f7abb"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-2-attempt-1/result.yaml",
+      "bytes": 1097,
+      "sha256": "e1ab7eaa2c8a20cfad752fda421a9457a518cfa12ac46e4d912a7dacab38f5ce"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-2-attempt-1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-2-attempt-1/stdout.log",
+      "bytes": 7169,
+      "sha256": "b16202fb84ab324aa52b86f594b010bb7c4021bc3651b1fec1019b9c7d126995"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-2-attempt-1/capture/final-frame.png",
+      "bytes": 983285,
+      "sha256": "4bfc661dd914160b0ff76bfe8d1e2f37b9454382635ecb5cc93c6549e9d0ad42"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-2-attempt-1/capture/focus.csv",
+      "bytes": 36,
+      "sha256": "6b91113cb00d7fd8b43bf55e80c3368f3506a4a6ac4175aaecb1d72eb31f2ad3"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-2-attempt-1/capture/frames.csv",
+      "bytes": 7286803,
+      "sha256": "b7647fb24709ab40746a052f4f0f72f7a0c2fb55d1cb195c34048dc036c4c10c"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-2-attempt-1/capture/memory.csv",
+      "bytes": 12423,
+      "sha256": "9ea548ccb592be80f59cb2dcb170e09099d598b8b0357836420200c88de33d81"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-2-attempt-1/capture/status.yaml",
+      "bytes": 58,
+      "sha256": "ec0747cf8c6fc702b6ba9ffe42bd7ef819929a048a5273b27a8e817aed640a94"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-2-attempt-1/capture/summary.yaml",
+      "bytes": 10497,
+      "sha256": "3e622bfb3d7b500a4624c6080a0d06581fff837ee2225dbeb1aa57a15d22a6df"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-3-attempt-1/result.yaml",
+      "bytes": 1097,
+      "sha256": "de2801bc797fff7cdf9ca0f17190afc76e8e9d4d9c316a3d84baffb115d93527"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-3-attempt-1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-3-attempt-1/stdout.log",
+      "bytes": 7169,
+      "sha256": "8220701a4a02f570cc9bea531d13c933223d8b028ef05add3d899004e921e914"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-3-attempt-1/capture/final-frame.png",
+      "bytes": 983285,
+      "sha256": "4bfc661dd914160b0ff76bfe8d1e2f37b9454382635ecb5cc93c6549e9d0ad42"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-3-attempt-1/capture/focus.csv",
+      "bytes": 36,
+      "sha256": "6b91113cb00d7fd8b43bf55e80c3368f3506a4a6ac4175aaecb1d72eb31f2ad3"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-3-attempt-1/capture/frames.csv",
+      "bytes": 7290886,
+      "sha256": "78b856de3097a5aaf5165882e82a81d4589573767c7443e92cffb73a5b080e02"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-3-attempt-1/capture/memory.csv",
+      "bytes": 12417,
+      "sha256": "87f049bc34e29806c36d6b6623cb63410b2eb55bac535c5f8983dce55a09dfa3"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-3-attempt-1/capture/status.yaml",
+      "bytes": 58,
+      "sha256": "ec0747cf8c6fc702b6ba9ffe42bd7ef819929a048a5273b27a8e817aed640a94"
+    },
+    {
+      "path": "run-20261005-015945-723Z/edit-3-attempt-1/capture/summary.yaml",
+      "bytes": 10511,
+      "sha256": "30e1fd36f9e24c7c42c3e403b7cb9d1eef79a64d2571e8360f667243f4a4a347"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-1-attempt-1/result.yaml",
+      "bytes": 1061,
+      "sha256": "9377b6020cc2f80c0ef270ded0952b9cba863cce871029cee3fb9f6fce12da70"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-1-attempt-1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-1-attempt-1/stdout.log",
+      "bytes": 7169,
+      "sha256": "38960adbea407da4f8229e62660de23ea1eb072c585e57c5ecf68daa8cf2c719"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-1-attempt-1/capture/final-frame.png",
+      "bytes": 983580,
+      "sha256": "3d4765d8bafd5388c2d60cd5ec4cc41e335d1b6416bebb1c692c299fc3b01851"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-1-attempt-1/capture/focus.csv",
+      "bytes": 52,
+      "sha256": "828f390c1a3b8fb01c58e5852f9a364fd76b7a1c69dcbc81c67bf8755424cc5c"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-1-attempt-1/capture/frames.csv",
+      "bytes": 7276759,
+      "sha256": "ea85d6546ec9117d24a6488af3e48a91cca48ae8f248e657377bea818f5a545c"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-1-attempt-1/capture/memory.csv",
+      "bytes": 12419,
+      "sha256": "21e2f33fb32c2a96be23a6f1e9f10995bc499ff4a06735c842320c51d83086ff"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-1-attempt-1/capture/status.yaml",
+      "bytes": 58,
+      "sha256": "ec0747cf8c6fc702b6ba9ffe42bd7ef819929a048a5273b27a8e817aed640a94"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-1-attempt-1/capture/summary.yaml",
+      "bytes": 10452,
+      "sha256": "c4ce115040b57feb8b50f12de9b505bd06ca401e1e432f603d8d14671a7a77ab"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-2-attempt-1/result.yaml",
+      "bytes": 1086,
+      "sha256": "8f13c57c58beec4ee1a9ddd0a066e25fa63a5e5ac8b0e4ce21a080b847ba8c5e"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-2-attempt-1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-2-attempt-1/stdout.log",
+      "bytes": 7169,
+      "sha256": "5407bbed76054305e40ba14ad93544a01a59be314b7ef3da1282a097b0c51d7e"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-2-attempt-1/capture/final-frame.png",
+      "bytes": 983580,
+      "sha256": "3d4765d8bafd5388c2d60cd5ec4cc41e335d1b6416bebb1c692c299fc3b01851"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-2-attempt-1/capture/focus.csv",
+      "bytes": 36,
+      "sha256": "6b91113cb00d7fd8b43bf55e80c3368f3506a4a6ac4175aaecb1d72eb31f2ad3"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-2-attempt-1/capture/frames.csv",
+      "bytes": 7192760,
+      "sha256": "4aee2b98b63e310e976fbf3b49ecddfafa20c53178a2fc82d3d09e8fcdb9cb83"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-2-attempt-1/capture/memory.csv",
+      "bytes": 12423,
+      "sha256": "25aa8a5ba2a46747c12f0babb24e8c2620340c59c4c0d2746320979cd104ab86"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-2-attempt-1/capture/status.yaml",
+      "bytes": 58,
+      "sha256": "ec0747cf8c6fc702b6ba9ffe42bd7ef819929a048a5273b27a8e817aed640a94"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-2-attempt-1/capture/summary.yaml",
+      "bytes": 10528,
+      "sha256": "591773019db05236b00dc9996de7a2b51a0f8cbb95324961b9b94bd3790b6a1a"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-3-attempt-1/result.yaml",
+      "bytes": 1096,
+      "sha256": "7b536997766457f318cdd299e3520b86884794296ccee587f20424adc20c5635"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-3-attempt-1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-3-attempt-1/stdout.log",
+      "bytes": 7169,
+      "sha256": "d17b7162a22fb565f488f0ec98c7bc6d9b7eff86c81cf0a68db97953a776212c"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-3-attempt-1/capture/final-frame.png",
+      "bytes": 983580,
+      "sha256": "3d4765d8bafd5388c2d60cd5ec4cc41e335d1b6416bebb1c692c299fc3b01851"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-3-attempt-1/capture/focus.csv",
+      "bytes": 36,
+      "sha256": "6b91113cb00d7fd8b43bf55e80c3368f3506a4a6ac4175aaecb1d72eb31f2ad3"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-3-attempt-1/capture/frames.csv",
+      "bytes": 7188789,
+      "sha256": "6c656887e0fab35e4588ba97f9e8e8727066e44d4e21c6f17591370223db971c"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-3-attempt-1/capture/memory.csv",
+      "bytes": 12431,
+      "sha256": "8f44f65217abc0cc4af79e26f581aa08fb0d4a71e4cce886a6e998a637d4e8b0"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-3-attempt-1/capture/status.yaml",
+      "bytes": 58,
+      "sha256": "ec0747cf8c6fc702b6ba9ffe42bd7ef819929a048a5273b27a8e817aed640a94"
+    },
+    {
+      "path": "run-20261005-015945-723Z/static-3-attempt-1/capture/summary.yaml",
+      "bytes": 10529,
+      "sha256": "a4bdbcb53225e9d2aab070c5466a2b5e744d905e153c7a0b923a3bc1c8082783"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-1-attempt-1/result.yaml",
+      "bytes": 1097,
+      "sha256": "7196c1fbd3fe1d9ee3d030c66d0a83e5bdfea1e7d0ffab6c37958d292493f619"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-1-attempt-1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-1-attempt-1/stdout.log",
+      "bytes": 7161,
+      "sha256": "2419ff3cf4b6b469bf1cf796775aeb36f731ba7b58f48fa494481296e75339cf"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-1-attempt-1/capture/final-frame.png",
+      "bytes": 298971,
+      "sha256": "582dfb1cb52ff7e0f059a1198d678c93cc21a0791fd2d91be7382be2e21d9dfe"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-1-attempt-1/capture/focus.csv",
+      "bytes": 36,
+      "sha256": "51c6f2f8e6bbdcf1d0ec875d9da7226c1740f689999a4a958b170a7b21465ae0"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-1-attempt-1/capture/frames.csv",
+      "bytes": 7246148,
+      "sha256": "54e704fd7d05a0207ebafbc8f8bbcf118f610bac1abcef67f5368ecb3ec3976f"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-1-attempt-1/capture/memory.csv",
+      "bytes": 12416,
+      "sha256": "c8f2d488dc049c7fa1c20b3092690e6c7dd92f0be0b788ce0dbe96729b0cc73c"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-1-attempt-1/capture/status.yaml",
+      "bytes": 58,
+      "sha256": "ec0747cf8c6fc702b6ba9ffe42bd7ef819929a048a5273b27a8e817aed640a94"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-1-attempt-1/capture/summary.yaml",
+      "bytes": 10481,
+      "sha256": "f4041663bb07c8b29ae5758e117038002abe5262c0b5acabd43c5642a3255df0"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-2-attempt-1/result.yaml",
+      "bytes": 1062,
+      "sha256": "b396cbaa900419c1b4885b6cfacb66ae01d6b975055e7b3d4c008b5ef109d5c7"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-2-attempt-1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-2-attempt-1/stdout.log",
+      "bytes": 7161,
+      "sha256": "1726ab88e8e5187fc28448b2f9f569a285be251d00fbaddd28a20f81f4316c3c"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-2-attempt-1/capture/final-frame.png",
+      "bytes": 298971,
+      "sha256": "582dfb1cb52ff7e0f059a1198d678c93cc21a0791fd2d91be7382be2e21d9dfe"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-2-attempt-1/capture/focus.csv",
+      "bytes": 36,
+      "sha256": "cc255aeec6a7fe73a962a4d5f93ddca07a1900430dc9416cae4398d6fca8481d"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-2-attempt-1/capture/frames.csv",
+      "bytes": 7263361,
+      "sha256": "a2108dd6a255d96a87d89c9ab8652bac7fc2ebe20084564458963dae445985f4"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-2-attempt-1/capture/memory.csv",
+      "bytes": 12426,
+      "sha256": "295afa324cf344befc4021365843cfdd0e3ad3ea302c281c6c30af2952b0fd21"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-2-attempt-1/capture/status.yaml",
+      "bytes": 58,
+      "sha256": "ec0747cf8c6fc702b6ba9ffe42bd7ef819929a048a5273b27a8e817aed640a94"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-2-attempt-1/capture/summary.yaml",
+      "bytes": 10445,
+      "sha256": "c87ba4cb6128de7165fef9cbe9885f9a40296683c476b6ec72d93a427dbf37e0"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-3-attempt-1/result.yaml",
+      "bytes": 1096,
+      "sha256": "ac88b6171b6b99e6e5f0e6b2e8915b662c74a09e309af47d558571e305e853f6"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-3-attempt-1/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-3-attempt-1/stdout.log",
+      "bytes": 7161,
+      "sha256": "0b1f69b7ed443797b6bf57c7013cbc8b6f27941f2ce4a09444bed1514dff2c22"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-3-attempt-1/capture/final-frame.png",
+      "bytes": 298971,
+      "sha256": "582dfb1cb52ff7e0f059a1198d678c93cc21a0791fd2d91be7382be2e21d9dfe"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-3-attempt-1/capture/focus.csv",
+      "bytes": 36,
+      "sha256": "6b91113cb00d7fd8b43bf55e80c3368f3506a4a6ac4175aaecb1d72eb31f2ad3"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-3-attempt-1/capture/frames.csv",
+      "bytes": 7344385,
+      "sha256": "7ba4d5bb5b961b5b73c17a30f29f16d66b418606a29efabb19416762b85dc934"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-3-attempt-1/capture/memory.csv",
+      "bytes": 12415,
+      "sha256": "040fe6fb1c9cfbac83f3b70f7a6183e50286159d92a55a438b75fb5d084b34e3"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-3-attempt-1/capture/status.yaml",
+      "bytes": 58,
+      "sha256": "ec0747cf8c6fc702b6ba9ffe42bd7ef819929a048a5273b27a8e817aed640a94"
+    },
+    {
+      "path": "run-20261005-015945-723Z/walk-3-attempt-1/capture/summary.yaml",
+      "bytes": 10468,
+      "sha256": "c00c49fe7cb212cd49c2b55c48a85985f4ff5d404bef8ebc58f32a773dcdab96"
+    }
+  ],
+  "curated_paths": [
+    "session.yaml",
+    "sha256.yaml",
+    "edit-1-attempt-1/result.yaml",
+    "edit-1-attempt-1/stderr.log",
+    "edit-1-attempt-1/stdout.log",
+    "edit-1-attempt-1/capture/focus.csv",
+    "edit-1-attempt-1/capture/status.yaml",
+    "edit-1-attempt-1/capture/summary.yaml",
+    "edit-2-attempt-1/result.yaml",
+    "edit-2-attempt-1/stderr.log",
+    "edit-2-attempt-1/stdout.log",
+    "edit-2-attempt-1/capture/focus.csv",
+    "edit-2-attempt-1/capture/status.yaml",
+    "edit-2-attempt-1/capture/summary.yaml",
+    "edit-3-attempt-1/result.yaml",
+    "edit-3-attempt-1/stderr.log",
+    "edit-3-attempt-1/stdout.log",
+    "edit-3-attempt-1/capture/focus.csv",
+    "edit-3-attempt-1/capture/status.yaml",
+    "edit-3-attempt-1/capture/summary.yaml",
+    "static-1-attempt-1/result.yaml",
+    "static-1-attempt-1/stderr.log",
+    "static-1-attempt-1/stdout.log",
+    "static-1-attempt-1/capture/final-frame.png",
+    "static-1-attempt-1/capture/focus.csv",
+    "static-1-attempt-1/capture/status.yaml",
+    "static-1-attempt-1/capture/summary.yaml",
+    "static-2-attempt-1/result.yaml",
+    "static-2-attempt-1/stderr.log",
+    "static-2-attempt-1/stdout.log",
+    "static-2-attempt-1/capture/focus.csv",
+    "static-2-attempt-1/capture/status.yaml",
+    "static-2-attempt-1/capture/summary.yaml",
+    "static-3-attempt-1/result.yaml",
+    "static-3-attempt-1/stderr.log",
+    "static-3-attempt-1/stdout.log",
+    "static-3-attempt-1/capture/focus.csv",
+    "static-3-attempt-1/capture/status.yaml",
+    "static-3-attempt-1/capture/summary.yaml",
+    "walk-1-attempt-1/result.yaml",
+    "walk-1-attempt-1/stderr.log",
+    "walk-1-attempt-1/stdout.log",
+    "walk-1-attempt-1/capture/focus.csv",
+    "walk-1-attempt-1/capture/status.yaml",
+    "walk-1-attempt-1/capture/summary.yaml",
+    "walk-2-attempt-1/result.yaml",
+    "walk-2-attempt-1/stderr.log",
+    "walk-2-attempt-1/stdout.log",
+    "walk-2-attempt-1/capture/focus.csv",
+    "walk-2-attempt-1/capture/status.yaml",
+    "walk-2-attempt-1/capture/summary.yaml",
+    "walk-3-attempt-1/result.yaml",
+    "walk-3-attempt-1/stderr.log",
+    "walk-3-attempt-1/stdout.log",
+    "walk-3-attempt-1/capture/focus.csv",
+    "walk-3-attempt-1/capture/status.yaml",
+    "walk-3-attempt-1/capture/summary.yaml"
+  ]
+}

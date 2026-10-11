@@ -1,0 +1,4 @@
+[0/2] Re-checking globbed directories...
+[1/4] Synchronizing required SymoCraft runtime assets
+[2/4] Building CXX object test\unit\telemetry\CMakeFiles\telemetry_renderer_tests.dir\renderer_performance_tests.cpp.obj
+[3/4] Linking CXX executable test\unit\telemetry\telemetry_renderer_tests.exe

@@ -1,0 +1,24 @@
+Microsoft (R) COFF/PE Dumper Version 14.38.33145.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+
+Dump of file F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t3\package\d3d12-game-debug-002\concrt140d.dll
+
+File Type: DLL
+
+  Image has the following dependencies:
+
+    MSVCP140D.dll
+    VCRUNTIME140_1D.dll
+    VCRUNTIME140D.dll
+    ucrtbased.dll
+    KERNEL32.dll
+
+  Summary
+
+        4000 .data
+        9000 .pdata
+       29000 .rdata
+        1000 .reloc
+        1000 .rsrc
+       77000 .text

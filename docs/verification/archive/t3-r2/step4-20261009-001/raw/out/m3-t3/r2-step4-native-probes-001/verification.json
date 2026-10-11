@@ -1,0 +1,601 @@
+{
+  "cases": [
+    {
+      "name": "debug-normal",
+      "arguments": [
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\test\\integration\\renderer_d3d12_backend_smoke.exe",
+        "--output-dir",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-native-probes-001\\debug-normal",
+        "--shader-root",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\bin\\assets\\shaders\\d3d12",
+        "--recovery-shader-root",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\bin\\assets\\shaders\\d3d12",
+        "--atlas",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\textures\\texture_atlas.png",
+        "--run-id",
+        "41de4344-a605-4598-ba39-f1e56cb83831",
+        "--expected-device-name",
+        "NVIDIA GeForce RTX 5070 Ti",
+        "--mode",
+        "normal",
+        "--samples",
+        "4",
+        "--vsync",
+        "false"
+      ],
+      "executable": {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\test\\integration\\renderer_d3d12_backend_smoke.exe",
+        "sha256": "03f91aa8211da3116a49a614becead07bc949b1bbf4d34278430064f3abeeabc"
+      },
+      "shader_inputs": [
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\bin\\assets\\shaders\\d3d12\\blocks.ps.dxil",
+          "sha256": "098ead3343c314a0c37b6bec3adc9c92c18b9f8352ddef691c2e98afa301ad1d"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\bin\\assets\\shaders\\d3d12\\blocks.vs.dxil",
+          "sha256": "e82ba14eb2672b9c998a595de942a28a9303e89a1107ce27a2f99f7b46c23787"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\bin\\assets\\shaders\\d3d12\\selection.ps.dxil",
+          "sha256": "159262d6ec8624de92574ebfcc809725111518092c026b0133514d3fc7eb94d5"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\bin\\assets\\shaders\\d3d12\\selection.vs.dxil",
+          "sha256": "a3ab8df4f0ca548fa2bb542fa3c6832229702eea4a639be1ac83de991bfdaf79"
+        }
+      ],
+      "atlas": {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\textures\\texture_atlas.png",
+        "sha256": "ee41e86af8dfdc70037472b2387b67395d93cf1d807f0fe618025f6f86f9b219"
+      },
+      "exit_code": 1,
+      "success": false,
+      "executable_unchanged": true
+    },
+    {
+      "name": "debug-missing-shader",
+      "arguments": [
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\test\\integration\\renderer_d3d12_backend_smoke.exe",
+        "--output-dir",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-native-probes-001\\debug-missing-shader",
+        "--shader-root",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-native-probes-001\\debug-missing-shader-shaders",
+        "--recovery-shader-root",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\bin\\assets\\shaders\\d3d12",
+        "--atlas",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\textures\\texture_atlas.png",
+        "--run-id",
+        "1619794a-0799-4a89-ba38-6e0eab26f39d",
+        "--expected-device-name",
+        "NVIDIA GeForce RTX 5070 Ti",
+        "--mode",
+        "missing-shader",
+        "--samples",
+        "4",
+        "--vsync",
+        "false"
+      ],
+      "executable": {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\test\\integration\\renderer_d3d12_backend_smoke.exe",
+        "sha256": "03f91aa8211da3116a49a614becead07bc949b1bbf4d34278430064f3abeeabc"
+      },
+      "shader_inputs": [
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\bin\\assets\\shaders\\d3d12\\blocks.ps.dxil",
+          "sha256": "098ead3343c314a0c37b6bec3adc9c92c18b9f8352ddef691c2e98afa301ad1d"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\bin\\assets\\shaders\\d3d12\\blocks.vs.dxil",
+          "sha256": "e82ba14eb2672b9c998a595de942a28a9303e89a1107ce27a2f99f7b46c23787"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\bin\\assets\\shaders\\d3d12\\selection.ps.dxil",
+          "sha256": "159262d6ec8624de92574ebfcc809725111518092c026b0133514d3fc7eb94d5"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\bin\\assets\\shaders\\d3d12\\selection.vs.dxil",
+          "sha256": "a3ab8df4f0ca548fa2bb542fa3c6832229702eea4a639be1ac83de991bfdaf79"
+        }
+      ],
+      "atlas": {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\textures\\texture_atlas.png",
+        "sha256": "ee41e86af8dfdc70037472b2387b67395d93cf1d807f0fe618025f6f86f9b219"
+      },
+      "exit_code": 0,
+      "success": true,
+      "executable_unchanged": true
+    },
+    {
+      "name": "debug-bad-shader",
+      "arguments": [
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\test\\integration\\renderer_d3d12_backend_smoke.exe",
+        "--output-dir",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-native-probes-001\\debug-bad-shader",
+        "--shader-root",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-native-probes-001\\debug-bad-shader-shaders",
+        "--recovery-shader-root",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\bin\\assets\\shaders\\d3d12",
+        "--atlas",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\textures\\texture_atlas.png",
+        "--run-id",
+        "221fe388-903f-4bfa-b3af-14efa01c27d3",
+        "--expected-device-name",
+        "NVIDIA GeForce RTX 5070 Ti",
+        "--mode",
+        "bad-shader",
+        "--samples",
+        "4",
+        "--vsync",
+        "false"
+      ],
+      "executable": {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\test\\integration\\renderer_d3d12_backend_smoke.exe",
+        "sha256": "03f91aa8211da3116a49a614becead07bc949b1bbf4d34278430064f3abeeabc"
+      },
+      "shader_inputs": [
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\bin\\assets\\shaders\\d3d12\\blocks.ps.dxil",
+          "sha256": "098ead3343c314a0c37b6bec3adc9c92c18b9f8352ddef691c2e98afa301ad1d"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\bin\\assets\\shaders\\d3d12\\blocks.vs.dxil",
+          "sha256": "e82ba14eb2672b9c998a595de942a28a9303e89a1107ce27a2f99f7b46c23787"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\bin\\assets\\shaders\\d3d12\\selection.ps.dxil",
+          "sha256": "159262d6ec8624de92574ebfcc809725111518092c026b0133514d3fc7eb94d5"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-debug\\bin\\assets\\shaders\\d3d12\\selection.vs.dxil",
+          "sha256": "a3ab8df4f0ca548fa2bb542fa3c6832229702eea4a639be1ac83de991bfdaf79"
+        }
+      ],
+      "atlas": {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\textures\\texture_atlas.png",
+        "sha256": "ee41e86af8dfdc70037472b2387b67395d93cf1d807f0fe618025f6f86f9b219"
+      },
+      "exit_code": 0,
+      "success": true,
+      "executable_unchanged": true
+    },
+    {
+      "name": "release-normal",
+      "arguments": [
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\test\\integration\\renderer_d3d12_backend_smoke.exe",
+        "--output-dir",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-native-probes-001\\release-normal",
+        "--shader-root",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\bin\\assets\\shaders\\d3d12",
+        "--recovery-shader-root",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\bin\\assets\\shaders\\d3d12",
+        "--atlas",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\textures\\texture_atlas.png",
+        "--run-id",
+        "9a271f0b-f358-4bb7-9bb2-0882df3162de",
+        "--expected-device-name",
+        "NVIDIA GeForce RTX 5070 Ti",
+        "--mode",
+        "normal",
+        "--samples",
+        "4",
+        "--vsync",
+        "false"
+      ],
+      "executable": {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\test\\integration\\renderer_d3d12_backend_smoke.exe",
+        "sha256": "1c9e45f41422101a4402f3875067d1c651aeb658064979293200047813c1cf94"
+      },
+      "shader_inputs": [
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\bin\\assets\\shaders\\d3d12\\blocks.ps.dxil",
+          "sha256": "864ccaca8c0dc7b651c167a43229c91cf3f16893ad4f517fab94a49b9ea91a3d"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\bin\\assets\\shaders\\d3d12\\blocks.vs.dxil",
+          "sha256": "d02e976af8c3f01827e86e85a74d76664c560fb1755887662a37ad6f59b5f3d8"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\bin\\assets\\shaders\\d3d12\\selection.ps.dxil",
+          "sha256": "c2eecae2a4b4ff0533b43879dc7b3f53cfda40f60f07b50abe1a20479eb267fd"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\bin\\assets\\shaders\\d3d12\\selection.vs.dxil",
+          "sha256": "2b18e3d03d33621338b476e43b28bd6a1a4980ab4a0319afdf6626ff390d8a2f"
+        }
+      ],
+      "atlas": {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\textures\\texture_atlas.png",
+        "sha256": "ee41e86af8dfdc70037472b2387b67395d93cf1d807f0fe618025f6f86f9b219"
+      },
+      "exit_code": 0,
+      "success": true,
+      "executable_unchanged": true
+    },
+    {
+      "name": "release-missing-shader",
+      "arguments": [
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\test\\integration\\renderer_d3d12_backend_smoke.exe",
+        "--output-dir",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-native-probes-001\\release-missing-shader",
+        "--shader-root",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-native-probes-001\\release-missing-shader-shaders",
+        "--recovery-shader-root",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\bin\\assets\\shaders\\d3d12",
+        "--atlas",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\textures\\texture_atlas.png",
+        "--run-id",
+        "682f6287-016d-4cce-b9e5-9107abe29dfd",
+        "--expected-device-name",
+        "NVIDIA GeForce RTX 5070 Ti",
+        "--mode",
+        "missing-shader",
+        "--samples",
+        "4",
+        "--vsync",
+        "false"
+      ],
+      "executable": {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\test\\integration\\renderer_d3d12_backend_smoke.exe",
+        "sha256": "1c9e45f41422101a4402f3875067d1c651aeb658064979293200047813c1cf94"
+      },
+      "shader_inputs": [
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\bin\\assets\\shaders\\d3d12\\blocks.ps.dxil",
+          "sha256": "864ccaca8c0dc7b651c167a43229c91cf3f16893ad4f517fab94a49b9ea91a3d"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\bin\\assets\\shaders\\d3d12\\blocks.vs.dxil",
+          "sha256": "d02e976af8c3f01827e86e85a74d76664c560fb1755887662a37ad6f59b5f3d8"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\bin\\assets\\shaders\\d3d12\\selection.ps.dxil",
+          "sha256": "c2eecae2a4b4ff0533b43879dc7b3f53cfda40f60f07b50abe1a20479eb267fd"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\bin\\assets\\shaders\\d3d12\\selection.vs.dxil",
+          "sha256": "2b18e3d03d33621338b476e43b28bd6a1a4980ab4a0319afdf6626ff390d8a2f"
+        }
+      ],
+      "atlas": {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\textures\\texture_atlas.png",
+        "sha256": "ee41e86af8dfdc70037472b2387b67395d93cf1d807f0fe618025f6f86f9b219"
+      },
+      "exit_code": 0,
+      "success": true,
+      "executable_unchanged": true
+    },
+    {
+      "name": "release-bad-shader",
+      "arguments": [
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\test\\integration\\renderer_d3d12_backend_smoke.exe",
+        "--output-dir",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-native-probes-001\\release-bad-shader",
+        "--shader-root",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-native-probes-001\\release-bad-shader-shaders",
+        "--recovery-shader-root",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\bin\\assets\\shaders\\d3d12",
+        "--atlas",
+        "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\textures\\texture_atlas.png",
+        "--run-id",
+        "487608ba-7213-4833-8cfe-6bbebf9c77e2",
+        "--expected-device-name",
+        "NVIDIA GeForce RTX 5070 Ti",
+        "--mode",
+        "bad-shader",
+        "--samples",
+        "4",
+        "--vsync",
+        "false"
+      ],
+      "executable": {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\test\\integration\\renderer_d3d12_backend_smoke.exe",
+        "sha256": "1c9e45f41422101a4402f3875067d1c651aeb658064979293200047813c1cf94"
+      },
+      "shader_inputs": [
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\bin\\assets\\shaders\\d3d12\\blocks.ps.dxil",
+          "sha256": "864ccaca8c0dc7b651c167a43229c91cf3f16893ad4f517fab94a49b9ea91a3d"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\bin\\assets\\shaders\\d3d12\\blocks.vs.dxil",
+          "sha256": "d02e976af8c3f01827e86e85a74d76664c560fb1755887662a37ad6f59b5f3d8"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\bin\\assets\\shaders\\d3d12\\selection.ps.dxil",
+          "sha256": "c2eecae2a4b4ff0533b43879dc7b3f53cfda40f60f07b50abe1a20479eb267fd"
+        },
+        {
+          "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-matrix-004\\native-release\\bin\\assets\\shaders\\d3d12\\selection.vs.dxil",
+          "sha256": "2b18e3d03d33621338b476e43b28bd6a1a4980ab4a0319afdf6626ff390d8a2f"
+        }
+      ],
+      "atlas": {
+        "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\textures\\texture_atlas.png",
+        "sha256": "ee41e86af8dfdc70037472b2387b67395d93cf1d807f0fe618025f6f86f9b219"
+      },
+      "exit_code": 0,
+      "success": true,
+      "executable_unchanged": true
+    }
+  ],
+  "sources_before": [
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\shaders\\hlsl\\blocks.hlsl",
+      "sha256": "45ec9d842b817261e0f0a390b4186be4218096f751e392670bccf239f8b9fc58"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\shaders\\hlsl\\draw_constants.hlsli",
+      "sha256": "cdc75b90ad85324f87116c05945c79b56c5a40887f2a76723d7dc78fd633f1e4"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\shaders\\hlsl\\selection.hlsl",
+      "sha256": "5cab6a712d9915520d6c8a899818ec016f462a9a2124957f62652f35ff2d21f6"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\include\\symocraft\\renderer\\error.h",
+      "sha256": "52c5aa6077da57c39e27ae9668f36fe9115bc0badbae3d79d90b8e84e1dbe2d7"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\include\\symocraft\\renderer\\renderer.h",
+      "sha256": "3259073293c6ce6d714ec6494fa17ae917e8140e6829ef87aae1e31724453600"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\include\\symocraft\\renderer\\types.h",
+      "sha256": "39102091898f03c5c01f4a6844265e55b2787ee0222be17fd1514b0ea4dffbe7"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\legacy\\include\\symocraft\\renderer\\gpu_timer.h",
+      "sha256": "a3195d571d3ad26b7e6e00f6c3f526480935263c2276b42ad864ba5d9804ab87"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\legacy\\include\\symocraft\\renderer\\legacy_renderer.h",
+      "sha256": "cdec693f89c06a5b4b21df50ee584042d3106eacfd63abb3d9316846029ed083"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\legacy\\include\\symocraft\\renderer\\render_stats.h",
+      "sha256": "61f860ce468e4876bcae2c2f98be1406b2e47de838d93b4ca0c7a271e72089f1"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\backend\\backend_factory.cpp",
+      "sha256": "9c3cebe1a8b79a9be17761af8804623e67c525f5415ba40627172f2a37fdc03b"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\backend\\backend_factory.h",
+      "sha256": "8436c9d06b52af13a66ddc42fac431d408ff66d2caeaa1d9b5b201ee1c48c69e"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\backend\\d3d12\\d3d12_backend.cpp",
+      "sha256": "59dea6123c2389f956928bd10eb0293fe5cfbada866ce298e7ea41efe9990aeb"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\backend\\d3d12\\d3d12_backend.h",
+      "sha256": "3396482919a5c7c098a31ba09be72301bcefe53733bc5e65156b4cef6594c467"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\backend\\d3d12\\pipeline.cpp",
+      "sha256": "3f12a1b65fdfe4cf9d0b90a4b17a22fb4fa3523f6304c680f93e77f888d86ab3"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\backend\\d3d12\\pipeline.h",
+      "sha256": "32a26689506e5e78edcfe9816e5aa85652bf170ff6413471358d65b76a14fd53"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\backend\\render_backend.h",
+      "sha256": "967e5163a5b25faf24487e71b56e9ad58947da303a1814fdf2ce4be8bc89450a"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\error.cpp",
+      "sha256": "ba4f581bab5fa69e96248a423ecffb9eb24eaf6dbbddae23fa8eee69f5c98497"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\gpu_timer.cpp",
+      "sha256": "4875f1c147d3f47dab39d7a264224688945b16728d721a41b66aaa70c20b6062"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\legacy_renderer.cpp",
+      "sha256": "487cdb69a67994095f0167dea955adf1775b4cbd71715e2cdf732d6de876d68f"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\performance_memory.cpp",
+      "sha256": "abd75914b52b5f45b4a194649e3bfedbea8d15c63e9579293166713f6d6889d2"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\renderer.cpp",
+      "sha256": "3aefb03e5b436a7ca1b4a53fafc905c1249ef6421b7da1a0d47e6d1c550317d7"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\renderer_impl.cpp",
+      "sha256": "ad9992f7e74c75f1abc08f343561ba7a55dcf9f97e7a9fd805fba1861ef43db0"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\renderer_impl.h",
+      "sha256": "af4a5c6388ccea5031b0ec551fcd75b3e26b4c5b8a2eeaf48ab3ae94376a961f"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\resource_registry.cpp",
+      "sha256": "ab9aead7bf05d9a5cc5a109e2d59a88d6534934b7c2dcbcc1a196b1429cf30dd"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\resource_registry.h",
+      "sha256": "1c158cf7b8cb562d4d3a41b859abd4b2168b887bb82e9f971dada44c292de764"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\shader.cpp",
+      "sha256": "b1cd54d0b861b6768fb65bc40d48aac04ca78170b5f8a4b12d1e3efe4b148513"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\shader.h",
+      "sha256": "cf88afd321184cfa8f350e33e2c21df19cf8c319511b3b1e29c66d1740213842"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\shader_program.cpp",
+      "sha256": "649ed82c000199eeeccb3262aabffd278384611c6b6bbfac70d8f47aaec0312f"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\shader_program.h",
+      "sha256": "217b2e490b5c6f1fb4bc19d5481b63e9210eb679ea46b14cbfaa9de3bab4a048"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\texture.cpp",
+      "sha256": "39cbad2dc69faff775569ff464320a2029cb39f1daf4ac5b401a7852822c8f61"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\texture.h",
+      "sha256": "dbd5e535ff78b593b10add19f534f391e7554acfc74f4c439bc81e0be4fb97ac"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\validation.cpp",
+      "sha256": "359ac1ab5e384111a5e1bda06c97fc601983aac06ed30ac338a7ec52f4d83810"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\validation.h",
+      "sha256": "58239d4e5b697cd358bb71e98055495af82d0b17480780c06b78bd2260756aef"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\integration\\renderer\\d3d12_backend_smoke.cpp",
+      "sha256": "32151e4074c73f136766fc284560e1fb5f8885bdd07b653b10a79142e8948216"
+    }
+  ],
+  "success": false,
+  "scope": "Native fixture; not full-game gameplay, actual DeviceLost or in-flight timeout.",
+  "sources_after": [
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\shaders\\hlsl\\blocks.hlsl",
+      "sha256": "45ec9d842b817261e0f0a390b4186be4218096f751e392670bccf239f8b9fc58"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\shaders\\hlsl\\draw_constants.hlsli",
+      "sha256": "cdc75b90ad85324f87116c05945c79b56c5a40887f2a76723d7dc78fd633f1e4"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\assets\\shaders\\hlsl\\selection.hlsl",
+      "sha256": "5cab6a712d9915520d6c8a899818ec016f462a9a2124957f62652f35ff2d21f6"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\include\\symocraft\\renderer\\error.h",
+      "sha256": "52c5aa6077da57c39e27ae9668f36fe9115bc0badbae3d79d90b8e84e1dbe2d7"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\include\\symocraft\\renderer\\renderer.h",
+      "sha256": "3259073293c6ce6d714ec6494fa17ae917e8140e6829ef87aae1e31724453600"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\include\\symocraft\\renderer\\types.h",
+      "sha256": "39102091898f03c5c01f4a6844265e55b2787ee0222be17fd1514b0ea4dffbe7"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\legacy\\include\\symocraft\\renderer\\gpu_timer.h",
+      "sha256": "a3195d571d3ad26b7e6e00f6c3f526480935263c2276b42ad864ba5d9804ab87"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\legacy\\include\\symocraft\\renderer\\legacy_renderer.h",
+      "sha256": "cdec693f89c06a5b4b21df50ee584042d3106eacfd63abb3d9316846029ed083"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\legacy\\include\\symocraft\\renderer\\render_stats.h",
+      "sha256": "61f860ce468e4876bcae2c2f98be1406b2e47de838d93b4ca0c7a271e72089f1"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\backend\\backend_factory.cpp",
+      "sha256": "9c3cebe1a8b79a9be17761af8804623e67c525f5415ba40627172f2a37fdc03b"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\backend\\backend_factory.h",
+      "sha256": "8436c9d06b52af13a66ddc42fac431d408ff66d2caeaa1d9b5b201ee1c48c69e"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\backend\\d3d12\\d3d12_backend.cpp",
+      "sha256": "59dea6123c2389f956928bd10eb0293fe5cfbada866ce298e7ea41efe9990aeb"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\backend\\d3d12\\d3d12_backend.h",
+      "sha256": "3396482919a5c7c098a31ba09be72301bcefe53733bc5e65156b4cef6594c467"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\backend\\d3d12\\pipeline.cpp",
+      "sha256": "3f12a1b65fdfe4cf9d0b90a4b17a22fb4fa3523f6304c680f93e77f888d86ab3"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\backend\\d3d12\\pipeline.h",
+      "sha256": "32a26689506e5e78edcfe9816e5aa85652bf170ff6413471358d65b76a14fd53"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\backend\\render_backend.h",
+      "sha256": "967e5163a5b25faf24487e71b56e9ad58947da303a1814fdf2ce4be8bc89450a"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\error.cpp",
+      "sha256": "ba4f581bab5fa69e96248a423ecffb9eb24eaf6dbbddae23fa8eee69f5c98497"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\gpu_timer.cpp",
+      "sha256": "4875f1c147d3f47dab39d7a264224688945b16728d721a41b66aaa70c20b6062"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\legacy_renderer.cpp",
+      "sha256": "487cdb69a67994095f0167dea955adf1775b4cbd71715e2cdf732d6de876d68f"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\performance_memory.cpp",
+      "sha256": "abd75914b52b5f45b4a194649e3bfedbea8d15c63e9579293166713f6d6889d2"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\renderer.cpp",
+      "sha256": "3aefb03e5b436a7ca1b4a53fafc905c1249ef6421b7da1a0d47e6d1c550317d7"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\renderer_impl.cpp",
+      "sha256": "ad9992f7e74c75f1abc08f343561ba7a55dcf9f97e7a9fd805fba1861ef43db0"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\renderer_impl.h",
+      "sha256": "af4a5c6388ccea5031b0ec551fcd75b3e26b4c5b8a2eeaf48ab3ae94376a961f"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\resource_registry.cpp",
+      "sha256": "ab9aead7bf05d9a5cc5a109e2d59a88d6534934b7c2dcbcc1a196b1429cf30dd"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\resource_registry.h",
+      "sha256": "1c158cf7b8cb562d4d3a41b859abd4b2168b887bb82e9f971dada44c292de764"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\shader.cpp",
+      "sha256": "b1cd54d0b861b6768fb65bc40d48aac04ca78170b5f8a4b12d1e3efe4b148513"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\shader.h",
+      "sha256": "cf88afd321184cfa8f350e33e2c21df19cf8c319511b3b1e29c66d1740213842"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\shader_program.cpp",
+      "sha256": "649ed82c000199eeeccb3262aabffd278384611c6b6bbfac70d8f47aaec0312f"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\shader_program.h",
+      "sha256": "217b2e490b5c6f1fb4bc19d5481b63e9210eb679ea46b14cbfaa9de3bab4a048"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\texture.cpp",
+      "sha256": "39cbad2dc69faff775569ff464320a2029cb39f1daf4ac5b401a7852822c8f61"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\texture.h",
+      "sha256": "dbd5e535ff78b593b10add19f534f391e7554acfc74f4c439bc81e0be4fb97ac"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\validation.cpp",
+      "sha256": "359ac1ab5e384111a5e1bda06c97fc601983aac06ed30ac338a7ec52f4d83810"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\game\\modules\\renderer\\src\\validation.h",
+      "sha256": "58239d4e5b697cd358bb71e98055495af82d0b17480780c06b78bd2260756aef"
+    },
+    {
+      "path": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\test\\integration\\renderer\\d3d12_backend_smoke.cpp",
+      "sha256": "32151e4074c73f136766fc284560e1fb5f8885bdd07b653b10a79142e8948216"
+    }
+  ],
+  "sources_unchanged": true
+}

@@ -1,0 +1,43 @@
+[0/2] Re-checking globbed directories...
+[1/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\binary.cpp.obj
+[2/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\directives.cpp.obj
+[3/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\depthguard.cpp.obj
+[4/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\emitfromevents.cpp.obj
+[5/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\emit.cpp.obj
+[6/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\emitterstate.cpp.obj
+[7/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\emitter.cpp.obj
+[8/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\convert.cpp.obj
+[9/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\exceptions.cpp.obj
+[10/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\node.cpp.obj
+[11/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\emitterutils.cpp.obj
+[12/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\memory.cpp.obj
+[13/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\null.cpp.obj
+[14/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\exp.cpp.obj
+[15/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\nodebuilder.cpp.obj
+[16/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\nodeevents.cpp.obj
+[17/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\node_data.cpp.obj
+[18/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\ostream_wrapper.cpp.obj
+[19/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\regex_yaml.cpp.obj
+[20/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\parse.cpp.obj
+[21/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\parser.cpp.obj
+[22/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\scantag.cpp.obj
+[23/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\scanscalar.cpp.obj
+[24/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\scanner.cpp.obj
+[25/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\scantoken.cpp.obj
+[26/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\stream.cpp.obj
+[27/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\simplekey.cpp.obj
+[28/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\tag.cpp.obj
+[29/43] Building CXX object CMakeFiles\symocraft_yaml.dir\F_\GameDevelop\OpenGLProject\Symocraft\vendor\yaml-cpp\src\singledocparser.cpp.obj
+[30/43] Linking CXX static library symocraft_yaml.lib
+[31/43] Building CXX object CMakeFiles\benchmark_core.dir\src\platform.cpp.obj
+[32/43] Building CXX object test\benchmark\CMakeFiles\benchmark_process_fixture.dir\F_\GameDevelop\OpenGLProject\Symocraft\test\support\benchmark_process_fixture.cpp.obj
+[33/43] Building CXX object CMakeFiles\SymoCraftBenchmark.dir\src\main.cpp.obj
+[34/43] Linking CXX executable test\benchmark\benchmark_process_fixture.exe
+[35/43] Building CXX object test\benchmark\CMakeFiles\benchmark_fixture.dir\F_\GameDevelop\OpenGLProject\Symocraft\test\support\benchmark_fixture.cpp.obj
+[36/43] Building CXX object CMakeFiles\SymoCraftBenchmark.dir\src\gui.cpp.obj
+[37/43] Building CXX object test\benchmark\CMakeFiles\benchmark_runner_tests.dir\runner_tests.cpp.obj
+[38/43] Building CXX object CMakeFiles\benchmark_core.dir\src\runner.cpp.obj
+[39/43] Linking CXX static library benchmark_core.lib
+[40/43] Linking CXX executable test\benchmark\benchmark_fixture.exe
+[41/43] Linking CXX executable test\benchmark\benchmark_runner_tests.exe
+[42/43] Linking CXX executable bin\SymoCraftBenchmark.exe

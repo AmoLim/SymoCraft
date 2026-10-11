@@ -1,0 +1,8 @@
+CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:61 (message):
+  Boundary violation: public header
+  game/modules/platform/include/symocraft/platform/probe.h exposes
+  SDK/parser/storage dependency vulkan/vulkan_core.h
+Call Stack (most recent call first):
+  negative-boundaries/bridge-public-vulkan/probe.cmake:3 (symocraft_check_source_file)
+
+

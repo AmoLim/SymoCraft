@@ -1,0 +1,31 @@
+name: symocraft-lite
+version: 1
+description: Ordinary changes; one compact proposal owns design and tasks, with optional behavior deltas.
+artifacts:
+  - id: proposal
+    generates: proposal.md
+    description: Intent, short approach, capability mapping and the sole task checklist
+    template: proposal.md
+    instruction: |
+      Paths are relative to the planning root (docs), not the change directory.
+      Before drafting or materially revising, execute ../AGENTS.md section Proposal 前的规格预读.
+      Write a concise proposal from the actual spec baseline. Link sources rather than restating them.
+      Include Why, What Changes, Capabilities, Impact and a short implementation checklist.
+      This file owns both the short design and tasks; do not create parallel design.md or tasks.md.
+      Use unchecked tasks until work and its agreed checks actually complete.
+      Follow DOCUMENTATION_MAP.md budgets and authorization boundaries. Do not add N/A placeholders.
+    requires: []
+  - id: specs
+    generates: specs/**/*.md
+    description: Behavior deltas for capabilities declared in the proposal
+    template: spec.md
+    instruction: |
+      Read ../AGENTS.md and the relevant existing specs in full, including scenarios (paths relative to planning root).
+      Reuse existing capability paths; use ADDED/MODIFIED/REMOVED/RENAMED delta sections.
+      Each Requirement must use SHALL or MUST and have at least one Scenario with WHEN and THEN.
+      MODIFIED preserves the complete requirement and its scenarios. Keep implementation mechanisms in proposal.
+      No behavior change means skip_specs: true in change metadata; never invent a requirement to pass validation.
+    requires: [proposal]
+apply:
+  requires: [proposal, specs]
+  tracks: proposal.md

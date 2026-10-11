@@ -1,0 +1,8 @@
+-- Configuring incomplete, errors occurred!
+CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:334 (message):
+  Boundary violation: retired GLFW link cannot enter production:
+  symocraft_startup -> glfw
+Call Stack (most recent call first):
+  CMakeLists.txt:6 (symocraft_validate_boundaries)
+
+

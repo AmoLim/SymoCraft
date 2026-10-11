@@ -1,0 +1,15 @@
+{
+  "executable": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\invalid-texture-image\\package\\SymoCraft.exe",
+  "workingDirectory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m2-a\\runs\\debug-faults\\invalid-texture-image\\evidence",
+  "requestedFrames": 1,
+  "renderedFrames": null,
+  "glDiagnosticCount": 0,
+  "processId": 38808,
+  "timedOut": false,
+  "exitCode": 3,
+  "expectedExitCode": 3,
+  "ready": false,
+  "shutdown": true,
+  "elapsedSeconds": 0.5091446,
+  "passed": true
+}

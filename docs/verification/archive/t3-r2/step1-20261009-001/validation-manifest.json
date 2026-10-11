@@ -1,0 +1,3875 @@
+{
+  "schema": "symocraft.t3.r2-step1-validation",
+  "version": 1,
+  "date": "2026-10-09",
+  "archived_utc": "2026-10-09T05:48:12.5608908Z",
+  "timezone": "Asia/Shanghai",
+  "scope": {
+    "node": "M3-T3-R2-implementation-sequence-1",
+    "production_cpu_implementation": true,
+    "production_native_backend": false,
+    "gpu_validation": false,
+    "gameplay_validation": false,
+    "runnable_package": false,
+    "r2_takeover_complete": false,
+    "opengl_default_changed": false,
+    "original_r1_modified": false
+  },
+  "toolchain": {
+    "cmake": "cmake version 4.3.5",
+    "ninja": "1.13.2",
+    "msvc": "19.38.33145",
+    "msvc_tools": "14.38.33130",
+    "sdk": "10.0.22621.0",
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "target": "Windows x64",
+    "external_build_approval": true,
+    "pdb_flags_changed": false
+  },
+  "source_identity": {
+    "git_head": "f67a7f39ec49f078abecc4b5bf2257bf96c00ea7",
+    "working_tree_dirty": true,
+    "scope": "Scoped game/CMake/renderer tests and integration/support inputs, plus actual translation units from all six compile_commands; not a complete vendor/SDK header snapshot or runnable release identity.",
+    "inputs": [
+      {
+        "path": "cmake/ModuleBoundaries.cmake",
+        "bytes": 27974,
+        "sha256": "cb9693c93a790536a30f2d108a4d884ebb595d1463f0fc34130c6f73e65294d5"
+      },
+      {
+        "path": "cmake/PublicHeaderTests.cmake",
+        "bytes": 1390,
+        "sha256": "19655865d58dc5fe16e6afc3a03f51f4d9fdd910c9a222877beba6b763217eae"
+      },
+      {
+        "path": "cmake/RequiredAssets.cmake",
+        "bytes": 229,
+        "sha256": "3ec5ad0b63c69f732b58ef60ad4f84f7cc791ed987a6706b63c2eff4210783ab"
+      },
+      {
+        "path": "cmake/StageAssets.cmake",
+        "bytes": 1749,
+        "sha256": "48a51cb03ba8e79048dcc4ab1705cb5c25d7a2bb18df0c4dd0f00c9f8f93fcf5"
+      },
+      {
+        "path": "cmake/ThirdPartyGame.cmake",
+        "bytes": 2225,
+        "sha256": "131883eefc58fcb2886a5aeefc60d2c2080dd571fe3ea2be1f3488ba16414dc1"
+      },
+      {
+        "path": "cmake/ThirdPartyHeaders.cmake",
+        "bytes": 949,
+        "sha256": "0dc1a43580ffcb1a3eb4d59ff6a0a2e94c617fc0120cf1e5ffc7bca81612136a"
+      },
+      {
+        "path": "cmake/ThirdPartyYaml.cmake",
+        "bytes": 2404,
+        "sha256": "48e65f8053d435ba339f68108360b0cd7215959c0dd00a97d80f9aa59e093ec0"
+      },
+      {
+        "path": "cmake/ValidateMsvcEnvironment.cmake",
+        "bytes": 1252,
+        "sha256": "30bf7c2e2abdec17bc1cf265a84d72b45d0d5a85f47dd8f19eef66af0d5b671b"
+      },
+      {
+        "path": "cmake/windows-utf8.manifest",
+        "bytes": 368,
+        "sha256": "ae18e973ee276ee777cf40fa0ccf4c73e23ec0280d3abd4bca39f205145ebf9a"
+      },
+      {
+        "path": "CMakeLists.txt",
+        "bytes": 2280,
+        "sha256": "5f8961372d396019937360fa02256de71921812d821c8a1cbec34232767ce56f"
+      },
+      {
+        "path": "game/app/CMakeLists.txt",
+        "bytes": 1268,
+        "sha256": "a36498755940fde8c6d829d741a0d60dd65218c07316ef353f7534528d2f403d"
+      },
+      {
+        "path": "game/app/legacy/aggregate/core.h.disabled",
+        "bytes": 1477,
+        "sha256": "370845d3b4459d786666ddbea5256ce8d8417eee5ef7e2fdcf8c4b6a84486c0a"
+      },
+      {
+        "path": "game/app/legacy/aggregate/utils.h.disabled",
+        "bytes": 1433,
+        "sha256": "e8f512e032f067d81e66fc552becc84dbe2d3ca1f4c9cfe8f4cf34988188573a"
+      },
+      {
+        "path": "game/app/legacy/event/event.cpp.disabled",
+        "bytes": 1794,
+        "sha256": "10050f7160cc2bec5933746b8ba3ae5758b9a1ebe39d7ce20662ace920273c57"
+      },
+      {
+        "path": "game/app/legacy/event/event.h.disabled",
+        "bytes": 1804,
+        "sha256": "2f17242a2f83a1cb7972e898b2df75bd593836c5e1c5b3d4748a9cb70f4d0250"
+      },
+      {
+        "path": "game/app/legacy/input/input.cpp.disabled",
+        "bytes": 1274,
+        "sha256": "83088f63301590bc8b416a8c64fbfbeac5e96ea375c3f89f57a890eb082d5df9"
+      },
+      {
+        "path": "game/app/legacy/input/input.h.disabled",
+        "bytes": 910,
+        "sha256": "69e1326e40c6853933ad15ba53e616827d80ec5bf0eb92b0e688f617da1671cd"
+      },
+      {
+        "path": "game/app/legacy/input/key_bindings.cpp.disabled",
+        "bytes": 1040,
+        "sha256": "d1cc6ebd9c0fbe6013e1b31a77dd2fbb227f0ac37ec5d6d0d657345cff85db87"
+      },
+      {
+        "path": "game/app/legacy/input/key_bindings.h.disabled",
+        "bytes": 708,
+        "sha256": "2ad22f5497fe9c4d8929963cb87c0efb3a6dc0e820726d1d7b35225235c4cbcc"
+      },
+      {
+        "path": "game/app/legacy/input/key_handler.cpp.disabled",
+        "bytes": 448,
+        "sha256": "dbab8a0d5136eaf4215d107b8f7f4416f7a1e4624ad640ca59ce61d18ec5c2c9"
+      },
+      {
+        "path": "game/app/legacy/input/key_handler.h.disabled",
+        "bytes": 235,
+        "sha256": "f3f6c0933c3096f3db46b7fc8ba4c68ead90d4939f9a66ff8794949ee305ca6b"
+      },
+      {
+        "path": "game/app/legacy/thread_pool/global_thread_pool.cpp.disabled",
+        "bytes": 3779,
+        "sha256": "8ea637a0e0ec076020db25e30f28782fa77a87af455ec6e5b9041e10eb91544a"
+      },
+      {
+        "path": "game/app/legacy/thread_pool/global_thread_pool.h.disabled",
+        "bytes": 2757,
+        "sha256": "1b1f335f342b031aa69f97521b65371c08d0f302d880235a711a098fb45952dc"
+      },
+      {
+        "path": "game/app/legacy/thread_pool/pool.hpp.disabled",
+        "bytes": 5276,
+        "sha256": "c60c11d1e1eb67279fd55136a847838773222faa504990145a69953e58d0df39"
+      },
+      {
+        "path": "game/app/src/application.cpp",
+        "bytes": 26438,
+        "sha256": "3fd08c197102268ca3f889eef9e7758007bacc06d49759a6ced4194e59333239"
+      },
+      {
+        "path": "game/app/src/application.h",
+        "bytes": 417,
+        "sha256": "f96d1f5463afd31c32815a5b02300a51b2ec634fb481d9116cead207c87b0a70"
+      },
+      {
+        "path": "game/app/src/cleanup_sequence.h",
+        "bytes": 2227,
+        "sha256": "6b6f1d68a2f3a78e0d0cfd186cc12685b196bdbe106a73b0e6ecc4f31dcb7feb"
+      },
+      {
+        "path": "game/app/src/main.cpp",
+        "bytes": 3583,
+        "sha256": "54d50ced949254b7e21bdf912649c2dcc0168bd9e857e6e9face6c1dbc07db8e"
+      },
+      {
+        "path": "game/app/src/startup_options.cpp",
+        "bytes": 5030,
+        "sha256": "8aee322ef29b56882b70e50dada015349f8e19164ed19b021f4175bbdb850996"
+      },
+      {
+        "path": "game/app/src/startup_options.h",
+        "bytes": 1334,
+        "sha256": "57280f7bc96160f91e75016c12571683acf011755d456b9025db1840c3b797c4"
+      },
+      {
+        "path": "game/CMakeLists.txt",
+        "bytes": 438,
+        "sha256": "91f85d7aee772f466c6f694e804f6248a57311bbdc1582f1b0929a757bbc5c37"
+      },
+      {
+        "path": "game/modules/assets/CMakeLists.txt",
+        "bytes": 363,
+        "sha256": "af50cfc9cee179df2ed3e4b7b06231cf386c7831acf49e5239a7491bb635d0ff"
+      },
+      {
+        "path": "game/modules/assets/include/symocraft/assets/asset_paths.h",
+        "bytes": 488,
+        "sha256": "731e890d0ec90bc92d4904ced83667ef73b03d40a7e57fa150b14911a48ae0c9"
+      },
+      {
+        "path": "game/modules/assets/include/symocraft/assets/image.h",
+        "bytes": 496,
+        "sha256": "55ee475d66208d73228c9b4fda9d44f3eeacd2614d0304cd5eadc22496d71dab"
+      },
+      {
+        "path": "game/modules/assets/src/asset_paths.cpp",
+        "bytes": 4347,
+        "sha256": "5395ff2511fad2ffe09b96ac31af824381759f4b8633ec2f5d1c6333a24f7949"
+      },
+      {
+        "path": "game/modules/assets/src/image.cpp",
+        "bytes": 2062,
+        "sha256": "fb9a4203d43839f3f4fdc2339622090f5b892d572bf891592dff494e0b8ff2a9"
+      },
+      {
+        "path": "game/modules/ecs/CMakeLists.txt",
+        "bytes": 319,
+        "sha256": "ba6f9b2041283e1baed4a2af2bc6ba96e42b47bf9eda9977a8d70824fc68354e"
+      },
+      {
+        "path": "game/modules/ecs/include/symocraft/ecs/registry.h",
+        "bytes": 6437,
+        "sha256": "8866d4378a5029d6feec8089595fe7106fc1c21f0e00616682935ce8bcd88e36"
+      },
+      {
+        "path": "game/modules/ecs/src/component_container.h",
+        "bytes": 10623,
+        "sha256": "b7c7c2954f7feb15e7ea2c1ac41c67fa51234a59a8ea748b5750c14e1229f81e"
+      },
+      {
+        "path": "game/modules/ecs/src/internal.cpp",
+        "bytes": 7008,
+        "sha256": "3102507d90854892ccdfe216010396e4c44ebaf804219994a9a2c823ff6051d5"
+      },
+      {
+        "path": "game/modules/ecs/src/internal.h",
+        "bytes": 1157,
+        "sha256": "f2b3f8954930655e1e52cf9bc508f42e2fc3c8f59ab886f53d7cf21f7f3fa4b7"
+      },
+      {
+        "path": "game/modules/ecs/src/legacy/MemoryHelper.h",
+        "bytes": 3722,
+        "sha256": "802d936f59bad10775a539b0eb1d8cea5336390497d5382bd57785a1750a8255"
+      },
+      {
+        "path": "game/modules/ecs/src/legacy/RawMemory.h",
+        "bytes": 2930,
+        "sha256": "69bff740da7f97399d5e025a1e5d9bcf273d88dd9131c7854427f8338cb9fe5b"
+      },
+      {
+        "path": "game/modules/ecs/src/registry.cpp",
+        "bytes": 12188,
+        "sha256": "e4c9cf59089e9e7f328a526dc0c4b9c58dd8705f8566b00cee167f3cca826056"
+      },
+      {
+        "path": "game/modules/foundation/CMakeLists.txt",
+        "bytes": 425,
+        "sha256": "11f9aa236b10832aa88963233d3b38abc628dc35804556609421fe572257eb04"
+      },
+      {
+        "path": "game/modules/foundation/include/symocraft/foundation/diagnostics.h",
+        "bytes": 2435,
+        "sha256": "5e4f44b5c178f480ebdc241473b1cfa6153e628a1156d1d82497328804117263"
+      },
+      {
+        "path": "game/modules/foundation/include/symocraft/foundation/document.h",
+        "bytes": 3133,
+        "sha256": "21d6563a4c557ce29825af0a4aa1e67db5d652a7a5234ff65ab6dc2f5fd3dede"
+      },
+      {
+        "path": "game/modules/foundation/include/symocraft/foundation/files.h",
+        "bytes": 245,
+        "sha256": "ab8c1c17584af0924b0ddd2ef77b830464c5b496326faa01fad0301892885a90"
+      },
+      {
+        "path": "game/modules/foundation/include/symocraft/foundation/math.h",
+        "bytes": 482,
+        "sha256": "117dc302b09b62ad6eaa1d457e15e4f4bbb7ab4fdc115618cd61088d4433297b"
+      },
+      {
+        "path": "game/modules/foundation/include/symocraft/foundation/memory.h",
+        "bytes": 1015,
+        "sha256": "414f39666f308461e085c16e8711fd346471309b51a0ad5d176066f946996dd4"
+      },
+      {
+        "path": "game/modules/foundation/include/symocraft/foundation/types.h",
+        "bytes": 261,
+        "sha256": "bad8ad76e2d325595519f1b03eab8a9948b103b6a669c0b4d983f0db25e03ced"
+      },
+      {
+        "path": "game/modules/foundation/src/document.cpp",
+        "bytes": 1183,
+        "sha256": "c215e2bacd578e4597cd151a20d8f4c2add1d1ed89f5e62e380d002a16f5b557"
+      },
+      {
+        "path": "game/modules/foundation/src/files.cpp",
+        "bytes": 3012,
+        "sha256": "17c28320571e9f144f3e87d7959050b7fd94d43d6383a5fd01ab0735601434fe"
+      },
+      {
+        "path": "game/modules/foundation/src/legacy/AmoBase.cpp",
+        "bytes": 17957,
+        "sha256": "00ced729834c50031c17095986f8c08d62de22c8fbcea3f8ae4d1c239e5a5730"
+      },
+      {
+        "path": "game/modules/foundation/src/legacy/AmoBase.h",
+        "bytes": 103,
+        "sha256": "6dccb52eaa737e07699b024df9d5a80fdaf33596d12d15acf196a0be138b6206"
+      },
+      {
+        "path": "game/modules/platform/CMakeLists.txt",
+        "bytes": 507,
+        "sha256": "f5a36d2009b0e35c327ae0f5b7a7a86580dc837abba03c62453e483c6bb1645d"
+      },
+      {
+        "path": "game/modules/platform/include/symocraft/platform/key_snapshot.h",
+        "bytes": 892,
+        "sha256": "24e66cd938586be44d2cfc2c270f353ac91e823c9edb5638b12c8cf43c87d991"
+      },
+      {
+        "path": "game/modules/platform/include/symocraft/platform/process_memory.h",
+        "bytes": 233,
+        "sha256": "0c6f6f2b8f56aa6f04f7cb0022a44fba9922d63d8168d076fcc3774d888862da"
+      },
+      {
+        "path": "game/modules/platform/include/symocraft/platform/window.h",
+        "bytes": 2086,
+        "sha256": "01942fafa229e5cbc97653588deac41aac728c79a144cd278f6a0256137f1ed3"
+      },
+      {
+        "path": "game/modules/platform/src/graphics_bridge/graphics_bridge.h",
+        "bytes": 542,
+        "sha256": "4ed1c1d611f7b5b6178537a2c6fd18577625f022354b47c8a5d425eed866b150"
+      },
+      {
+        "path": "game/modules/platform/src/graphics_bridge/native_bridge.h",
+        "bytes": 313,
+        "sha256": "6048a5c878e97bf709cf630e0a0aeca902ad9c1c87236cbcdc435fe54c35bbaa"
+      },
+      {
+        "path": "game/modules/platform/src/graphics_bridge/vulkan_bridge.h",
+        "bytes": 847,
+        "sha256": "254216f5371597caa6263f40d2c5ef2272ea698f76b83247744134153b444f72"
+      },
+      {
+        "path": "game/modules/platform/src/input_state.h",
+        "bytes": 8402,
+        "sha256": "445fe1ea7be1de4ba32cae97ed7a9aef8395752fbbd07d5e1e240b91ac13d3b1"
+      },
+      {
+        "path": "game/modules/platform/src/process_memory.cpp",
+        "bytes": 610,
+        "sha256": "c5378f6f64aa75dd12834335fb028d3c9231d75dd8d8c0259d6be0e3f83a559e"
+      },
+      {
+        "path": "game/modules/platform/src/window.cpp",
+        "bytes": 26887,
+        "sha256": "7d5cd113551f34bafd47a080a938edd8345f09e22bfd4f7e15d0f00efa6a832f"
+      },
+      {
+        "path": "game/modules/renderer/CMakeLists.txt",
+        "bytes": 1972,
+        "sha256": "66bb9ccf918f24a661d205df02b48825cec82f5ad89d1c607d8b073005f7002f"
+      },
+      {
+        "path": "game/modules/renderer/include/symocraft/renderer/error.h",
+        "bytes": 1089,
+        "sha256": "52c5aa6077da57c39e27ae9668f36fe9115bc0badbae3d79d90b8e84e1dbe2d7"
+      },
+      {
+        "path": "game/modules/renderer/include/symocraft/renderer/renderer.h",
+        "bytes": 1117,
+        "sha256": "3259073293c6ce6d714ec6494fa17ae917e8140e6829ef87aae1e31724453600"
+      },
+      {
+        "path": "game/modules/renderer/include/symocraft/renderer/types.h",
+        "bytes": 4641,
+        "sha256": "39102091898f03c5c01f4a6844265e55b2787ee0222be17fd1514b0ea4dffbe7"
+      },
+      {
+        "path": "game/modules/renderer/legacy/include/symocraft/renderer/gpu_timer.h",
+        "bytes": 872,
+        "sha256": "a3195d571d3ad26b7e6e00f6c3f526480935263c2276b42ad864ba5d9804ab87"
+      },
+      {
+        "path": "game/modules/renderer/legacy/include/symocraft/renderer/legacy_renderer.h",
+        "bytes": 1445,
+        "sha256": "cdec693f89c06a5b4b21df50ee584042d3106eacfd63abb3d9316846029ed083"
+      },
+      {
+        "path": "game/modules/renderer/legacy/include/symocraft/renderer/render_stats.h",
+        "bytes": 182,
+        "sha256": "61f860ce468e4876bcae2c2f98be1406b2e47de838d93b4ca0c7a271e72089f1"
+      },
+      {
+        "path": "game/modules/renderer/src/backend/backend_factory.cpp",
+        "bytes": 736,
+        "sha256": "186cecbcb692fa7ea92076a2b820d04ba9cab0c11d9403c138fbf0db98fd945f"
+      },
+      {
+        "path": "game/modules/renderer/src/backend/backend_factory.h",
+        "bytes": 320,
+        "sha256": "8436c9d06b52af13a66ddc42fac431d408ff66d2caeaa1d9b5b201ee1c48c69e"
+      },
+      {
+        "path": "game/modules/renderer/src/backend/render_backend.h",
+        "bytes": 3385,
+        "sha256": "967e5163a5b25faf24487e71b56e9ad58947da303a1814fdf2ce4be8bc89450a"
+      },
+      {
+        "path": "game/modules/renderer/src/batch.hpp",
+        "bytes": 7211,
+        "sha256": "48488177c7869af80df53fb4ce88c75d4f6190a72c992d487b0be8ae8f1da2aa"
+      },
+      {
+        "path": "game/modules/renderer/src/error.cpp",
+        "bytes": 1007,
+        "sha256": "ba4f581bab5fa69e96248a423ecffb9eb24eaf6dbbddae23fa8eee69f5c98497"
+      },
+      {
+        "path": "game/modules/renderer/src/gpu_timer.cpp",
+        "bytes": 2246,
+        "sha256": "4875f1c147d3f47dab39d7a264224688945b16728d721a41b66aaa70c20b6062"
+      },
+      {
+        "path": "game/modules/renderer/src/legacy_renderer.cpp",
+        "bytes": 6419,
+        "sha256": "487cdb69a67994095f0167dea955adf1775b4cbd71715e2cdf732d6de876d68f"
+      },
+      {
+        "path": "game/modules/renderer/src/performance_memory.cpp",
+        "bytes": 1400,
+        "sha256": "a35fd998b55d7a49ab4fb990108c9870870e9508ab65879eadaac05bddd2cecd"
+      },
+      {
+        "path": "game/modules/renderer/src/renderer_impl.cpp",
+        "bytes": 12889,
+        "sha256": "6bcee09cc2fd92fdbbecf68d9312325b4bb18e128869f5f7933edd6388fbff2d"
+      },
+      {
+        "path": "game/modules/renderer/src/renderer_impl.h",
+        "bytes": 3528,
+        "sha256": "af4a5c6388ccea5031b0ec551fcd75b3e26b4c5b8a2eeaf48ab3ae94376a961f"
+      },
+      {
+        "path": "game/modules/renderer/src/renderer.cpp",
+        "bytes": 2636,
+        "sha256": "3aefb03e5b436a7ca1b4a53fafc905c1249ef6421b7da1a0d47e6d1c550317d7"
+      },
+      {
+        "path": "game/modules/renderer/src/resource_registry.cpp",
+        "bytes": 4189,
+        "sha256": "ab9aead7bf05d9a5cc5a109e2d59a88d6534934b7c2dcbcc1a196b1429cf30dd"
+      },
+      {
+        "path": "game/modules/renderer/src/resource_registry.h",
+        "bytes": 2237,
+        "sha256": "1c158cf7b8cb562d4d3a41b859abd4b2168b887bb82e9f971dada44c292de764"
+      },
+      {
+        "path": "game/modules/renderer/src/shader_program.cpp",
+        "bytes": 6528,
+        "sha256": "649ed82c000199eeeccb3262aabffd278384611c6b6bbfac70d8f47aaec0312f"
+      },
+      {
+        "path": "game/modules/renderer/src/shader_program.h",
+        "bytes": 1447,
+        "sha256": "217b2e490b5c6f1fb4bc19d5481b63e9210eb679ea46b14cbfaa9de3bab4a048"
+      },
+      {
+        "path": "game/modules/renderer/src/shader.cpp",
+        "bytes": 1920,
+        "sha256": "b1cd54d0b861b6768fb65bc40d48aac04ca78170b5f8a4b12d1e3efe4b148513"
+      },
+      {
+        "path": "game/modules/renderer/src/shader.h",
+        "bytes": 518,
+        "sha256": "cf88afd321184cfa8f350e33e2c21df19cf8c319511b3b1e29c66d1740213842"
+      },
+      {
+        "path": "game/modules/renderer/src/texture.cpp",
+        "bytes": 6645,
+        "sha256": "39cbad2dc69faff775569ff464320a2029cb39f1daf4ac5b401a7852822c8f61"
+      },
+      {
+        "path": "game/modules/renderer/src/texture.h",
+        "bytes": 1007,
+        "sha256": "dbd5e535ff78b593b10add19f534f391e7554acfc74f4c439bc81e0be4fb97ac"
+      },
+      {
+        "path": "game/modules/renderer/src/validation.cpp",
+        "bytes": 4469,
+        "sha256": "359ac1ab5e384111a5e1bda06c97fc601983aac06ed30ac338a7ec52f4d83810"
+      },
+      {
+        "path": "game/modules/renderer/src/validation.h",
+        "bytes": 528,
+        "sha256": "58239d4e5b697cd358bb71e98055495af82d0b17480780c06b78bd2260756aef"
+      },
+      {
+        "path": "game/modules/scene/CMakeLists.txt",
+        "bytes": 201,
+        "sha256": "2678280df9e0896e0b366a3c215a3f62501dcc45bcaa05fed13f75e735d271c9"
+      },
+      {
+        "path": "game/modules/scene/include/symocraft/scene/camera.h",
+        "bytes": 174,
+        "sha256": "5f80c3f8fb4b207042636d921ece2db1deceb044e5357e9705ff3be107b8502f"
+      },
+      {
+        "path": "game/modules/scene/include/symocraft/scene/mesh.h",
+        "bytes": 570,
+        "sha256": "24f3348a1a26cf63bab1f2d2e115eaa12c7e8107688fbc1f566cfded8e86b020"
+      },
+      {
+        "path": "game/modules/simulation/CMakeLists.txt",
+        "bytes": 540,
+        "sha256": "443606aa0e05cef482b530389813fd9b0617237c17555f3ac35fb78d45f3ecef"
+      },
+      {
+        "path": "game/modules/simulation/include/symocraft/simulation/camera.h",
+        "bytes": 1007,
+        "sha256": "2fbca42162a862d88d040370be78852e3fe9d7c6380a1a02096f48f5973d53d8"
+      },
+      {
+        "path": "game/modules/simulation/include/symocraft/simulation/character_system.h",
+        "bytes": 510,
+        "sha256": "59f6997b4836cb18c71ff1326ff7b8b46e1f9b03c177dfd57641924b3b810a64"
+      },
+      {
+        "path": "game/modules/simulation/include/symocraft/simulation/component.h",
+        "bytes": 1695,
+        "sha256": "7621d287c5e63bf55267334d00e296863a8076061c8a35912c00adcdf3c82a92"
+      },
+      {
+        "path": "game/modules/simulation/include/symocraft/simulation/physics_system.h",
+        "bytes": 1156,
+        "sha256": "d43e095d5648ab6ffc11d15b0ed05a6bf79499fcc43f5593426de7793c02ee36"
+      },
+      {
+        "path": "game/modules/simulation/include/symocraft/simulation/player_math.h",
+        "bytes": 5749,
+        "sha256": "ce1eb38f3343894d20087db688dfcd68af5d5b8bb343bdac8495240dc396c8df"
+      },
+      {
+        "path": "game/modules/simulation/include/symocraft/simulation/player.h",
+        "bytes": 1053,
+        "sha256": "59066ab3aeec46126ba41d06c2e61b1d9c8084c38ac2fcbd5ff9013c741e1fd9"
+      },
+      {
+        "path": "game/modules/simulation/include/symocraft/simulation/playercontroller.h",
+        "bytes": 899,
+        "sha256": "2b618dda694619b1f8cd2e2857c736261a2497fbe6cbd73f82645b9a56e88707"
+      },
+      {
+        "path": "game/modules/simulation/include/symocraft/simulation/transform_system.h",
+        "bytes": 318,
+        "sha256": "e13184a8eaee3901240ab3e5f5aa150103e32029ef8387219ee128a0a9625501"
+      },
+      {
+        "path": "game/modules/simulation/src/Camera.cpp",
+        "bytes": 2160,
+        "sha256": "93629d3ecefc1fcf59b3db7e504462e936a0b3675fca2a92710ea96ca2bbab51"
+      },
+      {
+        "path": "game/modules/simulation/src/character_system.cpp",
+        "bytes": 2928,
+        "sha256": "51d27fa50c42ed9dbbac3b78a612f82c83f6e6535216681a1304358fac63f4da"
+      },
+      {
+        "path": "game/modules/simulation/src/physics_system.cpp",
+        "bytes": 19426,
+        "sha256": "67e5c9bc072ca74107001c3cc4fac15d4c94b9a85d41f0ea0f2cc9ccae41032c"
+      },
+      {
+        "path": "game/modules/simulation/src/player.cpp",
+        "bytes": 4661,
+        "sha256": "c37434f26e45ac497398b6d93131f25ac612af0633cf107bb55421bd1809eeed"
+      },
+      {
+        "path": "game/modules/simulation/src/playercontroller.cpp",
+        "bytes": 3846,
+        "sha256": "5a619bfb0485efb73cf6da19ac8847ffca15e122f7e83ab8d3ec455f62398d69"
+      },
+      {
+        "path": "game/modules/simulation/src/transform_system.cpp",
+        "bytes": 1128,
+        "sha256": "7d137c4da90204c40c316b08cc6b2a22aeb3557d52fad44468017f71150872b2"
+      },
+      {
+        "path": "game/modules/telemetry/CMakeLists.txt",
+        "bytes": 372,
+        "sha256": "b5e8a55e3015b2819ead1f66c75f80988fd0de4b0d90ae9c0b7e761ca1359327"
+      },
+      {
+        "path": "game/modules/telemetry/include/symocraft/telemetry/document_io.h",
+        "bytes": 298,
+        "sha256": "330c9480603bea93cf793d1e7cc35765e7794234023f2e023c4d2e401ba50c67"
+      },
+      {
+        "path": "game/modules/telemetry/include/symocraft/telemetry/performance.h",
+        "bytes": 2420,
+        "sha256": "3f5682272c9e254e7729d68bebd569f02c5c074a7f7c34169ddc8572a3eaf5b7"
+      },
+      {
+        "path": "game/modules/telemetry/src/document_io.cpp",
+        "bytes": 3603,
+        "sha256": "1db8ccb83aa3d309a51ae47b5ce05ebb6d1bd7bd85e3ff831b2d5a350ebedabd"
+      },
+      {
+        "path": "game/modules/telemetry/src/performance.cpp",
+        "bytes": 9879,
+        "sha256": "88f90bf019e94e6f04d7bb15d64343ccfe3920b4f3d0b2d31c20beb90786dda4"
+      },
+      {
+        "path": "game/modules/world/CMakeLists.txt",
+        "bytes": 531,
+        "sha256": "b014ba96b578ecda5eaff3994c1e800174496a004efc0a8d532bed7173e06741"
+      },
+      {
+        "path": "game/modules/world/include/symocraft/world/benchmark_workload.h",
+        "bytes": 871,
+        "sha256": "f839f7f8a37e6d41e780fa4574ca526e49bc056abe4471070795a89fc88b227c"
+      },
+      {
+        "path": "game/modules/world/include/symocraft/world/block_definition.h",
+        "bytes": 1145,
+        "sha256": "54dc69520bce5f2e6b807099d4c1488a8e41df73dd80460b9fd7ae2bbd0abaca"
+      },
+      {
+        "path": "game/modules/world/include/symocraft/world/block.h",
+        "bytes": 3100,
+        "sha256": "ce26b4b55db9e118ee3de45dcc7601e5a82c1aba09124fe5e480382dfa2851e7"
+      },
+      {
+        "path": "game/modules/world/include/symocraft/world/constants.h",
+        "bytes": 2718,
+        "sha256": "694d2944ab0199fed4e8593d88aed6cb1a40949c6a589d330be3481e18cfb711"
+      },
+      {
+        "path": "game/modules/world/include/symocraft/world/generation.h",
+        "bytes": 1210,
+        "sha256": "5dfffa9e866917f240cf13952294cbddc14f356f11b841a1f23c87045173d3e2"
+      },
+      {
+        "path": "game/modules/world/include/symocraft/world/test_scene.h",
+        "bytes": 786,
+        "sha256": "3d045e36a894af569cf565e8d380e0382b690d616877a486a60842c20d56d5f6"
+      },
+      {
+        "path": "game/modules/world/include/symocraft/world/world.h",
+        "bytes": 3017,
+        "sha256": "0d0c3f03585c5c0f899d5ac090be8db9b650a459f75f97d3eb2cd3f9b5a0b934"
+      },
+      {
+        "path": "game/modules/world/src/block.cpp",
+        "bytes": 5650,
+        "sha256": "ef75d7bc914f8172c9c6a63cb860432f1684500bdb1e1009c41890b4b5c9faec"
+      },
+      {
+        "path": "game/modules/world/src/chunk_mesher.cpp",
+        "bytes": 4380,
+        "sha256": "32a73ae942af01557b2ce626586153e0d2827d728b984e0249fe37568c6b6f66"
+      },
+      {
+        "path": "game/modules/world/src/chunk_mesher.h",
+        "bytes": 1126,
+        "sha256": "e826e4abebfac0e5b8a10c359be2c30d8111248f89da000dcdcc3187210a1337"
+      },
+      {
+        "path": "game/modules/world/src/chunk.cpp",
+        "bytes": 271,
+        "sha256": "a7693421dc43890ed4f1fb68b2c45975390fcfeefbb0dbef388011b4d6918433"
+      },
+      {
+        "path": "game/modules/world/src/chunk.h",
+        "bytes": 754,
+        "sha256": "4594bd05e5ecb073bfe1b9caa094dabcc1c803d5f2381da7ca4aacdd3e4c24f7"
+      },
+      {
+        "path": "game/modules/world/src/generation.cpp",
+        "bytes": 10207,
+        "sha256": "e36a657f36725f9dcf67f4241a027939cfaa8197ea852960e778790cc4f71350"
+      },
+      {
+        "path": "game/modules/world/src/test_scene.cpp",
+        "bytes": 5011,
+        "sha256": "e05f1ea95d187eba9a27a1c6b3e4cd2da4b6f7157070b760413cd1ad41303583"
+      },
+      {
+        "path": "game/modules/world/src/world_coordinates.cpp",
+        "bytes": 605,
+        "sha256": "44cf437a604b51a7d3625aefe757fce7acd828800e610f7541e932d5f1121721"
+      },
+      {
+        "path": "game/modules/world/src/world_internal.h",
+        "bytes": 891,
+        "sha256": "d8e6e7090b9d4c498e1b95941688b3d03e85d17b829ae79dbb4a6dab94ad8cda"
+      },
+      {
+        "path": "game/modules/world/src/world.cpp",
+        "bytes": 11064,
+        "sha256": "60adbca0a23d1b8ed81608dc3fae28a72f208f5641b083006ba71d567b8f6d3e"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_assets_symocraft_assets_asset_paths_h.cpp",
+        "bytes": 69,
+        "sha256": "1e62a93650ac1ee1a6d7c3f2ff76d1c7ac4f8c7334bf78feb2a405b48b091179"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_assets_symocraft_assets_image_h.cpp",
+        "bytes": 63,
+        "sha256": "6c2982733462469e5875954302c56e6b1bd90791bdf785bbec126eacc185bf52"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_ecs_symocraft_ecs_registry_h.cpp",
+        "bytes": 63,
+        "sha256": "753054975bc5d57aa8a9bd95bc8c218b865f2d0632ca72dede55a75559a6667c"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_foundation_symocraft_foundation_diagnostics_h.cpp",
+        "bytes": 73,
+        "sha256": "1a5c9ed1725637cc40d662a8b724dc365a19c335685c36d8d4631451c428ee41"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_foundation_symocraft_foundation_document_h.cpp",
+        "bytes": 70,
+        "sha256": "1588b202b4ce995b4db98ccd470df51e79bae913f0abe2c920439ea50d227e08"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_foundation_symocraft_foundation_files_h.cpp",
+        "bytes": 67,
+        "sha256": "2ebb4e79d156f591e4277caa4c8d88625a0a4d6226c2f571444c140b791c0f47"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_foundation_symocraft_foundation_math_h.cpp",
+        "bytes": 66,
+        "sha256": "d18c1f3556eac9f6726eba393b750407480c4e3be0f690af51761e854b6a1757"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_foundation_symocraft_foundation_memory_h.cpp",
+        "bytes": 68,
+        "sha256": "7a2d011d4d5be090db247cbeb61b353e33c64177475cfe1543a0068d98220847"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_foundation_symocraft_foundation_types_h.cpp",
+        "bytes": 67,
+        "sha256": "41fa46fd037bd63b951cf1fb9016c6b2e5c97241ee5102acaab47b8ca9aca913"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_renderer_symocraft_renderer_error_h.cpp",
+        "bytes": 65,
+        "sha256": "c64d0724969aab2026c6be023b7d09a505efac2a683cefe2c29e762622d1181f"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_renderer_symocraft_renderer_renderer_h.cpp",
+        "bytes": 68,
+        "sha256": "56b5235bd261a1b3bbb48f6838190d50f4ec2d3157d1db79bcc34a58d0ea1817"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_renderer_symocraft_renderer_types_h.cpp",
+        "bytes": 65,
+        "sha256": "df09e582439b1cf5355dfce8daf02707386662f6759d65b2e8a0775d45e50d2e"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_scene_symocraft_scene_camera_h.cpp",
+        "bytes": 63,
+        "sha256": "30f3ea08cb158e1a1c10cbe44798a2f503cac268455ee311569acf9736ba9e79"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_scene_symocraft_scene_mesh_h.cpp",
+        "bytes": 61,
+        "sha256": "a50d111cd646aa88b7e23caca5a4f4e7dac7d500832b297f7cb972008f926450"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_simulation_symocraft_simulation_camera_h.cpp",
+        "bytes": 68,
+        "sha256": "23efde60417c2a2122110ee03b13029c903f5cb5069e842c66ec8e8049823281"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_simulation_symocraft_simulation_character_system_h.cpp",
+        "bytes": 78,
+        "sha256": "8eff401e46f2155703ca05ea1005492ce6985f144e6016f1e2d58fd82cf1ee74"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_simulation_symocraft_simulation_component_h.cpp",
+        "bytes": 71,
+        "sha256": "b248d3c0d27ecabf090f2ad10eda91e644727923a66d2e64d56366f1b0dbc0f5"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_simulation_symocraft_simulation_physics_system_h.cpp",
+        "bytes": 76,
+        "sha256": "419fbdea5aae28638322eb28b8550b8a1de3b455d36f25fd019780e5dcef1f64"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_simulation_symocraft_simulation_player_h.cpp",
+        "bytes": 68,
+        "sha256": "bb48da6f6713eb0b139f81b82b3f559c503bb8e820e112c5d606c6091a52c79a"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_simulation_symocraft_simulation_player_math_h.cpp",
+        "bytes": 73,
+        "sha256": "0ba6a6b7a04840fb2fe6fbc68d0d9f648d8fcd2552ee93c4e90b83cc05c9a1c2"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_simulation_symocraft_simulation_playercontroller_h.cpp",
+        "bytes": 78,
+        "sha256": "8e65899514b4098f3ae8c38f6e0766ecec82ff0c3ef5b624f1370b067e5f2a57"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_simulation_symocraft_simulation_transform_system_h.cpp",
+        "bytes": 78,
+        "sha256": "8a8b849bc8d85126108cb2f17ad562c4baf9e064c61647777b661a2c5d2774ef"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_telemetry_symocraft_telemetry_document_io_h.cpp",
+        "bytes": 72,
+        "sha256": "ad57d5e5efb7f925212777aaab6311973f9a28ad062d43ed0fe776e8819f8612"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_telemetry_symocraft_telemetry_performance_h.cpp",
+        "bytes": 72,
+        "sha256": "8e3ff8270928b08ad78e75e3b5dab75fb4726476d645e739b77e09a8a033d79e"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_world_symocraft_world_benchmark_workload_h.cpp",
+        "bytes": 75,
+        "sha256": "9c95fb50c11622e6c5246c5def16295c67f962b77c3ab3137a3da8d9a74a9047"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_world_symocraft_world_block_definition_h.cpp",
+        "bytes": 73,
+        "sha256": "563a82ebb8346c8ff17efd807534d9d6062a986b4fb5a75857f97e51f465692b"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_world_symocraft_world_block_h.cpp",
+        "bytes": 62,
+        "sha256": "aeb3ee801cf57e0af94ad997ab66470ae43d114751d3d0a7cec3591142a7d8df"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_world_symocraft_world_constants_h.cpp",
+        "bytes": 66,
+        "sha256": "422e832e5da146ea5cb3ff45c95a09ba4db456774422684db963b8709b33a281"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_world_symocraft_world_generation_h.cpp",
+        "bytes": 67,
+        "sha256": "5a47ca22a5f50fbdc3c36cd40e2edee02c70a66187533e17253728ff85a62e4b"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_world_symocraft_world_test_scene_h.cpp",
+        "bytes": 67,
+        "sha256": "b5fa974141437be3710de30992a1cf51f581239aef9012ce3e7add5c462ceb2c"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-debug-002/test/public-headers/header_world_symocraft_world_world_h.cpp",
+        "bytes": 62,
+        "sha256": "f4a89ed03737e8806325a90e70c2be520878fd0f9bebca508fa065a800478803"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_assets_symocraft_assets_asset_paths_h.cpp",
+        "bytes": 69,
+        "sha256": "1e62a93650ac1ee1a6d7c3f2ff76d1c7ac4f8c7334bf78feb2a405b48b091179"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_assets_symocraft_assets_image_h.cpp",
+        "bytes": 63,
+        "sha256": "6c2982733462469e5875954302c56e6b1bd90791bdf785bbec126eacc185bf52"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_ecs_symocraft_ecs_registry_h.cpp",
+        "bytes": 63,
+        "sha256": "753054975bc5d57aa8a9bd95bc8c218b865f2d0632ca72dede55a75559a6667c"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_foundation_symocraft_foundation_diagnostics_h.cpp",
+        "bytes": 73,
+        "sha256": "1a5c9ed1725637cc40d662a8b724dc365a19c335685c36d8d4631451c428ee41"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_foundation_symocraft_foundation_document_h.cpp",
+        "bytes": 70,
+        "sha256": "1588b202b4ce995b4db98ccd470df51e79bae913f0abe2c920439ea50d227e08"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_foundation_symocraft_foundation_files_h.cpp",
+        "bytes": 67,
+        "sha256": "2ebb4e79d156f591e4277caa4c8d88625a0a4d6226c2f571444c140b791c0f47"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_foundation_symocraft_foundation_math_h.cpp",
+        "bytes": 66,
+        "sha256": "d18c1f3556eac9f6726eba393b750407480c4e3be0f690af51761e854b6a1757"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_foundation_symocraft_foundation_memory_h.cpp",
+        "bytes": 68,
+        "sha256": "7a2d011d4d5be090db247cbeb61b353e33c64177475cfe1543a0068d98220847"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_foundation_symocraft_foundation_types_h.cpp",
+        "bytes": 67,
+        "sha256": "41fa46fd037bd63b951cf1fb9016c6b2e5c97241ee5102acaab47b8ca9aca913"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_renderer_symocraft_renderer_error_h.cpp",
+        "bytes": 65,
+        "sha256": "c64d0724969aab2026c6be023b7d09a505efac2a683cefe2c29e762622d1181f"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_renderer_symocraft_renderer_renderer_h.cpp",
+        "bytes": 68,
+        "sha256": "56b5235bd261a1b3bbb48f6838190d50f4ec2d3157d1db79bcc34a58d0ea1817"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_renderer_symocraft_renderer_types_h.cpp",
+        "bytes": 65,
+        "sha256": "df09e582439b1cf5355dfce8daf02707386662f6759d65b2e8a0775d45e50d2e"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_scene_symocraft_scene_camera_h.cpp",
+        "bytes": 63,
+        "sha256": "30f3ea08cb158e1a1c10cbe44798a2f503cac268455ee311569acf9736ba9e79"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_scene_symocraft_scene_mesh_h.cpp",
+        "bytes": 61,
+        "sha256": "a50d111cd646aa88b7e23caca5a4f4e7dac7d500832b297f7cb972008f926450"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_simulation_symocraft_simulation_camera_h.cpp",
+        "bytes": 68,
+        "sha256": "23efde60417c2a2122110ee03b13029c903f5cb5069e842c66ec8e8049823281"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_simulation_symocraft_simulation_character_system_h.cpp",
+        "bytes": 78,
+        "sha256": "8eff401e46f2155703ca05ea1005492ce6985f144e6016f1e2d58fd82cf1ee74"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_simulation_symocraft_simulation_component_h.cpp",
+        "bytes": 71,
+        "sha256": "b248d3c0d27ecabf090f2ad10eda91e644727923a66d2e64d56366f1b0dbc0f5"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_simulation_symocraft_simulation_physics_system_h.cpp",
+        "bytes": 76,
+        "sha256": "419fbdea5aae28638322eb28b8550b8a1de3b455d36f25fd019780e5dcef1f64"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_simulation_symocraft_simulation_player_h.cpp",
+        "bytes": 68,
+        "sha256": "bb48da6f6713eb0b139f81b82b3f559c503bb8e820e112c5d606c6091a52c79a"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_simulation_symocraft_simulation_player_math_h.cpp",
+        "bytes": 73,
+        "sha256": "0ba6a6b7a04840fb2fe6fbc68d0d9f648d8fcd2552ee93c4e90b83cc05c9a1c2"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_simulation_symocraft_simulation_playercontroller_h.cpp",
+        "bytes": 78,
+        "sha256": "8e65899514b4098f3ae8c38f6e0766ecec82ff0c3ef5b624f1370b067e5f2a57"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_simulation_symocraft_simulation_transform_system_h.cpp",
+        "bytes": 78,
+        "sha256": "8a8b849bc8d85126108cb2f17ad562c4baf9e064c61647777b661a2c5d2774ef"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_telemetry_symocraft_telemetry_document_io_h.cpp",
+        "bytes": 72,
+        "sha256": "ad57d5e5efb7f925212777aaab6311973f9a28ad062d43ed0fe776e8819f8612"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_telemetry_symocraft_telemetry_performance_h.cpp",
+        "bytes": 72,
+        "sha256": "8e3ff8270928b08ad78e75e3b5dab75fb4726476d645e739b77e09a8a033d79e"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_world_symocraft_world_benchmark_workload_h.cpp",
+        "bytes": 75,
+        "sha256": "9c95fb50c11622e6c5246c5def16295c67f962b77c3ab3137a3da8d9a74a9047"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_world_symocraft_world_block_definition_h.cpp",
+        "bytes": 73,
+        "sha256": "563a82ebb8346c8ff17efd807534d9d6062a986b4fb5a75857f97e51f465692b"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_world_symocraft_world_block_h.cpp",
+        "bytes": 62,
+        "sha256": "aeb3ee801cf57e0af94ad997ab66470ae43d114751d3d0a7cec3591142a7d8df"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_world_symocraft_world_constants_h.cpp",
+        "bytes": 66,
+        "sha256": "422e832e5da146ea5cb3ff45c95a09ba4db456774422684db963b8709b33a281"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_world_symocraft_world_generation_h.cpp",
+        "bytes": 67,
+        "sha256": "5a47ca22a5f50fbdc3c36cd40e2edee02c70a66187533e17253728ff85a62e4b"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_world_symocraft_world_test_scene_h.cpp",
+        "bytes": 67,
+        "sha256": "b5fa974141437be3710de30992a1cf51f581239aef9012ce3e7add5c462ceb2c"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-cpu-release-002/test/public-headers/header_world_symocraft_world_world_h.cpp",
+        "bytes": 62,
+        "sha256": "f4a89ed03737e8806325a90e70c2be520878fd0f9bebca508fa065a800478803"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_assets_symocraft_assets_asset_paths_h.cpp",
+        "bytes": 69,
+        "sha256": "1e62a93650ac1ee1a6d7c3f2ff76d1c7ac4f8c7334bf78feb2a405b48b091179"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_assets_symocraft_assets_image_h.cpp",
+        "bytes": 63,
+        "sha256": "6c2982733462469e5875954302c56e6b1bd90791bdf785bbec126eacc185bf52"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_ecs_symocraft_ecs_registry_h.cpp",
+        "bytes": 63,
+        "sha256": "753054975bc5d57aa8a9bd95bc8c218b865f2d0632ca72dede55a75559a6667c"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_foundation_symocraft_foundation_diagnostics_h.cpp",
+        "bytes": 73,
+        "sha256": "1a5c9ed1725637cc40d662a8b724dc365a19c335685c36d8d4631451c428ee41"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_foundation_symocraft_foundation_document_h.cpp",
+        "bytes": 70,
+        "sha256": "1588b202b4ce995b4db98ccd470df51e79bae913f0abe2c920439ea50d227e08"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_foundation_symocraft_foundation_files_h.cpp",
+        "bytes": 67,
+        "sha256": "2ebb4e79d156f591e4277caa4c8d88625a0a4d6226c2f571444c140b791c0f47"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_foundation_symocraft_foundation_math_h.cpp",
+        "bytes": 66,
+        "sha256": "d18c1f3556eac9f6726eba393b750407480c4e3be0f690af51761e854b6a1757"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_foundation_symocraft_foundation_memory_h.cpp",
+        "bytes": 68,
+        "sha256": "7a2d011d4d5be090db247cbeb61b353e33c64177475cfe1543a0068d98220847"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_foundation_symocraft_foundation_types_h.cpp",
+        "bytes": 67,
+        "sha256": "41fa46fd037bd63b951cf1fb9016c6b2e5c97241ee5102acaab47b8ca9aca913"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_platform_symocraft_platform_key_snapshot_h.cpp",
+        "bytes": 72,
+        "sha256": "a0b4661281866444a745825fcd4f0dc8ac148b7e973516587cd2433a5302f097"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_platform_symocraft_platform_process_memory_h.cpp",
+        "bytes": 74,
+        "sha256": "92eb38398f87b17999d52c94f1b4cc82b66d7f284b014f80ea02d54dfab12663"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_platform_symocraft_platform_window_h.cpp",
+        "bytes": 66,
+        "sha256": "81d74d4665bc7adb6ebedc9a35280e5b150ff44565c1bbe4fe69d9e058b81125"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_renderer_symocraft_renderer_error_h.cpp",
+        "bytes": 65,
+        "sha256": "c64d0724969aab2026c6be023b7d09a505efac2a683cefe2c29e762622d1181f"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_renderer_symocraft_renderer_renderer_h.cpp",
+        "bytes": 68,
+        "sha256": "56b5235bd261a1b3bbb48f6838190d50f4ec2d3157d1db79bcc34a58d0ea1817"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_renderer_symocraft_renderer_types_h.cpp",
+        "bytes": 65,
+        "sha256": "df09e582439b1cf5355dfce8daf02707386662f6759d65b2e8a0775d45e50d2e"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_scene_symocraft_scene_camera_h.cpp",
+        "bytes": 63,
+        "sha256": "30f3ea08cb158e1a1c10cbe44798a2f503cac268455ee311569acf9736ba9e79"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_scene_symocraft_scene_mesh_h.cpp",
+        "bytes": 61,
+        "sha256": "a50d111cd646aa88b7e23caca5a4f4e7dac7d500832b297f7cb972008f926450"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_simulation_symocraft_simulation_camera_h.cpp",
+        "bytes": 68,
+        "sha256": "23efde60417c2a2122110ee03b13029c903f5cb5069e842c66ec8e8049823281"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_simulation_symocraft_simulation_character_system_h.cpp",
+        "bytes": 78,
+        "sha256": "8eff401e46f2155703ca05ea1005492ce6985f144e6016f1e2d58fd82cf1ee74"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_simulation_symocraft_simulation_component_h.cpp",
+        "bytes": 71,
+        "sha256": "b248d3c0d27ecabf090f2ad10eda91e644727923a66d2e64d56366f1b0dbc0f5"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_simulation_symocraft_simulation_physics_system_h.cpp",
+        "bytes": 76,
+        "sha256": "419fbdea5aae28638322eb28b8550b8a1de3b455d36f25fd019780e5dcef1f64"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_simulation_symocraft_simulation_player_h.cpp",
+        "bytes": 68,
+        "sha256": "bb48da6f6713eb0b139f81b82b3f559c503bb8e820e112c5d606c6091a52c79a"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_simulation_symocraft_simulation_player_math_h.cpp",
+        "bytes": 73,
+        "sha256": "0ba6a6b7a04840fb2fe6fbc68d0d9f648d8fcd2552ee93c4e90b83cc05c9a1c2"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_simulation_symocraft_simulation_playercontroller_h.cpp",
+        "bytes": 78,
+        "sha256": "8e65899514b4098f3ae8c38f6e0766ecec82ff0c3ef5b624f1370b067e5f2a57"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_simulation_symocraft_simulation_transform_system_h.cpp",
+        "bytes": 78,
+        "sha256": "8a8b849bc8d85126108cb2f17ad562c4baf9e064c61647777b661a2c5d2774ef"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_telemetry_symocraft_telemetry_document_io_h.cpp",
+        "bytes": 72,
+        "sha256": "ad57d5e5efb7f925212777aaab6311973f9a28ad062d43ed0fe776e8819f8612"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_telemetry_symocraft_telemetry_performance_h.cpp",
+        "bytes": 72,
+        "sha256": "8e3ff8270928b08ad78e75e3b5dab75fb4726476d645e739b77e09a8a033d79e"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_world_symocraft_world_benchmark_workload_h.cpp",
+        "bytes": 75,
+        "sha256": "9c95fb50c11622e6c5246c5def16295c67f962b77c3ab3137a3da8d9a74a9047"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_world_symocraft_world_block_definition_h.cpp",
+        "bytes": 73,
+        "sha256": "563a82ebb8346c8ff17efd807534d9d6062a986b4fb5a75857f97e51f465692b"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_world_symocraft_world_block_h.cpp",
+        "bytes": 62,
+        "sha256": "aeb3ee801cf57e0af94ad997ab66470ae43d114751d3d0a7cec3591142a7d8df"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_world_symocraft_world_constants_h.cpp",
+        "bytes": 66,
+        "sha256": "422e832e5da146ea5cb3ff45c95a09ba4db456774422684db963b8709b33a281"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_world_symocraft_world_generation_h.cpp",
+        "bytes": 67,
+        "sha256": "5a47ca22a5f50fbdc3c36cd40e2edee02c70a66187533e17253728ff85a62e4b"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_world_symocraft_world_test_scene_h.cpp",
+        "bytes": 67,
+        "sha256": "b5fa974141437be3710de30992a1cf51f581239aef9012ce3e7add5c462ceb2c"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/test/public-headers/header_world_symocraft_world_world_h.cpp",
+        "bytes": 62,
+        "sha256": "f4a89ed03737e8806325a90e70c2be520878fd0f9bebca508fa065a800478803"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/vendor/sdl3/CMakeFiles/SDL3-static.dir/cmake_pch.c",
+        "bytes": 26,
+        "sha256": "3b112ed6e3ed81e6fba4e05adbed8a7b74e2aab527d08ac5d6695dffcc1cd2e6"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-debug-001/vendor/sdl3/CMakeFiles/SDL3-static.dir/cmake_pch.cxx",
+        "bytes": 26,
+        "sha256": "3b112ed6e3ed81e6fba4e05adbed8a7b74e2aab527d08ac5d6695dffcc1cd2e6"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_assets_symocraft_assets_asset_paths_h.cpp",
+        "bytes": 69,
+        "sha256": "1e62a93650ac1ee1a6d7c3f2ff76d1c7ac4f8c7334bf78feb2a405b48b091179"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_assets_symocraft_assets_image_h.cpp",
+        "bytes": 63,
+        "sha256": "6c2982733462469e5875954302c56e6b1bd90791bdf785bbec126eacc185bf52"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_ecs_symocraft_ecs_registry_h.cpp",
+        "bytes": 63,
+        "sha256": "753054975bc5d57aa8a9bd95bc8c218b865f2d0632ca72dede55a75559a6667c"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_foundation_symocraft_foundation_diagnostics_h.cpp",
+        "bytes": 73,
+        "sha256": "1a5c9ed1725637cc40d662a8b724dc365a19c335685c36d8d4631451c428ee41"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_foundation_symocraft_foundation_document_h.cpp",
+        "bytes": 70,
+        "sha256": "1588b202b4ce995b4db98ccd470df51e79bae913f0abe2c920439ea50d227e08"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_foundation_symocraft_foundation_files_h.cpp",
+        "bytes": 67,
+        "sha256": "2ebb4e79d156f591e4277caa4c8d88625a0a4d6226c2f571444c140b791c0f47"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_foundation_symocraft_foundation_math_h.cpp",
+        "bytes": 66,
+        "sha256": "d18c1f3556eac9f6726eba393b750407480c4e3be0f690af51761e854b6a1757"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_foundation_symocraft_foundation_memory_h.cpp",
+        "bytes": 68,
+        "sha256": "7a2d011d4d5be090db247cbeb61b353e33c64177475cfe1543a0068d98220847"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_foundation_symocraft_foundation_types_h.cpp",
+        "bytes": 67,
+        "sha256": "41fa46fd037bd63b951cf1fb9016c6b2e5c97241ee5102acaab47b8ca9aca913"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_platform_symocraft_platform_key_snapshot_h.cpp",
+        "bytes": 72,
+        "sha256": "a0b4661281866444a745825fcd4f0dc8ac148b7e973516587cd2433a5302f097"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_platform_symocraft_platform_process_memory_h.cpp",
+        "bytes": 74,
+        "sha256": "92eb38398f87b17999d52c94f1b4cc82b66d7f284b014f80ea02d54dfab12663"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_platform_symocraft_platform_window_h.cpp",
+        "bytes": 66,
+        "sha256": "81d74d4665bc7adb6ebedc9a35280e5b150ff44565c1bbe4fe69d9e058b81125"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_renderer_symocraft_renderer_error_h.cpp",
+        "bytes": 65,
+        "sha256": "c64d0724969aab2026c6be023b7d09a505efac2a683cefe2c29e762622d1181f"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_renderer_symocraft_renderer_renderer_h.cpp",
+        "bytes": 68,
+        "sha256": "56b5235bd261a1b3bbb48f6838190d50f4ec2d3157d1db79bcc34a58d0ea1817"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_renderer_symocraft_renderer_types_h.cpp",
+        "bytes": 65,
+        "sha256": "df09e582439b1cf5355dfce8daf02707386662f6759d65b2e8a0775d45e50d2e"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_scene_symocraft_scene_camera_h.cpp",
+        "bytes": 63,
+        "sha256": "30f3ea08cb158e1a1c10cbe44798a2f503cac268455ee311569acf9736ba9e79"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_scene_symocraft_scene_mesh_h.cpp",
+        "bytes": 61,
+        "sha256": "a50d111cd646aa88b7e23caca5a4f4e7dac7d500832b297f7cb972008f926450"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_simulation_symocraft_simulation_camera_h.cpp",
+        "bytes": 68,
+        "sha256": "23efde60417c2a2122110ee03b13029c903f5cb5069e842c66ec8e8049823281"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_simulation_symocraft_simulation_character_system_h.cpp",
+        "bytes": 78,
+        "sha256": "8eff401e46f2155703ca05ea1005492ce6985f144e6016f1e2d58fd82cf1ee74"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_simulation_symocraft_simulation_component_h.cpp",
+        "bytes": 71,
+        "sha256": "b248d3c0d27ecabf090f2ad10eda91e644727923a66d2e64d56366f1b0dbc0f5"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_simulation_symocraft_simulation_physics_system_h.cpp",
+        "bytes": 76,
+        "sha256": "419fbdea5aae28638322eb28b8550b8a1de3b455d36f25fd019780e5dcef1f64"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_simulation_symocraft_simulation_player_h.cpp",
+        "bytes": 68,
+        "sha256": "bb48da6f6713eb0b139f81b82b3f559c503bb8e820e112c5d606c6091a52c79a"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_simulation_symocraft_simulation_player_math_h.cpp",
+        "bytes": 73,
+        "sha256": "0ba6a6b7a04840fb2fe6fbc68d0d9f648d8fcd2552ee93c4e90b83cc05c9a1c2"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_simulation_symocraft_simulation_playercontroller_h.cpp",
+        "bytes": 78,
+        "sha256": "8e65899514b4098f3ae8c38f6e0766ecec82ff0c3ef5b624f1370b067e5f2a57"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_simulation_symocraft_simulation_transform_system_h.cpp",
+        "bytes": 78,
+        "sha256": "8a8b849bc8d85126108cb2f17ad562c4baf9e064c61647777b661a2c5d2774ef"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_telemetry_symocraft_telemetry_document_io_h.cpp",
+        "bytes": 72,
+        "sha256": "ad57d5e5efb7f925212777aaab6311973f9a28ad062d43ed0fe776e8819f8612"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_telemetry_symocraft_telemetry_performance_h.cpp",
+        "bytes": 72,
+        "sha256": "8e3ff8270928b08ad78e75e3b5dab75fb4726476d645e739b77e09a8a033d79e"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_world_symocraft_world_benchmark_workload_h.cpp",
+        "bytes": 75,
+        "sha256": "9c95fb50c11622e6c5246c5def16295c67f962b77c3ab3137a3da8d9a74a9047"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_world_symocraft_world_block_definition_h.cpp",
+        "bytes": 73,
+        "sha256": "563a82ebb8346c8ff17efd807534d9d6062a986b4fb5a75857f97e51f465692b"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_world_symocraft_world_block_h.cpp",
+        "bytes": 62,
+        "sha256": "aeb3ee801cf57e0af94ad997ab66470ae43d114751d3d0a7cec3591142a7d8df"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_world_symocraft_world_constants_h.cpp",
+        "bytes": 66,
+        "sha256": "422e832e5da146ea5cb3ff45c95a09ba4db456774422684db963b8709b33a281"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_world_symocraft_world_generation_h.cpp",
+        "bytes": 67,
+        "sha256": "5a47ca22a5f50fbdc3c36cd40e2edee02c70a66187533e17253728ff85a62e4b"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_world_symocraft_world_test_scene_h.cpp",
+        "bytes": 67,
+        "sha256": "b5fa974141437be3710de30992a1cf51f581239aef9012ce3e7add5c462ceb2c"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/test/public-headers/header_world_symocraft_world_world_h.cpp",
+        "bytes": 62,
+        "sha256": "f4a89ed03737e8806325a90e70c2be520878fd0f9bebca508fa065a800478803"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/vendor/sdl3/CMakeFiles/SDL3-static.dir/cmake_pch.c",
+        "bytes": 26,
+        "sha256": "3b112ed6e3ed81e6fba4e05adbed8a7b74e2aab527d08ac5d6695dffcc1cd2e6"
+      },
+      {
+        "path": "out/m3-t3/r2-step1-game-release-001/vendor/sdl3/CMakeFiles/SDL3-static.dir/cmake_pch.cxx",
+        "bytes": 26,
+        "sha256": "3b112ed6e3ed81e6fba4e05adbed8a7b74e2aab527d08ac5d6695dffcc1cd2e6"
+      },
+      {
+        "path": "test/integration/CheckAssetPackage.cmake",
+        "bytes": 2721,
+        "sha256": "edfa0003a4c4fc0c4b9bb91d9b6074463fbb036e805e4faa1d7173c8efe4dbcb"
+      },
+      {
+        "path": "test/integration/CheckIncrementalBuild.ps1",
+        "bytes": 3257,
+        "sha256": "951557df4c96d6c22d07c72ea19e68044f1be31bc1f46247569000eca3e2a8e3"
+      },
+      {
+        "path": "test/integration/CheckNegativeBoundaries.cmake",
+        "bytes": 20756,
+        "sha256": "cd31641b7648d7fc227abf4ea5e9bd9f1ff68a8ef7002f94c60feab5caf5a547"
+      },
+      {
+        "path": "test/integration/CheckRendererBoundary.cmake",
+        "bytes": 6679,
+        "sha256": "95f55a57ceefe2200bb315fa417ada4320f572d62fdea6d740959f2f847c6ed2"
+      },
+      {
+        "path": "test/integration/CheckSourceBoundaries.cmake",
+        "bytes": 178,
+        "sha256": "03104bebd07000e0036f2368f6c6b12f47c177cd1dbf1b94606c64901105aff9"
+      },
+      {
+        "path": "test/integration/CheckWorldSummary.cmake",
+        "bytes": 1513,
+        "sha256": "9742dbfbb41db6946d514417e67cd6a239a2c65b5f361507f4ddd3681a5d5434"
+      },
+      {
+        "path": "test/integration/CMakeLists.txt",
+        "bytes": 1889,
+        "sha256": "c3dd38f62dbc6fc7b14c269cb65741750689d3f504c25d1d6d6b31b07a537666"
+      },
+      {
+        "path": "test/integration/inspect-sdl-delivery.cpp",
+        "bytes": 7351,
+        "sha256": "0b0b47cac20f688ba7697c46dbbe6b3680f86fe52ff2387636a4eded28168ac3"
+      },
+      {
+        "path": "test/integration/renderer/CheckRendererIncrementalBuild.ps1",
+        "bytes": 7384,
+        "sha256": "0fff23a2327c4db169f0970fd59aba5055f858159cde2027b37fbf850c534ae2"
+      },
+      {
+        "path": "test/integration/SDL-DELIVERY-README.md",
+        "bytes": 3101,
+        "sha256": "79342f8057c11d956ab66690c238d607584e38cf02534e15f1aba790b7e355c1"
+      },
+      {
+        "path": "test/integration/verify-sdl-delivery.ps1",
+        "bytes": 28454,
+        "sha256": "ab8537833663770424cb90c87c93d58b837e17d53138eab2fd6cd77a5a4ed64c"
+      },
+      {
+        "path": "test/integration/verify-tool-boundaries.cmake",
+        "bytes": 5797,
+        "sha256": "d73126a1b7c5d8a937c82583e7c55c3c7f08c33aad2a886c4a004170e3b30f9d"
+      },
+      {
+        "path": "test/integration/VerifyBuildMatrix.cmake",
+        "bytes": 8233,
+        "sha256": "6581094a8d903147584f89d74f8677237bf53722e79f6f6b6f9e47b80c2db5b1"
+      },
+      {
+        "path": "test/integration/VerifyMigrationRuntime.ps1",
+        "bytes": 4908,
+        "sha256": "16b9096c2bfe63619c818ca526be5959398d6ff39f5dbc418b36b251cfab45ce"
+      },
+      {
+        "path": "test/support/benchmark_fixture.cpp",
+        "bytes": 4330,
+        "sha256": "5e564f95a46327e41532ce4caf9a9ad44ea012a2e2ccce4cdec5e36930c4ac33"
+      },
+      {
+        "path": "test/support/benchmark_process_fixture.cpp",
+        "bytes": 1562,
+        "sha256": "34c40aebd1aba42aa610619e3c48c78469c0de574cb91d735b7e3794dc0e77e3"
+      },
+      {
+        "path": "test/support/publication_diagnostics.h",
+        "bytes": 12484,
+        "sha256": "eb94ce34fcf0640f01d1a4faac8a75e0f2fdb96855569533e7f271ebbaeaa367"
+      },
+      {
+        "path": "test/unit/app/cleanup_sequence_tests.cpp",
+        "bytes": 4331,
+        "sha256": "7525ceaea15705a4daf437456b52756661f272dd1983995c2a18611611db9ff3"
+      },
+      {
+        "path": "test/unit/app/startup_options_tests.cpp",
+        "bytes": 3515,
+        "sha256": "28b45dfe8bd95b47988ef25e7573e7d7a0541463e767228230f8406c209a666d"
+      },
+      {
+        "path": "test/unit/assets/asset_paths_tests.cpp",
+        "bytes": 8323,
+        "sha256": "4fe2bde401a35504cea96591648bc224db6a708ef216bd7daf446442f5489e82"
+      },
+      {
+        "path": "test/unit/assets/image_tests.cpp",
+        "bytes": 2554,
+        "sha256": "afd76fa7f8aaa3bf1b6434bd329a2ff47732cff5bcc860d945406bec433bd124"
+      },
+      {
+        "path": "test/unit/ecs/registry_tests.cpp",
+        "bytes": 1896,
+        "sha256": "03f3a91975a847142369217ad5cfc0792451e1f183375fbfe65222689a474cb6"
+      },
+      {
+        "path": "test/unit/foundation/document_tests.cpp",
+        "bytes": 2412,
+        "sha256": "c56e2747d6cdbf55c19ba5e544bcf1a0f557f933f06158baf34566c945c00129"
+      },
+      {
+        "path": "test/unit/foundation/files_tests.cpp",
+        "bytes": 9777,
+        "sha256": "6bcea2ea4d4cd08f403c0c2b40acf7b7d0f891c444828236c7a1047f7caa745f"
+      },
+      {
+        "path": "test/unit/platform/key_snapshot_tests.cpp",
+        "bytes": 2280,
+        "sha256": "6ba8a985b2d4a96af72a92f3eb4bd8b854ab129f773691acf425c3a0f8b1e9d9"
+      },
+      {
+        "path": "test/unit/renderer/batch_safety_tests.cpp",
+        "bytes": 10971,
+        "sha256": "4831e2b3877765f3cc7d3d9bbc093149d3ab2323f8da47fd7ef9ccab26605021"
+      },
+      {
+        "path": "test/unit/renderer/CMakeLists.txt",
+        "bytes": 1912,
+        "sha256": "93a73e08bc2ff85f34b173b0072239fc458cc6ff3675ac3992b1b40e79cfa2f8"
+      },
+      {
+        "path": "test/unit/renderer/facade_tests.cpp",
+        "bytes": 43485,
+        "sha256": "19a668f513bac28ba2d7a251c54e966ab40eb89e6cc8969ad1f0b290a08475ea"
+      },
+      {
+        "path": "test/unit/renderer/gpu_timer_tests.cpp",
+        "bytes": 2260,
+        "sha256": "931b23e622fba6a1ac972826385fbdc457f0406cdc2e6923cbe5f07203dc1daa"
+      },
+      {
+        "path": "test/unit/renderer/public_api_consumer.cpp",
+        "bytes": 4566,
+        "sha256": "743032b94dcf2de57ac418f09b11a6b4f073b1c43c8e456f4af99c6f99061c2c"
+      },
+      {
+        "path": "test/unit/renderer/shader_loading_tests.cpp",
+        "bytes": 8189,
+        "sha256": "83e6361031c2abc2846910fba4a1ea863803c9098d919d458a1696c69ac754a3"
+      },
+      {
+        "path": "test/unit/simulation/player_math_tests.cpp",
+        "bytes": 6365,
+        "sha256": "89917f7b640899f7c7ee50a937440b1a9a01c7eab10bd372f209b0ff6eeea52c"
+      },
+      {
+        "path": "test/unit/simulation/simulation_contract_tests.cpp",
+        "bytes": 7503,
+        "sha256": "cc2bd1cdbd254f2c9b39ed65a578e8fc92674375bf5aa9600ba9dcc5b929f480"
+      },
+      {
+        "path": "test/unit/telemetry/performance_tests.cpp",
+        "bytes": 12384,
+        "sha256": "e9a5c6545edb614b3056c63de4f6fbaf6a0cdb28253c04a1d6316f528c8a3a7d"
+      },
+      {
+        "path": "test/unit/world/block_config_tests.cpp",
+        "bytes": 3931,
+        "sha256": "4b465e7cec80ec1a440e1ffab593f7a018a7179801aad5ab2242e072aee892b9"
+      },
+      {
+        "path": "test/unit/world/mesh_safety_tests.cpp",
+        "bytes": 5961,
+        "sha256": "c02df0cba9d1f510ead5b83eb97d407746a046910fccdb643585c9a91d6b875d"
+      },
+      {
+        "path": "test/unit/world/world_allocation_tests.cpp",
+        "bytes": 10085,
+        "sha256": "d1e0f66a403e4753686d3c6c62ca599aad569420f4a08cf8a6fa0964b8bb6bca"
+      },
+      {
+        "path": "test/unit/world/world_contract_tests.cpp",
+        "bytes": 18962,
+        "sha256": "49665a8ce10c24cb0feaaff0b2a4112fd98ffd8a79174961dea08de0bc08e748"
+      },
+      {
+        "path": "test/unit/world/world_cost_probe.cpp",
+        "bytes": 8588,
+        "sha256": "6f205faa05980b5924a1e85b5f9c22cb6795c8aed6cc217d7354853be5026abe"
+      },
+      {
+        "path": "test/unit/world/world_generation_tests.cpp",
+        "bytes": 7204,
+        "sha256": "cdff5091680782aeab66c5a95de072f0faac44f606c618385dd31905308ae7ae"
+      },
+      {
+        "path": "tools/benchmark/src/gui.cpp",
+        "bytes": 18997,
+        "sha256": "b76239a050fb45d46ef9aa389e7e8bedbd3c9ab3edf34ada16c8d406ebc9bf06"
+      },
+      {
+        "path": "tools/benchmark/src/main.cpp",
+        "bytes": 2661,
+        "sha256": "713c777d303646eb6b9f80bdec6933ac811644632dcce34b9b156ddad32c427d"
+      },
+      {
+        "path": "tools/benchmark/src/platform.cpp",
+        "bytes": 12062,
+        "sha256": "5e997cda75677155ed66375070524f1830d04ef71fdce1710e4f55814c072a07"
+      },
+      {
+        "path": "tools/benchmark/src/runner.cpp",
+        "bytes": 23138,
+        "sha256": "89f390fc14c24b9275c58607935b3bba32b258a96a384c6e2ae0b787a0282a40"
+      },
+      {
+        "path": "vendor/glad/glad.c",
+        "bytes": 114711,
+        "sha256": "21c8b47f1e4a3ce31d9364aafc944179ed6ea7feb90c31cba79a1cc1de72881e"
+      },
+      {
+        "path": "vendor/sdl3/src/atomic/SDL_atomic.c",
+        "bytes": 13775,
+        "sha256": "f11aca56bd6d8e8775787b16a5087364b1f2944ea9b0a5c56699278e5289aa3a"
+      },
+      {
+        "path": "vendor/sdl3/src/atomic/SDL_spinlock.c",
+        "bytes": 5596,
+        "sha256": "c476b399a4bb4ca66e83781b3177cb2132fbf90e1f31e98e411569e34cc059b0"
+      },
+      {
+        "path": "vendor/sdl3/src/audio/dummy/SDL_dummyaudio.c",
+        "bytes": 4532,
+        "sha256": "c3fb2f456698f09f799c68cd2ed7c9f64ebee9c5fe000b3d3d372271e914049e"
+      },
+      {
+        "path": "vendor/sdl3/src/audio/SDL_audio.c",
+        "bytes": 106443,
+        "sha256": "f53b727691e3eec7f74c05098fd7f8e74ac0324384fda23741dbe76f9da080b4"
+      },
+      {
+        "path": "vendor/sdl3/src/audio/SDL_audiocvt.c",
+        "bytes": 54862,
+        "sha256": "4bfcf6cdab1af144dee9733770b1116a1859ba5d62294bbc4669278c468de9a4"
+      },
+      {
+        "path": "vendor/sdl3/src/audio/SDL_audiodev.c",
+        "bytes": 4032,
+        "sha256": "0a3ca7448aad6044d95e9d3895316408898683abc492efaf5c8d70c97fc6dae1"
+      },
+      {
+        "path": "vendor/sdl3/src/audio/SDL_audioqueue.c",
+        "bytes": 17416,
+        "sha256": "600812aa72c3ae3d5af01227d5291ef47958066f743d81999457a7d4906df4f6"
+      },
+      {
+        "path": "vendor/sdl3/src/audio/SDL_audioresample.c",
+        "bytes": 22872,
+        "sha256": "3d21cb5aaafaa5e9795a83bc163b4df2048309620ce7a2953b6aa3f46030951d"
+      },
+      {
+        "path": "vendor/sdl3/src/audio/SDL_audiotypecvt.c",
+        "bytes": 37260,
+        "sha256": "a89162a9520f5e7b009666cdcef3ba9d25be0718da4890adab91e20f245cd728"
+      },
+      {
+        "path": "vendor/sdl3/src/audio/SDL_mixer.c",
+        "bytes": 10813,
+        "sha256": "d3daa597f61450cd9d975b8a8593c757d55f642aa2a738ea593bfcccff569843"
+      },
+      {
+        "path": "vendor/sdl3/src/audio/SDL_wave.c",
+        "bytes": 76624,
+        "sha256": "22e827d5db9b8d219a1fd3de680b0617c642c4c1df941677e736f6c817eabc39"
+      },
+      {
+        "path": "vendor/sdl3/src/camera/dummy/SDL_camera_dummy.c",
+        "bytes": 2370,
+        "sha256": "d4715ae54c9978fe828849f563444f4e33ce76c1dff136f3ec4f2634fe582e4f"
+      },
+      {
+        "path": "vendor/sdl3/src/camera/SDL_camera.c",
+        "bytes": 59047,
+        "sha256": "2df937cc890943e1d0e3e6cbe6dcf211f1769b3843c06f8661de0cf0136b623f"
+      },
+      {
+        "path": "vendor/sdl3/src/core/SDL_core_unsupported.c",
+        "bytes": 3790,
+        "sha256": "a4488e163d3bd86269e3f38f5ee46934048523387a12d3f95b8ca6c6fa153cb7"
+      },
+      {
+        "path": "vendor/sdl3/src/core/windows/pch_cpp.cpp",
+        "bytes": 965,
+        "sha256": "362f0a98908c1f72065da27a87f514b69806b75d7c6f0b04a018b8b19cb85d3e"
+      },
+      {
+        "path": "vendor/sdl3/src/core/windows/pch.c",
+        "bytes": 965,
+        "sha256": "362f0a98908c1f72065da27a87f514b69806b75d7c6f0b04a018b8b19cb85d3e"
+      },
+      {
+        "path": "vendor/sdl3/src/core/windows/SDL_gameinput.cpp",
+        "bytes": 3148,
+        "sha256": "d16513dfe5fee2b992b005bbffe0861cde1a47ad9a4950f7731213543af784d9"
+      },
+      {
+        "path": "vendor/sdl3/src/core/windows/SDL_hid.c",
+        "bytes": 9407,
+        "sha256": "ae6ab6571ccd2bb7a548d37305b85de344a6dd1d82e26a42fe58a045b1540f78"
+      },
+      {
+        "path": "vendor/sdl3/src/core/windows/SDL_immdevice.c",
+        "bytes": 19618,
+        "sha256": "108be83858e7e9d13183c72715362551114fde75f1c9c1f6ac3348d4bce63461"
+      },
+      {
+        "path": "vendor/sdl3/src/core/windows/SDL_windows.c",
+        "bytes": 26932,
+        "sha256": "600f6bc93ed1a8a1a2b2b3e66a9c580a492dad4178b7f2c89556d3967c1baae2"
+      },
+      {
+        "path": "vendor/sdl3/src/core/windows/SDL_xinput.c",
+        "bytes": 4761,
+        "sha256": "33ce67f5b03e6f054b33ac974f329b05592353fb13df08b53c0cd970542bdc88"
+      },
+      {
+        "path": "vendor/sdl3/src/cpuinfo/SDL_cpuinfo.c",
+        "bytes": 40716,
+        "sha256": "fcddca47a7b6f416acf8a79614f77f4af81883b9be6b8180f902aab67d406e59"
+      },
+      {
+        "path": "vendor/sdl3/src/dialog/dummy/SDL_dummydialog.c",
+        "bytes": 1244,
+        "sha256": "5b36aa34c5e87d28c499a42ef8528360fd3a45f94737c4237b15c3146c399c88"
+      },
+      {
+        "path": "vendor/sdl3/src/dialog/SDL_dialog.c",
+        "bytes": 4930,
+        "sha256": "cb5bb7e005e46982075571aa0a672c0b43a9b2a1de238cdfcd0f488ff4f98b70"
+      },
+      {
+        "path": "vendor/sdl3/src/dynapi/SDL_dynapi.c",
+        "bytes": 35072,
+        "sha256": "da79192249a4a246fc06eae2c800a9edc1f2c22f0f0aa377cc12e946811441e2"
+      },
+      {
+        "path": "vendor/sdl3/src/events/imKStoUCS.c",
+        "bytes": 22546,
+        "sha256": "af7b4ebf300d3c38c93196f00e9da5a9c91bf66d8bb017639c21f8a52e7a3387"
+      },
+      {
+        "path": "vendor/sdl3/src/events/SDL_categories.c",
+        "bytes": 7906,
+        "sha256": "c0314b848774a5ccea66968517955c403363bbe846a26ab9b44726739e9ee6c7"
+      },
+      {
+        "path": "vendor/sdl3/src/events/SDL_clipboardevents.c",
+        "bytes": 1733,
+        "sha256": "25f0cfd0ae150a5fa234fe397b0d8f7e35deb2a7e557b46059d1ae9d6ba2aa9b"
+      },
+      {
+        "path": "vendor/sdl3/src/events/SDL_displayevents.c",
+        "bytes": 2311,
+        "sha256": "d9741371f633e701b6b24e5b7546acb7bfca0669169afb4a58a5d5b78658a77f"
+      },
+      {
+        "path": "vendor/sdl3/src/events/SDL_dropevents.c",
+        "bytes": 3652,
+        "sha256": "bd89a8edf2e9dec658b7896361b2e5867eb5367c7b438924ce050372acb2cb4c"
+      },
+      {
+        "path": "vendor/sdl3/src/events/SDL_events.c",
+        "bytes": 70728,
+        "sha256": "ef6301f9416c6960c5f37fc9d8ed38a5624fbd246fa4da0ac02a8351bcb172d7"
+      },
+      {
+        "path": "vendor/sdl3/src/events/SDL_eventwatch.c",
+        "bytes": 4268,
+        "sha256": "7341a7fe299706b15fac6728932216a2315f5ec401bbfda27477ef31b29b984c"
+      },
+      {
+        "path": "vendor/sdl3/src/events/SDL_keyboard.c",
+        "bytes": 29190,
+        "sha256": "4086cf93f5b4019e90b674450d889b585ea8bbd9b596716288034770b45af0dd"
+      },
+      {
+        "path": "vendor/sdl3/src/events/SDL_keymap.c",
+        "bytes": 36377,
+        "sha256": "8fc45d4738174355b1e7be2dfa830c680250c15205f4f8f8ad7daae749a43781"
+      },
+      {
+        "path": "vendor/sdl3/src/events/SDL_keysym_to_keycode.c",
+        "bytes": 2376,
+        "sha256": "5feae5785912912ce83d9c903095bcb2e404e122cb3d33c80551f0039e5986cf"
+      },
+      {
+        "path": "vendor/sdl3/src/events/SDL_keysym_to_scancode.c",
+        "bytes": 18731,
+        "sha256": "344046e1a2149a61c63162d1dc465dccd917af927408baaf76338aa0ff216c4f"
+      },
+      {
+        "path": "vendor/sdl3/src/events/SDL_mouse.c",
+        "bytes": 59309,
+        "sha256": "29b8bc37daf766170aeef707116d752aa0edcd2bc9c3f687e66389c74c333f25"
+      },
+      {
+        "path": "vendor/sdl3/src/events/SDL_pen.c",
+        "bytes": 26247,
+        "sha256": "d00cde4dbed99d99e9d18bba91ad5651abd4fc0628c9dc072f56fba44af2a093"
+      },
+      {
+        "path": "vendor/sdl3/src/events/SDL_quit.c",
+        "bytes": 4918,
+        "sha256": "6d9c91cc501cd0c77b9887680fddcfa21a24003f3f6e1a14c5fc010d6c4379fa"
+      },
+      {
+        "path": "vendor/sdl3/src/events/SDL_scancode_tables.c",
+        "bytes": 2633,
+        "sha256": "ea7de704eb837c82a9d5c54a6e09fbbd0306dea35a7621354a3459f3c1304e63"
+      },
+      {
+        "path": "vendor/sdl3/src/events/SDL_touch.c",
+        "bytes": 19686,
+        "sha256": "6ade404131b37a944b103ac327fea673f0b9ef098b1f33e9b1a6abff8236c2dc"
+      },
+      {
+        "path": "vendor/sdl3/src/events/SDL_windowevents.c",
+        "bytes": 11060,
+        "sha256": "b615e1681e9407c48dee3e86b7f9af6dc5c1a234eaf555c610aa6a67424137c3"
+      },
+      {
+        "path": "vendor/sdl3/src/filesystem/SDL_filesystem.c",
+        "bytes": 17485,
+        "sha256": "2854605708ed05f3dc5ec2e0816706ca5e4990c63e6bdd0fabf501e063ac8f42"
+      },
+      {
+        "path": "vendor/sdl3/src/filesystem/windows/SDL_sysfilesystem.c",
+        "bytes": 11171,
+        "sha256": "bd39e789a75910db582a2ae818ee76a59e964812a99490fe53533ae186074f7a"
+      },
+      {
+        "path": "vendor/sdl3/src/filesystem/windows/SDL_sysfsops.c",
+        "bytes": 7925,
+        "sha256": "18a95c4512214a3e04d7af76d0b9779b0eefedcc12b4f8dacb24e54007acea6d"
+      },
+      {
+        "path": "vendor/sdl3/src/gpu/SDL_gpu.c",
+        "bytes": 124076,
+        "sha256": "66b345184b8982b64157c52667e5a0fc8f17061a479bd80aed93cbe5ea430d9c"
+      },
+      {
+        "path": "vendor/sdl3/src/haptic/dummy/SDL_syshaptic.c",
+        "bytes": 3454,
+        "sha256": "b4ddafee8f7445444be45002c79597728d45d32ee4bebc5ac4a4dac3d4c55c36"
+      },
+      {
+        "path": "vendor/sdl3/src/haptic/SDL_haptic.c",
+        "bytes": 23923,
+        "sha256": "2045f66f9cc90f08218aab028e693516746326723b7aa8c1ef7105be8ee8aa90"
+      },
+      {
+        "path": "vendor/sdl3/src/hidapi/SDL_hidapi.c",
+        "bytes": 65120,
+        "sha256": "08ce58e11087f1174b3fe81b083f843292798ff7d074911d3c96142e5e75fb3d"
+      },
+      {
+        "path": "vendor/sdl3/src/io/generic/SDL_asyncio_generic.c",
+        "bytes": 15895,
+        "sha256": "6299b175bbf3f40731ffa05879d2b6b9061596a516bb6ae8cecfaae6923760a0"
+      },
+      {
+        "path": "vendor/sdl3/src/io/SDL_asyncio.c",
+        "bytes": 10962,
+        "sha256": "478bce33411ad88cba38f19e9fb3990153478deff1d12793c4c980ba166b8257"
+      },
+      {
+        "path": "vendor/sdl3/src/io/SDL_iostream.c",
+        "bytes": 48443,
+        "sha256": "b9c4e6d5af4dc93855af42a418a64bc5bd0bc66afee2aa4e8762bd8269b1a0c4"
+      },
+      {
+        "path": "vendor/sdl3/src/io/windows/SDL_asyncio_windows_ioring.c",
+        "bytes": 21574,
+        "sha256": "2d730f3884e8cab7df5c8abc45a5246703550a394ed6379e8a283181fb21411a"
+      },
+      {
+        "path": "vendor/sdl3/src/joystick/controller_type.c",
+        "bytes": 4037,
+        "sha256": "1d8c41d761dad0f6c5bf6becf2dd06233f9a9ef484ef6691f3308549125e41b2"
+      },
+      {
+        "path": "vendor/sdl3/src/joystick/dummy/SDL_sysjoystick.c",
+        "bytes": 3969,
+        "sha256": "f79b90cd9cf83c4a8d6d08744f5bf94f03687563505494f9a8ec82cc326a26e6"
+      },
+      {
+        "path": "vendor/sdl3/src/joystick/SDL_gamepad.c",
+        "bytes": 157604,
+        "sha256": "a01cc5bbf573a1124a0ff023af78d841eea80bc6889d57e98cf37e7a56f9eaf4"
+      },
+      {
+        "path": "vendor/sdl3/src/joystick/SDL_joystick.c",
+        "bytes": 127702,
+        "sha256": "af57721c6d07cf177c41dd0f3c889ce3c85d52b926a1733228417d5217002e72"
+      },
+      {
+        "path": "vendor/sdl3/src/joystick/SDL_steam_virtual_gamepad.c",
+        "bytes": 8124,
+        "sha256": "295638b98658caadefb86ca35945c9cf9ba32298d57614c1e88936d29be2742a"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/e_atan2.c",
+        "bytes": 4093,
+        "sha256": "8a2d246e2090ba5b64a5cc146a6615c2ed13ec8414eb3070503a21c83dfb63fe"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/e_exp.c",
+        "bytes": 6136,
+        "sha256": "674972ccb5ef13ad2680ce5f6a6f7bba910868c7e03e84ea1c77706bea6a5f31"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/e_fmod.c",
+        "bytes": 3608,
+        "sha256": "f5a261b1920399f24922a2581c64a185d9ac07d56ea6bfd661c78df78d13e1f5"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/e_log.c",
+        "bytes": 4819,
+        "sha256": "46e694952cfad1263b20e706f88ee0894d969a0a30b3c06b618572cebd1670e4"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/e_log10.c",
+        "bytes": 3136,
+        "sha256": "be24b2773e1bf4d081928458631f84a40d4d0efa53d0b57fa3365cbba5e07b97"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/e_pow.c",
+        "bytes": 10823,
+        "sha256": "578d56b5c8511c436368b2f370689c3bba78f77e5b7c54435737951bafcf95bf"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/e_rem_pio2.c",
+        "bytes": 5286,
+        "sha256": "9cee3e1c5f452d484afa3791bd546f7998b6cd7d8604422dda05bae4e6db18d7"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/e_sqrt.c",
+        "bytes": 14528,
+        "sha256": "db2ec3e18ef578f426986c68f15d67556b8685d9c15786c9dcef2ce8aa18b993"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/k_cos.c",
+        "bytes": 2926,
+        "sha256": "812d7b768a5599b2735de255bfe87d8e5c4bc39cc7da4f9a44e182d845aa28f1"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/k_rem_pio2.c",
+        "bytes": 8603,
+        "sha256": "f59983970ddf8b8c4d2307f4776801e28a33b5c9e03ec81cf4b2d7f52d31b7b8"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/k_sin.c",
+        "bytes": 2293,
+        "sha256": "34ed2b1bb059c49ce91a76ca9a86de6f64533763e4f0b8356498af736dbe80a8"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/k_tan.c",
+        "bytes": 3975,
+        "sha256": "bb3984d0446cef4e5c2669356f5de27d8462c0be6c4304847d60b07a6f22f577"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/s_atan.c",
+        "bytes": 4026,
+        "sha256": "f2b83387b1a60ab5ae81118414ac7f7c5439d9093c6abef3086abed8a205dd75"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/s_copysign.c",
+        "bytes": 782,
+        "sha256": "774b72f76728be5296ade91592bb55d54154fa14d4d8f621a953dde8dc5fcc80"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/s_cos.c",
+        "bytes": 1970,
+        "sha256": "035a03bfbcba98d0eed589ffa702d87faf4b496beeef636ec9395d04fcfd8df0"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/s_fabs.c",
+        "bytes": 759,
+        "sha256": "b9acaee6242eb61f8b56eb180fdc562e7863f82ea875f8eb5e2524b31d029a2a"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/s_floor.c",
+        "bytes": 1787,
+        "sha256": "5a607cf49677bea1a1dee7e69ab015ba85b7e42e2389f5a0e3cbee1ccd410f64"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/s_isinf.c",
+        "bytes": 477,
+        "sha256": "7041710018b47bcbe82c92346ebcb368fadb9a81689e5eafc9e4244500ccc90e"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/s_isinff.c",
+        "bytes": 402,
+        "sha256": "74603b1fb8cf0a2f865286882cb71eaa703962b49881fbac74380dc1291c2cbc"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/s_isnan.c",
+        "bytes": 751,
+        "sha256": "1fd472f94e62583c58d997cb2189a44b26e0abcf6a70e94cd27520ea584a8aa8"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/s_isnanf.c",
+        "bytes": 815,
+        "sha256": "1763e39f70db8846d3d63cd16932b5ae4a0b696e9368ec767360ff5085457c07"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/s_modf.c",
+        "bytes": 1781,
+        "sha256": "2eda119771935b931c88c12ce3924853fba30bb4c8c4584748ced2781126a28e"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/s_scalbn.c",
+        "bytes": 1863,
+        "sha256": "4b962d5e7d18e1e7b88135f988b87d8d94a227f9e0a96e13b5b1049ed3e56dd4"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/s_sin.c",
+        "bytes": 1961,
+        "sha256": "765b8964025c9eaa98f7a5a495e37c0721f5bb97f52261d50327639cf3550d11"
+      },
+      {
+        "path": "vendor/sdl3/src/libm/s_tan.c",
+        "bytes": 1810,
+        "sha256": "7ff0875f6e7466861f52daeb3053f4b5a2600277cbfc9abf1b4ab0b0eb46ae96"
+      },
+      {
+        "path": "vendor/sdl3/src/loadso/windows/SDL_sysloadso.c",
+        "bytes": 2166,
+        "sha256": "580b5104405864ba28672a1a51185103b6d7da14fbda3eca892890ab3f91cd86"
+      },
+      {
+        "path": "vendor/sdl3/src/locale/SDL_locale.c",
+        "bytes": 3262,
+        "sha256": "a8e884bfb52506212c6822cca479c09de41367518aba64d40628212733ff8a48"
+      },
+      {
+        "path": "vendor/sdl3/src/locale/windows/SDL_syslocale.c",
+        "bytes": 4025,
+        "sha256": "3e74794aab106c3d6ef9f3b9bc51f5eb1d7f9a7d4eb9410e84f77569e6af6d26"
+      },
+      {
+        "path": "vendor/sdl3/src/main/generic/SDL_sysmain_callbacks.c",
+        "bytes": 4208,
+        "sha256": "22fa1ff2b602921d32276143aed9f7bdbecc2ca0a067c2ed9d078e1b746f15a0"
+      },
+      {
+        "path": "vendor/sdl3/src/main/SDL_main_callbacks.c",
+        "bytes": 5853,
+        "sha256": "5e0f068cb3834dc178ce6cb2eb7be94e81ce5feb9fe5ed4e0543b8323a9d5225"
+      },
+      {
+        "path": "vendor/sdl3/src/main/SDL_runapp.c",
+        "bytes": 1544,
+        "sha256": "a2d145f38e0a0115d8580a3516b5c0ea55575da2c6021a198a8e86055235cf3a"
+      },
+      {
+        "path": "vendor/sdl3/src/main/windows/SDL_sysmain_runapp.c",
+        "bytes": 1841,
+        "sha256": "d5f4ac591af07b65ae2f108d8a390930edb18884d05d94dab5178f711cfc793f"
+      },
+      {
+        "path": "vendor/sdl3/src/misc/SDL_libusb.c",
+        "bytes": 6601,
+        "sha256": "009d77e44deb826610e221bce6d61cdadd4d196b3a73501881f7e47fa2917e04"
+      },
+      {
+        "path": "vendor/sdl3/src/misc/SDL_url.c",
+        "bytes": 1137,
+        "sha256": "5f4fe7174a15e21f39168aa1a8c0fe1dc93502ff31227d6629fbbbaf816032c9"
+      },
+      {
+        "path": "vendor/sdl3/src/misc/windows/SDL_sysurl.c",
+        "bytes": 2013,
+        "sha256": "7befad82949c0a3d88b8d3a61f5ae0d09e040d802b37477e6093d350e8aacd62"
+      },
+      {
+        "path": "vendor/sdl3/src/power/SDL_power.c",
+        "bytes": 3376,
+        "sha256": "12ba7bd5a7d8a3cbbb41012e67104bb391d27821384a030770e2792663aac88d"
+      },
+      {
+        "path": "vendor/sdl3/src/process/SDL_process.c",
+        "bytes": 5938,
+        "sha256": "458c2d086a16ed33f1f235487a8cf2ef7ea07d500b3383a78d66ee41adbf77c8"
+      },
+      {
+        "path": "vendor/sdl3/src/process/windows/SDL_windowsprocess.c",
+        "bytes": 21577,
+        "sha256": "f1853d2c489fe2296317f1f0c8703e151ca34c5b3edd62d3a70084bf80fec40b"
+      },
+      {
+        "path": "vendor/sdl3/src/render/direct3d/SDL_render_d3d.c",
+        "bytes": 72934,
+        "sha256": "33ea28fda72cc817a13857f2f31fc0f33dbdbf9b6d90a6debe64333b51e72145"
+      },
+      {
+        "path": "vendor/sdl3/src/render/direct3d/SDL_shaders_d3d.c",
+        "bytes": 1976,
+        "sha256": "0b11361e6d3bb66a442af8bb9b34d2a5c1982637212ebf55ab2f6545bb55a33d"
+      },
+      {
+        "path": "vendor/sdl3/src/render/direct3d11/SDL_render_d3d11.c",
+        "bytes": 119431,
+        "sha256": "6b440e85c2f3bb0c5d1538f7532c1ae7a00e915118c8b9adf23e6b6f07ba0e6a"
+      },
+      {
+        "path": "vendor/sdl3/src/render/direct3d11/SDL_shaders_d3d11.c",
+        "bytes": 4247,
+        "sha256": "3904fa985b8b232aa2eeb611f455138827c1be82dbe743433679f92af7c681b7"
+      },
+      {
+        "path": "vendor/sdl3/src/render/direct3d12/SDL_render_d3d12.c",
+        "bytes": 144954,
+        "sha256": "5fd29240ef2e9d629e49b312b649676fbe64ba119272d0aecdd441e87972faff"
+      },
+      {
+        "path": "vendor/sdl3/src/render/direct3d12/SDL_shaders_d3d12.c",
+        "bytes": 4077,
+        "sha256": "6233df10b5bc2fc2fc936da6961d291bfb0588d706278ca98244433f2a3555eb"
+      },
+      {
+        "path": "vendor/sdl3/src/render/gpu/SDL_pipeline_gpu.c",
+        "bytes": 6465,
+        "sha256": "4035fe27dece299cba27a0b1e5b16e1ca1f51f2ffe0a8d99d09ef0d32340b535"
+      },
+      {
+        "path": "vendor/sdl3/src/render/gpu/SDL_render_gpu.c",
+        "bytes": 67283,
+        "sha256": "5ff5de62c6d0f1b6d58fdd76454ad2adc8118e2ac9e7b1717e159524d5062284"
+      },
+      {
+        "path": "vendor/sdl3/src/render/gpu/SDL_shaders_gpu.c",
+        "bytes": 9584,
+        "sha256": "6e8d35602f9887a807d8645d10627a5ba9a28c478cd1d5998f9f728ca91c4ad6"
+      },
+      {
+        "path": "vendor/sdl3/src/render/ngage/SDL_render_ngage.c",
+        "bytes": 18189,
+        "sha256": "17b71e246b2c03301beecd590e6033570e366d09a9c0d84926067c3001d920f9"
+      },
+      {
+        "path": "vendor/sdl3/src/render/opengl/SDL_render_gl.c",
+        "bytes": 78389,
+        "sha256": "61e7e48810bf368b4b844d31e7794bcc2de0db69c5b86b0cf78bee6dbc35d1fc"
+      },
+      {
+        "path": "vendor/sdl3/src/render/opengl/SDL_shaders_gl.c",
+        "bytes": 31525,
+        "sha256": "fda2864660169c14e60237b186395f0ecbb77ea579b4aadd0e703049f60a86f4"
+      },
+      {
+        "path": "vendor/sdl3/src/render/opengles2/SDL_render_gles2.c",
+        "bytes": 91726,
+        "sha256": "42846649bcffaa20df877a5bc6e3341aebcfe800f750e0cbdad0f1c384cb9c03"
+      },
+      {
+        "path": "vendor/sdl3/src/render/opengles2/SDL_shaders_gles2.c",
+        "bytes": 23995,
+        "sha256": "fbcd7c3edf7970e92df86b969b2172a0156738e2948d7de40cce62c12aa5641e"
+      },
+      {
+        "path": "vendor/sdl3/src/render/ps2/SDL_render_ps2.c",
+        "bytes": 25723,
+        "sha256": "9c924697414d8a651fceef5f11ebafef74cf04cff52ceb674aa7f4b040910bd8"
+      },
+      {
+        "path": "vendor/sdl3/src/render/psp/SDL_render_psp.c",
+        "bytes": 51068,
+        "sha256": "0fe4637203056fe06f4e1cd520bdd85578a7007d0f2012f209e46814b31889c2"
+      },
+      {
+        "path": "vendor/sdl3/src/render/SDL_render_unsupported.c",
+        "bytes": 966,
+        "sha256": "fd4f267403f9a7f000811cc398ba740942ff2a39a7c137d70f204636cfa18bc7"
+      },
+      {
+        "path": "vendor/sdl3/src/render/SDL_render.c",
+        "bytes": 209250,
+        "sha256": "6338807b452872ed180b60454d4e0dd5ab645469be6545b3944b22ffdb9fc312"
+      },
+      {
+        "path": "vendor/sdl3/src/render/SDL_yuv_sw.c",
+        "bytes": 13291,
+        "sha256": "3f5a1adafeb534913da260df3d4ad00b93646e3c1f7309aa8ff2ec67beb68a33"
+      },
+      {
+        "path": "vendor/sdl3/src/render/software/SDL_blendfillrect.c",
+        "bytes": 11416,
+        "sha256": "8c02d52d2b548f4e1d121587df9ff1ffcfc3ecdcdc98d5e2ce6af5668b3ef058"
+      },
+      {
+        "path": "vendor/sdl3/src/render/software/SDL_blendline.c",
+        "bytes": 34095,
+        "sha256": "63b4e0bb2f65e1958d229f7afd403ba01673bafa99fc743c6b7bd837f85e5555"
+      },
+      {
+        "path": "vendor/sdl3/src/render/software/SDL_blendpoint.c",
+        "bytes": 11012,
+        "sha256": "627edd414a8d677b5b42cfacfd34d0ca88a0de02852cbe189715ce7a2159eb83"
+      },
+      {
+        "path": "vendor/sdl3/src/render/software/SDL_drawline.c",
+        "bytes": 6582,
+        "sha256": "a6411298ca88c923a3999d8be6dce20d2f21e91156310b395950653e6fd8d0ea"
+      },
+      {
+        "path": "vendor/sdl3/src/render/software/SDL_drawpoint.c",
+        "bytes": 3094,
+        "sha256": "039951b5914057eeb642bd862e1edb46511a6ace30c9637043ae7679091eadf4"
+      },
+      {
+        "path": "vendor/sdl3/src/render/software/SDL_render_sw.c",
+        "bytes": 46267,
+        "sha256": "86d31609dda3e325d914e90ee246f74a9082ba4709399a8fb8074a710d8b6fe3"
+      },
+      {
+        "path": "vendor/sdl3/src/render/software/SDL_triangle.c",
+        "bytes": 30522,
+        "sha256": "3139c9e06e1edd24d9982256d4a79001e48f64fcf637db98945c799599fffd82"
+      },
+      {
+        "path": "vendor/sdl3/src/render/vitagxm/SDL_render_vita_gxm_memory.c",
+        "bytes": 5031,
+        "sha256": "d19dc0ca7eb6faeb70c40e35abdb81f412b29adfc1e2b03102c9b3245228fefa"
+      },
+      {
+        "path": "vendor/sdl3/src/render/vitagxm/SDL_render_vita_gxm_tools.c",
+        "bytes": 46169,
+        "sha256": "91bd29dd6321e7803d9d176b344276fbad0daf6e5ab6a68444ddd00ecf5a4aaf"
+      },
+      {
+        "path": "vendor/sdl3/src/render/vitagxm/SDL_render_vita_gxm.c",
+        "bytes": 45521,
+        "sha256": "6fca4e14aad1950f5d48a65645b1a9b64597b78f7dbcc57af051b4ccbea46d1f"
+      },
+      {
+        "path": "vendor/sdl3/src/render/vulkan/SDL_render_vulkan.c",
+        "bytes": 214321,
+        "sha256": "e3a37a15c76fbd530486bcc1a97e667c3bc223d25039f487606aee522fabef6d"
+      },
+      {
+        "path": "vendor/sdl3/src/render/vulkan/SDL_shaders_vulkan.c",
+        "bytes": 2666,
+        "sha256": "af974bd23014e1185fe5c571334f2de8441099ed847f57e32dbb1da62a3d30f7"
+      },
+      {
+        "path": "vendor/sdl3/src/SDL_assert.c",
+        "bytes": 13156,
+        "sha256": "8088036bb52238b28a94bb6e86d82eddf945e76063a4a540f191c1660238d496"
+      },
+      {
+        "path": "vendor/sdl3/src/SDL_error.c",
+        "bytes": 3572,
+        "sha256": "70936d6902a9b81bb346f77825a93d2f1b670ea94ce7b9b08ce74f7afb2fd247"
+      },
+      {
+        "path": "vendor/sdl3/src/SDL_guid.c",
+        "bytes": 2798,
+        "sha256": "161c120c1180bf4fbdc19b25942200ac73daa1dcf71b00d7982ac150f8300f6c"
+      },
+      {
+        "path": "vendor/sdl3/src/SDL_hashtable.c",
+        "bytes": 15238,
+        "sha256": "0969c3118ef44b5d3a65718a1913d4917a79dc99da53dcb4e3f7f43ff5cb30de"
+      },
+      {
+        "path": "vendor/sdl3/src/SDL_hints.c",
+        "bytes": 11842,
+        "sha256": "93860cc3cdf85bc47ded500ba68f6dd8c7587ebee1a085164577d54393304e89"
+      },
+      {
+        "path": "vendor/sdl3/src/SDL_list.c",
+        "bytes": 2110,
+        "sha256": "d70c4a2f0ace61c31d96365bd52967cfef04e49b849af9a0b72daee3e007a765"
+      },
+      {
+        "path": "vendor/sdl3/src/SDL_log.c",
+        "bytes": 24506,
+        "sha256": "32c1b5ef4704534ea6f4f98a4c2d2fef3c89b76782341fe00725625832e3f40a"
+      },
+      {
+        "path": "vendor/sdl3/src/SDL_properties.c",
+        "bytes": 24981,
+        "sha256": "c88a9c7b82861c1fa8a094f2a2b51cb0961a4e1036e2082fff65cc2dc290b407"
+      },
+      {
+        "path": "vendor/sdl3/src/SDL_utils.c",
+        "bytes": 18673,
+        "sha256": "52c065690ccb2648fea3006ae762d5c75add5816aa97a2ddee935d99812619e0"
+      },
+      {
+        "path": "vendor/sdl3/src/SDL.c",
+        "bytes": 27877,
+        "sha256": "20ee2ffdd011eacb5f30a11ff11c9746519c6818b097d1404cdf4d871e9d8476"
+      },
+      {
+        "path": "vendor/sdl3/src/sensor/dummy/SDL_dummysensor.c",
+        "bytes": 2351,
+        "sha256": "ec28fe42670097999a011240ab744d00e459f7581c1b37ef8dbaab19c3406a8a"
+      },
+      {
+        "path": "vendor/sdl3/src/sensor/SDL_sensor.c",
+        "bytes": 15809,
+        "sha256": "a3919d4bf150cf1c049af7acd78a91eb580790f08658c0222a86e255546006fb"
+      },
+      {
+        "path": "vendor/sdl3/src/stdlib/SDL_crc16.c",
+        "bytes": 1783,
+        "sha256": "2a426a77ebac0b20d03900da84907b0883d059d29f10454489466c9b9f00d297"
+      },
+      {
+        "path": "vendor/sdl3/src/stdlib/SDL_crc32.c",
+        "bytes": 1768,
+        "sha256": "e1b1f3cad38c5cf3899b3023e2ddf74d822790828b559e3d6f0730dc721085b5"
+      },
+      {
+        "path": "vendor/sdl3/src/stdlib/SDL_getenv.c",
+        "bytes": 16997,
+        "sha256": "fbf8eadd78a41dd011716707c055cd8b52908ba7e75ceda8d21cebcff6212db1"
+      },
+      {
+        "path": "vendor/sdl3/src/stdlib/SDL_iconv.c",
+        "bytes": 25297,
+        "sha256": "e90554eb153e99018d7533b793ec9270e4ada6fab65646cfb0edf2f1424a7f03"
+      },
+      {
+        "path": "vendor/sdl3/src/stdlib/SDL_malloc.c",
+        "bytes": 227717,
+        "sha256": "9101ca62e3274c03306b1930b33c6b5496f51b34dca906fadd2c94802142cc9a"
+      },
+      {
+        "path": "vendor/sdl3/src/stdlib/SDL_memcpy.c",
+        "bytes": 3231,
+        "sha256": "b0406b1fcc2080d465d7cb0567a336efd01f8fa501d5fb2ade7c1bad58078d76"
+      },
+      {
+        "path": "vendor/sdl3/src/stdlib/SDL_memmove.c",
+        "bytes": 2215,
+        "sha256": "d0a6bec5d6756bf6d854d11886a745763bef9b78b6dad26afd779004e378b8ae"
+      },
+      {
+        "path": "vendor/sdl3/src/stdlib/SDL_memset.c",
+        "bytes": 3978,
+        "sha256": "fc86374b4bee870744fcb8a40d6e44d459efdf77d6daa4ffa0563fe6e076c146"
+      },
+      {
+        "path": "vendor/sdl3/src/stdlib/SDL_mslibc.c",
+        "bytes": 19783,
+        "sha256": "7bb5fc67e6228c778f1bc8b733d717457b25b1d3779dd60d60120b6ac73d0ccf"
+      },
+      {
+        "path": "vendor/sdl3/src/stdlib/SDL_murmur3.c",
+        "bytes": 2752,
+        "sha256": "d98b6ff0aab58e0739a039f5cde7b77ceb27d23ab04c8e97a04b16b22460bd03"
+      },
+      {
+        "path": "vendor/sdl3/src/stdlib/SDL_qsort.c",
+        "bytes": 21389,
+        "sha256": "edfdd99506d8e71ed7d53ba485daf9240b7669786755f086c58a25245c122760"
+      },
+      {
+        "path": "vendor/sdl3/src/stdlib/SDL_random.c",
+        "bytes": 4055,
+        "sha256": "18a4ce18825028336617d4a66eb891013b1d6372f09a9000f73db5de36011893"
+      },
+      {
+        "path": "vendor/sdl3/src/stdlib/SDL_stdlib.c",
+        "bytes": 10704,
+        "sha256": "3347bc2be1fc0f07807a02a12286fd04419166b3ae447749a3acf00dbd7d2a91"
+      },
+      {
+        "path": "vendor/sdl3/src/stdlib/SDL_string.c",
+        "bytes": 74551,
+        "sha256": "695a7cbf9839cbe192102280e686f93e9168c70a699eec8e3aa8923c178539b7"
+      },
+      {
+        "path": "vendor/sdl3/src/stdlib/SDL_strtokr.c",
+        "bytes": 2808,
+        "sha256": "2d2129b5b92f2abce59f8b87656de0f74094a1614051e458e696fd4f8f216d7d"
+      },
+      {
+        "path": "vendor/sdl3/src/storage/generic/SDL_genericstorage.c",
+        "bytes": 12003,
+        "sha256": "b87250c9a3ced546190eec0fbf0d76374be3674bc534d9b79eda5cdcc0baa254"
+      },
+      {
+        "path": "vendor/sdl3/src/storage/SDL_storage.c",
+        "bytes": 12791,
+        "sha256": "e76de3ab6077bf6e7c1d5b11c47b83bfa5495fe84f0ec5bb8cf28e9fd94d10e9"
+      },
+      {
+        "path": "vendor/sdl3/src/storage/steam/SDL_steamstorage.c",
+        "bytes": 10764,
+        "sha256": "588da4cf73561ab52ec14835c9c4fde9b2f766b922af4f03c66cf5a29a58bd28"
+      },
+      {
+        "path": "vendor/sdl3/src/thread/generic/SDL_syscond.c",
+        "bytes": 6905,
+        "sha256": "03f20b05ed3e045d063c45a0420c2cda84860d4c6581e3fd0bf2c2bf52633049"
+      },
+      {
+        "path": "vendor/sdl3/src/thread/generic/SDL_sysrwlock.c",
+        "bytes": 6523,
+        "sha256": "4369d7b53e6294061ea2a04257d85dd4826b61d81052b7f42c9726b3e734508d"
+      },
+      {
+        "path": "vendor/sdl3/src/thread/SDL_thread.c",
+        "bytes": 17797,
+        "sha256": "c29ad13d7bfd9f6df94a325696c3ae0ef5aa4b911876655ed66cc0ffdd0a44b0"
+      },
+      {
+        "path": "vendor/sdl3/src/thread/windows/SDL_syscond_cv.c",
+        "bytes": 7322,
+        "sha256": "709635948684f53cc42ce189f20f86c8ad70d6c89dd72757b8b1983905fa3130"
+      },
+      {
+        "path": "vendor/sdl3/src/thread/windows/SDL_sysmutex.c",
+        "bytes": 7393,
+        "sha256": "adc4ebc7e6931a2ba82781ebbec4e812ef609c1993fde46c3bf5e448301c0369"
+      },
+      {
+        "path": "vendor/sdl3/src/thread/windows/SDL_sysrwlock_srw.c",
+        "bytes": 7972,
+        "sha256": "e2dcb93cdb1d875a8e5f5e9e1216032900037462730e5b4520a59d5bdb4a057d"
+      },
+      {
+        "path": "vendor/sdl3/src/thread/windows/SDL_syssem.c",
+        "bytes": 9808,
+        "sha256": "fbe0fbc9938e6833444c30fad116904f0111fbff73cfaf397910cdf9db01080c"
+      },
+      {
+        "path": "vendor/sdl3/src/thread/windows/SDL_systhread.c",
+        "bytes": 7001,
+        "sha256": "758cf6daa4bf91fd5abd4baa90f473a3ff6b4266ed842b61f444e2f40b9ffc1f"
+      },
+      {
+        "path": "vendor/sdl3/src/thread/windows/SDL_systls.c",
+        "bytes": 2360,
+        "sha256": "8c46b415497c1f9e0e1c9a22fb49a61bb303bfb5ffe5733bc493932a16baa0bd"
+      },
+      {
+        "path": "vendor/sdl3/src/time/SDL_time.c",
+        "bytes": 7724,
+        "sha256": "952be26467cf335c92901ae22e2286101384025be2682323cf1d336e019dc89c"
+      },
+      {
+        "path": "vendor/sdl3/src/time/windows/SDL_systime.c",
+        "bytes": 5146,
+        "sha256": "9915266fa8c73d3cba900ba35dc261521b4f153e6a67ac88e4fc3b50bfa28e4e"
+      },
+      {
+        "path": "vendor/sdl3/src/timer/SDL_timer.c",
+        "bytes": 21717,
+        "sha256": "c7092989829f2470a582e1fde9bcc65db72446b8be0da45969da98aaecf4e197"
+      },
+      {
+        "path": "vendor/sdl3/src/timer/windows/SDL_systimer.c",
+        "bytes": 5468,
+        "sha256": "67c4262b6fcac462a1a36fb8ca6e114b180899ca875479087e1a43868a1799be"
+      },
+      {
+        "path": "vendor/sdl3/src/tray/dummy/SDL_tray.c",
+        "bytes": 3135,
+        "sha256": "024aea3e3674f0175e97afa14433be0083c8ed5045455b266cd972b1d186d4cd"
+      },
+      {
+        "path": "vendor/sdl3/src/tray/SDL_tray_utils.c",
+        "bytes": 2527,
+        "sha256": "cc4ad167db886356b33a8755512ac75526c5767bf6a470798d922df500594e57"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_blit_0.c",
+        "bytes": 32668,
+        "sha256": "0773d7c0485d0a8f65b449a7a960181d1fb0afc16bac313f6768b70d877752d0"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_blit_1.c",
+        "bytes": 14829,
+        "sha256": "8430b548bc797c80ce98702cc595cfc8743709f634c8cb7f11e76413d3d43fbd"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_blit_A.c",
+        "bytes": 55422,
+        "sha256": "914baaaa6753a39d06f05ceef9365e82b107fbc3e5549e6fcd3ef6ff708de284"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_blit_auto.c",
+        "bytes": 441796,
+        "sha256": "2a8221f17b4a81acc83df67ae4a09ba4094d86be467a7c913ef15c4665e49565"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_blit_copy.c",
+        "bytes": 3206,
+        "sha256": "0b7aa7e8e0e7da0bfad4c72a4be438442ce6666875c66ca9ccedccc3dcda0f2b"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_blit_N.c",
+        "bytes": 124649,
+        "sha256": "2c540c3f842bf102beed88c41d3f2a87b16be6d29511dfdd6938bbaa39b2fa6b"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_blit_slow.c",
+        "bytes": 34800,
+        "sha256": "60eba79d79128053aa68d50a94db83656d8dfef1853802f635d52c5949e33464"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_blit.c",
+        "bytes": 9012,
+        "sha256": "e85bed91968aba1d1c0e3c3fdfd7f8b6461e358a1b228a1b340acbbd83aa6dff"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_bmp.c",
+        "bytes": 29752,
+        "sha256": "eeba642cec1d9482886d65821b9a8da216085ed09c083eddeab8204beefc846c"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_clipboard.c",
+        "bytes": 13530,
+        "sha256": "650462182ba93867a7e45dbf3fa12480b8ac2787bf4750b93f463c8a55023bd6"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_egl.c",
+        "bytes": 51411,
+        "sha256": "f832742b61098464f3d21dc36e6d9d66f67b68f9e6d57cd0b75d1e3120c6f779"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_fillrect.c",
+        "bytes": 11515,
+        "sha256": "9baeadd548538c2f756e310f61088931e8ac3f96fc565c639226eb42c6785d96"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_pixels.c",
+        "bytes": 53146,
+        "sha256": "50cd87d019dc1c1f4f405a9b1b188199f59c6250d10765f92a3034131d5f44e7"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_rect.c",
+        "bytes": 4112,
+        "sha256": "99c157957b475dc6d738ba894939a894fa4e93a31aa6cbeecc7ee20ea6815b29"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_RLEaccel.c",
+        "bytes": 66987,
+        "sha256": "c51f25aa495d1823cdfd5c02b1c7d7316a9f88157fa3f2184b37f5088d9ed034"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_rotate.c",
+        "bytes": 22112,
+        "sha256": "5cfd02459d7bbc384564331dc2883a3ee67525c58a55c7eccd340440e283d10d"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_stb.c",
+        "bytes": 16050,
+        "sha256": "6da4f5ec26aa755954da266847043a690177dc455ad6f6ef67781f2f8bdd5b74"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_stretch.c",
+        "bytes": 36560,
+        "sha256": "020b66000b5c8bbfd68c74d6a93a83ac1fdc7d33a86a4f3c11ce2787451a6020"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_surface.c",
+        "bytes": 97021,
+        "sha256": "3f452f71f4c8e208a37dbbafd51f4d11508d1e899510cdba96add3e547930d9a"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_video_unsupported.c",
+        "bytes": 2621,
+        "sha256": "2a2405c9372d81f2c7635ff79d48cbc8064b2ec3c9a2a55e8b327534d5b869e4"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_video.c",
+        "bytes": 198195,
+        "sha256": "512e26c2b34111fca7f258bec2c815ca94ce8294fa1442111ca8a6ef18adfc08"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_vulkan_utils.c",
+        "bytes": 20218,
+        "sha256": "18d62830869e5a1254ba51c119ca347ef22984ff6acbdad61cef70293b3dcf33"
+      },
+      {
+        "path": "vendor/sdl3/src/video/SDL_yuv.c",
+        "bytes": 90534,
+        "sha256": "5899cb605250331f9f86eb1f7bbc71cb9ad6bed8989565486a8c6aaf6767da33"
+      },
+      {
+        "path": "vendor/sdl3/src/video/windows/SDL_windowsclipboard.c",
+        "bytes": 18384,
+        "sha256": "09282350fc2f8ce01fb360fb28b90a759a2ba5d000846db56c028a0929942643"
+      },
+      {
+        "path": "vendor/sdl3/src/video/windows/SDL_windowsevents.c",
+        "bytes": 112600,
+        "sha256": "e18c859aec38e658f0c44a986c4ff19a5eb0ca82b6c274013ee18d5f5d602b7e"
+      },
+      {
+        "path": "vendor/sdl3/src/video/windows/SDL_windowsframebuffer.c",
+        "bytes": 4737,
+        "sha256": "c5cfe13b3911041966eb1670eb12856223431d8af711e145394b1344e7408c17"
+      },
+      {
+        "path": "vendor/sdl3/src/video/windows/SDL_windowsgameinput.cpp",
+        "bytes": 21687,
+        "sha256": "f7956f029497f4ef2100d62d14b1889cf7b5f58c2f3a1c046814baea949bfc56"
+      },
+      {
+        "path": "vendor/sdl3/src/video/windows/SDL_windowskeyboard.c",
+        "bytes": 41817,
+        "sha256": "2a7ca4213c29bd67190cd5dacc95624e1c42909e74f79cb89f2175ab98eecc28"
+      },
+      {
+        "path": "vendor/sdl3/src/video/windows/SDL_windowsmessagebox.c",
+        "bytes": 36945,
+        "sha256": "0ffd3a4ba188d3bc430c0a7cd7290aa898a62932a0a1a360d063e2691e41fa69"
+      },
+      {
+        "path": "vendor/sdl3/src/video/windows/SDL_windowsmodes.c",
+        "bytes": 33263,
+        "sha256": "9b9ac4717f328e5448170ea4e101d4299e87aa4bb41dd3b8a9c49a6a1b642654"
+      },
+      {
+        "path": "vendor/sdl3/src/video/windows/SDL_windowsmouse.c",
+        "bytes": 26830,
+        "sha256": "de91d98ab35beea6ffdba57f9e0ba8cabe6fba6e2072341031d35b550ae1f8c2"
+      },
+      {
+        "path": "vendor/sdl3/src/video/windows/SDL_windowsopengl.c",
+        "bytes": 33518,
+        "sha256": "d5556aacdbc1a22d00af04b11cf3c3dbcbffdd67d1e44b191b7752330d64d4a8"
+      },
+      {
+        "path": "vendor/sdl3/src/video/windows/SDL_windowsopengles.c",
+        "bytes": 5403,
+        "sha256": "1301187d6d9790cd53c90e9e1b55e776e0d454a9735f24f3e0348005b5b32235"
+      },
+      {
+        "path": "vendor/sdl3/src/video/windows/SDL_windowsrawinput.c",
+        "bytes": 9800,
+        "sha256": "1799232457e166a4c0749a4d2db246190ccfff2b5bd4938ebbd294f4e74e0dc8"
+      },
+      {
+        "path": "vendor/sdl3/src/video/windows/SDL_windowsshape.c",
+        "bytes": 4382,
+        "sha256": "292ab4fc1a4095facd95a14ac315cda3ca3d97eebd9ae9d8a23712840f3fd668"
+      },
+      {
+        "path": "vendor/sdl3/src/video/windows/SDL_windowsvideo.c",
+        "bytes": 35171,
+        "sha256": "3f29e9ed4998e20aca04a8095a19ac7ccefc9adefdcd5fdb8309e90b440a26bb"
+      },
+      {
+        "path": "vendor/sdl3/src/video/windows/SDL_windowsvulkan.c",
+        "bytes": 7381,
+        "sha256": "8292af55d1001ae5627f9be73ecb22c41977e81a9ee2e115dcc9ed75dac769d0"
+      },
+      {
+        "path": "vendor/sdl3/src/video/windows/SDL_windowswindow.c",
+        "bytes": 87915,
+        "sha256": "00b777a464cf129991ecbf0eecd0f0174a9e1d57134cbb025350098343ec3077"
+      },
+      {
+        "path": "vendor/sdl3/src/video/yuv2rgb/yuv_rgb_lsx.c",
+        "bytes": 1203,
+        "sha256": "f641a10ccf57377be9bd039471bf52b9d21d9452944acfd7fa7b17a53d34d8c2"
+      },
+      {
+        "path": "vendor/sdl3/src/video/yuv2rgb/yuv_rgb_sse.c",
+        "bytes": 16257,
+        "sha256": "4a1610a36c6f403e87d69714b79f18880fdd06f01340fc64838601c079d72885"
+      },
+      {
+        "path": "vendor/sdl3/src/video/yuv2rgb/yuv_rgb_std.c",
+        "bytes": 8195,
+        "sha256": "481042a08749df745e4b1204b13c40fa3fa08f2ee82eae147576ae8e58347753"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/binary.cpp",
+        "bytes": 3416,
+        "sha256": "ad630a023d17752a3acb53eb074fe0f56119068a6a5a0a7c21a6620480e76c0c"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/convert.cpp",
+        "bytes": 1890,
+        "sha256": "973a865165c9f241259c91f02b0f348aae6f478a7fb0894e698bd042fd9fd0c9"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/depthguard.cpp",
+        "bytes": 250,
+        "sha256": "bd713c4cc4de0fb4983cbeebb2087b404dfd5d0dc8faa0de9909afb8ca6db625"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/directives.cpp",
+        "bytes": 391,
+        "sha256": "ce761d2b606d7c17f1cb984722f1afb8091dd0a785333ad47475b3002aa29ee7"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/emit.cpp",
+        "bytes": 581,
+        "sha256": "29bed3ad4f852de9877b4e014646ea6db9f66adf7a2bf9bacef85d6ce5ffa8c2"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/emitfromevents.cpp",
+        "bytes": 3240,
+        "sha256": "be86eafa54f0b36b30667e34d013f250d75cf48dec3fa028d8f4b0381239d666"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/emitter.cpp",
+        "bytes": 24846,
+        "sha256": "33109da5dbd678584566d86a9b369d96618ccf4b7b35bd57bcbb9907ee343bba"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/emitterstate.cpp",
+        "bytes": 10454,
+        "sha256": "5c9898a4e8675ff58cd1d61fd3b17cd5abc33c767720a702c620004e7980be27"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/emitterutils.cpp",
+        "bytes": 13747,
+        "sha256": "04ecff07927fba8aead051e65de4b8d9c3018e46617a9cfe253dd96343677828"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/exceptions.cpp",
+        "bytes": 988,
+        "sha256": "4301c65c81ca212d9a093e8903fbc8fb442e1683abc4abc5f4fec5e39b0243a4"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/exp.cpp",
+        "bytes": 3369,
+        "sha256": "5e4ee10a639ddfffc02c0f1cf05b300c6a390a372b57ebd2c34576f84357a82a"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/memory.cpp",
+        "bytes": 610,
+        "sha256": "50e4914816c9ccc1e8b539986be443031cfc62e9edda9bdc5cb81f28680454c8"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/node_data.cpp",
+        "bytes": 7485,
+        "sha256": "5bdfb42259acc9dea9a6eff3d6999e175c1cbaeba7c3d613c3c42159ad8012a2"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/node.cpp",
+        "bytes": 264,
+        "sha256": "050cf73dd4560cb86d2f7ee176bed8b9a906bf5ab1c5bf002c73ed5266efbfb8"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/nodebuilder.cpp",
+        "bytes": 3358,
+        "sha256": "878ae9c266a4a57c77fab578af34c94b69a5d6cb31fa57270a68b83f355274d9"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/nodeevents.cpp",
+        "bytes": 2705,
+        "sha256": "9b40af1fbc888e796401cefbabf3e063ce336b98cd1268de65db8fc673fd2f26"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/null.cpp",
+        "bytes": 231,
+        "sha256": "380ae1504667850f0403a93de31306d40a8e02b737b91c4fabba6f3f390c1e25"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/ostream_wrapper.cpp",
+        "bytes": 1382,
+        "sha256": "4fac3ffe76b2ebfd888117e2a31f81c6bfea470af052754f8df7f76bdedff0de"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/parse.cpp",
+        "bytes": 1480,
+        "sha256": "94d68200547757ef31ae38e474b07c2effe0dace19096f88fbf6ccbf46296db1"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/parser.cpp",
+        "bytes": 3139,
+        "sha256": "c3f4eb78e14ec1a318df6772a6763ddcf59fc8f22fe9f52fc5d308a7e391d082"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/regex_yaml.cpp",
+        "bytes": 1109,
+        "sha256": "89231665847d5ec67eab9ffd936a9b87c03a498ec4b50b9780823a682c68c066"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/scanner.cpp",
+        "bytes": 9398,
+        "sha256": "5434aeea22ef90ba03ea6279bef277303aa6d42ff2facce330c59f02d46a9c19"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/scanscalar.cpp",
+        "bytes": 7241,
+        "sha256": "221d0b67ea3ee5bf60cd53d9f1919d784cda63565b241b8d5dcc6147256807e2"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/scantag.cpp",
+        "bytes": 1631,
+        "sha256": "dc3dce0de15299ab48ab89e9b5b4234850ff14e42b2c891d254087183be73482"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/scantoken.cpp",
+        "bytes": 11888,
+        "sha256": "a696e20ea0b326bf6a0e9f3c132eafc9bbe3090a111f474eda84c34f3dd9747c"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/simplekey.cpp",
+        "bytes": 3340,
+        "sha256": "36e7074b184d08dc440e2ba94c8623c23d3e86e909f6b1700baa3d6c66603206"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/singledocparser.cpp",
+        "bytes": 12495,
+        "sha256": "412689cbe73263dfcb8fb652bbd8b2d316aa738a8838e0a479f7283f88be870c"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/stream.cpp",
+        "bytes": 12342,
+        "sha256": "5419c18e70a7393a8719905409492a150fca1b952477b2ee28ec94c38c04d71b"
+      },
+      {
+        "path": "vendor/yaml-cpp/src/tag.cpp",
+        "bytes": 1235,
+        "sha256": "8e38962813dc3875e00e7be0d272678dbfbca6c6e3a7f3ee10a70ef90d83fc1b"
+      }
+    ]
+  },
+  "builds": [
+    "r2-step1-cpu-debug-002",
+    "r2-step1-cpu-release-002",
+    "r2-step1-game-debug-001",
+    "r2-step1-game-release-001",
+    "r2-step1-cpu-no-tests-release-002",
+    "r2-step1-benchmark-only-release-001"
+  ],
+  "tests": [
+    {
+      "build": "r2-step1-cpu-debug-002",
+      "evidence": "raw/out/m3-t3/r2-step1-cpu-debug-002/ctest-verified-002.xml",
+      "registered_or_selected": 53,
+      "passed": 52,
+      "disabled": 1,
+      "failed": 0,
+      "case_names": [
+        "architecture.public_header.foundation.symocraft/foundation/diagnostics.h",
+        "architecture.public_header.foundation.symocraft/foundation/document.h",
+        "architecture.public_header.foundation.symocraft/foundation/files.h",
+        "architecture.public_header.foundation.symocraft/foundation/math.h",
+        "architecture.public_header.foundation.symocraft/foundation/memory.h",
+        "architecture.public_header.foundation.symocraft/foundation/types.h",
+        "architecture.public_header.scene.symocraft/scene/camera.h",
+        "architecture.public_header.scene.symocraft/scene/mesh.h",
+        "architecture.public_header.assets.symocraft/assets/asset_paths.h",
+        "architecture.public_header.assets.symocraft/assets/image.h",
+        "architecture.public_header.world.symocraft/world/benchmark_workload.h",
+        "architecture.public_header.world.symocraft/world/block.h",
+        "architecture.public_header.world.symocraft/world/block_definition.h",
+        "architecture.public_header.world.symocraft/world/constants.h",
+        "architecture.public_header.world.symocraft/world/generation.h",
+        "architecture.public_header.world.symocraft/world/test_scene.h",
+        "architecture.public_header.world.symocraft/world/world.h",
+        "architecture.public_header.ecs.symocraft/ecs/registry.h",
+        "architecture.public_header.simulation.symocraft/simulation/camera.h",
+        "architecture.public_header.simulation.symocraft/simulation/character_system.h",
+        "architecture.public_header.simulation.symocraft/simulation/component.h",
+        "architecture.public_header.simulation.symocraft/simulation/physics_system.h",
+        "architecture.public_header.simulation.symocraft/simulation/player.h",
+        "architecture.public_header.simulation.symocraft/simulation/player_math.h",
+        "architecture.public_header.simulation.symocraft/simulation/playercontroller.h",
+        "architecture.public_header.simulation.symocraft/simulation/transform_system.h",
+        "architecture.public_header.renderer.symocraft/renderer/error.h",
+        "architecture.public_header.renderer.symocraft/renderer/renderer.h",
+        "architecture.public_header.renderer.symocraft/renderer/types.h",
+        "architecture.public_header.telemetry.symocraft/telemetry/document_io.h",
+        "architecture.public_header.telemetry.symocraft/telemetry/performance.h",
+        "foundation.document",
+        "foundation.files",
+        "assets.contracts",
+        "assets.from_source_directory",
+        "assets.image_decode",
+        "ecs.registry",
+        "world.mesh_safety",
+        "world.block_config",
+        "world.generation",
+        "world.contract",
+        "world.allocations",
+        "player.math",
+        "simulation.contracts",
+        "performance.export",
+        "input.key_snapshot",
+        "core.startup_options",
+        "core.cleanup_sequence",
+        "renderer.public_api_consumer",
+        "renderer.facade_contract",
+        "architecture.source_boundaries",
+        "architecture.negative_boundaries",
+        "architecture.renderer_boundaries"
+      ],
+      "facade_checks": 227,
+      "gpu_validation": false
+    },
+    {
+      "build": "r2-step1-cpu-release-002",
+      "evidence": "raw/out/m3-t3/r2-step1-cpu-release-002/ctest-verified-002.xml",
+      "registered_or_selected": 53,
+      "passed": 53,
+      "disabled": 0,
+      "failed": 0,
+      "case_names": [
+        "architecture.public_header.foundation.symocraft/foundation/diagnostics.h",
+        "architecture.public_header.foundation.symocraft/foundation/document.h",
+        "architecture.public_header.foundation.symocraft/foundation/files.h",
+        "architecture.public_header.foundation.symocraft/foundation/math.h",
+        "architecture.public_header.foundation.symocraft/foundation/memory.h",
+        "architecture.public_header.foundation.symocraft/foundation/types.h",
+        "architecture.public_header.scene.symocraft/scene/camera.h",
+        "architecture.public_header.scene.symocraft/scene/mesh.h",
+        "architecture.public_header.assets.symocraft/assets/asset_paths.h",
+        "architecture.public_header.assets.symocraft/assets/image.h",
+        "architecture.public_header.world.symocraft/world/benchmark_workload.h",
+        "architecture.public_header.world.symocraft/world/block.h",
+        "architecture.public_header.world.symocraft/world/block_definition.h",
+        "architecture.public_header.world.symocraft/world/constants.h",
+        "architecture.public_header.world.symocraft/world/generation.h",
+        "architecture.public_header.world.symocraft/world/test_scene.h",
+        "architecture.public_header.world.symocraft/world/world.h",
+        "architecture.public_header.ecs.symocraft/ecs/registry.h",
+        "architecture.public_header.simulation.symocraft/simulation/camera.h",
+        "architecture.public_header.simulation.symocraft/simulation/character_system.h",
+        "architecture.public_header.simulation.symocraft/simulation/component.h",
+        "architecture.public_header.simulation.symocraft/simulation/physics_system.h",
+        "architecture.public_header.simulation.symocraft/simulation/player.h",
+        "architecture.public_header.simulation.symocraft/simulation/player_math.h",
+        "architecture.public_header.simulation.symocraft/simulation/playercontroller.h",
+        "architecture.public_header.simulation.symocraft/simulation/transform_system.h",
+        "architecture.public_header.renderer.symocraft/renderer/error.h",
+        "architecture.public_header.renderer.symocraft/renderer/renderer.h",
+        "architecture.public_header.renderer.symocraft/renderer/types.h",
+        "architecture.public_header.telemetry.symocraft/telemetry/document_io.h",
+        "architecture.public_header.telemetry.symocraft/telemetry/performance.h",
+        "foundation.document",
+        "foundation.files",
+        "assets.contracts",
+        "assets.from_source_directory",
+        "assets.image_decode",
+        "ecs.registry",
+        "world.mesh_safety",
+        "world.block_config",
+        "world.generation",
+        "world.contract",
+        "world.allocations",
+        "player.math",
+        "simulation.contracts",
+        "performance.export",
+        "input.key_snapshot",
+        "core.startup_options",
+        "core.cleanup_sequence",
+        "renderer.public_api_consumer",
+        "renderer.facade_contract",
+        "architecture.source_boundaries",
+        "architecture.negative_boundaries",
+        "architecture.renderer_boundaries"
+      ],
+      "facade_checks": 227,
+      "gpu_validation": false
+    },
+    {
+      "build": "r2-step1-game-debug-001",
+      "evidence": "raw/out/m3-t3/r2-step1-game-debug-001/ctest-verified-002.xml",
+      "registered_or_selected": 11,
+      "passed": 11,
+      "disabled": 0,
+      "failed": 0,
+      "case_names": [
+        "architecture.public_header.renderer.symocraft/renderer/error.h",
+        "architecture.public_header.renderer.symocraft/renderer/renderer.h",
+        "architecture.public_header.renderer.symocraft/renderer/types.h",
+        "renderer.public_api_consumer",
+        "renderer.facade_contract",
+        "renderer.shader_loading",
+        "renderer.batch_safety",
+        "performance.gpu_timer",
+        "architecture.source_boundaries",
+        "architecture.negative_boundaries",
+        "architecture.renderer_boundaries"
+      ],
+      "facade_checks": 227,
+      "gpu_validation": false
+    },
+    {
+      "build": "r2-step1-game-release-001",
+      "evidence": "raw/out/m3-t3/r2-step1-game-release-001/ctest-verified-002.xml",
+      "registered_or_selected": 11,
+      "passed": 11,
+      "disabled": 0,
+      "failed": 0,
+      "case_names": [
+        "architecture.public_header.renderer.symocraft/renderer/error.h",
+        "architecture.public_header.renderer.symocraft/renderer/renderer.h",
+        "architecture.public_header.renderer.symocraft/renderer/types.h",
+        "renderer.public_api_consumer",
+        "renderer.facade_contract",
+        "renderer.shader_loading",
+        "renderer.batch_safety",
+        "performance.gpu_timer",
+        "architecture.source_boundaries",
+        "architecture.negative_boundaries",
+        "architecture.renderer_boundaries"
+      ],
+      "facade_checks": 227,
+      "gpu_validation": false
+    }
+  ],
+  "incremental": [
+    {
+      "evidence": "raw/out/m3-t3/evidence/r2-step1-cpu-debug-incremental-001/result.json",
+      "result": {
+        "schema": "symocraft.renderer-incremental-build",
+        "version": 1,
+        "started_utc": "2026-10-09T05:29:53.708603Z",
+        "finished_utc": "2026-10-09T05:30:02.8621444Z",
+        "build_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step1-cpu-debug-002",
+        "output_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\evidence\\r2-step1-cpu-debug-incremental-001",
+        "status": "passed",
+        "baseline_compilations": 0,
+        "probes": [
+          {
+            "probe": "private-backend-contract",
+            "header": "game/modules/renderer/src/backend/render_backend.h",
+            "sha256": "967E5163A5B25FAF24487E71B56E9AD58947DA303A1814FDF2CE4BE8BC89450A",
+            "original_mtime_utc": "2026-10-09T05:27:28.5888649Z",
+            "probe_mtime_utc": "2026-10-09T05:29:54.4339222Z",
+            "restored_mtime": true,
+            "compiled_owners": {
+              "coreRenderer": 4,
+              "legacyRenderer": 0,
+              "world": 0,
+              "simulation": 0,
+              "app": 0,
+              "benchmark": 0,
+              "publicConsumer": 0,
+              "facadeTests": 1
+            },
+            "relinked_public_consumer": true,
+            "status": "passed"
+          },
+          {
+            "probe": "public-renderer-types",
+            "header": "game/modules/renderer/include/symocraft/renderer/types.h",
+            "sha256": "39102091898F03C5C01F4A6844265E55B2787EE0222BE17FD1514B0EA4DFFBE7",
+            "original_mtime_utc": "2026-10-09T05:08:25.9160355Z",
+            "probe_mtime_utc": "2026-10-09T05:29:57.0034955Z",
+            "restored_mtime": true,
+            "compiled_owners": {
+              "coreRenderer": 5,
+              "legacyRenderer": 0,
+              "world": 0,
+              "simulation": 0,
+              "app": 0,
+              "benchmark": 0,
+              "publicConsumer": 1,
+              "facadeTests": 1
+            },
+            "relinked_public_consumer": true,
+            "status": "passed"
+          }
+        ],
+        "error": null
+      }
+    },
+    {
+      "evidence": "raw/out/m3-t3/evidence/r2-step1-cpu-release-incremental-001/result.json",
+      "result": {
+        "schema": "symocraft.renderer-incremental-build",
+        "version": 1,
+        "started_utc": "2026-10-09T05:30:32.9677387Z",
+        "finished_utc": "2026-10-09T05:30:40.6746917Z",
+        "build_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step1-cpu-release-002",
+        "output_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\evidence\\r2-step1-cpu-release-incremental-001",
+        "status": "passed",
+        "baseline_compilations": 0,
+        "probes": [
+          {
+            "probe": "private-backend-contract",
+            "header": "game/modules/renderer/src/backend/render_backend.h",
+            "sha256": "967E5163A5B25FAF24487E71B56E9AD58947DA303A1814FDF2CE4BE8BC89450A",
+            "original_mtime_utc": "2026-10-09T05:27:28.5888649Z",
+            "probe_mtime_utc": "2026-10-09T05:30:33.683412Z",
+            "restored_mtime": true,
+            "compiled_owners": {
+              "coreRenderer": 4,
+              "legacyRenderer": 0,
+              "world": 0,
+              "simulation": 0,
+              "app": 0,
+              "benchmark": 0,
+              "publicConsumer": 0,
+              "facadeTests": 1
+            },
+            "relinked_public_consumer": true,
+            "status": "passed"
+          },
+          {
+            "probe": "public-renderer-types",
+            "header": "game/modules/renderer/include/symocraft/renderer/types.h",
+            "sha256": "39102091898F03C5C01F4A6844265E55B2787EE0222BE17FD1514B0EA4DFFBE7",
+            "original_mtime_utc": "2026-10-09T05:08:25.9160355Z",
+            "probe_mtime_utc": "2026-10-09T05:30:36.200577Z",
+            "restored_mtime": true,
+            "compiled_owners": {
+              "coreRenderer": 5,
+              "legacyRenderer": 0,
+              "world": 0,
+              "simulation": 0,
+              "app": 0,
+              "benchmark": 0,
+              "publicConsumer": 1,
+              "facadeTests": 1
+            },
+            "relinked_public_consumer": true,
+            "status": "passed"
+          }
+        ],
+        "error": null
+      }
+    },
+    {
+      "evidence": "raw/out/m3-t3/evidence/r2-step1-game-release-incremental-001/result.json",
+      "result": {
+        "schema": "symocraft.renderer-incremental-build",
+        "version": 1,
+        "started_utc": "2026-10-09T05:38:21.1089939Z",
+        "finished_utc": "2026-10-09T05:38:29.8446404Z",
+        "build_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step1-game-release-001",
+        "output_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\evidence\\r2-step1-game-release-incremental-001",
+        "status": "passed",
+        "baseline_compilations": 0,
+        "probes": [
+          {
+            "probe": "private-backend-contract",
+            "header": "game/modules/renderer/src/backend/render_backend.h",
+            "sha256": "967E5163A5B25FAF24487E71B56E9AD58947DA303A1814FDF2CE4BE8BC89450A",
+            "original_mtime_utc": "2026-10-09T05:27:28.5888649Z",
+            "probe_mtime_utc": "2026-10-09T05:38:22.4881833Z",
+            "restored_mtime": true,
+            "compiled_owners": {
+              "coreRenderer": 4,
+              "legacyRenderer": 0,
+              "world": 0,
+              "simulation": 0,
+              "app": 0,
+              "benchmark": 0,
+              "publicConsumer": 0,
+              "facadeTests": 1
+            },
+            "relinked_public_consumer": true,
+            "status": "passed"
+          },
+          {
+            "probe": "public-renderer-types",
+            "header": "game/modules/renderer/include/symocraft/renderer/types.h",
+            "sha256": "39102091898F03C5C01F4A6844265E55B2787EE0222BE17FD1514B0EA4DFFBE7",
+            "original_mtime_utc": "2026-10-09T05:08:25.9160355Z",
+            "probe_mtime_utc": "2026-10-09T05:38:25.214621Z",
+            "restored_mtime": true,
+            "compiled_owners": {
+              "coreRenderer": 5,
+              "legacyRenderer": 0,
+              "world": 0,
+              "simulation": 0,
+              "app": 0,
+              "benchmark": 0,
+              "publicConsumer": 1,
+              "facadeTests": 1
+            },
+            "relinked_public_consumer": true,
+            "status": "passed"
+          }
+        ],
+        "error": null
+      }
+    }
+  ],
+  "failed_attempts": [
+    {
+      "build": "r2-step1-cpu-debug-001",
+      "stage": "compiler probe",
+      "reason": "Sandbox C1902; original log retained; normal developer environment retry passed."
+    },
+    {
+      "build": "r2-step1-cpu-release-001",
+      "stage": "compiler probe",
+      "reason": "Sandbox C1902 in Debug ABI probe; original log retained; external Release retry passed."
+    },
+    {
+      "build": "r2-step1-cpu-debug-002",
+      "evidence": "raw/out/m3-t3/r2-step1-cpu-debug-002/ctest-001.xml",
+      "stage": "initial sandbox tests",
+      "reason": "Two asset-path access denials and one initially incorrect boundary test script registration. Path registration corrected; external same-source final enabled tests passed. Not GPU failures."
+    },
+    {
+      "build": "r2-step1-cpu-no-tests-release-001",
+      "stage": "verification command",
+      "reason": "PowerShell scalar argument expansion error before configure; typed-array invocation in fresh -002 succeeded. Not a source/build failure."
+    }
+  ],
+  "preserved_r1": {
+    "freeze_manifest_sha256": "ce27adb37619672634521bd5faca54ef605a3dcf73019826476746b897c49985",
+    "frozen_sources_verified": 12,
+    "review_files_and_original_sources_verified": 114,
+    "original_payload_verified": 16
+  },
+  "limits": [
+    "No modern native runtime target or GPU experiment was run in this step. Factory rejects unavailable backends with Unsupported.",
+    "Test-only RecordingBackend proves CPU lifecycle/validation only; GL suites substitute function pointers without an actual context.",
+    "Shader/fence/query/readback/window/device-loss/pending-GPU bounded wait and exact frame query association remain sequence 2 onward.",
+    "CPU incremental configurations do not contain app/legacy/benchmark; game Release incremental adds actual configured app/legacy isolation; benchmark isolation checked by independent Release build.",
+    "Current foundation files.cpp rebuilt, but this does not repair Win32 1175, resume Fix1, close formal T2 Q06 or set first-interactive-time budget.",
+    "R1 public design baseline and original evidence/package remain unchanged; no new manual approval or production candidate fabricated."
+  ],
+  "archive": {
+    "files": [
+      {
+        "source": "out/m3-t3/evidence/r2-step1-cpu-debug-incremental-001/baseline.log",
+        "archive": "raw/out/m3-t3/evidence/r2-step1-cpu-debug-incremental-001/baseline.log",
+        "bytes": 97,
+        "sha256": "58e692899c0000a86b3b765c2fbef1a8796d21e74467fbadc6ad0c4067f1a18b"
+      },
+      {
+        "source": "out/m3-t3/evidence/r2-step1-cpu-debug-incremental-001/private-backend-contract.log",
+        "archive": "raw/out/m3-t3/evidence/r2-step1-cpu-debug-incremental-001/private-backend-contract.log",
+        "bytes": 891,
+        "sha256": "690655843c4609281b63eece907765355263fe2ddcdf9fb6e0bd9c6505b3d223"
+      },
+      {
+        "source": "out/m3-t3/evidence/r2-step1-cpu-debug-incremental-001/public-renderer-types.log",
+        "archive": "raw/out/m3-t3/evidence/r2-step1-cpu-debug-incremental-001/public-renderer-types.log",
+        "bytes": 1612,
+        "sha256": "6123a4db37bf7ac7ee0a0f9ffc60769caa97e31323bf207a46f0f478d3f79e74"
+      },
+      {
+        "source": "out/m3-t3/evidence/r2-step1-cpu-debug-incremental-001/result.json",
+        "archive": "raw/out/m3-t3/evidence/r2-step1-cpu-debug-incremental-001/result.json",
+        "bytes": 1850,
+        "sha256": "3a52f53ec4c2ffcb2372eebc7e85e5c2538669ba36f104e1500bbb567078b4b7"
+      },
+      {
+        "source": "out/m3-t3/evidence/r2-step1-cpu-release-incremental-001/baseline.log",
+        "archive": "raw/out/m3-t3/evidence/r2-step1-cpu-release-incremental-001/baseline.log",
+        "bytes": 97,
+        "sha256": "58e692899c0000a86b3b765c2fbef1a8796d21e74467fbadc6ad0c4067f1a18b"
+      },
+      {
+        "source": "out/m3-t3/evidence/r2-step1-cpu-release-incremental-001/private-backend-contract.log",
+        "archive": "raw/out/m3-t3/evidence/r2-step1-cpu-release-incremental-001/private-backend-contract.log",
+        "bytes": 891,
+        "sha256": "a5cfefbfe18f6d7cef0f18911857f192ad4f14606dd7c58faacb69989c6e75b3"
+      },
+      {
+        "source": "out/m3-t3/evidence/r2-step1-cpu-release-incremental-001/public-renderer-types.log",
+        "archive": "raw/out/m3-t3/evidence/r2-step1-cpu-release-incremental-001/public-renderer-types.log",
+        "bytes": 1612,
+        "sha256": "9e0cb37cda0e8179369a059077fa196d90af5220147df00af6821134ae05794c"
+      },
+      {
+        "source": "out/m3-t3/evidence/r2-step1-cpu-release-incremental-001/result.json",
+        "archive": "raw/out/m3-t3/evidence/r2-step1-cpu-release-incremental-001/result.json",
+        "bytes": 1854,
+        "sha256": "39af28208e05db35d25f80bcf061878878e213f2527084c69ad3fa9a0324ee0a"
+      },
+      {
+        "source": "out/m3-t3/evidence/r2-step1-game-release-incremental-001/baseline.log",
+        "archive": "raw/out/m3-t3/evidence/r2-step1-game-release-incremental-001/baseline.log",
+        "bytes": 97,
+        "sha256": "58e692899c0000a86b3b765c2fbef1a8796d21e74467fbadc6ad0c4067f1a18b"
+      },
+      {
+        "source": "out/m3-t3/evidence/r2-step1-game-release-incremental-001/private-backend-contract.log",
+        "archive": "raw/out/m3-t3/evidence/r2-step1-game-release-incremental-001/private-backend-contract.log",
+        "bytes": 891,
+        "sha256": "a5cfefbfe18f6d7cef0f18911857f192ad4f14606dd7c58faacb69989c6e75b3"
+      },
+      {
+        "source": "out/m3-t3/evidence/r2-step1-game-release-incremental-001/public-renderer-types.log",
+        "archive": "raw/out/m3-t3/evidence/r2-step1-game-release-incremental-001/public-renderer-types.log",
+        "bytes": 1612,
+        "sha256": "f9986baa3f7a1ffdfcc2ab08bd4b0bfec56a356753dc6562d49de5836de9a8bb"
+      },
+      {
+        "source": "out/m3-t3/evidence/r2-step1-game-release-incremental-001/result.json",
+        "archive": "raw/out/m3-t3/evidence/r2-step1-game-release-incremental-001/result.json",
+        "bytes": 1856,
+        "sha256": "4101339d6994cef5722c77b6e025dc9ba0466393645cdadc09e2f8dcfe33eb48"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-benchmark-only-release-001/build-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-benchmark-only-release-001/build-001.log",
+        "bytes": 3392,
+        "sha256": "a8986f9c1f2e2ef8dc0e2a939d286124ca3ed417476a6bfa4a62f4550d9845bc"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-benchmark-only-release-001/build.ninja",
+        "archive": "raw/out/m3-t3/r2-step1-benchmark-only-release-001/build.ninja",
+        "bytes": 68543,
+        "sha256": "e93e86c0825ce381083d00b814a33411fd800cb0b93aee2a49a30a94c6de81d9"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-benchmark-only-release-001/CMakeCache.txt",
+        "archive": "raw/out/m3-t3/r2-step1-benchmark-only-release-001/CMakeCache.txt",
+        "bytes": 16364,
+        "sha256": "48cfcaace849cee76844f3acb94ea6809eb98415f46cc368088c2afaaab0bdfe"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-benchmark-only-release-001/CMakeFiles/CMakeConfigureLog.yaml",
+        "archive": "raw/out/m3-t3/r2-step1-benchmark-only-release-001/CMakeFiles/CMakeConfigureLog.yaml",
+        "bytes": 99865,
+        "sha256": "b23234287cc9e0197b3db201448c8a8cba4dfb284e8e25b954de4e5f2e9d6dc8"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-benchmark-only-release-001/CMakeFiles/TargetDirectories.txt",
+        "archive": "raw/out/m3-t3/r2-step1-benchmark-only-release-001/CMakeFiles/TargetDirectories.txt",
+        "bytes": 1616,
+        "sha256": "a0cfa026a5e4646a10e57bfec1506abcccf06691e6a92faa03fbd57e54f86c73"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-benchmark-only-release-001/compile_commands.json",
+        "archive": "raw/out/m3-t3/r2-step1-benchmark-only-release-001/compile_commands.json",
+        "bytes": 31150,
+        "sha256": "c02096bbdc96dd66805cd2b30025799e01fb27c9b67ea042f08389593aba1a2f"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-benchmark-only-release-001/configuration-check-001.json",
+        "archive": "raw/out/m3-t3/r2-step1-benchmark-only-release-001/configuration-check-001.json",
+        "bytes": 337,
+        "sha256": "95d0b722f49f650d4c8d6283c3863ba6ac7dbe206e9e178e4775cab16c07a931"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-benchmark-only-release-001/configure-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-benchmark-only-release-001/configure-001.log",
+        "bytes": 852,
+        "sha256": "01d74b7c1cc6d5a67e155cbf7dc70274668723bb7a5d9f9829181e17a4ce433b"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-benchmark-only-release-001/production-dependencies.tsv",
+        "archive": "raw/out/m3-t3/r2-step1-benchmark-only-release-001/production-dependencies.tsv",
+        "bytes": 239,
+        "sha256": "2a3ea08653bb6252fc9e470b6da515de0133e33c21b2b773b4afac2b601dc279"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-benchmark-only-release-001/production-sources.tsv",
+        "archive": "raw/out/m3-t3/r2-step1-benchmark-only-release-001/production-sources.tsv",
+        "bytes": 263,
+        "sha256": "c19457077546845b0a13439b5583e2259fd4b864e5a3f979b21002501f3e9707"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-benchmark-only-release-001/production-targets.dot",
+        "archive": "raw/out/m3-t3/r2-step1-benchmark-only-release-001/production-targets.dot",
+        "bytes": 236,
+        "sha256": "c7fc2ce355c1ea917daa9a37a6f8ba493d26070ee2df551c013762923353a98c"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-benchmark-only-release-001/renderer-targets.tsv",
+        "archive": "raw/out/m3-t3/r2-step1-benchmark-only-release-001/renderer-targets.tsv",
+        "bytes": 5311,
+        "sha256": "320741bf29162b1b31be5c9f47885a29618fb3a5806611f3557c4bca14ec3e09"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-001/CMakeCache.txt",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-001/CMakeCache.txt",
+        "bytes": 14485,
+        "sha256": "e15a956003f4495cdba4996bc10e5610cef70384bff757602832a93c6e635cf6"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-001/CMakeFiles/CMakeConfigureLog.yaml",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-001/CMakeFiles/CMakeConfigureLog.yaml",
+        "bytes": 81287,
+        "sha256": "99a4ba44cdb7238ef16f743e3113799237dd0e3dfbbc23e7fd956dffb08bc9e4"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-001/configure-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-001/configure-001.log",
+        "bytes": 2283,
+        "sha256": "3c29733108d5f0ab492edc4290cf86815128e564b11470de927d065cde68d41c"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/build-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/build-001.log",
+        "bytes": 28630,
+        "sha256": "d8c78bd96ed99399db9d49d8f03d74c3c450a25d36cb036542b612de349fe520"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/build-final-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/build-final-001.log",
+        "bytes": 891,
+        "sha256": "690655843c4609281b63eece907765355263fe2ddcdf9fb6e0bd9c6505b3d223"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/build.ninja",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/build.ninja",
+        "bytes": 413151,
+        "sha256": "bc1e254396684d0580bdce61a0d9e247138920d0a09d4439c66b24f84bbacaa2"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/CMakeCache.txt",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/CMakeCache.txt",
+        "bytes": 18276,
+        "sha256": "78fd052de910f8309a1226724048472aa2cddff6bbc267e00b72216788950dd0"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/CMakeFiles/CMakeConfigureLog.yaml",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/CMakeFiles/CMakeConfigureLog.yaml",
+        "bytes": 215434,
+        "sha256": "df0da0fa2bc609fe9e21f7e6804161c692a4c5ed36ff6776fa79a979b15d3084"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/CMakeFiles/TargetDirectories.txt",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/CMakeFiles/TargetDirectories.txt",
+        "bytes": 18420,
+        "sha256": "b7164048a60a548d36a2de897e7ece79d043804e7eb4650a5fc49eaf42f5b1fd"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/compile_commands.json",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/compile_commands.json",
+        "bytes": 129762,
+        "sha256": "b25552d802a78f04682193e57efa5e9e21ed7d1fba94a00900c833989b49afed"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/configure-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/configure-001.log",
+        "bytes": 839,
+        "sha256": "0ac42f59f8c757f081701ea4192b902ecd372ccb5ed343ccfb2608b136ef3bdc"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/configure-final-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/configure-final-001.log",
+        "bytes": 165,
+        "sha256": "3d5f968ffe1b1306d5fcc4bcdfad7de1991ecd59742e146fc03d715550c6849f"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/ctest-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/ctest-001.log",
+        "bytes": 10798,
+        "sha256": "6bd0c796da53a60b5e9579afebc81e2e6883aacee595b035feb51a621b1b8c34"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/ctest-001.xml",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/ctest-001.xml",
+        "bytes": 17332,
+        "sha256": "118348871aea30a3bfaa71c7107212af0946cec0130cc1a82f4e211d0601cead"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/ctest-final-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/ctest-final-001.log",
+        "bytes": 10051,
+        "sha256": "e24929d3e128b5d9c8b13e0dc0a591cd8bb44788811a620722e3df9c75f1b50a"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/ctest-final-001.xml",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/ctest-final-001.xml",
+        "bytes": 16697,
+        "sha256": "128202079716e9c90ae57708c68dd37ce57dcb076ca3570b00251f9c73db719d"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/production-dependencies.tsv",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/production-dependencies.tsv",
+        "bytes": 2886,
+        "sha256": "e426eb3aefabced6fd83f8bfb0d5e0d41cc0d78ef5cca75cb0877b609e9460e7"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/production-sources.tsv",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/production-sources.tsv",
+        "bytes": 2198,
+        "sha256": "6e0095edb6b0bec6432998856efe9b487bbc8cd2a58e794c9843dbd4402ade79"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/production-targets.dot",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/production-targets.dot",
+        "bytes": 2881,
+        "sha256": "bb5cf5c1319052e264346c86505f12638ceb6e0b84abf48516b7a88b8a71be73"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/renderer-targets.tsv",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/renderer-targets.tsv",
+        "bytes": 78105,
+        "sha256": "0906fb29309a1c3f6c714dfe789da4170040ae0124836d55d1b9c27895b29078"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-no-tests-release-001/configure-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-no-tests-release-001/configure-001.log",
+        "bytes": 165,
+        "sha256": "2e6e1c481a0002b8b9243f0329272bf010974ecbe2cce53fef8bbc3b77ad4e07"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-no-tests-release-002/build-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-no-tests-release-002/build-001.log",
+        "bytes": 13646,
+        "sha256": "79e810a0dde622c44158183f3cda4f9aec85de63b2c029b5d40aa31b97023cce"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-no-tests-release-002/build.ninja",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-no-tests-release-002/build.ninja",
+        "bytes": 210124,
+        "sha256": "1f11a3b318a6ed35d22aa743d8b57c65887c8c7cca9340a1a315e8cf4045e3f9"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-no-tests-release-002/CMakeCache.txt",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-no-tests-release-002/CMakeCache.txt",
+        "bytes": 16354,
+        "sha256": "d27744fa76dbd01aed253a84ecdbde6ea57e595c1babd93163ddb73fdb73a70e"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-no-tests-release-002/CMakeFiles/CMakeConfigureLog.yaml",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-no-tests-release-002/CMakeFiles/CMakeConfigureLog.yaml",
+        "bytes": 99845,
+        "sha256": "79db7ea22d14b691e2b2bfcdbea2e90cf825ced44eb63a6a2124fac6e547960a"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-no-tests-release-002/CMakeFiles/TargetDirectories.txt",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-no-tests-release-002/CMakeFiles/TargetDirectories.txt",
+        "bytes": 8475,
+        "sha256": "26facd9de368b6aa84b054a1854d6684e71b0b6a415e70f6dddd0d22099a8871"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-no-tests-release-002/compile_commands.json",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-no-tests-release-002/compile_commands.json",
+        "bytes": 66610,
+        "sha256": "3da9dd8745508b7c26275acc1d2f4a1f2a362917c80511e34b93be8cd52f8d73"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-no-tests-release-002/configuration-check-001.json",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-no-tests-release-002/configuration-check-001.json",
+        "bytes": 333,
+        "sha256": "290ec8a72ccd8f1924be35f7f1ed2a9c1ab94473ee83f6d53786fc91895e93fe"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-no-tests-release-002/configure-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-no-tests-release-002/configure-001.log",
+        "bytes": 850,
+        "sha256": "97e84d51c78601bbff337f7514616a12d56275352520a6f6b12ea3f27a68e25f"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-no-tests-release-002/production-dependencies.tsv",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-no-tests-release-002/production-dependencies.tsv",
+        "bytes": 2886,
+        "sha256": "e426eb3aefabced6fd83f8bfb0d5e0d41cc0d78ef5cca75cb0877b609e9460e7"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-no-tests-release-002/production-sources.tsv",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-no-tests-release-002/production-sources.tsv",
+        "bytes": 2198,
+        "sha256": "6e0095edb6b0bec6432998856efe9b487bbc8cd2a58e794c9843dbd4402ade79"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-no-tests-release-002/production-targets.dot",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-no-tests-release-002/production-targets.dot",
+        "bytes": 2881,
+        "sha256": "bb5cf5c1319052e264346c86505f12638ceb6e0b84abf48516b7a88b8a71be73"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-no-tests-release-002/renderer-targets.tsv",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-no-tests-release-002/renderer-targets.tsv",
+        "bytes": 18253,
+        "sha256": "987907f0e4e00dffec97c7a096a9eb4496ab0c1a68d4b1b21a821e7371c8e261"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-release-001/CMakeCache.txt",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-release-001/CMakeCache.txt",
+        "bytes": 14495,
+        "sha256": "646fd7cc4f94cda7a9a1cbaa4d82e92629e5a4b08c59d220083adeeace4179ed"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-release-001/CMakeFiles/CMakeConfigureLog.yaml",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-release-001/CMakeFiles/CMakeConfigureLog.yaml",
+        "bytes": 81313,
+        "sha256": "e8284504046348b2b296b09aebc662984834086cddc0ada21d0993d0cf7db3f2"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-release-001/configure-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-release-001/configure-001.log",
+        "bytes": 2291,
+        "sha256": "dce998a9bc6e544a3a8de8f342daf672e86b3329274b24f11cda1619dca6b30f"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-release-002/build-final-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-release-002/build-final-001.log",
+        "bytes": 28630,
+        "sha256": "b4b3136822144d186c97e05d3840088781ba186416333f19dee51cca1c9dbce0"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-release-002/build.ninja",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-release-002/build.ninja",
+        "bytes": 456628,
+        "sha256": "3c6e33b156ab346cbc92fcab854bf3319500051f08b7d4a389dd1700ec0b529a"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-release-002/CMakeCache.txt",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-release-002/CMakeCache.txt",
+        "bytes": 18390,
+        "sha256": "0891b627e514d7ca86e52025fbf8adfdff3e5b9808fbfe1e6a454543265fed4b"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-release-002/CMakeFiles/CMakeConfigureLog.yaml",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-release-002/CMakeFiles/CMakeConfigureLog.yaml",
+        "bytes": 232043,
+        "sha256": "ea4f925cfe5c2c6880636a5d0077a494fd761cc78e64679d06e8e4b09ae531b8"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-release-002/CMakeFiles/TargetDirectories.txt",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-release-002/CMakeFiles/TargetDirectories.txt",
+        "bytes": 26775,
+        "sha256": "3240e1630b5173e7435f77da400256344a5da89e6fb60237c48ca91614a1615c"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-release-002/compile_commands.json",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-release-002/compile_commands.json",
+        "bytes": 130350,
+        "sha256": "d3c359378519eb716d48efbf985cbefa8ef3209ab6fe291160b708d22e6042b9"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-release-002/configure-final-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-release-002/configure-final-001.log",
+        "bytes": 841,
+        "sha256": "6556a83821a8a4e733461a341a39867a47587fc80b690e27f6681db93f31bcb2"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-release-002/ctest-final-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-release-002/ctest-final-001.log",
+        "bytes": 9969,
+        "sha256": "2814e090d2c75cc9f53fbb9b1ad5707fc361c7b96a978a4a1ee7b1b922e9f19b"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-release-002/ctest-final-001.xml",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-release-002/ctest-final-001.xml",
+        "bytes": 17683,
+        "sha256": "a6db1a867596d263368b4c32867510b83bd7974e4de5540404d0e655a7e8af69"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-release-002/production-dependencies.tsv",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-release-002/production-dependencies.tsv",
+        "bytes": 2886,
+        "sha256": "e426eb3aefabced6fd83f8bfb0d5e0d41cc0d78ef5cca75cb0877b609e9460e7"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-release-002/production-sources.tsv",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-release-002/production-sources.tsv",
+        "bytes": 2198,
+        "sha256": "6e0095edb6b0bec6432998856efe9b487bbc8cd2a58e794c9843dbd4402ade79"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-release-002/production-targets.dot",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-release-002/production-targets.dot",
+        "bytes": 2881,
+        "sha256": "bb5cf5c1319052e264346c86505f12638ceb6e0b84abf48516b7a88b8a71be73"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-release-002/renderer-targets.tsv",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-release-002/renderer-targets.tsv",
+        "bytes": 78179,
+        "sha256": "8a06a9286021f41b225354344943b4b2d39aab3c7639e97eb284d4bacc79096b"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-debug-001/build-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-game-debug-001/build-001.log",
+        "bytes": 53591,
+        "sha256": "9c73b46f9ef242dcd7a84b3103a5ff08731db27f9d560a547529c82a0bc6e378"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-debug-001/build.ninja",
+        "archive": "raw/out/m3-t3/r2-step1-game-debug-001/build.ninja",
+        "bytes": 934557,
+        "sha256": "90cdd7459dab2a2c2485473b1febc18dc4ef81114487ace54afe4edf664ed031"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-debug-001/CMakeCache.txt",
+        "archive": "raw/out/m3-t3/r2-step1-game-debug-001/CMakeCache.txt",
+        "bytes": 35530,
+        "sha256": "7f80a2446e10cd02a399bc11c65f954dccc76c2eb4e941e3843159adb36e947e"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-debug-001/CMakeFiles/CMakeConfigureLog.yaml",
+        "archive": "raw/out/m3-t3/r2-step1-game-debug-001/CMakeFiles/CMakeConfigureLog.yaml",
+        "bytes": 311637,
+        "sha256": "1afb700c46538d990c76999efd9ac5b20912540efbecc7bc91bb6a4b6aec9615"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-debug-001/CMakeFiles/TargetDirectories.txt",
+        "archive": "raw/out/m3-t3/r2-step1-game-debug-001/CMakeFiles/TargetDirectories.txt",
+        "bytes": 29391,
+        "sha256": "3d5cafc3b9d5cb73a05fbe74422d71237cd5061cccc5606eb57fdc17abe2c130"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-debug-001/compile_commands.json",
+        "archive": "raw/out/m3-t3/r2-step1-game-debug-001/compile_commands.json",
+        "bytes": 555913,
+        "sha256": "936528e26d36a468269c4a8cc73c0ad453cf89074f070cccc6291f6a32c3f79d"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-debug-001/configure-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-game-debug-001/configure-001.log",
+        "bytes": 8575,
+        "sha256": "e7c529e17657bda3f85ebe239197bfbe059e2aa8e9c9c7588e1bf09cff584f76"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-debug-001/ctest-focused-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-game-debug-001/ctest-focused-001.log",
+        "bytes": 1959,
+        "sha256": "fe8ddfee3cfdd5126816adbdffdbc0e017ee1a6d81dbc67fc7aaee6198a5f6db"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-debug-001/ctest-focused-001.xml",
+        "archive": "raw/out/m3-t3/r2-step1-game-debug-001/ctest-focused-001.xml",
+        "bytes": 4514,
+        "sha256": "d7da9212b9104585e7b925f0115e84ed5db809416fd65ea3b8caec1b24357dfa"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-debug-001/production-dependencies.tsv",
+        "archive": "raw/out/m3-t3/r2-step1-game-debug-001/production-dependencies.tsv",
+        "bytes": 5374,
+        "sha256": "736ee38ba6450459425d9d954b4481c980fc7130b7fbaacb1b289b554612f40a"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-debug-001/production-sources.tsv",
+        "archive": "raw/out/m3-t3/r2-step1-game-debug-001/production-sources.tsv",
+        "bytes": 2994,
+        "sha256": "00c15b07dcb6f70b7e2e872c0d5306a5b0aef712c4393135f0157b1db1b3f8dc"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-debug-001/production-targets.dot",
+        "archive": "raw/out/m3-t3/r2-step1-game-debug-001/production-targets.dot",
+        "bytes": 5382,
+        "sha256": "792b1cb5e4e4ec53496c12eaabe85961d7c684e1197ef5910dff63aa6c3daf79"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-debug-001/renderer-targets.tsv",
+        "archive": "raw/out/m3-t3/r2-step1-game-debug-001/renderer-targets.tsv",
+        "bytes": 133299,
+        "sha256": "c0800c70e9f4d9b97cf67523cdbcb572cee275547b5382e73e52cefc772a8983"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-release-001/build-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-game-release-001/build-001.log",
+        "bytes": 53591,
+        "sha256": "0e0613ba6a800a21c251fccc9eb5a55f9d35386842e68063fad7c3264c112e81"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-release-001/build.ninja",
+        "archive": "raw/out/m3-t3/r2-step1-game-release-001/build.ninja",
+        "bytes": 937155,
+        "sha256": "f5348d3a1cb4a99deced30dd56e11e722bfa733709bcc733f373de4affa0ca15"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-release-001/CMakeCache.txt",
+        "archive": "raw/out/m3-t3/r2-step1-game-release-001/CMakeCache.txt",
+        "bytes": 35734,
+        "sha256": "73209d3fab2d301c5869791097781cf83a23dab2d38749edcdb2162634362516"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-release-001/CMakeFiles/CMakeConfigureLog.yaml",
+        "archive": "raw/out/m3-t3/r2-step1-game-release-001/CMakeFiles/CMakeConfigureLog.yaml",
+        "bytes": 328400,
+        "sha256": "2dce6a0172b4899bc3f467d0b4a6890e974ad2b57feca16fe7306168a32a1b2f"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-release-001/CMakeFiles/TargetDirectories.txt",
+        "archive": "raw/out/m3-t3/r2-step1-game-release-001/CMakeFiles/TargetDirectories.txt",
+        "bytes": 29877,
+        "sha256": "4536d80254fd8f6ed3ea5d550cc6e9b4bfc60458ac852bd3e097f31ab5dd6d26"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-release-001/compile_commands.json",
+        "archive": "raw/out/m3-t3/r2-step1-game-release-001/compile_commands.json",
+        "bytes": 557919,
+        "sha256": "71aa9b530b1a8d1fe716b8252951fb0695fb0c6742268a62c3901d71c13a362d"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-release-001/configure-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-game-release-001/configure-001.log",
+        "bytes": 8578,
+        "sha256": "c1a5ef8e468200516c908dbc4c8463241f4a6e76e0ef2ed962495804564862d0"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-release-001/ctest-focused-001.log",
+        "archive": "raw/out/m3-t3/r2-step1-game-release-001/ctest-focused-001.log",
+        "bytes": 1961,
+        "sha256": "795718c6d33fbf845d877d62f915bb18515652559a636fd41f782ed328161aa9"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-release-001/ctest-focused-001.xml",
+        "archive": "raw/out/m3-t3/r2-step1-game-release-001/ctest-focused-001.xml",
+        "bytes": 4515,
+        "sha256": "e3fc1bc87c261a11bedba47dd5b0a301db56f3bd3d69a8d787e9b2fc515b8983"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-release-001/production-dependencies.tsv",
+        "archive": "raw/out/m3-t3/r2-step1-game-release-001/production-dependencies.tsv",
+        "bytes": 5374,
+        "sha256": "736ee38ba6450459425d9d954b4481c980fc7130b7fbaacb1b289b554612f40a"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-release-001/production-sources.tsv",
+        "archive": "raw/out/m3-t3/r2-step1-game-release-001/production-sources.tsv",
+        "bytes": 2994,
+        "sha256": "00c15b07dcb6f70b7e2e872c0d5306a5b0aef712c4393135f0157b1db1b3f8dc"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-release-001/production-targets.dot",
+        "archive": "raw/out/m3-t3/r2-step1-game-release-001/production-targets.dot",
+        "bytes": 5382,
+        "sha256": "792b1cb5e4e4ec53496c12eaabe85961d7c684e1197ef5910dff63aa6c3daf79"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-release-001/renderer-targets.tsv",
+        "archive": "raw/out/m3-t3/r2-step1-game-release-001/renderer-targets.tsv",
+        "bytes": 133391,
+        "sha256": "2394787e658f2c75245fe394899146aad0891d9220c6a39c93219a62a8768e93"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/ctest-verified-002.log",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/ctest-verified-002.log",
+        "bytes": 10051,
+        "sha256": "304734f3f6d8d11a27c3be9cab0c3236973bcd9b6b8b885f56ba1aef217790a5"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-debug-002/ctest-verified-002.xml",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-debug-002/ctest-verified-002.xml",
+        "bytes": 16694,
+        "sha256": "4ead3b7ddb5c7e0049aa12fc5ed9186bf726b95b96a3ca87aab6f67590ba732d"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-release-002/ctest-verified-002.log",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-release-002/ctest-verified-002.log",
+        "bytes": 9969,
+        "sha256": "293981cbfe916b3a5aca682cd9809c753ffe7fc31d5802bbd84941e6e69e90f2"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-cpu-release-002/ctest-verified-002.xml",
+        "archive": "raw/out/m3-t3/r2-step1-cpu-release-002/ctest-verified-002.xml",
+        "bytes": 17679,
+        "sha256": "2755557290f2279bd7ac6e760cd53ff1428309384b45ab7032c0e99299d7b2e8"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-debug-001/ctest-verified-002.log",
+        "archive": "raw/out/m3-t3/r2-step1-game-debug-001/ctest-verified-002.log",
+        "bytes": 1959,
+        "sha256": "ca00a8f92537fbdca6b5c4f83ee158243fc6837e62d929c2ab3624b2e109ecd1"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-debug-001/ctest-verified-002.xml",
+        "archive": "raw/out/m3-t3/r2-step1-game-debug-001/ctest-verified-002.xml",
+        "bytes": 4519,
+        "sha256": "699868aafce0ad459da4b6fc38a6e32cec7630d637484e43f12313625929cdeb"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-release-001/ctest-verified-002.log",
+        "archive": "raw/out/m3-t3/r2-step1-game-release-001/ctest-verified-002.log",
+        "bytes": 1961,
+        "sha256": "092e838594320b9c118a91ccad415df57ed4f96459dc3a5112175ed04c778dba"
+      },
+      {
+        "source": "out/m3-t3/r2-step1-game-release-001/ctest-verified-002.xml",
+        "archive": "raw/out/m3-t3/r2-step1-game-release-001/ctest-verified-002.xml",
+        "bytes": 4520,
+        "sha256": "1f567bcd96af3210240b37c81ea82df5a9d2c87c777404bc581c2e338e2e2c66"
+      },
+      {
+        "source": "test/integration/CheckRendererBoundary.cmake",
+        "archive": "raw/test/integration/CheckRendererBoundary.cmake",
+        "bytes": 6679,
+        "sha256": "95f55a57ceefe2200bb315fa417ada4320f572d62fdea6d740959f2f847c6ed2"
+      }
+    ],
+    "file_count": 108,
+    "total_bytes": 7115889,
+    "raw_bytes_matched": true,
+    "source_stability_checked": true,
+    "excludes_binary_payload": true
+  },
+  "final_oracle_revision": {
+    "source": "test/integration/CheckRendererBoundary.cmake",
+    "archive": "raw/test/integration/CheckRendererBoundary.cmake",
+    "changes": [
+      {
+        "path": "test/integration/CheckRendererBoundary.cmake",
+        "previous_sha256": "0e852031e49cae54bf1eae7e582ccf30f18e8b1f1456347a1cc9ecb80919409e",
+        "current_sha256": "95f55a57ceefe2200bb315fa417ada4320f572d62fdea6d740959f2f847c6ed2"
+      }
+    ],
+    "explanation": "Final read-only audit found obsolete legacy_gl spelling in two deny expressions. Matched actual legacy_opengl target and added D3D/DXGI/DXC cache absence checks. No production source changed. All four test configurations retested with current oracle; initial successful logs and initial manifest retained.",
+    "previous_identity": "validation-initial-001.json",
+    "retested_configurations": 4
+  }
+}

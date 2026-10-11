@@ -1,0 +1,37 @@
+CMakeFiles/SymoCraft.dir/src/main.cpp.obj: #deps 108, deps mtime 8113333684171392 (VALID)
+CMakeFiles/SymoCraft.dir/src/core/application.cpp.obj: #deps 413, deps mtime 8113333703111363 (VALID)
+CMakeFiles/SymoCraft.dir/src/renderer/renderer.cpp.obj: #deps 401, deps mtime 8113333744805307 (VALID)
+CMakeFiles/symocraft_assets.dir/src/core/asset_paths.cpp.obj: #deps 107, deps mtime 8113333677804413 (VALID)
+tests/CMakeFiles/asset_paths_tests.dir/asset_paths_tests.cpp.obj: #deps 110, deps mtime 8113333760281695 (VALID)
+cmake version 4.3.1
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+1.13.2
+-- Using Win32 for window creation
+-- Configuring done (0.1s)
+-- Generating done (0.1s)
+-- Build files have been written to: F:/GameDevelop/OpenGLProject/Symocraft/out/m1-validation/english-debug
+[1/9] Synchronizing required SymoCraft runtime assets
+[2/9] Building CXX object CMakeFiles\symocraft_assets.dir\src\core\asset_paths.cpp.obj
+[3/9] Linking CXX static library symocraft_assets.lib
+[4/9] Building CXX object CMakeFiles\SymoCraft.dir\src\main.cpp.obj
+[5/9] Building CXX object tests\CMakeFiles\asset_paths_tests.dir\asset_paths_tests.cpp.obj
+[6/9] Linking CXX executable bin\asset_paths_tests.exe
+[7/9] Building CXX object CMakeFiles\SymoCraft.dir\src\renderer\renderer.cpp.obj
+[8/9] Building CXX object CMakeFiles\SymoCraft.dir\src\core\application.cpp.obj
+[9/9] Linking CXX executable bin\SymoCraft.exe
+Recompiled: CMakeFiles/SymoCraft.dir/src/main.cpp.obj
+Recompiled: CMakeFiles/SymoCraft.dir/src/core/application.cpp.obj
+Recompiled: CMakeFiles/SymoCraft.dir/src/renderer/renderer.cpp.obj
+Recompiled: CMakeFiles/symocraft_assets.dir/src/core/asset_paths.cpp.obj
+Recompiled: tests/CMakeFiles/asset_paths_tests.dir/asset_paths_tests.cpp.obj
+cmake version 4.3.1
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+1.13.2
+-- Using Win32 for window creation
+-- Configuring done (0.1s)
+-- Generating done (0.1s)
+-- Build files have been written to: F:/GameDevelop/OpenGLProject/Symocraft/out/m1-validation/english-debug
+[1/1] Synchronizing required SymoCraft runtime assets
+PASS: five header dependents rebuilt; unchanged build performed no recompilation; header content preserved.

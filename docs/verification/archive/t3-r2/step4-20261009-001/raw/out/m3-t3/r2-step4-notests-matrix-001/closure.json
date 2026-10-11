@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "closed_utc": "2026-10-09T12:28:14.354532+00:00",
+  "actual_report": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step4-notests-matrix-001\\verification.json",
+  "actual_completed_exec_session": 79221,
+  "actual_exit_code": 1,
+  "actual_cases": [
+    [
+      "native-notests",
+      false,
+      1
+    ],
+    [
+      "benchmark-only",
+      false,
+      1
+    ],
+    [
+      "benchmark-native-rejected",
+      false,
+      1
+    ]
+  ],
+  "first_attempt_source_array_unchanged": true,
+  "first_attempt_source_count": 4231,
+  "elevated_retry": "Approval tool aborted by user; no 002 supplemental directories exist and no retry was run.",
+  "current_changed_since_first_attempt": [
+    "cmake/licenses/SOURCES.txt",
+    "game/app/CMakeLists.txt",
+    "scripts/package-d3d12-candidate.py",
+    "test/benchmark/CMakeLists.txt",
+    "test/CMakeLists.txt",
+    "test/experimental/d3d12-r1/CMakeLists.txt",
+    "test/experimental/d3d12-r1/contract/README.md",
+    "test/experimental/d3d12-r1/README.md",
+    "test/experimental/input-comparison/README.md",
+    "test/experimental/platform-sdl3/README.md",
+    "test/experimental/publication-fix1/README.md",
+    "test/experimental/sdl3/README.md",
+    "test/integration/renderer/archive-d3d12-candidate.py",
+    "test/integration/renderer/test_candidate_scripts.py",
+    "test/integration/renderer/verify-d3d12-candidate.py",
+    "test/integration/renderer/verify-d3d12-window.py",
+    "test/integration/SDL-DELIVERY-README.md",
+    "test/scripts/__pycache__/test_developer_scripts.cpython-312.pyc"
+  ],
+  "current_c_cpp_header_hlsl_changed_since_first_attempt": [],
+  "process_query_exit": 0,
+  "matching_supplemental_processes": [],
+  "no_gpu_or_package_run": true
+}

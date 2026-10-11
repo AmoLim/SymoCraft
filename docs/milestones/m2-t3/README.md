@@ -5,6 +5,10 @@ tags:
   - topic/performance
 ---
 
+> 2026-10-11 旧导航引用已失效，已改指现行权威或明确归档入口；历史命令、结果和批准含义保持不变。
+
+> 2026-10-11 文档浓缩后已退役复核源：现行入口见 [权威位置](../../verification/VERIFICATION.md#原位置保留的历史材料)；原文保留点时反馈、历史身份和复核依据，不再维护为当前机制或活动计划，旧勾选不产生新批准。
+
 # M2-T3 性能观测与桌面基线报告
 
 验证日期：2026-10-03。**性能采集实现及桌面正式九轮采样完成，Y9000P 有效基线尚未完成，M2-T3 整体仍待双机数据与用户验收。** 本项没有进行性能优化，不据此宣布 M4 或完整 M2 通过。
@@ -18,14 +22,14 @@ tags:
 - GPU 查询使用不阻塞的 64 槽环，按原帧编号回填；缺失不填零。CPU 进程内存、可用 NVX 设备显存估计及外部 GPU 传感器分开记录。
 - 固定 static / walk / edit 工作负载、原始 CSV、YAML 汇总、质量检查脚本、采样结束后的 PNG、笔记本操作指南及 Release 候选包。
 
-设计理由、数据流、所有权、计时口径、错误处理和测试入口见 [性能观测模块](../../legacy/architecture/performance-observation.md)。复现及笔记本交接见 [双机采样指南](../../project/benchmark/testing/performance-baseline.md) 和 [包内说明](PLAYER-README.zh-CN.md)。
+设计理由、数据流、所有权、计时口径、错误处理和测试入口见 [性能观测模块](../../verification/archive/docs-navigation-20261011/historical-extracts.json)。复现及笔记本交接见 [双机采样指南](../../verification/archive/project-history-20261011/benchmark/testing/performance-baseline.md) 和 [包内说明](PLAYER-README.zh-CN.md)。
 
 ## 版本与环境
 
 | 项目 | 实际记录 |
 | --- | --- |
 | 源码 | 基于 `17e23e0bc4e51921c9ad8b53c04f809375cdb509`，包含未提交的 M2-T2/T3 改动；不是仅凭 commit 可重建的已提交版本 |
-| 构建输入 | [build-identity.json](evidence/build-identity.json) 记录 109 个输入文件哈希，采样后复核未变；vendor/lib 沿用原仓库内容 |
+| 构建输入 | [build-identity.json](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/build-identity.json) 记录 109 个输入文件哈希，采样后复核未变；vendor/lib 沿用原仓库内容 |
 | 工具链 | MSVC 19.38.33145 x64、CMake 4.3.1、Ninja 1.13.2；CLion 工具安装未改动 |
 | Release exe SHA256 | `381211C0FF055F2420BE0B5AD8CD11564ACA6324D12DA5EF207A5094D81B9C3F` |
 | 机器 | Ryzen 7 9700X，64 GB 标称内存，系统可见约 61.65 GiB；Windows 11 Pro 10.0.26200 |
@@ -34,21 +38,21 @@ tags:
 | 画面与世界 | Release，1920 x 1080 framebuffer，4x MSAA，VSync 请求关闭，FOV 45；seed 424242、生成版本 1、regression 场景版本 1、工作负载版本 1；441 区块，最多 361 个绘制 |
 | 未记录条件 | CPU 温度、室温、驱动控制面板是否强制覆盖 VSync；没有推测或代填 |
 
-完整环境见 [machine.json](evidence/baseline-desktop-001/machine.json)。没有通过关闭核心、限帧或降低世界规模模拟笔记本。
+完整环境见 [machine.json](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/baseline-desktop-001/machine.json)。没有通过关闭核心、限帧或降低世界规模模拟笔记本。
 
 ## 验证记录
 
 | 检查 | 结果与证据 |
 | --- | --- |
-| Debug / Release 自动测试 | 各 15/15；[Debug 日志](evidence/build/m2-t3-debug-verified.log)、[Release 日志](evidence/build/m2-t3-release-verified.log) |
+| Debug / Release 自动测试 | 各 15/15；[Debug 日志](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/build/m2-t3-debug-verified.log)、[Release 日志](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/build/m2-t3-release-verified.log) |
 | 新增覆盖 | 分位数、预热排除、慢编辑帧保留、缺失 GPU 数据、目录保护、部分导出；GPU 查询就绪/环满/帧 ID/释放；循环编辑可恢复和命令行冲突 |
-| 初次 Debug 测试限制 | 沙箱内两个既有资源搬迁子进程测试失败；[初始日志](evidence/build/m2-t3-debug-initial.log) 保留，在允许的环境复测后 15/15；未通过删除测试规避 |
-| 首次 Release 短测 | 失焦导致无效，脚本停止后续场景；[失败结果](evidence/short-desktop-001/results.json) 保留，不纳入正式统计 |
-| Release 短测复测 | 三场景各预热 2 秒、采样 10 秒，通过；[结果](evidence/short-desktop-002/results.json) |
-| Debug 真实驱动短测 | static 预热 1 秒、采样 2 秒，通过，未出现 GL 诊断；[结果](evidence/short-debug-001/results.json) |
-| 桌面正式采样 | 三场景各 60 秒预热、180 秒采样、重复三次，9/9 有效，无失焦/超时，退出码均为 0；[结果](evidence/baseline-desktop-001/results.json) |
-| 原始数据复核 | 帧号连续、采样边界、位置往返、编辑/重建计数、P95/P99 与脚本汇总一致；[校验日志](evidence/analysis-validation.log)、[独立统计与原始 CSV 哈希](evidence/baseline-desktop-001/analysis.json) |
-| 包检查 | 解压到含空格路径，10 个清单文件哈希一致，无窗口资源检查退出 0；[记录](evidence/package-verification.json)，不等同干净机器部署验证 |
+| 初次 Debug 测试限制 | 沙箱内两个既有资源搬迁子进程测试失败；[初始日志](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/build/m2-t3-debug-initial.log) 保留，在允许的环境复测后 15/15；未通过删除测试规避 |
+| 首次 Release 短测 | 失焦导致无效，脚本停止后续场景；[失败结果](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/short-desktop-001/results.json) 保留，不纳入正式统计 |
+| Release 短测复测 | 三场景各预热 2 秒、采样 10 秒，通过；[结果](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/short-desktop-002/results.json) |
+| Debug 真实驱动短测 | static 预热 1 秒、采样 2 秒，通过，未出现 GL 诊断；[结果](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/short-debug-001/results.json) |
+| 桌面正式采样 | 三场景各 60 秒预热、180 秒采样、重复三次，9/9 有效，无失焦/超时，退出码均为 0；[结果](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/baseline-desktop-001/results.json) |
+| 原始数据复核 | 帧号连续、采样边界、位置往返、编辑/重建计数、P95/P99 与脚本汇总一致；[校验日志](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/analysis-validation.log)、[独立统计与原始 CSV 哈希](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/baseline-desktop-001/analysis.json) |
+| 包检查 | 解压到含空格路径，10 个清单文件哈希一致，无窗口资源检查退出 0；[记录](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/package-verification.json)，不等同干净机器部署验证 |
 
 上一轮正式采样被用户关闭后，用户明确要求覆盖旧正式数据。已仅清除并重建 `out/m2-t3/baseline-desktop-001`，重新从 static-1 开始；本报告全为重启后的九轮，不混用被中断轮次。短测失败记录和其他证据没有删除。重启时间为 20:06:26（UTC+8）。
 
@@ -101,14 +105,14 @@ GPU 样本尾部共缺失 5 帧，各轮缺失 0 或 1 帧，没有为了补齐�
 
 ## 截图与适用边界
 
-已查看三张 1920 x 1080 终态截图：[静止](evidence/screenshots/static-final.png)、[移动](evidence/screenshots/walk-final.png)、[编辑](evidence/screenshots/edit-final.png)。平台纹理可见，静止/编辑有方块与选择框；移动终态朝向开阔平台。它们不是整段录像，也不证明全部材料、透明渲染或人工操作正确。
+已查看三张 1920 x 1080 终态截图：[静止](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/screenshots/static-final.png)、[移动](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/screenshots/walk-final.png)、[编辑](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/screenshots/edit-final.png)。平台纹理可见，静止/编辑有方块与选择框；移动终态朝向开阔平台。它们不是整段录像，也不证明全部材料、透明渲染或人工操作正确。
 
 这是 regression 平台上的冻结负载。虽然仍提交原世界网格，视野和遮挡并不代表所有自然地形或最坏渲染场景。不得将本组台式机结果外推为最低配置、笔记本达标、完整游戏无卡顿或 15 分钟人工游玩通过。采集开销未单独做开关对照，不宣称零扰动。
 
 ## 文件与下一验收点
 
 - 可运行候选目录：`out/install/m2-t3`；交接包：`out/packages/Symocraft-M2-T3-windows-x64.zip`。包内含 exe、六个资源文件、采样脚本、操作说明及身份清单。
-- [包文件清单](evidence/package-manifest.json)、[压缩包身份](evidence/archive-identity.json) 与实际采样 exe 对应；没有复制 exe/DLL/obj/lib/pdb 或运行压缩包进 `docs`。
+- [包文件清单](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/package-manifest.json)、[压缩包身份](../../verification/archive/milestone-evidence-20261011/m2-t3/evidence/archive-identity.json) 与实际采样 exe 对应；没有复制 exe/DLL/obj/lib/pdb 或运行压缩包进 `docs`。
 - 完整逐帧、内存与 GPU 传感器 CSV 在 `out/m2-t3/baseline-desktop-001`。文档保留关键 log、小型 JSON/YAML 及三张 PNG，总量约 2.6 MiB。原始数据被 Git 忽略，需要另外备份；摘要不能重建原始分布。
 - 下一步在接电的指定 Y9000P 上，用同一候选包先短测再执行九轮正式采样，补充性能/显卡模式及实际驱动条件。未取得该数据前，不勾选 M2-T3 双机采样完成。
 - M2-T4 的双机玩法、15 分钟人工连续游玩、用户确认，以及 M6 运行库/许可/干净机器部署仍未完成。

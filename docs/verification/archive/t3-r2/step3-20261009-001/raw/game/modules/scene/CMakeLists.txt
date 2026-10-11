@@ -1,0 +1,3 @@
+add_library(symocraft_scene INTERFACE)
+target_include_directories(symocraft_scene INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_link_libraries(symocraft_scene INTERFACE symocraft_foundation)

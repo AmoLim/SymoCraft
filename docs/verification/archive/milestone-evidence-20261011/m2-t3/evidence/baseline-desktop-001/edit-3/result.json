@@ -1,0 +1,86 @@
+{
+  "scenario": "edit",
+  "repeat": 3,
+  "arguments": [
+    "--benchmark",
+    "edit",
+    "--output",
+    "capture",
+    "--seed",
+    "424242",
+    "--width",
+    "1920",
+    "--height",
+    "1080",
+    "--vsync",
+    "0",
+    "--warmup-seconds",
+    "60",
+    "--sample-seconds",
+    "180"
+  ],
+  "processId": 47192,
+  "exitCode": 0,
+  "timedOut": false,
+  "passed": true,
+  "elapsedSeconds": 241.6206815,
+  "gpuSensorStatus": "collected; inspect CSV for unsupported fields",
+  "frameMs": {
+    "count": 31824,
+    "mean": 5.65604850113124,
+    "p95": 6.5427,
+    "p99": 7.2284,
+    "max": 10.0418
+  },
+  "gpuDrawMs": {
+    "count": 31823,
+    "mean": 0.12134336850704835,
+    "p95": 0.123392,
+    "p99": 0.125312,
+    "max": 0.504096
+  },
+  "uploadBytes": {
+    "count": 31824,
+    "mean": 57770513.21116139,
+    "p95": 57770616.0,
+    "p99": 57770616.0,
+    "max": 57770616.0
+  },
+  "uploadCpuMs": {
+    "count": 31824,
+    "mean": 2.8150978129713584,
+    "p95": 3.2244,
+    "p99": 3.483,
+    "max": 5.4605
+  },
+  "meshMs": {
+    "count": 31824,
+    "mean": 0.03584448843640065,
+    "p95": 0.0071,
+    "p99": 1.336,
+    "max": 2.1104
+  },
+  "presentMs": {
+    "count": 31824,
+    "mean": 0.26561263197587237,
+    "p95": 0.3943,
+    "p99": 0.552,
+    "max": 0.9079
+  },
+  "editFrames": 720,
+  "focusLostFrames": 0,
+  "playerX": {
+    "count": 31824,
+    "mean": -2.5,
+    "p95": -2.5,
+    "p99": -2.5,
+    "max": -2.5
+  },
+  "playerY": {
+    "count": 31824,
+    "mean": 161.89999390011627,
+    "p95": 161.8999939,
+    "p99": 161.8999939,
+    "max": 161.8999939
+  }
+}

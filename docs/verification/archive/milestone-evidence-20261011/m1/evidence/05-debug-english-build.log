@@ -1,0 +1,105 @@
+cmake version 4.3.1
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+1.13.2
+-- The C compiler identification is MSVC 19.38.33145.0
+-- The CXX compiler identification is MSVC 19.38.33145.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: E:/Applications/Microsoft VS/2022/VC/Tools/MSVC/14.38.33130/bin/HostX64/x64/cl.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: E:/Applications/Microsoft VS/2022/VC/Tools/MSVC/14.38.33130/bin/HostX64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - not found
+-- Found Threads: TRUE
+-- Using Win32 for window creation
+-- Configuring done (2.5s)
+-- Generating done (0.1s)
+-- Build files have been written to: F:/GameDevelop/OpenGLProject/Symocraft/out/m1-validation/english-debug
+[1/78] Building C object CMakeFiles\symocraft_glad.dir\vendor\glad\glad.c.obj
+[2/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\directives.cpp.obj
+[3/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\binary.cpp.obj
+[4/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\depthguard.cpp.obj
+[5/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emit.cpp.obj
+[6/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emitfromevents.cpp.obj
+[7/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emitter.cpp.obj
+[8/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\convert.cpp.obj
+[9/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\exceptions.cpp.obj
+[10/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emitterstate.cpp.obj
+[11/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\node.cpp.obj
+[12/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\emitterutils.cpp.obj
+[13/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\memory.cpp.obj
+[14/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\exp.cpp.obj
+[15/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\null.cpp.obj
+[16/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\nodeevents.cpp.obj
+[17/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\node_data.cpp.obj
+[18/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\nodebuilder.cpp.obj
+[19/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\ostream_wrapper.cpp.obj
+[20/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\regex_yaml.cpp.obj
+[21/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\parse.cpp.obj
+[22/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\parser.cpp.obj
+[23/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\scanner.cpp.obj
+[24/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\scantag.cpp.obj
+[25/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\scanscalar.cpp.obj
+[26/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\scantoken.cpp.obj
+[27/78] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\context.c.obj
+[28/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\simplekey.cpp.obj
+[29/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\stream.cpp.obj
+[30/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\tag.cpp.obj
+[31/78] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\init.c.obj
+[32/78] Building CXX object CMakeFiles\symocraft_yaml.dir\vendor\yaml-cpp\src\singledocparser.cpp.obj
+[33/78] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\input.c.obj
+[34/78] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\monitor.c.obj
+[35/78] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\vulkan.c.obj
+[36/78] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\window.c.obj
+[37/78] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\win32_init.c.obj
+[38/78] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\win32_joystick.c.obj
+[39/78] Synchronizing required SymoCraft runtime assets
+[40/78] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\win32_time.c.obj
+[41/78] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\win32_monitor.c.obj
+[42/78] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\win32_thread.c.obj
+[43/78] Linking C static library symocraft_glad.lib
+[44/78] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\win32_window.c.obj
+[45/78] Linking CXX static library symocraft_yaml.lib
+[46/78] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\wgl_context.c.obj
+[47/78] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\egl_context.c.obj
+[48/78] Building C object vendor\glfw\src\CMakeFiles\glfw.dir\osmesa_context.c.obj
+[49/78] Building CXX object CMakeFiles\symocraft_assets.dir\src\core\asset_paths.cpp.obj
+[50/78] Linking CXX static library symocraft_assets.lib
+[51/78] Building CXX object CMakeFiles\SymoCraft.dir\src\main.cpp.obj
+[52/78] Building CXX object CMakeFiles\SymoCraft.dir\include\MemoryAllocator\AmoBase.cpp.obj
+[53/78] Building CXX object CMakeFiles\SymoCraft.dir\src\core\window.cpp.obj
+[54/78] Building CXX object CMakeFiles\SymoCraft.dir\src\core\global_thread_pool.cpp.obj
+[55/78] Building CXX object CMakeFiles\SymoCraft.dir\src\camera\Camera.cpp.obj
+[56/78] Building CXX object CMakeFiles\SymoCraft.dir\src\core\ECS\internal.cpp.obj
+[57/78] Building CXX object CMakeFiles\SymoCraft.dir\src\core\application.cpp.obj
+[58/78] Building CXX object CMakeFiles\SymoCraft.dir\src\core\ECS\registry.cpp.obj
+[59/78] Building CXX object CMakeFiles\SymoCraft.dir\src\core\ECS\Systems\character_system.cpp.obj
+[60/78] Building CXX object CMakeFiles\SymoCraft.dir\src\core\ECS\Systems\physics_system.cpp.obj
+[61/78] Building CXX object CMakeFiles\SymoCraft.dir\src\core\ECS\Systems\transform_system.cpp.obj
+[62/78] Building CXX object CMakeFiles\SymoCraft.dir\src\event\event.cpp.obj
+[63/78] Building CXX object CMakeFiles\SymoCraft.dir\src\input\input.cpp.obj
+[64/78] Building CXX object CMakeFiles\SymoCraft.dir\src\input\key_bindings.cpp.obj
+[65/78] Building CXX object CMakeFiles\SymoCraft.dir\src\input\key_handler.cpp.obj
+[66/78] Building CXX object CMakeFiles\SymoCraft.dir\src\playercontroller\playercontroller.cpp.obj
+[67/78] Building CXX object CMakeFiles\SymoCraft.dir\src\renderer\renderer.cpp.obj
+[68/78] Linking C static library vendor\glfw\src\glfw3.lib
+[69/78] Building CXX object CMakeFiles\SymoCraft.dir\src\renderer\shader.cpp.obj
+[70/78] Building CXX object CMakeFiles\SymoCraft.dir\src\renderer\texture.cpp.obj
+[71/78] Building CXX object CMakeFiles\SymoCraft.dir\src\world\block.cpp.obj
+[72/78] Building CXX object CMakeFiles\SymoCraft.dir\src\world\chunk.cpp.obj
+[73/78] Building CXX object CMakeFiles\SymoCraft.dir\src\world\chunk_manager.cpp.obj
+[74/78] Building CXX object tests\CMakeFiles\asset_paths_tests.dir\asset_paths_tests.cpp.obj
+[75/78] Building CXX object CMakeFiles\SymoCraft.dir\src\renderer\shader_program.cpp.obj
+[76/78] Linking CXX executable bin\asset_paths_tests.exe
+[77/78] Building CXX object CMakeFiles\SymoCraft.dir\src\world\world.cpp.obj
+[78/78] Linking CXX executable bin\SymoCraft.exe

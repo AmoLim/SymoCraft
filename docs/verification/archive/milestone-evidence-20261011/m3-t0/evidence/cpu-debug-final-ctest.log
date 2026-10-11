@@ -1,0 +1,91 @@
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t0/build/cpu-debug
+      Start  1: architecture.public_header.foundation.symocraft/foundation/diagnostics.h
+ 1/43 Test  #1: architecture.public_header.foundation.symocraft/foundation/diagnostics.h ........   Passed    0.01 sec
+      Start  2: architecture.public_header.foundation.symocraft/foundation/document.h
+ 2/43 Test  #2: architecture.public_header.foundation.symocraft/foundation/document.h ...........   Passed    0.01 sec
+      Start  3: architecture.public_header.foundation.symocraft/foundation/files.h
+ 3/43 Test  #3: architecture.public_header.foundation.symocraft/foundation/files.h ..............   Passed    0.01 sec
+      Start  4: architecture.public_header.foundation.symocraft/foundation/math.h
+ 4/43 Test  #4: architecture.public_header.foundation.symocraft/foundation/math.h ...............   Passed    0.01 sec
+      Start  5: architecture.public_header.foundation.symocraft/foundation/memory.h
+ 5/43 Test  #5: architecture.public_header.foundation.symocraft/foundation/memory.h .............   Passed    0.01 sec
+      Start  6: architecture.public_header.foundation.symocraft/foundation/types.h
+ 6/43 Test  #6: architecture.public_header.foundation.symocraft/foundation/types.h ..............   Passed    0.01 sec
+      Start  7: architecture.public_header.scene.symocraft/scene/camera.h
+ 7/43 Test  #7: architecture.public_header.scene.symocraft/scene/camera.h .......................   Passed    0.01 sec
+      Start  8: architecture.public_header.scene.symocraft/scene/mesh.h
+ 8/43 Test  #8: architecture.public_header.scene.symocraft/scene/mesh.h .........................   Passed    0.01 sec
+      Start  9: architecture.public_header.assets.symocraft/assets/asset_paths.h
+ 9/43 Test  #9: architecture.public_header.assets.symocraft/assets/asset_paths.h ................   Passed    0.01 sec
+      Start 10: architecture.public_header.assets.symocraft/assets/image.h
+10/43 Test #10: architecture.public_header.assets.symocraft/assets/image.h ......................   Passed    0.01 sec
+      Start 11: architecture.public_header.world.symocraft/world/benchmark_workload.h
+11/43 Test #11: architecture.public_header.world.symocraft/world/benchmark_workload.h ...........   Passed    0.01 sec
+      Start 12: architecture.public_header.world.symocraft/world/block.h
+12/43 Test #12: architecture.public_header.world.symocraft/world/block.h ........................   Passed    0.01 sec
+      Start 13: architecture.public_header.world.symocraft/world/chunk_manager.h
+13/43 Test #13: architecture.public_header.world.symocraft/world/chunk_manager.h ................   Passed    0.01 sec
+      Start 14: architecture.public_header.world.symocraft/world/constants.h
+14/43 Test #14: architecture.public_header.world.symocraft/world/constants.h ....................   Passed    0.01 sec
+      Start 15: architecture.public_header.world.symocraft/world/generation.h
+15/43 Test #15: architecture.public_header.world.symocraft/world/generation.h ...................   Passed    0.01 sec
+      Start 16: architecture.public_header.world.symocraft/world/test_scene.h
+16/43 Test #16: architecture.public_header.world.symocraft/world/test_scene.h ...................   Passed    0.00 sec
+      Start 17: architecture.public_header.world.symocraft/world/world.h
+17/43 Test #17: architecture.public_header.world.symocraft/world/world.h ........................   Passed    0.00 sec
+      Start 18: architecture.public_header.ecs.symocraft/ecs/registry.h
+18/43 Test #18: architecture.public_header.ecs.symocraft/ecs/registry.h .........................   Passed    0.01 sec
+      Start 19: architecture.public_header.simulation.symocraft/simulation/camera.h
+19/43 Test #19: architecture.public_header.simulation.symocraft/simulation/camera.h .............   Passed    0.01 sec
+      Start 20: architecture.public_header.simulation.symocraft/simulation/character_system.h
+20/43 Test #20: architecture.public_header.simulation.symocraft/simulation/character_system.h ...   Passed    0.01 sec
+      Start 21: architecture.public_header.simulation.symocraft/simulation/component.h
+21/43 Test #21: architecture.public_header.simulation.symocraft/simulation/component.h ..........   Passed    0.01 sec
+      Start 22: architecture.public_header.simulation.symocraft/simulation/physics_system.h
+22/43 Test #22: architecture.public_header.simulation.symocraft/simulation/physics_system.h .....   Passed    0.01 sec
+      Start 23: architecture.public_header.simulation.symocraft/simulation/player.h
+23/43 Test #23: architecture.public_header.simulation.symocraft/simulation/player.h .............   Passed    0.01 sec
+      Start 24: architecture.public_header.simulation.symocraft/simulation/player_math.h
+24/43 Test #24: architecture.public_header.simulation.symocraft/simulation/player_math.h ........   Passed    0.01 sec
+      Start 25: architecture.public_header.simulation.symocraft/simulation/playercontroller.h
+25/43 Test #25: architecture.public_header.simulation.symocraft/simulation/playercontroller.h ...   Passed    0.01 sec
+      Start 26: architecture.public_header.simulation.symocraft/simulation/transform_system.h
+26/43 Test #26: architecture.public_header.simulation.symocraft/simulation/transform_system.h ...   Passed    0.01 sec
+      Start 27: architecture.public_header.telemetry.symocraft/telemetry/document_io.h
+27/43 Test #27: architecture.public_header.telemetry.symocraft/telemetry/document_io.h ..........   Passed    0.01 sec
+      Start 28: architecture.public_header.telemetry.symocraft/telemetry/performance.h
+28/43 Test #28: architecture.public_header.telemetry.symocraft/telemetry/performance.h ..........   Passed    0.01 sec
+      Start 29: foundation.document
+29/43 Test #29: foundation.document .............................................................   Passed    0.01 sec
+      Start 30: assets.contracts
+30/43 Test #30: assets.contracts ................................................................   Passed    0.11 sec
+      Start 31: assets.from_source_directory
+31/43 Test #31: assets.from_source_directory ....................................................   Passed    0.11 sec
+      Start 32: assets.image_decode
+32/43 Test #32: assets.image_decode .............................................................   Passed    0.02 sec
+      Start 33: ecs.registry
+33/43 Test #33: ecs.registry ....................................................................   Passed    0.01 sec
+      Start 34: world.mesh_safety
+34/43 Test #34: world.mesh_safety ...............................................................   Passed    0.07 sec
+      Start 35: world.block_config
+35/43 Test #35: world.block_config ..............................................................   Passed    0.04 sec
+      Start 36: world.generation
+36/43 Test #36: world.generation ................................................................   Passed    1.20 sec
+      Start 37: player.math
+37/43 Test #37: player.math .....................................................................   Passed    0.01 sec
+      Start 38: simulation.contracts
+38/43 Test #38: simulation.contracts ............................................................   Passed    0.24 sec
+      Start 39: performance.export
+39/43 Test #39: performance.export ..............................................................   Passed    0.07 sec
+      Start 40: input.key_snapshot
+40/43 Test #40: input.key_snapshot ..............................................................   Passed    0.01 sec
+      Start 41: core.startup_options
+41/43 Test #41: core.startup_options ............................................................   Passed    0.01 sec
+      Start 42: architecture.source_boundaries
+42/43 Test #42: architecture.source_boundaries ..................................................   Passed    0.19 sec
+      Start 43: architecture.negative_boundaries
+43/43 Test #43: architecture.negative_boundaries ................................................   Passed    1.13 sec
+
+100% tests passed, 0 tests failed out of 43
+
+Total Test time (real) =   3.41 sec

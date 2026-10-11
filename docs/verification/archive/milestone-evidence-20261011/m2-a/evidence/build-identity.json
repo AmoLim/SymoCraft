@@ -1,0 +1,346 @@
+{
+  "candidate": "Symocraft M2-A Windows x64 Release",
+  "packagedAt": "2026-09-17T21:14:38.6155600+08:00",
+  "gitBaseCommit": "00640dcdae55353c006edaf22c40ad2fea457f79",
+  "includesUncommittedSourceChanges": true,
+  "sourceStateNote": "Base commit plus the recorded working-tree inputs, not the base commit alone. Hashes are identity checks, not a source archive.",
+  "vendoredInputs": "Unmodified vendor and lib files from gitBaseCommit; not duplicated in this hash list.",
+  "compiler": "MSVC 19.38.33145 x64",
+  "cmake": "4.3.1",
+  "ninja": "1.13.2",
+  "configuration": "Release",
+  "executableSha256": "6F2F5EC44715D0ED8EC6EFD899EE9C9F28E9993D8EFE202507C42B8B64D09B17",
+  "debugCTestPassed": 9,
+  "releaseCTestPassed": 9,
+  "fullM2Accepted": false,
+  "sourceInputs": [
+    {
+      "path": "assets/configs/blockFormats.yaml",
+      "sha256": "263FA328D9A44F83CECB9F4B06A6D444DBCEBEB75025E48B4A55B3CD956417F9"
+    },
+    {
+      "path": "assets/shaders/fs_BlockShader.glsl",
+      "sha256": "66B2FD0547223FE471464287A3FC39CC438643EB8DFA60AEDB03456C718DEFC7"
+    },
+    {
+      "path": "assets/shaders/fs_FrameShader.glsl",
+      "sha256": "4B702E82F03DB31A921BC72E9501E3F941AB7E4B835F7DF86DFFAF0A91E1FD35"
+    },
+    {
+      "path": "assets/shaders/vs_BlockShader.glsl",
+      "sha256": "47DAB1E3313DD24E139633D32378CB2DED415DAC9DF697958D9AA5A2FB63DD59"
+    },
+    {
+      "path": "assets/shaders/vs_FrameShader.glsl",
+      "sha256": "5B4B8B0E94ABE3AF2D21494D27EED77A0AFD9FED10CE904D451CC3D8CC68BC3C"
+    },
+    {
+      "path": "assets/textures/texture_atlas.png",
+      "sha256": "EE41E86AF8DFDC70037472B2387B67395D93CF1D807F0FE618025F6F86F9B219"
+    },
+    {
+      "path": "cmake/RequiredAssets.cmake",
+      "sha256": "E8F051B06571C7B88263A44D8B5D93DD993F408B0D05695264D4D7EF0118CB5A"
+    },
+    {
+      "path": "cmake/StageAssets.cmake",
+      "sha256": "FC7F3EE6427C88FCD8D3F47CF496C9EBB7060303361B866AD440A36C8F86C124"
+    },
+    {
+      "path": "cmake/ValidateMsvcEnvironment.cmake",
+      "sha256": "98CC9E27E61440A9DDDEF8576A0C6555B2F57C499B67C4FED0FC315279B09CD8"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "8D87127B447F881E57C7D3696019F0A6B8EB282FA6204767347B5D6EFE9C59DE"
+    },
+    {
+      "path": "CMakePresets.json",
+      "sha256": "CB11B56C23A8AF7A3128410601666497FF7212363BFCB8DDEDADFC3D472D75B5"
+    },
+    {
+      "path": "include/camera/camera.h",
+      "sha256": "EBF5B8F0B6108A41A1FAD281CC12E93A24D2CB2A7CCD745655CA1E1A3AF7F4EA"
+    },
+    {
+      "path": "include/core.h",
+      "sha256": "370845D3B4459D786666DDBEA5256CE8D8417EEE5EF7E2FDCF8C4B6A84486C0A"
+    },
+    {
+      "path": "include/core/application.h",
+      "sha256": "98085ECAA078F0481743774734A2B16B5E49707D31A4C7B367F8EBBAEAC9E0BE"
+    },
+    {
+      "path": "include/core/asset_paths.h",
+      "sha256": "6E63ADE8C33922871BFA4955B4183783C6906613970AF869B3614B770EA47CA1"
+    },
+    {
+      "path": "include/core/constants.h",
+      "sha256": "A71A34AC2926010AA26DE30CE1CA04CB89EC73AC74B9B410927D927BD95ADE68"
+    },
+    {
+      "path": "include/core/ECS/component_container.h",
+      "sha256": "34BD4B08B42B03E2AA0B5496EC7F1EF7045509EB8CEDDD241E38D8A7BC0A16C4"
+    },
+    {
+      "path": "include/core/ECS/component.h",
+      "sha256": "08FBB4878BB439327223F5644723329B7A1389450A0E2D0907B07FF058F78C8A"
+    },
+    {
+      "path": "include/core/ECS/internal.h",
+      "sha256": "E691B5441CEDAFAC165BB3CA1F6617C64731ABA9F087AFB7B56CA9B87F2BD803"
+    },
+    {
+      "path": "include/core/ECS/registry.h",
+      "sha256": "6814DF3810F094F2FD3D616B9ED5D1CC5C74838EE2DE0C0547841F6B53C1C54C"
+    },
+    {
+      "path": "include/core/ECS/Systems/character_system.h",
+      "sha256": "ED8D8ABEB8EDD90570EC288FC19507EA30F8D2DBB5B8D0289CA64ECFDA36A781"
+    },
+    {
+      "path": "include/core/ECS/Systems/physics_system.h",
+      "sha256": "AB40AEF3032BA1063346A8170C19F39BB944523921E12945AECC314C7B190C25"
+    },
+    {
+      "path": "include/core/ECS/Systems/transform_system.h",
+      "sha256": "1DC853FA94FF5536E72016EAC20A0E022EB66DB0D045E7183DE7C075FED8B6EF"
+    },
+    {
+      "path": "include/core/global_thread_pool.h",
+      "sha256": "1B1F335F342B031AA69F97521B65371C08D0F302D880235A711A098FB45952DC"
+    },
+    {
+      "path": "include/core/pool.hpp",
+      "sha256": "C60C11D1E1EB67279FD55136A847838773222FAA504990145A69953E58D0DF39"
+    },
+    {
+      "path": "include/core/utils.h",
+      "sha256": "8364B2D22FD89149E3E36F5BCBCC3CB5AB3D068759F9CD5BA165B4376BAA6C75"
+    },
+    {
+      "path": "include/core/window.h",
+      "sha256": "BCCCEA3813D947DA60FB7ADC7ED9FF497B68020F108104A95C0194CDEB32AC01"
+    },
+    {
+      "path": "include/event/event.h",
+      "sha256": "2F17242A2F83A1CB7972E898B2DF75BD593836C5E1C5B3D4748A9CB70F4D0250"
+    },
+    {
+      "path": "include/input/input.h",
+      "sha256": "69E1326E40C6853933AD15BA53E616827D80EC5BF0EB92B0E688F617DA1671CD"
+    },
+    {
+      "path": "include/input/key_bindings.h",
+      "sha256": "2AD22F5497FE9C4D8929963CB87C0EFB3A6DC0E820726D1D7B35225235C4CBCC"
+    },
+    {
+      "path": "include/input/key_handler.h",
+      "sha256": "F3F6C0933C3096F3DB46B7FC8BA4C68EAD90D4939F9A66FF8794949EE305CA6B"
+    },
+    {
+      "path": "include/input/key_snapshot.h",
+      "sha256": "BE59B84C9584AA1706F3277EF664E7C2BCEF9CE86DD4BC8AF902EDC4929D9D04"
+    },
+    {
+      "path": "include/MemoryAllocator/AmoBase.cpp",
+      "sha256": "00CED729834C50031C17095986F8C08D62DE22C8FBCEA3F8AE4D1C239E5A5730"
+    },
+    {
+      "path": "include/MemoryAllocator/AmoBase.h",
+      "sha256": "9B65B765F5BE556810B2225A861AF33BF1712C74C2CEECB5FB69C7D9D40A70DB"
+    },
+    {
+      "path": "include/MemoryAllocator/MemoryHelper.h",
+      "sha256": "50C6F0FC777FCE852EF62BE4111251DF8FE8E4CBD1422E92F3E744EBB3A1F165"
+    },
+    {
+      "path": "include/MemoryAllocator/RawMemory.h",
+      "sha256": "2C8D54A77FC5386D516A7C0AD1AF31A04F97980253BB4CC7C8BE00D91E273360"
+    },
+    {
+      "path": "include/playercontroller/player_math.h",
+      "sha256": "067CFEF2827653D143F78D060DFCF9C40D68F9118EC0C2B91252BE03BC1E387A"
+    },
+    {
+      "path": "include/playercontroller/playercontroller.h",
+      "sha256": "8A503359F230294F861AB8F61603957AD2CA22335903D71EDCFA26EC34EDA63C"
+    },
+    {
+      "path": "include/renderer/batch.hpp",
+      "sha256": "A267D4081DF775A6BEC9B513AFE5DB0E825D864302F0D2FCFBA0948947ADFED0"
+    },
+    {
+      "path": "include/renderer/renderer.h",
+      "sha256": "D20F57EE63844460FBD6669B3823522A1C2ED3E7F6B194BC88D2D0CC404DF144"
+    },
+    {
+      "path": "include/renderer/shader_program.h",
+      "sha256": "8E5BBA21E507EB09E2EDE9FD21696CED5C5CD4E7543F34DE277C9BB73411E4A2"
+    },
+    {
+      "path": "include/renderer/shader.h",
+      "sha256": "4BAC3749DC5155F0DCA324A2803B189B6A359FCB8D914C2576478B9451840259"
+    },
+    {
+      "path": "include/renderer/texture.h",
+      "sha256": "017414C2C73CD8A7CA1F608B7D61A6226084177CEE7BFA7F8594BD432A4F5E27"
+    },
+    {
+      "path": "include/world/block.h",
+      "sha256": "E21647A1AAA4DC2B1BF884F6BC2501D453292CCC1FFC88642A0D7836F8C9098C"
+    },
+    {
+      "path": "include/world/chunk_manager.h",
+      "sha256": "CA8167DB26FCBCDC7297EC70334FF531231539D48D814A26FB9C85B45C570D50"
+    },
+    {
+      "path": "include/world/chunk.h",
+      "sha256": "6AD9F936E73017ED07797EDF89F983F6A6FA6F53266C0E9FE35120B85A9850A8"
+    },
+    {
+      "path": "include/world/world.h",
+      "sha256": "088FAD86B9F8C1E17B60AE0BE890404D1C8BE9B1814B1BADC1CD90B3532C8AA4"
+    },
+    {
+      "path": "scripts/build.ps1",
+      "sha256": "42E8C906B312D18FE7AE81EB63D1A3CD98C3FA850EF7B7D4736FE9C643283A50"
+    },
+    {
+      "path": "scripts/verify-runtime-faults.ps1",
+      "sha256": "19E5965AD9AA75279C2BEE1C2E96BAEBC2F19485DC12F9EA98E084BF21AC7824"
+    },
+    {
+      "path": "scripts/verify-runtime.ps1",
+      "sha256": "7969279A38CD469F56544023ECC10A7A1F9612505DAA049FF9F338FD3EEC8E72"
+    },
+    {
+      "path": "src/camera/Camera.cpp",
+      "sha256": "33B93A048224E322D8AA1EDE2FCA55CA7088717BAC8041E884E8EAC1DA581909"
+    },
+    {
+      "path": "src/core/application.cpp",
+      "sha256": "9D266018AED8E86448DE440291CC5893F415E5AC46D68A5FC5FEB85A28AEE80F"
+    },
+    {
+      "path": "src/core/asset_paths.cpp",
+      "sha256": "9E68ACBD12D0758377E54CE3AB0D8BDEF9A444A8D8C123FED5E237E399E771E9"
+    },
+    {
+      "path": "src/core/ECS/internal.cpp",
+      "sha256": "DF93D8A34BF4FE8437B00E60E45DA097496951009E9DDB234E0EC4EAA48AF7DE"
+    },
+    {
+      "path": "src/core/ECS/registry.cpp",
+      "sha256": "3896200F40C8F610C1EAFC06546F1101B3C1BBD586F07EFE007C18C989498BD5"
+    },
+    {
+      "path": "src/core/ECS/Systems/character_system.cpp",
+      "sha256": "5C85EF6C9E5FA4C82AE3D9A45AA8E8EA670A19575E429083A4EFB0B8158A8BA0"
+    },
+    {
+      "path": "src/core/ECS/Systems/physics_system.cpp",
+      "sha256": "427D4F0713B820FA30179D77E55F01E5D85DC62D297AA1D6C53BC730954EE148"
+    },
+    {
+      "path": "src/core/ECS/Systems/transform_system.cpp",
+      "sha256": "6A298B6CA7D2E2D03EA4C97F3CECB4D99304FA3D9F52B333164A43C8EC30644B"
+    },
+    {
+      "path": "src/core/global_thread_pool.cpp",
+      "sha256": "8EA637A0E0EC076020DB25E30F28782FA77A87AF455EC6E5B9041E10EB91544A"
+    },
+    {
+      "path": "src/core/window.cpp",
+      "sha256": "B093BF85B570F1B649A391452940533FF61EFC4C176CAB5C6DA62A8F626F6A24"
+    },
+    {
+      "path": "src/event/event.cpp",
+      "sha256": "10050F7160CC2BEC5933746B8BA3AE5758B9A1EBE39D7CE20662ACE920273C57"
+    },
+    {
+      "path": "src/input/input.cpp",
+      "sha256": "83088F63301590BC8B416A8C64FBFBEAC5E96EA375C3F89F57A890EB082D5DF9"
+    },
+    {
+      "path": "src/input/key_bindings.cpp",
+      "sha256": "D1CC6EBD9C0FBE6013E1B31A77DD2FBB227F0AC37EC5D6D0D657345CFF85DB87"
+    },
+    {
+      "path": "src/input/key_handler.cpp",
+      "sha256": "DBAB8A0D5136EAF4215D107B8F7F4416F7A1E4624AD640CA59CE61D18EC5C2C9"
+    },
+    {
+      "path": "src/main.cpp",
+      "sha256": "E2581C742D4C1660BA02E3450F6DFF576CA874757B3879F6B152B31E0355892B"
+    },
+    {
+      "path": "src/playercontroller/playercontroller.cpp",
+      "sha256": "59D637A4ABCAFC30876069FBACEEC1B29BB674828276366AB1087E284D2CA91D"
+    },
+    {
+      "path": "src/renderer/renderer.cpp",
+      "sha256": "4D4D1382EB216482CD92AB04B3CA5549BD2DFA270EE109455E2734D387D9C0A7"
+    },
+    {
+      "path": "src/renderer/shader_program.cpp",
+      "sha256": "232658173EC3E193C89F1795C796132B5AFE8E9EFC8D746ADE1C0658CFE511C1"
+    },
+    {
+      "path": "src/renderer/shader.cpp",
+      "sha256": "CC5B226508A81A909695353807E1DDD4BEE21FB25124EF513AEE8556D5D8C4CA"
+    },
+    {
+      "path": "src/renderer/texture.cpp",
+      "sha256": "DA09D42A94EA47EAF2F1325B51F4CF20FCBBE95B0D05D12DCC1AB93761B49812"
+    },
+    {
+      "path": "src/world/block.cpp",
+      "sha256": "E64A1D2C082B162150073DCFCF270A7FE3DD48E64777CBF464CE5FB698DF94D9"
+    },
+    {
+      "path": "src/world/chunk_manager.cpp",
+      "sha256": "1A7A43EC7ECF91647656DBA7A0E5FED39E4CA7CF0BA455EAF9F9599AD621DFAC"
+    },
+    {
+      "path": "src/world/chunk.cpp",
+      "sha256": "703BA37CED09E246FD33C6DBE82B56E52FC99A06542525C36133337777F83A50"
+    },
+    {
+      "path": "src/world/world.cpp",
+      "sha256": "7B8A6167DCAA56484E8BA521152C6F328B8B51CE4617A927E4C7EC2F24521F05"
+    },
+    {
+      "path": "tests/asset_paths_tests.cpp",
+      "sha256": "C93DE3B95C23E57593DF025CBD1B0FF89CB1DFD01362DE7A87AD7291EE14AF75"
+    },
+    {
+      "path": "tests/batch_safety_tests.cpp",
+      "sha256": "EF2C02003990225A350D8643A9758C086F1F60724A618D6B06916A3FB0D94E7F"
+    },
+    {
+      "path": "tests/block_config_tests.cpp",
+      "sha256": "1938C95418DE6EA98B41EEE80A0383A7894A793D48D44C21154E46D4FA0C24D5"
+    },
+    {
+      "path": "tests/CheckAssetPackage.cmake",
+      "sha256": "F003440F59BE73F452D81904B8430E2EC77E8B274B42C702ABE11092B1E889ED"
+    },
+    {
+      "path": "tests/CMakeLists.txt",
+      "sha256": "0ED31C68B48E3CB92C05AB525481023E44488608BA57F32A891C7974D99E7CC3"
+    },
+    {
+      "path": "tests/key_snapshot_tests.cpp",
+      "sha256": "5EFFF443D2675C3BD20A3563A0249E46692BDC8E6CF2033BAC1707EFB38CA555"
+    },
+    {
+      "path": "tests/mesh_safety_tests.cpp",
+      "sha256": "6482DEEEC367347426D4ED0001A1EC95D60884797E7D6CFAAD30DA5CF9098FCA"
+    },
+    {
+      "path": "tests/player_math_tests.cpp",
+      "sha256": "3B5E5F839787F83E062B4632044FAC0AB0E443E27ED40871CFEA196CE990E46F"
+    }
+  ]
+}

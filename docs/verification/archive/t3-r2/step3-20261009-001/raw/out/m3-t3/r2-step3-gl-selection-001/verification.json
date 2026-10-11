@@ -1,0 +1,97 @@
+{
+  "schema": "symocraft.t3.r2-step3-gl-selection",
+  "checked_utc": "2026-10-09T09:17:17.5219491Z",
+  "build": "out/m3-t3/r2-step3-gl-release-001",
+  "only_requested_target_built": "SymoCraft",
+  "full_ctest_run": false,
+  "gpu_run": false,
+  "executable_sha256": "2d75a673199fba81193b533fd261e3d5ce9d5b1728641dac5360c182c77cc411",
+  "cmake_cache_sha256": "54122260ba668079f414e73ec80f0b4982a70eded95a2d04b43195efd0fedc1e",
+  "cases": [
+    {
+      "name": "default-assets",
+      "arguments": [
+        "--check-assets"
+      ],
+      "expected_exit": 0,
+      "exit_code": 0,
+      "timed_out": false,
+      "window_start_log_absent": true,
+      "named_selection_failure": true,
+      "success": true
+    },
+    {
+      "name": "uncompiled-d3d12",
+      "arguments": [
+        "--renderer",
+        "d3d12",
+        "--smoke-frames",
+        "1"
+      ],
+      "expected_exit": 3,
+      "exit_code": 3,
+      "timed_out": false,
+      "window_start_log_absent": true,
+      "named_selection_failure": true,
+      "success": true
+    },
+    {
+      "name": "uncompiled-d3d12-assets",
+      "arguments": [
+        "--renderer",
+        "d3d12",
+        "--check-assets"
+      ],
+      "expected_exit": 3,
+      "exit_code": 3,
+      "timed_out": false,
+      "window_start_log_absent": true,
+      "named_selection_failure": true,
+      "success": true
+    },
+    {
+      "name": "unavailable-vulkan",
+      "arguments": [
+        "--renderer",
+        "vulkan",
+        "--smoke-frames",
+        "1"
+      ],
+      "expected_exit": 3,
+      "exit_code": 3,
+      "timed_out": false,
+      "window_start_log_absent": true,
+      "named_selection_failure": true,
+      "success": true
+    },
+    {
+      "name": "explicit-gl-modern-option",
+      "arguments": [
+        "--renderer",
+        "opengl",
+        "--msaa",
+        "4"
+      ],
+      "expected_exit": 64,
+      "exit_code": 64,
+      "timed_out": false,
+      "window_start_log_absent": true,
+      "named_selection_failure": true,
+      "success": true
+    },
+    {
+      "name": "implicit-gl-modern-option",
+      "arguments": [
+        "--msaa",
+        "4"
+      ],
+      "expected_exit": 64,
+      "exit_code": 64,
+      "timed_out": false,
+      "window_start_log_absent": true,
+      "named_selection_failure": true,
+      "success": true
+    }
+  ],
+  "success": true
+}

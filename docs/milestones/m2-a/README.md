@@ -4,6 +4,10 @@ tags:
   - topic/gameplay
 ---
 
+> 2026-10-11 旧导航引用已失效，已改指现行权威或明确归档入口；历史命令、结果和批准含义保持不变。
+
+> 2026-10-11 文档浓缩后已退役复核源：现行入口见 [权威位置](../../verification/VERIFICATION.md#原位置保留的历史材料)；原文保留点时反馈、历史身份和复核依据，不再维护为当前机制或活动计划，旧勾选不产生新批准。
+
 # M2-A 桌面阶段报告
 
 日期：2026-09-17。状态：**实现、桌面局部验证与候选包已交付，待用户人工验收；M2 整体未通过。** 本轮不操作 CLion，不新增动态区块加载、多线程架构或玩法系统。
@@ -28,11 +32,11 @@ tags:
 - 本机安装目录：`out/install/m2-a`，入口为 `SymoCraft.exe`。
 - 压缩包：`out/packages/Symocraft-M2-A-windows-x64.zip`，解压后包含完整 `m2-a` 目录。
 - 游戏说明：[PLAYER-README.zh-CN.md](PLAYER-README.zh-CN.md)，随包附带。
-- 版本标识：[build-identity.json](evidence/build-identity.json)；包内容与哈希见 [manifest.json](evidence/package/manifest.json)，归档校验见 [archive-verification.json](evidence/package/archive-verification.json)。
+- 版本标识：[build-identity.json](../../verification/archive/milestone-evidence-20261011/m2-a/evidence/build-identity.json)；包内容与哈希见 [manifest.json](../../verification/archive/milestone-evidence-20261011/m2-a/evidence/package/manifest.json)，归档校验见 [archive-verification.json](../../verification/archive/milestone-evidence-20261011/m2-a/evidence/package/archive-verification.json)。
 
 本次 exe SHA256 为 `6F2F5EC44715D0ED8EC6EFD899EE9C9F28E9993D8EFE202507C42B8B64D09B17`；安装版与最终 Release 构建版相同。源码基线是 `00640dcdae55353c006edaf22c40ad2fea457f79` 加本轮未提交改动，**不能把基线提交单独视为本包源码**。构建输入的逐文件哈希另行记录，未代用户提交 Git。
 
-包是开发验收候选版，而非免安装依赖的最终发行版。真实游戏暂使用 ASCII 路径。静态导入表包含 MSVC/UCRT 运行库，包中未捆绑运行库安装程序；无开发环境机器上的部署与第三方许可材料整理仍待发布阶段。见 [当前依赖检查](evidence/build/m2-a-release-dependencies.log) 和 [依赖盘点](../../legacy/third-party-inventory.md)。
+包是开发验收候选版，而非免安装依赖的最终发行版。真实游戏暂使用 ASCII 路径。静态导入表包含 MSVC/UCRT 运行库，包中未捆绑运行库安装程序；无开发环境机器上的部署与第三方许可材料整理仍待发布阶段。见 [当前依赖检查](../../verification/archive/milestone-evidence-20261011/m2-a/evidence/build/m2-a-release-dependencies.log) 和 [依赖盘点](../../verification/archive/docs-navigation-20261011/historical-extracts.json)。
 
 ## 环境与范围
 
@@ -60,10 +64,10 @@ tags:
 
 技术说明包含职责、数据流、所有权、算法、测试和限制：
 
-- [应用生命周期与验证](../../legacy/architecture/application-lifecycle.md)
-- [运行期图形资源](../../legacy/architecture/runtime-resources.md)
-- [网格与批次内存安全](../../legacy/architecture/mesh-safety.md)
-- [玩家循环与输入](../../legacy/architecture/player-loop.md)
+- [应用生命周期与验证](../../architecture/app.md)
+- [运行期图形资源](../../architecture/renderer.md)
+- [网格与批次内存安全](../../architecture/renderer.md)
+- [玩家循环与输入](../../architecture/simulation.md)
 
 这些修改没有替换整个 ECS、引入新的线程池，或实现持久 GPU 区块网格；每帧全世界几何装入和上传仍是后续需测量的成本。
 
@@ -71,7 +75,7 @@ tags:
 
 ### 编译与局部测试
 
-最终记录：[Debug 9 项](evidence/build/m2-a-debug-input-tests.log)、[Release 9 项](evidence/build/m2-a-release-input-tests.log)。首次完整构建日志也保留在 `evidence/build`；警告未被统一屏蔽，包括旧分配器/日志器和噪声浮点转换相关警告。构建通过不等于零警告或自研基础模块已完成审计。
+最终记录：[Debug 9 项](../../verification/archive/milestone-evidence-20261011/m2-a/evidence/build/m2-a-debug-input-tests.log)、[Release 9 项](../../verification/archive/milestone-evidence-20261011/m2-a/evidence/build/m2-a-release-input-tests.log)。首次完整构建日志也保留在 `evidence/build`；警告未被统一屏蔽，包括旧分配器/日志器和噪声浮点转换相关警告。构建通过不等于零警告或自研基础模块已完成审计。
 
 | 测试 | 检查范围 |
 | --- | --- |
@@ -89,20 +93,20 @@ tags:
 
 | 记录 | 观察与结论 |
 | --- | --- |
-| [debug-120](evidence/debug-120/result.json) | 较早版本 120 帧正常完成，历史记录保留，不替代最终复测 |
-| [debug-final-120](evidence/debug-final-120/result.json) | 含最终按键修复；准确 120 帧，0 GL 诊断，退出码 0；[原始日志](evidence/debug-final-120/stdout.log) |
-| [release-interactive](evidence/release-interactive/result.json) | 约 202 秒的早期局部交互；有拆除/放置截图，最终正常退出；不等于 15 分钟连续玩法 |
-| [release-input-retest](evidence/release-input-retest/probe-note.md) | 安装版记录材料切换、起跳落地及位置从 `(0.5,95.95,0.5)` 到 `(0.5,95.9,0.353333)`，游戏清理标记为 0；但旧探针在读取空 stderr 后失败，没有 JSON，通过记录不补造 |
-| [release-final-exit](evidence/release-final-exit/result.json) | 修复探针后安装版正常退出，7500 帧、106.164 秒，未超时；电脑自动操作被用户 Esc 停止后仅等待进程结束，不能据此宣称自动 Esc 或关闭按钮完整验收通过 |
-| [debug-faults](evidence/debug-faults/summary.json) | 坏顶点 shader、不可解码 PNG、空 YAML 均预期失败：exit 3、未 ready、shutdown 完成、相应错误存在、原资源哈希一致 |
+| [debug-120](../../verification/archive/milestone-evidence-20261011/m2-a/evidence/debug-120/result.json) | 较早版本 120 帧正常完成，历史记录保留，不替代最终复测 |
+| [debug-final-120](../../verification/archive/milestone-evidence-20261011/m2-a/evidence/debug-final-120/result.json) | 含最终按键修复；准确 120 帧，0 GL 诊断，退出码 0；[原始日志](../../verification/archive/milestone-evidence-20261011/m2-a/evidence/debug-final-120/stdout.log) |
+| [release-interactive](../../verification/archive/milestone-evidence-20261011/m2-a/evidence/release-interactive/result.json) | 约 202 秒的早期局部交互；有拆除/放置截图，最终正常退出；不等于 15 分钟连续玩法 |
+| [release-input-retest](../../verification/archive/milestone-evidence-20261011/m2-a/evidence/release-input-retest/probe-note.md) | 安装版记录材料切换、起跳落地及位置从 `(0.5,95.95,0.5)` 到 `(0.5,95.9,0.353333)`，游戏清理标记为 0；但旧探针在读取空 stderr 后失败，没有 JSON，通过记录不补造 |
+| [release-final-exit](../../verification/archive/milestone-evidence-20261011/m2-a/evidence/release-final-exit/result.json) | 修复探针后安装版正常退出，7500 帧、106.164 秒，未超时；电脑自动操作被用户 Esc 停止后仅等待进程结束，不能据此宣称自动 Esc 或关闭按钮完整验收通过 |
+| [debug-faults](../../verification/archive/milestone-evidence-20261011/m2-a/evidence/debug-faults/summary.json) | 坏顶点 shader、不可解码 PNG、空 YAML 均预期失败：exit 3、未 ready、shutdown 完成、相应错误存在、原资源哈希一致 |
 
 Release 默认没有启用 Debug GL 回调；其 JSON 的零诊断计数只说明未记录该类文本，不能证明进行了与 Debug 相同强度的 GL 错误检查。Debug 最终运行的零诊断也只是本轮观测，不是无驱动错误或无资源泄漏的穷尽证明。
 
 部分画面证据：
 
-![安装版地形、树叶、沙地和水面](evidence/release-input-retest/01-world.png)
+![安装版地形、树叶、沙地和水面](../../verification/archive/milestone-evidence-20261011/m2-a/evidence/release-input-retest/01-world.png)
 
-拆放对照：[原方块](evidence/release-interactive/01-initial.png)、[拆除后](evidence/release-interactive/02-removed.png)、[放置后](evidence/release-interactive/03-placed.png)。跳跃只保留了离散截图，不可代替动作全程录像或接触边界回归。
+拆放对照：[原方块](../../verification/archive/milestone-evidence-20261011/m2-a/evidence/release-interactive/01-initial.png)、[拆除后](../../verification/archive/milestone-evidence-20261011/m2-a/evidence/release-interactive/02-removed.png)、[放置后](../../verification/archive/milestone-evidence-20261011/m2-a/evidence/release-interactive/03-placed.png)。跳跃只保留了离散截图，不可代替动作全程录像或接触边界回归。
 
 ## 失败、修复与尚待验证
 

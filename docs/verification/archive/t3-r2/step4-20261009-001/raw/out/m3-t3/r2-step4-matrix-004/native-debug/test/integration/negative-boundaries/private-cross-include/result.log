@@ -1,0 +1,7 @@
+CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:90 (message):
+  Boundary violation: relative cross-owner include
+  game/modules/world/src/rejected.cpp -> ../../renderer/src/batch.hpp
+Call Stack (most recent call first):
+  negative-boundaries/private-cross-include/probe.cmake:3 (symocraft_check_source_file)
+
+

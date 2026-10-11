@@ -1,0 +1,7 @@
+CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:57 (message):
+  Boundary violation: SDL headers are private to platform implementation:
+  game/modules/platform/include/symocraft/platform/rejected.h -> SDL3/SDL.h
+Call Stack (most recent call first):
+  negative-boundaries/sdl-platform-public/probe.cmake:3 (symocraft_check_source_file)
+
+

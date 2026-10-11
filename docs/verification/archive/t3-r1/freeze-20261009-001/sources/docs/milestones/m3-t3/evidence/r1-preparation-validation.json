@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "recorded_local_date": "2026-10-08",
+  "scope": "T3 R1 isolated D3D12 preparation; not Renderer v1 freeze or gameplay acceptance",
+  "worktree_input": "Uncommitted shared worktree; exact source/archive/compiler/shader identities remain in build-identities.json and production-imports.json",
+  "freeze_authorized": false,
+  "r2_started": false,
+  "cpu_contract": {
+    "configurations": [
+      "Debug",
+      "Release"
+    ],
+    "ctest_passed_each": 1,
+    "checks_each": 70,
+    "independent_project": "test/experimental/d3d12-r1/contract",
+    "logs": [
+      "out/m3-t3/cpu-debug-ctest.log",
+      "out/m3-t3/cpu-release-ctest.log"
+    ]
+  },
+  "gpu_fixture_build": {
+    "configuration": "Release",
+    "executable_sha256": "43687e53b31cf4266ef200ef255ee940812c9ba4d5562f186f614efef8a529a8",
+    "compiler": "19.38.33145.0",
+    "msvc_tools": "14.38.33130",
+    "windows_sdk": "10.0.22621.0",
+    "dxc": "dxcompiler.dll: 1.6 - 1.6.2112.16 (e8295973c); dxil.dll: 1.6(101.6.2112.13)",
+    "cmake": "cmake version 4.3.1",
+    "ninja": "1.13.2",
+    "final_build_log": "out/m3-t3/release-build-005.log"
+  },
+  "gpu_debug_configuration": {
+    "status": "not_built",
+    "reason": "Initial sandbox compiler check failed C1902; escalation was cancelled. Independent CPU Debug tests do not prove this GPU configuration.",
+    "original_failure": "out/m3-t3/platform-debug/CMakeFiles/CMakeConfigureLog.yaml"
+  },
+  "final_package": {
+    "directory": "out/m3-t3/package/d3d12-r1-release-001",
+    "manifest_sha256": "10c60d5fcf44a857c7df7e9f4dc6661b300e9f082c9771956715cdf2a75e11c4",
+    "payload_files": 16,
+    "desktop_smoke_from_cwd": "C:/Windows/System32",
+    "verification": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/verification.json",
+    "verification_sha256": "e60a9de4cd8875373863a767d1721f8e2108f878199cc2405d1a857ad09414e8",
+    "hardware_exit_code": 0,
+    "timeout_exit_code": 1,
+    "hardware": {
+      "adapter": "NVIDIA GeForce RTX 5070 Ti",
+      "adapter_luid": "00000000:000144d0",
+      "backend": "D3D12",
+      "cleanup_completed": true,
+      "cpu_vertex_stride": 28,
+      "debug_error_count": 0,
+      "debug_layer_enabled": true,
+      "debug_warning_count": 0,
+      "delete_completed_at_retirement": 4,
+      "delete_inflight_fence": 5,
+      "driver": "32.0.16.1664",
+      "e01_passed": true,
+      "e02_passed": true,
+      "e03_passed": true,
+      "elapsed_ms": 10774,
+      "feature_level": "12_0 (requested and created)",
+      "height": 540,
+      "render_target_format": "R8G8B8A8_UNORM_SRGB (swapchain storage R8G8B8A8_UNORM)",
+      "retired_collected": 4,
+      "shader_model": "6_0 (explicit CheckFeatureSupport)",
+      "shutdown_completed": true,
+      "software_adapter": false,
+      "status": "pass",
+      "submitted_frames": 10,
+      "suspended_event_waits": 151,
+      "suspended_submissions": 0,
+      "texture_format": "R8G8B8A8_UNORM",
+      "timeout_injected": false,
+      "update_completed_at_retirement": 2,
+      "update_inflight_fence": 3,
+      "width": 720,
+      "window_mode": "Native SDL3 / private HWND bridge",
+      "zero_extent_input_is_injected": true
+    },
+    "injected_timeout": {
+      "adapter": "NVIDIA GeForce RTX 5070 Ti",
+      "adapter_luid": "00000000:000144d0",
+      "backend": "D3D12",
+      "cleanup_completed": true,
+      "cpu_vertex_stride": 28,
+      "debug_error_count": 0,
+      "debug_layer_enabled": true,
+      "debug_warning_count": 0,
+      "driver": "32.0.16.1664",
+      "e01_passed": false,
+      "e02_passed": false,
+      "e03_passed": false,
+      "elapsed_ms": 503,
+      "error": "D3D12 injected GPU wait timeout (simulated fence event)",
+      "feature_level": "12_0 (requested and created)",
+      "render_target_format": "R8G8B8A8_UNORM_SRGB (swapchain storage R8G8B8A8_UNORM)",
+      "shader_model": "6_0 (explicit CheckFeatureSupport)",
+      "shutdown_completed": false,
+      "software_adapter": false,
+      "status": "fail",
+      "texture_format": "R8G8B8A8_UNORM",
+      "timeout_injected": true,
+      "window_mode": "Native SDL3 / private HWND bridge"
+    },
+    "screenshots": [
+      {
+        "path": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/e01-linear.png",
+        "bytes": 12557,
+        "sha256": "bf1b204264d92c598ed3fdb0dd0e696619ecca24374ef64cf9960e2acd2cd500",
+        "visual_review": "inspected; expected fixture content"
+      },
+      {
+        "path": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/e01-srgb.png",
+        "bytes": 16272,
+        "sha256": "c3a6e00de7c63f2b3ff8a341b16366ea73ceeef325e958d1e30e8e99e5195176",
+        "visual_review": "inspected; expected fixture content"
+      },
+      {
+        "path": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/e02-empty.png",
+        "bytes": 12531,
+        "sha256": "edfe043daceb01875146f26d7ada8082bce7c45bf9d1d63f791a017bad40e6a6",
+        "visual_review": "inspected; expected fixture content"
+      },
+      {
+        "path": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/e02-updated.png",
+        "bytes": 12560,
+        "sha256": "15916fe28ba7184104a71cf3ced81a3f0eb03a56bb218b99410d9fa4db1628ce",
+        "visual_review": "inspected; expected fixture content"
+      },
+      {
+        "path": "out/m3-t3/package/d3d12-r1-release-001/evidence/desktop-smoke-001/hardware/e03-restored.png",
+        "bytes": 16272,
+        "sha256": "6ac8218d2fe0cc28d236fe1a68e4d581e0292e3038ff69f9e889a50db3db3dde",
+        "visual_review": "inspected; expected fixture content"
+      }
+    ]
+  },
+  "prior_runs": [
+    {
+      "path": "out/m3-t3/evidence/desktop-release-001",
+      "passed": false,
+      "exit_codes": [
+        2173,
+        2173
+      ],
+      "note": "Initial native exits after partial images; missing final reports; retained."
+    },
+    {
+      "path": "out/m3-t3/evidence/desktop-release-002",
+      "passed": false,
+      "exit_codes": [
+        2173,
+        2173
+      ],
+      "note": "Per-line diagnostics retained; exact native crash cause not proven."
+    },
+    {
+      "path": "out/m3-t3/evidence/desktop-release-003",
+      "passed": true,
+      "exit_codes": [
+        0,
+        1
+      ],
+      "note": "Passed after presentation fence ordering and command-list cleanup corrections; before final post-release diagnostic check."
+    },
+    {
+      "path": "out/m3-t3/evidence/desktop-release-004",
+      "passed": true,
+      "exit_codes": [
+        0,
+        1
+      ],
+      "note": "Independent repeat of the same pre-final-diagnostic executable."
+    }
+  ],
+  "t2_status": "Latest T2 report: S3 development work delivered; S3 and T2 overall acceptance remain pending.",
+  "limitations": [
+    "Y9000P hardware run not executed.",
+    "Fixture y-down orthographic mapping is not world Y-up/right-handed camera parity.",
+    "Point/clamp fixture does not freeze production asset normalization, sampler/mip semantics or mixed-layer triangles.",
+    "Zero extent is explicit contract injection paired with real minimize/restore, not actual zero-pixel propagation.",
+    "Injected event timeout after completed readback is not real device-loss or in-flight GPU stall safety evidence.",
+    "Production facade, public header/target freeze, app ownership/revision mapping and A01-A19 remain unimplemented/unaccepted."
+  ]
+}

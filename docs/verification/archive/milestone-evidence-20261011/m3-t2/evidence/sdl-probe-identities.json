@@ -1,0 +1,17 @@
+{
+  "captured_at": "2026-10-07T12:33:44.6109409+08:00",
+  "executables": [
+    {
+      "path": "out/m3-t2/probe/gl-debug/SymoCraftSdl3Probe.exe",
+      "sha256": "7b93408e1013ca85ea3cf7602c1abd4029f625b1c54295c8bdfb91ec5c3e90a6"
+    },
+    {
+      "path": "out/m3-t2/probe/vulkan-debug/SymoCraftSdl3Probe.exe",
+      "sha256": "83612da593ffb845b0f3c8d804bb4d7d163005fa60b4d856229c3623d5e29e38"
+    },
+    {
+      "path": "out/m3-t2/install/sdl-gl-probe-release/SymoCraftSdl3Probe.exe",
+      "sha256": "5662d95aee61a472bc4659d391d723dc6c32310d90db865c4c840608b5a8fa96"
+    }
+  ]
+}

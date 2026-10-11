@@ -1,0 +1,18 @@
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\platform\src\window.cpp (line 221) Info: 
+[2026-10-09 02:52:49]: Monitor size: 1920, 1200
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\platform\src\window.cpp (line 256) Info: 
+[2026-10-09 02:52:49]: Window created. 
+PASS missing or malformed shader is a real typed constructor failure
+PASS failed shader initialization and partial-state cleanup are bounded
+PASS failed renderer construction does not destroy its borrowed Native Window
+PASS repeated partial initialization leaves borrowed window usable
+PASS constructor recovery uses the expected actual RTX device and enabled Debug Layer
+PASS constructor-recovery: exact frame association
+PASS constructor-recovery: presented has no skip reason
+PASS constructor-recovery: screenshot request association
+PASS constructor-recovery: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS GPU sample has measured duration; nonempty native draw is positive, empty interval may measure zero
+PASS good shaders initialize and draw on the same borrowed window after repeated constructor failures
+PASS bounded drain associates every measured GPU sample with exact submitted IDs

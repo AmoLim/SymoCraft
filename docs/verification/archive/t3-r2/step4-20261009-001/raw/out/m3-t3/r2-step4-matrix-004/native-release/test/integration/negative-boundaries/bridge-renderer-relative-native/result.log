@@ -1,0 +1,8 @@
+CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:90 (message):
+  Boundary violation: relative cross-owner include
+  game/modules/renderer/src/probe.cpp ->
+  ../../platform/src/graphics_bridge/native_bridge.h
+Call Stack (most recent call first):
+  negative-boundaries/bridge-renderer-relative-native/probe.cmake:3 (symocraft_check_source_file)
+
+

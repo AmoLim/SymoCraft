@@ -1,0 +1,31 @@
+-- Selecting Windows SDK version 10.0.22621.0 to target Windows 10.0.26200.
+-- Configuring incomplete, errors occurred!
+CMake Error at CMakeLists.txt:2 (project):
+  Failed to run MSBuild command:
+
+    E:/Applications/Microsoft VS/2022/MSBuild/Current/Bin/amd64/MSBuild.exe
+
+  to get the value of VCTargetsPath:
+
+    閫傜敤浜?.NET Framework MSBuild 鐗堟湰 17.14.40+3e7442088
+    鐢熸垚鍚姩鏃堕棿涓?2026/9/17 14:14:26銆?
+    
+    鑺傜偣 1 涓婄殑椤圭洰鈥淔:\GameDevelop\OpenGLProject\Symocraft\cmake-build-debug\m0-original\CMakeFiles\4.3.1\VCTargetsPath.vcxproj鈥?榛樿鐩爣)銆?
+    E:\Applications\Microsoft VS\2022\MSBuild\Microsoft\VC\v170\Microsoft.Cpp.WindowsSDK.props(122,5): error MSB4184: 鏃犳硶璁＄畻琛ㄨ揪寮忊€淸Microsoft.Build.Utilities.ToolLocationHelper]::GetLatestSDKTargetPlatformVersion(Windows, 10.0)鈥濄€傚璺緞鈥淐:\Users\ldh20\AppData\Local\Microsoft SDKs鈥濈殑璁块棶琚嫆缁濄€?[F:\GameDevelop\OpenGLProject\Symocraft\cmake-build-debug\m0-original\CMakeFiles\4.3.1\VCTargetsPath.vcxproj]
+    宸插畬鎴愮敓鎴愰」鐩€淔:\GameDevelop\OpenGLProject\Symocraft\cmake-build-debug\m0-original\CMakeFiles\4.3.1\VCTargetsPath.vcxproj鈥?榛樿鐩爣)鐨勬搷浣?- 澶辫触銆?
+    
+    鐢熸垚澶辫触銆?
+    
+    鈥淔:\GameDevelop\OpenGLProject\Symocraft\cmake-build-debug\m0-original\CMakeFiles\4.3.1\VCTargetsPath.vcxproj鈥?榛樿鐩爣) (1) ->
+      E:\Applications\Microsoft VS\2022\MSBuild\Microsoft\VC\v170\Microsoft.Cpp.WindowsSDK.props(122,5): error MSB4184: 鏃犳硶璁＄畻琛ㄨ揪寮忊€淸Microsoft.Build.Utilities.ToolLocationHelper]::GetLatestSDKTargetPlatformVersion(Windows, 10.0)鈥濄€傚璺緞鈥淐:\Users\ldh20\AppData\Local\Microsoft SDKs鈥濈殑璁块棶琚嫆缁濄€?[F:\GameDevelop\OpenGLProject\Symocraft\cmake-build-debug\m0-original\CMakeFiles\4.3.1\VCTargetsPath.vcxproj]
+    
+        0 涓鍛?
+        1 涓敊璇?
+    
+    宸茬敤鏃堕棿 00:00:00.05
+    
+
+  Exit code: 1
+
+
+

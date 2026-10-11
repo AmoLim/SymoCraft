@@ -1,0 +1,324 @@
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\platform\src\window.cpp (line 221) Info: 
+[2026-10-09 08:17:13]: Monitor size: 2560, 1440
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\platform\src\window.cpp (line 256) Info: 
+[2026-10-09 08:17:13]: Window created. 
+PASS actual D3D12 device identity is reported
+PASS verification runs on the expected RTX device with actual driver identity and enabled Debug Layer
+PASS actual sample count equals request without silent fallback
+PASS initial actual present mode matches requested VSync
+PASS native implemented capabilities are available
+PASS initial framebuffer reports drawable pixels rather than logical request
+PASS 00-empty: exact frame association
+PASS 00-empty: presented has no skip reason
+PASS 00-empty: screenshot request association
+PASS 00-empty: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS 01-owned-fixture: exact frame association
+PASS 01-owned-fixture: presented has no skip reason
+PASS 01-owned-fixture: screenshot request association
+PASS 01-owned-fixture: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS owned CPU upload, top-left texture orientation, and both front-facing triangles
+PASS 02-persistent: exact frame association
+PASS 02-persistent: presented has no skip reason
+PASS 02-persistent: screenshot request association
+PASS 02-persistent: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS persistent mesh and texture render identically without reupload
+PASS 03-depth-front-first: exact frame association
+PASS 03-depth-front-first: presented has no skip reason
+PASS 03-depth-front-first: screenshot request association
+PASS 03-depth-front-first: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS 04-depth-back-first: exact frame association
+PASS 04-depth-back-first: presented has no skip reason
+PASS 04-depth-back-first: screenshot request association
+PASS 04-depth-back-first: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS RH negative-Z depth occlusion is independent of draw order
+PASS 05-reverse-winding: exact frame association
+PASS 05-reverse-winding: presented has no skip reason
+PASS 05-reverse-winding: screenshot request association
+PASS 05-reverse-winding: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS both reversed back-facing triangles are culled in actual pixels
+PASS 06-alpha-discard: exact frame association
+PASS 06-alpha-discard: presented has no skip reason
+PASS 06-alpha-discard: screenshot request association
+PASS 06-alpha-discard: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS alpha-discard foreground does not hide the later background
+PASS 06b-alpha-reverse-order: exact frame association
+PASS 06b-alpha-reverse-order: presented has no skip reason
+PASS 06b-alpha-reverse-order: screenshot request association
+PASS 06b-alpha-reverse-order: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS alpha discard preserves background identically in both draw orders
+PASS 06c-repeat-addressing: exact frame association
+PASS 06c-repeat-addressing: presented has no skip reason
+PASS 06c-repeat-addressing: screenshot request association
+PASS 06c-repeat-addressing: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS negative and greater-than-one UV repeat to the same red texel as UV 0.25,0.25
+PASS 06d-point-filtering: exact frame association
+PASS 06d-point-filtering: presented has no skip reason
+PASS 06d-point-filtering: screenshot request association
+PASS 06d-point-filtering: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS fixed non-boundary UV uses point filtering rather than blending wrapped neighboring texels
+PASS 06e-interpolated-array-layer: exact frame association
+PASS 06e-interpolated-array-layer: presented has no skip reason
+PASS 06e-interpolated-array-layer: screenshot request association
+PASS 06e-interpolated-array-layer: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS integer vertex layers interpolate to fractional array selection inside one triangle, not flat material IDs
+PASS 06f-physical-msaa-edge: exact frame association
+PASS 06f-physical-msaa-edge: presented has no skip reason
+PASS 06f-physical-msaa-edge: screenshot request association
+PASS 06f-physical-msaa-edge: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS diagonal triangle has physical multisample resolve coverage only when samples=4
+PASS 07-near-plane: exact frame association
+PASS 07-near-plane: presented has no skip reason
+PASS 07-near-plane: screenshot request association
+PASS 07-near-plane: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS 08-behind-camera: exact frame association
+PASS 08-behind-camera: presented has no skip reason
+PASS 08-behind-camera: screenshot request association
+PASS 08-behind-camera: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS RH_ZO near clipping and behind-camera rejection agree with projection
+PASS 09-selection: exact frame association
+PASS 09-selection: presented has no skip reason
+PASS 09-selection: screenshot request association
+PASS 09-selection: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS selection wireframe changes actual scene pixels
+PASS 10-updated: exact frame association
+PASS 10-updated: presented has no skip reason
+PASS 10-updated: screenshot request association
+PASS 10-updated: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS mesh update owns replacement bytes and draws the newly uploaded persistent geometry
+PASS 11-updated-persistent: exact frame association
+PASS 11-updated-persistent: presented has no skip reason
+PASS 11-updated-persistent: screenshot request association
+PASS 11-updated-persistent: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS updated mesh becomes persistent after first upload
+PASS 12-empty-update: exact frame association
+PASS 12-empty-update: presented has no skip reason
+PASS 12-empty-update: screenshot request association
+PASS 12-empty-update: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS empty mesh update retires old geometry and creates no draw call
+PASS destroyed mesh handle cannot be destroyed twice
+PASS destroyed mesh handle cannot be updated
+PASS destroyed texture handle cannot be destroyed twice
+PASS stale texture binding is rejected before submission
+PASS 13-generation-reuse: exact frame association
+PASS 13-generation-reuse: presented has no skip reason
+PASS 13-generation-reuse: screenshot request association
+PASS 13-generation-reuse: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS new resource generations remain usable after stale-handle rejection
+PASS 14-linear-gray: exact frame association
+PASS 14-linear-gray: presented has no skip reason
+PASS 14-linear-gray: screenshot request association
+PASS 14-linear-gray: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS 15-srgb-gray: exact frame association
+PASS 15-srgb-gray: presented has no skip reason
+PASS 15-srgb-gray: screenshot request association
+PASS 15-srgb-gray: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS Linear SRV preserves values and SRGB SRV decodes to linear UNORM output
+PASS 16-real-atlas: exact frame association
+PASS 16-real-atlas: presented has no skip reason
+PASS 16-real-atlas: screenshot request association
+PASS 16-real-atlas: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS real Assets::DecodeImage atlas normalization uploads and draws visible native pixels
+PASS real atlas layer zero matches bottom-first tile and top-left CPU texels in native screenshot
+PASS 17-resized: exact frame association
+PASS 17-resized: presented has no skip reason
+PASS 17-resized: screenshot request association
+PASS 17-resized: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS non-aligned resize and readback use actual drawable pixels and strip GPU row pitch
+PASS 18-explicit-zero: exact frame association
+PASS 18-explicit-zero: skipped frame has explicit reason and no fake screenshot
+PASS explicit zero extent is suspended without submit, upload, present, or screenshot
+PASS 19-explicit-restored: exact frame association
+PASS 19-explicit-restored: presented has no skip reason
+PASS 19-explicit-restored: screenshot request association
+PASS 19-explicit-restored: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS explicit zero extent can restore actual native output
+PASS real Win32 minimization is observed independently of explicit zero Resize
+PASS 20-real-minimized: exact frame association
+PASS 20-real-minimized: skipped frame has explicit reason and no fake screenshot
+PASS real minimized drawable is skipped with explicit zero-extent status
+PASS real minimization remains observed continuously for at least ten seconds without additional Render calls
+PASS real Win32 restore is observed
+PASS 21-real-restored: exact frame association
+PASS 21-real-restored: presented has no skip reason
+PASS 21-real-restored: screenshot request association
+PASS 21-real-restored: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS real minimization restores native render output
+PASS SetVSync true reports actual FIFO present mode
+PASS 22-vsync-on: exact frame association
+PASS 22-vsync-on: presented has no skip reason
+PASS 22-vsync-on: screenshot request association
+PASS 22-vsync-on: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS SetVSync false reports actual immediate present mode
+PASS 23-vsync-off: exact frame association
+PASS 23-vsync-off: presented has no skip reason
+PASS 23-vsync-off: screenshot request association
+PASS 23-vsync-off: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS 24-retire-after-async-submit: exact frame association
+PASS 24-retire-after-async-submit: presented has no skip reason
+PASS 24-retire-after-async-submit: screenshot request association
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS 25-after-logical-retirement: exact frame association
+PASS 25-after-logical-retirement: presented has no skip reason
+PASS 25-after-logical-retirement: screenshot request association
+PASS 25-after-logical-retirement: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS logical destroy after no-screenshot submission does not corrupt later native work
+PASS 26-finite-large-direction: exact frame association
+PASS 26-finite-large-direction: presented has no skip reason
+PASS 26-finite-large-direction: screenshot request association
+PASS 26-finite-large-direction: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS FLT_MAX finite camera directions normalize stably and preserve native projection pixels
+PASS 27-finite-large-position: exact frame association
+PASS 27-finite-large-position: presented has no skip reason
+PASS 27-finite-large-position: screenshot request association
+PASS 27-finite-large-position: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS 28-current-empty: exact frame association
+PASS 28-current-empty: presented has no skip reason
+PASS 28-current-empty: screenshot request association
+PASS 28-current-empty: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS large finite eye and equal model translation cancel before projection; raw integer z=-3 preserves near-plane depth and pixels
+PASS finite selection expansion outside GPU float range is rejected before Execute
+PASS 29-selection-same-id-retry: exact frame association
+PASS 29-selection-same-id-retry: presented has no skip reason
+PASS 29-selection-same-id-retry: screenshot request association
+PASS 29-selection-same-id-retry: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS Unsupported selection is nonfatal and does not consume the frame ID before a corrected native retry
+PASS positive finite FOV producing unrepresentable GPU matrix is rejected before Execute
+PASS 30-fov-same-id-retry: exact frame association
+PASS 30-fov-same-id-retry: presented has no skip reason
+PASS 30-fov-same-id-retry: screenshot request association
+PASS 30-fov-same-id-retry: tight actual-pixel readback
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS Unsupported matrix is nonfatal and preserves frame ID for a corrected native retry
+PASS async-0: exact frame association
+PASS async-0: presented has no skip reason
+PASS async-0: screenshot request association
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS async-1: exact frame association
+PASS async-1: presented has no skip reason
+PASS async-1: screenshot request association
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS async-2: exact frame association
+PASS async-2: presented has no skip reason
+PASS async-2: screenshot request association
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS async-3: exact frame association
+PASS async-3: presented has no skip reason
+PASS async-3: screenshot request association
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS async-4: exact frame association
+PASS async-4: presented has no skip reason
+PASS async-4: screenshot request association
+PASS GPU sample maps to an actually presented sparse frame ID
+PASS GPU sample frame ID is delivered once
+PASS ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero
+PASS bounded drain associates every measured GPU sample with exact submitted IDs
+PASS at least one nonempty native draw has a positive measured GPU interval; samples are not fixed zero
+PASS normal bounded shutdown drains owned native work and is repeatable

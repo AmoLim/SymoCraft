@@ -1,0 +1,10 @@
+-- no-tests configure: passed
+-- no-tests build: passed
+-- no-tests install: passed
+-- standalone-runner configure: passed
+-- standalone-runner build: passed
+-- standalone-runner install: passed
+-- root-runner-only configure: passed
+-- root-runner-only build: passed
+-- root-runner-only install: passed
+-- Build/install target matrix passed; run standalone-runner CTest separately.

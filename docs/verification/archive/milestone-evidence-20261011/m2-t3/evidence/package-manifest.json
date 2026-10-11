@@ -1,0 +1,58 @@
+{
+  "candidate": "M2-T3 Windows x64 development candidate",
+  "recordedAt": "2026-10-03T20:45:33.3684058+08:00",
+  "files": [
+    {
+      "path": "assets/configs/blockFormats.yaml",
+      "bytes": 1153,
+      "sha256": "263FA328D9A44F83CECB9F4B06A6D444DBCEBEB75025E48B4A55B3CD956417F9"
+    },
+    {
+      "path": "assets/shaders/fs_BlockShader.glsl",
+      "bytes": 383,
+      "sha256": "66B2FD0547223FE471464287A3FC39CC438643EB8DFA60AEDB03456C718DEFC7"
+    },
+    {
+      "path": "assets/shaders/fs_FrameShader.glsl",
+      "bytes": 182,
+      "sha256": "4B702E82F03DB31A921BC72E9501E3F941AB7E4B835F7DF86DFFAF0A91E1FD35"
+    },
+    {
+      "path": "assets/shaders/vs_BlockShader.glsl",
+      "bytes": 429,
+      "sha256": "47DAB1E3313DD24E139633D32378CB2DED415DAC9DF697958D9AA5A2FB63DD59"
+    },
+    {
+      "path": "assets/shaders/vs_FrameShader.glsl",
+      "bytes": 212,
+      "sha256": "5B4B8B0E94ABE3AF2D21494D27EED77A0AFD9FED10CE904D451CC3D8CC68BC3C"
+    },
+    {
+      "path": "assets/textures/texture_atlas.png",
+      "bytes": 62011,
+      "sha256": "EE41E86AF8DFDC70037472B2387B67395D93CF1D807F0FE618025F6F86F9B219"
+    },
+    {
+      "path": "build-identity.json",
+      "bytes": 16657,
+      "sha256": "E0A8880AA168AB996FBF77C6FFEEA9216C6EF8ACC4BC2BDA512F6BF6EE1BF4BC"
+    },
+    {
+      "path": "PLAYER-README.zh-CN.md",
+      "bytes": 3426,
+      "sha256": "00E671B9DC6E9DE03CE45E96132707029EF44AA3439A5AB503671EB81017FA87"
+    },
+    {
+      "path": "scripts/benchmark.ps1",
+      "bytes": 8492,
+      "sha256": "36AFBB2081969A833213B748D3DDD185C7629F1D172EFEE9DF35DFF299B2D930"
+    },
+    {
+      "path": "SymoCraft.exe",
+      "bytes": 754688,
+      "sha256": "381211C0FF055F2420BE0B5AD8CD11564ACA6324D12DA5EF207A5094D81B9C3F"
+    }
+  ],
+  "fullM2Accepted": false,
+  "laptopValidated": false
+}

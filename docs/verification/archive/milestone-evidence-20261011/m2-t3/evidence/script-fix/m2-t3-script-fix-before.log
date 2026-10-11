@@ -1,0 +1,26 @@
+Test project F:/GameDevelop/OpenGLProject/Symocraft/out/m2-t3/release
+    Start 16: performance.script_WINDOWS_POWERSHELL
+1/1 Test #16: performance.script_WINDOWS_POWERSHELL ...***Failed    0.67 sec
+Relative output did not follow PowerShell location: F:\GameDevelop\OpenGLProject\Symocraft\out\m2-t3\release\tests\scri
+pt-probes\WINDOWS_POWERSHELL\a914f320f94b4e0abada436e81b43d19\shell directory\success\static-1\result.json; The term 'G
+et-FileHash' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling 
+of the name, or if a path was included, verify that the path is correct and try again.
+At F:\GameDevelop\OpenGLProject\Symocraft\tests\benchmark_script_tests.ps1:32 char:58
++ ... ultPath)) { throw "Relative output did not follow PowerShell location ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Relative output... and try again.:String) [], RuntimeException
+    + FullyQualifiedErrorId : Relative output did not follow PowerShell location: F:\GameDevelop\OpenGLProject\Symocra 
+   ft\out\m2-t3\release\tests\script-probes\WINDOWS_POWERSHELL\a914f320f94b4e0abada436e81b43d19\shell directory\succe  
+  ss\static-1\result.json; The term 'Get-FileHash' is not recognized as the name of a cmdlet, function, script file,   
+  or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct a    
+nd try again.
+ 
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.68 sec
+
+The following tests FAILED:
+	 16 - performance.script_WINDOWS_POWERSHELL (Failed)
+Errors while running CTest

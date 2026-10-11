@@ -1,0 +1,21 @@
+{
+  "cases": [
+    {
+      "case": "debug-build",
+      "exit_code": 0
+    },
+    {
+      "case": "debug-ctest",
+      "exit_code": 0
+    },
+    {
+      "case": "release-build",
+      "exit_code": 0
+    },
+    {
+      "case": "release-ctest",
+      "exit_code": 0
+    }
+  ],
+  "source_unchanged": true
+}

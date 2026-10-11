@@ -1,0 +1,6 @@
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\platform\src\window.cpp (line 221) Info: 
+[2026-10-09 08:05:33]: Monitor size: 2560, 1440
+F:\GameDevelop\OpenGLProject\Symocraft\game\modules\platform\src\window.cpp (line 256) Info: 
+[2026-10-09 08:05:33]: Window created. 
+[renderer] backend=D3D12; device=NVIDIA GeForce RTX 5070 Ti; identity=LUID=00000000:0001435b vendor=0x10de device=0x2c05; driver=32.0.16.1664; samples=4; present=Fifo; validation=1
+[runtime] shutdown complete; exit_code=3

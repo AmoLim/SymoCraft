@@ -1,0 +1,9 @@
+[0/2] Re-checking globbed directories...
+[1/9] Synchronizing required SymoCraft runtime assets
+[2/9] Building CXX object game\modules\telemetry\CMakeFiles\symocraft_telemetry.dir\src\performance.cpp.obj
+[3/9] Linking CXX static library game\modules\telemetry\symocraft_telemetry.lib
+[4/9] Linking CXX executable test\header_telemetry_symocraft_telemetry_performance_h.exe
+[5/9] Linking CXX executable test\header_telemetry_symocraft_telemetry_document_io_h.exe
+[6/9] Linking CXX executable test\unit\foundation\document_tests.exe
+[7/9] Linking CXX executable test\unit\telemetry\performance_tests.exe
+[8/9] Linking CXX executable test\unit\telemetry\telemetry_renderer_tests.exe

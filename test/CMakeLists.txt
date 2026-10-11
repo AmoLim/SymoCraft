@@ -1,4 +1,7 @@
 find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)
+add_test(NAME scripts.python_helpers COMMAND "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_developer_scripts.py")
+set_tests_properties(scripts.python_helpers PROPERTIES TIMEOUT 60)
 add_test(NAME scripts.migrated_helpers COMMAND "${Python3_EXECUTABLE}"
     "${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_migrated_scripts.py")
 set_tests_properties(scripts.migrated_helpers PROPERTIES TIMEOUT 120)

@@ -1,0 +1,16 @@
+-- The C compiler identification is MSVC 19.38.33145.0
+-- The CXX compiler identification is MSVC 19.38.33145.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: E:/Applications/Microsoft VS/2022/VC/Tools/MSVC/14.38.33130/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: E:/Applications/Microsoft VS/2022/VC/Tools/MSVC/14.38.33130/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found Python3: C:/Users/ldh20/AppData/Local/Programs/Python/Python314/python.exe (found suitable version "3.14.5", minimum required is "3.10") found components: Interpreter
+-- Configuring done (2.9s)
+-- Generating done (0.3s)
+-- Build files have been written to: F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/cpu-release

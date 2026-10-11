@@ -3,6 +3,10 @@ tags:
   - area/milestones
 ---
 
+> 2026-10-11 旧导航引用已失效，已改指现行权威或明确归档入口；历史命令、结果和批准含义保持不变。
+
+> 2026-10-11 文档浓缩后已退役复核源：现行入口见 [权威位置](../../verification/VERIFICATION.md#原位置保留的历史材料)；原文保留点时反馈、历史身份和复核依据，不再维护为当前机制或活动计划，旧勾选不产生新批准。
+
 # M0 环境与原始构建报告
 
 日期：2026-09-17。状态：**本节点已由用户验收通过，已获准进入 M1。** 以下环境与实验内容保留 M0 时的历史记录，后续结果见 [M1 报告](../m1/README.md)。
@@ -17,7 +21,7 @@ tags:
 4. **没有可用的项目自动测试基线和性能基线。** CTest 列表为 0 个测试；尚未测量帧时间、GPU 时间或参考笔记本表现。
 5. 后续重点应是构建可重复性、CLion 接入、运行资源定位、生命周期和边界正确性，而不是盲目重写整个项目。
 
-范围与阶段约定见 [项目范围](../../spec/project-scope.md)；现状数据流见 [架构说明](../../legacy/architecture/current-data-flow.md)。
+范围与阶段约定见 [项目范围](../../scope/project-scope.md)；现状数据流见 [架构说明](../../verification/archive/docs-navigation-20261011/historical-extracts.json)。
 
 ## 环境记录
 
@@ -48,11 +52,11 @@ tags:
 
 | 实验 | 结果 | 证据 |
 | --- | --- | --- |
-| 初次沙箱内配置 | 失败：MSBuild 读取用户 Windows SDK 目录被拒绝；属于执行环境权限问题 | [01 配置原始日志](evidence/01-original-configure.log) |
-| 经授权在新目录重试配置 | 成功，识别 MSVC、Windows SDK 和 GLFW Win32 后端 | [02 配置日志](evidence/02-original-configure-host.log) |
-| 原始 Debug 游戏目标 | 成功，退出码 0；22 条 C4819 字符编码警告，无编译/链接错误 | [03 Debug 日志](evidence/03-original-build-debug.log) |
-| 原始 Release 游戏目标 | 成功，退出码 0；22 条同类警告，无编译/链接错误 | [04 Release 日志](evidence/04-original-build-release.log) |
-| 已注册测试列表 | 0 个测试；这不是“测试全部通过” | [09 测试清单](evidence/09-test-inventory.log) |
+| 初次沙箱内配置 | 失败：MSBuild 读取用户 Windows SDK 目录被拒绝；属于执行环境权限问题 | [01 配置原始日志](../../verification/archive/milestone-evidence-20261011/m0/evidence/01-original-configure.log) |
+| 经授权在新目录重试配置 | 成功，识别 MSVC、Windows SDK 和 GLFW Win32 后端 | [02 配置日志](../../verification/archive/milestone-evidence-20261011/m0/evidence/02-original-configure-host.log) |
+| 原始 Debug 游戏目标 | 成功，退出码 0；22 条 C4819 字符编码警告，无编译/链接错误 | [03 Debug 日志](../../verification/archive/milestone-evidence-20261011/m0/evidence/03-original-build-debug.log) |
+| 原始 Release 游戏目标 | 成功，退出码 0；22 条同类警告，无编译/链接错误 | [04 Release 日志](../../verification/archive/milestone-evidence-20261011/m0/evidence/04-original-build-release.log) |
+| 已注册测试列表 | 0 个测试；这不是“测试全部通过” | [09 测试清单](../../verification/archive/milestone-evidence-20261011/m0/evidence/09-test-inventory.log) |
 
 首次配置目录为 `cmake-build-debug/m0-original`；授权重试使用另一个全新目录 `cmake-build-debug/m0-original-host`，没有借用旧工程缓存或修改源码绕过错误。
 
@@ -72,11 +76,11 @@ tags:
 
 证据：
 
-- 实验 05：[过程记录](evidence/05-debug-start-exe-directory.json)、[stdout](evidence/05-debug-start-exe-directory.stdout.log)、[stderr](evidence/05-debug-start-exe-directory.stderr.log)。两份文本日志为空，这是实际采集结果，不代表没有发生异常。
-- 实验 06：[过程记录](evidence/06-debug-start-resource-directory.json)、[stdout](evidence/06-debug-start-resource-directory.stdout.log)、[stderr](evidence/06-debug-start-resource-directory.stderr.log)、[世界截图](evidence/06-debug-world.png)。
-- 实验 07：[过程记录](evidence/07-release-start-resource-directory.json)、[stdout](evidence/07-release-start-resource-directory.stdout.log)、[stderr](evidence/07-release-start-resource-directory.stderr.log)、[世界截图](evidence/07-release-world.png)。
+- 实验 05：[过程记录](../../verification/archive/milestone-evidence-20261011/m0/evidence/05-debug-start-exe-directory.json)、[stdout](../../verification/archive/milestone-evidence-20261011/m0/evidence/05-debug-start-exe-directory.stdout.log)、[stderr](../../verification/archive/milestone-evidence-20261011/m0/evidence/05-debug-start-exe-directory.stderr.log)。两份文本日志为空，这是实际采集结果，不代表没有发生异常。
+- 实验 06：[过程记录](../../verification/archive/milestone-evidence-20261011/m0/evidence/06-debug-start-resource-directory.json)、[stdout](../../verification/archive/milestone-evidence-20261011/m0/evidence/06-debug-start-resource-directory.stdout.log)、[stderr](../../verification/archive/milestone-evidence-20261011/m0/evidence/06-debug-start-resource-directory.stderr.log)、[世界截图](../../verification/archive/milestone-evidence-20261011/m0/evidence/06-debug-world.png)。
+- 实验 07：[过程记录](../../verification/archive/milestone-evidence-20261011/m0/evidence/07-release-start-resource-directory.json)、[stdout](../../verification/archive/milestone-evidence-20261011/m0/evidence/07-release-start-resource-directory.stdout.log)、[stderr](../../verification/archive/milestone-evidence-20261011/m0/evidence/07-release-start-resource-directory.stderr.log)、[世界截图](../../verification/archive/milestone-evidence-20261011/m0/evidence/07-release-world.png)。
 
-![原始 Release 世界画面](evidence/07-release-world.png)
+![原始 Release 世界画面](../../verification/archive/milestone-evidence-20261011/m0/evidence/07-release-world.png)
 
 本图仅证明捕获时有实际几何和纹理画面，不是画质或玩法验收。没有执行完整移动、碰撞、编辑、窗口恢复和重启用例。前台输入没有被录制为确定性回放，日志里的方块移除信息也不作为完整交互测试通过的依据。
 
@@ -93,9 +97,9 @@ tags:
 | Debug | `cmake-build-debug/m0-original-host/Debug/SymoCraft.exe` | `63764FE346E006C56844DDAAD5FF0F204E9AB9EAA75F08FB598235972DCB646B` |
 | Release | `cmake-build-debug/m0-original-host/Release/SymoCraft.exe` | `79057FEA62F8412CF3059296C972F73983224E88EAE91A1F33F8509C10B5117B` |
 
-[二进制依赖检查](evidence/08-executable-dependencies.log)显示 Debug 依赖调试版 MSVC 运行库，Release 依赖 MSVC/UCRT 运行库。当前构建目录没有复制 `assets`，也没有独立发布/运行库部署流程。
+[二进制依赖检查](../../verification/archive/milestone-evidence-20261011/m0/evidence/08-executable-dependencies.log)显示 Debug 依赖调试版 MSVC 运行库，Release 依赖 MSVC/UCRT 运行库。当前构建目录没有复制 `assets`，也没有独立发布/运行库部署流程。
 
-尽管 CMake 显式链接并复制 irrKlang，两个最终 exe 的静态导入表没有列出 irrKlang.dll，与目前没有有效音频调用的源码状态一致。不能据此推定将来启用音频后仍然不需要该 DLL；详细清单见 [依赖盘点](../../legacy/third-party-inventory.md)。
+尽管 CMake 显式链接并复制 irrKlang，两个最终 exe 的静态导入表没有列出 irrKlang.dll，与目前没有有效音频调用的源码状态一致。不能据此推定将来启用音频后仍然不需要该 DLL；详细清单见 [依赖盘点](../../verification/archive/docs-navigation-20261011/historical-extracts.json)。
 
 ## 问题与处置顺序
 
@@ -111,7 +115,7 @@ tags:
 | M0-08 | 已验证清单缺口 | 若干依赖来源/许可材料不完整，存在未使用二进制和重复头文件 | M1 明确实际依赖；发布前补齐材料，不在 M0 全量升级或删除 |
 | M0-09 | 已复现警告 | robin_hood 头产生 C4819 编码警告 | M1 统一项目编码策略，区分第三方警告与项目警告，不用全局关闭警告掩盖问题 |
 
-更详细的静态证据和源码位置见 [当前架构风险表](../../legacy/architecture/current-data-flow.md#m1--m2-重点风险)。目前未启用的线程池不列为已经发生的运行故障；M0 不决定重写 ECS 或启用并发。
+更详细的静态证据和源码位置见 [当前架构风险表](../../verification/archive/docs-navigation-20261011/historical-extracts.json)。目前未启用的线程池不列为已经发生的运行故障；M0 不决定重写 ECS 或启用并发。
 
 ## 复现本次基线
 

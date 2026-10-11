@@ -1,0 +1,106 @@
+{
+  "schema": "symocraft.renderer-incremental-build",
+  "version": 3,
+  "started_utc": "2026-10-09T08:40:35.7150569Z",
+  "finished_utc": "2026-10-09T08:40:47.9617382Z",
+  "build_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step3-cpu-debug-001",
+  "output_directory": "F:\\GameDevelop\\OpenGLProject\\Symocraft\\out\\m3-t3\\r2-step3-cpu-debug-incremental-001",
+  "status": "passed",
+  "baseline_compilations": 0,
+  "production_callers": {
+    "app_render_data": true,
+    "game_runtime": false,
+    "app_cache_tests": true,
+    "targets_sha256": "C5E811808F5E9A25CC8C5657B79DE272CCBAC355FDB7AD9CBBF04B9EE4F2F571",
+    "sources_sha256": "F8F49EC764878BC3F011798885D9075B6C33F9957D62933BE3651EEC01E4BCA7"
+  },
+  "probes": [
+    {
+      "probe": "private-backend-contract",
+      "header": "game/modules/renderer/src/backend/render_backend.h",
+      "sha256": "967E5163A5B25FAF24487E71B56E9AD58947DA303A1814FDF2CE4BE8BC89450A",
+      "original_mtime_utc": "2026-10-09T05:27:28.5888649Z",
+      "probe_mtime_utc": "2026-10-09T08:40:37.7270402Z",
+      "restored_mtime": true,
+      "compiled_owners": {
+        "coreRenderer": 4,
+        "legacyRenderer": 0,
+        "nativeD3D12": 0,
+        "world": 0,
+        "simulation": 0,
+        "app": 0,
+        "appRenderData": 0,
+        "appRuntime": 0,
+        "appCacheTests": 0,
+        "appConversionTests": 0,
+        "benchmark": 0,
+        "publicConsumer": 0,
+        "facadeTests": 1
+      },
+      "compiled_app_sources": [],
+      "compiled_shaders": 0,
+      "relinked_public_consumer": true,
+      "status": "passed"
+    },
+    {
+      "probe": "public-renderer-types",
+      "header": "game/modules/renderer/include/symocraft/renderer/types.h",
+      "sha256": "39102091898F03C5C01F4A6844265E55B2787EE0222BE17FD1514B0EA4DFFBE7",
+      "original_mtime_utc": "2026-10-09T05:08:25.9160355Z",
+      "probe_mtime_utc": "2026-10-09T08:40:40.5928440Z",
+      "restored_mtime": true,
+      "compiled_owners": {
+        "coreRenderer": 5,
+        "legacyRenderer": 0,
+        "nativeD3D12": 0,
+        "world": 0,
+        "simulation": 0,
+        "app": 2,
+        "appRenderData": 2,
+        "appRuntime": 0,
+        "appCacheTests": 1,
+        "appConversionTests": 1,
+        "benchmark": 0,
+        "publicConsumer": 1,
+        "facadeTests": 1
+      },
+      "compiled_app_sources": [
+        "symocraft_app_render_data:render_conversion.cpp",
+        "symocraft_app_render_data:world_render_cache.cpp"
+      ],
+      "compiled_shaders": 0,
+      "relinked_public_consumer": true,
+      "status": "passed"
+    },
+    {
+      "probe": "private-app-world-cache",
+      "header": "game/app/src/world_render_cache.h",
+      "sha256": "C6AED36672FB6608655A54B63E951136CCEA72E96A37C2ABBCD7D7460CED1C01",
+      "original_mtime_utc": "2026-10-09T08:10:13.0727852Z",
+      "probe_mtime_utc": "2026-10-09T08:40:45.4200603Z",
+      "restored_mtime": true,
+      "compiled_owners": {
+        "coreRenderer": 0,
+        "legacyRenderer": 0,
+        "nativeD3D12": 0,
+        "world": 0,
+        "simulation": 0,
+        "app": 1,
+        "appRenderData": 1,
+        "appRuntime": 0,
+        "appCacheTests": 1,
+        "appConversionTests": 0,
+        "benchmark": 0,
+        "publicConsumer": 0,
+        "facadeTests": 0
+      },
+      "compiled_app_sources": [
+        "symocraft_app_render_data:world_render_cache.cpp"
+      ],
+      "compiled_shaders": 0,
+      "relinked_public_consumer": false,
+      "status": "passed"
+    }
+  ],
+  "error": null
+}

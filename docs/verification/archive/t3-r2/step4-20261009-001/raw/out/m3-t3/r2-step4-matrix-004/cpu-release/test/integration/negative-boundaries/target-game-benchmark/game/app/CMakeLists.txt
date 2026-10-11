@@ -1,0 +1,2 @@
+add_library(symocraft_startup INTERFACE)
+target_link_libraries(symocraft_startup INTERFACE benchmark_core)

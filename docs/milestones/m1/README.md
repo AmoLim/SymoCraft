@@ -4,6 +4,10 @@ tags:
   - topic/build
 ---
 
+> 2026-10-11 旧导航引用已失效，已改指现行权威或明确归档入口；历史命令、结果和批准含义保持不变。
+
+> 2026-10-11 文档浓缩后已退役复核源：现行入口见 [权威位置](../../verification/VERIFICATION.md#原位置保留的历史材料)；原文保留点时反馈、历史身份和复核依据，不再维护为当前机制或活动计划，旧勾选不产生新批准。
+
 # M1 可靠构建报告
 
 日期：2026-09-17。状态：**实施和自动验证完成，等待 CLion 内构建确认及用户验收。** M0 已由用户验收通过；本轮没有进入 M2，也没有宣称交付经过玩法验收的游戏版本。
@@ -25,7 +29,7 @@ tags:
 | 无窗口检查 | `--check-assets`：成功 0、缺资产 2；未知参数 64；不初始化 GLFW 或 OpenGL |
 | 测试 | 路径契约、不同 CWD、迁移路径含空格、模块 Unicode 路径、缺文件和真实游戏参数检查 |
 
-完整设计与复现入口：[构建与 CLion 指南](../../project/build/build-and-clion.md)、[资源定位模块](../../legacy/architecture/asset-paths.md)。
+完整设计与复现入口：[构建与 CLion 指南](../../verification/archive/project-history-20261011/build/build-and-clion.md)、[资源定位模块](../../architecture/assets.md)。
 
 ## 验证记录
 
@@ -35,15 +39,15 @@ tags:
 | --- | --- | --- |
 | CLion 工具链设置 | 截图确认正确 | VS2022、amd64、CMake/Ninja/cl 已检测；用户自行操作 IDE |
 | CLion 两个启用预设 | 截图确认正确 | 均绑定 `Symocraft MSVC`，Debug/Release 类型、预设参数和目录相符；不等于 IDE 内构建已验收 |
-| 初始 Debug 构建与测试 | 编译完成，但存在构建依赖缺陷；沙箱内测试 1/3 通过 | [初始日志](evidence/01-debug-build-test.log)，不能作为通过证据 |
-| 设置 VSLANG 后独立目录 Debug | 编译完成，仍回退中文；沙箱内测试 1/3 通过 | [干净目录实验](evidence/02-debug-clean-build-test.log)，仍不是可靠构建基线 |
-| 相同 Debug 测试正常权限复验 | 3/3 通过 | [授权宿主复验](evidence/03-debug-tests-host.log)，没有修改 TMP 来放宽测试条件 |
-| 真实游戏迁移包无窗口检查 | 通过 | [独立脚本结果](evidence/04-game-package-preflight.log)：含空格目录、无关 CWD、完整资产返回 0、缺纹理返回 2 且具名、错误参数返回 64 |
-| 英文语言包后全新 Debug/Release | 两者均通过 | [Debug 78 步构建](evidence/05-debug-english-build.log)、[Release 78 步构建](evidence/06-release-english-build.log)，目录为 `out/m1-validation/english-debug` / `english-release` |
-| Ninja 头文件依赖及真实增量重编译 | 通过 | [增量验证](evidence/07-incremental-verification.log)：五个对象各记录 108/413/401/107/110 个依赖，均含 `asset_paths.h`；触碰时间戳后全部重编译；不改文件再次构建不重编译 |
-| 最终四项 CTest Debug/Release | 两者各 4/4 通过 | 正常宿主权限下 [Debug](evidence/08-debug-final-tests.log)、[Release](evidence/08-release-final-tests.log)，含新游戏包测试 |
-| 安装目录与安装后预检 | 通过 | [Release 安装](evidence/09-release-install.log)、[安装文件校验](evidence/10-installed-package-check.log)：7 个文件均与来源 SHA256 一致，从源码根 CWD 预检通过 |
-| 辅助脚本环境恢复 | 修复后通过 | [首次失败](evidence/11-script-environment-check.log)、[修复复验](evidence/12-script-environment-retest.log)：环境变量数量和值、工作目录均与调用前一致 |
+| 初始 Debug 构建与测试 | 编译完成，但存在构建依赖缺陷；沙箱内测试 1/3 通过 | [初始日志](../../verification/archive/milestone-evidence-20261011/m1/evidence/01-debug-build-test.log)，不能作为通过证据 |
+| 设置 VSLANG 后独立目录 Debug | 编译完成，仍回退中文；沙箱内测试 1/3 通过 | [干净目录实验](../../verification/archive/milestone-evidence-20261011/m1/evidence/02-debug-clean-build-test.log)，仍不是可靠构建基线 |
+| 相同 Debug 测试正常权限复验 | 3/3 通过 | [授权宿主复验](../../verification/archive/milestone-evidence-20261011/m1/evidence/03-debug-tests-host.log)，没有修改 TMP 来放宽测试条件 |
+| 真实游戏迁移包无窗口检查 | 通过 | [独立脚本结果](../../verification/archive/milestone-evidence-20261011/m1/evidence/04-game-package-preflight.log)：含空格目录、无关 CWD、完整资产返回 0、缺纹理返回 2 且具名、错误参数返回 64 |
+| 英文语言包后全新 Debug/Release | 两者均通过 | [Debug 78 步构建](../../verification/archive/milestone-evidence-20261011/m1/evidence/05-debug-english-build.log)、[Release 78 步构建](../../verification/archive/milestone-evidence-20261011/m1/evidence/06-release-english-build.log)，目录为 `out/m1-validation/english-debug` / `english-release` |
+| Ninja 头文件依赖及真实增量重编译 | 通过 | [增量验证](../../verification/archive/milestone-evidence-20261011/m1/evidence/07-incremental-verification.log)：五个对象各记录 108/413/401/107/110 个依赖，均含 `asset_paths.h`；触碰时间戳后全部重编译；不改文件再次构建不重编译 |
+| 最终四项 CTest Debug/Release | 两者各 4/4 通过 | 正常宿主权限下 [Debug](../../verification/archive/milestone-evidence-20261011/m1/evidence/08-debug-final-tests.log)、[Release](../../verification/archive/milestone-evidence-20261011/m1/evidence/08-release-final-tests.log)，含新游戏包测试 |
+| 安装目录与安装后预检 | 通过 | [Release 安装](../../verification/archive/milestone-evidence-20261011/m1/evidence/09-release-install.log)、[安装文件校验](../../verification/archive/milestone-evidence-20261011/m1/evidence/10-installed-package-check.log)：7 个文件均与来源 SHA256 一致，从源码根 CWD 预检通过 |
+| 辅助脚本环境恢复 | 修复后通过 | [首次失败](../../verification/archive/milestone-evidence-20261011/m1/evidence/11-script-environment-check.log)、[修复复验](../../verification/archive/milestone-evidence-20261011/m1/evidence/12-script-environment-retest.log)：环境变量数量和值、工作目录均与调用前一致 |
 | 游戏画面、玩法与长时间稳定性 | 本节点未验收 | 使用 M2 独立用例，不沿用 M0 的启动画面冒充本轮验证 |
 
 ## 失败与复验
