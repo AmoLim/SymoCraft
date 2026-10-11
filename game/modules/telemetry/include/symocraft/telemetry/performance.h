@@ -4,6 +4,7 @@
 #include <filesystem>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <vector>
 #include "symocraft/foundation/document.h"
 
@@ -19,6 +20,11 @@ namespace SymoCraft::Performance {
         std::uint64_t rebuilt_chunks{}, vertices{}, upload_bytes{}, draw_calls{}, edits{};
         double edit_lateness_ms{}, x{}, y{}, z{}, yaw{};
         bool measured{}, focused{};
+        // Stable renderer identity is separate from the legacy CSV row number.
+        std::optional<std::uint64_t> frame_id;
+        std::optional<double> cpu_prepare_ms, cpu_submit_ms;
+        std::string gpu_missing_reason;
+        std::uint64_t resource_upload_bytes{}, render_upload_bytes{}, upload_calls{};
     };
     struct Memory {
         double elapsed{};
@@ -36,6 +42,18 @@ namespace SymoCraft::Performance {
         bool vsync = false;
     };
 
+    struct RendererInfo {
+        std::string backend, device_name, device_identity, driver_version, api_version;
+        std::string framebuffer_format, actual_present_mode, gpu_time_scope;
+        unsigned framebuffer_width{}, framebuffer_height{}, actual_samples{};
+        bool validation_enabled{}, texture_arrays{}, selection_boxes{}, screenshots{}, gpu_timestamps{};
+    };
+
+    struct UploadStatistics {
+        double cpu_ms{};
+        std::uint64_t bytes{}, calls{};
+    };
+
     class Session {
     public:
         Session(const SessionConfig& options, Clock::time_point entry);
@@ -45,6 +63,10 @@ namespace SymoCraft::Performance {
         void Add(Frame frame);
         void Add(Memory memory) { memory_.push_back(memory); }
         void SetGpu(std::size_t frame, double milliseconds);
+        void SetGpuSample(std::uint64_t frame_id, std::optional<double> milliseconds,
+                          const std::string& missing_reason = {});
+        void SetRendererInfo(const RendererInfo& info);
+        void AddStartupUpload(UploadStatistics statistics);
         void Invalidate(const std::string& reason);
         const std::filesystem::path& Directory() const { return directory_; }
         bool Export(bool normal_exit);
@@ -56,8 +78,12 @@ namespace SymoCraft::Performance {
     private:
         std::filesystem::path directory_;
         std::vector<Frame> frames_;
+        std::unordered_map<std::uint64_t, std::size_t> renderer_frames_;
+        std::vector<bool> gpu_resolved_;
         std::vector<Memory> memory_;
         std::vector<std::string> invalid_reasons_;
         bool allow_unfocused_ = false;
+        bool renderer_info_set_ = false;
+        UploadStatistics startup_upload_;
     };
 }
