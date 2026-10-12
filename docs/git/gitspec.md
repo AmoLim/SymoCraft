@@ -5,166 +5,259 @@ tags:
 
 # 当前 Git 提交批次
 
-## 授权与边界
+## 授权与状态
 
-日期：2026-10-11。分支：`feature-refactoring`。起点：`b01f0068b27447456cfb6fa1462fe9a6ea11c856`。
+日期：2026-10-12。分支：`feature-refactoring`。起点：`8a95613435f9bdf433e98ebf136a5e01a13079e5`。
 
-用户本轮要求先编写提交 spec，并明确选择「将现有实现与自动化迁移也纳入，按完整意图拆分提交」。本页仅规划这一批；旧批次审批不沿用，旧 `docs/spec/git/gitspec.md` 不恢复为现行规则，也不累加旧提交历史。
+用户要求「给我这轮改动进行git提交划分，先更新spec」，随后要求同步新增改动，并明确「好的进行提交吧」。**本批三组方案及已报告的13项文档检查缺口已获确认，现执行本地暂存与提交。** 旧批次审批和成绩不沿用，不追加旧历史；本页记录当前批次身份和实际结果。
 
-当前状态：**用户已确认并授权本批暂存与本地提交。** 实际分组、已有提交与本页所属收口提交见末节。只执行本地提交及本页规定的检查，不自动 push、merge、创建 PR、打 tag、改写历史、执行功能 change 的 sync/archive，或继续 M3 开发。
+用户明确「纳入压缩迁移，不用核对」。据此纳入现有准确删除项及21个压缩包；不执行解包、成员字节、原清单或恢复核验，也不把这些核验设为本批前置。范围确认之外的stage/commit已由上述本轮消息另行授权；仍不授权继续删除其他材料、重压包或修复工程。实际staged diff与范围核对不等同于已免除的压缩迁移核验。
 
-稳定规则见 [AGENTS](../../AGENTS.md)，文档归属见 [DOCUMENTATION_MAP](../DOCUMENTATION_MAP.md)，功能边界见 [scope](../scope/project-scope.md)。本页不是新的 OpenSpec 功能 proposal，不重开已有方案或登记游戏节点批准。
+规则见 [AGENTS](../../AGENTS.md)、[文档治理](../DOCUMENTATION_MAP.md)、[scope](../scope/project-scope.md)。本页是Git分组，不是新的功能proposal；不改功能计划或人工勾选，不执行真实sync/archive、继续M3开发、push、merge、PR、tag或历史改写。
 
 ## 输入身份
 
-本轮只读盘点从 Git 的 NUL 分隔 porcelain 状态取得准确路径，未读取个人笔记或 Obsidian 配置正文。下列数字描述 **Git 相对起点的路径变化**，不等同于文档迁移过程中累计搬移、清理或恢复的数量。
+按NUL分隔Git状态、关闭rename推断盘点，排除个人目录及本页；执行起点HEAD如上，当时暂存区为空。下表固定这次授权输入，不是各提交完成后的dirty计数。
 
-| 范围 | 路径数 |
+| 当前变化 | 路径数 |
 | --- | ---: |
-| 候选集合，不含本页及私有目录 | 8430 |
-| 新增未跟踪路径 | 7417 |
-| 已跟踪修改 | 73 |
-| 已跟踪删除 | 940 |
-| `docs/verification/archive/` 新归档文件 | 7219 |
-| 归档外的 docs 变化 | 1007 |
-| docs 外的实现、工具及规则变化 | 204 |
-| 排除的个人目录与 Obsidian 路径 | 11 |
+| 归档外已跟踪修改 | 59 |
+| 归档外已跟踪删除 | 46 |
+| 归档外新增文件 | 8 |
+| 旧归档已跟踪删除 | 7217 |
+| 新增 .7z 包 | 21 |
+| 候选合计，不含本页 | 7351 |
+| 加本页后的唯一路径 | 7352 |
+| 排除个人笔记/Obsidian | 11 |
 
-归档当前合计 **198597613 字节**，候选集合未发现超过 100 MiB 的单文件；这只是本地保存可行性检查，不证明 GitHub 上传或远端恢复。加本页后的候选路径数为 8431；执行时重新核对，不按数字凑提交。
+7个包承接原历史目录，14个为本轮已有R2配置/故障/消费者/短采样包。7217是当前Git删除数量，不授权再次删除7219份或递归清空archive。`migration-manifest.json` 和 `evidence-consolidation-20261011.json` 仍保留。
 
-候选内容集合 SHA256：`f38392e7ad5caa2336b03f8af22c6e33412eb971fec06e3a885d6acce40e2bb5`。
+归档外删除46项：milestones 34项、spec 11项、testing 1项；相对起点的46项包含此前已经删除的10篇旧规格正文，以及最新处置记录所说的剩余36项，不能把Git差异数量当成这次额外删除46项的实施成绩。本页仅把已有删除及配套改链纳入计划，不继续删除或恢复文件。
 
-复核算法：排除 `docs/.obsidian/`、`docs/development-journal/` 和本页；逐路径记录 `path/status/size/sha256`，删除路径的 size/sha256 为 null；按 path 排序，以 UTF-8、`ensure_ascii=False`、`sort_keys=True`、`separators=(',', ':')` 序列化 JSON，再取 SHA256。它用于发现新增、消失、改字节或改状态的并发输入，不是提交后仍保持不变的状态摘要。出现 rename/copy 状态时须另核对源和目标，不能套用单路径算法。
+当前候选SHA256：`50b55d61980c469efd1649c7d4e271fbe99296e561f7ff583e59636f5a6d2f87`。算法：排除 `docs/.obsidian/`、`docs/development-journal/` 和本页；逐项记录path/status/size/sha256，删除项size/sha256为null；按path排序，JSON以UTF-8、ensure_ascii=False、sort_keys=True、separators=(',', ':')序列化。此摘要只固定Git输入，不证明压缩包内原件或恢复一致性。
 
-提交前把确认后的准确路径、所属意图及内容身份记录到本地 `out/` 批次核对材料，不提交第二份长期计划。并发变化必须逐项说明并重新确认范围，不能因位于同一目录自动纳入。
+现有候选内容共27623241字节，无超过100 MiB的新增单文件；不等同于凭据扫描、远端保存或恢复测试。提交前重新取得准确路径，批准后出现或改字节的并发输入不自动纳入。
 
-## 拆分方案
+## 提交划分
 
-按以下依赖顺序提交。路径范围是归属说明，**不是可以直接全目录暂存的授权**；准确集合只取上节已核对输入。共享文件按相应改动块分配，不能让一个提交引用尚未纳入的源码、脚本、安装文档或资源。
+### G01：D3D12配置、故障验证与默认切换
 
-### G01：现代渲染生产候选
+消息：`feat(renderer): 完善 D3D12 配置与故障验证并切换默认后端`。
 
-建议消息：`feat(renderer): 接入 D3D12 生产候选与同循环渲染桥接`
+22项路径。完整纳入可选GL/现代独占构建、资源及许可部署、世界摘要预检、默认选择、候选打包和旧manifest兼容、配置矩阵、资产夹具，以及私有诊断factory/故障probe/运行器/构建注册。同组直接依赖一起提交，不拆缺头或缺probe的中间提交。
 
-完整意图：将 R1 实验之后已有的 R2 生产候选、调用方与配套验证一起纳入版本控制，不宣称 R3、默认切换或 Vulkan 已通过。
+- `CMakeLists.txt`
+- `CMakePresets.json`
+- `cmake/RequiredAssets.cmake`
+- `cmake/ThirdPartyGame.cmake`
+- `game/app/CMakeLists.txt`
+- `game/app/src/game_renderer.cpp`
+- `game/app/src/startup_options.h`
+- `game/modules/renderer/CMakeLists.txt`
+- `game/modules/renderer/src/backend/d3d12/d3d12_backend.cpp`
+- `game/modules/renderer/src/backend/d3d12/d3d12_backend.h`
+- `scripts/package-d3d12-candidate.py`
+- `test/integration/CMakeLists.txt`
+- `test/integration/CheckAssetPackage.cmake`
+- `test/integration/renderer/test_candidate_scripts.py`
+- `test/integration/renderer/verify-d3d12-candidate.py`
+- `test/unit/app/startup_options_tests.cpp`
+- `test/unit/assets/CMakeLists.txt`
+- `test/unit/assets/asset_paths_tests.cpp`
+- `game/modules/renderer/src/backend/d3d12/diagnostic_access.h`
+- `test/integration/renderer/d3d12_fault_probe.cpp`
+- `test/integration/renderer/verify-d3d12-faults.py`
+- `test/integration/renderer/verify-renderer-configurations.py`
 
-- renderer 的公开类型/错误、PImpl、资源 registry、校验、私有后端与 D3D12 实现；旧 OpenGL 实现及头文件的隔离迁移，保留游戏默认。
-- app 后端选择、启动选项、GameRenderer、CPU 输入转换与持久 WorldRenderCache；相应 main/application、assets 图像写出、telemetry 扩展。
-- `assets/shaders/hlsl/`、`cmake/RendererD3D12.cmake`、`cmake/licenses/`，以及 root/game/app/renderer/assets 的关联构建、安装和模块边界改动。
-- renderer/app/assets/telemetry 单测、公共头消费者、原生后端探针、游戏报告探针及构建矩阵的相关改动块。
-- `scripts/package-d3d12-candidate.py` 与 `test/integration/renderer/` 的构建、窗口/游戏/候选验证和打包脚本；依赖的 `scripts_common.py`、`verification_common.py`、`windows_verification.py` 一并纳入，不能只提交入口。
-- 同一共享工具若有单份证据归档相关行为，也须连同直接依赖及 `test/scripts/test_evidence_archive.py` 等适用回归纳入；文档消费者改链另归 G04，不因拆分重复提交或遗漏。
+新游戏配置默认D3D12；标准Debug/Release游戏preset现显式设置D3D12=ON，再次配置时也启用旧缓存中的后端。根option不使用FORCE，自定义配置仍可命令行显式OFF覆盖，CPU-only规则不变。不能继续把“只改首次默认、旧OFF缓存不受preset影响”写成当前行为。GL可显式保留/关闭，未交付后端具名拒绝、不fallback。普通游戏不创建诊断控制。原生设备API移除、真实在途等待与HRESULT注入分别保留性质，不冒称自发事故、真实OOM、正常退休全部通过或双现代整体验收。
 
-本组不包含 T4 CPU 基线，也不包含 13 份休眠源码的迁移清理。`test/CMakeLists.txt` 中通用 Python 回归注册归 G03；不得因暂存整个共享 CMake 文件提前引入不存在的测试输入。
+新验证入口仍有旧archive目录/输出约束；压缩包不能直接代替目录参数。不在本轮修脚本、降低能力或扩测矩阵，跳过解包核验不等于工具已适配新归档政策。
 
-### G02：旧 CPU 行为基线
+### G02：原生Benchmark现代协议消费
 
-建议消息：`test(simulation): 建立旧物理与玩法 CPU 行为基线`
+消息：`feat(benchmark): 接入 D3D12 采样协议与原生消费者`。
 
-依赖 G01 已纳入的公共验证辅助。完整意图是固定当前生产行为供后续 T4 对照，不实施新物理核心或 SimulationSession。
+10项路径。完整纳入GUI/CLI选择、会话/恢复设置与实际设备身份、GL25列/现代32列及telemetry v1校验、GPU缺失原因/上传归因、原生夹具和capture probe、构建注册及操作/机制说明；依赖G01的生产配置和后端选择。
 
-- `test/unit/simulation/cpu_baseline_fixture.h`。
-- `test/unit/simulation/legacy_physics_baseline_tests.cpp`。
-- `test/unit/simulation/legacy_gameplay_baseline_tests.cpp`。
-- `test/unit/simulation/CMakeLists.txt` 的对应注册。
-- `test/integration/simulation/CaptureCpuBaseline.py`、`VerifyCpuBaseline.py`。
+- `docs/architecture/benchmark.md`
+- `test/benchmark/CMakeLists.txt`
+- `test/benchmark/runner_tests.cpp`
+- `test/support/benchmark_fixture.cpp`
+- `tools/benchmark/README.md`
+- `tools/benchmark/include/benchmark/runner.h`
+- `tools/benchmark/src/gui.cpp`
+- `tools/benchmark/src/main.cpp`
+- `tools/benchmark/src/runner.cpp`
+- `test/benchmark/capture_probe.cpp`
 
-15 物理 + 9 玩法组属于历史基线的用例范围，不是本轮重新运行成绩。冻结快照与交接文档的位置迁移在 G04 完整处理，不能把快照源码冒充新增生产实现。
+游戏默认D3D12不等于Benchmark默认切换；执行器当前仍默认OpenGL并显式传renderer。旧GL协议/会话保持身份；短CLI结果不推定GUI人工、正式九轮、视觉容差或预算通过。独立工具不反向依赖游戏模块，不把原生统计逻辑移入Python。
 
-### G03：Python 自动化迁移
+### G03：验证治理、旧文档退役与压缩迁移
 
-建议消息：`refactor(automation): 统一 Python 自动化与验证入口`
+消息：`docs(verification): 收口验证治理与旧文档退役及压缩归档`。
 
-依赖 G01 的共享辅助，完整纳入已发生的通用脚本迁移及其调用者：
+7320项路径：下列35项现有正文/消费者（32项修改、3份新增verification）、46项旧文档删除、7217项准确旧归档删除、21个准确新包，以及本页。依赖G01/G02。旧目录退役、当前索引/消费者改链与压缩包入库同组，不先提交缺目标导航，也不只提交删除。
 
-- `scripts/` 其余构建、Benchmark、运行/故障验证、输入准备、实验/平台/人工输入辅助的 Python 入口与既有 PowerShell 薄启动器改动。
-- `test/experimental/` 对应 Python 替换、已发生的旧 ps1 删除及关联 CMake/README；不增加 PowerShell 业务逻辑，不改历史证据中的旧命令。
-- `test/integration/` 通用增量、迁移运行与 SDL 交付验证的 Python 替换及旧入口删除。
-- `test/scripts/test_migrated_scripts.py`、`test/benchmark/benchmark_script_tests.py`，以及 root test/benchmark/实验 target 的对应 Python 注册；`test_developer_scripts.py` 与文档消费者整体后移 G04。
-- `.gitignore` 的 Python bytecode 排除；不忽略归档或必需输入，不变更全局 Git 配置。
-- `scripts/README.md` 同时引用新文档权威位置，整体归 G04，与目标一起纳入，不能留下缺链。
+修改及新增的准确范围：
+- `AGENTS.md`
+- `README.md`
+- `docs/DOCUMENTATION_MAP.md`
+- `docs/architecture/engineering.md`
+- `docs/architecture/renderer.md`
+- `docs/issue/issues.md`
+- `docs/openspec/changes/m3-t2-publication-fix1/design.md`
+- `docs/openspec/changes/m3-t2-publication-fix1/proposal.md`
+- `docs/openspec/changes/m3-t3-renderer/decisions.md`
+- `docs/openspec/changes/m3-t3-renderer/design.md`
+- `docs/openspec/changes/m3-t3-renderer/proposal.md`
+- `docs/openspec/changes/m3-t3-renderer/specs/renderer/spec.md`
+- `docs/openspec/changes/m3-t3-renderer/tasks.md`
+- `docs/openspec/changes/m3-t4-application-simulation/design.md`
+- `docs/openspec/changes/m3-t4-application-simulation/proposal.md`
+- `docs/openspec/changes/m3-t4-application-simulation/specs/application-lifecycle/spec.md`
+- `docs/openspec/changes/m3-t4-application-simulation/tasks.md`
+- `docs/openspec/config.yaml`
+- `docs/openspec/specs/foundation-files/spec.md`
+- `docs/openspec/specs/module-boundaries/spec.md`
+- `docs/openspec/specs/platform/spec.md`
+- `docs/openspec/specs/renderer/spec.md`
+- `docs/openspec/specs/world/spec.md`
+- `docs/scope/project-scope.md`
+- `docs/tag-inventory.json`
+- `docs/verification/VERIFICATION.md`
+- `docs/verification/methods.md`
+- `scripts/README.md`
+- `test/experimental/platform-handoff/README.md`
+- `test/experimental/platform-sdl3/README.md`
+- `test/experimental/publication-fix1/README.md`
+- `test/experimental/sdl3/README.md`
+- `docs/openspec/changes/m3-t2-publication-fix1/verification.md`
+- `docs/openspec/changes/m3-t3-renderer/verification.md`
+- `docs/openspec/changes/m3-t4-application-simulation/verification.md`
+- `docs/git/gitspec.md`
 
-`capture-migration-inputs.py` 的新文档输入、对应消费者测试以及 Benchmark 安装改链归 G04；若新文件中的这些部分无法无损拆分，连同该入口、调用者与回归一起后移到 G04，不能临时改造业务来凑提交。
+已存在的准确旧文档删除（不是本轮继续删除授权）：
+- `docs/milestones/m0/Probe-Startup.ps1`
+- `docs/milestones/m0/README.md`
+- `docs/milestones/m1/README.md`
+- `docs/milestones/m1/Verify-Incremental.ps1`
+- `docs/milestones/m2-a/PLAYER-README.zh-CN.md`
+- `docs/milestones/m2-a/README.md`
+- `docs/milestones/m2-t2/README.md`
+- `docs/milestones/m2-t3/BENCHMARK-FIX.zh-CN.md`
+- `docs/milestones/m2-t3/PLAYER-README.zh-CN.md`
+- `docs/milestones/m2-t3/README.md`
+- `docs/milestones/m2-t3/laptop-first-run.md`
+- `docs/milestones/m3-t0/README.md`
+- `docs/milestones/m3-t1/README.md`
+- `docs/milestones/m3-t2/README.md`
+- `docs/milestones/m3-t2/manual-verification.md`
+- `docs/milestones/m3-t2/manul-verification.md`
+- `docs/milestones/m3-t2/platform-contract-candidate.md`
+- `docs/milestones/m3-t2/s3-manual-verification.md`
+- `docs/milestones/m3-t2/s4-platform-handoff.md`
+- `docs/milestones/m3-t2/s5-delivery-status.md`
+- `docs/milestones/m3-t3/README.md`
+- `docs/milestones/m3-t3/manual-verification.md`
+- `docs/milestones/m3-t3/r2-entry.md`
+- `docs/milestones/m3-t3/r2-step1-implementation.md`
+- `docs/milestones/m3-t3/r2-step2-implementation.md`
+- `docs/milestones/m3-t3/r2-step3-implementation.md`
+- `docs/milestones/m3-t3/r2-step4-implementation.md`
+- `docs/milestones/m3-t4/README.md`
+- `docs/milestones/m3-t4/consumer-audit.md`
+- `docs/milestones/m3-t4/consumer-source-manifest.json`
+- `docs/milestones/m3-t4/cpu-behavior-baseline.md`
+- `docs/milestones/m3-t4/interface-contract-candidate.md`
+- `docs/milestones/m3-t4/interface-decisions.md`
+- `docs/milestones/m3-t4/manual-verification.md`
+- `docs/spec/M3/M3-T1-T3-CPU契约清单.md`
+- `docs/spec/M3/M3-T1-世界模块重构.md`
+- `docs/spec/M3/M3-T2-Fix1-spec.md`
+- `docs/spec/M3/M3-T2-SDL3迁移.md`
+- `docs/spec/M3/M3-T3-渲染器重构.md`
+- `docs/spec/M3/M3-T4-应用平台与模拟模块接口.md`
+- `docs/spec/md-organize/architecture-template-coverage-spec.md`
+- `docs/spec/md-organize/data-system-migration-spec.md`
+- `docs/spec/md-organize/mdspec.md`
+- `docs/spec/md-organize/tag-inventory.json`
+- `docs/spec/project-architecture/面向对象与数据导向架构设计初稿.md`
+- `docs/testing/gameplay-smoke.md`
 
-### G04：OpenSpec 文档治理与证据单份归档
+本组完整意图：
+- 当前Renderer基线、README和机制与默认/可选后端实现一致；T3的R2风险收口、R3用户批准/默认切换、已选预算及未覆盖项同组保留，不由Git提交新造批准。
+- T4自动验证分工及四组人工体验：每后端四组和退出/重启合计最多300秒。不将短体验写成原15分钟通过，不改变D01-D13、生产实施授权、T3/M5或下一玩法前中低端门槛。
+- 每change一份verification.md，默认无附件/原始数据，全局索引仅关键节点与导航；暂停Fix1不恢复。新政策不追溯改写旧冻结结果。
+- 旧spec/testing/milestones退出当前目录，恢复入口按现有VERIFICATION所记起点提交和原仓库路径导航；现役spec、活动change、Issues及四份实验README改链一起入库。只保存必要当前机制/决定，不复制旧正文、复活平行计划或改冻结历史。
+- 当前`docs/tag-inventory.json`已有同步修改同组纳入：managed 51、retiredReviewSources 0、preservedPrivateRegistrations 1。这是当前输入，不是本Agent新刷新结果；不读取个人正文、不改旧私有注册或生成技能，不为压缩建立第二索引/报告。
+- 当前scope、OpenSpec配置、现役/目标说明及消费者保持成套；与旧首次默认不同的IDE缓存修复及说明纳入本批，文档中的旧运行记录仍具点时含义。
 
-建议消息：`docs(governance): 收口 OpenSpec 文档与证据单份归档`
+准确新包全部位于 `docs/verification/archive/`：
+- `benchmark-20261005.7z`
+- `docs-navigation-20261011.7z`
+- `m3-t3-r2-config-001.7z`
+- `m3-t3-r2-config-002.7z`
+- `m3-t3-r2-config-003.7z`
+- `m3-t3-r2-config-004.7z`
+- `m3-t3-r2-config-005.7z`
+- `m3-t3-r2-config-006.7z`
+- `m3-t3-r2-consumers-001.7z`
+- `m3-t3-r2-consumers-002.7z`
+- `m3-t3-r2-faults-001.7z`
+- `m3-t3-r2-faults-002.7z`
+- `m3-t3-r2-faults-003.7z`
+- `m3-t3-r2-faults-debug-001.7z`
+- `m3-t3-r2-faults-release-001.7z`
+- `m3-t3-r2-short-001.7z`
+- `milestone-evidence-20261011.7z`
+- `project-history-20261011.7z`
+- `t2-approval-20261009.7z`
+- `t3-r1.7z`
+- `t3-r2.7z`
 
-依赖 G01–G03 的实现及工具输入，使现役说明与已提交代码相符。完整意图包含迁移目的、消费者、证据保存和已授权退役，而不只是 Markdown 文件：
+只纳入当前删除集合，不继续删除其他out、冻结材料或残留文件；不重新生成/重压上述包，不修改保留的旧JSON映射让历史检查变绿。按本轮明确要求不核验包内成员、原清单、恢复或远端保存，不宣称它们已证明。此次准确现存包是用户特别要求纳入的范围，不扩成以后默认保存原始附件的例外。
 
-- 根 `AGENTS.md`、`README.md`，`docs/DOCUMENTATION_MAP.md`、`docs/README.md`、`scope/`、`architecture/`、`issue/`、第三方说明、标签索引与必要阶段/人工入口改链。
-- `docs/openspec/` 的唯一配置、两套 schema、六份现役规格、T3/T4/暂停 Fix1 目标，以及已完成文档迁移 change 的归档；不执行新的 sync/archive，不修改已归档四份原文。
-- 根 `.agents/skills/` 的六份已生成技能及 `.openspec-target`；按当前输入核对，不手工改生成文件，不创建另一规划根或技能根。
-- `tools/openspec/` 的入口、文档/工作流/消费者/证据路径检查及对应回归；复核 G01 已纳入的证据辅助/回归，以及 G03 的归档收集器适配，不遗漏非 Markdown 工具。
-- `scripts/README.md`、`tools/benchmark/README.md`、Benchmark CMake 安装输入改链，输入捕获及对应隔离消费者回归；安装输出文件名与游戏协议不因此改变。
-- `docs/verification/` 的唯一索引、共享方法/场景、7219 份准确归档输入；`.gitattributes` 的 archive `-text` 保护必须与归档入库同时成立。
-- 已发生的旧知识/证据源删除及只读规格退役标记/迁移；10 篇只读旧规格与旧索引继续作为复核来源，不清空 `docs/spec/`，也不恢复旧平行政策链。
-- `game/app/legacy/` 已获准确清单授权的 13 份非活动 `.disabled` 删除，与其恢复身份和处置映射一起入库；不扩为活动 legacy、ECS/内存清理或 T5 验收。
-- 本页 `docs/git/gitspec.md`；本批结果只更新本页，不追加旧批历史，也不篡改冻结处置映射。
+## 检查与已知缺口
 
-证据身份及准确处置依据只引用 [VERIFICATION](../verification/VERIFICATION.md)、[单份归档映射](../verification/archive/evidence-consolidation-20261011.json)、[退役身份](../verification/archive/project-history-20261011/retirement-manifest.json)。940 个 Git 删除路径不能自动等同于历史获授权的 6925 个旧源删除；未提交新文件的清理和 Git 已跟踪删除须分别解释。
-
-若共享 CMake、脚本或安装输入有不可拆的依赖环，先汇报准确关联，再将相邻组按完整意图合并，不能硬拆出失效中间提交。未经实际验证，不声称四个中间提交各自构建或测试通过。
-
-## 排除与保护
-
-- `docs/development-journal/`、`docs/.obsidian/` 全部排除；不读取个人正文、不暂存配置/插件、不回退用户改动。现有标签索引的私有注册不新增个人内容。
-- `out/`、`.temporary`、IDE 状态、机器专用 presets、缓存、原始返回现场、唯一完整运行包和暂停 Fix1 现场不提交、不自动删除或迁移。
-- 归档 raw 中必要截图、日志、JSON/YAML、选录配置/资源属于冻结证据，不能按扩展名一刀切排除；稀疏快照不能代替完整运行包。
-- 旧清单中的包缺失、负向数据、T4 README 历史声明差异、旧 source 路径及旧命令保持原义；不补造文件或改字节使校验全绿。
-- 已登记冻结桌面报告的两处改链例外，以保存的改前原文和 revisions 身份核对；本批不再新增冻结修订例外。
-- 不使用 `git add .`、`git add -A` 或整目录无差别暂存；不归一化全库换行，不替换已生成官方技能，不混入批准后出现的并发新文件。
-
-## 执行前检查
-
-1. 用户确认本页后，重读最新状态和输入身份；确认 HEAD/index 没有其他提交者或 Agent 的并发修改。保存当前分组的准确路径和内容身份，已有暂存变化不擅自撤销。
-2. 检查每组必要源码、Python import、CMake source/install/test 输入与文档消费者闭包；共享改动块无损分配，不更改工作区来制造中间状态。
-3. 对准确候选检查凭据/私钥、意外运行包和大文件；历史绝对机器路径只按证据身份解释，不把明文凭据作为证据上传。发现唯一必要大文件的保存缺口时报告，不静默省略。
-4. 执行文档链接/锚点检查，以及适用的 Python 离线回归、OpenSpec 严格只读校验；使用 Python 3.10+ 和明确 UTF-8，不运行 `update`、`--write-index` 或真实 sync/archive 来顺带改材料。新增本页若需索引同步，仅窄更新当前索引并核对，不改旧索引。
-5. 逐项核对外层归档清单、完整文件集、大小/SHA256及必要消费者；分别解释内嵌稀疏/负向状态，未知缺失拒绝。按 archive `-text` 确认实际暂存 blob 与工作区冻结字节相同，不能只看工作区哈希。
-6. 每次提交前查看准确 staged diff、名称/模式/删除及必要二进制身份，检查忽略状态与私有路径没有混入；不对冻结 raw 的历史行尾空白做自动修复。
-7. 提交后核对该提交文件集、工作区保留内容与下一组输入；将 commit hash、实际检查、未执行项和残余风险回填本页。本页尚未产生的结果不预填。
-
-## 本轮检查与限制
-
-已完成：读取现行规则、范围与迁移/验证入口；完整候选路径/内容盘点、凭据模式和大文件筛查；准确暂存集合、删除/模式、内容与实际提交 blob 核对。本批所用本地核对材料位于 `out/git/20261011-b01f006-approved/`，不提交第二份长期计划。
-
-实际解释器为 `C:/Users/ldh20/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe`，使用 `-B -X utf8`。`python` 不在 PATH，`py -3` 未发现已安装运行时；没有修改 PATH 或全局配置。OpenSpec 使用项目 wrapper 和已安装的 `F:/nodejs/node_global/node_modules/@fission-ai/openspec/bin/openspec.js`，不执行项目 update、sync 或 archive。
+规划同步只盘点状态/差异及治理/恢复说明；获准提交后执行下面的最小离线检查。未执行原生构建、CTest、游戏/GPU/故障、原生Benchmark夹具或采样、候选打包、完整测试矩阵、人工核查或压缩迁移核验。
 
 | 本批实际检查 | 结果 |
 | --- | --- |
-| `-m unittest discover -s test/scripts` | 62项通过；首次受限会话61项通过、Windows EnumWindows 1项报错，正常 Windows 会话重跑全部通过，不改测试或业务 |
-| `-m unittest discover -s tools/openspec -p 'test_*.py'` | 33项通过 |
-| `test/integration/renderer/test_candidate_scripts.py` | 24项通过，离线候选协议夹具，不启动窗口或 GPU |
-| `tools/openspec/check_workflows.py --cli-entry ...` | 23项通过；CLI 生命周期仅在隔离夹具运行，未操作真实 change 或托管技能 |
-| `tools/openspec/run.py --cli-entry ... validate --all --strict` | 9项通过、0失败，规格语法不是工程验收 |
-| `tools/openspec/check_documents.py` | 94篇正文、1940处普通链接、147处 wiki 引用、30处已登记历史入链，errors/warnings 为空 |
-| 当前标签索引同步 | 只新增 `git/gitspec.md`；managed 47→48、meta 3→4，无删除或其他字段变化，私有注册不变 |
-| 凭据模式筛查 | 非私有候选未命中私钥、GitHub token 或长 OpenAI key 模式；不是全面机密审计 |
-| 迁移与退役身份 | 7198项目标大小/SHA256、10篇只读旧规格、4份已归档 change 原文及9篇退役原文均吻合；13份休眠源码的历史 Git blob 与声明恢复字节吻合，未恢复到工作区 |
-| 7份外层清单 | 声明 payload 文件集与大小/SHA256吻合；根级 README、初始清单及历史 check 文件另按准确已确认输入身份核对，不冒充清单 payload |
-| G01 / G02-G03 暂存与提交 | 88 / 80项准确路径及实际 commit blob 已核对，无范围外输入；空白检查通过 |
-| G04 暂存 | 8264项准确路径，其中912项删除；7219份归档 staged blob 与工作区原字节完全一致，archive `-text` 同组入库 |
-| G04 空白检查 | 归档外通过；完整 `--no-renames --no-textconv --no-ext-diff --check` 返回2，1467952处提示全部在冻结归档，保留原有 CRLF/空白，不自动修复 |
+| 候选输入/分组身份 | 授权SHA256与7351项范围一致；准确22/10/7320项分组，不混入新并发输入 |
+| `test/integration/renderer/test_candidate_scripts.py` | 本批26项通过；首次沙箱Temp目录WinError5使setUp/cleanup报错，未取得有效验证，正常权限复验26/26，不改测试/业务 |
+| 项目wrapper `validate --all --strict` | 9项通过、0失败；首次沙箱realpath EPERM，正常权限复验，不关闭路径规则或执行sync/archive/update |
+| 当前文档检查 | 55篇正文，13项错误、0警告，本页无链接错误；已知缺口保留，不报告通过 |
+| 凭据模式筛查 | 68份非私有候选文本未命中私钥/GitHub token/长OpenAI key模式；未解包或扫描压缩内容，不是全面机密审计 |
+| G01/G02实际暂存与提交 | 22/10项路径、文件模式及对象内容已核对，空白检查通过；实际commit对象与已审暂存区一致 |
+| G03实际暂存 | 7320项准确路径：7263项删除（旧归档7217、旧正文46）及57项现有输入；其中21个压缩包，不做解包/成员/恢复核验；无额外路径、冲突或特殊文件模式 |
+| G03空白检查 | 全组返回0，但对已删除归档的部分超长路径查询.gitattributes有Filename too long警告；归档外再查返回0、无警告，不恢复旧文件或修改配置绕过历史身份 |
 
-以上离线回归共142项通过，均针对本批完整工作区，不宣称任一中间提交分别构建或通过同样测试。迁移报告中的旧118项等仍为历史事实，不替换成这次成绩。
+检查使用应用提供的 `C:/Users/ldh20/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/python.exe`，`-B -X utf8`；OpenSpec通过项目wrapper使用已安装CLI。没有修改PATH、全局配置或初始化开发工具链。本批最小离线结果针对完整工作区，不宣称三个中间提交各自完整构建/运行通过；本地准确路径和对象审阅材料在 `out/git/20261012-8a95613-approved/`，不提交第二份长期计划。
 
-本轮仅为本页明确生成当前标签索引，并比对确认唯一新增项；未顺带改旧索引或个人内容。Windows 长路径首次暂存失败，暂存区未改变；用单次 `git -c core.longpaths=true` 重试成功，不写仓库/全局配置。保存原始 staged diff 时，本机 `.dot` textconv 缺少 `file` 工具而失败，改用单次 `--no-textconv --no-ext-diff` 保存实际原始差异，不修改转换器配置。Git 的重命名显示仅是表示方式，准确核对统一按源删除/目标新增处理。
+当前 `tools/openspec/check_documents.py` 实际返回1：55篇正文、13项错误、0警告，本页无链接错误。先前97篇/414项描述的是更新前工作区，不继续当作当前结果。旧正文移除和现役引用改链使检查对象及错误减少，不证明压缩包成员完整、历史材料已恢复，或剩余归档消费者已经适配。仍有旧证据位置映射找不到独立成员、third-party/Issues/scope等仍指向压缩前目录的错误；本轮不解包、不恢复、不改其他文档/工具/旧映射。
 
-未执行：push、远端恢复、代码构建、CTest、游戏/GPU/性能或人工验收、真实项目 sync/archive；专用 Benchmark 原生 fixture 回归也未执行。直接调用该回归入口未提供必需参数，入口拒绝，不能计为测试通过。本批未重新核验34份内嵌运行包或13项原位置完整运行包；保留既有稀疏/负向状态与 T4 README 声明差异，不用外层字节一致性冒称内部清单全绿。
+**用户已确认本批保留已报告的13项缺口，不记录成检查通过。** 若要求修复，先另行授权准确范围，不在提交阶段临时混入修复。压缩迁移免核验要求继续有效，但不能隐去已发现的缺链。
 
-仍保留：OpenGL 游戏默认、D3D12 opt-in 候选、Vulkan 未实现、R3 整组及现代双后端未验收、T4 仅旧行为基线交付、Win32 1175 与暂停 Fix1 等风险；文档迁移或提交不改变这些边界。
+T3 verification.md内配置矩阵、受控故障、短采样、默认切换定向结果及旧Python成绩仍为既有记录；本批新26项离线结果只以上表为准。新增“IDE旧缓存修复”中的Release重新配置/目标构建、startup_options 1/1、预检和120帧等是已有实施记录，包含被中止的中间配置，本批未重新执行，不当作全部Debug/Release、全部测试或中间提交的新成绩。Debug foundation.files/1175失败、world.allocations禁用、视觉/正式预算、正常在途回收/完整异常关闭/适用部署等局限不改为通过；R3用户批准不回填A01-A19全绿，默认D3D12不推定Vulkan或完整T3通过。T4规划调整不表示physics或SimulationSession已有实现。
+
+本批按影响范围选择上述最小检查，不默认新增/执行全后端矩阵、长采样或人工清单；已免除的解包/恢复核验不重新加入。历史记录不作为本批或中间提交成绩，未跑、失败和禁用分别保留。
+
+## 执行保护
+
+1. 当前仅凭本轮明确确认执行三组本地stage/commit，不沿用上一批批准，不push。
+2. 提交前核对HEAD/index、准确候选与并发变化；逐组按路径清单暂存，查看实际staged diff、模式/删除，禁止git add .、git add -A或整目录无差别暂存；凭据模式筛查范围和限制见上表。
+3. 压缩迁移遵照本轮免核验要求，不解包/恢复/核对成员，也不重写冻结原件。Git集合核对不伪装成压缩完整性证明。
+4. Windows长路径或本机textconv问题仅用单次 `git -c core.longpaths=true`、`--no-textconv --no-ext-diff` 处理，不改全局/仓库配置、hooks、凭据或全库换行。
+5. 个人 `docs/.obsidian/`、`docs/development-journal/` 共11项排除；不读正文、不暂存、不恢复。out、.temporary、IDE/机器设置、当前唯一包和暂停现场不提交、不删除。
+6. 共享文件本批按完整文件归组，integration CMake在G01、benchmark CMake在G02；没有索引分块需要。并发变化改变依赖时先说明，不临时改业务凑提交。必要相邻组按完整意图合并，不混入新并发输入。
+7. 提交后核对实际提交集合/剩余输入并回填本页；push/PR、真实功能sync/archive、继续实施及历史改写均不在本轮授权内。
 
 ## 提交结果
 
-| 实际组 | 消息 | 提交身份 |
+| 组 | 消息 | 提交身份 |
 | --- | --- | --- |
-| G01 | `feat(renderer): 接入 D3D12 生产候选与同循环渲染桥接` | `ac0fd9181954c57b7e77a138c4445f00c77008d0` |
-| G02-G03 | `refactor(automation): 统一 Python 验证入口并建立旧 CPU 行为基线` | `ca458d9ddad08647854d2669fa1737cc3161c1d7` |
-| G04 | `docs(governance): 收口 OpenSpec 文档与证据单份归档` | 本页所在的同名提交；不在页内预填自身 hash，以 Git 历史定位 |
+| G01 | `feat(renderer): 完善 D3D12 配置与故障验证并切换默认后端` | `ae26ca1e2edb77971f547fb7f1987adb6e25bf1f` |
+| G02 | `feat(benchmark): 接入 D3D12 采样协议与原生消费者` | `62682f5f7d37e226b577bdbff98964bc729b668b` |
+| G03 | `docs(verification): 收口验证治理与旧文档退役及压缩归档` | 本页所属同名提交；准确hash以Git历史定位，不在正文预填自身循环hash |
 
-分组调整均在已确认输入集合内：两份 SDL3 归档收集器随其直接回归前移 G01；复核发现 CPU 捕获入口记录 `scripts/build.py`，共享 `verification_common.toolchain` 也延迟导入它，故按已约定依赖合并规则将 G02、G03 合为一组，执行时已在会话说明。G01 的共享 toolchain 完整运行依赖后继合并组；没有声称 G01 的新脚本可独立全部运行，也没有为补齐顺序改写已提交历史。
-
-`test/CMakeLists.txt` 只在索引中无损拆分：合并组纳入 migrated_helpers；G04 纳入新文档消费者的 python_helpers，工作区字节始终不改。实际3组覆盖8431个唯一候选路径；共享 CMake 在后两组各有一处不同注册，不能把组路径数相加误当唯一数量。
-
-11项个人目录/Obsidian变化全部排除，本轮只核对路径、大小和修改时间，不读取正文、不回退或暂存。准确暂存材料保留在本地 out；本页与当前标签登记是执行期间仅有的候选内容更新，不改冻结处置映射。本页所属 G04 的提交后身份和剩余工作区状态由实际 Git 历史及本轮会话报告确定，不自造循环 hash 或增加另一个批次。
+G01/G02已逐项核对实际提交对象；G03身份由包含本页的提交确定。执行期间只回填本页，其他7351项授权输入字节/删除状态及11项个人文件元数据持续核对；不改其他正文、代码、冻结映射或压缩包。Git集合/对象核对不证明包内恢复或原始证据一致性，13项缺链仍保留。准确最终提交及剩余工作区状态在本轮会话汇报，不为回填自身hash追加第四个提交。

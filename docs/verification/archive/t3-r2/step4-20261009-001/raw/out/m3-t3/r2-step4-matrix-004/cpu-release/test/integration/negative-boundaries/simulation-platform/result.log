@@ -1,7 +1,0 @@
-CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:46 (message):
-  Boundary violation: simulation -> platform in
-  game/modules/simulation/src/rejected.cpp: symocraft/platform/window.h
-Call Stack (most recent call first):
-  negative-boundaries/simulation-platform/probe.cmake:3 (symocraft_check_source_file)
-
-

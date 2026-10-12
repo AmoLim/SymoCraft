@@ -1,4 +1,0 @@
-target	property	dependency	raw_reference
-benchmark_core	LINK_LIBRARIES	symocraft_yaml	symocraft_yaml
-benchmark_core	INTERFACE_LINK_LIBRARIES	symocraft_yaml	symocraft_yaml
-SymoCraftBenchmark	LINK_LIBRARIES	benchmark_core	benchmark_core

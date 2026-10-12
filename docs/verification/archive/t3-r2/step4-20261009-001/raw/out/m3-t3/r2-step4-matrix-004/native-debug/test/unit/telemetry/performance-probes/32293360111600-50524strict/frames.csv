@@ -1,3 +1,0 @@
-frame,phase,elapsed_s,frame_ms,simulation_delta_ms,event_ms,simulation_ms,mesh_ms,pack_ms,render_cpu_ms,upload_cpu_ms,present_ms,instrumentation_ms,gpu_draw_ms,rebuilt_chunks,vertices,upload_bytes,draw_calls,edits,edit_lateness_ms,x,y,z,yaw,focused
-0,sample,0,100,0,0,0,0,0,0,0,0,0,,2,0,0,0,1,0,0,0,0,0,0
-1,sample,0,100,0,0,0,0,0,0,0,0,0,,2,0,0,0,1,0,0,0,0,0,1

@@ -21,13 +21,13 @@ tags:
 
 | 入口 | 当前行为与限制 |
 | --- | --- |
-| 原生 `SymoCraftBenchmark.exe` GUI/CLI | 固定三场景、1080p、seed 424242、GL 25 列协议；默认 allow-unfocused，支持 attempt 重试与原生 ZIP |
+| 原生 `SymoCraftBenchmark.exe` GUI/CLI | 固定三场景、1080p、seed 424242；显式 GL/D3D12，分别接受 25 列/现代 v1 的 32 列；默认 allow-unfocused，支持 attempt 重试与原生 ZIP |
 | `scripts/benchmark.py` | collector 3，可选场景/时长/尺寸；不传 focus-policy，沿用游戏 strict；失焦帧判失败，可选 nvidia-smi |
 | 直接游戏 `--benchmark` | 支持游戏已编译的后端及采样参数，但不是原生执行器的协议兼容或正式计划保证 |
 
 Python 入口、原生协议和旧 PowerShell collector 2 的机器记录/结果结构不同，不把 JSON、YAML 或焦点策略混作同一协议。现有 `.ps1` 是 Python 启动兼容层，不再是独立采集实现。操作参数见 [工具 README](../../tools/benchmark/README.md) 与 [脚本 README](../../scripts/README.md)。
 
-现代 D3D12 游戏能生成 Renderer telemetry 扩展 CSV，不代表原生执行器已能读取它；执行器没有 backend selector，仍以默认 GL 启动。现代后端验证必须按对应任务的版本、身份和预算另行设计，不能直接沿用旧 GL 成绩或宽松跳过协议检查。
+原生执行器默认 GL，D3D12 必须显式选择；未知版本、实际后端不符和现代数据伪装成 GL 明确拒绝。现代后端验证仍须按对应任务的版本、身份和预算执行，不能直接沿用旧 GL 成绩或宽松跳过协议检查。
 
 ## 数据有效性
 
@@ -36,11 +36,12 @@ Python 入口、原生协议和旧 PowerShell collector 2 的机器记录/结果
 原生校验必须包括：
 
 - 退出码 0、completed 与 valid_run 为真、invalid_reasons 为空，摘要 schema/protocol/workload 均为 2。
-- 场景、焦点策略、时长、尺寸、VSync、seed、区块数量及固定 terrain/scene digest 匹配；实际 GL 设备/版本非空。
-- memory/focus CSV 存在且非空，status 为 finished；frames CSV 25 列匹配、帧号连续、阶段和时间顺序合法、帧数不超一百万。
+- 场景、焦点策略、时长、尺寸、VSync、seed、区块数量及固定 terrain/scene digest 匹配；实际 GL 设备/版本或现代 renderer 身份/实际配置/计时范围完整。
+- memory/focus CSV 存在且非空，status 的 protocol_version=2 且为 finished；frames CSV 按所选后端匹配 25/32 列、帧号连续、阶段和时间顺序合法、帧数不超一百万。
 - 正式样本非空，最后帧区间覆盖协议时长减 0.5 秒的容差；帧数、编辑计数、焦点帧数与估计秒数和摘要一致。
 - 从原始正式帧重算 P50/P95/P99、均值与吞吐量，nearest-rank 为 `ceil(p*N)-1`，不剔除慢帧。
-- 同组游戏及指定 GL 资源 SHA256 不变、实际 GL 设备/版本字符串不变；重试先复核原通过轮次，不覆盖或拼接失败 attempt。
+- 现代扩展的 uint64 frame ID 精确递增，CPU prepare/submit 和上传归属一致，GPU 空值与缺失原因互斥，正式帧 GPU 有效/缺失及上传摘要吻合。
+- 同组游戏及所选 shader/公共资源 SHA256 不变、实际设备身份不变；重试先复核原通过轮次，不覆盖或拼接失败 attempt。
 
 `ValidateCapture` 不验证每一列的全部语义，也不校验 PNG 图像内容；`final-frame.png` 是诊断证据，视觉正确性仍需查看。通过上述规则不等于 CPU/GPU 温度稳定、完整资源树身份相同或画面与另一 backend 相同。
 
@@ -62,11 +63,12 @@ GL GPU 时间为 draw 周围的 GL_TIME_ELAPSED，排除显式上传、clear、s
 
 ## 结果保存与测试入口
 
-每次运行使用新目录；失败保留版本、输入、退出状态与诊断。完整逐帧数据需可靠保存，精选摘要不能代替可复算原始数据。A 类归档保存支撑关键结论的最小充分成功/失败样本，由唯一索引关联完整来源；冻结内容不得在迁移中重写。
+每次运行使用新目录，不覆盖失败现场。结果统一记录于对应 change 的 verification.md，注明必要版本/配置、方法、实际结论、失败与未覆盖项；默认无附件，无特别要求不附原始数据，不另建逐步报告或归档包。特别要求和旧冻结保护按 [治理规则](../DOCUMENTATION_MAP.md#每个-change-一份验证记录) 执行。
+正式协议中已明确要求的完整逐帧数据留存及复算不因默认规则取消，精选摘要不能冒充可复算原始数据；其余原始工作产物不自动成为长期归档附件。旧冻结内容、当前候选和暂停任务现场不在本次规则修改中清理。
 
 在已配置的实际构建目录运行 `ctest --test-dir <目录> --output-on-failure -R "benchmark\.|performance\.export|performance\.script|telemetry\.renderer_performance"`，不要把旧目录的通过记录当成当前源码结果。native fixture、Python 和可选 PowerShell launcher 用例定义见 [Benchmark 测试配置](../../test/benchmark/CMakeLists.txt)；现代 frame ID/缺失原因/上传归属的 CPU 用例见 [telemetry 测试配置](../../test/unit/telemetry/CMakeLists.txt)，不产生真实 GPU 结论。
 
-本轮只核对方法与源码，未在这里执行游戏、GUI、GPU、干净机或正式 36 分钟基准。当前未覆盖项、执行结果与关键节点均以 VERIFICATION 的具名范围为准。
+本页的方法与源码核对不代表已经执行游戏、GUI、GPU、干净机或正式 36 分钟基准。当前未覆盖项及执行结果见对应 change 的 verification.md，关键节点批准和导航见 VERIFICATION。
 
 ## 模块与交接验证
 

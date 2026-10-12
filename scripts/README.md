@@ -133,10 +133,14 @@ and retains caller-relative path semantics. Each raw copy is byte-verified and
 registered with its source identity; sources and partial outputs remain on
 failure. These collectors never clean source directories or upload evidence.
 `out/` remains working storage, not a parallel permanent evidence archive.
-Long-term selection, cleanup authorization and the sole index follow
-[the documentation policy](../docs/DOCUMENTATION_MAP.md#证据单份归档) and
-[VERIFICATION](../docs/verification/VERIFICATION.md). Historical commands and
-portable-package `evidence/` working directories are not new archival policy.
+Each change keeps one `verification.md`; attachments and raw-data inclusion are
+off by default unless explicitly required. These existing collectors are not a
+default archival step; their destination constraints remain unchanged.
+Retention exceptions and cleanup authorization follow
+[the documentation policy](../docs/DOCUMENTATION_MAP.md#每个-change-一份验证记录).
+[VERIFICATION](../docs/verification/VERIFICATION.md) holds only key-node approvals
+and navigation. Historical commands, frozen evidence and portable-package
+`evidence/` working directories are not rewritten by this policy.
 Use `--help` on each entry, including the old CamelCase
 parameter aliases. Python list arguments use spaces, not PowerShell commas.
 

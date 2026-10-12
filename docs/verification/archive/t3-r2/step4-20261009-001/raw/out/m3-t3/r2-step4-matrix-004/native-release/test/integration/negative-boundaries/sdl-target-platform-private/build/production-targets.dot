@@ -1,4 +1,0 @@
-digraph SymoCraft {
-  "symocraft_platform" -> "SDL3::SDL3-static" [label="LINK_LIBRARIES"];
-  "symocraft_platform" -> "SDL3::SDL3-static" [label="INTERFACE_LINK_LIBRARIES (LINK_ONLY)"];
-}

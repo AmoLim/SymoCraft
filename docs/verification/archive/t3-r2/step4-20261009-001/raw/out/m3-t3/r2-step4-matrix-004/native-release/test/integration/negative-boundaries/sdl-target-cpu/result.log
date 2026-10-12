@@ -1,8 +1,0 @@
--- Configuring incomplete, errors occurred!
-CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:359 (message):
-  Boundary violation: SDL target is private to symocraft_platform:
-  symocraft_world -> SDL3::SDL3-static
-Call Stack (most recent call first):
-  CMakeLists.txt:9 (symocraft_validate_boundaries)
-
-

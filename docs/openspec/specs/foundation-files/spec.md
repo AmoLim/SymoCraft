@@ -7,7 +7,7 @@ tags:
 
 ## Purpose
 
-维护 Windows `Files::Publish` 已有窄契约及允许失败边界，禁止把尚未关闭的可靠性目标当作现役保证。源码依据：[公开头](../../../../game/modules/foundation/include/symocraft/foundation/files.h)、[当前实现](../../../../game/modules/foundation/src/files.cpp)、[telemetry 调用](../../../../game/modules/telemetry/src/performance.cpp)、[正式库测试](../../../../test/unit/foundation/files_tests.cpp)与 [T2 历史失败](../../../milestones/m3-t2/s5-delivery-status.md#未关闭项)。未来目标只在[暂停 Fix1](../../changes/m3-t2-publication-fix1/proposal.md)；本轮不运行发布或扩大采样。
+维护 Windows `Files::Publish` 已有窄契约及允许失败边界，禁止把尚未关闭的可靠性目标当作现役保证。源码依据：[公开头](../../../../game/modules/foundation/include/symocraft/foundation/files.h)、[当前实现](../../../../game/modules/foundation/src/files.cpp)、[telemetry 调用](../../../../game/modules/telemetry/src/performance.cpp)、[正式库测试](../../../../test/unit/foundation/files_tests.cpp)与 [T2 历史失败](../../changes/m3-t2-publication-fix1/verification.md)。未来目标只在[暂停 Fix1](../../changes/m3-t2-publication-fix1/proposal.md)；本轮不运行发布或扩大采样。
 
 ## Requirements
 

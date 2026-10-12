@@ -36,13 +36,17 @@ Vulkan 目标使用 T2 的专用 Vulkan Window 与同一 SDL loader；私有桥�
 
 ## Build and Measurement
 
-当前真实 target 是公开CPU `renderer_api`、CPU门面 `renderer`、私有 `renderer_backend_contract`、opt-in D3D12与游戏专用legacy OpenGL；没有Vulkan或可关闭GL的现代独占配置。目标按真实交付加入OPENGL/D3D12/VULKAN选择与现代单/双组合，不建空target。启用者才找SDK/编译器及部署shader，私有头变化不重编业务模块；静态PRIVATE仍须核对最终link/install，CPU-only/benchmark-only/关闭测试不引测试脚手架或图形SDK。
+当前真实 target 是公开CPU `renderer_api`、CPU门面 `renderer`、私有 `renderer_backend_contract`、默认D3D12与可关闭的游戏专用legacy OpenGL；2026-10-12 补充 `SYMOCRAFT_RENDER_OPENGL` 与现代独占/全关闭拒绝组合，没有Vulkan。第二现代后端按真实交付加入选择与单/双组合，不建空target。启用者才找SDK/编译器及部署shader，私有头变化不重编业务模块；静态PRIVATE仍须核对最终link/install，CPU-only/benchmark-only/关闭测试不引测试脚手架或图形SDK。
 Vulkan函数入口惰性加载，未选Vulkan时缺loader不得使其他后端在参数解析前失败。shader依赖在构建规则显式声明、输出在build、安装包不要求DXC/SDK。平台bridge不反向依赖renderer，业务目标不直接链接后端；生产与测试遵守game/root test归属。
 
-GPU查询保存精确frame ID，非阻塞Poll、未就绪/不支持/丢弃/设备失败区别，截图等待置正式测量区间外；draw不含clear/resolve/截图/Present。CPU prepare、submit、present等候与startup/frame内上传分别具名，中立协议带后端/adapter/API/driver/shader生成身份和实际图像/呈现设置，不把D3D12/Vulkan装入gl字段。当前telemetry扩展存在但原生Benchmark仍旧GL协议，兼容消费者是未关闭工作。
+GPU查询保存精确frame ID，非阻塞Poll、未就绪/不支持/丢弃/设备失败区别，截图等待置正式测量区间外；draw不含clear/resolve/截图/Present。CPU prepare、submit、present等候与startup/frame内上传分别具名，中立协议带后端/adapter/API/driver/shader生成身份和实际图像/呈现设置，不把D3D12/Vulkan装入gl字段。2026-10-12 原生Benchmark增加显式D3D12/现代v1兼容消费者，旧GL身份/25列保持；完整A18部署与生成身份条件仍按适用证据核对，不从消费者代码存在推定关闭。
 
 ## Validation and Migration
 
+2026-10-12 用户在证据对账后明确批准R3、授权默认切换；当前app默认D3D12，新游戏配置首次默认启用原生后端，GL仅显式选择。候选POST_BUILD身份只在out/m3-t3且Benchmark关闭的受控目录触发，普通preset可构建游戏及工具。批准与未验证项仍分开，具体新构建/包与定向验证见 [verification](verification.md#默认切换验证)；不由此完成Vulkan、双现代T3或GL退役。
+
 先按 [tasks](tasks.md) 关闭D3D12生产/人工/构建/工具/故障缺口，再申请R3批准与默认切换；Vulkan先独立R1-E01–E03后完成同组A01–A19，最后申请双现代T3通过。每次真实运行绑定源码/构建/包hash、配置、实际RTX5070Ti身份/驱动/能力/呈现、输入顺序、原始数据/诊断及失败/复测，不用另一API或另一设备补格。
-正式视觉参考与容差、同条件性能基线/预算仍待确定，不能接受丢几何、错材质、颠倒坐标或缩减工作负载。mock、CPU编译、有限短测、人工画面判断与真实GPU同步/故障是不同依据；真实DeviceLost/提交/在途故障、无SDK机器部署、14项玩法/15分钟没有由本次文档迁移关闭。
+正式视觉参考已选同版本GL对照、透明深度差异单列；D3D12帧时间双门槛与两项进程内存相对预算已选，唯一数值/统计窗口/适用边界见 [decisions](decisions.md#d3d12-已选预算口径)，启动时间等其他指标不新增硬预算。具体参考身份/容差、正式同版本同条件GL配对基线与采样/复测执行安排仍待完成或确认；预算选择不是实测通过或采样授权，不能接受丢几何、错材质、颠倒坐标或缩减工作负载。mock、CPU编译、有限短测、人工画面判断、受控原生故障与自发硬件事故分别记录；无SDK机器部署、14项玩法/15分钟及R3整组不由局部工程证据关闭。
 保留证据原字节与旧命令点时身份；查验归档不必包含EXE/DLL，实际包依原out身份定位。保留旧spec为只读复核来源，不sync/archive，不补用户勾选/批准，不删除GL或历史回归材料。
+
+2026-10-12 后续用户取消本轮正式九轮，改为 5 分钟内短对照后收口 R2 工作；实际范围、替代关系及风险见 [decisions](decisions.md#本轮-r2-短采样收口与风险接受边界)。完整验收目标不因该执行收口变为已验证；不恢复长采样或以用户人工通过反馈推定数值视觉容差、R3 节点批准与默认切换。

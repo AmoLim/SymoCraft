@@ -2,7 +2,7 @@
 
 Symocraft 是一个面向 Windows x64 的 C++20 单机体素游戏工程，由课程原型逐步演进为可维护、可测量的图形与游戏引擎项目。项目同时关注游戏玩法、模块契约，以及从世界模拟到 GPU 呈现的数据流。
 
-默认可玩路径使用 **SDL3 + OpenGL 4.6 Core**，支持固定世界中的移动、跳跃、方块放置与破坏。**D3D12 已接入同一游戏循环并交付生产候选**，需显式启用构建和运行选项；人工玩法及 R3 整组验收尚未完成。后续接入 **Vulkan**；OpenGL 仅作为过渡与回归对照，不以永久维护三个等价后端为目标。
+默认可玩路径使用 **SDL3 + D3D12**，支持固定世界中的移动、跳跃、方块放置与破坏。2026-10-12 用户批准 R3 并授权切换默认，既有未覆盖项仍如实保留。**OpenGL 4.6 Core** 使用 `--renderer opengl` 显式选择，仅作为过渡与回归对照；后续接入 **Vulkan**，不以永久维护三个等价后端为目标。
 
 完整范围、阶段 spec 与验收约定见 [项目约定](docs/README.md#项目约定)；实现说明和验证证据从 [技术文档](docs/README.md) 进入。
 
@@ -16,7 +16,7 @@ Symocraft 是一个面向 Windows x64 的 C++20 单机体素游戏工程，由�
 - **性能观测**：CPU 模拟、网格和上传成本，异步 GPU 绘制计时、present 等待、内存及绘制统计；CPU 提交时间不冒充 GPU 执行时间。
 - **Benchmark**：独立 Windows 原生执行器，支持 static / walk / edit 场景、重复采样、取消、重试与结果导出。
 
-M3-T0 模块迁移和 M3-T1 世界重构已有实现与阶段证据。**M3-T2 已于 2026-10-09 获正式节点批准**；T3 R1 已冻结，R2 顺序1至4已交付 D3D12 门面、后端、游戏转接与候选包。默认切换、Vulkan 和完整 T3 验收未完成，关键节点与归档以 [验证索引](docs/verification/VERIFICATION.md) 为准。
+M3-T0 模块迁移和 M3-T1 世界重构已有实现与阶段证据。**M3-T2 已于 2026-10-09 获正式节点批准**；T3 R1 已冻结，R2 已按限定范围收口，R3 获用户批准且游戏默认已切为 D3D12。Vulkan 和完整 T3 验收未完成，批准与保留风险从 [验证索引](docs/verification/VERIFICATION.md) 进入。
 
 ## 项目范围与方向
 
@@ -65,7 +65,7 @@ out/            本机构建、运行包与采样产物，不纳入版本控制
 
 开发环境：**CLion + MSVC + CMake**。需要 Visual Studio 2022 C++ 工具、Windows SDK、英语编译器语言包、CMake 3.22 或更新版本，以及 Ninja。共享 presets 使用 `VSLANG=1033`；支持 CLion 自带的 CMake 和 Ninja。
 
-默认 OpenGL 游戏需要实际支持 OpenGL 4.6 Core 的驱动。D3D12 构建另需 SDK 的 D3D12/DXGI 头和库、DXC（不是 FXC）及 Python 3.10+；当前候选仍包含旧 GL 对照路径。CPU-only 和资源单元测试不需要窗口或 GPU；真实图形验证仍需对应设备与驱动。
+默认 D3D12 游戏需要支持 FL12_0/SM6_0 的实际硬件和驱动；显式 OpenGL 路径需要 OpenGL 4.6 Core。D3D12 构建另需 SDK 的 D3D12/DXGI 头和库、DXC（不是 FXC）及 Python 3.10+；当前候选仍包含旧 GL 对照路径。CPU-only 和资源单元测试不需要窗口或 GPU；真实图形验证仍需对应设备与驱动。
 
 在已初始化的 x64 Visual Studio 开发终端中执行：
 
@@ -102,7 +102,7 @@ CLion 中使用名为 **Symocraft MSVC** 的 Visual Studio toolchain，选择 am
 | `SYMOCRAFT_BUILD_BENCHMARK` | 构建原生 Benchmark |
 | `SYMOCRAFT_BUILD_CPU_MODULES` | 构建 CPU 模块 |
 | `SYMOCRAFT_CPU_ONLY` | 仅构建 CPU 模块及适用测试，关闭游戏和 Benchmark |
-| `SYMOCRAFT_RENDER_D3D12` | 默认 OFF；启用私有 D3D12 后端，不改变游戏默认 OpenGL；要求游戏构建，CPU-only 会强制关闭 |
+| `SYMOCRAFT_RENDER_D3D12` | 新配置默认跟随 GAME，游戏开启时默认 ON；要求游戏构建，CPU-only 会局部强制关闭 |
 | `BUILD_TESTING` | 是否构建测试 |
 
 例如，在上述开发终端中建立独立 CPU-only 目录：
@@ -124,6 +124,7 @@ ctest --test-dir out/build/cpu-debug --output-on-failure --no-tests=error
 ./out/build/windows-debug/bin/SymoCraft.exe --check-assets
 ./out/build/windows-debug/bin/SymoCraft.exe --smoke-frames 120
 ./out/build/windows-debug/bin/SymoCraft.exe --seed 424242
+./out/build/windows-debug/bin/SymoCraft.exe --renderer opengl
 ./out/build/windows-debug/bin/SymoCraft.exe --scene regression --checkpoint four-chunk
 ./out/build/windows-debug/bin/SymoCraft.exe --world-summary --seed 424242 --scene regression --test-edits
 ```
@@ -147,7 +148,7 @@ ctest --test-dir out/m3-t3/d3d12-release --output-on-failure --no-tests=error
 ./out/m3-t3/d3d12-release/bin/SymoCraft.exe --renderer d3d12 --smoke-frames 120 --seed 424242
 ```
 
-当前 D3D12 POST_BUILD 身份记录要求构建目录位于 `out/m3-t3/` 下，单配置 Ninja、游戏开启、CPU-only 关闭且 Benchmark 关闭；以上例子遵循实际脚本检查，本轮未重新执行构建。`--renderer d3d12` 仅在启用该后端的构建中可用；默认仍为 `opengl`。验证层默认开启，需可用的 D3D12 Debug Layer；不具备时可显式设置 `--validation 0`，不自动降级。`vulkan` 参数已可解析，但后端未实施，具名报错且不隐式回退。候选与关键节点依据从 [验证索引](docs/verification/VERIFICATION.md) 进入。Debug 候选仅作本机开发诊断，不可对外再分发。
+候选 D3D12 POST_BUILD 身份记录仅在构建目录为 `out/m3-t3/` 子目录且 Benchmark 关闭时触发，仍要求单配置 Ninja、游戏开启、CPU-only 关闭；普通 presets 可在 `out/build/` 构建游戏与 Benchmark，不触发候选专用记录。游戏省略 `--renderer` 时默认 `d3d12`，保留的 GL 路径须显式 `--renderer opengl`。标准 `windows-debug` / `windows-release` 游戏预设明确设置 D3D12=ON，IDE 重新加载 CMake 时也会更新旧 OFF 缓存。自定义 GL-only 或无游戏配置须显式 `-DSYMOCRAFT_RENDER_D3D12=OFF`；不经预设的旧 OFF 配置仍需显式启用，根 CMake 不强改用户选项。未编入或缺能力时具名失败、不回退。验证层默认开启，需可用的 D3D12 Debug Layer；不具备时可显式设置 `--validation 0`，不自动降级。`vulkan` 参数已可解析，但后端未实施，具名报错。候选与关键节点依据从 [验证索引](docs/verification/VERIFICATION.md) 进入；Debug 候选仅作本机开发诊断，不可对外再分发。
 
 `cmake --install out/build/windows-release` 默认生成 `out/install/windows-release`。这是开发用 staging，不是已经通过无开发环境部署验收的最终发布包。
 
@@ -217,7 +218,7 @@ python tools/openspec/check_documents.py
 从其他目录使用入口绝对路径。普通任务默认 symocraft-lite，复杂任务显式选 symocraft-full；按 AGENTS 独立完整预读现役 scenarios 后再起草。不在工程根直接初始化第二套目录，不手改官方技能；技能更新使用 `python tools/openspec/run.py update`。
 更新技能前暂停其他会话对托管文件的编辑。入口会拒绝检测到的并行变动，但不是文件锁或多文件事务；中断后保留现场复核，不自动回滚已发布内容。
 首次接入已隔离生成并核对官方技能；wrapper 不是安装器。schema 工具带实验性提示；沙盒 realpath 误报时申请复验，不关闭路径校验。
-原生 allowedEditRoots 只列 docs，业务 apply 前仍确认代码根授权。工具验证与任务完成不是工程验收，真实 sync/archive、提交及清场均需对应授权。原 docs/spec/旧计划只是复核现场，不持续维护。
+原生 allowedEditRoots 只列 docs，业务 apply 前仍确认代码根授权。工具验证与任务完成不是工程验收，真实 sync/archive、提交及清场均需对应授权。旧规格、测试和里程碑目录已退役删除；现行契约、计划和验证从 docs/openspec 与 docs/verification 进入。
 
 ## 学习参考
 

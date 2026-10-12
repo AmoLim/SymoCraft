@@ -28,7 +28,21 @@ tags:
 - **WHEN** 用户批准D3D12接管，或后续已交付/编入的Vulkan被显式选择
 - **THEN** 前者才切确认的现代默认；后者创建专用Vulkan Window，私有桥接/后端拥有真实资源与呈现，不把Native窗口、T2探针、清屏或空target当作接管。运行中不热切后端。
 
+#### Scenario: D3D12 default after explicit R3 approval
+- **WHEN** 用户明确批准 R3 并授权默认切换后，游戏省略 `--renderer` 或显式选择保留的 `opengl`
+- **THEN** 前者 SHALL 选择 D3D12/Native window，后者才进入已编入的过渡 GL；默认能力/资产缺失具名失败、不自动回退或关闭validation。新游戏配置首次默认编入D3D12，旧缓存不强改；批准与未验证技术项分开，旧包字节/默认值不回写。
+
+#### Scenario: Current game default and explicit transition
+- **WHEN** 游戏未给出 `--renderer`，显式选择 `d3d12`，或显式选择已编入的 `opengl`
+- **THEN** 前两者选择 Native-mode Window 与真实 D3D12，后者选择隔离的 legacy OpenGL；两默认配置均为 D3D12，不热切后端。
+
+#### Scenario: Uncompiled default and missing default assets
+- **WHEN** 游戏省略 `--renderer` 但 D3D12 未编入，或默认 D3D12 所需 DXIL 缺失
+- **THEN** 前者以 Unsupported 拒绝，后者资产预检失败并具名 DXIL；即使 GL 已编入且资产可用也不回退。新游戏构建首次默认编入 D3D12，已有 OFF 缓存不自动重写；CPU-only 与独立工具保持无原生后端。
+
 ## ADDED Requirements
+
+本轮2026-10-12用户明确批准R3及默认切换，批准与未验证事项分开记账，见[全局节点](../../../../../verification/VERIFICATION.md#关键节点)；下列A01–A19目标与未测事实不因批准批量改为通过。
 
 ### Requirement: Stable Game Contract and Takeover Gates
 T3 MUST 按M3-T3/D01方案1、D02方案2保持R1→R2→R3→R4：稳定游戏侧Renderer v1，以D3D12先接管、Vulkan再独立接管，两现代及整合验收成立后才申请T3通过。选型、冻结、获准实施、候选交付与节点通过 SHALL 分开；公开所有权/寿命/失败/线程语义变更 MUST 先受控确认。
@@ -142,3 +156,11 @@ D3D12在R3、Vulkan在R4 SHALL 用真实生产target与统一游戏调用方分�
 #### Scenario: Reference and evidence boundaries
 - **WHEN** 以截图、性能或候选包提出接管结论
 - **THEN** 先确定正式画面参考/容差与同条件基线/明确预算；无对应基线不称性能无回归，不接受丢几何/错材质/颠倒坐标；证据绑定实际版本、失败和复测，查验快照不冒称完整可运行包。
+
+#### Scenario: D3D12 frame and process memory budget
+- **WHEN** 用正式同版本、同机、同配置、同工作负载 GL/D3D12 配对采样判定本机 D3D12 性能预算
+- **THEN** SHALL 按 [已选预算口径](../../decisions.md#d3d12-已选预算口径)逐场景、逐对应轮次同时检查 P95/P99 的绝对及相对双门槛，以及工作集/私有提交各自正式采样段约每秒观测最大值的相对门槛；不混池、平均、挑最好或删慢帧。内存不包含显存/启动阶段、不叠加 T2 绝对上限；缺失指标不补 0，无有效对应 GL 基线不得称预算通过。启动/首次可操作等其他指标仅观测、不新增硬预算；选择不是采集授权或实测通过，也不自动成为 Vulkan 的预算。
+
+#### Scenario: User limited short comparison closeout
+- **WHEN** 用户按 [本轮追加决定](../../decisions.md#本轮-r2-短采样收口与风险接受边界)取消正式九轮、改为限时短对照并收口本轮 R2 工作
+- **THEN** SHALL 保留原始短采样及用户人工反馈，标记正式预算未验收、实际焦点差异及其余未覆盖风险；不把 quick 结果或工作收口当完整 R2/R3 通过，不自动恢复长采样或降低原接管目标。

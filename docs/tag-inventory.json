@@ -4,15 +4,15 @@
   "spec": "DOCUMENTATION_MAP.md",
   "uiVerification": "not-run",
   "counts": {
-    "managed": 48,
+    "managed": 51,
     "areas": {
       "architecture": 13,
       "dependencies": 1,
       "meta": 4,
-      "spec": 27,
+      "spec": 30,
       "verification": 3
     },
-    "retiredReviewSources": 42,
+    "retiredReviewSources": 0,
     "preservedPrivateRegistrations": 1
   },
   "managed": [
@@ -157,6 +157,13 @@
       ]
     },
     {
+      "path": "openspec/changes/m3-t2-publication-fix1/verification.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
       "path": "openspec/changes/m3-t3-renderer/decisions.md",
       "area": "area/spec",
       "tags": [
@@ -186,6 +193,13 @@
     },
     {
       "path": "openspec/changes/m3-t3-renderer/tasks.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "openspec/changes/m3-t3-renderer/verification.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
@@ -249,6 +263,13 @@
     },
     {
       "path": "openspec/changes/m3-t4-application-simulation/tasks.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "openspec/changes/m3-t4-application-simulation/verification.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
@@ -353,50 +374,7 @@
       ]
     }
   ],
-  "retiredReviewSources": [
-    "milestones/m0/README.md",
-    "milestones/m1/README.md",
-    "milestones/m2-a/PLAYER-README.zh-CN.md",
-    "milestones/m2-a/README.md",
-    "milestones/m2-t2/README.md",
-    "milestones/m2-t3/BENCHMARK-FIX.zh-CN.md",
-    "milestones/m2-t3/laptop-first-run.md",
-    "milestones/m2-t3/PLAYER-README.zh-CN.md",
-    "milestones/m2-t3/README.md",
-    "milestones/m3-t0/README.md",
-    "milestones/m3-t1/README.md",
-    "milestones/m3-t2/manual-verification.md",
-    "milestones/m3-t2/manul-verification.md",
-    "milestones/m3-t2/platform-contract-candidate.md",
-    "milestones/m3-t2/README.md",
-    "milestones/m3-t2/s3-manual-verification.md",
-    "milestones/m3-t2/s4-platform-handoff.md",
-    "milestones/m3-t2/s5-delivery-status.md",
-    "milestones/m3-t3/manual-verification.md",
-    "milestones/m3-t3/r2-entry.md",
-    "milestones/m3-t3/r2-step1-implementation.md",
-    "milestones/m3-t3/r2-step2-implementation.md",
-    "milestones/m3-t3/r2-step3-implementation.md",
-    "milestones/m3-t3/r2-step4-implementation.md",
-    "milestones/m3-t3/README.md",
-    "milestones/m3-t4/consumer-audit.md",
-    "milestones/m3-t4/cpu-behavior-baseline.md",
-    "milestones/m3-t4/interface-contract-candidate.md",
-    "milestones/m3-t4/interface-decisions.md",
-    "milestones/m3-t4/manual-verification.md",
-    "milestones/m3-t4/README.md",
-    "spec/M3/M3-T1-T3-CPU契约清单.md",
-    "spec/M3/M3-T1-世界模块重构.md",
-    "spec/M3/M3-T2-Fix1-spec.md",
-    "spec/M3/M3-T2-SDL3迁移.md",
-    "spec/M3/M3-T3-渲染器重构.md",
-    "spec/M3/M3-T4-应用平台与模拟模块接口.md",
-    "spec/md-organize/architecture-template-coverage-spec.md",
-    "spec/md-organize/data-system-migration-spec.md",
-    "spec/md-organize/mdspec.md",
-    "spec/project-architecture/面向对象与数据导向架构设计初稿.md",
-    "testing/gameplay-smoke.md"
-  ],
+  "retiredReviewSources": [],
   "preservedPrivateEntries": [
     {
       "path": "development-journal/project-home.md",

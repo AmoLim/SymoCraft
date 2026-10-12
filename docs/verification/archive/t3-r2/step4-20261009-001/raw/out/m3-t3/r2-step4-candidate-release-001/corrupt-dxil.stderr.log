@@ -1,2 +1,0 @@
-[renderer] D3D12 CreatePipelines: CreateGraphicsPipelineState(mesh) failed; category=InitializationFailure; native=0x80004005; diagnostic=VS: F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t3\r2-step4-candidate-release-001\corrupt-dxil package with spaces\assets\shaders\d3d12\blocks.vs.dxil
-PS: F:\GameDevelop\OpenGLProject\Symocraft\out\m3-t3\r2-step4-candidate-release-001\corrupt-dxil package with spaces\assets\shaders\d3d12\blocks.ps.dxil

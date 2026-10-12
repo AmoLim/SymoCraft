@@ -28,4 +28,4 @@ D01-D13保持已选；[Q01-Q04](decisions.md#未决接口)各三候选保留，�
 
 涉及 game/app、platform、simulation/physics、telemetry 及根 test；依赖 T1 World、T2 实际输入/窗口、[T3候选与交接](../m3-t3-renderer/design.md)。T3 R1冻结/R2局部交付不代替R3/Vulkan及完整前序核对。
 T4 不恢复[暂停 Fix1](../m3-t2-publication-fix1/proposal.md)，不将 Seal 当 Win32 1175 根因修复。
-目标机制见 [design](design.md)，唯一任务及 A01-A27 身份见 [tasks](tasks.md)；批准/历史基线及证据仅从 [VERIFICATION](../../../verification/VERIFICATION.md) 进入。原 [T4来源](../../../spec/M3/M3-T4-应用平台与模拟模块接口.md)及P01材料只保留复核，不继续维护第二份计划。
+目标机制见 [design](design.md)，唯一任务及 A01-A27 身份见 [tasks](tasks.md)；批准/历史基线及证据仅从 [VERIFICATION](../../../verification/VERIFICATION.md) 进入。原 [T4 目标设计](design.md)及 decisions 维护 P01 目标与未决项，旧目录已删除，不维护第二份计划。

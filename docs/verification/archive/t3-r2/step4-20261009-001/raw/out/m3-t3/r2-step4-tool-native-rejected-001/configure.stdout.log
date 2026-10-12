@@ -1,7 +1,0 @@
--- The C compiler identification is MSVC 19.38.33145.0
--- The CXX compiler identification is MSVC 19.38.33145.0
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - failed
--- Check for working C compiler: E:/Applications/Microsoft VS/2022/VC/Tools/MSVC/14.38.33130/bin/Hostx64/x64/cl.exe
--- Check for working C compiler: E:/Applications/Microsoft VS/2022/VC/Tools/MSVC/14.38.33130/bin/Hostx64/x64/cl.exe - broken
--- Configuring incomplete, errors occurred!

@@ -53,7 +53,7 @@ Debug files 第 5 次在普通 closed-target 替换处失败，尚未进入共�
 
 **归档证据**
 
-- [S5 交付状态与未关闭项](../milestones/m3-t2/s5-delivery-status.md#未关闭项)、[T2 人工核查入口](../milestones/m3-t2/manual-verification.md)：保留当时 T2-M08 意见和失败事实；当前批准与遗留边界以 VERIFICATION 为准，不再以旧待确认文字覆盖后续决定。
+- [S5 交付状态与未关闭项](../openspec/changes/m3-t2-publication-fix1/verification.md)、[T2 人工核查入口](../openspec/changes/m3-t2-publication-fix1/verification.md)：保留当时 T2-M08 意见和失败事实；当前批准与遗留边界以 VERIFICATION 为准，不再以旧待确认文字覆盖后续决定。
 - [窄修复红/绿摘要](../../out/m3-t2/s5/publish-audit-001/summary.json)、[旧实现失败日志](../../out/m3-t2/s5/publish-audit-001/files-before-runtime.log)、[新实现初次通过日志](../../out/m3-t2/s5/publish-audit-001/files-after-runtime.log)：只证明兼容读者缺口的修复。摘要内旧 `files-after.exe` 身份是历史记录；同名程序后来重新编译，当前身份见下一项。
 - [直接诊断摘要及逐次日志索引](../../out/m3-t2/s5/publish-audit-001/diagnostic-002/summary.json)：16/20，记录当前直接诊断程序身份及四次 1175。
 - [主工程独立重复摘要](../../out/m3-t2/s5/publication-repeat-003/summary.json)：40 次运行及原始 stdout/stderr、失败现场文件和摘要；本次审计核对其中 108 项文件身份均匹配。`publication-repeat-001/-002` 是采集器中断记录，不计作完整 40 次结果。

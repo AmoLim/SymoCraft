@@ -2,8 +2,8 @@
 
 ## Project
 Windows x64 single-player voxel game, using C++20, MSVC, CMake/Ninja and SDL3.
-The default game renderer is legacy OpenGL 4.6. D3D12 is an opt-in production
-candidate; Vulkan and an independent physics target are not yet implemented.
+The default game renderer is D3D12. Legacy OpenGL 4.6 remains an explicit
+transition path; Vulkan and an independent physics target are not yet implemented.
 
 ## Build And Run
 Use an initialized x64 Visual Studio 2022 developer terminal:
@@ -14,7 +14,9 @@ Run `out/build/windows-debug/bin/SymoCraft.exe`.
 For ordinary terminals, use `python scripts/build.py --configuration Debug`
 with `--clion-path` or `CLION_HOME`. See `scripts/README.md` for prerequisites.
 CPU-only uses a separate build directory and `-DSYMOCRAFT_CPU_ONLY=ON`.
-D3D12 requires `-DSYMOCRAFT_RENDER_D3D12=ON` and `--renderer d3d12`.
+D3D12 is explicitly enabled by the standard Debug/Release game presets, including
+when reconfiguring old caches. Custom configurations can override it with
+`-DSYMOCRAFT_RENDER_D3D12=OFF`; use `--renderer opengl` for the retained GL path.
 
 ## Ownership And Workflow
 Production code belongs in `game/modules/` and `game/app/`; tests in `test/`;
@@ -24,12 +26,15 @@ business logic or move native production logic into Python.
 Read `docs/scope/project-scope.md` and `docs/DOCUMENTATION_MAP.md` first.
 Current behavior belongs in `docs/openspec/specs/`; targets and sole active plans
 belong in `docs/openspec/changes/`. Implementation mechanisms belong in
-`docs/architecture/`; approvals and evidence in `docs/verification/VERIFICATION.md`.
-Retained `docs/spec/` sources are read-only migration review copies, not policy
-or active plans. Missing baseline coverage does not mean missing implementation.
+`docs/architecture/`; verification results in each change's `verification.md`;
+key-node approvals and navigation only in `docs/verification/VERIFICATION.md`.
+Retired legacy document directories have been removed; recovery is documented
+in docs/verification/VERIFICATION.md. Missing baseline coverage does not mean missing implementation.
 Preserve existing dirty changes, personal journal files, Obsidian settings,
 immutable evidence bytes and historical commands/results. Necessary evidence
-storage and retirement follow DOCUMENTATION_MAP; relocation is not byte rewriting.
+storage and retirement follow DOCUMENTATION_MAP: one verification.md per change,
+no attachments or raw-data inclusion unless explicitly required. Existing frozen
+evidence stays untouched; relocation is not byte rewriting.
 Do not fill in
 human verification checkboxes or delete residual files without confirmation.
 

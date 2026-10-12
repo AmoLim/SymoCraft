@@ -1,6 +1,0 @@
-frame,phase,elapsed_s,frame_ms,simulation_delta_ms,event_ms,simulation_ms,mesh_ms,pack_ms,render_cpu_ms,upload_cpu_ms,present_ms,instrumentation_ms,gpu_draw_ms,rebuilt_chunks,vertices,upload_bytes,draw_calls,edits,edit_lateness_ms,x,y,z,yaw,focused,renderer_frame_id,cpu_prepare_ms,cpu_submit_ms,gpu_missing_reason,resource_upload_bytes,render_upload_bytes,upload_calls
-0,warmup,0,10,0,0,0,0,0,0,0,0.75,0,99,0,0,999,0,0,0,0,0,0,0,1,2,1.5,2.25,"",999,0,0
-1,sample,0,10,0,0,0,0,50,0.25,100,0.75,0,2.5,0,0,40,0,0,0,0,0,0,0,1,77,1.5,2.25,"",28,12,2
-2,sample,0,10,0,0,0,0,0,0,0,0.75,0,,0,0,0,0,0,0,0,0,0,0,1,4000,1.5,2.25,"discarded",0,0,0
-3,sample,0,10,0,0,0,0,0,0,0,0.75,0,0,0,0,0,0,0,0,0,0,0,0,1,4001,1.5,2.25,"",0,0,0
-4,sample,0,10,0,0,0,0,0,0,0,0.75,0,,0,0,0,0,0,0,0,0,0,0,1,900000000000,1.5,2.25,"not-returned",0,0,0

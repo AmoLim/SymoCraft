@@ -1,2 +1,0 @@
-Usage: SymoCraft [--check-assets [--renderer opengl|d3d12|vulkan] | [--renderer opengl|d3d12|vulkan] [--msaa 1|2|4|8|16|32] [--validation 0|1] [--seed 0..4294967295] [--scene terrain|regression] [--checkpoint NAME] [--test-edits] [--world-summary | --smoke-frames 1..10000]] or SymoCraft --benchmark static|walk|edit --output NEW_DIRECTORY [--seed N] [--renderer opengl|d3d12|vulkan] [--msaa 1|2|4|8|16|32] [--validation 0|1] [--width 1920 --height 1080 --vsync 0|1 --warmup-seconds 60 --sample-seconds 180] [--focus-policy strict|allow-unfocused]
-Unknown renderer

@@ -9,9 +9,9 @@ tags:
 
 ## 实现与边界
 
-- 默认游戏路径仍为 OpenGL 4.6 的 `SymoCraft::Renderer` namespace，独立于现代门面。
+- 默认游戏路径为 D3D12 现代门面；OpenGL 4.6 的 `SymoCraft::Renderer` namespace 保留为显式过渡路径，独立于现代门面。
 - `SymoCraft::Rendering::Renderer` 是不可复制、不可移动的实例/PImpl。CPU 核心已实现；启用 `SYMOCRAFT_RENDER_D3D12` 后可创建生产私有 D3D12 后端，否则请求 D3D12 具名返回 `Unsupported`。现代工厂的 OpenGL、Vulkan 均未实现，不静默 fallback。
-- `RendererConfig` 默认选择 D3D12，不等于游戏默认已经切换。应用默认选择仍是 OpenGL；D3D12 通过显式启动选项进入同一个游戏循环，仍是 opt-in 候选。
+- `RendererConfig` 与应用 `StartupOptions` 均默认选择 D3D12；应用在窗口创建前选择 Native mode。新游戏配置默认编入 D3D12，旧缓存不强改；未编入的默认请求仍具名失败、不自动选 GL。显式 `--renderer opengl` 才进入保留的旧路径。
 - 中立公开头只暴露场景值类型、句柄、结果与错误；私有 Registry、RenderBackend、GL/D3D12 类型不得成为业务扩展点。CPU-only 保留现代 CPU 核心，不引入原生设备与窗口依赖。
 - Shader 编译、目标依赖与 CPU-only 构建隔离见 [工程契约](engineering.md)。关键节点与历史验证依据统一从 [VERIFICATION](../verification/VERIFICATION.md)进入；人工/R3 整组验收、默认切换及 Vulkan 不得由源码存在推定完成。
 
@@ -100,6 +100,9 @@ Screenshot 是实际 extent 的 top-left 紧密 RGBA8 自有 vector；在 resolv
 
 不可回滚阶段后的异常报告 fatal，禁止继续提交。显式 Shutdown 为已有 queued work 建覆盖 fence并有界等待，不执行新绘制；只有完成证明或设备移除证明才能正常释放原生资源。没有证明时，将所有 native 拥有者转入预分配终止 quarantine，保留至进程退出并记录诊断；这不是正常回收、恢复或关闭成功，重复显式关闭仍不能伪装成功。部分构造失败与 noexcept 析构同样处理已获得资源。
 
+显式诊断工厂另有窄私有 `D3D12DiagnosticAccess`，不进入公开三头、普通工厂或游戏参数。探针与真实后端共同持有同一设备/队列/完成 fence 的自有 COM 引用，须覆盖后端关闭；不是业务扩展点或设备恢复机制。两个一次性 HRESULT 注入点分别在 mesh 资源接受前及实际 Execute 后的 draw Signal 前，普通游戏不创建控制对象。注入与真正原生调用失败分列，不宣称耗尽真实显存或发生硬件事故。
+受控原生探针可移除自己创建设备，或在自己队列放置 fence gate，使真实 texture copy/retirement signal 在途等待；500 ms 原生等待和 30 秒外层进程上限分别约束。gate 在正常/异常离开作用域时解除；无完成证明的 Shutdown 仍 quarantine，之后确认自有工作完成也不把先前失败改判正常回收。不使用 busy shader、全局 TDR 或系统设置修改。
+
 | 保留编号 | 当前约束 |
 | --- | --- |
 | D-I1/D-I2 | HWND 借用；native 状态私有且 Info 来自实际设备/能力/交换链 |
@@ -177,6 +180,7 @@ Device 返回缓存的借用 const 引用，不跨上下文重建保存；Alloca
 - [Facade tests](../../test/unit/renderer/facade_tests.cpp) 使用私有 recording backend 覆盖句柄、自有化、接受事务、帧校验、线程/重入、状态、结果和样本一致性；不是原生 GPU retirement 或设备故障验证。
 - [GL shader](../../test/unit/renderer/shader_loading_tests.cpp)、[Batch](../../test/unit/renderer/batch_safety_tests.cpp)、[GpuTimer](../../test/unit/renderer/gpu_timer_tests.cpp) 使用 GL 替身覆盖限定边界，不能证明所有真实驱动失败、错误顺序、OOM 或长期泄漏已处理。
 - [D3D12 smoke](../../test/integration/renderer/d3d12_backend_smoke.cpp) 提供像素、采样、MSAA、截图与窗口场景的核查入口；历史成绩及其限制只以 verification 对应版本证据为准，不以本文或测试代码存在认定本轮通过。
-- 真实 DeviceLost、强制 GPU 在途 timeout/重叠、长期不 Poll 无损、长期资源泄漏与人工玩法/R3 整组验收尚不能宣布通过；源码里的有限等待与 quarantine 不替代动态故障证据。
+- [受控原生故障](../../test/integration/renderer/d3d12_fault_probe.cpp) 链接同一正式 RendererState/D3D12 库，显式执行而不注册无人值守 CTest；[有界入口](../../test/integration/renderer/verify-d3d12-faults.py) 核对完成矩阵、源码、库、shader 和探针身份。受控设备移除、真正在途等待、Signal/分配注入分别留证，不覆盖整个游戏/public wrapper 或自发硬件事故。
+- 长期不 Poll 无损、长期资源泄漏、任意驱动/真实内存耗尽及人工玩法/R3 整组验收不能宣布通过；当前具体运行及失败只从 VERIFICATION 定位，不靠源码里的有限等待与 quarantine 推定。
 
-本轮仅迁移并对照源码/测试审阅契约，不新增 GPU、性能或人工批准结论。历史 T0/R1/R2 记录保留点时含义；需要改变冻结接口、默认后端或故障语义时先走现行 Spec 与关键节点授权。
+历史迁移的源码审阅不构成新运行；后续局部实现/运行也不产生人工批准。历史 T0/R1/R2 记录保留点时含义；需要改变冻结接口、默认后端或故障语义时先走现行 Spec 与关键节点授权。

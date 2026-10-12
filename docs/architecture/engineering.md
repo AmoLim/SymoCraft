@@ -65,7 +65,7 @@ tags:
 
 `symocraft_renderer_api` 是只发布 CPU 公共头的 INTERFACE target；`symocraft_renderer` 是真实 CPU STATIC 门面，通过 PImpl 隐藏实现。`symocraft_renderer_backend_contract` 只发布 renderer 内部的窄接口，供门面与审核的后端私有消费，不对 app 或公开消费者开放。
 
-D3D12 STATIC 后端只由现代门面私有链接；其原生库、SDK 头与平台定义不传播到 CPU API。`symocraft_renderer_legacy_opengl` 是游戏构建才有的独立对照路径，不能混入现代门面；完整游戏目前同时链接两者，不宣称现代独占构建已交付。
+D3D12 STATIC 后端只由现代门面私有链接；其原生库、SDK 头与平台定义不传播到 CPU API。`symocraft_renderer_legacy_opengl` 仅在 GAME 与 `SYMOCRAFT_RENDER_OPENGL` 同时启用时存在，是独立对照路径，不混入现代门面。关闭 OPENGL 同时去掉 app 的 GL 调用、GLAD target、SDL OpenGL 实现及 GLSL 部署，不改变运行参数的默认值。
 
 app 的 `symocraft_startup` 与 `symocraft_app_render_data` 是 app 私有 CPU STATIC 库；后者承载 World 网格缓存、相机与图集转换，在 CPU-only 可测试，不把 Application 或窗口依赖引入 CPU 模块。资源寿命及运行错误契约见[Renderer](renderer.md)，不在此重复。
 
@@ -73,23 +73,25 @@ app 的 `symocraft_startup` 与 `symocraft_app_render_data` 是 app 私有 CPU S
 
 | 组合 | 当前工程契约 |
 | --- | --- |
-| 默认 | game、CPU 模块与独立 benchmark；现代 renderer CPU 门面与旧 GL；D3D12 默认 OFF |
-| `SYMOCRAFT_CPU_ONLY=ON` | 局部强制 GAME/BENCHMARK/D3D12 OFF、CPU_MODULES ON；图形 SDK 不参与发现、配置或链接 |
+| 默认 | game、CPU 模块与独立 benchmark；现代 renderer CPU 门面、D3D12 与保留的旧 GL；游戏运行默认 D3D12 |
+| `SYMOCRAFT_CPU_ONLY=ON` | 局部强制 GAME/BENCHMARK/OPENGL/D3D12 OFF、CPU_MODULES ON；图形 SDK 不参与发现、配置或链接 |
 | GAME OFF、CPU_MODULES ON | 仍组织 CPU 模块和 app CPU 库，不创建 platform 或游戏；benchmark 由自己的开关决定 |
 | 根入口仅 benchmark | GAME 与 CPU_MODULES 显式 OFF、BENCHMARK ON；旧缓存中的 CPU_MODULES 不会因改 GAME 自动消失 |
 | `cmake -S tools/benchmark` | 工具独立配置，复用仓库内 YAML 与工具链检查；不创建游戏或检查游戏资源，不表示子目录可以脱离仓库构建 |
-| D3D12 ON | 要求 GAME ON；除 SDK/DXC 条件外，实际 app 链接后的候选身份流程还要求下述固定组合 |
-| `BUILD_TESTING=OFF` | 不注册测试和 fixture；D3D12 app 的 Python 构建身份记录仍保留 |
+| D3D12 ON | 要求 GAME ON；新配置默认取 GAME 状态，私有发现 SDK/DXC；候选身份记录仅在下述候选组合触发 |
+| OPENGL OFF、D3D12 ON | 现代独占游戏，省略选择默认 D3D12；显式 OpenGL 具名 Unsupported 退出、不回退 |
+| GAME ON、OPENGL/D3D12 均 OFF | 配置期具名失败；不建无实际后端的游戏 |
+| `BUILD_TESTING=OFF` | 不注册测试和 fixture；符合候选组合时仍保留 Python 构建身份记录，普通游戏构建不由该步骤强制要求 Python |
 
-`SYMOCRAFT_BUILD_CPU_MODULES` 的默认值在首次定义时取 GAME 状态，之后是独立缓存选项。CPU-only 强制值是当前配置作用域的覆盖，不将用户缓存全部改写。模式矩阵应以新配置的实际 target/Ninja 图和产物检查为依据，而非仅看开关文字。
+`SYMOCRAFT_BUILD_CPU_MODULES` 与 `SYMOCRAFT_RENDER_D3D12` 的默认值在首次定义时取 GAME 状态，之后是独立缓存选项。标准Debug/Release游戏preset显式设置D3D12=ON，重新配置会更新旧OFF缓存；自定义GL-only或GAME OFF组合使用命令行显式OFF覆盖preset，不经preset的旧缓存仍需显式启用，根option不使用FORCE。CPU-only强制值仍是当前配置作用域的覆盖，不将用户缓存全部改写。未编入默认后端时省略运行选择会具名拒绝而不是偷偷回退。模式矩阵应以实际target/Ninja图和产物检查为依据，而非仅看开关文字。
 
-CPU-only 仍进入 game 的 CPU 组织并加载资产清单及共享 staging；图形隔离不意味着配置不需要六项源资产。独立 benchmark 入口才不加载该游戏资产规则。
+CPU-only 仍进入 game 的 CPU 组织并加载资产清单及共享 staging，仅需要 YAML/PNG 两项公共源资产；GLSL 只随 OPENGL 启用加入。独立 benchmark 入口不加载游戏资产规则。无图形的 `--world-summary` 只预检公共资产，不选择后端或要求 shader。
 
 ### D3D12 候选身份限制
 
 - 启用后私有发现 `d3d12.h`、`dxgi1_6.h`、x64 D3D12/DXGI 库和实际 DXC 可执行文件，不接受 FXC；缺失使配置失败。
 - 当前仅支持分离的 Debug/Release 单配置构建；DXC 对 blocks/selection 分别生成 VS/PS Shader Model 6.0 DXIL，公共 HLSL 常量头参与增量依赖。
-- app POST_BUILD 在实际生产链接后运行 Python 记录来源、工具、exe、DXIL 与构建文件身份。因此候选必须使用当前源码根、Ninja、Debug/Release、GAME ON、CPU_ONLY OFF、BENCHMARK OFF，构建目录为仓库 `out/m3-t3/` 的非重解析点子目录。任一条件不满足时身份步骤失败，即使 exe 已链接也不是成功候选。
+- app POST_BUILD 仅在仓库 `out/m3-t3/` 子目录且 BENCHMARK OFF 时记录来源、工具、exe、DXIL 与构建文件身份；普通 preset 构建不触发候选专用记录。候选仍须当前源码根、Ninja、Debug/Release、GAME ON、CPU_ONLY OFF、BENCHMARK OFF及非重解析点子目录；触发后校验失败不能因 exe 已链接当成功候选。
 - 打包要求同根下独立且不存在的输出目录；生产输入、工具或产物变化即拒绝使用旧身份。准备检查只容许既有 glob 检查与资产同步，不以暗中重建更新待验证候选。失败安装可能留下部分包，必须保留其失败身份，不推定完整或覆盖重试。
 
 实际条件见[后端构建](../../cmake/RendererD3D12.cmake)、[app 构建](../../game/app/CMakeLists.txt)与[候选打包器](../../scripts/package-d3d12-candidate.py)。身份范围不是整个 SDK、驱动或操作系统快照。
@@ -112,7 +114,7 @@ Python 与 DXC 是构建/查验依赖，不是生产游戏或原生 benchmark �
 
 ## 资源与安装
 
-- 共享 `symocraft_runtime_assets` 在每次构建检查并以 `copy_if_different` 同步六项必要资产，多个消费者共用一份部署任务，避免并发复制。资产内容变化无需重链接 exe 才能部署；缺少源资产在加载 StageAssets 时即配置失败，复制失败由 build 反馈，不撤销已同步内容。
+- 共享 `symocraft_runtime_assets` 在每次构建检查并以 `copy_if_different` 同步两项公共资产，以及 OPENGL 启用时的四项 GLSL，多个消费者共用一份部署任务，避免并发复制。资产内容变化无需重链接 exe 才能部署；缺少源资产在加载 StageAssets 时即配置失败，复制失败由 build 反馈，不撤销已同步内容。更换后端组合使用新目录，不把旧目录残留误认作当前部署清单。
 - 游戏及资源消费者输出到本配置的 `bin/`；运行资源根是 exe 旁的 `assets/`，不依赖当前工作目录或源码树。资产解析拒绝空路径、绝对/根路径、父目录穿越、流名及越根链接；移动运行包必须保留相邻资源。存在性检查不证明解码、配置语义、shader 或玩法正确。
 - 游戏 target 编入 [windows-utf8.manifest](../../cmake/windows-utf8.manifest)，申请 UTF-8 activeCodePage，衔接执行器 UTF-16 进程参数与游戏中的窄字符资源路径；这是限定机制，不是任意 Unicode 路径、全部第三方加载链或目标机器均已验证的保证。源码编译的 `/utf-8` 与运行时 manifest 是不同约束。
 - 安装仅选择产品、必要资源和许可通知，不安装测试/fixture、库/对象、PDB 或无用资源。D3D12 安装另含四份 DXIL；不会携带 DXC、开发 SDK、显卡驱动、Debug Layer 或 SDL DLL，目标机器仍需满足实际系统与驱动条件。
