@@ -12,7 +12,7 @@
 
 namespace {
     enum Id { Game = 100, BrowseGame, Output, BrowseOutput, Profile, Focus, Label, Power, Gpu, Clocks,
-        Start, Cancel, Retry, Open, ExportZip, ProgressBar, Status, Results };
+        Start, Cancel, Retry, Open, ExportZip, ProgressBar, Status, Results, Renderer };
     std::wstring Text(HWND window)
     {
         std::wstring text(GetWindowTextLengthW(window) + 1, L'\0');
@@ -78,7 +78,8 @@ namespace {
             auto title = Add(L"STATIC", L"SymoCraft Benchmark", 0, -1, 24, 18, 810, 36);
             SendMessageW(title, WM_SETFONT, reinterpret_cast<WPARAM>(title_font), TRUE);
             Add(L"STATIC", L"游戏程序", 0, -1, 24, 72, 100, 24);
-            Add(L"EDIT", (Benchmark::ExecutablePath().parent_path() / "SymoCraft.exe").c_str(), WS_TABSTOP | ES_AUTOHSCROLL, Game, 124, 68, 620, 30);
+            Add(L"EDIT", (Benchmark::ExecutablePath().parent_path() / "SymoCraft.exe").c_str(), WS_TABSTOP | ES_AUTOHSCROLL, Game, 124, 68, 480, 30);
+            Combo(Renderer, 614, 68, 130, {L"OpenGL", L"D3D12"});
             Add(L"BUTTON", L"选择…", WS_TABSTOP, BrowseGame, 754, 68, 96, 30);
             Add(L"STATIC", L"结果位置", 0, -1, 24, 113, 100, 24);
             Add(L"EDIT", Benchmark::DefaultOutputParent().c_str(), WS_TABSTOP | ES_AUTOHSCROLL, Output, 124, 109, 620, 30);
@@ -116,7 +117,7 @@ namespace {
         }
         void EnableControls()
         {
-            for (int id : {Game, BrowseGame, Output, BrowseOutput, Profile, Focus, Label, Power, Gpu, Clocks, Start}) EnableWindow(Control(id), !busy);
+            for (int id : {Game, BrowseGame, Output, BrowseOutput, Profile, Focus, Label, Power, Gpu, Clocks, Renderer, Start}) EnableWindow(Control(id), !busy);
             EnableWindow(Control(Cancel), busy);
             EnableWindow(Control(Retry), !busy && has_session && !outcome.passed);
             EnableWindow(Control(Open), !busy && has_session);
@@ -155,6 +156,7 @@ namespace {
                 if (parent.empty()) throw std::runtime_error("Result location is empty");
                 config.output = Benchmark::fs::absolute(parent) / ("run-" + Benchmark::Timestamp());
                 config.quick = SendMessageW(Control(Profile), CB_GETCURSEL, 0, 0) == 1;
+                config.renderer = SendMessageW(Control(Renderer), CB_GETCURSEL, 0, 0) == 1 ? "d3d12" : "opengl";
                 config.focus_policy = SendMessageW(Control(Focus), CB_GETCURSEL, 0, 0) == 0 ? "allow-unfocused" : "strict";
                 config.machine_label = Benchmark::Utf8(Text(Control(Label)));
                 config.power_mode = Benchmark::Utf8(Text(Control(Power)));
@@ -196,7 +198,9 @@ namespace {
                     const auto result = Benchmark::ReadYaml(last_config.output / name / "result.yaml");
                     auto number = [](double value) { std::wostringstream text; text << std::fixed << std::setprecision(2) << value; return text.str(); };
                     cell(2, number(result["frame_ms"]["p95"].as<double>())); cell(3, number(result["throughput_fps"].as<double>()));
-                    cell(4, number(result["focus"]["sample_unfocused_seconds_estimate"].as<double>())); cell(5, Benchmark::Wide(result["gl_renderer"].as<std::string>()));
+                    cell(4, number(result["focus"]["sample_unfocused_seconds_estimate"].as<double>()));
+                    cell(5, Benchmark::Wide(result["renderer"] ? result["renderer"]["backend"].as<std::string>() + " | " + result["renderer"]["device_name"].as<std::string>()
+                                                              : result["gl_renderer"].as<std::string>()));
                 }
                 ++row;
             }

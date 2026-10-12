@@ -13,9 +13,9 @@ tags:
 
 公开工具边界是 [runner.h](../../tools/benchmark/include/benchmark/runner.h) 中的配置、进度、结果、`Run`、`ValidateCapture` 与 `Export`。`Run` 和 `Export` 同步执行；观察回调在调用线程执行，调用方负责其寿命与异常边界。GUI 传配置副本和 stop token，不能在运行中修改本轮参数。
 
-原生执行器当前固定 GL 协议：摘要 schema / protocol / workload 均为 `2`，会话 `runner_schema: 1`；逐帧 CSV 必须是既有 25 列。执行器不传 `--renderer`，因此启动默认 OpenGL，校验实际 `gl_renderer` / `gl_version` 和固定世界摘要。没有现代后端选择或扩展 CSV 协商，不能把游戏支持 D3D12 当作 GUI/CLI 已支持 D3D12 基准。
+原生执行器通过 GUI 或 CLI `--renderer opengl|d3d12` 明确传递后端，默认仍 GL，不支持 Vulkan 或静默回退。摘要 schema / protocol / workload 均为 `2`，会话 `runner_schema: 1`；旧 GL 保持既有 25 列与 `gl_renderer/gl_version` 身份，现代数据只接受 32 列及 `renderer_telemetry_version: 1`。未知版本、请求与实际后端不符或现代数据混入 gl 字段均明确拒绝。
 
-游戏 telemetry 已能记录现代 Renderer 的稳定 frame ID、CPU prepare/submit、GPU 缺失原因和分离上传计数，条件满足时追加 7 列，并导出 `renderer_telemetry_version: 1`。这是游戏生产者的扩展，不是上述执行器兼容承诺。现代 GPU 数据的身份与计时边界须与 [Renderer 契约](renderer.md) 一并理解；历史 GL 冻结包不能重标为现代后端结果。
+现代消费者逐行校验精确 uint64 frame ID 的递增（不转 double）、CPU prepare/submit 归属、GPU 值/缺失原因互斥及分离上传计数，并复核正式帧摘要。GPU 缺失保持空值与原因，不补零；result 保留实际后端/设备/驱动/API/配置、范围和 CPU/GPU/上传摘要。现代 GPU 数据的身份与计时边界须与 [Renderer 契约](renderer.md) 一并理解；历史 GL 冻结包不能重标为现代后端结果。
 
 | 文件 | 权威生产者与用途 |
 | --- | --- |
@@ -34,7 +34,7 @@ tags:
 
 快速计划为三场景各 10 秒预热、10 秒采样；正式计划为三场景各三轮，每轮 60 秒预热、180 秒采样，共 2160 秒协议时间。启动、校验、截图与落盘另计，不自动缩短计划。两种计划不能互称正式基线。
 
-新会话和新 attempt 都拒绝覆盖已有目录。`session.lock` 不继承给子进程，排他句柄限制会话的并发执行/导出，进程退出后锁释放。执行器保存游戏与指定六项 GL 资源的 SHA256，轮次前后复核身份，同组复核实际 GL 设备/版本字符串。这个资源白名单不等于整个资源树都被纳入身份。
+新会话和新 attempt 都拒绝覆盖已有目录。`session.lock` 不继承给子进程，排他句柄限制会话的并发执行/导出，进程退出后锁释放。执行器保存游戏与指定六项资源的 SHA256：GL 是公共 YAML/PNG 加四项 GLSL，D3D12 是公共 YAML/PNG 加四项 DXIL。轮次前后复核身份，同组复核实际 GL 设备/版本或现代 renderer 身份；重试也重新校验已通过轮次。这个资源白名单不等于整个资源树都被纳入身份；旧 GL 会话设置形状不因新增默认选择而改变，现代会话显式记录 renderer。
 
 每轮总时限为预热加采样加 120 秒。失败、取消或超时停止后续轮次，保留已有 attempt。重试只接受同配置和同包，先重新校验已通过轮次，从首个未通过轮次新建 attempt 并完整预热，不拼接中断帧。`continuous_full_protocol` 仅表示无重试的正式九轮完成，不表示环境安静、Release 构建、性能达标或用户批准。
 

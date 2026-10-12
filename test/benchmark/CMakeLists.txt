@@ -9,7 +9,10 @@ add_executable(benchmark_runner_tests runner_tests.cpp "${SYMOCRAFT_REPOSITORY_R
 target_include_directories(benchmark_runner_tests PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/tools/benchmark/src")
 target_link_libraries(benchmark_runner_tests PRIVATE benchmark_core)
 target_compile_options(benchmark_runner_tests PRIVATE /W4 /utf-8 /permissive-)
-foreach(suite IN ITEMS contracts process executor)
+add_executable(benchmark_capture_probe capture_probe.cpp)
+target_link_libraries(benchmark_capture_probe PRIVATE benchmark_core)
+target_compile_options(benchmark_capture_probe PRIVATE /W4 /utf-8 /permissive-)
+foreach(suite IN ITEMS contracts process executor modern)
     add_test(NAME benchmark.${suite} COMMAND benchmark_runner_tests ${suite}
         "$<TARGET_FILE:benchmark_fixture>" "${CMAKE_CURRENT_BINARY_DIR}/probes")
     set_tests_properties(benchmark.${suite} PROPERTIES TIMEOUT 100)

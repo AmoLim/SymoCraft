@@ -39,6 +39,40 @@ int wmain(int argc, wchar_t** argv)
             Process hung(fs::absolute(argv[2]), {L"--hang"}, parent, parent / "hung.log", parent / "hung.err");
             Require(hung.Stop() && !hung.Running() && hung.ExitCode() == 125, "Forced cancellation failed");
             Reject([&] { Process bad(parent / "absent.exe", {}, parent, parent / "bad.log", parent / "bad.err"); });
+        } else if (suite == L"modern") {
+            const auto package = parent / "modern package"; fs::create_directory(package);
+            const auto executable = package / "fixture.exe"; fs::copy_file(argv[2], executable);
+            for (const auto asset : {"configs/blockFormats.yaml", "textures/texture_atlas.png", "shaders/d3d12/blocks.vs.dxil",
+                 "shaders/d3d12/blocks.ps.dxil", "shaders/d3d12/selection.vs.dxil", "shaders/d3d12/selection.ps.dxil"}) {
+                const auto path = package / "assets" / asset; fs::create_directories(path.parent_path()); std::ofstream(path) << "fixture";
+            }
+            Config config; config.game = executable; config.quick = true; config.renderer = "d3d12";
+            config.output = parent / "success";
+            SetEnvironmentVariableW(L"SYMO_BENCH_FIXTURE", nullptr);
+            Require(Run(config).passed, "Modern fixture was rejected");
+            const auto result = ReadYaml(config.output / "static-1-attempt-1/result.yaml");
+            Require(!result["gl_renderer"] && result["renderer"]["backend"].as<std::string>() == "D3D12",
+                    "Modern result fabricated legacy graphics identity");
+            Require(result["gpu_missing_sample_frames"].as<unsigned>() == 5
+                    && result["measurement_metadata"]["gpu_time_scope"], "Modern result lost missing samples or measurement scope");
+            Require(Run(config, {}, {}, true).passed, "Modern session retry failed");
+            Require(fs::file_size(Export(config)) > 0, "Modern export failed");
+            const auto capture = config.output / "static-1-attempt-1/capture";
+            Reject([&] { ValidateCapture(capture, Plan(true).front(), config.focus_policy, 0); });
+            config.renderer = "opengl";
+            Reject([&] { Run(config, {}, {}, true); });
+            config.renderer = "d3d12";
+            for (const auto mode : {L"modern-duplicate-id", L"modern-old-version", L"modern-wrong-backend", L"modern-gl-identity",
+                 L"modern-missing-reason", L"modern-bad-gpu", L"modern-bad-upload", L"modern-vsync",
+                 L"missing-status", L"exporting-status", L"finished-nonzero", L"old-protocol"}) {
+                config.output = parent / mode; SetEnvironmentVariableW(L"SYMO_BENCH_FIXTURE", mode);
+                const auto outcome = Run(config);
+                Require(!outcome.passed && outcome.completed == 0 && !fs::exists(config.output / "walk-1-attempt-1"),
+                        "Invalid modern capture was accepted or continued");
+            }
+            SetEnvironmentVariableW(L"SYMO_BENCH_FIXTURE", nullptr);
+            config.renderer = "vulkan"; config.output = parent / "unimplemented";
+            Reject([&] { Run(config); });
         } else if (suite == L"executor") {
             const auto package = parent / L"中文 模拟包 & spaces"; fs::create_directory(package);
             const auto executable = package / L"模拟游戏.exe"; fs::copy_file(argv[2], executable);

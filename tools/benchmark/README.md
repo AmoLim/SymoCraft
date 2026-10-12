@@ -6,17 +6,17 @@ Windows x64 原生采样工具，GUI 与 CLI 使用同一固定执行器。运�
 
 ## 运行条件
 
-- Windows 10 1903+ / Windows 11 x64，实际驱动支持 OpenGL 4.6；不根据显卡品牌推定能力。
+- Windows 10 1903+ / Windows 11 x64，实际驱动满足所选游戏后端；GL 要求 OpenGL 4.6，D3D12 候选要求实际 FL12_0/SM6_0 及其声明的 Debug Layer。不能根据显卡品牌推定能力。
 - 完整解压游戏、assets 和随包 VC++ Release 运行库，保持包目录结构，不直接在压缩软件内启动。
 - 1920x1080 固定 framebuffer，VSync 请求关闭；尺寸不匹配时失败，不自动降分辨率。
 - 采样是普通无边框窗口，不是独占全屏或置顶。保留任务栏原有行为，任务栏可能遮挡底部但不降低渲染尺寸。
 - ZIP 依赖系统 `System32/tar.exe`；缺失时保留导出目录并报错，不下载安装替代工具。
 
-执行器不提供 renderer selector，仍启动默认 OpenGL 并校验 GL 25 列协议。D3D12 游戏采样扩展不等于本工具已接入现代后端。
+GUI 后端下拉框与 CLI `--renderer opengl|d3d12` 使用相同执行器，默认仍 OpenGL。GL 保持原 25 列协议；D3D12 要求 32 列及现代 telemetry v1，实际后端/版本不匹配即失败，无自动回退。
 
 ## GUI
 
-1. 打开 `SymoCraftBenchmark.exe`，选择实际游戏路径及可写结果父目录。默认结果位置为 `%LOCALAPPDATA%/SymoCraftBenchmark/results`。
+1. 打开 `SymoCraftBenchmark.exe`，选择实际游戏路径、后端及可写结果父目录。默认结果位置为 `%LOCALAPPDATA%/SymoCraftBenchmark/results`。
 2. 填不含姓名的机器代号；电源、显卡模式和频率未知时保留未记录，不把手填声明当自动探测。
 3. 先运行快速检查：static/walk/edit 各 10 秒预热和 10 秒采样，协议共 60 秒，启动/校验/截图另计。
 4. 按本次授权运行正式基线：每场景三轮，每轮 60 秒预热和 180 秒采样，协议共 36 分钟。
@@ -32,12 +32,13 @@ GUI 重试限当前会话，没有会话导入器；重新打开程序后可用 
 
 ```powershell
 ./SymoCraftBenchmark.exe --run --quick --game ./SymoCraft.exe --output ./results/quick-001 --machine-label development
+./SymoCraftBenchmark.exe --run --quick --renderer d3d12 --game ./SymoCraft.exe --output ./results/d3d12-quick-001
 ./SymoCraftBenchmark.exe --run --game ./SymoCraft.exe --output ./results/baseline-001 --focus-policy allow-unfocused
 ./SymoCraftBenchmark.exe --run --resume --game ./SymoCraft.exe --output ./results/baseline-001 --focus-policy allow-unfocused
 ./SymoCraftBenchmark.exe --export --game ./SymoCraft.exe --output ./results/baseline-001
 ```
 
-`--resume` 必须带 `--run`，并传与原会话完全一致的 quick/focus/机器声明等设置及同游戏/资源。`--export` 与 `--run` 互斥，导出 quick 会话时也带 `--quick`。额外声明参数为 `--power-mode`、`--gpu-mode`、`--clock-settings`；焦点策略只接受 strict/allow-unfocused。无参数打开 GUI，不支持任意自定义计划或 shell 指令。
+`--resume` 必须带 `--run`，并传与原会话完全一致的 renderer/quick/focus/机器声明等设置及同游戏/资源。`--export` 与 `--run` 互斥，导出 quick 会话时也带 `--quick`。额外声明参数为 `--power-mode`、`--gpu-mode`、`--clock-settings`；焦点策略只接受 strict/allow-unfocused。无参数打开 GUI，不支持任意自定义计划或 shell 指令。
 
 CLI 返回 0 为成功、4 为已记录采样失败/取消、64 为参数或外层操作错误。游戏瞬退、超时或缺数据不算通过；详情在该轮日志/result 和 session 中。取消只停止执行器创建的游戏进程，不能保证强制终止前游戏已导出 CSV；文件写入或磁盘故障也不保证存在最终报告，保留已有目录诊断。
 
@@ -47,7 +48,7 @@ CLI 返回 0 为成功、4 为已记录采样失败/取消、64 为参数或外�
 
 导出固定白名单，不包含 exe/DLL。已知游戏、结果与用户主目录路径仅在导出文本副本替换，本地原件不改；这不是通用匿名化，手填字段和第三方错误仍可能泄露信息，分享前检查。PNG 是游戏帧缓冲，不是桌面截屏。
 
-FPS 是吞吐量，不是显示器实际呈现帧率。比较前核对游戏及六项资源的 SHA-256、协议/负载版本、实际 `gl_vendor/gl_renderer/gl_version`、策略与环境；手填独显/混合模式不能覆盖实际 GL 设备。原生工具未采集温度，NVX 是可缺失的设备级显存估计，不是跨厂商进程 VRAM，也不把未知值补成 0。失焦时长由帧间隔估算，不是逐事件精确计时。
+FPS 是吞吐量，不是显示器实际呈现帧率。比较前核对游戏及六项所选资源的 SHA-256、协议/负载版本、策略与环境。GL 查看 `gl_vendor/gl_renderer/gl_version`；现代查看 `metadata.renderer` 的实际后端/设备/驱动/API/采样/呈现配置及计时范围。现代 frame ID 保持精确整数，GPU 缺失保留空值/原因，上传归属分列；手填独显/混合模式不能覆盖实际设备。原生工具未采集温度，设备级与进程级显存不可混同，也不把未知值补成 0。失焦时长由帧间隔估算，不是逐事件精确计时。
 
 通过意味着本次文件协议和数据校验完成，不意味着受控前台、性能达标或玩法验收。旧冻结包、不同焦点策略、不同后端或不同设备结果不能替代本次候选的验证；不删慢帧、不把重试帧拼成连续基线。被其他窗口遮挡时的呈现行为依赖系统与驱动，allow-unfocused 不保证消除后台竞争或等同完全可见的前台负载。
 
