@@ -20,7 +20,7 @@ namespace SymoCraft {
         unsigned warmup_seconds = 60, sample_seconds = 180;
         bool vsync = false;
         std::string_view focus_policy = "strict";
-        std::string_view renderer = "opengl";
+        std::string_view renderer = "d3d12";
         std::uint32_t requested_samples = 4;
         bool enable_validation = true;
     };

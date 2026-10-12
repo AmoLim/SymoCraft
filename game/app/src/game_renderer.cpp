@@ -7,8 +7,10 @@
 #include <symocraft/assets/image.h>
 #include <symocraft/platform/window.h>
 #include <symocraft/renderer/error.h>
+#ifdef SYMOCRAFT_APP_OPENGL
 #include <symocraft/renderer/gpu_timer.h>
 #include <symocraft/renderer/legacy_renderer.h>
+#endif
 #include <symocraft/renderer/renderer.h>
 #include <symocraft/simulation/camera.h>
 #include <symocraft/telemetry/performance.h>
@@ -56,30 +58,36 @@ struct ModernMeshPort {
 }
 
 WindowMode SelectWindowMode(const StartupOptions& options) {
+#ifdef SYMOCRAFT_APP_OPENGL
     if (options.renderer == "opengl") return WindowMode::OpenGL;
+#endif
 #ifdef SYMOCRAFT_APP_D3D12
     if (options.renderer == "d3d12") return WindowMode::Native;
 #endif
     throw Rendering::RenderError(Rendering::RenderErrorCategory::Unsupported,
-        options.renderer == "vulkan" ? "Vulkan" : "D3D12", "SelectBackend",
+        options.renderer == "opengl" ? "OpenGL" : options.renderer == "vulkan" ? "Vulkan" : "D3D12", "SelectBackend",
         "requested renderer is not implemented or compiled into this game; no fallback");
 }
 
 bool CheckRendererAssets(const StartupOptions& options, std::ostream& errors) {
-    SelectWindowMode(options);
-    if (options.renderer == "opengl") return Assets::CheckRequiredAssets(errors);
+    if (!options.world_summary) SelectWindowMode(options);
+#ifdef SYMOCRAFT_APP_OPENGL
+    if (!options.world_summary && options.renderer == "opengl") return Assets::CheckRequiredAssets(errors);
+#endif
     constexpr std::array files{
         "configs/blockFormats.yaml", "textures/texture_atlas.png",
         "shaders/d3d12/blocks.vs.dxil", "shaders/d3d12/blocks.ps.dxil",
         "shaders/d3d12/selection.vs.dxil", "shaders/d3d12/selection.ps.dxil"};
     bool valid = true;
     for (const auto file : files) {
+        if (options.world_summary && std::string_view(file).starts_with("shaders/")) continue;
         try {
             const auto path = Assets::Resolve(file);
             std::error_code error;
             if (!std::filesystem::is_regular_file(path, error) ||
                 std::filesystem::file_size(path, error) == 0 || error) {
-                errors << "D3D12 missing, empty or inaccessible asset: " << path.string() << '\n';
+                errors << (options.world_summary ? "World summary" : "D3D12")
+                       << " missing, empty or inaccessible asset: " << path.string() << '\n';
                 valid = false;
             }
         } catch (const std::exception& error) {
@@ -100,15 +108,22 @@ struct GameRenderer::Impl {
     std::uint32_t requested_samples{};
     std::vector<Rendering::MeshDraw> draws;
     Rendering::Extent2D extent;
+#ifdef SYMOCRAFT_APP_OPENGL
     std::unique_ptr<GpuTimer> legacy_timer;
     bool legacy_started{};
+#endif
     bool stopped{};
 
     explicit Impl(Window& value) : window(value) {}
 };
 
 void AttachRendererContext(Window& window, const StartupOptions& options) {
+#ifdef SYMOCRAFT_APP_OPENGL
     if (options.renderer == "opengl") Renderer::AttachContext(window);
+#else
+    (void)window;
+    (void)options;
+#endif
 }
 
 GameRenderer::GameRenderer(Window& window, const StartupOptions& options, bool collect_samples)
@@ -132,7 +147,9 @@ GameRenderer::GameRenderer(Window& window, const StartupOptions& options, bool c
                   << "; identity=" << info.device_identity << "; driver=" << info.driver_version
                   << "; samples=" << info.actual_samples << "; present=" << PresentName(info.actual_present_mode)
                   << "; validation=" << info.validation_enabled << std::endl;
-    } else {
+    }
+#ifdef SYMOCRAFT_APP_OPENGL
+    else {
         try {
             state.legacy_started = true;
             Renderer::Init();
@@ -149,6 +166,7 @@ GameRenderer::GameRenderer(Window& window, const StartupOptions& options, bool c
             std::rethrow_exception(failure);
         }
     }
+#endif
 }
 GameRenderer::~GameRenderer() noexcept {
     try { Shutdown(); }
@@ -158,7 +176,9 @@ GameRenderer::~GameRenderer() noexcept {
 bool GameRenderer::Modern() const noexcept { return impl_->modern != nullptr; }
 std::uint16_t GameRenderer::LoadAtlas(const std::filesystem::path& path) {
     auto& state = *impl_;
+#ifdef SYMOCRAFT_APP_OPENGL
     if (!Modern()) return Renderer::LoadTextureAtlas(path);
+#endif
     if (!state.atlas.IsNull()) throw std::logic_error("game atlas is already loaded");
     const auto data = ToRendererAtlas(Assets::DecodeImage(path, false));
     const auto upload_start = Performance::Clock::now();
@@ -170,10 +190,12 @@ MeshUpload GameRenderer::AtlasUpload() const noexcept { return impl_->atlas_uplo
 MeshUpload GameRenderer::Synchronize(const World::VoxelWorld& world) {
     auto& state = *impl_;
     const auto start = Performance::Clock::now();
+#ifdef SYMOCRAFT_APP_OPENGL
     if (!Modern()) {
         world.VisitMeshes([](const World::WorldMeshRecord& record) { Renderer::AppendMesh(record.vertices); });
         return {};
     }
+#endif
     const auto upload = state.cache->Synchronize(world);
     state.draws.clear();
     state.cache->AppendDraws(state.atlas, state.draws);
@@ -198,6 +220,7 @@ void GameRenderer::Resize() {
     }
 }
 void GameRenderer::DescribeSession(Performance::Session& session) const {
+#ifdef SYMOCRAFT_APP_OPENGL
     if (!Modern()) {
         const auto& device = Renderer::Device();
         session.metadata["gl_vendor"] = device.vendor;
@@ -209,6 +232,7 @@ void GameRenderer::DescribeSession(Performance::Session& session) const {
         session.metadata["nvx_memory_supported"] = device.nvx_memory_supported;
         return;
     }
+#endif
     const auto info = impl_->modern->GetInfo();
     Performance::RendererInfo description;
     description.backend = "D3D12";
@@ -233,17 +257,23 @@ void GameRenderer::DescribeSession(Performance::Session& session) const {
     session.metadata["renderer_cpu_prepare_scope"] = "facade plus backend preparation, including frame-slot waits; excludes World cache upload and simulation";
 }
 void GameRenderer::SampleDeviceMemory(Performance::Memory& memory) const {
+#ifdef SYMOCRAFT_APP_OPENGL
     if (!Modern()) {
         const auto device = Renderer::SampleDeviceMemory();
         memory.device_dedicated_kib = device.dedicated_kib;
         memory.device_available_kib = device.available_kib;
     }
+#else
+    (void)memory;
+#endif
 }
 void GameRenderer::PollGpu(Performance::Session& session, std::optional<std::uint64_t> excluded_frame) {
+#ifdef SYMOCRAFT_APP_OPENGL
     if (!Modern()) {
         for (const auto& sample : impl_->legacy_timer->Poll()) session.SetGpu(sample.frame, sample.milliseconds);
         return;
     }
+#endif
     for (const auto& sample : impl_->modern->PollGpuSamples()) {
         if (excluded_frame == sample.frame_id) continue;
         if (sample.valid && sample.gpu_draw_time)
@@ -270,6 +300,7 @@ GameFrame GameRenderer::Render(std::uint64_t frame_id, const Camera& camera,
         output.present_ms = Milliseconds(output.result.statistics.present_wait);
         return output;
     }
+#ifdef SYMOCRAFT_APP_OPENGL
     const auto start = Performance::Clock::now();
     Renderer::SetViewport(state.window.width, state.window.height);
     Renderer::SetSelection(selection);
@@ -289,15 +320,20 @@ GameFrame GameRenderer::Render(std::uint64_t frame_id, const Camera& camera,
     output.result.statistics.drawn_vertices = stats.vertices;
     output.result.statistics.upload_bytes = stats.upload_bytes;
     return output;
+#else
+    throw std::logic_error("GameRenderer has no accepted modern backend");
+#endif
 }
 void GameRenderer::Capture(std::uint64_t frame_id, const Camera& camera,
     std::optional<glm::vec3> selection, const std::filesystem::path& path, Performance::Session& session) {
+#ifdef SYMOCRAFT_APP_OPENGL
     if (!Modern()) {
         Renderer::SetSelection(selection);
         Renderer::Render({camera.GetCameraProjMat(impl_->window.GetAspectRatio()), camera.GetCameraViewMat()});
         Renderer::CaptureFramebuffer(impl_->window.width, impl_->window.height, path);
         return;
     }
+#endif
     const auto frame = Render(frame_id, camera, selection, nullptr, true);
     if (!frame.result.screenshot) throw std::runtime_error("D3D12 diagnostic frame did not produce a screenshot");
     const auto& image = *frame.result.screenshot;
@@ -320,10 +356,13 @@ void GameRenderer::Shutdown() {
         state.draws.clear();
         state.cache.reset();
         state.modern.reset();
-    } else {
+    }
+#ifdef SYMOCRAFT_APP_OPENGL
+    else {
         cleanup.Run("legacy GPU timer", [&] { state.legacy_timer.reset(); });
         cleanup.RunOnce("Renderer::Free", state.legacy_started, [] { Renderer::Free(); });
     }
+#endif
     cleanup.RethrowFailure();
 }
 }

@@ -1,5 +1,12 @@
 cmake_minimum_required(VERSION 3.22)
 include("${CMAKE_CURRENT_LIST_DIR}/../../cmake/RequiredAssets.cmake")
+if(NOT DEFINED TEST_RENDERER)
+    set(TEST_RENDERER opengl)
+endif()
+if(TEST_RENDERER STREQUAL "d3d12")
+    list(APPEND SYMOCRAFT_REQUIRED_ASSETS shaders/d3d12/blocks.vs.dxil shaders/d3d12/blocks.ps.dxil
+        shaders/d3d12/selection.vs.dxil shaders/d3d12/selection.ps.dxil)
+endif()
 
 foreach(required IN ITEMS GAME_EXECUTABLE SOURCE_ASSETS PROBE_PARENT)
     if(NOT DEFINED ${required} OR "${${required}}" STREQUAL "")
@@ -26,7 +33,7 @@ endforeach()
 
 function(check_game argument expected_code expected_message)
     execute_process(
-        COMMAND "${package}/SymoCraft.exe" "${argument}"
+        COMMAND "${package}/SymoCraft.exe" "${argument}" --renderer "${TEST_RENDERER}"
         WORKING_DIRECTORY "${working_directory}"
         TIMEOUT 10
         RESULT_VARIABLE result
@@ -42,7 +49,7 @@ endfunction()
 
 check_game(--check-assets 0 "All required assets are present")
 file(REMOVE "${package}/assets/textures/texture_atlas.png")
-check_game(--check-assets 2 "textures/texture_atlas[.]png")
+check_game(--check-assets 2 "texture_atlas[.]png")
 check_game(--invalid-test-argument 64 "Usage:")
 
 # Delete only this run's freshly created, canonical direct child.

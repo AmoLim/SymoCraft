@@ -1,5 +1,6 @@
 symocraft_test_executable(asset_paths_tests asset_paths_tests.cpp symocraft_assets)
 symocraft_stage_assets(asset_paths_tests)
+target_compile_definitions(asset_paths_tests PRIVATE SYMOCRAFT_TEST_OPENGL_ASSETS=$<BOOL:${SYMOCRAFT_RENDER_OPENGL}>)
 add_test(NAME assets.contracts COMMAND asset_paths_tests)
 add_test(NAME assets.from_source_directory COMMAND asset_paths_tests)
 set_tests_properties(assets.from_source_directory PROPERTIES WORKING_DIRECTORY "${SYMOCRAFT_REPOSITORY_ROOT}")

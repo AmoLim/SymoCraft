@@ -85,8 +85,9 @@ def read_package_manifest(directory: Path) -> dict:
     require(description["package_kind"] == "production-game-candidate", "Input is not a production game candidate.")
     configuration = description["configuration"]
     require(configuration in {"Debug", "Release"}, "Candidate configuration is not Debug/Release.")
-    require(description["default_renderer"] == "opengl", "This R2 candidate must not switch the OpenGL default.")
-    require(sorted(description["available_renderers"]) == ["d3d12", "opengl"], "Unexpected transition renderer list.")
+    require(description["default_renderer"] in {"opengl", "d3d12"}, "Unsupported candidate game default.")
+    renderers = sorted(description["available_renderers"])
+    require(renderers in (["d3d12"], ["d3d12", "opengl"]), "Unexpected candidate renderer list.")
     require(description["required_debug_layer"] is True and description["validation_default"] is True
             and description["software_adapter_allowed"] is False, "Unexpected capability/validation policy.")
     expected_policy = "developer-local-nonredistributable" if configuration == "Debug" else "app-local-redistributable"
@@ -107,6 +108,9 @@ def read_package_manifest(directory: Path) -> dict:
     for key, entry in actual.items():
         require(entry == declared[key], f"Package hash/size/path mismatch: {entry['path']}")
     require({item.casefold() for item in REQUIRED_FILES} <= declared.keys(), "Required package file is undeclared.")
+    if renderers == ["d3d12"]:
+        require(not any(name.endswith(".glsl") or name == "licenses/glad-license.txt" for name in declared),
+                "Modern-only candidate contains legacy runtime payload.")
     return description
 
 
@@ -265,6 +269,9 @@ class Verification:
     def run(self) -> None:
         try:
             self.manifest["package_manifest"] = read_package_manifest(self.package)
+            require(not self.arguments.include_opengl_comparison
+                    or "opengl" in self.manifest["package_manifest"]["available_renderers"],
+                    "OpenGL comparison requires a transition candidate.")
             self.manifest["package_identity"] = package_identity(self.package)
             relocated = self.output / "package with spaces"
             self.copy_package(relocated)

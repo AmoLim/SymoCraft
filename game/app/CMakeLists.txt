@@ -15,17 +15,26 @@ endif()
 add_executable(SymoCraft src/main.cpp src/application.cpp src/game_renderer.cpp)
 target_link_libraries(SymoCraft PRIVATE symocraft_startup symocraft_foundation symocraft_scene
     symocraft_assets symocraft_ecs symocraft_world symocraft_simulation symocraft_platform
-    symocraft_renderer symocraft_renderer_legacy_opengl symocraft_app_render_data symocraft_telemetry)
+    symocraft_renderer symocraft_app_render_data symocraft_telemetry)
+if(TARGET symocraft_renderer_legacy_opengl)
+    target_link_libraries(SymoCraft PRIVATE symocraft_renderer_legacy_opengl)
+    target_compile_definitions(SymoCraft PRIVATE SYMOCRAFT_APP_OPENGL=1)
+endif()
 if(TARGET symocraft_renderer_d3d12)
     target_compile_definitions(SymoCraft PRIVATE SYMOCRAFT_APP_D3D12=1)
-    find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)
-    set(candidate_script "${SYMOCRAFT_REPOSITORY_ROOT}/scripts/package-d3d12-candidate.py")
-    set_property(TARGET SymoCraft APPEND PROPERTY LINK_DEPENDS "${candidate_script}")
-    add_custom_command(TARGET SymoCraft POST_BUILD
-        COMMAND "${Python3_EXECUTABLE}" "${candidate_script}"
-            --build-directory "${PROJECT_BINARY_DIR}" --record-build-identity
-        COMMENT "Recording the production candidate executable and build identities"
-        VERBATIM)
+    # Candidate provenance has stricter scope than ordinary preset builds.
+    cmake_path(IS_PREFIX SYMOCRAFT_REPOSITORY_ROOT "${PROJECT_BINARY_DIR}" NORMALIZE in_repository)
+    file(RELATIVE_PATH candidate_build_relative "${SYMOCRAFT_REPOSITORY_ROOT}" "${PROJECT_BINARY_DIR}")
+    if(in_repository AND candidate_build_relative MATCHES "^out/m3-t3/" AND NOT SYMOCRAFT_BUILD_BENCHMARK)
+        find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)
+        set(candidate_script "${SYMOCRAFT_REPOSITORY_ROOT}/scripts/package-d3d12-candidate.py")
+        set_property(TARGET SymoCraft APPEND PROPERTY LINK_DEPENDS "${candidate_script}")
+        add_custom_command(TARGET SymoCraft POST_BUILD
+            COMMAND "${Python3_EXECUTABLE}" "${candidate_script}"
+                --build-directory "${PROJECT_BINARY_DIR}" --record-build-identity
+            COMMENT "Recording the production candidate executable and build identities"
+            VERBATIM)
+    endif()
 
     # Debug candidates are local developer diagnostics, never redistributable packages.
     get_filename_component(compiler_directory "${CMAKE_CXX_COMPILER}" DIRECTORY)
@@ -64,14 +73,20 @@ symocraft_stage_assets(SymoCraft)
 install(TARGETS SymoCraft RUNTIME DESTINATION .)
 install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/sdl3/LICENSE.txt" DESTINATION licenses RENAME SDL3-LICENSE.txt)
 install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/stb/LICENSE" DESTINATION licenses RENAME stb-LICENSE.txt)
-foreach(library IN ITEMS GLM yaml-cpp glad Apache-2.0)
+set(game_licenses GLM yaml-cpp Apache-2.0)
+if(SYMOCRAFT_RENDER_OPENGL)
+    list(APPEND game_licenses glad)
+endif()
+foreach(library IN LISTS game_licenses)
     install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/cmake/licenses/${library}-LICENSE.txt" DESTINATION licenses)
 endforeach()
 install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/cmake/licenses/SOURCES.txt" DESTINATION licenses)
 install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/fast_noise_lite/FastNoiseLite.h"
     DESTINATION licenses RENAME FastNoiseLite-license-source.h)
-install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/KHR/khrplatform.h"
-    DESTINATION licenses RENAME Khronos-license-source.h)
+if(SYMOCRAFT_RENDER_OPENGL)
+    install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/KHR/khrplatform.h"
+        DESTINATION licenses RENAME Khronos-license-source.h)
+endif()
 install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/robin_hood.h"
     DESTINATION licenses RENAME RobinHood-license-source.h)
 install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/sdl3/src/hidapi/LICENSE.txt"

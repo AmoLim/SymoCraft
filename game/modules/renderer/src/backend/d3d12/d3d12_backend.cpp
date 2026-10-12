@@ -1,4 +1,5 @@
 #include "d3d12_backend.h"
+#include "diagnostic_access.h"
 
 #include "pipeline.h"
 #include "native_bridge.h"
@@ -215,8 +216,17 @@ CameraMatrices CameraMatrix(const CameraParameters& camera, Extent2D extent) {
 
 class D3D12Backend final : public RenderBackend {
 public:
-    D3D12Backend(Window& window, const RendererConfig& config) : config_(config) {
-        try { Initialize(window); }
+    D3D12Backend(Window& window, const RendererConfig& config,
+                 std::shared_ptr<D3D12DiagnosticAccess> diagnostic = {})
+        : config_(config), diagnostic_(std::move(diagnostic)) {
+        try {
+            Initialize(window);
+            if (diagnostic_) {
+                diagnostic_->device = device_;
+                diagnostic_->queue = queue_;
+                diagnostic_->completion = fence_;
+            }
+        }
         catch (...) { ShutdownNoexcept(); throw; }
     }
     ~D3D12Backend() noexcept override { ShutdownNoexcept(); }
@@ -294,6 +304,7 @@ private:
     void QuarantineNative() noexcept;
 
     RendererConfig config_;
+    std::shared_ptr<D3D12DiagnosticAccess> diagnostic_;
     RendererInfo info_;
     HWND window_ = nullptr;
     bool failed_ = false;
@@ -676,8 +687,11 @@ UINT64 D3D12Backend::Signal(const char* operation) {
         throw RenderError(RenderErrorCategory::SubmissionFailure, "D3D12", operation, "fence identity exhausted");
     }
     const auto value = next_fence_++;
+    if (diagnostic_ && std::string_view(operation) == "Signal(frame draws)")
+        Check(std::exchange(diagnostic_->next_frame_signal_result, S_OK), operation);
     Check(queue_->Signal(fence_.Get(), value), operation);
     last_submitted_ = value;
+    if (diagnostic_) diagnostic_->last_signal = value;
     unfenced_work_ = false;
     return value;
 }
@@ -685,6 +699,8 @@ UINT64 D3D12Backend::Signal(const char* operation) {
 ComPtr<ID3D12Resource> D3D12Backend::UploadBuffer(const void* bytes, UINT64 size, const char* operation) {
     ComPtr<ID3D12Resource> result;
     if (!size) return result;
+    if (diagnostic_ && std::string_view(operation) == "CreateResource(mesh upload)")
+        Check(std::exchange(diagnostic_->next_mesh_allocation_result, S_OK), operation);
     const auto heap = Heap(D3D12_HEAP_TYPE_UPLOAD);
     const auto desc = Buffer(size);
     Check(device_->CreateCommittedResource(&heap, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_GENERIC_READ,
@@ -1191,6 +1207,7 @@ void D3D12Backend::QuarantineNative() noexcept {
     // It is not successful cleanup, and no subsequent native work is permitted.
     static_cast<void>(quarantine_.release());
     quarantined_ = true;
+    if (diagnostic_) diagnostic_->quarantined = true;
     stopped_ = true;
     constexpr const char* diagnostic =
         "Symocraft D3D12 terminal cleanup: live GPU work lacks completion proof; "
@@ -1240,6 +1257,14 @@ void D3D12Backend::ShutdownNoexcept() noexcept {
 
 std::unique_ptr<RenderBackend> CreateD3D12Backend(Window& window, const RendererConfig& config) {
     return std::make_unique<D3D12Backend>(window, config);
+}
+
+std::unique_ptr<RenderBackend> CreateD3D12DiagnosticBackend(Window& window, const RendererConfig& config,
+    std::shared_ptr<D3D12DiagnosticAccess> diagnostics) {
+    if (!diagnostics || diagnostics->device || diagnostics->queue || diagnostics->completion)
+        throw RenderError(RenderErrorCategory::InvalidInput, "D3D12", "DiagnosticFactory",
+                          "diagnostic control must be new and exclusively owned by this probe");
+    return std::make_unique<D3D12Backend>(window, config, std::move(diagnostics));
 }
 
 } // namespace SymoCraft::Rendering::Detail

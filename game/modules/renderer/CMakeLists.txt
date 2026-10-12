@@ -25,7 +25,7 @@ if(SYMOCRAFT_RENDER_D3D12)
 endif()
 
 # Keep the isolated OpenGL comparison path while modern gameplay is being verified.
-if(SYMOCRAFT_BUILD_GAME)
+if(SYMOCRAFT_BUILD_GAME AND SYMOCRAFT_RENDER_OPENGL)
     add_library(symocraft_renderer_legacy_opengl STATIC
         src/legacy_renderer.cpp src/shader.cpp src/shader_program.cpp src/texture.cpp
         src/gpu_timer.cpp src/performance_memory.cpp)
