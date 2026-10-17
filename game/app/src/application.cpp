@@ -6,6 +6,7 @@
 #include "cleanup_sequence.h"
 #include "game_renderer.h"
 #include "startup_options.h"
+#include "foreground_readiness.h"
 #include <symocraft/assets/asset_paths.h>
 #include <symocraft/assets/image.h>
 #include <symocraft/telemetry/performance.h>
@@ -193,6 +194,9 @@ namespace SymoCraft
 
         void Run(const StartupOptions& options, Performance::Session* performance)
         {
+            if (options.foreground_ready_timeout_seconds && (!performance || options.focus_policy != "strict" ||
+                                                            options.foreground_ready_timeout_seconds > 120))
+                throw std::invalid_argument("Foreground readiness requires a strict benchmark and a bounded timeout");
             if (!runtime_window || !runtime_registry || !camera || !runtime_renderer || !pending_block_definition)
                 throw std::logic_error("Application Run requires a fresh successful Init");
             const auto frame_limit = options.frame_limit;
@@ -256,6 +260,40 @@ namespace SymoCraft
             std::cout << "[runtime] ready; chunks=" << world.ChunkCount()
                       << "; loading_ms=" << (previous_frame_time - loading_start) * 1000.0
                       << "; spawn=" << start_pos.x << ',' << start_pos.y << ',' << start_pos.z << std::endl;
+            if (options.foreground_ready_timeout_seconds) {
+                const auto preparation_start = Performance::Clock::now();
+                Detail::ForegroundReadiness readiness(preparation_start,
+                    std::chrono::seconds(options.foreground_ready_timeout_seconds));
+                performance->metadata["foreground_ready_timeout_seconds"] = options.foreground_ready_timeout_seconds;
+                performance->metadata["foreground_ready_stable_seconds"] = 1;
+                performance->Status("awaiting-foreground");
+                std::cout << "[benchmark] awaiting-foreground; timeout_seconds="
+                          << options.foreground_ready_timeout_seconds << "; stable_seconds=1" << std::endl;
+                for (;;) {
+                    window.PollInt();
+                    const bool focus_lost = window.Input().focus_lost;
+                    window.CaptureInput();
+                    if (window.ShouldClose() || window.Input().Down(Key::Escape)) {
+                        performance->Invalidate("foreground-readiness-cancelled");
+                        throw std::runtime_error("Foreground readiness cancelled before warmup");
+                    }
+                    const auto state = readiness.Observe(Performance::Clock::now(), !focus_lost && window.Focused() &&
+                        !window.Minimized() && window.width == static_cast<int>(options.width) &&
+                        window.height == static_cast<int>(options.height));
+                    if (state == Detail::ForegroundReadiness::State::Ready) break;
+                    if (state == Detail::ForegroundReadiness::State::TimedOut) {
+                        performance->Invalidate("foreground-readiness-timeout");
+                        throw std::runtime_error("Foreground readiness timed out before warmup");
+                    }
+                    window.WaitEvents(.02);
+                }
+                performance->startup["foreground_preparation"] = Performance::Milliseconds(preparation_start);
+                window.ResetInput();
+                Physics::ResetTiming();
+                previous_frame_time = Window::Time();
+                std::cout << "[benchmark] foreground-ready; preparation_ms="
+                          << Performance::Milliseconds(preparation_start) << std::endl;
+            }
             if (performance) performance->Status("warmup");
             const auto benchmark_start = Performance::Clock::now();
             bool sampling_announced = false;

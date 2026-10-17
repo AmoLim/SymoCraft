@@ -13,7 +13,11 @@ tags:
 
 公开工具边界是 [runner.h](../../tools/benchmark/include/benchmark/runner.h) 中的配置、进度、结果、`Run`、`ValidateCapture` 与 `Export`。`Run` 和 `Export` 同步执行；观察回调在调用线程执行，调用方负责其寿命与异常边界。GUI 传配置副本和 stop token，不能在运行中修改本轮参数。
 
-原生执行器通过 GUI 或 CLI `--renderer opengl|d3d12` 明确传递后端，默认仍 GL，不支持 Vulkan 或静默回退。摘要 schema / protocol / workload 均为 `2`，会话 `runner_schema: 1`；旧 GL 保持既有 25 列与 `gl_renderer/gl_version` 身份，现代数据只接受 32 列及 `renderer_telemetry_version: 1`。未知版本、请求与实际后端不符或现代数据混入 gl 字段均明确拒绝。
+主目录既有原生执行器明确选择GL/D3D12；refactor-renderer工作目录候选新增GUI/CLI `--renderer opengl|d3d12|vulkan`，仍默认GL，无静默回退。以下新增机制指[E盘候选runner](E:/Codex/Worktrees/refactor-renderer/Symocraft/tools/benchmark/src/runner.cpp)，文档同步不表示主目录源码已合并或R4已批准。摘要 schema / protocol / workload 均为 `2`，会话 `runner_schema: 1`；旧 GL 保持既有 25 列与 `gl_renderer/gl_version` 身份，现代数据只接受 32 列及 `renderer_telemetry_version: 1`。未知版本、请求与实际后端不符或现代数据混入 gl 字段均明确拒绝。
+
+候选的现代验证默认仍开启；GUI复选框/CLI `--validation 0|1`允许显式选择，实际renderer记录须与请求一致，缺验证层不自动关闭。GL拒绝该覆盖项；省略时保留旧设置形状。普通Vulkan运行不需DXC/SDK；显式开启验证仍需合法验证层，不能将关闭验证的部署检查称为A16诊断通过。
+
+候选构建在四份SPIR-V旁生成`build.json`，保存Debug/Release、Vulkan目标/Shader Model、实际编译参数、DXC可执行文件及dxcompiler模块哈希、三份同源HLSL/include和四份二进制哈希，不嵌本机路径。编译规则将编译器/模块列为shader依赖，身份产物依赖实际二进制，安装一并部署。GameRenderer只在Vulkan采样Session记录生成身份，运行不加载编译器；工具在包身份中收录清单、校验每个SPIR-V哈希，并在新轮次及resume核对报告身份与安装包相符。独立ValidateCapture仅验证协议/身份格式，不能在无包路径时证明来源；CPU夹具的伪编译器身份不冒称实际生成。
 
 现代消费者逐行校验精确 uint64 frame ID 的递增（不转 double）、CPU prepare/submit 归属、GPU 值/缺失原因互斥及分离上传计数，并复核正式帧摘要。GPU 缺失保持空值与原因，不补零；result 保留实际后端/设备/驱动/API/配置、范围和 CPU/GPU/上传摘要。现代 GPU 数据的身份与计时边界须与 [Renderer 契约](renderer.md) 一并理解；历史 GL 冻结包不能重标为现代后端结果。
 
@@ -34,7 +38,7 @@ tags:
 
 快速计划为三场景各 10 秒预热、10 秒采样；正式计划为三场景各三轮，每轮 60 秒预热、180 秒采样，共 2160 秒协议时间。启动、校验、截图与落盘另计，不自动缩短计划。两种计划不能互称正式基线。
 
-新会话和新 attempt 都拒绝覆盖已有目录。`session.lock` 不继承给子进程，排他句柄限制会话的并发执行/导出，进程退出后锁释放。执行器保存游戏与指定六项资源的 SHA256：GL 是公共 YAML/PNG 加四项 GLSL，D3D12 是公共 YAML/PNG 加四项 DXIL。轮次前后复核身份，同组复核实际 GL 设备/版本或现代 renderer 身份；重试也重新校验已通过轮次。这个资源白名单不等于整个资源树都被纳入身份；旧 GL 会话设置形状不因新增默认选择而改变，现代会话显式记录 renderer。
+新会话和新 attempt 都拒绝覆盖已有目录。`session.lock` 不继承给子进程，排他句柄限制会话的并发执行/导出，进程退出后锁释放。执行器保存游戏与所选资源的SHA256：GL是公共YAML/PNG加四项GLSL，D3D12是公共YAML/PNG加四项DXIL；候选Vulkan是公共YAML/PNG加四项SPIR-V及生成清单，共七项资源。轮次前后复核身份，同组复核实际GL设备/版本或现代renderer身份；重试也重新校验已通过轮次。这个资源白名单不等于整个资源树都被纳入身份；旧GL会话设置形状不因新增默认选择而改变，现代会话显式记录renderer。
 
 每轮总时限为预热加采样加 120 秒。失败、取消或超时停止后续轮次，保留已有 attempt。重试只接受同配置和同包，先重新校验已通过轮次，从首个未通过轮次新建 attempt 并完整预热，不拼接中断帧。`continuous_full_protocol` 仅表示无重试的正式九轮完成，不表示环境安静、Release 构建、性能达标或用户批准。
 
@@ -55,6 +59,12 @@ Session 由游戏 main 的 unique_ptr 独占，Application 借用；所有访问
 现代采样以稳定 frame ID 映射 CPU 行，不用返回顺序猜测 GPU 身份。重复 ID、未知 ID、重复现代 GPU 结果及“时间与缺失原因同时存在”等输入显式拒绝；未返回 GPU 时间保留缺失原因，不补 0。帧与映射插入失败会撤回该次容器追加，但已发生的失焦无效原因仍保留。启动上传单独归属，正式帧区分成功缓存资源上传与 Render-local 上传，避免重复计数。
 
 ## 焦点与导出边界
+
+候选游戏可选--foreground-ready-timeout-seconds 1..120仅用于strict benchmark，默认0且allow-unfocused不接受。初始世界/mesh后，以Poll/Capture/有界Wait处理窗口事实，连续1秒获焦/非最小化/实际尺寸匹配后清输入与物理余数、重设帧时钟，再从零完整预热；超时/Esc/关闭具名失败并保留清理/导出。准备期间不模拟/Render，耗时单列startup，不是删除已测失焦帧或启动预算；计时后失焦仍单调无效、不暂停/重置/择帧。Python前台入口显式设置60秒准备，桌面激活仍由用户授权Computer Use完成，短验证与完整对照分别见[T3记录](../openspec/changes/m3-t3-renderer/verification.md#2026-10-17-前台有界准备与短启动验证)。下文“不暂停时钟”均指预热时钟已开始后，默认及旧allow-unfocused路径不变。
+
+前台Python入口仅隐藏控制台（CREATE_NO_WINDOW），不传STARTF_USESHOWWINDOW/SW_HIDE去覆盖GUI首次显示；这不保证Windows允许激活或桌面已解锁，实际逐帧焦点仍是有效性依据。只读WTS的UNLOCK状态也不证明游戏已经前台，必须分开核验；准确状态见[T3获焦记录](../openspec/changes/m3-t3-renderer/verification.md#2026-10-17-已解锁但前台激活失败)，失败不自动重试。
+
+独立Python对照入口verify-renderer-comparison.py仅在refactor-renderer工作目录，复用既有预算分析与原生消费者；--focus-mode foreground选用游戏strict启动激活并只读核验自有PID窗口前台、可见、非最小化及尺寸，桌面点击另由用户授权的Computer Use执行，脚本不持续抢焦或改变系统设置。游戏预热/采样时钟不因外部等待暂停；strict逐帧失焦无效原因单调保留，即使后来获焦也不能删除预热坏帧。新入口前台轮要求全部原始帧focused=1，失败停止后续、不自动重试；默认allow-unfocused和既有原生执行器不变。独立GL→D3D12→Vulkan对照按同场景/轮次分别配对，不混池或以旧失焦GL充当前台基线；本批30＋90/三轮的授权、锁屏未完成及后续状态见[T3验证](../openspec/changes/m3-t3-renderer/verification.md#2026-10-17-前台三后端采样准备与锁屏中止)，不是GUI产品默认或性能通过。
 
 游戏默认 `strict`，原生执行器显式默认 `allow-unfocused`；普通非 benchmark 参数不接受焦点策略。两策略都保留原帧，strict 失焦记录无效原因，allow 不把仅失焦判为失败。最小化、零尺寸和帧缓冲改变仍令采样无效，不暂停后续拼接；普通游戏失焦暂停和输入恢复语义不因此改变。采样恢复焦点不重置物理时序，负载按真实经过时间推进，不承诺玩家轨迹位级确定。
 

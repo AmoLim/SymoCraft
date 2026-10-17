@@ -23,11 +23,23 @@ namespace Benchmark {
                 if (config.renderer != "opengl" && std::string_view(asset).ends_with(".glsl")) continue;
                 node["asset_sha256"][asset] = Sha256(config.game.parent_path() / "assets" / asset);
             }
-            if (config.renderer == "d3d12")
-                for (const auto shader : {"blocks.vs.dxil", "blocks.ps.dxil", "selection.vs.dxil", "selection.ps.dxil"}) {
-                    const auto asset = std::string("shaders/d3d12/") + shader;
+            if (config.renderer != "opengl")
+                for (const auto shader : {"blocks.vs", "blocks.ps", "selection.vs", "selection.ps"}) {
+                    const auto asset = std::string("shaders/") + config.renderer + "/" + shader + (config.renderer == "vulkan" ? ".spv" : ".dxil");
                     node["asset_sha256"][asset] = Sha256(config.game.parent_path() / "assets" / asset);
                 }
+            if (config.renderer != "opengl") {
+                const auto folder = std::string("shaders/") + config.renderer + "/";
+                const auto path = config.game.parent_path()/"assets"/folder/"build.json";
+                node["asset_sha256"][folder+"build.json"] = Sha256(path);
+                const auto generation = ReadYaml(path);
+                for (const auto shader : {"blocks.vs", "blocks.ps", "selection.vs", "selection.ps"}) {
+                    const auto name = std::string(shader) + (config.renderer == "vulkan" ? ".spv" : ".dxil");
+                    Require(generation["binary_sha256"][name].as<std::string>() ==
+                        node["asset_sha256"][folder+name].as<std::string>(), "Shader generation manifest does not match installed shader");
+                }
+                node["shader_generation"] = generation;
+            }
             return node;
         }
         YAML::Node Settings(const Config& config)
@@ -41,7 +53,15 @@ namespace Benchmark {
             node["seed"] = 424242; node["vsync"] = false;
             // Preserve the exact old OpenGL settings for legacy session retries.
             if (config.renderer != "opengl") node["renderer"] = config.renderer;
+            if (config.validation) node["validation"] = *config.validation;
             return node;
+        }
+        void ValidatePackageMetadata(const YAML::Node& summary, const Config& config, const YAML::Node& identity)
+        {
+            if (config.renderer != "opengl")
+                Require(summary["metadata"]["renderer"]["validation_enabled"].as<bool>() == config.validation.value_or(true), "Actual validation differs from the explicit/default request");
+            if (config.renderer != "opengl")
+                Require(YAML::Dump(summary["metadata"]["shader_generation"]) == YAML::Dump(identity["shader_generation"]), "Capture generation identity differs from the installed package");
         }
         std::vector<std::string_view> Columns(const std::string& line)
         {
@@ -199,12 +219,13 @@ namespace Benchmark {
         Require(meta["framebuffer_width"].as<int>() == 1920 && meta["framebuffer_height"].as<int>() == 1080 && !meta["requested_vsync"].as<bool>(), "Capture rendering configuration mismatch");
         Require(meta["world"]["generation"]["seed"].as<unsigned>() == 424242 && meta["world"]["chunks"].as<int>() == 441, "Capture world configuration mismatch");
         Require(meta["world"]["terrain_digest"].as<std::string>() == "fnv1a64:cd80ebb0446c15c6" && meta["world"]["scene_digest"].as<std::string>() == "fnv1a64:bddd435ea737fa62", "Capture world digest mismatch");
-        Require(renderer == "opengl" || renderer == "d3d12", "Unsupported requested benchmark renderer");
-        const bool modern = renderer == "d3d12";
+        Require(renderer == "opengl" || renderer == "d3d12" || renderer == "vulkan", "Unsupported requested benchmark renderer");
+        const bool modern = renderer != "opengl";
         if (modern) {
             Require(meta["renderer_telemetry_version"].as<unsigned>() == 1, "Unsupported renderer telemetry version");
             const auto actual = meta["renderer"];
-            Require(meta["renderer_backend"].as<std::string>() == "D3D12" && actual["backend"].as<std::string>() == "D3D12", "Requested and actual renderer differ");
+            const auto backend = renderer == "vulkan" ? "Vulkan" : "D3D12";
+            Require(meta["renderer_backend"].as<std::string>() == backend && actual["backend"].as<std::string>() == backend, "Requested and actual renderer differ");
             Require(!meta["gl_renderer"] && !meta["gl_vendor"] && !meta["gl_version"], "Modern identity is mislabeled as OpenGL");
             for (const auto key : {"device_name", "device_identity", "driver_version", "api_version", "framebuffer_format"})
                 Require(!actual[key].as<std::string>().empty(), "Missing actual renderer identity");
@@ -212,6 +233,30 @@ namespace Benchmark {
                     && actual["actual_samples"].as<unsigned>() == 4 && actual["actual_present_mode"].as<std::string>() == "Immediate", "Actual renderer configuration mismatch");
             for (const auto key : {"gpu_time_scope", "cpu_prepare_scope", "cpu_submit_scope", "upload_bytes_scope", "memory_scope"})
                 Require(!meta[key].as<std::string>().empty(), "Missing renderer measurement scope");
+            // Historical D3D12 telemetry-v1 captures lack generation metadata.
+            // A new run still requires it through Identity/ValidatePackageMetadata.
+            if (renderer == "vulkan" || meta["shader_generation"]) {
+                const auto generation = meta["shader_generation"];
+                Require(generation["schema"].as<unsigned>() == 1 && generation["backend"].as<std::string>() == backend
+                    && generation["format"].as<std::string>() == (renderer == "vulkan" ? "SPIR-V" : "DXIL")
+                    && generation["target"].as<std::string>() == (renderer == "vulkan" ? "vulkan1.2" : "d3d12")
+                    && generation["shader_model"].as<std::string>() == "6_0", "Unsupported shader generation identity");
+                for (const auto key : {"compiler_sha256", "compiler_module_sha256"}) {
+                    const auto hash = generation[key].as<std::string>();
+                    Require(hash.size() == 64 && hash.find_first_not_of("0123456789abcdef") == std::string::npos, "Malformed shader compiler identity");
+                }
+                Require(generation["build_configuration"].as<std::string>() == meta["build_configuration"].as<std::string>() &&
+                    (generation["flags"].as<std::string>().find("-spirv") != std::string::npos) == (renderer == "vulkan"), "Shader generation configuration mismatch");
+                for (const auto name : {"blocks.hlsl", "selection.hlsl", "draw_constants.hlsli"}) {
+                    const auto hash = generation["source_sha256"][name].as<std::string>();
+                    Require(hash.size() == 64 && hash.find_first_not_of("0123456789abcdef") == std::string::npos, "Missing HLSL source identity");
+                }
+                for (const auto shader : {"blocks.vs", "blocks.ps", "selection.vs", "selection.ps"}) {
+                    const auto name = std::string(shader) + (renderer == "vulkan" ? ".spv" : ".dxil");
+                    const auto hash = generation["binary_sha256"][name].as<std::string>();
+                    Require(hash.size() == 64 && hash.find_first_not_of("0123456789abcdef") == std::string::npos, "Missing generated shader identity");
+                }
+            }
         } else {
             Require(!meta["renderer_backend"] && !meta["renderer_telemetry_version"], "Unexpected modern telemetry in OpenGL capture");
             Require(!meta["gl_renderer"].as<std::string>().empty() && !meta["gl_version"].as<std::string>().empty(), "Missing graphics device identification");
@@ -228,7 +273,8 @@ namespace Benchmark {
     {
         Require(config.game.is_absolute() && config.output.is_absolute(), "Runner paths must be absolute");
         Require(config.focus_policy == "strict" || config.focus_policy == "allow-unfocused", "Unknown focus policy");
-        Require(config.renderer == "opengl" || config.renderer == "d3d12", "Unsupported benchmark renderer; no fallback");
+        Require(config.renderer == "opengl" || config.renderer == "d3d12" || config.renderer == "vulkan", "Unsupported benchmark renderer; no fallback");
+        Require(!config.validation || config.renderer != "opengl", "Validation override requires a modern renderer");
         const auto identity = Identity(config); const auto settings = Settings(config);
         const auto plan = Plan(config.quick);
         YAML::Node session;
@@ -268,6 +314,7 @@ namespace Benchmark {
                 const auto result = ReadYaml(previous / "result.yaml");
                 Require(result["passed"].as<bool>(), "Previously passed result changed");
                 const auto summary = ValidateCapture(previous / "capture", round, config.focus_policy, result["exit_code"].as<unsigned long>(), config.renderer);
+                ValidatePackageMetadata(summary, config, identity);
                 const auto device = config.renderer == "opengl"
                     ? summary["metadata"]["gl_renderer"].as<std::string>() + " | " + summary["metadata"]["gl_version"].as<std::string>()
                     : YAML::Dump(summary["metadata"]["renderer"]);
@@ -289,10 +336,12 @@ namespace Benchmark {
             bool passed = false, cancelled = false;
             try {
                 Require(YAML::Dump(Identity(config)) == YAML::Dump(identity), "Package changed during the session");
-                Process process(config.game, {L"--benchmark", Wide(round.scene), L"--output", (directory / "capture").wstring(), L"--seed", L"424242",
+                std::vector<std::wstring> arguments{L"--benchmark", Wide(round.scene), L"--output", (directory / "capture").wstring(), L"--seed", L"424242",
                     L"--width", L"1920", L"--height", L"1080", L"--vsync", L"0", L"--warmup-seconds", std::to_wstring(round.warmup),
                     L"--sample-seconds", std::to_wstring(round.sample), L"--focus-policy", Wide(config.focus_policy),
-                    L"--renderer", Wide(config.renderer)},
+                    L"--renderer", Wide(config.renderer)};
+                if (config.validation) { arguments.push_back(L"--validation"); arguments.push_back(*config.validation ? L"1" : L"0"); }
+                Process process(config.game, arguments,
                     config.game.parent_path(), directory / "stdout.log", directory / "stderr.log");
                 const auto start = Clock::now(); auto phase_start = start;
                 std::string phase; double phase_elapsed = 0;
@@ -319,6 +368,7 @@ namespace Benchmark {
                 result["timed_out"] = timeout; result["forced_termination"] = forced;
                 Require(!cancelled && !timeout, cancelled ? "Cancelled; partial evidence retained" : "Game timed out; partial evidence retained");
                 const auto summary = ValidateCapture(directory / "capture", round, config.focus_policy, process.ExitCode(), config.renderer);
+                ValidatePackageMetadata(summary, config, identity);
                 Require(YAML::Dump(Identity(config)) == YAML::Dump(identity), "Package changed during capture");
                 const auto device = config.renderer == "opengl"
                     ? summary["metadata"]["gl_renderer"].as<std::string>() + " | " + summary["metadata"]["gl_version"].as<std::string>()

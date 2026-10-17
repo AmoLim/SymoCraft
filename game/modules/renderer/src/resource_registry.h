@@ -2,6 +2,7 @@
 
 #include "backend/render_backend.h"
 #include "symocraft/renderer/error.h"
+#include <optional>
 
 namespace SymoCraft::Rendering::Detail {
 
@@ -22,6 +23,7 @@ public:
         MeshHandle handle;
         BackendResourceId id;
         std::shared_ptr<const MeshData> data;
+        std::optional<std::uint32_t> maximum_layer;
     };
     struct TextureReservation {
         TextureArrayHandle handle;
@@ -33,10 +35,12 @@ public:
     TextureReservation PrepareTexture(const TextureArrayData& data);
     void Commit(const MeshReservation& reservation) noexcept;
     void Commit(const TextureReservation& reservation) noexcept;
-    void ReplaceMesh(MeshHandle handle, std::shared_ptr<const MeshData> data) noexcept;
+    void ReplaceMesh(MeshHandle handle, std::shared_ptr<const MeshData> data,
+                     std::optional<std::uint32_t> maximum_layer) noexcept;
     BackendResourceId Id(MeshHandle handle) const;
     BackendResourceId Id(TextureArrayHandle handle) const;
     std::shared_ptr<const MeshData> Mesh(MeshHandle handle) const;
+    std::optional<std::uint32_t> MeshMaximumLayer(MeshHandle handle) const;
     std::shared_ptr<const TextureArrayData> Texture(TextureArrayHandle handle) const;
     void DestroyMesh(MeshHandle handle) noexcept;
     void DestroyTexture(TextureArrayHandle handle) noexcept;
@@ -47,6 +51,8 @@ private:
     struct Slot {
         std::uint64_t generation = 1;
         std::shared_ptr<const Data> data;
+        // Only mesh slots populate this accepted-content summary.
+        std::optional<std::uint32_t> maximum_layer;
     };
 
     template <class Tag, class Data>

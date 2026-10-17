@@ -24,7 +24,8 @@ int wmain(int argc, wchar_t** argv)
     const auto scene = Utf8(args.at(L"--benchmark"));
     const unsigned warmup = std::stoul(args.at(L"--warmup-seconds")), sample = std::stoul(args.at(L"--sample-seconds"));
     const bool focused = args.at(L"--focus-policy") == L"strict";
-    const bool modern = args.contains(L"--renderer") && args.at(L"--renderer") == L"d3d12";
+    const bool vulkan = args.contains(L"--renderer") && args.at(L"--renderer") == L"vulkan";
+    const bool modern = vulkan || (args.contains(L"--renderer") && args.at(L"--renderer") == L"d3d12");
     YAML::Node status; status["protocol_version"] = 2; status["phase"] = "warmup"; status["elapsed_seconds"] = 0;
     if (mode != L"missing-status") WriteYaml(output / "status.yaml", status);
     std::ofstream frames(output / "frames.csv");
@@ -60,18 +61,24 @@ int wmain(int argc, wchar_t** argv)
     meta["world"]["terrain_digest"] = "fnv1a64:cd80ebb0446c15c6"; meta["world"]["scene_digest"] = "fnv1a64:bddd435ea737fa62";
     if (modern) {
         meta["renderer_telemetry_version"] = mode == L"modern-old-version" ? 99 : 1;
-        meta["renderer_backend"] = "D3D12";
+        meta["renderer_backend"] = vulkan ? "Vulkan" : "D3D12";
         auto renderer = meta["renderer"];
-        renderer["backend"] = mode == L"modern-wrong-backend" ? "Vulkan" : "D3D12";
-        renderer["device_name"] = "D3D12 CPU fixture (not a GPU result)";
+        renderer["backend"] = mode == L"modern-wrong-backend" ? (vulkan ? "D3D12" : "Vulkan") : (vulkan ? "Vulkan" : "D3D12");
+        renderer["device_name"] = vulkan ? "Vulkan CPU fixture (not a GPU result)" : "D3D12 CPU fixture (not a GPU result)";
         renderer["device_identity"] = "fixture-only-identity"; renderer["driver_version"] = "fixture";
         renderer["api_version"] = "fixture FL12_0 SM6_0"; renderer["framebuffer_format"] = "fixture UNORM";
         renderer["framebuffer_width"] = 1920; renderer["framebuffer_height"] = 1080;
         renderer["actual_samples"] = 4; renderer["actual_present_mode"] = mode == L"modern-vsync" ? "Fifo" : "Immediate";
-        renderer["validation_enabled"] = true;
+        renderer["validation_enabled"] = !args.contains(L"--validation") || args.at(L"--validation") == L"1";
         for (const auto key : {"gpu_time_scope", "cpu_prepare_scope", "cpu_submit_scope", "upload_bytes_scope", "memory_scope"})
             meta[key] = "CPU fixture scope only";
         if (mode == L"modern-gl-identity") meta["gl_renderer"] = "mislabeled native identity";
+        {
+            meta["shader_generation"] = ReadYaml(ExecutablePath().parent_path()/"assets/shaders"/(vulkan ? "vulkan" : "d3d12")/"build.json");
+            if (mode == L"modern-bad-generation") meta["shader_generation"]["target"] = "wrong-target";
+            if (mode == L"modern-shader-identity") meta["shader_generation"]["binary_sha256"][vulkan ? "blocks.vs.spv" : "blocks.vs.dxil"] = std::string(64,'b');
+            if (mode == L"modern-missing-generation") meta.remove("shader_generation");
+        }
         summary["sample_resource_upload_bytes"] = 0; summary["sample_render_upload_bytes"] = 0;
         summary["sample_upload_bytes"] = 0; summary["sample_upload_calls"] = 0;
         summary["gpu_draw_ms"]["count"] = duration - warmup - missing;

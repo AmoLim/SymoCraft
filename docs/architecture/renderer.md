@@ -5,12 +5,14 @@ tags:
 
 # Renderer
 
+2026-10-17当前状态：本地feature-refactoring已同步通过本机R4/T3验收的真实Vulkan实现及双现代优化，D3D12默认、Vulkan显式编入/选择、GL保留。下文旧“候选/尚未验收/仅E盘”说明保留原实现时点，不再表示当前本地分支未交付；当前批准及保留风险见[T3完成对账](../openspec/changes/m3-t3-renderer/verification.md#2026-10-17-r4及t3完成确认)，其他worktree不由此自动合并。
+
 本模块只接收显式场景与资源输入，不读取 World、ECS、Application singleton 或游戏输入。应用拥有窗口、世界转接和帧编排；Renderer 拥有接受后的渲染资源与后端状态。公开行为唯一正文为 [renderer spec](../openspec/specs/renderer/spec.md)，本文维护支撑正确性的当前内部机制，不是第二份规格、逐类学习笔记或验收报告。
 
 ## 实现与边界
 
 - 默认游戏路径为 D3D12 现代门面；OpenGL 4.6 的 `SymoCraft::Renderer` namespace 保留为显式过渡路径，独立于现代门面。
-- `SymoCraft::Rendering::Renderer` 是不可复制、不可移动的实例/PImpl。CPU 核心已实现；启用 `SYMOCRAFT_RENDER_D3D12` 后可创建生产私有 D3D12 后端，否则请求 D3D12 具名返回 `Unsupported`。现代工厂的 OpenGL、Vulkan 均未实现，不静默 fallback。
+- `SymoCraft::Rendering::Renderer` 是不可复制、不可移动的实例/PImpl。CPU核心已实现；D3D12和Vulkan分别受 `SYMOCRAFT_RENDER_D3D12`、`SYMOCRAFT_RENDER_VULKAN` 控制。Vulkan显式编入并选中才创建专用Window及真实私有后端，尚未接管验收；现代工厂的OpenGL未实现，关闭/缺能力均具名Unsupported、不fallback。
 - `RendererConfig` 与应用 `StartupOptions` 均默认选择 D3D12；应用在窗口创建前选择 Native mode。新游戏配置默认编入 D3D12，旧缓存不强改；未编入的默认请求仍具名失败、不自动选 GL。显式 `--renderer opengl` 才进入保留的旧路径。
 - 中立公开头只暴露场景值类型、句柄、结果与错误；私有 Registry、RenderBackend、GL/D3D12 类型不得成为业务扩展点。CPU-only 保留现代 CPU 核心，不引入原生设备与窗口依赖。
 - Shader 编译、目标依赖与 CPU-only 构建隔离见 [工程契约](engineering.md)。关键节点与历史验证依据统一从 [VERIFICATION](../verification/VERIFICATION.md)进入；人工/R3 整组验收、默认切换及 Vulkan 不得由源码存在推定完成。
@@ -30,6 +32,8 @@ Mesh/TextureArray 句柄类型分离，身份由 owner、slot、generation 共�
 Create/Update 的接受顺序是：验证与复制 → 后端成功接受 → 无新分配的 CPU 发布。可恢复失败不发布新句柄、不替换旧接受内容；空 mesh 合法，空更新清除原有几何。没有 TextureArray update API，也不自动级联销毁引用纹理的 mesh。
 
 输入格式、相机/transform/selection 值域及配对拒绝条件由现役 spec 维护。实现先检查纹理长度乘法溢出，以 double 验证相机基底，并在 Render 配对后再核对 mesh layer 与所绑定纹理层数。World 顶点已经是世界坐标；区块平移与 UV 转换不能在 app 和 backend 重复执行。
+
+2026-10-16 refactor-renderer工作目录将共享层号校验改为接受内容摘要：ValidateMesh在既有完整遍历中返回optional最大层号，空网格为nullopt；Create候选及Update局部值保留摘要，后端接受成功后与CPU快照无新分配地提交到registry。销毁/清理同时重置摘要，Render每draw仍查当前句柄/绑定纹理，比较最大层号是否小于层数，不重扫顶点，不改变错误/重试或GPU旧版本退休责任。公开v1与legacy GL不变；这是实现机制说明，回滚/空网格/复用等边界未在本轮执行，基本测试和限制见[T3局部交付](../openspec/changes/m3-t3-renderer/verification.md#2026-10-16-共享纹理层摘要局部优化)。主目录同步说明不等于优化源码已同步主目录。
 
 依据：[公开值类型](../../game/modules/renderer/include/symocraft/renderer/types.h)、[校验](../../game/modules/renderer/src/validation.cpp)、[资源注册](../../game/modules/renderer/src/resource_registry.cpp)。
 
@@ -85,6 +89,8 @@ Shutdown 开始即停止提交，后端有界清理成功后才 Clear/Stopped；
 Mesh 当前使用自有 UPLOAD buffer；Update 先准备新版本再替换当前 map。TextureArray 使用 DEFAULT texture 与自有 UPLOAD footprint，逐层 copy/barrier/Execute/Signal/有限等待后才发布；等待失败仍保留 pending 上传所有者用于故障清理。当前 map 被 Update/Destroy 替换或删除后，在途 FrameContext 的 shared refs 继续保留旧 mesh/texture。
 
 每个 slot 的 allocator/list、descriptor、临时 selection/readback 与 query 在旧 fence 完成前不重用。正常 Render 只有一处 Present1：draw Execute → draw retirement Signal → Present1 → 覆盖 Present 的 retirement Signal。Resize、VSync、资源操作不得额外呈现。所有 GPU/event waits 有配置上限，不以 `INFINITE` 等待掩盖故障。
+
+2026-10-16 refactor-renderer工作目录将D3D12 SRV改为帧槽私有持久堆：旧slot fence完成后复用堆和按draw位置缓存的完整纹理BackendResourceId，只重写身份变化/未初始化项。堆容量按需倍增且不超过原Tier1上限；先分配空metadata及新堆，再无分配交换并重建必要SRV，失败前保留原堆/键。键不持有原生texture，GPU寿命仍依赖frame refs；当前v1无texture update，未来同身份view变化须另定失效。Resize尺寸资源释放及正常关闭清缓存，quarantine随完整FrameContext保留；root constants/静态sampler/shader和有界等待不变。[局部实现与未测边界](../openspec/changes/m3-t3-renderer/verification.md#2026-10-16-d3d12帧槽srv缓存局部实现)记录首次CPU基本及Release编译依据；后续[真实GPU正常路径](../openspec/changes/m3-t3-renderer/verification.md#2026-10-16-d3d12-srv缓存正常gpu验证)覆盖三slot复用、纹理切换与draw重排，不代表受控真正在途、扩容/故障边界或性能已验证。私有diagnostic observer按真实frame-slot记录成功原生建堆/写SRV次数及容量，并记录最近frame id；仅绑定观测时更新，不引入资源所有权、故障门或计时，区别于phase访问计数。
 
 相机与 selection 使用 double 准备，再检查最终 float 与 shader clip 乘加界。不能形成可能吞掉方向的 `eye + forward`；mesh 先算 `view * model`，再乘 projection，以保留匹配远平移抵消后的 near-plane 项。无法表示时在 Execute 前具名 `Unsupported`，不是把 NaN/Inf 交给 shader。
 
@@ -176,6 +182,54 @@ Device 返回缓存的借用 const 引用，不跨上下文重建保存；Alloca
 依据：[旧 namespace](../../game/modules/renderer/src/legacy_renderer.cpp)、[Batch](../../game/modules/renderer/src/batch.hpp)、[Shader/Program](../../game/modules/renderer/src/shader_program.cpp)、[Texture](../../game/modules/renderer/src/texture.cpp)、[GpuTimer](../../game/modules/renderer/src/gpu_timer.cpp)、[诊断采样](../../game/modules/renderer/src/performance_memory.cpp)。
 
 ## 验证边界
+
+普通GL与现代后端对照不绑定私有细分计时sink或原生诊断observer，保留正常telemetry及各自验证配置；采集统计函数的显式warmup/sample参数只选择原始数据窗口，默认10＋50秒和nearest-rank/两项内存观测最大值算法不变。用户另行选择的30＋150秒单重复仅作中等长度观察，实际[D3D12](../openspec/changes/m3-t3-renderer/verification.md#2026-10-16-gl与d3d12三分钟中等长度对照)与[Vulkan](../openspec/changes/m3-t3-renderer/verification.md#2026-10-16-gl与vulkan三分钟中等长度对照)分别绑定各自同版本GL基线，不跨轮借用或替代三重复正式验收；采集有效、数值满足与节点批准分开，不由执行器成功状态自动推定预算通过。
+
+### D3D12私有性能诊断
+
+D3D12隔离性能probe沿同一RunGame和私有创建线程sink采集，不新增公开v1/普通CLI/正式CSV或优化路径。Render阶段互斥分解SRV堆销毁/创建/写入、selection原生分配/Map写入、命令与同步；共享层号校验按draw累计为facade_prepare嵌套子项：当前计摘要比较，旧版本计逐顶点扫描。UpdateMesh在Render之前记录校验、自有复制、边界、原生分配、Map复制与整体，累计一次归到下一原frame ID；初始Create单列，不能把启动算编辑或把嵌套项加到父项外。未绑定不读新增时钟/分配诊断记录，原root constants、UPLOAD资源版本、原生操作顺序、fence/有界等待及校验保持。记录预分配有界、结束后落盘，额外原生诊断计数及粗粒度线程CPU的限制由[T3结果](../openspec/changes/m3-t3-renderer/verification.md#2026-10-16-d3d12细分计时与短诊断)维护；[计时入口](../../game/modules/renderer/src/frame_diagnostics.h)位于refactor-renderer工作目录，主目录同步说明不等于源码同步。
+
+2026-10-16两现代私有probe输出cached_max_v1层校验模型及layer_summary_check墙钟/调用数；保留旧扫描枚举/字段为明确退役的零值，不将其解释为未测或独立收益。新解析器校验摘要调用数对应mesh draw、无顶点扫描并禁止混用模型；旧D3D12仍按逐顶点模型解释，旧Vulkan无该独立项则保持null。摘要计时为父阶段子项，不与facade总耗时相加；每draw时钟本身有扰动，普通未绑定游戏不读取这些新增时钟。[前后短诊断及适用边界](../openspec/changes/m3-t3-renderer/verification.md#2026-10-16-缓存摘要前后短诊断)不替代正式预算/配对或原失败处置。
+
+2026-10-16 D3D12私有计时probe另输出frame_slot_delta_v1原生SRV观测：每原frame ID记录三个slot累计成功建堆/写SRV次数、当前slot及容量，解析器先按连续原始行差分再选采样窗口，不把暖槽建堆算入稳态。旧无观测CSV标unmeasured_v1/null，不由phase visits补原生计数。descriptor_retire/allocate/update仍为互斥host阶段，缓存命中时包含边界/容量判断/身份比较而非原生销毁或创建；前后可比较阶段总成本，但不是单条API时间。普通CSV/v1和生产算法不改，额外记录容量和限制见[SRV短诊断](../openspec/changes/m3-t3-renderer/verification.md#2026-10-16-d3d12-srv缓存前后短诊断)。
+
+### Vulkan工作目录候选机制
+
+Vulkan专用性能probe另启用observe_performance，普通及其他未启用绑定不读该层时钟或做额外GPU查询。native_calls_v1按真实API正常返回/VkResult成功累计次数与嵌套host墙钟，Buffer按mesh/mesh常量/选框常量/选框顶点/staging/readback及实际memoryType分组记录requirements兼容位、请求/分配字节和绑定/释放；观察层仅记录实际选择、不干预分配策略。每帧采录累计值，先对连续原frame ID快照差分，再取采样窗口，首行累计值不冒充一帧操作；pre-Render的Poll/Query也落在两快照之间，不误称全在Render prepare内。逻辑phase visits不补原生次数，旧CSV无模型则unmeasured/null。
+
+启用者在QueuePresent前后额外非阻塞读取当前提交fence状态，只记录SUCCESS/NOT_READY或原始错误，不改变完成判定、退休或添加等待；状态前后变化不是连续完成时间。实际VkPhysicalDeviceMemoryProperties、queue family/是否同queue、图像数和时间戳位宽/周期另记录，软件pending数不当成硬件队列深度，内存类型也不当作WDDM驻留/带宽跟踪。宿主区间包含验证/驱动/调度，调用次数中的void正常返回不代表GPU已完成；这些诊断开销与原固定容量记录器单列，[结果与未定位边界](../openspec/changes/m3-t3-renderer/verification.md#2026-10-16-vulkan实际内存与等待原生诊断)不替代无探针A/B或正式预算。
+
+Vulkan私有诊断绑定另提供每slot独立mesh/selection原生计数：仅在MakeBuffer、CreateDescriptorPool、AllocateDescriptorSets成功后累计，vkUpdateDescriptorSets按实际调用及UBO/image/sampler写分别累计，实际uniform写入/字节与pool释放单列。bundle仅借用同一Native所持诊断对象中的稳定计数位置，不延长资源或GPU寿命；未绑定不建立记录。正常帧的ResourceRetire不销毁保留的bundle，UniformAllocate/DescriptorAllocate的phase访问可能只有容量判断而无原生创建，不能再以visits证明分配；旧性能probe需重建并适配这些计数后才可采样。[正常GPU验证与局限](../openspec/changes/m3-t3-renderer/verification.md#2026-10-16-vulkan帧槽绑定正常gpu验证)包括同步截图的扰动，不等于受控真正在途或性能证据。
+
+2026-10-16 Vulkan工作目录按帧槽保留常量与描述符bundle：Finish证明旧提交完成后先reset命令池，再清旧frame资源引用；正常帧只退休mesh/texture refs及readback，选框顶点按下述独立机制保留，mesh/选框常量各有独立的UBO/pool/sets/CPU打包存储与metadata。mesh容量按需增长、选框单独一项，避免draw数量改变时混用绑定位置；原输入上限保持。候选资源全部分配完成才交换，Buffer/pool替换同时换空metadata。UBO内容仍逐帧按原stride写入并保持flush，绑定0/2只在bundle初始化时写，绑定1按完整纹理ID差量写；缓存不持有texture所有者，不以裸原生句柄作为版本键。Rebuild在原Drain后reset命令再清bundle，正常析构池早于Buffer释放，未证完成仍完整Native保留。常量/描述符复用不改公开v1/shader/能力基线/WSI；[局部结果与未测风险](../openspec/changes/m3-t3-renderer/verification.md#2026-10-16-vulkan帧槽常量与描述符局部复用)不代表GPU寿命或性能通过。
+
+2026-10-17网格Buffer仅在兼容requirements_bits内优先HOST_VISIBLE|DEVICE_LOCAL，无兼容类型时保留原HOST_VISIBLE路径；其余角色不改。成功绑定按实际类型一次性记录policy/type/flags/heap/fallback，原生分配失败不换类型重试，Map/flush/Unmap及网格新版本接受事务保持。选框顶点由各frame slot独立懒建288字节Buffer，Finish及命令池reset后重写；首建写成功才发布，隐藏保留但不写/不画。RetireFrame不释放选框，DropFrame在正常退休/重建后释放；不新增持久映射，未证完成仍完整Native终止保留。SelectionAllocate暖槽后可只有命中判断，原生计数仍以实际调用为准。[基本结果](../openspec/changes/m3-t3-renderer/verification.md#2026-10-17-vulkan网格内存与选框局部优化)与[追加正常GPU检查](../openspec/changes/m3-t3-renderer/verification.md#2026-10-17-vulkan网格与选框正常gpu验证)分列；后者通过实际内存类型、分配次数及画面核对，但同步截图不证明受控未完成slot复用或性能收益，原执行器非阻塞查询计数误判及逐次返回缺失保留。
+
+Vulkan性能细分仅由隔离probe安装创建线程私有计时sink，公开v1与普通游戏CLI/正式CSV不变。门面先创建同frame ID记录，后端在19个具名阶段切换互斥墙钟/线程CPU区间，重复阶段累加；未绑定不读取新增时钟或创建诊断记录。probe预分配有界内存、结束后写独立CSV，缺失CPU读取留空，未完成/截图单列；保留普通2500ms等待及validation语义，不注入故障或额外GPU能力。slot阶段含查询，DropFrame阶段含descriptor pool销毁，原生调用阶段含验证/驱动成本，不能过度解读为单条API或精确阻塞时间。CPU计数粒度及本轮证据上限见[T3短诊断](../openspec/changes/m3-t3-renderer/verification.md#2026-10-16-vulkan细分计时与短诊断)。 源码位于refactor-renderer工作目录的[私有计时入口](../../game/modules/renderer/src/frame_diagnostics.h)，主目录只同步说明，不声称其源码已同步。
+
+Vulkan能力与WSI诊断仍只由私有单次绑定启用：在真实扩展/feature枚举后cap-off进入同一SelectDevice拒绝路径，不尝试软件或降低能力。Acquire OutOfDate注入在API调用前发生，保持未取得图像/未signal同步对象的语义；Suboptimal及Present异常在原生成功后覆盖有效结果，原始返回与有效值分开。实际调用/提交/呈现与交换链创建计数用于验证平衡，未调用API报告null而非上一帧返回；普通游戏不安装这些控制。[WSI probe](../../test/integration/renderer/vulkan_wsi_probe.cpp)通过公开Renderer检查重复重建、恢复像素和正常退休；实际结果见[T3补齐记录](../openspec/changes/m3-t3-renderer/verification.md#2026-10-15-vulkan能力与wsi生成身份及r4材料补齐)。
+
+两现代构建均生成所选shader目录的build.json，记录实际DXC exe/module、HLSL/include及四个二进制hash、配置/flags；DXIL为D3D12/d3d12/6_0，SPIR-V为Vulkan/vulkan1.2/6_0。编译器输入变化触发构建/清单更新，安装只带预编译shader与清单，不带DXC。GameRenderer将所选清单写入中立报告；Benchmark新运行和resume绑定安装二进制/清单及报告身份，导出保留该元数据。历史D3D12 telemetry-v1无生成元数据仍可单独读取，不赋予新包运行资格；GL旧格式保持。实现见[编译身份](../../cmake/WriteVulkanShaderIdentity.cmake)、[消费者](../../tools/benchmark/src/runner.cpp)，这是可复算构建/包关联，不是签名或性能结论。GUI是否实际核查仅从上述验证记录判断。
+
+异步诊断沿同一私有绑定增加实际Wait/Query计数；真实未完成提交的Poll只查fence，不执行等待或读尚未就绪query。256条ring按来源frame ID交付，不保证返回顺序；溢出具名丢弃而非补0。原生零extent产生Discarded、缺时间戳能力产生Unsupported且无耗时；私有cap-off明确是注入，不将支持时间戳的本机说成不支持。查询故障保留原生操作/码并进入终止保留，不返回伪有效0ms或继续提交；在实际成功query之后的一次返回值注入不等于自发DeviceLost。对应[异步与协议验证](../openspec/changes/m3-t3-renderer/verification.md#2026-10-14-r4第4批异步样本协议与部署验证)分列正常0/0诊断与附加观测层通知。
+
+Vulkan候选的受控验证入口为私有、创建线程作用域的一次性绑定，链接同一生产库；不由环境变量、公开v1或游戏CLI启用。仅门控诊断设备查询/启用timelineSemaphore，在真实提交中加入host可释放wait，保留原有提交fence和资源版本。因未满足的host timeline依赖不能进入WSI Present，门控绘制明确Skipped/Occluded并保留取得图像，仅正常门控时host释放/提交完成后才在创建线程经私有挂起点呈现；故障终止保留owner禁止补Present，取得图像/同步资源仍保留，gate清理不续交；不伪称Presented或把该路径当正常WSI。纹理copy门控沿生产同步接受/有限等待，失败仍完整终止保留。分配/提交/Present结果注入分别具名；实际Present结果与注入分开。诊断弱引用、实际分配/释放计数和loader映射查询不延长资源完成语义，不将终止保留后gate完成改成恢复。普通未绑定设备不启用额外feature/门控分支；[本批结果与失败边界](../openspec/changes/m3-t3-renderer/verification.md#2026-10-14-r4第3批在途资源寿命与故障验证)不扩为长期泄漏或自发故障保证。
+
+工作目录候选的尺寸竞态处理：Vulkan surface与SDL请求尺寸未一致时，私有Rebuild在任何旧代退休之前抛出带surface_extent_pending的InvalidState，保留最后已接受的Info和原生所有者；不以请求尺寸刷新实际Info。GameRenderer只识别此精确Resize诊断，单次WaitEvents(.01)后应用层Skipped/Occluded，后续窗口poll再试；该应用层skip未进入Renderer，不伪造原生GPU样本。Render内两次surface查询之间若再变化，也仅Occluded/Discarded，不续交错误尺寸或吞其他InvalidState。匹配后才正常有限退休/重建。候选D3D12仅在真实HWND尺寸于SDL poll后漂移时提交前Occluded/Discarded，缺swapchain或内部extent不一致仍保留错误。实际覆盖和未测分支见[第2批验证](../openspec/changes/m3-t3-renderer/verification.md#2026-10-14-r4第2批生产绘制与窗口验证)，不据机制宣称故障/人工通过。
+
+2026-10-14实现位于refactor-renderer worktree，当前机制不等于R4接管批准。私有Native owner集中持有实际SDL loader入口所在模块的额外引用、instance/surface/device/graphics及present队列、资源版本、三组frame context及交换链图像资源，不链接vulkan-1导入库。普通关闭先取得提交和呈现fence的有限完成证明，再销毁完整owner，最后释放loader引用；缺完成证明时完整owner终止保留，不再调用借用Window，不将保留称成功Shutdown或恢复。
+
+按[已批准能力](../openspec/changes/m3-t3-renderer/decisions.md#2026-10-14-vulkan有限呈现退休能力)启用KHR/EXT维护扩展与feature。提交fence保护command pool、描述符、常量/选择框/readback及mesh/texture版本；逐交换链图像的presentation fence保护呈现wait semaphore退休。只在资源复用、同步纹理接受、截图、重建/关闭时必要有限等待；Poll只查询已就绪结果，256条有界ring保留来源frame ID，溢出具名诊断。
+
+mesh Create/Update建立新host-visible原生buffer版本，成功后交换registry，不原地覆盖在途内容；空mesh无原生几何。纹理使用device-local二维数组、staging/copy/layout barrier及提交完成后接受，Linear/SRGB选原生格式；非coherent host memory显式flush/invalidate。帧常量按真实uniform alignment打包，上传统计包含实际padding字节；截图使用transfer-to-host可见性barrier、有限fence等待及自有top-left RGBA8，BGRA只交换通道。
+
+GPU布局仍显式28字节mesh/12字节selection和64字节矩阵，位置为int3；RH_ZO投影、负高度viewport单次Y变换、CCW/back-cull、point/wrap与同源alpha discard保持。1x直接颜色附件、MSAA以对应color/depth附件及单采样resolve呈现；深度复用依赖覆盖early/late fragment tests，不以UNDEFINED layout免除写后写同步。selection沿D3D12的LESS/写深度语义。Resize先核对surface实际尺寸与请求模式/格式/采样，退休并丢弃旧尺寸帧引用后重建，持久mesh/texture保留；旧链退休后构建失败fatal，不续用旧Ready假设。OutOfDate/Suboptimal标记后续重建，原生零extent跳过并更新Info；app清除旧extent缓存使恢复可重新Resize。真实并发尺寸压力/错误分支仍需独立验证。
+
+依据：[实现](../../game/modules/renderer/src/backend/vulkan/vulkan_backend.cpp)、[生产v1 smoke](../../test/integration/renderer/vulkan_backend_smoke.cpp)；实际结果和限制唯一见[T3验证](../openspec/changes/m3-t3-renderer/verification.md#2026-10-14-r4生产vulkan实现)。实验代码不被生产include或链接，v1公开头未改，不预建通用RHI。
+
+私有 `ScopedD3D12Diagnostics` 只允许创建线程安装一个新控制、供一次后端工厂消费；禁止嵌套/复用，不提供跨线程或游戏CLI入口。普通游戏不安装控制，公开v1不变；scope覆盖真实启动/关闭，控制持有诊断设备/队列/fence引用，初始化/首帧Signal回调用于自有gate或受控移除，分配/Signal HRESULT仍单列注入。[游戏入口probe](../../test/integration/renderer/d3d12_game_fault_probe.cpp)链接同一生产app/runtime和公开门面，执行普通游戏同一RunGame错误/退出处理；它是独立测试exe，不冒称原SymoCraft.exe被外部注入、自发硬件故障或长期重复启动无增长。
+
+D3D12私有寿命/异步观测沿同一单次绑定增加弱引用、成功mesh buffer/接受texture的创建释放及GetResourceAllocationInfo分配计数、实际Wait/query Map和InfoQueue检查计数；不由弱引用延长版本寿命，计数排除临时上传/帧附件/query以及进程内存或显存预算。普通游戏未安装控制时不记这些计数；原有256条样本队列满时另向stderr记录被丢弃的精确uint64 frame ID，不改有界丢弃策略。[寿命/异步probe](../../test/integration/renderer/d3d12_lifetime_async_probe.cpp)使用同一公开Renderer和普通Render/Present，以自有queue Wait/fence门控真实在途提交；harness的限时watchdog只释放自有gate，线程创建失败也先释放gate。它不是公开同步接口、专用Present旁路或性能基准。native_cleared只表示后端成员清空，诊断控制的COM引用随Scene销毁且先于Window释放；实际结果及计数边界见[T3验证](../openspec/changes/m3-t3-renderer/verification.md#2026-10-15-d3d12在途寿命与异步容量补证)。
 
 - [Facade tests](../../test/unit/renderer/facade_tests.cpp) 使用私有 recording backend 覆盖句柄、自有化、接受事务、帧校验、线程/重入、状态、结果和样本一致性；不是原生 GPU retirement 或设备故障验证。
 - [GL shader](../../test/unit/renderer/shader_loading_tests.cpp)、[Batch](../../test/unit/renderer/batch_safety_tests.cpp)、[GpuTimer](../../test/unit/renderer/gpu_timer_tests.cpp) 使用 GL 替身覆盖限定边界，不能证明所有真实驱动失败、错误顺序、OOM 或长期泄漏已处理。

@@ -11,9 +11,10 @@ PATTERNS = {
     "coreRenderer": r"game/modules/renderer/.*CMakeFiles/symocraft_renderer\.dir/",
     "legacyRenderer": r"game/modules/renderer/.*CMakeFiles/symocraft_renderer_legacy_opengl\.dir/",
     "nativeD3D12": r"game/modules/renderer/.*CMakeFiles/symocraft_renderer_d3d12\.dir/",
+    "nativeVulkan": r"game/modules/renderer/.*CMakeFiles/symocraft_renderer_vulkan\.dir/",
     "world": "game/modules/world/", "simulation": "game/modules/simulation/", "app": "game/app/",
     "appRenderData": r"game/app/.*CMakeFiles/symocraft_app_render_data\.dir/",
-    "appRuntime": r"game/app/.*CMakeFiles/SymoCraft\.dir/",
+    "appRuntime": r"game/app/.*CMakeFiles/(?:SymoCraft|symocraft_app_runtime)\.dir/",
     "appCacheTests": r"CMakeFiles/app_render_cache_tests\.dir/",
     "appConversionTests": r"CMakeFiles/app_render_conversion_tests\.dir/", "benchmark": "tools/benchmark/",
     "publicConsumer": r"CMakeFiles/renderer_public_api_consumer\.dir/", "facadeTests": r"CMakeFiles/renderer_facade_tests\.dir/",
@@ -26,7 +27,7 @@ def compiled_owners(log):
 
 
 def app_sources(log):
-    return [owner + ":" + source for owner, source in re.findall(r"Building CXX object [^\r\n]*game/app/CMakeFiles/(symocraft_app_render_data|SymoCraft)\.dir/src/([^/]+)\.obj", log.replace("\\", "/"))]
+    return [owner + ":" + source for owner, source in re.findall(r"Building CXX object [^\r\n]*game/app/CMakeFiles/(symocraft_app_render_data|symocraft_app_runtime|SymoCraft)\.dir/src/([^/]+)\.obj", log.replace("\\", "/"))]
 
 
 def exact(actual, expected):
@@ -50,25 +51,38 @@ def production_target(targets, sources, name, kind, expected):
 
 def assert_app(counts, actual, expected):
     require(counts["app"] == len(expected) and counts["appRenderData"] == sum(x.startswith("symocraft_app_render_data:") for x in expected)
-            and counts["appRuntime"] == sum(x.startswith("SymoCraft:") for x in expected) and exact(actual, expected),
+            and counts["appRuntime"] == sum(x.startswith(("SymoCraft:", "symocraft_app_runtime:")) for x in expected) and exact(actual, expected),
             f"Header rebuilt the wrong app sources: {actual}; owners={counts}")
 
 
-def check_probe(name, log, counts, actual_app, public_app, cache_app, has_cache_tests):
+def shader_counts(log):
+    normalized = log.replace("\\", "/")
+    return {"dxil": len(re.findall(r"Compiling D3D12 (?:blocks|selection)\.(?:vs|ps) Shader Model 6\.0", normalized)),
+            "spirv": len(re.findall(r"Generating [^\r\n]*shaders/vulkan/(?:blocks|selection)\.(?:vs|ps)\.spv", normalized))}
+
+
+def check_probe(name, log, counts, actual_app, public_app, cache_app, has_cache_tests, expected_shaders=None):
     all_count = len(re.findall(r"Building (?:C|CXX) object", log))
-    shaders = len(re.findall(r"Compiling D3D12 (?:blocks|selection)\.(?:vs|ps) Shader Model 6\.0", log))
+    shaders = shader_counts(log)
     def zero(*names):
         return all(counts[x] == 0 for x in names)
-    if name == "private-d3d12-shader":
-        require(shaders == 4 and all_count == 0, "Shared HLSL must regenerate four DXIL assets without C++ compilation.")
+    shader_probe = name in ("private-d3d12-shader", "shared-shader-constants", "shared-blocks-shader", "shared-selection-shader")
+    if shader_probe:
+        require(shaders == (expected_shaders or {"dxil": 4, "spirv": 0}) and all_count == 0,
+                f"Wrong shader regeneration or unrelated C++ compilation: {shaders}")
     elif name == "private-app-world-cache":
         assert_app(counts, actual_app, cache_app)
         expected_tests = int(has_cache_tests)
-        require(counts["appCacheTests"] == expected_tests and zero("appConversionTests", "coreRenderer", "legacyRenderer", "nativeD3D12", "publicConsumer", "facadeTests", "world", "simulation", "benchmark")
-                and shaders == 0 and all_count == len(cache_app) + expected_tests, f"Private app cache rebuilt wrong owners: {counts}")
+        require(counts["appCacheTests"] == expected_tests and zero("appConversionTests", "coreRenderer", "legacyRenderer", "nativeD3D12", "nativeVulkan", "publicConsumer", "facadeTests", "world", "simulation", "benchmark")
+                and not any(shaders.values()) and all_count == len(cache_app) + expected_tests, f"Private app cache rebuilt wrong owners: {counts}")
     elif name == "private-d3d12-pipeline":
-        require(counts["nativeD3D12"] > 0 and zero("coreRenderer", "legacyRenderer", "publicConsumer", "facadeTests", "world", "simulation", "app", "benchmark", "appCacheTests", "appConversionTests"),
+        require(counts["nativeD3D12"] == 2 and all_count == 2 and zero("coreRenderer", "nativeVulkan", "legacyRenderer", "publicConsumer", "facadeTests", "world", "simulation", "app", "benchmark", "appCacheTests", "appConversionTests"),
                 f"Private D3D12 header rebuilt wrong owners: {counts}")
+    elif name == "private-vulkan-header":
+        # The private factory and the one Vulkan implementation own this declaration.
+        require(counts["nativeVulkan"] == 1 and counts["coreRenderer"] == 1 and all_count == 2
+                and zero("nativeD3D12", "legacyRenderer", "publicConsumer", "facadeTests", "world", "simulation", "app", "benchmark", "appCacheTests", "appConversionTests"),
+                f"Private Vulkan header rebuilt wrong owners: {counts}")
     elif name == "private-backend-contract":
         require(counts["coreRenderer"] > 0 and zero("legacyRenderer", "publicConsumer", "world", "simulation", "app", "benchmark", "appCacheTests", "appConversionTests"),
                 f"Private backend header rebuilt wrong owners: {counts}")
@@ -76,7 +90,7 @@ def check_probe(name, log, counts, actual_app, public_app, cache_app, has_cache_
         assert_app(counts, actual_app, public_app)
         require(counts["coreRenderer"] > 0 and counts["publicConsumer"] > 0 and zero("legacyRenderer", "world", "simulation", "benchmark"), f"Public renderer types rebuilt wrong owners: {counts}")
     relinked = bool(re.search(r"Linking CXX executable [^\r\n]*renderer_public_api_consumer(?:\.exe)?(?:\s|$)", log))
-    require(name in ("private-d3d12-shader", "private-app-world-cache") or relinked, "Renderer implementation did not relink its public API consumer.")
+    require(shader_probe or name == "private-app-world-cache" or relinked, "Renderer implementation did not relink its public API consumer.")
     return shaders, relinked
 
 
@@ -85,7 +99,7 @@ def verify(args):
     require((build / "CMakeCache.txt").is_file(), "BuildDirectory must contain a configured, settled CMake build.")
     cmake = file_path(args.CMakePath)
     output = new_directory(workspace_path(args.OutputDirectory, ROOT / "out"))
-    result = {"schema": "symocraft.renderer-incremental-build", "version": 3, "started_utc": utc_now(), "finished_utc": None,
+    result = {"schema": "symocraft.renderer-incremental-build", "version": 4, "started_utc": utc_now(), "finished_utc": None,
               "build_directory": str(build), "output_directory": str(output), "status": "running", "baseline_compilations": None,
               "production_callers": None, "probes": [], "error": None}
     def run(name):
@@ -99,18 +113,28 @@ def verify(args):
         require(result["baseline_compilations"] == 0, "The initial build was not settled. Rerun after production changes finish.")
         targets, sources = tsv("renderer-targets.tsv"), tsv("production-sources.tsv")
         data = production_target(targets, sources, "symocraft_app_render_data", "STATIC_LIBRARY", ["game/app/src/world_render_cache.cpp", "game/app/src/render_conversion.cpp"])
-        runtime = production_target(targets, sources, "SymoCraft", "EXECUTABLE", ["game/app/src/main.cpp", "game/app/src/application.cpp", "game/app/src/game_renderer.cpp"])
+        runtime = production_target(targets, sources, "symocraft_app_runtime", "STATIC_LIBRARY", ["game/app/src/application.cpp", "game/app/src/game_renderer.cpp", "game/app/src/game_entry.cpp"])
+        entry = production_target(targets, sources, "SymoCraft", "EXECUTABLE", ["game/app/src/main.cpp"])
+        require(entry == runtime, "Executable and production runtime ownership disagree.")
         require(not runtime or data, "Game runtime requires its real app render data target.")
         cache_tests = sum(x["target"] == "app_render_cache_tests" and x["property"] == "TYPE" and x["type"] == "EXECUTABLE" and x["raw_value"] == "EXECUTABLE" for x in targets) == 1
         result["production_callers"] = {"app_render_data": data, "game_runtime": runtime, "app_cache_tests": cache_tests,
             "targets_sha256": sha256(build / "renderer-targets.tsv").upper(), "sources_sha256": sha256(build / "production-sources.tsv").upper()}
-        public_app = (["symocraft_app_render_data:world_render_cache.cpp", "symocraft_app_render_data:render_conversion.cpp"] if data else []) + (["SymoCraft:application.cpp", "SymoCraft:game_renderer.cpp"] if runtime else [])
-        cache_app = (["symocraft_app_render_data:world_render_cache.cpp"] if data else []) + (["SymoCraft:game_renderer.cpp"] if runtime else [])
+        public_app = (["symocraft_app_render_data:world_render_cache.cpp", "symocraft_app_render_data:render_conversion.cpp"] if data else []) + (["symocraft_app_runtime:application.cpp", "symocraft_app_runtime:game_renderer.cpp"] if runtime else [])
+        cache_app = (["symocraft_app_render_data:world_render_cache.cpp"] if data else []) + (["symocraft_app_runtime:game_renderer.cpp"] if runtime else [])
         probes = [("private-backend-contract", "game/modules/renderer/src/backend/render_backend.h"), ("public-renderer-types", "game/modules/renderer/include/symocraft/renderer/types.h")]
         if data:
             probes.append(("private-app-world-cache", "game/app/src/world_render_cache.h"))
-        if "symocraft_renderer_d3d12.dir" in read_log(build / "build.ninja"):
-            probes += [("private-d3d12-pipeline", "game/modules/renderer/src/backend/d3d12/pipeline.h"), ("private-d3d12-shader", "assets/shaders/hlsl/draw_constants.hlsli")]
+        graph = read_log(build / "build.ninja")
+        direct, vulkan = "symocraft_renderer_d3d12.dir" in graph, "symocraft_renderer_vulkan.dir" in graph
+        if direct:
+            probes.append(("private-d3d12-pipeline", "game/modules/renderer/src/backend/d3d12/pipeline.h"))
+        if vulkan:
+            probes.append(("private-vulkan-header", "game/modules/renderer/src/backend/vulkan/vulkan_backend.h"))
+        if direct or vulkan:
+            probes += [("shared-shader-constants", "assets/shaders/hlsl/draw_constants.hlsli"),
+                       ("shared-blocks-shader", "assets/shaders/hlsl/blocks.hlsl"),
+                       ("shared-selection-shader", "assets/shaders/hlsl/selection.hlsl")]
         for name, relative in probes:
             record = {"probe": name, "header": relative, "status": "running", "compiled_owners": None, "compiled_app_sources": [], "compiled_shaders": 0, "relinked_public_consumer": False}
             result["probes"].append(record)
@@ -120,7 +144,9 @@ def verify(args):
                     log = run(name)
                     counts, actual = compiled_owners(log), app_sources(log)
                     record["compiled_owners"], record["compiled_app_sources"] = counts, actual
-                    record["compiled_shaders"], record["relinked_public_consumer"] = check_probe(name, log, counts, actual, public_app, cache_app, cache_tests)
+                    expected = {"dxil": (4 if name == "shared-shader-constants" else 2) if direct else 0,
+                                "spirv": (4 if name == "shared-shader-constants" else 2) if vulkan else 0}
+                    record["compiled_shaders"], record["relinked_public_consumer"] = check_probe(name, log, counts, actual, public_app, cache_app, cache_tests, expected)
                     record["status"] = "passed"
             except BaseException:
                 record["status"] = "failed"

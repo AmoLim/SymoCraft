@@ -12,7 +12,7 @@
 
 namespace {
     enum Id { Game = 100, BrowseGame, Output, BrowseOutput, Profile, Focus, Label, Power, Gpu, Clocks,
-        Start, Cancel, Retry, Open, ExportZip, ProgressBar, Status, Results, Renderer };
+        Start, Cancel, Retry, Open, ExportZip, ProgressBar, Status, Results, Renderer, Validation };
     std::wstring Text(HWND window)
     {
         std::wstring text(GetWindowTextLengthW(window) + 1, L'\0');
@@ -78,8 +78,10 @@ namespace {
             auto title = Add(L"STATIC", L"SymoCraft Benchmark", 0, -1, 24, 18, 810, 36);
             SendMessageW(title, WM_SETFONT, reinterpret_cast<WPARAM>(title_font), TRUE);
             Add(L"STATIC", L"游戏程序", 0, -1, 24, 72, 100, 24);
-            Add(L"EDIT", (Benchmark::ExecutablePath().parent_path() / "SymoCraft.exe").c_str(), WS_TABSTOP | ES_AUTOHSCROLL, Game, 124, 68, 480, 30);
-            Combo(Renderer, 614, 68, 130, {L"OpenGL", L"D3D12"});
+            Add(L"EDIT", (Benchmark::ExecutablePath().parent_path() / "SymoCraft.exe").c_str(), WS_TABSTOP | ES_AUTOHSCROLL, Game, 124, 68, 380, 30);
+            Combo(Renderer, 514, 68, 120, {L"OpenGL", L"D3D12", L"Vulkan"});
+            Add(L"BUTTON", L"启用验证", WS_TABSTOP | BS_AUTOCHECKBOX, Validation, 644, 68, 100, 30);
+            SendMessageW(Control(Validation), BM_SETCHECK, BST_CHECKED, 0);
             Add(L"BUTTON", L"选择…", WS_TABSTOP, BrowseGame, 754, 68, 96, 30);
             Add(L"STATIC", L"结果位置", 0, -1, 24, 113, 100, 24);
             Add(L"EDIT", Benchmark::DefaultOutputParent().c_str(), WS_TABSTOP | ES_AUTOHSCROLL, Output, 124, 109, 620, 30);
@@ -118,6 +120,7 @@ namespace {
         void EnableControls()
         {
             for (int id : {Game, BrowseGame, Output, BrowseOutput, Profile, Focus, Label, Power, Gpu, Clocks, Renderer, Start}) EnableWindow(Control(id), !busy);
+            EnableWindow(Control(Validation), !busy && SendMessageW(Control(Renderer), CB_GETCURSEL, 0, 0) != 0);
             EnableWindow(Control(Cancel), busy);
             EnableWindow(Control(Retry), !busy && has_session && !outcome.passed);
             EnableWindow(Control(Open), !busy && has_session);
@@ -156,7 +159,9 @@ namespace {
                 if (parent.empty()) throw std::runtime_error("Result location is empty");
                 config.output = Benchmark::fs::absolute(parent) / ("run-" + Benchmark::Timestamp());
                 config.quick = SendMessageW(Control(Profile), CB_GETCURSEL, 0, 0) == 1;
-                config.renderer = SendMessageW(Control(Renderer), CB_GETCURSEL, 0, 0) == 1 ? "d3d12" : "opengl";
+                const auto backend = SendMessageW(Control(Renderer), CB_GETCURSEL, 0, 0);
+                config.renderer = backend == 2 ? "vulkan" : backend == 1 ? "d3d12" : "opengl";
+                if (backend != 0 && SendMessageW(Control(Validation), BM_GETCHECK, 0, 0) != BST_CHECKED) config.validation = false;
                 config.focus_policy = SendMessageW(Control(Focus), CB_GETCURSEL, 0, 0) == 0 ? "allow-unfocused" : "strict";
                 config.machine_label = Benchmark::Utf8(Text(Control(Label)));
                 config.power_mode = Benchmark::Utf8(Text(Control(Power)));
@@ -243,6 +248,7 @@ namespace {
                 return reinterpret_cast<LRESULT>(GetSysColorBrush(COLOR_WINDOW));
             case WM_COMMAND:
                 switch (LOWORD(wparam)) {
+                case Renderer: EnableControls(); break;
                 case BrowseGame: Browse(true); break;
                 case BrowseOutput: Browse(false); break;
                 case Start: Begin(false, false); break;

@@ -39,29 +39,56 @@ int wmain(int argc, wchar_t** argv)
             Process hung(fs::absolute(argv[2]), {L"--hang"}, parent, parent / "hung.log", parent / "hung.err");
             Require(hung.Stop() && !hung.Running() && hung.ExitCode() == 125, "Forced cancellation failed");
             Reject([&] { Process bad(parent / "absent.exe", {}, parent, parent / "bad.log", parent / "bad.err"); });
-        } else if (suite == L"modern") {
+        } else if (suite == L"modern" || suite == L"vulkan") {
+            const bool vulkan = suite == L"vulkan";
             const auto package = parent / "modern package"; fs::create_directory(package);
             const auto executable = package / "fixture.exe"; fs::copy_file(argv[2], executable);
-            for (const auto asset : {"configs/blockFormats.yaml", "textures/texture_atlas.png", "shaders/d3d12/blocks.vs.dxil",
-                 "shaders/d3d12/blocks.ps.dxil", "shaders/d3d12/selection.vs.dxil", "shaders/d3d12/selection.ps.dxil"}) {
+            for (const auto asset : {"configs/blockFormats.yaml", "textures/texture_atlas.png"}) {
                 const auto path = package / "assets" / asset; fs::create_directories(path.parent_path()); std::ofstream(path) << "fixture";
             }
-            Config config; config.game = executable; config.quick = true; config.renderer = "d3d12";
+            const auto shader_directory = package/"assets/shaders"/(vulkan ? "vulkan" : "d3d12"); fs::create_directories(shader_directory);
+            for (const auto name : {"blocks.vs", "blocks.ps", "selection.vs", "selection.ps"})
+                std::ofstream(shader_directory/(std::string(name)+(vulkan ? ".spv" : ".dxil"))) << "fixture";
+            {
+                std::ofstream manifest(shader_directory/"build.json");
+                manifest << "{\"schema\":1,\"backend\":\"" << (vulkan ? "Vulkan" : "D3D12")
+                    << "\",\"format\":\"" << (vulkan ? "SPIR-V" : "DXIL") << "\",\"target\":\"" << (vulkan ? "vulkan1.2" : "d3d12")
+                    << "\",\"shader_model\":\"6_0\",\"build_configuration\":\"Release\",\"flags\":\"" << (vulkan ? "-spirv fixture" : "fixture")
+                    << "\",\"compiler_sha256\":\"" << std::string(64,'a')
+                    << "\",\"compiler_module_sha256\":\"" << std::string(64,'a') << "\",\"source_sha256\":{";
+                bool first = true;
+                for (const auto name : {"blocks.hlsl", "selection.hlsl", "draw_constants.hlsli"}) {
+                    if (!first) manifest << ','; first = false;
+                    manifest << '\"' << name << "\":\"" << std::string(64,'a') << '\"';
+                }
+                manifest << "},\"binary_sha256\":{"; first = true;
+                for (const auto shader : {"blocks.vs", "blocks.ps", "selection.vs", "selection.ps"}) {
+                    const auto name = std::string(shader) + (vulkan ? ".spv" : ".dxil");
+                    if (!first) manifest << ','; first = false;
+                    manifest << '\"' << name << "\":\"" << Sha256(shader_directory/name) << '\"';
+                } manifest << "}}\n";
+            }
+            Config config; config.game = executable; config.quick = true; config.renderer = vulkan ? "vulkan" : "d3d12";
             config.output = parent / "success";
             SetEnvironmentVariableW(L"SYMO_BENCH_FIXTURE", nullptr);
             Require(Run(config).passed, "Modern fixture was rejected");
             const auto result = ReadYaml(config.output / "static-1-attempt-1/result.yaml");
-            Require(!result["gl_renderer"] && result["renderer"]["backend"].as<std::string>() == "D3D12",
+            Require(!result["gl_renderer"] && result["renderer"]["backend"].as<std::string>() == (vulkan ? "Vulkan" : "D3D12"),
                     "Modern result fabricated legacy graphics identity");
             Require(result["gpu_missing_sample_frames"].as<unsigned>() == 5
                     && result["measurement_metadata"]["gpu_time_scope"], "Modern result lost missing samples or measurement scope");
             Require(Run(config, {}, {}, true).passed, "Modern session retry failed");
             Require(fs::file_size(Export(config)) > 0, "Modern export failed");
+            const auto original_output = config.output;
+            config.validation = false; config.output = parent/"explicit-no-validation";
+            Require(Run(config).passed,"Explicit validation-off was not forwarded and verified");
+            Require(!ReadYaml(config.output/"static-1-attempt-1/capture/summary.yaml")["metadata"]["renderer"]["validation_enabled"].as<bool>(),"Validation request was ignored");
+            config.validation.reset(); config.output = original_output;
             const auto capture = config.output / "static-1-attempt-1/capture";
             Reject([&] { ValidateCapture(capture, Plan(true).front(), config.focus_policy, 0); });
             config.renderer = "opengl";
             Reject([&] { Run(config, {}, {}, true); });
-            config.renderer = "d3d12";
+            config.renderer = vulkan ? "vulkan" : "d3d12";
             for (const auto mode : {L"modern-duplicate-id", L"modern-old-version", L"modern-wrong-backend", L"modern-gl-identity",
                  L"modern-missing-reason", L"modern-bad-gpu", L"modern-bad-upload", L"modern-vsync",
                  L"missing-status", L"exporting-status", L"finished-nonzero", L"old-protocol"}) {
@@ -71,7 +98,14 @@ int wmain(int argc, wchar_t** argv)
                         "Invalid modern capture was accepted or continued");
             }
             SetEnvironmentVariableW(L"SYMO_BENCH_FIXTURE", nullptr);
-            config.renderer = "vulkan"; config.output = parent / "unimplemented";
+            {
+                for (const auto mode : {L"modern-bad-generation", L"modern-shader-identity", L"modern-missing-generation"}) {
+                    config.output = parent/mode; SetEnvironmentVariableW(L"SYMO_BENCH_FIXTURE",mode);
+                    Require(!Run(config).passed,"Mismatched generation identity accepted");
+                }
+                SetEnvironmentVariableW(L"SYMO_BENCH_FIXTURE", nullptr);
+            }
+            config.renderer = "unknown"; config.output = parent / "unimplemented";
             Reject([&] { Run(config); });
         } else if (suite == L"executor") {
             const auto package = parent / L"中文 模拟包 & spaces"; fs::create_directory(package);

@@ -62,7 +62,7 @@ tags:
 
 #### Scenario: Invalid input and mixed layers
 - **WHEN** 输入违反尺寸、精确长度/溢出、三角形、有限值、整数层或相机/AABB 约束
-- **THEN** 在原生提交前拒绝；同一三角形顶点层号不同本身不非法，Render 仍按本 draw 纹理数组层数逐顶点校验。
+- **THEN** 在原生提交前拒绝；同一三角形顶点层号不同本身不非法，Render 仍按本 draw 纹理数组层数校验全部顶点所用层号是否合法。
 
 #### Scenario: Coordinate and sample meaning
 - **WHEN** 使用合法基础方块输入在 D3D12 绘制

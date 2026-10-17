@@ -18,6 +18,7 @@ namespace SymoCraft {
         std::string_view output_directory;
         unsigned width = 1920, height = 1080;
         unsigned warmup_seconds = 60, sample_seconds = 180;
+        unsigned foreground_ready_timeout_seconds = 0;
         bool vsync = false;
         std::string_view focus_policy = "strict";
         std::string_view renderer = "d3d12";
@@ -36,5 +37,5 @@ namespace SymoCraft {
         "SymoCraft --benchmark static|walk|edit --output NEW_DIRECTORY [--seed N] "
         "[--renderer opengl|d3d12|vulkan] [--msaa 1|2|4|8|16|32] [--validation 0|1] "
         "[--width 1920 --height 1080 --vsync 0|1 --warmup-seconds 60 --sample-seconds 180] "
-        "[--focus-policy strict|allow-unfocused]";
+        "[--focus-policy strict|allow-unfocused] [--foreground-ready-timeout-seconds 1..120]";
 }

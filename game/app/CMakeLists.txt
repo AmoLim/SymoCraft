@@ -12,16 +12,23 @@ if(NOT SYMOCRAFT_BUILD_GAME)
     return()
 endif()
 
-add_executable(SymoCraft src/main.cpp src/application.cpp src/game_renderer.cpp)
-target_link_libraries(SymoCraft PRIVATE symocraft_startup symocraft_foundation symocraft_scene
+add_library(symocraft_app_runtime STATIC src/application.cpp src/game_renderer.cpp src/game_entry.cpp)
+target_link_libraries(symocraft_app_runtime PUBLIC symocraft_startup symocraft_foundation symocraft_scene
     symocraft_assets symocraft_ecs symocraft_world symocraft_simulation symocraft_platform
     symocraft_renderer symocraft_app_render_data symocraft_telemetry)
+target_compile_features(symocraft_app_runtime PUBLIC cxx_std_20)
+target_compile_options(symocraft_app_runtime PRIVATE /W4 /utf-8)
+
+add_executable(SymoCraft src/main.cpp)
+target_link_libraries(SymoCraft PRIVATE symocraft_startup symocraft_foundation symocraft_scene
+    symocraft_assets symocraft_ecs symocraft_world symocraft_simulation symocraft_platform
+    symocraft_renderer symocraft_app_render_data symocraft_telemetry symocraft_app_runtime)
 if(TARGET symocraft_renderer_legacy_opengl)
-    target_link_libraries(SymoCraft PRIVATE symocraft_renderer_legacy_opengl)
-    target_compile_definitions(SymoCraft PRIVATE SYMOCRAFT_APP_OPENGL=1)
+    target_link_libraries(symocraft_app_runtime PRIVATE symocraft_renderer_legacy_opengl)
+    target_compile_definitions(symocraft_app_runtime PRIVATE SYMOCRAFT_APP_OPENGL=1)
 endif()
 if(TARGET symocraft_renderer_d3d12)
-    target_compile_definitions(SymoCraft PRIVATE SYMOCRAFT_APP_D3D12=1)
+    target_compile_definitions(symocraft_app_runtime PRIVATE SYMOCRAFT_APP_D3D12=1)
     # Candidate provenance has stricter scope than ordinary preset builds.
     cmake_path(IS_PREFIX SYMOCRAFT_REPOSITORY_ROOT "${PROJECT_BINARY_DIR}" NORMALIZE in_repository)
     file(RELATIVE_PATH candidate_build_relative "${SYMOCRAFT_REPOSITORY_ROOT}" "${PROJECT_BINARY_DIR}")
@@ -65,6 +72,9 @@ if(TARGET symocraft_renderer_d3d12)
             endif()
         endforeach()
     endif()
+endif()
+if(TARGET symocraft_renderer_vulkan)
+    target_compile_definitions(symocraft_app_runtime PRIVATE SYMOCRAFT_APP_VULKAN=1)
 endif()
 target_compile_features(SymoCraft PRIVATE cxx_std_20)
 target_compile_options(SymoCraft PRIVATE /W4 /utf-8)

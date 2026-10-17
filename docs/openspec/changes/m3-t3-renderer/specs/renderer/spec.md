@@ -17,8 +17,12 @@ tags:
 - **THEN** 前者选择legacy OpenGL，后者选择Native-mode Window与真实D3D12；`RendererConfig`默认D3D12不改变游戏默认，候选交付不批准切默认。
 
 #### Scenario: Unavailable backend or capability
-- **WHEN** 现代门面请求未实施的OpenGL/Vulkan、未编入的现代后端，或硬件不满足D3D12 FL12_0/SM6_0、Vulkan1.2加必需surface/swapchain扩展、请求采样/呈现能力
+- **WHEN** 现代门面请求未实施的OpenGL/Vulkan、未编入的现代后端，或硬件不满足D3D12 FL12_0/SM6_0、Vulkan1.2加必需surface/swapchain及KHR或EXT swapchain_maintenance1扩展与swapchainMaintenance1 feature、请求采样/呈现能力
 - **THEN** 请求具名失败，不改选其他后端/WARP，不静默降低能力或采样数；调整能力基线须独立确认。
+
+#### Scenario: Approved Vulkan presentation retirement capability
+- **WHEN** 按2026-10-14用户批准的[有限呈现退休能力](../../decisions.md#2026-10-14-vulkan有限呈现退休能力)创建生产Vulkan
+- **THEN** SHALL 查询并启用KHR或EXT swapchain_maintenance1及其feature，使用真实presentation fence证明呈现资源退休；提交fence不代替呈现完成，所有必要等待有界。缺该能力具名Unsupported；无完成证明终止保留完整原生owner/loader，不声称正常Shutdown，不改变公开v1或继承实验成绩。
 
 #### Scenario: Selected asset preflight
 - **WHEN** 执行选中后端的 `--check-assets`
@@ -164,3 +168,21 @@ D3D12在R3、Vulkan在R4 SHALL 用真实生产target与统一游戏调用方分�
 #### Scenario: User limited short comparison closeout
 - **WHEN** 用户按 [本轮追加决定](../../decisions.md#本轮-r2-短采样收口与风险接受边界)取消正式九轮、改为限时短对照并收口本轮 R2 工作
 - **THEN** SHALL 保留原始短采样及用户人工反馈，标记正式预算未验收、实际焦点差异及其余未覆盖风险；不把 quick 结果或工作收口当完整 R2/R3 通过，不自动恢复长采样或降低原接管目标。
+
+#### Scenario: Explicitly approved shorter formal pairing
+- **WHEN** 按用户2026-10-13确认的 [18分钟正式配对窗口](../../decisions.md#2026-10-13-正式配对短窗口)执行本机D3D12预算对照
+- **THEN** SHALL 在同版本GL/D3D12三场景各三独立轮次中使用10秒预热和50秒正式采样，逐对应轮次按原已选帧时间/内存双门槛判定；保留全部失败/慢帧及实际焦点，原始数据与原生消费者校验完整才判数据有效。短窗口风险及原72分钟未执行事实不抹除，原quick不升级为正式，不自动复测或移用为Vulkan预算。
+
+#### Scenario: Explicit Vulkan budget and paired collection
+- **WHEN** 按用户2026-10-15确认的[Vulkan预算及采样口径](../../decisions.md#2026-10-15-vulkan已选预算与正式配对口径)执行正式对照
+- **THEN** SHALL 独立采集同版本GL/Vulkan三场景各三进程、每轮10秒预热＋50秒正式采样，实际1920×1080/4x/VSync-off/allow-unfocused及固定完整世界；逐对应轮次同时检查P95≤10ms、P99≤12ms且各自≤GL的110%，两项进程内存正式窗口约每秒观测最大值各自≤GL的110%。保留全部慢帧/焦点/失败与原生校验，不自动复测/放宽、不借旧GL或D3D12成绩；焦点可比性、短窗口风险、预算结论和节点批准分别记账，不新增启动/显存硬预算或重开暂缓D3D12缺陷。
+
+
+#### Scenario: Opt-in bounded foreground preparation
+- **WHEN** 用户显式选择strict前台采样并设置`--foreground-ready-timeout-seconds 1..120`
+- **THEN** 游戏SHALL在初始世界/网格就绪后处理本窗口事件，以连续1秒获焦、非最小化且实际尺寸匹配为准备成功条件；准备等待有界，超时/关闭/Esc具名失败并清理，不生成可接受成绩。准备耗时单列startup，只有成功后才从零开始完整预热和采样，不模拟/绘制工作负载或删除已有测量帧。
+- **AND** 省略选项及allow-unfocused路径保持原行为；计时开始后失焦仍使strict整轮无效，不暂停/重置时钟、不剔除坏帧、不自动重试或放宽预算。GL及两现代采用同版本同准备协议配对，新结果不覆盖历史失败或自动产生节点批准。
+
+#### Scenario: Explicit manual visual acceptance for this round
+- **WHEN** 用户按[本轮人工视觉口径](../../decisions.md#2026-10-13-人工视觉核查口径)认可已完成的GL/D3D12人工画面对照
+- **THEN** SHALL 记录“未发现明显错误”并按该范围收口视觉核查，不强加未批准的数值容差；同版本GL参考、透明深度差异单列及不接受丢几何/错材质/颠倒坐标仍保留。不得补造截图/视点/包身份或宣称逐像素完全一致，也不得将该反馈用于豁免正式性能超限或继承为Vulkan验收。

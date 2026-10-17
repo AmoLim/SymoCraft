@@ -3,6 +3,11 @@ target_include_directories(startup_options_tests PRIVATE "${SYMOCRAFT_REPOSITORY
 add_test(NAME core.startup_options COMMAND startup_options_tests)
 set_tests_properties(core.startup_options PROPERTIES TIMEOUT 45)
 
+symocraft_test_executable(foreground_readiness_tests foreground_readiness_tests.cpp)
+target_include_directories(foreground_readiness_tests PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/game/app/src")
+add_test(NAME app.foreground_readiness COMMAND foreground_readiness_tests)
+set_tests_properties(app.foreground_readiness PROPERTIES TIMEOUT 15)
+
 symocraft_test_executable(cleanup_sequence_tests cleanup_sequence_tests.cpp)
 target_include_directories(cleanup_sequence_tests PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/game/app/src")
 add_test(NAME core.cleanup_sequence COMMAND cleanup_sequence_tests)

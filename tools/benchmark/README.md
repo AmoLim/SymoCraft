@@ -12,7 +12,9 @@ Windows x64 原生采样工具，GUI 与 CLI 使用同一固定执行器。运�
 - 采样是普通无边框窗口，不是独占全屏或置顶。保留任务栏原有行为，任务栏可能遮挡底部但不降低渲染尺寸。
 - ZIP 依赖系统 `System32/tar.exe`；缺失时保留导出目录并报错，不下载安装替代工具。
 
-GUI 后端下拉框与 CLI `--renderer opengl|d3d12` 使用相同执行器，默认仍 OpenGL。GL 保持原 25 列协议；D3D12 要求 32 列及现代 telemetry v1，实际后端/版本不匹配即失败，无自动回退。
+GUI 后端下拉框与 CLI `--renderer opengl|d3d12|vulkan` 使用相同执行器，默认仍 OpenGL。GL 保持原 25 列协议；D3D12/Vulkan 要求 32 列及现代 telemetry v1，实际后端/版本不匹配即失败，无自动回退。Vulkan 要求 Vulkan 1.2、surface/swapchain 及声明的 swapchain maintenance1 呈现 fence 能力；不能根据 API 版本推定扩展可用。
+
+现代后端默认开启验证，须安装对应验证层；GUI 可显式取消“启用验证”，CLI 使用 `--validation 0`。不自动关闭验证以掩盖依赖缺失；要求开启但缺少验证层时失败。GL 不接受该参数。两现代包各需四份预编译shader与所选目录的 `build.json`（D3D12为DXIL，Vulkan为SPIR-V），执行器核对编译器/源文件/配置及实际二进制哈希；运行不需要 DXC 或 Vulkan SDK。历史D3D12 telemetry-v1报告缺少生成元数据时仍可单独读取，不作为新运行包身份已验证。
 
 ## GUI
 
@@ -33,6 +35,7 @@ GUI 重试限当前会话，没有会话导入器；重新打开程序后可用 
 ```powershell
 ./SymoCraftBenchmark.exe --run --quick --game ./SymoCraft.exe --output ./results/quick-001 --machine-label development
 ./SymoCraftBenchmark.exe --run --quick --renderer d3d12 --game ./SymoCraft.exe --output ./results/d3d12-quick-001
+./SymoCraftBenchmark.exe --run --quick --renderer vulkan --validation 0 --game ./SymoCraft.exe --output ./results/vulkan-quick-001
 ./SymoCraftBenchmark.exe --run --game ./SymoCraft.exe --output ./results/baseline-001 --focus-policy allow-unfocused
 ./SymoCraftBenchmark.exe --run --resume --game ./SymoCraft.exe --output ./results/baseline-001 --focus-policy allow-unfocused
 ./SymoCraftBenchmark.exe --export --game ./SymoCraft.exe --output ./results/baseline-001

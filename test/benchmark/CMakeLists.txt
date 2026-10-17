@@ -12,7 +12,7 @@ target_compile_options(benchmark_runner_tests PRIVATE /W4 /utf-8 /permissive-)
 add_executable(benchmark_capture_probe capture_probe.cpp)
 target_link_libraries(benchmark_capture_probe PRIVATE benchmark_core)
 target_compile_options(benchmark_capture_probe PRIVATE /W4 /utf-8 /permissive-)
-foreach(suite IN ITEMS contracts process executor modern)
+foreach(suite IN ITEMS contracts process executor modern vulkan)
     add_test(NAME benchmark.${suite} COMMAND benchmark_runner_tests ${suite}
         "$<TARGET_FILE:benchmark_fixture>" "${CMAKE_CURRENT_BINARY_DIR}/probes")
     set_tests_properties(benchmark.${suite} PROPERTIES TIMEOUT 100)

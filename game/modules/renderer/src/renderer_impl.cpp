@@ -1,6 +1,7 @@
 #include "renderer_impl.h"
 
 #include "validation.h"
+#include "frame_diagnostics.h"
 
 #include <chrono>
 #include <limits>
@@ -76,6 +77,7 @@ RendererInfo RendererState::ReadAcceptedInfo() {
 
 MeshHandle RendererState::CreateMesh(const MeshData& data) {
     return Invoke("CreateMesh", [&] {
+        DiagnosticWorkScope diagnostic(FrameWork::MeshCreateTotal);
         auto prepared = resources_.PrepareMesh(data);
         backend_->CreateMesh(prepared.id, prepared.data);
         resources_.Commit(prepared);
@@ -86,10 +88,13 @@ MeshHandle RendererState::CreateMesh(const MeshData& data) {
 void RendererState::UpdateMesh(MeshHandle handle, const MeshData& data) {
     Invoke("UpdateMesh", [&] {
         const auto id = resources_.Id(handle);
-        ValidateMesh(data);
-        auto owned = std::make_shared<const MeshData>(data);
+        DiagnosticWorkScope diagnostic(FrameWork::MeshUpdateTotal);
+        std::optional<std::uint32_t> maximum_layer;
+        { DiagnosticWorkScope validation(FrameWork::MeshValidate); maximum_layer = ValidateMesh(data); }
+        std::shared_ptr<const MeshData> owned;
+        { DiagnosticWorkScope copy(FrameWork::MeshOwnedCopy); owned = std::make_shared<const MeshData>(data); }
         backend_->UpdateMesh(id, owned);
-        resources_.ReplaceMesh(handle, std::move(owned));
+        resources_.ReplaceMesh(handle, std::move(owned), maximum_layer);
     });
 }
 
@@ -120,6 +125,8 @@ void RendererState::DestroyTextureArray(TextureArrayHandle handle) {
 
 FrameResult RendererState::Render(const FrameInput& frame) {
     return Invoke("Render", [&] {
+        FrameDiagnosticScope diagnostic(config_.backend == Backend::Vulkan || config_.backend == Backend::D3D12,
+                                        frame.frame_id, frame.request_screenshot);
         const auto begin = std::chrono::steady_clock::now();
         if (has_frame_ && frame.frame_id <= last_frame_id_)
             throw std::invalid_argument("frame identity must increase strictly after each accepted frame");
@@ -137,7 +144,10 @@ FrameResult RendererState::Render(const FrameInput& frame) {
             ValidateTransform(draw.object_transform);
             auto mesh = resources_.Mesh(draw.mesh);
             auto texture = resources_.Texture(draw.texture_array);
-            ValidateMeshTextureLayers(*mesh, texture->layers);
+            {
+                DiagnosticWorkScope work(FrameWork::LayerSummaryCheck);
+                ValidateMeshTextureLayers(resources_.MeshMaximumLayer(draw.mesh), texture->layers);
+            }
             prepared.draws.push_back({resources_.Id(draw.mesh), resources_.Id(draw.texture_array),
                                       std::move(mesh), std::move(texture), draw.object_transform});
         }
@@ -150,6 +160,7 @@ FrameResult RendererState::Render(const FrameInput& frame) {
 
         const auto prepared_time = std::chrono::duration_cast<std::chrono::nanoseconds>(
             std::chrono::steady_clock::now() - begin);
+        DiagnosticPhase(FramePhase::BackendSetup);
         FrameResult result;
         if (lifecycle_ == RendererLifecycle::Suspended) {
             result.frame_id = frame.frame_id;
@@ -157,6 +168,7 @@ FrameResult RendererState::Render(const FrameInput& frame) {
             result.skip_reason = FrameSkipReason::ZeroExtent;
         } else {
             result = backend_->Render(prepared);
+            DiagnosticPhase(FramePhase::FacadeResult);
             if (result.frame_id != frame.frame_id ||
                 (result.status != FrameStatus::Presented && result.status != FrameStatus::Skipped) ||
                 (result.status == FrameStatus::Presented && result.skip_reason != FrameSkipReason::None) ||
@@ -198,6 +210,7 @@ FrameResult RendererState::Render(const FrameInput& frame) {
         result.statistics.cpu_prepare += prepared_time;
         last_frame_id_ = frame.frame_id;
         has_frame_ = true;
+        diagnostic.Complete();
         return result;
     });
 }

@@ -32,14 +32,20 @@ D3D12 当前借 Native Window 的 HWND；真实非软件硬件要求 FL12_0/SM6_
 Vulkan 目标使用 T2 的专用 Vulkan Window 与同一 SDL loader；私有桥接返回自有扩展名/入口并创建 caller-owned surface。后端拥有 instance/device/queue、surface、swapchain、buffer/image/memory、descriptor、SPIR-V pipeline、command pool/buffer、fence/semaphore及其销毁责任；surface早于窗口与instance销毁，全部资源/instance早于窗口销毁/loader卸载。扩展名复制不延长入口/窗口寿命。
 真实跟踪帧与交换链图像完成，配对 acquire/submit/present；out-of-date/suboptimal/resize与DeviceLost分开处理，不能留下已reset而无人signal的fence。所有等待有限；不引入渲染线程或设备原地恢复承诺。T2 instance/surface探针不是完整后端寿命证明，需 R4单独验证。
 
+2026-10-14用户批准生产Vulkan以KHR或EXT swapchain_maintenance1及其feature为必需能力，见[限定决定](decisions.md#2026-10-14-vulkan有限呈现退休能力)。submit fence与presentation fence分别覆盖绘制和呈现使用；退休成功才销毁交换链同步资源，核心WaitIdle不是有限完成证明。未证明完成时完整原生owner/实际loader保留至进程终结，不再访问借用Window，不将终止保留称正常回收。
+
 后端内部处理 RH视图、clip/depth/Y/绕序差异，不改变全局 GLM 宏；显式打包GPU顶点/常量布局与binding，不把28字节CPU顶点当通用GPU ABI。同源 HLSL目标分别产 DXIL/SPIR-V，差异限私有编译配置/binding；纹理方向、颜色、整数层/混层与现代alpha-depth修正独立留像素依据。
 
 ## Build and Measurement
+
+用户2026-10-17批准的前台准备为可选app策略，不是renderer/Window公开能力：初始世界和网格就绪后处理Poll/Capture/有界Wait事件，持续1秒获焦、非最小化且实际尺寸匹配，deadline内才接受；超时/Esc/关闭使本轮失败并走原清理/导出。等待不推进workload或Render，成功后清输入/物理余数、重设帧时钟，再完整执行预热/采样。准备时间单列startup；默认无该阶段，allow-unfocused拒绝该覆盖项，测量后的任何失焦仍单调无效。独立Python前台入口显式设置60秒准备及有限外层余量，不保证系统自动激活；Computer Use仅在准备中按用户授权置前。
 
 当前真实 target 是公开CPU `renderer_api`、CPU门面 `renderer`、私有 `renderer_backend_contract`、默认D3D12与可关闭的游戏专用legacy OpenGL；2026-10-12 补充 `SYMOCRAFT_RENDER_OPENGL` 与现代独占/全关闭拒绝组合，没有Vulkan。第二现代后端按真实交付加入选择与单/双组合，不建空target。启用者才找SDK/编译器及部署shader，私有头变化不重编业务模块；静态PRIVATE仍须核对最终link/install，CPU-only/benchmark-only/关闭测试不引测试脚手架或图形SDK。
 Vulkan函数入口惰性加载，未选Vulkan时缺loader不得使其他后端在参数解析前失败。shader依赖在构建规则显式声明、输出在build、安装包不要求DXC/SDK。平台bridge不反向依赖renderer，业务目标不直接链接后端；生产与测试遵守game/root test归属。
 
 GPU查询保存精确frame ID，非阻塞Poll、未就绪/不支持/丢弃/设备失败区别，截图等待置正式测量区间外；draw不含clear/resolve/截图/Present。CPU prepare、submit、present等候与startup/frame内上传分别具名，中立协议带后端/adapter/API/driver/shader生成身份和实际图像/呈现设置，不把D3D12/Vulkan装入gl字段。2026-10-12 原生Benchmark增加显式D3D12/现代v1兼容消费者，旧GL身份/25列保持；完整A18部署与生成身份条件仍按适用证据核对，不从消费者代码存在推定关闭。
+
+2026-10-15用户另行确认[Vulkan本轮正式配对口径](decisions.md#2026-10-15-vulkan已选预算与正式配对口径)，使用同版本GL/Vulkan各九轮的10＋50秒采样，独立按原D3D12同数值双门槛及两项内存相对预算判断；这是本轮独立选择，不回写历史“不自动继承”或旧失败。采集器仅扩展选中后端与分包身份，原nearest-rank、正式窗口、内存观测最大值及焦点可比性判断不改，未产生R4批准。
 
 ## Validation and Migration
 

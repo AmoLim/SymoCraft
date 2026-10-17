@@ -21,6 +21,11 @@ int main()
     try {
         const auto defaults = Parse({});
         Require(!defaults.seed.has_value());
+        Require(defaults.foreground_ready_timeout_seconds == 0);
+        Require(Parse({"--benchmark", "static", "--output", "new-run", "--foreground-ready-timeout-seconds", "60"}).foreground_ready_timeout_seconds == 60);
+        Reject({"--foreground-ready-timeout-seconds", "60"});
+        Reject({"--benchmark", "static", "--output", "new-run", "--foreground-ready-timeout-seconds", "60", "--focus-policy", "allow-unfocused"});
+        Reject({"--benchmark", "static", "--output", "new-run", "--foreground-ready-timeout-seconds", "0"});
         Require(defaults.renderer == "d3d12" && defaults.requested_samples == 4 && defaults.enable_validation);
         Require(Parse({"--renderer", "opengl"}).renderer == "opengl");
         for (const auto renderer : {"d3d12", "vulkan"}) {

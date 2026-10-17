@@ -1,6 +1,7 @@
 #pragma once
 #include <filesystem>
 #include <functional>
+#include <optional>
 #include <stop_token>
 #include <string>
 #include <vector>
@@ -12,6 +13,7 @@ namespace Benchmark {
         fs::path game, output;
         bool quick = false;
         std::string renderer = "opengl";
+        std::optional<bool> validation;
         std::string focus_policy = "allow-unfocused";
         std::string machine_label = "unknown", power_mode = "unknown", gpu_mode = "unknown", clocks = "unknown";
     };

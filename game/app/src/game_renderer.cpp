@@ -1,4 +1,5 @@
 #include "game_renderer.h"
+#include <symocraft/telemetry/document_io.h>
 #include "cleanup_sequence.h"
 #include "render_conversion.h"
 #include "startup_options.h"
@@ -64,6 +65,9 @@ WindowMode SelectWindowMode(const StartupOptions& options) {
 #ifdef SYMOCRAFT_APP_D3D12
     if (options.renderer == "d3d12") return WindowMode::Native;
 #endif
+#ifdef SYMOCRAFT_APP_VULKAN
+    if (options.renderer == "vulkan") return WindowMode::Vulkan;
+#endif
     throw Rendering::RenderError(Rendering::RenderErrorCategory::Unsupported,
         options.renderer == "opengl" ? "OpenGL" : options.renderer == "vulkan" ? "Vulkan" : "D3D12", "SelectBackend",
         "requested renderer is not implemented or compiled into this game; no fallback");
@@ -74,24 +78,31 @@ bool CheckRendererAssets(const StartupOptions& options, std::ostream& errors) {
 #ifdef SYMOCRAFT_APP_OPENGL
     if (!options.world_summary && options.renderer == "opengl") return Assets::CheckRequiredAssets(errors);
 #endif
-    constexpr std::array files{
+    std::vector<std::string> files{
         "configs/blockFormats.yaml", "textures/texture_atlas.png",
         "shaders/d3d12/blocks.vs.dxil", "shaders/d3d12/blocks.ps.dxil",
         "shaders/d3d12/selection.vs.dxil", "shaders/d3d12/selection.ps.dxil"};
+    const bool vulkan = options.renderer == "vulkan";
+    const char* backend = options.world_summary ? "World summary" : vulkan ? "Vulkan" : "D3D12";
+    if (vulkan) {
+        files.resize(2);
+        for (const auto* shader : {"blocks.vs.spv", "blocks.ps.spv", "selection.vs.spv", "selection.ps.spv"})
+            files.emplace_back(std::string("shaders/vulkan/") + shader);
+    }
     bool valid = true;
-    for (const auto file : files) {
+    for (const auto& file : files) {
         if (options.world_summary && std::string_view(file).starts_with("shaders/")) continue;
         try {
             const auto path = Assets::Resolve(file);
             std::error_code error;
             if (!std::filesystem::is_regular_file(path, error) ||
                 std::filesystem::file_size(path, error) == 0 || error) {
-                errors << (options.world_summary ? "World summary" : "D3D12")
+                errors << backend
                        << " missing, empty or inaccessible asset: " << path.string() << '\n';
                 valid = false;
             }
         } catch (const std::exception& error) {
-            errors << "D3D12 asset " << file << ": " << error.what() << '\n';
+            errors << backend << " asset " << file << ": " << error.what() << '\n';
             valid = false;
         }
     }
@@ -108,6 +119,7 @@ struct GameRenderer::Impl {
     std::uint32_t requested_samples{};
     std::vector<Rendering::MeshDraw> draws;
     Rendering::Extent2D extent;
+    bool extent_pending{};
 #ifdef SYMOCRAFT_APP_OPENGL
     std::unique_ptr<GpuTimer> legacy_timer;
     bool legacy_started{};
@@ -131,19 +143,19 @@ GameRenderer::GameRenderer(Window& window, const StartupOptions& options, bool c
     SelectWindowMode(options);
     auto& state = *impl_;
     state.requested_samples = options.requested_samples;
-    if (options.renderer == "d3d12") {
+    if (options.renderer == "d3d12" || options.renderer == "vulkan") {
         Rendering::RendererConfig config;
-        config.backend = Rendering::Backend::D3D12;
+        config.backend = options.renderer == "vulkan" ? Rendering::Backend::Vulkan : Rendering::Backend::D3D12;
         config.vsync = collect_samples ? options.vsync : true;
         config.requested_samples = options.requested_samples;
         config.enable_validation = options.enable_validation;
-        config.shader_asset_root = Assets::Resolve("shaders/d3d12");
+        config.shader_asset_root = Assets::Resolve(options.renderer == "vulkan" ? "shaders/vulkan" : "shaders/d3d12");
         state.modern = std::make_unique<Rendering::Renderer>(window, config);
         state.mesh_port.renderer = state.modern.get();
         state.cache = std::make_unique<WorldRenderCache<ModernMeshPort>>(state.mesh_port);
         state.extent = state.modern->GetInfo().framebuffer_extent;
         const auto info = state.modern->GetInfo();
-        std::cout << "[renderer] backend=D3D12; device=" << info.device_name
+        std::cout << "[renderer] backend=" << (info.backend == Rendering::Backend::Vulkan ? "Vulkan" : "D3D12") << "; device=" << info.device_name
                   << "; identity=" << info.device_identity << "; driver=" << info.driver_version
                   << "; samples=" << info.actual_samples << "; present=" << PresentName(info.actual_present_mode)
                   << "; validation=" << info.validation_enabled << std::endl;
@@ -214,9 +226,17 @@ void GameRenderer::Resize() {
     const Rendering::Extent2D extent{
         state.window.Minimized() ? 0u : static_cast<std::uint32_t>(std::max(state.window.width, 0)),
         state.window.Minimized() ? 0u : static_cast<std::uint32_t>(std::max(state.window.height, 0))};
-    if (extent.width != state.extent.width || extent.height != state.extent.height) {
-        state.modern->Resize(extent);
+    if (state.extent_pending || extent.width != state.extent.width || extent.height != state.extent.height) {
+        try { state.modern->Resize(extent); }
+        catch (const Rendering::RenderError& error) {
+            if (error.BackendName() != "Vulkan" || error.Operation() != "Resize" ||
+                error.Category() != Rendering::RenderErrorCategory::InvalidState || error.Diagnostic() != "surface_extent_pending") throw;
+            state.extent_pending = true;
+            state.window.WaitEvents(.01);
+            return;
+        }
         state.extent = extent;
+        state.extent_pending = false;
     }
 }
 void GameRenderer::DescribeSession(Performance::Session& session) const {
@@ -235,7 +255,7 @@ void GameRenderer::DescribeSession(Performance::Session& session) const {
 #endif
     const auto info = impl_->modern->GetInfo();
     Performance::RendererInfo description;
-    description.backend = "D3D12";
+    description.backend = info.backend == Rendering::Backend::Vulkan ? "Vulkan" : "D3D12";
     description.device_name = info.device_name;
     description.device_identity = info.device_identity;
     description.driver_version = info.driver_version;
@@ -253,7 +273,11 @@ void GameRenderer::DescribeSession(Performance::Session& session) const {
     description.gpu_time_scope = "native timestamps around mesh/selection draw, excluding clear, resolve, screenshot copy and Present";
     session.SetRendererInfo(description);
     session.metadata["requested_msaa_samples"] = impl_->requested_samples;
-    session.metadata["renderer_resource_upload_scope"] = "successful cache Create/Update bytes, counted once; Render upload bytes separately include selection staging";
+    session.metadata["shader_generation"] = Data::LoadYamlFile(Assets::Resolve(
+        info.backend == Rendering::Backend::Vulkan ? "shaders/vulkan/build.json" : "shaders/d3d12/build.json"));
+    session.metadata["renderer_resource_upload_scope"] = info.backend == Rendering::Backend::Vulkan
+        ? "successful cache Create/Update bytes, counted once; Render upload bytes include local constants and selection staging"
+        : "successful cache Create/Update bytes, counted once; Render upload bytes separately include selection staging";
     session.metadata["renderer_cpu_prepare_scope"] = "facade plus backend preparation, including frame-slot waits; excludes World cache upload and simulation";
 }
 void GameRenderer::SampleDeviceMemory(Performance::Memory& memory) const {
@@ -286,7 +310,15 @@ GameFrame GameRenderer::Render(std::uint64_t frame_id, const Camera& camera,
     auto& state = *impl_;
     GameFrame output;
     if (Modern()) {
+        const auto resize_start = Performance::Clock::now();
         Resize();
+        if (state.extent_pending) {
+            output.result.frame_id = frame_id;
+            output.result.skip_reason = Rendering::FrameSkipReason::Occluded;
+            output.result.statistics.cpu_prepare = std::chrono::duration_cast<std::chrono::nanoseconds>(Performance::Clock::now() - resize_start);
+            output.render_cpu_ms = Milliseconds(output.result.statistics.cpu_prepare);
+            return output;
+        }
         // Ordinary gameplay has no collector, but must still drain the bounded result ring.
         if (!session && !screenshot) (void)state.modern->PollGpuSamples();
         Rendering::FrameInput frame;
@@ -296,6 +328,7 @@ GameFrame GameRenderer::Render(std::uint64_t frame_id, const Camera& camera,
         if (selection) frame.selection = Rendering::SelectionBox{glm::floor(*selection), glm::floor(*selection) + glm::vec3(1.0f)};
         frame.request_screenshot = screenshot;
         output.result = state.modern->Render(frame);
+        if (output.result.skip_reason == Rendering::FrameSkipReason::ZeroExtent) state.extent = {};
         output.render_cpu_ms = Milliseconds(output.result.statistics.cpu_prepare) + Milliseconds(output.result.statistics.cpu_submit);
         output.present_ms = Milliseconds(output.result.statistics.present_wait);
         return output;
@@ -335,7 +368,7 @@ void GameRenderer::Capture(std::uint64_t frame_id, const Camera& camera,
     }
 #endif
     const auto frame = Render(frame_id, camera, selection, nullptr, true);
-    if (!frame.result.screenshot) throw std::runtime_error("D3D12 diagnostic frame did not produce a screenshot");
+    if (!frame.result.screenshot) throw std::runtime_error("modern renderer diagnostic frame did not produce a screenshot");
     const auto& image = *frame.result.screenshot;
     constexpr auto encoder_limit = static_cast<std::uint32_t>(std::numeric_limits<int>::max());
     if (image.extent.width > encoder_limit || image.extent.height > encoder_limit)

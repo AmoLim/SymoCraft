@@ -5,12 +5,16 @@ tags:
 
 # App 组合与运行
 
+2026-10-17本地同步状态：已批准的T3代码现已同步至本地feature-refactoring，生产owner为symocraft_app_runtime，薄main调用Application::RunGame，复用原Init/Run/Free循环；不包含T4实例化Application/SimulationSession代码。下述独立T4候选机制仍按其worktree与验证记录判读，不由本次T3同步推定合并。
+
 `game/app` 是私有组合根，不是下层模块的服务定位器。公开行为引用 [module-boundaries](../openspec/specs/module-boundaries/spec.md)、[platform](../openspec/specs/platform/spec.md)、[world](../openspec/specs/world/spec.md)、[simulation](../openspec/specs/simulation/spec.md) 和 [renderer](../openspec/specs/renderer/spec.md)。
 当前仍是 namespace `Application::Init/Run/Free` 与静态运行状态，不是实例化 Application/SimulationSession；目标及 Q01-Q04 只在 [T4](../openspec/changes/m3-t4-application-simulation/design.md)。节点与历史结果唯一从 [VERIFICATION](../verification/VERIFICATION.md) 判读。
 
+`symocraft_app_runtime` 是仅游戏配置创建的生产STATIC owner，唯一编译启动入口、Application循环与GameRenderer；游戏薄main和隔离probe链接同一实现，不重编译生产源码。`Application::RunGame` 位于 [game_entry.cpp](../../game/app/src/game_entry.cpp)，保留原main的参数/资产预检、错误分类、Free及Export时序；不是T4实例化或新公开模块API。
+
 ## 所有权与寿命
 
-main 拥有 `StartupOptions` 和可选 Performance::Session；记录覆盖装配、运行、Free 与显式 Export。参数中的 checkpoint/benchmark/output_directory/focus_policy/renderer 等 `string_view` 借 argv 或静态字面量，参数存储必须覆盖使用；转成自有 SessionConfig 不延长原 view。
+启动入口拥有 `StartupOptions` 和可选 Performance::Session；记录覆盖装配、运行、Free 与显式 Export。参数中的 checkpoint/benchmark/output_directory/focus_policy/renderer 等 `string_view` 借 argv 或静态字面量，参数存储必须覆盖使用；转成自有 SessionConfig 不延长原 view。
 Application 静态 unique_ptr 拥有 Window、Registry、Camera、GameRenderer；Camera 借 Registry，GameRenderer 借 Window。玩家 ID、选材/输入状态与放置冷却也在 app 保存，物理余数仍属于 simulation 的共享预算。
 pending BlockDefinition 在 Init 取得，Run 校验图集层后移动到局部 PreparedWorld 并 reset。PreparedWorld 独占 VoxelWorld，同时持有 Pose/报告值；Pose 名字借静态字符串。World、夹具、物理、射线、编辑、摘要与网格都用这一实例，至 Run/summary 返回或异常展开自动销毁。
 
@@ -28,12 +32,12 @@ benchmark 使用实际经过时间调度原 static/walk/edit，不被玩家键�
 
 ## 两条渲染路径
 
-`GameRenderer` 私有 PImpl 将同一玩法循环连接到两条真实路径。游戏默认 legacy OpenGL；编入且显式选择 D3D12 才使用 Native Window 和现代 Renderer。没有 Vulkan 工厂、热切换或失败 fallback，门面默认 D3D12 不改游戏默认。
+`GameRenderer` 私有PImpl将同一玩法循环连接到legacy与现代两条路径。用户批准R3后默认D3D12/Native Window，GL只经显式选择进入；工作目录候选另可显式编入并选择Vulkan/Vulkan Window，复用同一公开v1、缓存、atlas/相机/selection和循环，尚未R4接管验收。没有热切换或失败fallback，缺资产/能力不降低请求。
 GameRenderer 独占现代 Renderer、port/cache、图集句柄、draws 或旧 timer；port 只借门面且其寿命覆盖 cache 使用/释放，World/Camera/Session 仅同步借用。普通无记录现代帧仍非阻塞清空有界 GPU 结果队列。
 现代每帧只调用一次 Renderer::Render，由其唯一 Present；app 不额外交换 Native 缓冲。旧 GL 继续每帧 VisitMeshes→AppendMesh→Render→独立 Present，不继承现代持久缓存和 Failed/Stopped 强保证。
-现代 Resize 在帧边界使用 Window 的实际 drawable extent，最小化传零；调用成功后才更新本地 extent。相机使用真实 getter、度转弧度、near=0.1/far=2000，不复制 GL 投影到现代接口；旧投影在 app 按实际 aspect 派生。
+现代 Resize 在帧边界使用 Window 的实际 drawable extent，最小化传零；调用成功后才更新本地 extent。若后端Render先观察到ZeroExtent skip，清本地尺寸缓存，使后续恢复即使等于旧尺寸也重新Resize。相机使用真实 getter、度转弧度、near=0.1/far=2000，不复制 GL 投影到现代接口；旧投影在 app 按实际 aspect 派生。
 现代真实图集必须 512x512、64 个 64x64 tile，底行优先层号、层内 top-left RGBA8、RGB 补 alpha=255、Linear。World 顶点已是 world-space，model 恒等；自有化时只作一次 V=1-V，shader 不再翻转，不裁剪 repeat UV 或混层三角形。
-资源预检按选中路径检查：legacy 必需项只要求 regular_file，D3D12 必需项还检查非零大小；不初始化 GPU、不证明解码或 shader/PSO 正确。新 RenderError 保类别/后端/操作与原生诊断，具名向上退出，不转普通 World::Rejected。
+资源预检按选中路径检查：legacy必需项只要求regular_file，现代还检查非零大小，D3D12只查所需DXIL、Vulkan只查所需SPIR-V；不初始化GPU、不证明解码或shader/pipeline正确。现代telemetry使用实际后端名与实际Info，不把Vulkan冒充D3D12；上传范围单列每帧常量/selection与持久资源接受。新RenderError保类别/后端/操作与原生诊断，具名向上退出，不转普通World::Rejected。
 
 ## 发布缓存与失效
 

@@ -3,7 +3,8 @@ schema: symocraft-lite
 context: |
   Symocraft is a Windows x64 C++20 voxel game using MSVC, CMake/Ninja and SDL3.
   Default game renderer is D3D12; legacy OpenGL 4.6 is an explicit transition path.
-  Vulkan, an independent physics target and a compute service are not implemented.
+  Vulkan and overall T3 were approved on 2026-10-17 for the local RTX 5070 Ti scope; the accepted T3 code is now synchronized to local feature-refactoring. D3D12 remains default, Vulkan is opt-in, and OpenGL is retained. This does not merge the independent T4 worktree.
+  An independent physics target and a compute service are not implemented in this worktree.
   Planning root is docs; the implementation root is its parent, not the CLI root.
   Rules are ../AGENTS.md and DOCUMENTATION_MAP.md (relative to planning root).
   Each proposing Agent independently executes ../AGENTS.md section Proposal 前的规格预读.
@@ -12,7 +13,7 @@ context: |
   Default symocraft-lite; explicitly choose symocraft-full for complex tasks.
   Write Chinese content; retain structural English headers, SHALL/MUST and WHEN/THEN.
   Current specs are a bounded, code-reviewed baseline, not a claim of full repository or runtime validation.
-  T2 approval does not close publication risks. Fix1 remains paused. R3 D3D12 was approved and default switch authorized on 2026-10-12; retained verification gaps are not passing tests. Vulkan and overall T3 are not approved.
+  T2 approval does not close publication risks. Fix1 remains paused. R3 D3D12 was approved and default switch authorized on 2026-10-12. R4/Vulkan and overall T3 were approved on 2026-10-17 after the focused paired budget passed; historical failures and unrun boundary/regression, long-duration, clean-machine and lower-end coverage remain explicit risks, not passing tests.
   T4 has local CPU baseline/core authorization, but only the baseline was delivered; full T4 production migration is not authorized.
   Migration is not implementation, Git write, real sync/archive or acceptance authorization.
   Each change keeps one verification.md; no attachments or raw data unless explicitly required. It archives with the change; existing frozen evidence stays untouched.

@@ -6,6 +6,9 @@ endif()
 if(TEST_RENDERER STREQUAL "d3d12")
     list(APPEND SYMOCRAFT_REQUIRED_ASSETS shaders/d3d12/blocks.vs.dxil shaders/d3d12/blocks.ps.dxil
         shaders/d3d12/selection.vs.dxil shaders/d3d12/selection.ps.dxil)
+elseif(TEST_RENDERER STREQUAL "vulkan")
+    list(APPEND SYMOCRAFT_REQUIRED_ASSETS shaders/vulkan/blocks.vs.spv shaders/vulkan/blocks.ps.spv
+        shaders/vulkan/selection.vs.spv shaders/vulkan/selection.ps.spv)
 endif()
 
 foreach(required IN ITEMS GAME_EXECUTABLE SOURCE_ASSETS PROBE_PARENT)

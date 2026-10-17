@@ -29,6 +29,7 @@ analysis = load("test/experimental/q06-sampling/analyze-presample.py")
 presample = load("test/experimental/q06-sampling/run-presample.py")
 baseline = load("test/integration/simulation/CaptureCpuBaseline.py")
 incremental = load("test/integration/renderer/CheckRendererIncrementalBuild.py")
+renderer_matrix = load("test/integration/renderer/verify-renderer-configurations.py")
 publication = load("test/experimental/publication-fix1/collect-runs.py")
 offline = load("test/experimental/sdl3/verify-cmake-offline.py")
 backend = load("test/integration/renderer/verify-d3d12-backend.py")
@@ -296,6 +297,47 @@ class MigratedTests(unittest.TestCase):
         incremental.check_probe("private-d3d12-shader", log, incremental.compiled_owners(log), [], [], [], False)
         with self.assertRaises(ValueError):
             incremental.check_probe("private-d3d12-shader", log + "\nBuilding CXX object unrelated.cpp.obj", incremental.compiled_owners(log), [], [], [], False)
+
+    def test_incremental_runtime_and_vulkan_ownership(self):
+        log = "Building CXX object game/app/CMakeFiles/symocraft_app_runtime.dir/src/game_renderer.cpp.obj"
+        counts = incremental.compiled_owners(log)
+        incremental.assert_app(counts, incremental.app_sources(log), ["symocraft_app_runtime:game_renderer.cpp"])
+        log = ("Building CXX object game/modules/renderer/CMakeFiles/symocraft_renderer_vulkan.dir/src/backend/vulkan/vulkan_backend.cpp.obj\n"
+               "Building CXX object game/modules/renderer/CMakeFiles/symocraft_renderer.dir/src/backend/backend_factory.cpp.obj\n"
+               "Linking CXX executable test/renderer_public_api_consumer.exe\n")
+        incremental.check_probe("private-vulkan-header", log, incremental.compiled_owners(log), [], [], [], False)
+        with self.assertRaises(ValueError):
+            changed = log + "Building CXX object game/modules/world/CMakeFiles/world.dir/src/world.cpp.obj"
+            incremental.check_probe("private-vulkan-header", changed, incremental.compiled_owners(changed), [], [], [], False)
+
+    def test_incremental_dual_shader_missing_or_duplicate_output_fails(self):
+        log = "\n".join("Compiling D3D12 " + name + " Shader Model 6.0" for name in ("blocks.vs", "blocks.ps"))
+        log += "\n" + "\n".join("Generating ../../../bin/assets/shaders/vulkan/" + name + ".spv" for name in ("blocks.vs", "blocks.ps"))
+        expected = {"dxil": 2, "spirv": 2}
+        incremental.check_probe("shared-blocks-shader", log, incremental.compiled_owners(log), [], [], [], False, expected)
+        for bad in (log.rsplit("\n", 1)[0], log + "\nGenerating bin/assets/shaders/vulkan/blocks.ps.spv"):
+            with self.assertRaises(ValueError):
+                incremental.check_probe("shared-blocks-shader", bad, incremental.compiled_owners(bad), [], [], [], False, expected)
+
+    def test_matrix_independent_build_rejects_disabled_sdk_and_link(self):
+        self.file("build/build.ninja", b"build benchmark_core: STATIC_LIBRARY")
+        cache = self.file("build/CMakeCache.txt", b"BUILD_TESTING:BOOL=OFF")
+        build = cache.parent
+        self.assertFalse(any(renderer_matrix.check_isolation(build, "standalone", []).values()))
+        (build / "build.ninja").write_text("build symocraft_renderer.dir/src/renderer.cpp.obj: CXX_COMPILER")
+        self.assertFalse(any(renderer_matrix.check_isolation(build, "cpu", ["CPU_ONLY=ON"]).values()))
+        (build / "build.ninja").write_text("build symocraft_platform: STATIC_LIBRARY")
+        with self.assertRaises(ValueError):
+            renderer_matrix.check_isolation(build, "cpu", ["CPU_ONLY=ON"])
+        (build / "build.ninja").write_text("build benchmark_core: STATIC_LIBRARY")
+        for data in (b"SYMOCRAFT_VULKAN_HEADERS:PATH=C:/SDK", b"SYMOCRAFT_DXC:FILEPATH=C:/dxc.exe"):
+            cache.write_bytes(data)
+            with self.assertRaises(ValueError):
+                renderer_matrix.check_isolation(build, "standalone", [])
+        cache.write_bytes(b"BUILD_TESTING:BOOL=OFF")
+        (build / "build.ninja").write_text("build benchmark_core: STATIC_LIBRARY\nLINK_LIBRARIES = vulkan-1.lib")
+        with self.assertRaises(ValueError):
+            renderer_matrix.check_isolation(build, "standalone", [])
 
     def test_input_partial_is_not_pass(self):
         record = {"timed_out": False, "exit_code": 2, "report": {"status": "partial", "window_destroyed": True, "sdl_shutdown_completed": True}}
