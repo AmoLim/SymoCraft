@@ -15,6 +15,12 @@ namespace Benchmark {
     };
     std::wstring Quote(const std::wstring& argument);
     void Check(bool success, const char* operation);
+    namespace Detail {
+        // Private API binding permits deterministic race/failure tests of the real publisher.
+        void PublishYamlFile(const fs::path& temporary, const fs::path& destination,
+                             decltype(&ReplaceFileW) replace = &ReplaceFileW,
+                             decltype(&MoveFileExW) move = &MoveFileExW);
+    }
     class Process {
     public:
         Process(const fs::path& executable, const std::vector<std::wstring>& arguments,

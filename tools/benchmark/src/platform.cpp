@@ -161,12 +161,29 @@ namespace Benchmark {
         Check(ReadFile(input.value, text.data(), static_cast<DWORD>(text.size()), &read, nullptr) != 0 && read == text.size(), "Read protocol snapshot");
         return YAML::Load(text);
     }
+    void Detail::PublishYamlFile(const fs::path& temporary, const fs::path& destination,
+                                 decltype(&ReplaceFileW) replace, decltype(&MoveFileExW) move)
+    {
+        // Replacing preserves compatible readers' old snapshots; a first move must not clobber a competing file.
+        const bool replaced = replace(destination.c_str(), temporary.c_str(), nullptr, 0, nullptr, nullptr) != 0;
+        const DWORD replace_error = replaced ? ERROR_SUCCESS : GetLastError();
+        if (replaced) return;
+        const auto failure = [&](DWORD error, const char* api) {
+            return std::system_error(static_cast<int>(error), std::system_category(),
+                std::string("Publish YAML; api=") + api + "; flags=0; replace_error=" + std::to_string(replace_error)
+                + "; temporary=" + Utf8(temporary.wstring()) + "; destination=" + Utf8(destination.wstring()));
+        };
+        if (replace_error != ERROR_FILE_NOT_FOUND) throw failure(replace_error, "ReplaceFileW");
+        const bool moved = move(temporary.c_str(), destination.c_str(), 0) != 0;
+        const DWORD move_error = moved ? ERROR_SUCCESS : GetLastError();
+        if (!moved) throw failure(move_error, "MoveFileExW");
+    }
     void WriteYaml(const fs::path& path, const YAML::Node& node)
     {
         const auto temporary = fs::path(path.wstring() + L".tmp");
         std::ofstream file(temporary, std::ios::binary); file.exceptions(std::ios::badbit | std::ios::failbit);
         file << YAML::Dump(node) << '\n'; file.close();
-        Check(MoveFileExW(temporary.c_str(), path.c_str(), MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH) != 0, "Publish YAML");
+        Detail::PublishYamlFile(temporary, path);
     }
     YAML::Node Machine()
     {
