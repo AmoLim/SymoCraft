@@ -28,9 +28,10 @@ void ValidateConfig(const RendererConfig& config) {
         throw std::invalid_argument("renderer wait timeout must be positive");
 }
 
-void ValidateMesh(const MeshData& mesh) {
+std::optional<std::uint32_t> ValidateMesh(const MeshData& mesh) {
     if (mesh.vertices.size() % 3 != 0)
         throw std::invalid_argument("mesh must contain complete nonindexed triangles");
+    std::optional<std::uint32_t> maximum_layer;
     for (const auto& vertex : mesh.vertices) {
         if (!Finite(glm::vec3{vertex.pos_coord}) || !Finite(vertex.tex_coord) || !std::isfinite(vertex.normal))
             throw std::invalid_argument("mesh attributes must be finite");
@@ -38,7 +39,10 @@ void ValidateMesh(const MeshData& mesh) {
         if (layer < 0.0 || layer != std::floor(layer) ||
             layer > std::numeric_limits<std::uint32_t>::max())
             throw std::invalid_argument("texture layer must be a nonnegative uint32 integer");
+        const auto accepted_layer = static_cast<std::uint32_t>(layer);
+        if (!maximum_layer || accepted_layer > *maximum_layer) maximum_layer = accepted_layer;
     }
+    return maximum_layer;
 }
 
 void ValidateTextureArray(const TextureArrayData& texture) {
@@ -54,11 +58,10 @@ void ValidateTextureArray(const TextureArrayData& texture) {
         throw std::invalid_argument("texture pixels must exactly match tightly packed RGBA8 size");
 }
 
-void ValidateMeshTextureLayers(const MeshData& mesh, std::uint32_t layers) {
+void ValidateMeshTextureLayers(std::optional<std::uint32_t> maximum_layer, std::uint32_t layers) {
     if (layers == 0) throw std::invalid_argument("texture array must have layers");
-    for (const auto& vertex : mesh.vertices)
-        if (static_cast<double>(vertex.tex_coord.z) >= layers)
-            throw std::invalid_argument("mesh texture layer outside bound texture array");
+    if (maximum_layer && *maximum_layer >= layers)
+        throw std::invalid_argument("mesh texture layer outside bound texture array");
 }
 
 void ValidateCamera(const CameraParameters& camera) {

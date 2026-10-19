@@ -1,8 +1,0 @@
--- Configuring incomplete, errors occurred!
-CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:289 (message):
-  Boundary violation: symocraft_world exposes broad include root
-  F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/native-release/test/integration/negative-boundaries/broad-include/vendor
-Call Stack (most recent call first):
-  CMakeLists.txt:6 (symocraft_validate_boundaries)
-
-

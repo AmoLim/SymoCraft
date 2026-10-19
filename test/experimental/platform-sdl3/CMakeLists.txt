@@ -140,6 +140,81 @@ if(SYMOCRAFT_PLATFORM_PROBE_VULKAN)
     target_include_directories(SymoCraftPlatformSdl3Probe SYSTEM BEFORE PRIVATE
         "${SYMOCRAFT_VULKAN_HEADERS_ROOT}")
     target_compile_definitions(SymoCraftPlatformSdl3Probe PRIVATE SYMOCRAFT_PLATFORM_PROBE_VULKAN=1)
+    add_executable(SymoCraftVulkanCapabilitiesProbe vulkan_capabilities.cpp)
+    target_compile_features(SymoCraftVulkanCapabilitiesProbe PRIVATE cxx_std_20)
+    target_compile_options(SymoCraftVulkanCapabilitiesProbe PRIVATE /W4 /utf-8)
+    target_compile_definitions(SymoCraftVulkanCapabilitiesProbe PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
+    target_include_directories(SymoCraftVulkanCapabilitiesProbe SYSTEM BEFORE PRIVATE
+        "${SYMOCRAFT_VULKAN_HEADERS_ROOT}")
+    target_include_directories(SymoCraftVulkanCapabilitiesProbe PRIVATE
+        "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/platform/include"
+        "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/platform/src/graphics_bridge")
+    target_link_libraries(SymoCraftVulkanCapabilitiesProbe PRIVATE
+        production_platform production_foundation production_sdl production_glad
+        kernel32 user32 gdi32 winmm imm32 ole32 oleaut32 version uuid advapi32 setupapi shell32 Psapi)
+    option(SYMOCRAFT_PLATFORM_PROBE_TEXTURED "Build the isolated Vulkan R1-E01 textured experiment" OFF)
+    option(SYMOCRAFT_PLATFORM_PROBE_LIFETIME "Build the isolated Vulkan R1-E02 lifetime experiment" OFF)
+    option(SYMOCRAFT_PLATFORM_PROBE_RESIZE "Build the isolated Vulkan R1-E03 presentation experiment" OFF)
+    if((SYMOCRAFT_PLATFORM_PROBE_LIFETIME OR SYMOCRAFT_PLATFORM_PROBE_RESIZE) AND NOT SYMOCRAFT_PLATFORM_PROBE_TEXTURED)
+        message(FATAL_ERROR "The E02/E03 experiments require the explicit textured shader experiment configuration")
+    endif()
+    if(SYMOCRAFT_PLATFORM_PROBE_TEXTURED)
+        set(SYMOCRAFT_VULKAN_E01_DXC "" CACHE FILEPATH "Explicit SDK DXC executable for the isolated E01 experiment")
+        if(NOT EXISTS "${SYMOCRAFT_VULKAN_E01_DXC}" OR IS_DIRECTORY "${SYMOCRAFT_VULKAN_E01_DXC}")
+            message(FATAL_ERROR "The textured E01 experiment requires its explicit SDK DXC executable")
+        endif()
+        set(e01_shader_source "${SYMOCRAFT_REPOSITORY_ROOT}/assets/shaders/hlsl")
+        if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+            set(e01_shader_optimization -Od)
+        else()
+            set(e01_shader_optimization -O3)
+        endif()
+        foreach(stage IN ITEMS vs ps)
+            if(stage STREQUAL "vs")
+                set(entry VSMain)
+            else()
+                set(entry PSMain)
+            endif()
+            set(e01_shader "${CMAKE_BINARY_DIR}/shaders/blocks.${stage}.spv")
+            add_custom_command(OUTPUT "${e01_shader}"
+                COMMAND "${CMAKE_COMMAND}" -E make_directory "${CMAKE_BINARY_DIR}/shaders"
+                COMMAND "${SYMOCRAFT_VULKAN_E01_DXC}" -nologo -Ges -WX -Zpc ${e01_shader_optimization} -spirv
+                    -fspv-target-env=vulkan1.2 -fvk-use-dx-layout
+                    -fvk-b-shift 0 0 -fvk-t-shift 1 0 -fvk-s-shift 2 0
+                    -E ${entry} -T ${stage}_6_0 -I "${e01_shader_source}"
+                    -Fo "${e01_shader}" "${e01_shader_source}/blocks.hlsl"
+                DEPENDS "${e01_shader_source}/blocks.hlsl" "${e01_shader_source}/draw_constants.hlsli"
+                VERBATIM)
+            list(APPEND e01_shaders "${e01_shader}")
+        endforeach()
+        add_executable(SymoCraftVulkanTexturedProbe vulkan_textured_probe.cpp)
+        set(textured_probes SymoCraftVulkanTexturedProbe)
+        if(SYMOCRAFT_PLATFORM_PROBE_LIFETIME)
+            add_executable(SymoCraftVulkanLifetimeProbe vulkan_lifetime_probe.cpp)
+            list(APPEND textured_probes SymoCraftVulkanLifetimeProbe)
+        endif()
+        if(SYMOCRAFT_PLATFORM_PROBE_RESIZE)
+            add_executable(SymoCraftVulkanResizeProbe vulkan_resize_probe.cpp)
+            list(APPEND textured_probes SymoCraftVulkanResizeProbe)
+        endif()
+        foreach(probe IN LISTS textured_probes)
+            target_sources(${probe} PRIVATE ${e01_shaders})
+            target_compile_features(${probe} PRIVATE cxx_std_20)
+            target_compile_options(${probe} PRIVATE /W4 /utf-8)
+            target_compile_definitions(${probe} PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
+            if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+                target_compile_definitions(${probe} PRIVATE SYMOCRAFT_VULKAN_E01_DEBUG_ABI=1)
+            endif()
+            target_include_directories(${probe} SYSTEM BEFORE PRIVATE
+                "${SYMOCRAFT_VULKAN_HEADERS_ROOT}")
+            target_include_directories(${probe} PRIVATE
+                "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/platform/include"
+                "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/platform/src/graphics_bridge")
+            target_link_libraries(${probe} PRIVATE
+                production_platform production_foundation production_sdl production_glad
+                kernel32 user32 gdi32 winmm imm32 ole32 oleaut32 version uuid advapi32 setupapi shell32 Psapi)
+        endforeach()
+    endif()
     message(STATUS "Production bridge probe Vulkan header source: ${SYMOCRAFT_VULKAN_HEADERS_ROOT}")
 endif()
 

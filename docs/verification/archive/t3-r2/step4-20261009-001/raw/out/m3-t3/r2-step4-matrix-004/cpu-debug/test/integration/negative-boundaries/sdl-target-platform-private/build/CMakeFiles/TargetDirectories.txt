@@ -1,7 +1,0 @@
-F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/cpu-debug/test/integration/negative-boundaries/sdl-target-platform-private/build/CMakeFiles/edit_cache.dir
-F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/cpu-debug/test/integration/negative-boundaries/sdl-target-platform-private/build/CMakeFiles/rebuild_cache.dir
-F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/cpu-debug/test/integration/negative-boundaries/sdl-target-platform-private/build/vendor/sdl3/CMakeFiles/edit_cache.dir
-F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/cpu-debug/test/integration/negative-boundaries/sdl-target-platform-private/build/vendor/sdl3/CMakeFiles/rebuild_cache.dir
-F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/cpu-debug/test/integration/negative-boundaries/sdl-target-platform-private/build/game/modules/platform/CMakeFiles/symocraft_platform.dir
-F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/cpu-debug/test/integration/negative-boundaries/sdl-target-platform-private/build/game/modules/platform/CMakeFiles/edit_cache.dir
-F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-004/cpu-debug/test/integration/negative-boundaries/sdl-target-platform-private/build/game/modules/platform/CMakeFiles/rebuild_cache.dir

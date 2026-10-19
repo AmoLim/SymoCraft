@@ -162,6 +162,20 @@ class CandidateScriptsTests(unittest.TestCase):
                          {item["path"] for item in manifest["files"]} | {"package-manifest.json"})
         self.assertTrue(all(not Path(item["path"]).is_absolute() for item in actual))
 
+    def test_modern_only_manifest_preserves_default_and_excludes_legacy_payload(self):
+        manifest = self.valid_manifest()
+        manifest["available_renderers"] = ["d3d12"]
+        self.write_manifest(manifest)
+        self.assertEqual(VERIFY.read_package_manifest(self.package), manifest)
+        for name in ("assets/shaders/blocksVertexShader.glsl", "licenses/glad-LICENSE.txt"):
+            path = self.payload(name)
+            entry = VERIFY.identity(path)
+            entry["path"] = name
+            manifest["files"].append(entry)
+            self.write_manifest(manifest)
+            with self.assertRaises(RuntimeError):
+                VERIFY.read_package_manifest(self.package)
+
     def test_manifest_rejects_duplicate_and_case_alias(self):
         original = self.valid_manifest()
         for alias in ("SymoCraft.exe", "symocraft.exe"):
@@ -223,10 +237,18 @@ class CandidateScriptsTests(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             VERIFY.read_package_manifest(self.package)
 
+    def test_manifest_accepts_current_and_historical_game_defaults(self):
+        for default in ("opengl", "d3d12"):
+            with self.subTest(default=default):
+                manifest = self.valid_manifest()
+                manifest["default_renderer"] = default
+                self.write_manifest(manifest)
+                self.assertEqual(VERIFY.read_package_manifest(self.package)["default_renderer"], default)
+
     def test_manifest_rejects_backend_default_validation_and_policy_changes(self):
         original = self.valid_manifest()
         changes = (("schema_version", 2), ("package_kind", "experiment"), ("configuration", "Unknown"),
-                   ("default_renderer", "d3d12"), ("available_renderers", ["opengl", "d3d12", "vulkan"]),
+                   ("default_renderer", "vulkan"), ("available_renderers", ["opengl", "d3d12", "vulkan"]),
                    ("required_debug_layer", False), ("validation_default", False),
                    ("software_adapter_allowed", True), ("runtime_policy", "developer-local-nonredistributable"))
         for key, replacement in changes:

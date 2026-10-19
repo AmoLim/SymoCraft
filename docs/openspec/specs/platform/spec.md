@@ -7,7 +7,7 @@ tags:
 
 ## Purpose
 
-维护 SDL3 迁移后已经存在的单窗口/输入/三种私有图形交接能力，不发布 T4 实例化目标或生产 Vulkan renderer。依据[公共头](../../../../game/modules/platform/include/symocraft/platform/window.h)、[窗口实现](../../../../game/modules/platform/src/window.cpp)、[输入 reducer](../../../../game/modules/platform/src/input_state.h)、[应用循环](../../../../game/app/src/application.cpp)及 [T2 S4 历史交接](../../../milestones/m3-t2/s4-platform-handoff.md)。原 [T2 来源](../../../spec/M3/M3-T2-SDL3迁移.md)只供复核；本轮无构建/硬件输入/GPU 成绩。
+维护 SDL3 迁移后已经存在的单窗口/输入/三种私有图形交接能力，不发布 T4 实例化目标或生产 Vulkan renderer。依据[公共头](../../../../game/modules/platform/include/symocraft/platform/window.h)、[窗口实现](../../../../game/modules/platform/src/window.cpp)、[输入 reducer](../../../../game/modules/platform/src/input_state.h)、[应用循环](../../../../game/app/src/application.cpp)及 [T2 S4 历史交接](spec.md)。旧T2正文可由全局退役材料恢复导航读取；本轮无构建/硬件输入/GPU 成绩。
 
 ## Requirements
 

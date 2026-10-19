@@ -1,2 +1,0 @@
-target	type	file
-symocraft_platform	STATIC_LIBRARY	game/modules/platform/src/owned.cpp

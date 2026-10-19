@@ -7,7 +7,7 @@ tags:
 
 ## Purpose
 
-维护有限世界、受控编辑与 CPU 网格交接的现役契约。核对[公开入口](../../../../game/modules/world/include/symocraft/world/world.h)、[定义](../../../../game/modules/world/src/block.cpp)、[编辑/发布](../../../../game/modules/world/src/world.cpp)、[生成](../../../../game/modules/world/src/generation.cpp)及[私有 Mesher](../../../../game/modules/world/src/chunk_mesher.cpp)，对应 [T1 历史验证](../../../milestones/m3-t1/README.md#验收)。原 [T1 来源](../../../spec/M3/M3-T1-世界模块重构.md)只供复核；本轮没有构建、故障扫描或 GPU 运行。
+维护有限世界、受控编辑与 CPU 网格交接的现役契约。核对[公开入口](../../../../game/modules/world/include/symocraft/world/world.h)、[定义](../../../../game/modules/world/src/block.cpp)、[编辑/发布](../../../../game/modules/world/src/world.cpp)、[生成](../../../../game/modules/world/src/generation.cpp)及[私有 Mesher](../../../../game/modules/world/src/chunk_mesher.cpp)，对应 [T1 历史验证](../../../verification/VERIFICATION.md#退役材料恢复)。旧T1正文可由全局退役材料恢复导航读取；本轮没有构建、故障扫描或 GPU 运行。
 
 ## Requirements
 

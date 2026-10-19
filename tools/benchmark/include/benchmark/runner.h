@@ -1,6 +1,7 @@
 #pragma once
 #include <filesystem>
 #include <functional>
+#include <optional>
 #include <stop_token>
 #include <string>
 #include <vector>
@@ -11,6 +12,8 @@ namespace Benchmark {
     struct Config {
         fs::path game, output;
         bool quick = false;
+        std::string renderer = "opengl";
+        std::optional<bool> validation;
         std::string focus_policy = "allow-unfocused";
         std::string machine_label = "unknown", power_mode = "unknown", gpu_mode = "unknown", clocks = "unknown";
     };
@@ -25,7 +28,8 @@ namespace Benchmark {
 
     std::vector<Round> Plan(bool quick);
     Outcome Run(const Config& config, std::stop_token stop = {}, const Observer& observer = {}, bool resume = false);
-    YAML::Node ValidateCapture(const fs::path& capture, const Round& round, const std::string& focus_policy, unsigned long exit_code);
+    YAML::Node ValidateCapture(const fs::path& capture, const Round& round, const std::string& focus_policy, unsigned long exit_code,
+                               const std::string& renderer = "opengl");
     fs::path Export(const Config& config, std::stop_token stop = {});
     fs::path ExecutablePath();
     fs::path DefaultOutputParent();

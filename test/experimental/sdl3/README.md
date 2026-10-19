@@ -53,4 +53,4 @@ GLFW comparison tools must keep using their recorded GLFW baseline build, not
 new SDL production libraries. Earlier preparation results remain historical.
 
 Preparation progress and limitations are recorded in
-`docs/milestones/m3-t2/README.md`.
+`docs/openspec/specs/platform/spec.md`.

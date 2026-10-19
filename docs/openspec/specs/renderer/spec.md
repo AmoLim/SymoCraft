@@ -9,6 +9,7 @@ tags:
 
 最小现役公开行为基线，覆盖当前游戏选择与现代 `Rendering::Renderer`，不是 T3 整体验收声明。
 2026-10-10 迁移时已静态核对公开头、门面/registry/校验、D3D12 关键实现和 app 转接；未运行 C++、游戏或 GPU。
+2026-10-12 用户批准 R3 并授权默认切换后，仅更新 Backend Selection 现役行为；定向构建/启动结果及既有未覆盖风险见 [T3 验证](../../changes/m3-t3-renderer/verification.md#默认切换验证)，不将其他目标整组同步为已验证。
 内部正确性机制及 P-I/G-I/D-I/旧 GL I 编号由 [renderer 架构](../../../architecture/renderer.md) 维护。
 历史结果、版本身份、查验包与可运行包的区别及批准只从 [VERIFICATION](../../../verification/VERIFICATION.md) 判读。
 源码/测试存在不证明实际设备故障、长期回收、人工玩法或 R3/R4 通过；未纳入本基线的行为也不等于未实现。
@@ -16,11 +17,11 @@ tags:
 ## Requirements
 
 ### Requirement: Backend Selection and Availability
-游戏 SHALL 在创建窗口前选择一个后端；当前默认 SHALL 保持隔离的 legacy OpenGL 4.6，已编入的 D3D12 SHALL 仅通过显式选择进入同一游戏循环。现代门面 SHALL 具名拒绝未实现/未编入后端，不静默回退或使用软件设备冒充能力成立。
+游戏 SHALL 在创建窗口前选择一个后端；当前默认 SHALL 为 D3D12，保留的 legacy OpenGL 4.6 SHALL 仅通过显式 `--renderer opengl` 进入同一游戏循环。未实现/未编入或能力不足的选择 SHALL 具名拒绝，不静默回退或使用软件设备冒充能力成立。
 
-#### Scenario: Current game default and opt-in candidate
-- **WHEN** 游戏未给出 `--renderer`，或显式选择已编入的 `d3d12`
-- **THEN** 前者选择 legacy OpenGL，后者选择 Native-mode Window 与真实 D3D12；`RendererConfig` 默认 D3D12 不改变游戏默认。
+#### Scenario: Current game default and explicit transition
+- **WHEN** 游戏未给出 `--renderer`，显式选择 `d3d12`，或显式选择已编入的 `opengl`
+- **THEN** 前两者选择 Native-mode Window 与真实 D3D12，后者选择隔离的 legacy OpenGL；两默认配置均为 D3D12，不热切后端。
 
 #### Scenario: Unavailable backend or capability
 - **WHEN** 现代门面请求 OpenGL/Vulkan、请求未编入的 D3D12，或 D3D12 硬件不支持 FL12_0/SM6_0、请求采样或呈现能力
@@ -29,6 +30,10 @@ tags:
 #### Scenario: Selected asset preflight
 - **WHEN** 执行选中后端的 `--check-assets`
 - **THEN** 仅检查选中路径的必需文件：legacy OpenGL 检查 regular_file，D3D12 还拒绝零大小或不可访问文件；不初始化 GPU，也不将文件存在视为解码/shader/PSO/驱动验证。
+
+#### Scenario: Uncompiled default and missing default assets
+- **WHEN** 游戏省略 `--renderer` 但 D3D12 未编入，或默认 D3D12 所需 DXIL 缺失
+- **THEN** 前者以 Unsupported 拒绝，后者资产预检失败并具名 DXIL；即使 GL 已编入且资产可用也不回退。新游戏构建首次默认编入 D3D12，已有 OFF 缓存不自动重写；CPU-only 与独立工具保持无原生后端。
 
 ### Requirement: Public Boundary and Call Discipline
 现代 Renderer MUST 以中立 C++20 公开头提供资源/帧/结果/错误，不暴露图形 SDK 或私有后端扩展点；实例不可复制或移动。应用 SHALL 拥有且保持 Window 有效至 Renderer 关闭和销毁，所有显式入口 SHALL 在创建线程串行、非重入调用（R-I1、R-I2）。
@@ -57,7 +62,7 @@ tags:
 
 #### Scenario: Invalid input and mixed layers
 - **WHEN** 输入违反尺寸、精确长度/溢出、三角形、有限值、整数层或相机/AABB 约束
-- **THEN** 在原生提交前拒绝；同一三角形顶点层号不同本身不非法，Render 仍按本 draw 纹理数组层数逐顶点校验。
+- **THEN** 在原生提交前拒绝；同一三角形顶点层号不同本身不非法，Render 仍按本 draw 纹理数组层数校验全部顶点所用层号是否合法。
 
 #### Scenario: Coordinate and sample meaning
 - **WHEN** 使用合法基础方块输入在 D3D12 绘制

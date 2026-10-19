@@ -1,4 +1,7 @@
 #include "d3d12_backend.h"
+#include "diagnostic_access.h"
+#include "srv_binding_cache.h"
+#include "../../frame_diagnostics.h"
 
 #include "pipeline.h"
 #include "native_bridge.h"
@@ -108,21 +111,40 @@ struct IdLess {
 
 struct MeshResource {
     ComPtr<ID3D12Resource> buffer;
+    std::shared_ptr<D3D12DiagnosticAccess> diagnostic;
+    UINT64 allocated_bytes = 0;
     UINT vertices = 0;
     UINT bytes = 0;
     std::array<double, 3> max_coordinate{};
+    ~MeshResource() {
+        buffer.Reset();
+        if (allocated_bytes && diagnostic) {
+            ++diagnostic->mesh_buffers_released;
+            diagnostic->live_resource_bytes -= allocated_bytes;
+        }
+    }
 };
 
 struct TextureResource {
     ComPtr<ID3D12Resource> texture;
+    std::shared_ptr<D3D12DiagnosticAccess> diagnostic;
+    UINT64 allocated_bytes = 0;
     DXGI_FORMAT format = StorageFormat;
     UINT layers = 0;
+    ~TextureResource() {
+        texture.Reset();
+        if (allocated_bytes && diagnostic) {
+            ++diagnostic->textures_released;
+            diagnostic->live_resource_bytes -= allocated_bytes;
+        }
+    }
 };
 
 struct FrameContext {
     ComPtr<ID3D12CommandAllocator> allocator;
     ComPtr<ID3D12GraphicsCommandList> commands;
     ComPtr<ID3D12DescriptorHeap> descriptors;
+    SrvBindingCache srv_bindings;
     ComPtr<ID3D12Resource> selection;
     ComPtr<ID3D12Resource> screenshot;
     ComPtr<ID3D12Resource> query_readback;
@@ -215,8 +237,18 @@ CameraMatrices CameraMatrix(const CameraParameters& camera, Extent2D extent) {
 
 class D3D12Backend final : public RenderBackend {
 public:
-    D3D12Backend(Window& window, const RendererConfig& config) : config_(config) {
-        try { Initialize(window); }
+    D3D12Backend(Window& window, const RendererConfig& config,
+                 std::shared_ptr<D3D12DiagnosticAccess> diagnostic = {})
+        : config_(config), diagnostic_(std::move(diagnostic)) {
+        try {
+            Initialize(window);
+            if (diagnostic_) {
+                diagnostic_->device = device_;
+                diagnostic_->queue = queue_;
+                diagnostic_->completion = fence_;
+                if (diagnostic_->on_initialized) diagnostic_->on_initialized(*diagnostic_);
+            }
+        }
         catch (...) { ShutdownNoexcept(); throw; }
     }
     ~D3D12Backend() noexcept override { ShutdownNoexcept(); }
@@ -294,6 +326,7 @@ private:
     void QuarantineNative() noexcept;
 
     RendererConfig config_;
+    std::shared_ptr<D3D12DiagnosticAccess> diagnostic_;
     RendererInfo info_;
     HWND window_ = nullptr;
     bool failed_ = false;
@@ -364,6 +397,7 @@ void D3D12Backend::Check(HRESULT result, const char* operation, bool initializin
 
 void D3D12Backend::CheckDebug(const char* operation) {
     if (!diagnostics_) return;
+    if (diagnostic_) ++diagnostic_->info_queue_checks;
     bool violation = false;
     std::ostringstream detail;
     const UINT64 count = diagnostics_->GetNumStoredMessagesAllowedByRetrievalFilter();
@@ -377,6 +411,11 @@ void D3D12Backend::CheckDebug(const char* operation) {
                          message->Severity == D3D12_MESSAGE_SEVERITY_ERROR ||
                          message->Severity == D3D12_MESSAGE_SEVERITY_CORRUPTION;
         if (bad) {
+            if (diagnostic_) {
+                if (message->Severity == D3D12_MESSAGE_SEVERITY_WARNING) ++diagnostic_->validation_warnings;
+                if (message->Severity == D3D12_MESSAGE_SEVERITY_ERROR) ++diagnostic_->validation_errors;
+                if (message->Severity == D3D12_MESSAGE_SEVERITY_CORRUPTION) ++diagnostic_->validation_corruptions;
+            }
             violation = true;
             detail << "severity=" << message->Severity << " id=" << message->ID << " text="
                    << std::string_view(message->pDescription, message->DescriptionByteLength) << '\n';
@@ -646,6 +685,7 @@ UINT64 D3D12Backend::Completed(const char* operation) {
 }
 
 void D3D12Backend::WaitEvent(HANDLE event, const char* operation) {
+    if (diagnostic_) ++diagnostic_->wait_calls;
     const auto timeout = static_cast<DWORD>(std::min<std::int64_t>(config_.wait_timeout.count(), MAXDWORD - 1));
     const DWORD result = WaitForSingleObject(event, timeout);
     if (result == WAIT_OBJECT_0) return;
@@ -676,8 +716,13 @@ UINT64 D3D12Backend::Signal(const char* operation) {
         throw RenderError(RenderErrorCategory::SubmissionFailure, "D3D12", operation, "fence identity exhausted");
     }
     const auto value = next_fence_++;
+    if (diagnostic_ && std::string_view(operation) == "Signal(frame draws)") {
+        if (auto callback = std::exchange(diagnostic_->before_frame_signal, {})) callback(*diagnostic_);
+        Check(std::exchange(diagnostic_->next_frame_signal_result, S_OK), operation);
+    }
     Check(queue_->Signal(fence_.Get(), value), operation);
     last_submitted_ = value;
+    if (diagnostic_) diagnostic_->last_signal = value;
     unfenced_work_ = false;
     return value;
 }
@@ -685,10 +730,18 @@ UINT64 D3D12Backend::Signal(const char* operation) {
 ComPtr<ID3D12Resource> D3D12Backend::UploadBuffer(const void* bytes, UINT64 size, const char* operation) {
     ComPtr<ID3D12Resource> result;
     if (!size) return result;
+    if (diagnostic_ && std::string_view(operation) == "CreateResource(mesh upload)")
+        Check(std::exchange(diagnostic_->next_mesh_allocation_result, S_OK), operation);
     const auto heap = Heap(D3D12_HEAP_TYPE_UPLOAD);
     const auto desc = Buffer(size);
-    Check(device_->CreateCommittedResource(&heap, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_GENERIC_READ,
-                                          nullptr, IID_PPV_ARGS(&result)), operation);
+    const bool measured_mesh = frame_diagnostic_sink && std::string_view(operation) == "CreateResource(mesh upload)";
+    {
+        DiagnosticWorkScope allocation(FrameWork::MeshAllocate, measured_mesh);
+        Check(device_->CreateCommittedResource(&heap, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_GENERIC_READ,
+                                              nullptr, IID_PPV_ARGS(&result)), operation);
+    }
+    if (frame_diagnostic_sink && !measured_mesh) DiagnosticPhase(FramePhase::SelectionWrite);
+    DiagnosticWorkScope transfer(FrameWork::MeshMapCopy, measured_mesh);
     void* mapped = nullptr;
     const D3D12_RANGE no_read{0, 0};
     Check(result->Map(0, &no_read, &mapped), "UploadBuffer.Map");
@@ -704,12 +757,26 @@ std::shared_ptr<MeshResource> D3D12Backend::PrepareMesh(const MeshData& data) {
     auto resource = std::make_shared<MeshResource>();
     resource->vertices = static_cast<UINT>(data.vertices.size());
     resource->bytes = resource->vertices * sizeof(BlockVertex3D);
-    for (const auto& vertex : data.vertices)
-        for (glm::length_t axis = 0; axis < 3; ++axis)
-            resource->max_coordinate[axis] = std::max(resource->max_coordinate[axis],
-                std::abs(static_cast<double>(static_cast<float>(vertex.pos_coord[axis]))));
+    {
+        DiagnosticWorkScope bounds(FrameWork::MeshBounds);
+        for (const auto& vertex : data.vertices)
+            for (glm::length_t axis = 0; axis < 3; ++axis)
+                resource->max_coordinate[axis] = std::max(resource->max_coordinate[axis],
+                    std::abs(static_cast<double>(static_cast<float>(vertex.pos_coord[axis]))));
+    }
     resource->buffer = UploadBuffer(data.vertices.data(), resource->bytes, "CreateResource(mesh upload)");
-    CheckDebug("PrepareMesh");
+    if (diagnostic_) {
+        resource->diagnostic = diagnostic_;
+        if (resource->buffer) {
+            const auto desc = resource->buffer->GetDesc();
+            resource->allocated_bytes = device_->GetResourceAllocationInfo(0, 1, &desc).SizeInBytes;
+            ++diagnostic_->mesh_buffers_created;
+            diagnostic_->live_resource_bytes += resource->allocated_bytes;
+            diagnostic_->peak_resource_bytes = std::max(diagnostic_->peak_resource_bytes, diagnostic_->live_resource_bytes);
+        }
+        diagnostic_->last_mesh = resource;
+    }
+    { DiagnosticWorkScope validation(FrameWork::MeshDebug); CheckDebug("PrepareMesh"); }
     return resource;
 }
 
@@ -806,6 +873,15 @@ void D3D12Backend::CreateTextureArray(BackendResourceId id, std::shared_ptr<cons
         WaitFor(submitted, "TextureUpload.Wait");
         CheckDebug("TextureUpload.Complete");
         textures_.insert(staging.extract(id));
+        if (diagnostic_) {
+            resource->diagnostic = diagnostic_;
+            const auto accepted_desc = resource->texture->GetDesc();
+            resource->allocated_bytes = device_->GetResourceAllocationInfo(0, 1, &accepted_desc).SizeInBytes;
+            ++diagnostic_->textures_created;
+            diagnostic_->live_resource_bytes += resource->allocated_bytes;
+            diagnostic_->peak_resource_bytes = std::max(diagnostic_->peak_resource_bytes, diagnostic_->live_resource_bytes);
+            diagnostic_->last_texture = resource;
+        }
         pending_texture_.Reset(); pending_upload_.Reset();
         upload_commands_.Reset(); upload_allocator_.Reset();
     });
@@ -821,6 +897,9 @@ void D3D12Backend::PushSample(const GpuFrameSample& sample) noexcept {
     if (ready_count_ == ReadySampleCount) {
         // A consumer that never polls cannot grow backend storage without bound.
         OutputDebugStringA("Symocraft D3D12: GPU sample ring overflow; oldest completed identity discarded.\n");
+        std::fprintf(stderr, "Symocraft D3D12 GPU sample discarded: frame=%llu\n",
+                     static_cast<unsigned long long>(ready_samples_[ready_head_].frame_id));
+        if (diagnostic_) ++diagnostic_->sample_drops;
         ready_head_ = (ready_head_ + 1) % ReadySampleCount;
         --ready_count_;
     }
@@ -833,6 +912,7 @@ void D3D12Backend::CollectQuery(FrameContext& frame) {
     const D3D12_RANGE read{0, sizeof(UINT64) * 2};
     void* mapped = nullptr;
     Check(frame.query_readback->Map(0, &read, &mapped), "GpuQuery.Readback.Map");
+    if (diagnostic_) ++diagnostic_->query_readbacks;
     std::array<UINT64, 2> ticks{};
     std::memcpy(ticks.data(), mapped, sizeof(ticks));
     const D3D12_RANGE no_write{0, 0};
@@ -863,21 +943,38 @@ FrameResult D3D12Backend::Render(const PreparedFrame& input) {
             PushSample({input.frame_id, false, std::nullopt, GpuSampleMissingReason::Discarded});
             return result;
         }
-        if (!swapchain_ || input.extent.width != info_.framebuffer_extent.width || input.extent.height != info_.framebuffer_extent.height ||
-            native.width != input.extent.width || native.height != input.extent.height)
+        if (!swapchain_ || input.extent.width != info_.framebuffer_extent.width || input.extent.height != info_.framebuffer_extent.height)
             throw RenderError(RenderErrorCategory::InvalidState, "D3D12", "Render", "native extent changed; Resize must accept it before Render");
+        // A native resize can arrive after the app polls SDL but before submission.
+        if (native.width != input.extent.width || native.height != input.extent.height) {
+            result.skip_reason = FrameSkipReason::Occluded;
+            PushSample({input.frame_id, false, std::nullopt, GpuSampleMissingReason::Discarded});
+            return result;
+        }
         if (input.draws.size() > D3D12_MAX_SHADER_VISIBLE_DESCRIPTOR_HEAP_SIZE_TIER_1)
             throw RenderError(RenderErrorCategory::Unsupported, "D3D12", "Render", "frame exceeds shader-visible descriptor capacity");
         const UINT index = swapchain_->GetCurrentBackBufferIndex();
         if (index >= FrameCount) throw RenderError(RenderErrorCategory::SubmissionFailure, "D3D12", "Render", "invalid backbuffer index");
         auto& frame = frames_[index];
+        DiagnosticPhase(FramePhase::SlotWaitCollect);
         WaitFor(frame.fence, "FrameContext.Wait");
+        if (diagnostic_) {
+            diagnostic_->last_srv_slot = index;
+            diagnostic_->last_srv_frame_id = input.frame_id;
+        }
+        DiagnosticPhase(FramePhase::QueryCollect);
         CollectQuery(frame);
+        DiagnosticPhase(FramePhase::CommandBegin);
         Check(frame.allocator->Reset(), "DiscardFrame.Allocator.Reset");
         Check(frame.commands->Reset(frame.allocator.Get(), nullptr), "DiscardFrame.Commands.Reset");
         Check(frame.commands->Close(), "DiscardFrame.Commands.Close");
+        DiagnosticPhase(FramePhase::ResourceRetire);
         frame.mesh_refs.clear(); frame.texture_refs.clear();
-        frame.descriptors.Reset(); frame.selection.Reset(); frame.screenshot.Reset();
+        DiagnosticPhase(FramePhase::DescriptorRetire);
+        // A completed frame slot retains its SRV heap; growth or teardown releases it.
+        DiagnosticPhase(FramePhase::ResourceRetire);
+        frame.selection.Reset(); frame.screenshot.Reset();
+        DiagnosticPhase(FramePhase::CpuPack);
         frame.mesh_refs.reserve(input.draws.size()); frame.texture_refs.reserve(input.draws.size());
         std::vector<glm::mat4> transforms;
         transforms.reserve(input.draws.size());
@@ -896,24 +993,48 @@ FrameResult D3D12Backend::Render(const PreparedFrame& input) {
             if (mesh->second->vertices) ValidateGpuPosition(matrix, mesh->second->max_coordinate, "mesh clip position");
             transforms.push_back(matrix);
         }
-        if (!input.draws.empty()) {
-            D3D12_DESCRIPTOR_HEAP_DESC heap{};
-            heap.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-            heap.NumDescriptors = static_cast<UINT>(input.draws.size());
-            heap.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-            Check(device_->CreateDescriptorHeap(&heap, IID_PPV_ARGS(&frame.descriptors)), "CreateDescriptorHeap(frame SRV)");
-            auto handle = frame.descriptors->GetCPUDescriptorHandleForHeapStart();
-            for (const auto& texture : frame.texture_refs) {
-                D3D12_SHADER_RESOURCE_VIEW_DESC view_desc{};
-                view_desc.Format = texture->format;
-                view_desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-                view_desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DARRAY;
-                view_desc.Texture2DArray.MipLevels = 1;
-                view_desc.Texture2DArray.ArraySize = texture->layers;
-                device_->CreateShaderResourceView(texture->texture.Get(), &view_desc, handle);
-                handle.ptr += srv_stride_;
-            }
+        if (diagnostic_ && !frame.mesh_refs.empty()) {
+            diagnostic_->frame_mesh = frame.mesh_refs.front();
+            diagnostic_->frame_texture = frame.texture_refs.front();
         }
+        if (!input.draws.empty()) {
+            DiagnosticPhase(FramePhase::DescriptorAllocate);
+            if (input.draws.size() > frame.srv_bindings.Capacity()) {
+                SrvBindingCache bindings(SrvBindingCache::CapacityFor(frame.srv_bindings.Capacity(),
+                    input.draws.size(), D3D12_MAX_SHADER_VISIBLE_DESCRIPTOR_HEAP_SIZE_TIER_1));
+                D3D12_DESCRIPTOR_HEAP_DESC heap{};
+                heap.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+                heap.NumDescriptors = static_cast<UINT>(bindings.Capacity());
+                heap.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+                ComPtr<ID3D12DescriptorHeap> replacement;
+                Check(device_->CreateDescriptorHeap(&heap, IID_PPV_ARGS(&replacement)), "CreateDescriptorHeap(frame SRV)");
+                if (diagnostic_) {
+                    ++diagnostic_->srv_slots[index].heaps_created;
+                    diagnostic_->srv_slots[index].capacity = heap.NumDescriptors;
+                }
+                DiagnosticPhase(FramePhase::DescriptorRetire);
+                frame.descriptors.Swap(replacement);
+                frame.srv_bindings.Swap(bindings);
+            }
+            DiagnosticPhase(FramePhase::DescriptorUpdate);
+            const auto start = frame.descriptors->GetCPUDescriptorHandleForHeapStart();
+            frame.srv_bindings.WriteChanged(input.draws.size(),
+                [&](std::size_t draw_index) { return input.draws[draw_index].texture; },
+                [&](std::size_t draw_index) {
+                    const auto& texture = frame.texture_refs[draw_index];
+                    D3D12_SHADER_RESOURCE_VIEW_DESC view_desc{};
+                    view_desc.Format = texture->format;
+                    view_desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+                    view_desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DARRAY;
+                    view_desc.Texture2DArray.MipLevels = 1;
+                    view_desc.Texture2DArray.ArraySize = texture->layers;
+                    auto handle = start;
+                    handle.ptr += draw_index * srv_stride_;
+                    device_->CreateShaderResourceView(texture->texture.Get(), &view_desc, handle);
+                    if (diagnostic_) ++diagnostic_->srv_slots[index].views_written;
+                });
+        }
+        DiagnosticPhase(FramePhase::CpuPack);
         glm::mat4 selection_camera{1.0f};
         if (input.selection) {
             selection_camera = GpuMatrix(camera.projection * camera.view, "selection camera");
@@ -935,9 +1056,11 @@ FrameResult D3D12Backend::Render(const PreparedFrame& input) {
                 }
             }
             ValidateGpuPosition(selection_camera, max_coordinate, "selection clip position");
+            DiagnosticPhase(FramePhase::SelectionAllocate);
             frame.selection = UploadBuffer(vertices.data(), sizeof(vertices), "CreateResource(selection upload)");
             result.statistics.upload_bytes += sizeof(vertices);
         }
+        DiagnosticPhase(FramePhase::CommandBegin);
         D3D12_PLACED_SUBRESOURCE_FOOTPRINT capture_footprint{};
         UINT64 capture_bytes = 0;
         if (input.request_screenshot) {
@@ -954,6 +1077,7 @@ FrameResult D3D12Backend::Render(const PreparedFrame& input) {
         }
         Check(frame.allocator->Reset(), "FrameAllocator.Reset");
         Check(frame.commands->Reset(frame.allocator.Get(), pipelines_.mesh.Get()), "FrameCommands.Reset");
+        DiagnosticPhase(FramePhase::CommandRecord);
         auto* commands = frame.commands.Get();
         auto* buffer = backbuffers_[index].Get();
         const bool msaa = info_.actual_samples > 1;
@@ -1030,12 +1154,15 @@ FrameResult D3D12Backend::Render(const PreparedFrame& input) {
         const auto present = Transition(buffer, final_state, D3D12_RESOURCE_STATE_PRESENT);
         commands->ResourceBarrier(1, &present);
         Check(commands->Close(), "Close(frame)");
+        DiagnosticPhase(FramePhase::DebugValidation);
         CheckDebug("Render.Record");
         result.statistics.cpu_prepare = std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now() - prepare_begin);
         const auto latency_begin = Clock::now();
+        DiagnosticPhase(FramePhase::PresentationLatency);
         WaitEvent(latency_.value, "PresentationLatency.Wait");
         const auto latency_wait = std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now() - latency_begin);
         const auto submit_begin = Clock::now();
+        DiagnosticPhase(FramePhase::QueueSubmit);
         irreversible_ = true;
         ID3D12CommandList* lists[]{commands};
         has_native_work_ = unfenced_work_ = true;
@@ -1044,6 +1171,7 @@ FrameResult D3D12Backend::Render(const PreparedFrame& input) {
         frame.fence = Signal("Signal(frame draws)");
         result.statistics.cpu_submit = std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now() - submit_begin);
         const auto present_begin = Clock::now();
+        DiagnosticPhase(FramePhase::QueuePresent);
         DXGI_PRESENT_PARAMETERS parameters{};
         const UINT flags = DXGI_PRESENT_DO_NOT_WAIT | (!config_.vsync && tearing_ ? DXGI_PRESENT_ALLOW_TEARING : 0);
         unfenced_work_ = true;
@@ -1054,6 +1182,7 @@ FrameResult D3D12Backend::Render(const PreparedFrame& input) {
         frame.query_pending = timestamp_frequency_ != 0;
         result.statistics.present_wait = latency_wait +
             std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now() - present_begin);
+        DiagnosticPhase(FramePhase::BackendTail);
         Check(presented, "Present1(nonblocking)");
         if (presented == DXGI_STATUS_OCCLUDED) {
             result.skip_reason = FrameSkipReason::Occluded;
@@ -1075,6 +1204,7 @@ FrameResult D3D12Backend::Render(const PreparedFrame& input) {
             const D3D12_RANGE no_write{0, 0};
             frame.screenshot->Unmap(0, &no_write);
         }
+        DiagnosticPhase(FramePhase::DebugValidation);
         CheckDebug("Render.Submitted");
         return result;
     });
@@ -1084,6 +1214,7 @@ void D3D12Backend::ReleaseSizeResources() noexcept {
     for (auto& frame : frames_) {
         frame.mesh_refs.clear(); frame.texture_refs.clear();
         frame.descriptors.Reset(); frame.selection.Reset(); frame.screenshot.Reset();
+        frame.srv_bindings.Clear();
     }
     for (auto& resource : backbuffers_) resource.Reset();
     for (auto& resource : depth_) resource.Reset();
@@ -1161,6 +1292,7 @@ void D3D12Backend::ClearNative() noexcept {
     queue_.Reset(); fence_.Reset(); completion_.Reset();
     diagnostics_.Reset(); device_.Reset(); adapter_.Reset(); factory_.Reset();
     stopped_ = true;
+    if (diagnostic_) diagnostic_->native_cleared = true;
 }
 
 bool D3D12Backend::MayReleaseNative() const noexcept {
@@ -1191,6 +1323,7 @@ void D3D12Backend::QuarantineNative() noexcept {
     // It is not successful cleanup, and no subsequent native work is permitted.
     static_cast<void>(quarantine_.release());
     quarantined_ = true;
+    if (diagnostic_) diagnostic_->quarantined = true;
     stopped_ = true;
     constexpr const char* diagnostic =
         "Symocraft D3D12 terminal cleanup: live GPU work lacks completion proof; "
@@ -1238,8 +1371,43 @@ void D3D12Backend::ShutdownNoexcept() noexcept {
 
 } // namespace
 
+namespace {
+thread_local bool diagnostic_binding_active = false;
+thread_local std::shared_ptr<D3D12DiagnosticAccess> diagnostic_binding;
+}
+
+ScopedD3D12Diagnostics::ScopedD3D12Diagnostics(std::shared_ptr<D3D12DiagnosticAccess> control) {
+    if (diagnostic_binding_active || !control || control->device || control->queue || control->completion)
+        throw RenderError(RenderErrorCategory::InvalidInput, "D3D12", "DiagnosticBinding",
+                          "diagnostic binding must be fresh, exclusive and scoped to the creating thread");
+    diagnostic_binding = std::move(control);
+    diagnostic_binding_active = true;
+}
+
+ScopedD3D12Diagnostics::~ScopedD3D12Diagnostics() {
+    diagnostic_binding.reset();
+    diagnostic_binding_active = false;
+}
+
 std::unique_ptr<RenderBackend> CreateD3D12Backend(Window& window, const RendererConfig& config) {
+    if (diagnostic_binding_active) {
+        auto control = std::exchange(diagnostic_binding, {});
+        if (!control)
+            throw RenderError(RenderErrorCategory::InvalidState, "D3D12", "DiagnosticBinding",
+                              "the scoped diagnostic backend has already been created");
+        auto diagnostic_config = config;
+        diagnostic_config.wait_timeout = control->wait_timeout;
+        return CreateD3D12DiagnosticBackend(window, diagnostic_config, std::move(control));
+    }
     return std::make_unique<D3D12Backend>(window, config);
+}
+
+std::unique_ptr<RenderBackend> CreateD3D12DiagnosticBackend(Window& window, const RendererConfig& config,
+    std::shared_ptr<D3D12DiagnosticAccess> diagnostics) {
+    if (!diagnostics || diagnostics->device || diagnostics->queue || diagnostics->completion)
+        throw RenderError(RenderErrorCategory::InvalidInput, "D3D12", "DiagnosticFactory",
+                          "diagnostic control must be new and exclusively owned by this probe");
+    return std::make_unique<D3D12Backend>(window, config, std::move(diagnostics));
 }
 
 } // namespace SymoCraft::Rendering::Detail

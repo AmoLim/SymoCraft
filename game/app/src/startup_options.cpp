@@ -10,7 +10,7 @@ namespace SymoCraft {
         constexpr std::array names{"--seed", "--scene", "--checkpoint", "--test-edits",
                                    "--world-summary", "--smoke-frames", "--check-assets", "--benchmark", "--output",
                                    "--width", "--height", "--vsync", "--warmup-seconds", "--sample-seconds", "--focus-policy",
-                                   "--renderer", "--msaa", "--validation"};
+                                   "--renderer", "--msaa", "--validation", "--foreground-ready-timeout-seconds"};
         std::array<bool, names.size()> seen{};
         for (std::size_t i = 0; i < arguments.size(); ++i) {
             std::size_t option = 0;
@@ -23,7 +23,7 @@ namespace SymoCraft {
             if (option == 6) { result.check_assets = true; continue; }
             if (++i == arguments.size()) throw std::invalid_argument("Missing option value");
             const auto value = arguments[i];
-            if (option == 0 || option == 5 || (option >= 9 && option <= 13) || option == 16 || option == 17) {
+            if (option == 0 || option == 5 || (option >= 9 && option <= 13) || option == 16 || option == 17 || option == 18) {
                 std::uint32_t number = 0;
                 const auto parsed = std::from_chars(value.data(), value.data() + value.size(), number);
                 if (value.empty() || parsed.ec != std::errc{} || parsed.ptr != value.data() + value.size())
@@ -45,6 +45,9 @@ namespace SymoCraft {
                 } else if (option == 17) {
                     if (number > 1) throw std::invalid_argument("Validation must be 0 or 1");
                     result.enable_validation = number != 0;
+                } else if (option == 18) {
+                    if (number == 0 || number > 120) throw std::invalid_argument("Foreground readiness timeout must be 1..120 seconds");
+                    result.foreground_ready_timeout_seconds = number;
                 } else {
                     if (number > 600 || (option == 13 && number == 0)) throw std::invalid_argument("Invalid benchmark duration");
                     (option == 12 ? result.warmup_seconds : result.sample_seconds) = number;
@@ -96,6 +99,8 @@ namespace SymoCraft {
         }
         if (!result.regression_scene && (seen[2] || result.test_edits))
             throw std::invalid_argument("Checkpoints and test edits require the regression scene");
+        if (seen[18] && (result.benchmark.empty() || result.focus_policy != "strict"))
+            throw std::invalid_argument("Foreground readiness requires a strict benchmark");
         return result;
     }
 }

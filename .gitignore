@@ -5,8 +5,9 @@
 /*.vcxproj.user
 /*.suo
 
-# Obsidian per-device workspace and tab layout; keep shared settings visible.
-/docs/.obsidian/workspace*.json
+# Local Obsidian state and agent files.
+/docs/.obsidian/
+/.agents/
 
 # Out-of-source builds, staged assets, and local test packages.
 /cmake-build-*/

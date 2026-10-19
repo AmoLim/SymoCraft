@@ -47,11 +47,11 @@ std::size_t ResourceRegistry::FreeSlot(std::vector<Slot<Data>>& slots) {
 }
 
 ResourceRegistry::MeshReservation ResourceRegistry::PrepareMesh(const MeshData& data) {
-    ValidateMesh(data);
+    const auto maximum_layer = ValidateMesh(data);
     auto owned = std::make_shared<const MeshData>(data);
     const auto index = FreeSlot(meshes_);
     const auto generation = meshes_[index].generation;
-    return {{identity_, index, generation}, {identity_, index, generation}, std::move(owned)};
+    return {{identity_, index, generation}, {identity_, index, generation}, std::move(owned), maximum_layer};
 }
 
 ResourceRegistry::TextureReservation ResourceRegistry::PrepareTexture(const TextureArrayData& data) {
@@ -64,14 +64,17 @@ ResourceRegistry::TextureReservation ResourceRegistry::PrepareTexture(const Text
 
 void ResourceRegistry::Commit(const MeshReservation& reservation) noexcept {
     meshes_[reservation.id.slot].data = reservation.data;
+    meshes_[reservation.id.slot].maximum_layer = reservation.maximum_layer;
 }
 
 void ResourceRegistry::Commit(const TextureReservation& reservation) noexcept {
     textures_[reservation.id.slot].data = reservation.data;
 }
 
-void ResourceRegistry::ReplaceMesh(MeshHandle handle, std::shared_ptr<const MeshData> data) noexcept {
+void ResourceRegistry::ReplaceMesh(MeshHandle handle, std::shared_ptr<const MeshData> data,
+                                   std::optional<std::uint32_t> maximum_layer) noexcept {
     meshes_[handle.slot_].data = std::move(data);
+    meshes_[handle.slot_].maximum_layer = maximum_layer;
 }
 
 BackendResourceId ResourceRegistry::Id(MeshHandle handle) const {
@@ -88,6 +91,10 @@ std::shared_ptr<const MeshData> ResourceRegistry::Mesh(MeshHandle handle) const 
     return Find(handle, meshes_).data;
 }
 
+std::optional<std::uint32_t> ResourceRegistry::MeshMaximumLayer(MeshHandle handle) const {
+    return Find(handle, meshes_).maximum_layer;
+}
+
 std::shared_ptr<const TextureArrayData> ResourceRegistry::Texture(TextureArrayHandle handle) const {
     return Find(handle, textures_).data;
 }
@@ -95,6 +102,7 @@ std::shared_ptr<const TextureArrayData> ResourceRegistry::Texture(TextureArrayHa
 template <class Data>
 void ResourceRegistry::Invalidate(Slot<Data>& slot) noexcept {
     slot.data.reset();
+    slot.maximum_layer.reset();
     slot.generation = slot.generation == std::numeric_limits<std::uint64_t>::max()
                           ? 0 : slot.generation + 1;
 }

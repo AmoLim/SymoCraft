@@ -29,7 +29,7 @@ namespace
     public:
         TemporaryDirectory()
         {
-            parent_ = fs::weakly_canonical(fs::temp_directory_path());
+            parent_ = fs::weakly_canonical(Assets::ExecutableDirectory());
             path_ = parent_ / (L"symocraft-assets-" + std::to_wstring(GetCurrentProcessId()) +
                                L"-" + std::to_wstring(GetTickCount64()));
             Require(fs::create_directory(path_), "Cannot create isolated test directory");
@@ -97,8 +97,12 @@ namespace
         CloseHandle(process.hProcess);
         Require(exited, "Relocated asset probe did not complete within its deadline");
         if (exit_code != 0)
+        {
+            std::ifstream diagnostic(package / "probe-error.txt");
+            const std::string detail((std::istreambuf_iterator<char>(diagnostic)), {});
             throw std::runtime_error("Relocated asset probe failed with exit code " +
-                                     std::to_string(exit_code));
+                                     std::to_string(exit_code) + ": " + detail);
+        }
     }
 
     void CheckPathContracts()
@@ -164,8 +168,19 @@ int wmain(int argc, wchar_t* argv[])
         Require(argc == 1, "Unexpected asset test arguments");
         CheckPathContracts();
         std::ostringstream errors;
+#if SYMOCRAFT_TEST_OPENGL_ASSETS
         Require(Assets::CheckRequiredAssets(errors), "Build did not stage all six required assets");
         Require(errors.str().empty(), "Staged assets produced errors");
+#else
+        Require(fs::is_regular_file(Assets::Resolve("configs/blockFormats.yaml")) &&
+                fs::is_regular_file(Assets::Resolve("textures/texture_atlas.png")), "Common assets were not staged");
+        Require(!Assets::CheckRequiredAssets(errors), "Legacy preflight accepted a package without GLSL");
+        for (const auto relative : Assets::RequiredFiles())
+            if (relative.starts_with("shaders/")) {
+                Require(!fs::exists(Assets::Resolve(relative)), "GLSL leaked into non-OpenGL staging");
+                Require(errors.str().find(relative) != std::string::npos, "Legacy preflight did not name absent GLSL");
+            }
+#endif
 
         TemporaryDirectory temporary;
         const auto working_directory = temporary.Path() / "unrelated working directory";
@@ -189,6 +204,8 @@ int wmain(int argc, wchar_t* argv[])
     }
     catch (const std::exception& error)
     {
+        if (argc == 4 && std::wstring_view(argv[1]) == L"--probe")
+            std::ofstream(Assets::ExecutableDirectory() / "probe-error.txt") << error.what();
         std::cerr << "Asset path test failed: " << error.what() << '\n';
         return 1;
     }

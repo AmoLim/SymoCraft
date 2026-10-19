@@ -229,10 +229,18 @@ def package(build: Path, output: Path, cache: dict, tools: list[dict], artifacts
     for shader in artifacts:
         if shader["path"].endswith(".dxil"):
             assert_identity(output / shader["path"][4:], shader, "Installed shader")
+    opengl = cache.get("SYMOCRAFT_RENDER_OPENGL", "ON") == "ON"
     for asset in ASSETS:
+        if not opengl and asset.endswith(".glsl"):
+            continue
         assert_identity(output / "assets" / asset, file_identity(ROOT / "assets" / asset), "Installed game asset")
     for license_name in LICENSES:
+        if not opengl and license_name in {"glad-LICENSE.txt", "Khronos-license-source.h"}:
+            continue
         file_identity(output / "licenses" / license_name)
+    if not opengl and (any((output / "assets").rglob("*.glsl"))
+                       or (output / "licenses/glad-LICENSE.txt").exists()):
+        raise ValueError("Disabled legacy OpenGL assets entered the modern-only candidate.")
 
     runtime_names = ("msvcp140d.dll", "vcruntime140d.dll", "vcruntime140_1d.dll", "ucrtbased.dll") if configuration == "Debug" else (
         "msvcp140.dll", "vcruntime140.dll", "vcruntime140_1.dll")
@@ -287,8 +295,9 @@ def package(build: Path, output: Path, cache: dict, tools: list[dict], artifacts
     runtime_policy = "developer-local-nonredistributable" if configuration == "Debug" else "app-local-redistributable"
     readme = f"""SymoCraft production transition game candidate ({configuration}, Windows x64)
 
-The actual transition game keeps legacy OpenGL as the default; D3D12 is selected
-explicitly. Both use one game loop and full game assets. Preserve every package
+The game defaults to D3D12. Explicit --renderer d3d12 selects the same path.
+Legacy OpenGL is {'compiled in; select it with --renderer opengl' if opengl else 'not compiled in; explicit OpenGL is rejected without fallback'}.
+Enabled paths use one game loop and full world assets. Preserve every package
 byte and package-manifest.json. Store run evidence outside this immutable package.
 
 From the package directory:
@@ -315,8 +324,8 @@ Builder paths are provenance only, not runtime lookup paths. dependencies.json
 and import logs record actual static imports, not a clean-machine runtime test or
 a complete dynamic driver dependency inventory. Package hashes are relative.
 
-This is R2 sequence 4 candidate delivery, not R3 acceptance or approval of the
-14-operation / 15-minute manual matrix. Packaging implies no manual result.
+Packaging does not itself approve a stage or the 14-operation / 15-minute manual
+matrix. Prior approvals and verification apply only to their recorded identity.
 """
     (output / "README.txt").write_text(readme, encoding="utf-8")
     for path in output.rglob("*"):
@@ -331,13 +340,14 @@ This is R2 sequence 4 candidate delivery, not R3 acceptance or approval of the
              sorted(output.rglob("*"), key=lambda item: item.as_posix().lower()) if path.is_file()]
     manifest = {
         "schema_version": 1, "package_kind": "production-game-candidate", "configuration": configuration,
-        "created_utc": utc_now(), "default_renderer": "opengl", "available_renderers": ["opengl", "d3d12"],
+        "created_utc": utc_now(), "default_renderer": "d3d12",
+        "available_renderers": ["opengl", "d3d12"] if opengl else ["d3d12"],
         "required_debug_layer": True, "validation_default": True, "software_adapter_allowed": False,
         "runtime_policy": runtime_policy,
         "origin_build": {"directory": build.as_posix(), "source_directory": ROOT.as_posix(),
                          "build_identity_sha256": file_identity(identity_path)["sha256"], "executable_sha256": artifacts[0]["sha256"]},
         "files": files,
-        "scope": "Actual production transition game and installed assets; R2 sequence 4 candidate only. No R3 acceptance, manual result, clean-machine portability claim, or injected-failure-as-hardware-failure claim.",
+        "scope": "Actual production game and installed assets. Packaging implies no stage acceptance, manual result, clean-machine portability claim, or injected-failure-as-hardware-failure claim.",
     }
     manifest_path = output / "package-manifest.json"
     write_json(manifest_path, manifest, exclusive=True)

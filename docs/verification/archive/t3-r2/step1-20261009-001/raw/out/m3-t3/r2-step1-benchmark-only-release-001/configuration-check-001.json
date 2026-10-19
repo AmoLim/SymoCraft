@@ -1,9 +1,0 @@
-{
-  "schema": "symocraft.renderer-configuration-independence",
-  "mode": "benchmark-only",
-  "build_directory": "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step1-benchmark-only-release-001",
-  "build_testing": false,
-  "configured_targets_passed": true,
-  "graphics_sdk_cache_absent": true,
-  "gpu_validation": false
-}

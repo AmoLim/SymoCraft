@@ -19,7 +19,15 @@ P01接口候选/消费者静态核对已交付，Q01-Q04仍未选择、人工意
 - [ ] T4-S03 模拟会话与镜头：独立预算/控制冷却、Pause/Resume/恢复、D09自有结果与设计注释、D11/D13double预检/Failed；移除复制相机实体，保中立输入/可选视图及编辑顺序，覆盖A07-A09/A13-A16/A24/A26/A27。
 - [ ] T4-S04 物理方案2：仅独立核心/单测按已局部授权的实际范围推进，交付真实内部symocraft_physics、值/查询契约及独立消费者/负向边界/算法基线。生产适配切换、故障提交与撤旧全局预算/活动直连须依赖S01/S03对应独立授权和会话预算替换，不由局部核心授权推进全应用迁移；覆盖A01-A03/A10-A14。
 - [ ] T4-S05 观测与场景分离：受控记录/Seal/独立导出结果与显式重试/Saved幂等，独立Scenario/app策略；保GPU关联/缺失原因/首错/旧文件协议，不恢复Fix1，覆盖A17-A21。
-- [ ] T4-S06 组合与交付：真实公开头/CPU/独立工具/关闭测试矩阵、D12每Advance/World提交对照、真实SDL及本机RTX5070Ti两个现代后端各14项/15分钟、必要成本/协议/部署依据；同步已落实架构，A01-A22/A24-A27适用项具实证后申请用户T4整体验收，之后T5独立，不勾A23。
+- [ ] T4-S06 组合与交付：实施方完成真实公开头/CPU/独立工具/关闭测试矩阵、D12每Advance/World提交对照、真实SDL/现代后端集成及必要成本/协议/部署自动验证；本机RTX5070Ti的D3D12/Vulkan分别进行四组人工短体验，每后端合计最多5分钟（含退出/重启），不另跑14项人工表。同步已落实架构，A01-A22/A24-A27适用项具实证并明示短体验未覆盖风险后申请用户T4整体验收，之后T5独立，不勾A23。
+
+## 验证执行分工
+
+2026-10-12用户确认本change采用自动验证加四组人工体验，替代原每后端14项逐项人工核查/至少15分钟连续操作；不是新的测试成绩、设计冻结或完整生产实施授权。四组操作和限时条件只由[application delta](specs/application-lifecycle/spec.md#requirement-target-completion-requires-applicable-evidence)维护；A编号继续追踪覆盖，不等于用户操作清单。
+
+A01-A21/A24-A27由实施方按影响范围执行自动验证及必要源码核对，真实平台/后端组合与CPU/mock结果分开，交付一次必要结论和未覆盖项，不要求用户逐份审阅源码哈希、构建日志、CSV或旧CPU基线，不恢复退役M01-M06人工主表。A22人工只覆盖移动与碰撞、镜头与编辑、窗口恢复、退出与重启四组体验；每后端四组及重启合计不超过300秒，不按组/检查点/构建配置累加，不为限时未完成项自动延长或复跑。缺失/失败具名报告，修复后只提出受影响组的限时复查，额外人工范围另确认；自动化缺口不默认转为人工核查。
+
+适用自动验证仍须实际成立，D12字段/阈值/全部序列、既有性能协议和关键节点批准不取消；不自动增加长时自动替代测试。短体验未证明原15分钟连续体验、持续资源增长、罕见时序或长期稳定性，风险随实际结果保存在verification.md；T3、M5及中低端下一玩法前门槛不受本次调整影响。
 
 ## 稳定验收映射
 
@@ -48,11 +56,11 @@ P01接口候选/消费者静态核对已交付，Q01-Q04仍未选择、人工意
 | A19 关闭/保存 | 所有最终事实再Seal、失败留部分/显式重试/Saved无重写/终态/退出0/4/3：[telemetry](specs/telemetry-lifecycle/spec.md) |
 | A20 模式范围 | app隔离/局部Escape跨失焦/不后台键/最小化/无新增档位：[platform](specs/platform/spec.md)、[telemetry](specs/telemetry-lifecycle/spec.md) |
 | A21 文件/CWD | 旧新协议/元数据/seed/统计、无关/空格/中文安装运行、不覆盖冻结：[application](specs/application-lifecycle/spec.md) |
-| A22 真现代组合 | 本机RTX5070Ti两个现代后端各14项/15分钟及adapter/driver版本，不fallback：[application](specs/application-lifecycle/spec.md) |
+| A22 真现代组合 | 本机RTX5070Ti两个现代后端自动集成依据加四组人工体验，每后端合计最多5分钟；adapter/driver/版本真实、不fallback、保未覆盖风险：[application](specs/application-lifecycle/spec.md) |
 | A23 后续正式physics | 当前T4不适用不勾；T5后/NPC前独立授权搬所有者、保行为/头/target再验：[physics](specs/physics-core/spec.md) |
 | A24 真无窗口 | 同一生产target/必要资产、不Runtime/Window/Renderer/图形相机：[simulation](specs/simulation/spec.md) |
 | A25 逐次对照 | 每Advance/World提交、离散精确/固定浮点阈值、首分歧和全部序列：[simulation](specs/simulation/spec.md) |
 | A26 寿命/策略 | 旧结果自有/视图可选重复无副作用/非法比例只拒视图/只读采集：[simulation](specs/simulation/spec.md) |
 | A27 D09渐进记录 | 生产结果处理由/所有权/触发注释、落实后实际架构，不提前方案2：[simulation](specs/simulation/spec.md)、[decisions](decisions.md#d09-演进触发) |
 
-证据须绑定源码/构建/包/配置/实际设备、输入时间顺序、错误/提交/关闭及原记录；性能沿[既有冻结入口](../../../verification/VERIFICATION.md#归档入口)或另行确认，不补造预算/轮数。固定场景与14项操作从[验证场景](../../../verification/scenarios.md)进入。CPU不替真实GPU，历史成绩不替候选，中低端下一玩法前门槛与T5/GL退役/服务拆分各自独立。
+证据须绑定源码/构建/包/配置/实际设备、输入时间顺序、错误/提交/关闭及原记录；性能沿[既有冻结入口](../../../verification/VERIFICATION.md#归档入口)或另行确认，不补造预算/轮数。[共享场景](../../../verification/scenarios.md)提供固定输入与玩法意图，不将其中14项人工表/15分钟路线重新作为T4人工门槛；本次四组/限时以application delta为准。CPU不替真实GPU，历史成绩不替候选，中低端下一玩法前门槛与T5/GL退役/服务拆分各自独立。

@@ -21,7 +21,12 @@ int main()
     try {
         const auto defaults = Parse({});
         Require(!defaults.seed.has_value());
-        Require(defaults.renderer == "opengl" && defaults.requested_samples == 4 && defaults.enable_validation);
+        Require(defaults.foreground_ready_timeout_seconds == 0);
+        Require(Parse({"--benchmark", "static", "--output", "new-run", "--foreground-ready-timeout-seconds", "60"}).foreground_ready_timeout_seconds == 60);
+        Reject({"--foreground-ready-timeout-seconds", "60"});
+        Reject({"--benchmark", "static", "--output", "new-run", "--foreground-ready-timeout-seconds", "60", "--focus-policy", "allow-unfocused"});
+        Reject({"--benchmark", "static", "--output", "new-run", "--foreground-ready-timeout-seconds", "0"});
+        Require(defaults.renderer == "d3d12" && defaults.requested_samples == 4 && defaults.enable_validation);
         Require(Parse({"--renderer", "opengl"}).renderer == "opengl");
         for (const auto renderer : {"d3d12", "vulkan"}) {
             const auto modern = Parse({"--renderer", renderer});
@@ -55,10 +60,11 @@ int main()
         Reject({"--renderer"}); Reject({"--renderer", ""});
         Reject({"--renderer", "D3D12"}); Reject({"--renderer", "metal"});
         Reject({"--renderer", "d3d12", "--renderer", "vulkan"});
-        Reject({"--msaa", "4"}); Reject({"--validation", "1"});
+        Require(Parse({"--msaa", "4"}).renderer == "d3d12");
+        Require(Parse({"--validation", "1"}).renderer == "d3d12");
         Reject({"--renderer", "opengl", "--msaa", "4"});
         Reject({"--renderer", "opengl", "--validation", "1"});
-        Reject({"--benchmark", "static", "--output", "new-run", "--msaa", "4"});
+        Require(Parse({"--benchmark", "static", "--output", "new-run", "--msaa", "4"}).renderer == "d3d12");
         Reject({"--benchmark", "static", "--output", "new-run", "--renderer", "opengl", "--validation", "0"});
         Reject({"--renderer", "opengl", "--world-summary"});
         Reject({"--check-assets", "--msaa", "4"});
@@ -79,7 +85,7 @@ int main()
         const auto options = Parse({"--checkpoint", "four-chunk", "--seed", "42", "--scene", "regression", "--world-summary", "--test-edits"});
         Require(options.regression_scene && options.world_summary && options.test_edits && options.checkpoint == "four-chunk");
         Require(Parse({"--seed", "42", "--smoke-frames", "120"}).frame_limit == 120);
-        Require(Parse({"--check-assets"}).check_assets);
+        Require(Parse({"--check-assets"}).check_assets && Parse({"--check-assets"}).renderer == "d3d12");
         const auto benchmark = Parse({"--benchmark", "walk", "--output", "new-run", "--warmup-seconds", "0", "--sample-seconds", "1", "--vsync", "1"});
         Require(benchmark.regression_scene && benchmark.checkpoint == "spawn" && benchmark.vsync && benchmark.sample_seconds == 1 && benchmark.warmup_seconds == 0);
         Require(Parse({"--benchmark", "static", "--output", "new-run"}).checkpoint == "four-chunk");

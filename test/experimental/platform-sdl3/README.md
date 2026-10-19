@@ -243,7 +243,7 @@ session/exe identities and exit metadata. It injects no SDL/Win32/global input
 and does not disable the production default Raw Input policy.
 
 `human_acceptance_passed=false` is intentional even after a normal exit. Fill
-the separate [S3 manual checklist](../../../docs/milestones/m3-t2/s3-manual-verification.md)
+the separate [S3 manual checklist](../../../docs/openspec/changes/m3-t2-publication-fix1/verification.md)
 for the desktop and Y9000P, with actual observations and package/exe identity.
 The tool does not establish gameplay resume `dt=0`, complete DPI/taskbar
 usability or fifteen-minute gameplay. The already approved earlier continuous
@@ -312,4 +312,4 @@ Two earlier Debug failures are preserved unchanged:
 These probes do not close physical input/layout/acceleration, DPI/multimonitor,
 taskbar usability, human gameplay, Y9000P or real driver-failure acceptance.
 The authoritative stage status and remaining scope are recorded in
-`docs/milestones/m3-t2/README.md` and the formal M3-T2 spec.
+`docs/openspec/specs/platform/spec.md` and the formal M3-T2 spec.

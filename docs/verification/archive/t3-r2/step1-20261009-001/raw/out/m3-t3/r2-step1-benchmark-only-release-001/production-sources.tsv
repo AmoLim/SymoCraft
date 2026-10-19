@@ -1,5 +1,0 @@
-target	type	file
-benchmark_core	STATIC_LIBRARY	tools/benchmark/src/platform.cpp
-benchmark_core	STATIC_LIBRARY	tools/benchmark/src/runner.cpp
-SymoCraftBenchmark	EXECUTABLE	tools/benchmark/src/main.cpp
-SymoCraftBenchmark	EXECUTABLE	tools/benchmark/src/gui.cpp

@@ -21,6 +21,8 @@ function(symocraft_add_d3d12_backend)
         message(FATAL_ERROR "Enabled D3D12 backend requires an actual DXC executable, not FXC.")
     endif()
     set(shader_source "${SYMOCRAFT_REPOSITORY_ROOT}/assets/shaders/hlsl")
+    get_filename_component(compiler_directory "${SYMOCRAFT_DXC}" DIRECTORY)
+    set(compiler_inputs "${SYMOCRAFT_DXC}" "${compiler_directory}/dxcompiler.dll")
     set(shader_output "${PROJECT_BINARY_DIR}/bin/assets/shaders/d3d12")
     if(CMAKE_CONFIGURATION_TYPES)
         message(FATAL_ERROR "D3D12 validation currently uses separate Debug/Release single-configuration builds.")
@@ -44,13 +46,24 @@ function(symocraft_add_d3d12_backend)
                 COMMAND "${SYMOCRAFT_DXC}" ${shader_flags} -E ${entry} -T ${stage}_6_0
                     -I "${shader_source}" -Fo "${output}" "${shader_source}/${shader}.hlsl"
                 DEPENDS "${shader_source}/${shader}.hlsl" "${shader_source}/draw_constants.hlsli"
+                    ${compiler_inputs}
                 COMMENT "Compiling D3D12 ${shader}.${stage} Shader Model 6.0"
                 VERBATIM)
             list(APPEND shader_outputs "${output}")
         endforeach()
     endforeach()
+    string(JOIN " " shader_flags_text ${shader_flags})
+    set(identity_output "${shader_output}/build.json")
+    add_custom_command(OUTPUT "${identity_output}"
+        COMMAND "${CMAKE_COMMAND}" "-DCOMPILER=${SYMOCRAFT_DXC}" -DBACKEND=D3D12
+            "-DSOURCE_ROOT=${shader_source}" "-DOUTPUT_ROOT=${shader_output}"
+            "-DCONFIGURATION=${CMAKE_BUILD_TYPE}" "-DFLAGS=${shader_flags_text}"
+            -P "${SYMOCRAFT_REPOSITORY_ROOT}/cmake/WriteVulkanShaderIdentity.cmake"
+        DEPENDS ${shader_outputs} ${compiler_inputs}
+            "${SYMOCRAFT_REPOSITORY_ROOT}/cmake/WriteVulkanShaderIdentity.cmake"
+        VERBATIM)
     add_library(symocraft_renderer_d3d12 STATIC
-        src/backend/d3d12/d3d12_backend.cpp src/backend/d3d12/pipeline.cpp ${shader_outputs})
+        src/backend/d3d12/d3d12_backend.cpp src/backend/d3d12/pipeline.cpp ${shader_outputs} "${identity_output}")
     target_include_directories(symocraft_renderer_d3d12 PRIVATE
         "${CMAKE_CURRENT_SOURCE_DIR}/src/backend/d3d12"
         "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/platform/src/graphics_bridge")
@@ -60,5 +73,5 @@ function(symocraft_add_d3d12_backend)
     target_compile_options(symocraft_renderer_d3d12 PRIVATE /W4 /utf-8)
     target_compile_definitions(symocraft_renderer_d3d12 PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
     set_target_properties(symocraft_renderer_d3d12 PROPERTIES CXX_EXTENSIONS OFF)
-    install(FILES ${shader_outputs} DESTINATION assets/shaders/d3d12)
+    install(FILES ${shader_outputs} "${identity_output}" DESTINATION assets/shaders/d3d12)
 endfunction()

@@ -1,8 +1,0 @@
--- Configuring incomplete, errors occurred!
-CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:192 (message):
-  Boundary violation: retired GLFW target cannot be configured:
-  historical_window_library
-Call Stack (most recent call first):
-  CMakeLists.txt:6 (symocraft_validate_boundaries)
-
-

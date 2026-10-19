@@ -132,10 +132,10 @@ void Json(std::ostream& output, const Value& value) {
 
 int main(int argc, char** argv) {
     try {
-        Require(argc == 4, "Usage: game_report_probe REPORT_DIRECTORY D3D12|OpenGL static|walk|edit");
+        Require(argc == 4, "Usage: game_report_probe REPORT_DIRECTORY D3D12|Vulkan|OpenGL static|walk|edit");
         const auto directory = std::filesystem::absolute(argv[1]);
         const std::string backend = argv[2], workload = argv[3];
-        Require(backend == "D3D12" || backend == "OpenGL", "Unsupported expected backend");
+        Require(backend == "D3D12" || backend == "Vulkan" || backend == "OpenGL", "Unsupported expected backend");
         Require(workload == "static" || workload == "walk" || workload == "edit", "Unsupported expected workload");
         const auto report = SymoCraft::Data::LoadYamlFile(directory / "summary.yaml");
         const auto& metadata = report["metadata"];
@@ -207,24 +207,24 @@ int main(int argc, char** argv) {
         result["sample_edits"] = edits;
         result["scheduled_edits"] = scheduled;
 
-        if (backend == "D3D12") {
+        if (backend != "OpenGL") {
             const auto& renderer = metadata["renderer"];
-            Require(metadata["renderer_backend"].as<std::string>() == "D3D12"
-                    && renderer["backend"].as<std::string>() == "D3D12", "Actual backend differs from D3D12");
+            Require(metadata["renderer_backend"].as<std::string>() == backend
+                    && renderer["backend"].as<std::string>() == backend, "Actual backend differs from requested modern backend");
             Require(!metadata["gl_vendor"] && !metadata["gl_renderer"] && !metadata["gl_version"],
                     "Native report contains legacy GL identity");
             Require(renderer["device_name"].as<std::string>() == "NVIDIA GeForce RTX 5070 Ti", "Unexpected native GPU");
             Require(!renderer["device_identity"].as<std::string>().empty(), "Native device identity is missing");
-            Require(renderer["driver_version"].as<std::string>() == "32.0.16.1664", "Native driver differs from verification matrix");
+            Require(renderer["driver_version"].as<std::string>() == (backend == "Vulkan" ? "NVIDIA:616.64" : "32.0.16.1664"), "Native driver differs from verification matrix");
             Require(Count(renderer["actual_samples"]) == 4 && Count(metadata["requested_msaa_samples"]) == 4,
                     "Native requested/actual MSAA differs from 4x");
             Require(Count(renderer["framebuffer_width"]) == 1920 && Count(renderer["framebuffer_height"]) == 1080
                     && renderer["actual_present_mode"].as<std::string>() == "Immediate"
                     && renderer["validation_enabled"].as<bool>(), "Native framebuffer/present/validation configuration differs");
-            Require(renderer["framebuffer_format"].as<std::string>() == "R8G8B8A8_UNORM RTV / swapchain storage (no output sRGB encode)",
+            Require(renderer["framebuffer_format"].as<std::string>() == (backend == "Vulkan" ? "BGRA8_UNORM" : "R8G8B8A8_UNORM RTV / swapchain storage (no output sRGB encode)"),
                     "Native framebuffer format/output encoding changed");
             const auto api = renderer["api_version"].as<std::string>();
-            Require(api.find("FL12_0") != std::string::npos && api.find("SM6_0") != std::string::npos,
+            Require(backend == "Vulkan" ? api == "1.4.351" : (api.find("FL12_0") != std::string::npos && api.find("SM6_0") != std::string::npos),
                     "Native API/capability identity is missing");
             for (const auto* capability : {"texture_arrays", "selection_boxes", "screenshots", "gpu_timestamps"})
                 Require(renderer["capabilities"][capability].as<bool>(), "Required native renderer capability is absent");

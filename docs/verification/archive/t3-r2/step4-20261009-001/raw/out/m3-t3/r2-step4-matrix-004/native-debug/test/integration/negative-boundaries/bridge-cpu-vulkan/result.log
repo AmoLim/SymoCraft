@@ -1,7 +1,0 @@
-CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:103 (message):
-  Boundary violation: private include game/modules/world/src/probe.cpp ->
-  platform/src/vulkan_bridge.h
-Call Stack (most recent call first):
-  negative-boundaries/bridge-cpu-vulkan/probe.cmake:3 (symocraft_check_source_file)
-
-

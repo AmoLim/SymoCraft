@@ -24,6 +24,20 @@ foreach(row IN LISTS target_rows)
 endforeach()
 list(REMOVE_DUPLICATES actual_targets)
 set(native_d3d12 FALSE)
+set(native_vulkan FALSE)
+if("symocraft_renderer_vulkan" IN_LIST actual_targets)
+    set(native_vulkan TRUE)
+    if(NOT record_symocraft_renderer_vulkan_type STREQUAL "STATIC_LIBRARY" OR
+       NOT record_symocraft_renderer_vulkan_SOURCES MATCHES "vulkan_backend\\.cpp" OR
+       NOT record_symocraft_renderer_LINK_LIBRARIES MATCHES "symocraft_renderer_vulkan")
+        message(FATAL_ERROR "Configured Vulkan must be a real, privately linked production backend.")
+    endif()
+    foreach(property IN ITEMS INTERFACE_INCLUDE_DIRECTORIES INTERFACE_COMPILE_DEFINITIONS INTERFACE_COMPILE_OPTIONS)
+        if(record_symocraft_renderer_vulkan_${property})
+            message(FATAL_ERROR "Private Vulkan backend publishes ${property}.")
+        endif()
+    endforeach()
+endif()
 if("symocraft_renderer_d3d12" IN_LIST actual_targets)
     set(native_d3d12 TRUE)
     if(NOT record_symocraft_renderer_d3d12_type STREQUAL "STATIC_LIBRARY" OR
@@ -123,8 +137,10 @@ foreach(target IN ITEMS renderer_public_api_consumer renderer_facade_tests)
     string(TOLOWER "${link_edge}" normalized_link_edge)
     # A static facade with an enabled native factory legitimately needs LINK_ONLY
     # backend/platform system libraries, never their compile usage requirements.
-    if(normalized_link_edge MATCHES "glad|vulkan|symocraft_renderer_legacy_opengl|fixture" OR
-       (NOT native_d3d12 AND normalized_link_edge MATCHES "sdl|d3d12|dxgi"))
+    string(REPLACE "symocraft_renderer_vulkan" "private_native_backend" checked_link_edge "${normalized_link_edge}")
+    if(checked_link_edge MATCHES "glad|vulkan|symocraft_renderer_legacy_opengl|fixture" OR
+       (NOT native_d3d12 AND checked_link_edge MATCHES "d3d12|dxgi") OR
+       (NOT native_d3d12 AND NOT native_vulkan AND checked_link_edge MATCHES "sdl"))
         message(FATAL_ERROR "Actual CPU test link edge leaks native graphics or fixture libraries: ${link_edge}")
     endif()
 endforeach()

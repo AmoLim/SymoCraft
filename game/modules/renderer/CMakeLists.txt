@@ -25,7 +25,14 @@ if(SYMOCRAFT_RENDER_D3D12)
 endif()
 
 # Keep the isolated OpenGL comparison path while modern gameplay is being verified.
-if(SYMOCRAFT_BUILD_GAME)
+if(SYMOCRAFT_RENDER_VULKAN)
+    include("${SYMOCRAFT_REPOSITORY_ROOT}/cmake/RendererVulkan.cmake")
+    symocraft_add_vulkan_backend()
+    target_link_libraries(symocraft_renderer PRIVATE symocraft_renderer_vulkan)
+    target_compile_definitions(symocraft_renderer PRIVATE SYMOCRAFT_HAS_VULKAN_BACKEND=1)
+endif()
+
+if(SYMOCRAFT_BUILD_GAME AND SYMOCRAFT_RENDER_OPENGL)
     add_library(symocraft_renderer_legacy_opengl STATIC
         src/legacy_renderer.cpp src/shader.cpp src/shader_program.cpp src/texture.cpp
         src/gpu_timer.cpp src/performance_memory.cpp)

@@ -1,6 +1,0 @@
-cmake_minimum_required(VERSION 3.22)
-project(NegativeBoundary LANGUAGES NONE)
-set(SYMOCRAFT_REPOSITORY_ROOT "F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-002/native-debug/test/integration/negative-boundaries/target-cycle")
-add_subdirectory(game/modules/world)
-include("F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake")
-symocraft_validate_boundaries()

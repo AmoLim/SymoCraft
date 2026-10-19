@@ -1,8 +1,0 @@
--- Configuring incomplete, errors occurred!
-CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:423 (message):
-  Boundary violation: game symocraft_startup -> independent benchmark
-  benchmark_core
-Call Stack (most recent call first):
-  CMakeLists.txt:8 (symocraft_validate_boundaries)
-
-

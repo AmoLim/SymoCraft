@@ -9,7 +9,7 @@ tags:
 
 维护已实施的生产所有权、构建隔离与公开头边界。机制及当前 B1-B6 不变量只在[工程级契约](../../../architecture/engineering.md#稳定不变量)维护；本页不重建 T0 活动任务。
 
-本基线核对[根配置](../../../../CMakeLists.txt)、[模块组织](../../../../game/CMakeLists.txt)及[边界检查器](../../../../cmake/ModuleBoundaries.cmake)，并消费 [T0 历史验证](../../../milestones/m3-t0/README.md#验证状态)和后续 renderer target 的实际演进。原 T0 学习来源已列待授权候选，点时验证仍由上述报告定位。本轮没有执行配置、构建、CTest 或 GPU 验证，旧 target 数和旧测试数量不是当前结果。
+本基线核对[根配置](../../../../CMakeLists.txt)、[模块组织](../../../../game/CMakeLists.txt)及[边界检查器](../../../../cmake/ModuleBoundaries.cmake)，并消费 [T0 历史验证](../../../verification/VERIFICATION.md#退役材料恢复)和后续 renderer target 的实际演进。原 T0 学习来源已列待授权候选，点时验证仍由上述报告定位。本轮没有执行配置、构建、CTest 或 GPU 验证，旧 target 数和旧测试数量不是当前结果。
 
 ## Requirements
 

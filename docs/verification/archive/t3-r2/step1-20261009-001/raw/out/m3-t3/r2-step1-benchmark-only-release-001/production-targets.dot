@@ -1,5 +1,0 @@
-digraph SymoCraft {
-  "benchmark_core" -> "symocraft_yaml" [label="LINK_LIBRARIES"];
-  "benchmark_core" -> "symocraft_yaml" [label="INTERFACE_LINK_LIBRARIES"];
-  "SymoCraftBenchmark" -> "benchmark_core" [label="LINK_LIBRARIES"];
-}

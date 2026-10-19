@@ -1,7 +1,0 @@
-CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:46 (message):
-  Boundary violation: world -> renderer in
-  game/modules/world/src/rejected.cpp: symocraft/renderer/renderer.h
-Call Stack (most recent call first):
-  negative-boundaries/world-renderer/probe.cmake:3 (symocraft_check_source_file)
-
-

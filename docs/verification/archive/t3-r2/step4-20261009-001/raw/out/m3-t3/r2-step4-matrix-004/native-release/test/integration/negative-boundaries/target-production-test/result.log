@@ -1,7 +1,0 @@
--- Configuring incomplete, errors occurred!
-CMake Error at F:/GameDevelop/OpenGLProject/Symocraft/cmake/ModuleBoundaries.cmake:363 (message):
-  Boundary violation: production symocraft_world -> test test_fixture
-Call Stack (most recent call first):
-  CMakeLists.txt:7 (symocraft_validate_boundaries)
-
-

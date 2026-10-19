@@ -29,6 +29,12 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int show)
                 if (option == L"--game") config.game = Benchmark::fs::absolute(argv[i]);
                 else if (option == L"--output") config.output = Benchmark::fs::absolute(argv[i]);
                 else if (option == L"--focus-policy") config.focus_policy = Benchmark::Utf8(argv[i]);
+                else if (option == L"--renderer") config.renderer = Benchmark::Utf8(argv[i]);
+                else if (option == L"--validation") {
+                    const std::wstring value = argv[i];
+                    if (value != L"0" && value != L"1") throw std::runtime_error("Validation must be 0 or 1");
+                    config.validation = value == L"1";
+                }
                 else if (option == L"--machine-label") config.machine_label = Benchmark::Utf8(argv[i]);
                 else if (option == L"--power-mode") config.power_mode = Benchmark::Utf8(argv[i]);
                 else if (option == L"--gpu-mode") config.gpu_mode = Benchmark::Utf8(argv[i]);
@@ -37,7 +43,7 @@ int WINAPI wWinMain(HINSTANCE instance, HINSTANCE, PWSTR, int show)
             }
         }
         if (config.output.empty() || (run == export_only) || (resume && !run))
-            throw std::runtime_error("Use --run [--quick] [--resume] or --export, with --output DIRECTORY [--game EXE] [--focus-policy strict|allow-unfocused]");
+            throw std::runtime_error("Use --run [--quick] [--resume] or --export, with --output DIRECTORY [--game EXE] [--renderer opengl|d3d12|vulkan] [--validation 0|1] [--focus-policy strict|allow-unfocused]");
         if (export_only) {
             Benchmark::Export(config); return 0;
         }

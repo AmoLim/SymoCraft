@@ -1,9 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-002/cpu-debug/test/integration/negative-boundaries/sdl-target-platform-private/build/cmake_install.cmake",
-		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-002/cpu-debug/test/integration/negative-boundaries/sdl-target-platform-private/build/vendor/sdl3/cmake_install.cmake",
-		"F:/GameDevelop/OpenGLProject/Symocraft/out/m3-t3/r2-step4-matrix-002/cpu-debug/test/integration/negative-boundaries/sdl-target-platform-private/build/game/modules/platform/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

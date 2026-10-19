@@ -1,7 +1,7 @@
 # T2 S4 platform declaration consumers
 
 This isolated CMake 3.22 project compiles the actual public Window and private
-bridge declarations used by the [S4 handoff](../../../docs/milestones/m3-t2/s4-platform-handoff.md).
+bridge declarations used by the [S4 handoff](../../../docs/openspec/specs/platform/spec.md).
 It does not configure SDL, compile Window, link production archives, initialize
 video or create GPU objects. Runtime checks only inspect CPU default values;
 declaration compatibility is enforced at compile time.
