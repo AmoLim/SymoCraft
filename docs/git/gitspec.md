@@ -3,23 +3,28 @@ tags:
   - area/meta
 ---
 
-# 本地配置忽略与取消跟踪提交批次
+# Agent 技能目录忽略规则修正批次
 
-2026-10-18 本轮授权取消四份 Obsidian 配置的跟踪，并创建一次本地提交应用忽略规则。不推送，不改写历史，不清理本地文件。
+2026-10-19 本轮明确授权将忽略规则中的 `/.agent/` 改为 `/.agents/`，取消实际技能目录的跟踪，并创建一次本地提交。不推送、不重写历史、不删除本地文件。
 
 ## 完整意图与范围
 
-将根目录 `/docs/.obsidian/` 与 `/.agent/` 纳入忽略规则；仅从 Git 索引移除以下四项，保留本地原文件，不读取或修改其配置正文：
+修正此前单复数目录不一致：忽略根 `.agents/`，从索引移除目前已跟踪的七项：
 
-- `docs/.obsidian/app.json`
-- `docs/.obsidian/appearance.json`
-- `docs/.obsidian/core-plugins.json`
-- `docs/.obsidian/templates.json`
+- `.agents/skills/.openspec-target`
+- `.agents/skills/openspec-apply-change/SKILL.md`
+- `.agents/skills/openspec-archive-change/SKILL.md`
+- `.agents/skills/openspec-explore/SKILL.md`
+- `.agents/skills/openspec-propose/SKILL.md`
+- `.agents/skills/openspec-sync-specs/SKILL.md`
+- `.agents/skills/openspec-update-change/SKILL.md`
 
-准确提交范围为上述四项索引删除、`.gitignore` 与本页，共六项。不扩大至 `.agents/`，不纳入 T3/T4/T5、架构、scope、验证索引或个人日志等并发改动。
+准确提交集合为七项索引删除、`.gitignore` 与本页，共九项。只改变版本跟踪，不移动或改写技能正文；本地 OpenSpec 技能及更新入口保留。新克隆不再携带这些文件，所需技能须由本地环境准备。本轮明确目录排除授权不扩展至其他必需输入。
+
+不纳入架构、T3/T4/T5、OpenSpec config、scope、验证索引、个人日志或冻结证据等并发改动。不沿用此前批次授权，不执行 OpenSpec update、实施、sync 或 archive。
 
 ## 检查与提交约定
 
-核对四项已跟踪路径，取消跟踪前后对比本地文件摘要，确认文件仍在且字节未变；检查忽略规则、准确暂存路径、规则/spec 差异与四项索引删除的模式/对象，并运行暂存差异空白检查。配置删除正文不输出，旧字节仍可从父提交恢复。纯 Git 跟踪规则调整，不运行构建或测试，不代表历史配置已从 Git 历史中清除。
+记录七项文件本地 SHA256，取消跟踪及提交后核对文件存在且字节未变；验证忽略匹配、准确暂存路径、完整暂存差异及空白检查。提交后检查索引无剩余与其他工作区改动保留。纯 Git 跟踪调整，不运行构建或测试，云端当前分支需另行推送后才反映变化，历史提交仍保留原文件。
 
-提交消息：`chore(git): 忽略本地配置并取消Obsidian配置跟踪`。仅创建一次本地提交，提交后核对范围、空索引及其余改动保留情况。
+提交消息：`chore(git): 修正agents忽略规则并取消技能目录跟踪`。仅创建一次本地提交，不为回填自身 hash 追加提交。

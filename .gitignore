@@ -7,7 +7,7 @@
 
 # Local Obsidian state and agent files.
 /docs/.obsidian/
-/.agent/
+/.agents/
 
 # Out-of-source builds, staged assets, and local test packages.
 /cmake-build-*/
