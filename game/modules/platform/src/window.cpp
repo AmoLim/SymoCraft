@@ -23,6 +23,7 @@
 namespace SymoCraft {
     namespace {
         bool initialized{};
+        Platform::Runtime* runtime_owner = nullptr;
         std::size_t active_windows{};
         Uint64 timer_origin{}, timer_frequency{};
 
@@ -119,15 +120,16 @@ namespace SymoCraft {
                 event.window.windowID == SDL_GetWindowID(native) &&
                 (event.type == SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED || event.type == SDL_EVENT_WINDOW_RESIZED ||
                  event.type == SDL_EVENT_WINDOW_MINIMIZED || event.type == SDL_EVENT_WINDOW_RESTORED))
-                Require(SDL_GetWindowSizeInPixels(native, &window.width, &window.height), "SDL_GetWindowSizeInPixels(event)");
+                Require(SDL_GetWindowSizeInPixels(native, &window.width_, &window.height_), "SDL_GetWindowSizeInPixels(event)");
             try { input->Handle(event); }
-            catch (...) {
-                if (!input_error) {
-                    try { std::throw_with_nested(std::runtime_error("Window input event adaptation failed")); }
-                    catch (...) { input_error = std::current_exception(); }
-                }
-            }
+            catch (...) { LatchInputError(); }
             CheckInputError();
+        }
+        void LatchInputError() {
+            if (!input_error) {
+                try { std::throw_with_nested(std::runtime_error("Window input adaptation/capture failed")); }
+                catch (...) { input_error = std::current_exception(); }
+            }
         }
         void CheckInputError() const {
             if (input_error) std::rethrow_exception(input_error);
@@ -178,6 +180,29 @@ namespace SymoCraft {
         catch (const std::exception& error) { std::fprintf(stderr, "Window destructor cleanup: %s\n", error.what()); }
         catch (...) { std::fprintf(stderr, "Window destructor cleanup: unknown failure\n"); }
     }
+    Platform::Runtime::Runtime() {
+        if (initialized) throw std::logic_error("Runtime: only one active platform owner is supported");
+        Window::Init();
+        acquired_ = true;
+        runtime_owner = this;
+    }
+    Platform::Runtime::~Runtime() noexcept {
+        try { Shutdown(); }
+        catch (const std::exception& error) { std::fprintf(stderr, "Runtime destructor cleanup: %s\n", error.what()); }
+        catch (...) { std::fprintf(stderr, "Runtime destructor cleanup: unknown failure\n"); }
+    }
+    bool Platform::Runtime::Active() const noexcept { return acquired_ && runtime_owner == this && initialized; }
+    void Platform::Runtime::Shutdown() {
+        if (!acquired_) return;
+        Window::Free();
+        acquired_ = false;
+        runtime_owner = nullptr;
+    }
+    std::unique_ptr<Window> Window::Create(Platform::Runtime& runtime, const char* title, int width, int height,
+                                          bool benchmark, bool allow_unfocused, WindowMode mode) {
+        if (!runtime.Active()) throw std::logic_error("Window::Create: active Runtime is required");
+        return std::unique_ptr<Window>(Create(title, width, height, benchmark, allow_unfocused, mode));
+    }
     void Window::Init() {
         if (initialized) { RequireVideo("Window::Init"); return; }
         SDL_SetMainReady();
@@ -207,7 +232,7 @@ namespace SymoCraft {
         if (mode != WindowMode::OpenGL && mode != WindowMode::Native && mode != WindowMode::Vulkan)
             throw std::invalid_argument("Window::Create: unknown window mode");
         std::unique_ptr<Window> result;
-        try { result = std::make_unique<Window>(); }
+        try { result.reset(new Window()); }
         catch (const std::bad_alloc&) {
             std::throw_with_nested(std::runtime_error("Window::Create: Window/Impl allocation failed"));
         }
@@ -247,16 +272,16 @@ namespace SymoCraft {
             Platform::GraphicsBridge::SetVsync(true);
         }
         Require(SDL_ShowWindow(state.native), "SDL_ShowWindow");
-        Require(SDL_GetWindowSizeInPixels(state.native, &result->width, &result->height), "SDL_GetWindowSizeInPixels(create)");
-        if (benchmark && (result->width != logical_width || result->height != logical_height))
+        Require(SDL_GetWindowSizeInPixels(state.native, &result->width_, &result->height_), "SDL_GetWindowSizeInPixels(create)");
+        if (benchmark && (result->width_ != logical_width || result->height_ != logical_height))
             throw std::runtime_error("Window::Create: benchmark drawable pixels do not match the requested workload dimensions");
         const bool focused = (SDL_GetWindowFlags(state.native) & SDL_WINDOW_INPUT_FOCUS) != 0;
-        try { state.input = std::make_unique<Platform::Detail::InputState>(SDL_GetWindowID(state.native), benchmark, focused); }
+        try { state.input = std::make_unique<Platform::Detail::InputState>(SDL_GetWindowID(state.native), focused); }
         catch (...) { std::throw_with_nested(std::runtime_error("Window::Create: input buffers could not be allocated")); }
         AmoLogger_Info("Window created. ");
         if (benchmark)
             std::cout << "Benchmark window: borderless-windowed; topmost=false; taskbar_policy=NonRudeHWND; framebuffer="
-                      << result->width << 'x' << result->height << std::endl;
+                      << result->width_ << 'x' << result->height_ << std::endl;
         return result.release();
     }
     void Window::PollInt() {
@@ -266,15 +291,15 @@ namespace SymoCraft {
         impl_->SynchronizeWindowState();
         impl_->input->PublishEvents();
     }
-    void Window::CaptureInput() {
+    void Window::CaptureInput(InputFrame& destination) {
         impl_->RequireNative("Window::CaptureInput");
         impl_->CheckInputError();
-        impl_->SynchronizeInput();
-        impl_->input->CaptureKeys();
-    }
-    const InputSnapshot& Window::Input() const {
-        impl_->RequireNative("Window::Input");
-        return impl_->input->Input();
+        if (!destination.Empty()) throw std::logic_error("CaptureInput: destination must be cleared");
+        try {
+            impl_->SynchronizeInput();
+            impl_->input->Exchange(destination);
+        } catch (...) { impl_->LatchInputError(); }
+        impl_->CheckInputError();
     }
     bool Window::Focused() const {
         return impl_->native && (SDL_GetWindowFlags(impl_->RequireNative("Window::Focused")) & SDL_WINDOW_INPUT_FOCUS) != 0;
@@ -321,7 +346,7 @@ namespace SymoCraft {
         impl_->native = nullptr;
         impl_->input.reset();
         impl_->input_error = nullptr;
-        width = height = 0;
+        width_ = height_ = 0;
         --active_windows;
         if (first_error) std::rethrow_exception(first_error);
     }
@@ -361,9 +386,12 @@ namespace SymoCraft {
         auto* native = impl_->RequireNative("Window::SetSize");
         if (w <= 0 || h <= 0) throw std::invalid_argument("Window::SetSize: logical dimensions must be positive");
         Require(SDL_SetWindowSize(native, w, h), "SDL_SetWindowSize");
-        Require(SDL_GetWindowSizeInPixels(native, &width, &height), "SDL_GetWindowSizeInPixels(resize)");
+        Require(SDL_GetWindowSizeInPixels(native, &width_, &height_), "SDL_GetWindowSizeInPixels(resize)");
     }
-    float Window::GetAspectRatio() const { return static_cast<float>(std::max(width, 1)) / std::max(height, 1); }
+    float Window::GetAspectRatio() const {
+        if (width_ <= 0 || height_ <= 0) throw std::logic_error("Window::GetAspectRatio: drawable extent is zero");
+        return static_cast<float>(width_) / height_;
+    }
     double Window::Time() {
         if (!initialized) return 0;
         return static_cast<double>(SDL_GetPerformanceCounter() - timer_origin) / static_cast<double>(timer_frequency);

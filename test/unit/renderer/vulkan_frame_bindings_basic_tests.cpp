@@ -1,6 +1,7 @@
 #include "backend/vulkan/frame_binding_cache.h"
 #include <array>
 #include <iostream>
+#include <limits>
 #include <utility>
 
 namespace {
@@ -64,11 +65,44 @@ void NormalBundleReplacement() {
     Require(writes == 1 && cache.Capacity() == 8 && candidate.Capacity() == 4);
     Require(FrameBindingCache::CapacityFor(cache.Capacity(), 6, 64) == 8);
 }
+void FailedWritesRetry() {
+    FrameBindingCache cache(2), selection(1);
+    auto fail = [](auto) { throw std::runtime_error("controlled descriptor write failure"); };
+    bool rejected = false;
+    try { cache.WriteMesh(0, {1, 2, 3}, fail); }
+    catch (const std::runtime_error&) { rejected = true; }
+    Require(rejected);
+    Require(cache.WriteMesh(0, {1, 2, 3}, [](auto dirty) { Require(Mask(dirty) == 7); }));
+    rejected = false;
+    try { cache.WriteMesh(0, {1, 4, 5}, fail); }
+    catch (const std::runtime_error&) { rejected = true; }
+    Require(rejected);
+    Require(cache.WriteMesh(0, {1, 2, 3}, [](auto dirty) { Require(Mask(dirty) == 2); }));
+    Require(!cache.WriteMesh(0, {1, 2, 3}, fail));
+    rejected = false;
+    try { selection.WriteUniform(0, fail); }
+    catch (const std::runtime_error&) { rejected = true; }
+    Require(rejected);
+    Require(selection.WriteUniform(0, [](auto dirty) { Require(Mask(dirty) == 1); }));
+    Require(!selection.WriteUniform(0, fail));
+}
+void CapacityBoundaries() {
+    Require(FrameBindingCache::CapacityFor(0, 0, 0) == 0);
+    Require(FrameBindingCache::CapacityFor(0, 1, 1) == 1);
+    Require(FrameBindingCache::CapacityFor(4, 7, 7) == 7);
+    const auto limit = std::numeric_limits<std::size_t>::max();
+    Require(FrameBindingCache::CapacityFor(limit / 2 + 1, limit, limit) == limit);
+    bool rejected = false;
+    try { (void)FrameBindingCache::CapacityFor(4, 8, 7); }
+    catch (const std::length_error&) { rejected = true; }
+    Require(rejected);
+}
 }
 int main() {
     try {
         NormalBindingChanges(); IndependentFrameSlots(); SeparateSelectionBinding(); NormalBundleReplacement();
-        std::cout << "4 normal CPU metadata cases passed: binding deltas, independent slots, separate selection, ordinary bundle replacement; no GPU/boundary/regression/performance tests\n";
+        FailedWritesRetry(); CapacityBoundaries();
+        std::cout << "6 CPU metadata cases passed: binding deltas, independent slots, selection, replacement, failed-write retry and capacity boundaries; no native GPU allocation or performance claim\n";
         return 0;
     } catch (const std::exception& error) { std::cerr << error.what() << '\n'; return 1; }
 }

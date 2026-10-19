@@ -34,6 +34,8 @@ tags:
 
 阶段顺序为 `initializing -> warmup -> sampling -> exporting -> finished`。状态文件在同目录临时写入后原子替换，读取句柄允许替换；不存在或暂不可读的阶段文件不代表成功。执行器每 250 ms 轮询，用阶段时间加本地经过时间估算进度，不能用进度条反推帧统计。
 
+T4已交付的[工具YAML发布](../../tools/benchmark/src/platform.cpp)在写流close成功后，先用ReplaceFileW(flags=0)替换，使share=7读者保留旧快照；仅ERROR_FILE_NOT_FOUND时尝试一次MoveFileExW(flags=0)完成首次创建，不覆盖间隙中新建的目标。其余替换错误不fallback，移动失败也不重试、先删目标或清tmp。原生码在诊断转换前保存，异常保system_category、操作、flags、源/目标及原Replace错误；ReplaceFile的晚期失败仍可能改变文件后状态，不承诺任意失败保旧内容、多文件事务、崩溃恢复或1175已解决。它仍是只依赖YAML/Win32的独立工具，不改foundation或其Fix1。私有platform头的API函数绑定仅供确定性竞争/故障回归，普通运行默认使用真实API，不形成公开扩展点或测试专用生产副本；关闭测试不依赖根测试实现。2026-10-19后续明确源码同步授权已将此限定修补及故障回归带入F主工作区，不恢复或关闭暂停Fix1。
+
 ## 会话、失败与重试
 
 快速计划为三场景各 10 秒预热、10 秒采样；正式计划为三场景各三轮，每轮 60 秒预热、180 秒采样，共 2160 秒协议时间。启动、校验、截图与落盘另计，不自动缩短计划。两种计划不能互称正式基线。
@@ -60,11 +62,11 @@ Session 由游戏 main 的 unique_ptr 独占，Application 借用；所有访问
 
 ## 焦点与导出边界
 
-候选游戏可选--foreground-ready-timeout-seconds 1..120仅用于strict benchmark，默认0且allow-unfocused不接受。初始世界/mesh后，以Poll/Capture/有界Wait处理窗口事实，连续1秒获焦/非最小化/实际尺寸匹配后清输入与物理余数、重设帧时钟，再从零完整预热；超时/Esc/关闭具名失败并保留清理/导出。准备期间不模拟/Render，耗时单列startup，不是删除已测失焦帧或启动预算；计时后失焦仍单调无效、不暂停/重置/择帧。Python前台入口显式设置60秒准备，桌面激活仍由用户授权Computer Use完成，短验证与完整对照分别见[T3记录](../openspec/changes/m3-t3-renderer/verification.md#2026-10-17-前台有界准备与短启动验证)。下文“不暂停时钟”均指预热时钟已开始后，默认及旧allow-unfocused路径不变。
+候选游戏可选--foreground-ready-timeout-seconds 1..120仅用于strict benchmark，默认0且allow-unfocused不接受。初始世界/mesh后，以Poll/Capture/有界Wait处理窗口事实，连续1秒获焦/非最小化/实际尺寸匹配后清输入与物理余数、重设帧时钟，再从零完整预热；超时/Esc/关闭具名失败并保留清理/导出。准备期间不模拟/Render，耗时单列startup，不是删除已测失焦帧或启动预算；计时后失焦仍单调无效、不暂停/重置/择帧。Python前台入口显式设置60秒准备，桌面激活仍由用户授权Computer Use完成，短验证与完整对照分别见[T3记录](../openspec/changes/archive/2026-10-19-m3-t3-renderer/verification.md#2026-10-17-前台有界准备与短启动验证)。下文“不暂停时钟”均指预热时钟已开始后，默认及旧allow-unfocused路径不变。
 
-前台Python入口仅隐藏控制台（CREATE_NO_WINDOW），不传STARTF_USESHOWWINDOW/SW_HIDE去覆盖GUI首次显示；这不保证Windows允许激活或桌面已解锁，实际逐帧焦点仍是有效性依据。只读WTS的UNLOCK状态也不证明游戏已经前台，必须分开核验；准确状态见[T3获焦记录](../openspec/changes/m3-t3-renderer/verification.md#2026-10-17-已解锁但前台激活失败)，失败不自动重试。
+前台Python入口仅隐藏控制台（CREATE_NO_WINDOW），不传STARTF_USESHOWWINDOW/SW_HIDE去覆盖GUI首次显示；这不保证Windows允许激活或桌面已解锁，实际逐帧焦点仍是有效性依据。只读WTS的UNLOCK状态也不证明游戏已经前台，必须分开核验；准确状态见[T3获焦记录](../openspec/changes/archive/2026-10-19-m3-t3-renderer/verification.md#2026-10-17-已解锁但前台激活失败)，失败不自动重试。
 
-独立Python对照入口verify-renderer-comparison.py仅在refactor-renderer工作目录，复用既有预算分析与原生消费者；--focus-mode foreground选用游戏strict启动激活并只读核验自有PID窗口前台、可见、非最小化及尺寸，桌面点击另由用户授权的Computer Use执行，脚本不持续抢焦或改变系统设置。游戏预热/采样时钟不因外部等待暂停；strict逐帧失焦无效原因单调保留，即使后来获焦也不能删除预热坏帧。新入口前台轮要求全部原始帧focused=1，失败停止后续、不自动重试；默认allow-unfocused和既有原生执行器不变。独立GL→D3D12→Vulkan对照按同场景/轮次分别配对，不混池或以旧失焦GL充当前台基线；本批30＋90/三轮的授权、锁屏未完成及后续状态见[T3验证](../openspec/changes/m3-t3-renderer/verification.md#2026-10-17-前台三后端采样准备与锁屏中止)，不是GUI产品默认或性能通过。
+独立Python对照入口verify-renderer-comparison.py仅在refactor-renderer工作目录，复用既有预算分析与原生消费者；--focus-mode foreground选用游戏strict启动激活并只读核验自有PID窗口前台、可见、非最小化及尺寸，桌面点击另由用户授权的Computer Use执行，脚本不持续抢焦或改变系统设置。游戏预热/采样时钟不因外部等待暂停；strict逐帧失焦无效原因单调保留，即使后来获焦也不能删除预热坏帧。新入口前台轮要求全部原始帧focused=1，失败停止后续、不自动重试；默认allow-unfocused和既有原生执行器不变。独立GL→D3D12→Vulkan对照按同场景/轮次分别配对，不混池或以旧失焦GL充当前台基线；本批30＋90/三轮的授权、锁屏未完成及后续状态见[T3验证](../openspec/changes/archive/2026-10-19-m3-t3-renderer/verification.md#2026-10-17-前台三后端采样准备与锁屏中止)，不是GUI产品默认或性能通过。
 
 游戏默认 `strict`，原生执行器显式默认 `allow-unfocused`；普通非 benchmark 参数不接受焦点策略。两策略都保留原帧，strict 失焦记录无效原因，allow 不把仅失焦判为失败。最小化、零尺寸和帧缓冲改变仍令采样无效，不暂停后续拼接；普通游戏失焦暂停和输入恢复语义不因此改变。采样恢复焦点不重置物理时序，负载按真实经过时间推进，不承诺玩家轨迹位级确定。
 

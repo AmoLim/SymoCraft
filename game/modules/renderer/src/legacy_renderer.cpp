@@ -48,7 +48,7 @@ namespace SymoCraft::Renderer {
         std::cout << "OpenGL vendor: " << device.vendor << '\n'
                   << "OpenGL renderer: " << device.renderer << '\n'
                   << "OpenGL version: " << device.version << std::endl;
-        SetViewport(window.width, window.height);
+        SetViewport(window.Width(), window.Height());
     }
     void Init() {
         if (!Platform::GraphicsBridge::HasCurrentContext() || !glad_glCreateBuffers)

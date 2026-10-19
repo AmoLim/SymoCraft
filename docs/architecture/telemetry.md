@@ -5,13 +5,13 @@ tags:
 
 # Telemetry
 
-`symocraft_telemetry` 收集自有 CPU 记录、回填 GPU 结果、统计并导出 Benchmark 文件，也为 foundation 的中立 Data::Value 提供 YAML 适配。模块边界归 [module-boundaries spec](../openspec/specs/module-boundaries/spec.md)，单文件发布归 [foundation-files spec](../openspec/specs/foundation-files/spec.md)，渲染结果归 [renderer spec](../openspec/specs/renderer/spec.md)。尚未单列现役 telemetry spec 的采样/导出机制由本文维护；[T4 telemetry-lifecycle delta](../openspec/changes/m3-t4-application-simulation/specs/telemetry-lifecycle/spec.md) 的 Seal/Export 状态机不是当前实现。
+`symocraft_telemetry`收集自有CPU记录、按身份回填GPU、统计导出并提供Data::Value YAML适配。[封闭/导出实现](../../game/modules/telemetry/src/performance.cpp)已随获批准的T4实现于2026-10-19同步F主工作区；当前生命周期契约见[telemetry-lifecycle](../openspec/specs/telemetry-lifecycle/spec.md)，文件发布风险仍按[foundation-files](../openspec/specs/foundation-files/spec.md)保留，不由源码同步关闭1175或恢复Fix1。
 
 ## 所有权与采样边界
 
-main 独占 Session，传非拥有指针给 app，同步 Run/清理后显式 Export。Session 独占路径、frames、GPU 身份索引/解析标记、memory、invalid reasons、metadata/startup 值；不借用 CLI string、Window、World、Renderer 或 GPU query。config 参数在构造中复制为所需路径/metadata；Directory 返回的 const path 引用只在 Session 存活期间有效。
+Application拥有可选Session，早于被测装配、覆盖显式关闭和main Seal/Export；Scenario选择与该指针独立。Session拥有路径、frames/GPU索引/memory/invalid reasons/metadata/startup/FinalFacts/导出receipt，不借CLI、Window、World或GPU query。配置复制，Directory的const path引用仍仅在Session寿命内有效。
 
-Session 不可复制且未定义移动；标准成员自动释放内存，析构不 Export、不删除结果目录。当前 `metadata/startup/completed/entry` 仍公开可变，Add/回填/Status/Export 串行约定而非受保护状态机，没有锁、异步 collector 或并发读写保证。GPU 结果可晚几帧返回，但 app 仍同步 Poll 后调用 Session，不表示后台线程安全。
+Session不可复制/移动，析构不Export/删除现场。metadata/startup/completed/entry私有，只读getter与SetMetadata/SetStartup/Complete受Recording检查；所有采样、GPU、Invalidate/Status写入口在Sealed后拒绝。晚到GPU仍串行Poll回填，不代表锁、异步或并发安全。
 
 构造只创建全新输出目录，父目录必须存在，不覆盖已有结果；UTF-8 字节路径在此转 filesystem path。创建后 reserve 或 initializing Status 失败可能留下空目录/部分文件，不清场回滚。frames/gpu-resolved 预留 100000、帧上限 1000000；memory 预留 1300 但没有相同硬上限，现代 ID map 首次 SetRendererInfo 时预留。预留不是全程无分配保证，也没有全面重新验证 CLI 选项。
 
@@ -35,15 +35,15 @@ SetRendererInfo 从真实 RendererInfo 复制 backend/device/driver/API、实际
 
 ## 导出顺序与失败后状态
 
-Status 将任意调用者提供的 phase/elapsed 写到 closed `status.tmp`，再 Files::Publish 为 status.yaml；使用 classic locale、precision 10 和 checked stream close。发布 system_error 在保留原 error_code 的同时加 Benchmark phase 上下文，不把日志文本取代数值原因。状态文件只是一份已完成单文件发布，不是 Session 有限状态机。
+公开Status仅在Recording允许initializing/awaiting-foreground/warmup/sampling；私有WriteStatus负责exporting/finished。前台准备状态不能绕过Recording或提前宣布导出完成。closed status.tmp经真实Files::Publish发布，classic locale/precision10/checked close保留；system_error保原error_code加phase上下文。磁盘phase与内存RecordState/ExportState分开，不因summary存在推定Saved。
 
-Export 的当前顺序是：Status(exporting) → 标记 abnormal/incomplete → 写 frames/focus CSV → 写 memory CSV → 组装统计/summary.yaml 并关闭 → Status(finished) → 返回 valid_run。exporting 失败就不继续结果写入；后续失败可能留下完整或部分 CSV、summary 或临时状态。每个文件单独写入，不是整个结果目录事务，也不自动回滚之前的文件。
+先结束所有关闭步骤，汇合自有FinalFacts再Seal。Seal校验completed一致，预构造最终事实/invalid reasons后一次提交；同事实重复无操作，冲突拒绝，内存失败不半封闭。Export只接受Sealed，顺序仍exporting→frames/focus→memory→summary→finished；中途保部分/临时文件，无目录事务或自动回滚。
 
 finished 发布失败时 summary 可能已经存在且 completed=true；不能只看到 summary/CSV 就称成功导出。Files::Publish 的晚期 1175/1176/1177 失败没有通用源/目标回滚保证，状态须按 [暂停 Fix1](../openspec/changes/m3-t2-publication-fix1/proposal.md) 边界保留；本轮未诊断或修复根因。
 
-valid_run 等于正常退出、completed、无 invalid reasons、measured frame 非空。false 是正常输出的无效运行，不等于 I/O 异常；异常仍上抛。Invalidate 去重自有 reason，可能分配失败。main 先完成 Application/GPU/Window 清理，再 Export，以清理后的 normal_exit 决定有效性；清理失败不得藏在 valid_run=true 后。
+valid_run要求runtime_succeeded、shutdown_succeeded、completed、无invalid reasons、measured非空；保存成功但无效是Saved/false，不等同I/O失败。FinalFacts保首错/次错，summary新增lifecycle不改旧列与协议。所有关闭事实确定后才Seal，不用析构补封闭。
 
-当前 Export 可重复执行并重写/截断同目录文件；导出后仍可 Add、回填 GPU、改 metadata/completed 或再次 Invalidate/Status。没有 Seal，没有阻止晚到记录，没有 Saved/failed 的幂等导出状态。T4 要求停止新采样、交接已就绪 GPU、完成 Renderer/Window/Runtime 关闭后，汇合最终事实再 Seal 并显式导出；这是目标，不能依据现在的重试测试提前声称实现。
+Export返回自有ExportResult：Saved或Failed、valid_run、path/stage/diagnostic和原生error_code。Failed保持Sealed且不自动重试，下次显式Export才重写同目录；Saved缓存receipt，重复调用不截断/写文件，也不因文件被外部改变重做。stdio等标准I/O故障不一定带原生Win32码，完整OOM诊断不保证；不扩为通用错误框架。
 
 ## 统计、协议与 YAML
 
@@ -53,7 +53,7 @@ Milliseconds 用 steady_clock 两个 time_point 返回 double 毫秒，不修改
 
 普通 GL 保持 v2 metadata 和 25 列 frames.csv。出现 renderer info 或现代字段时追加 stable frame ID、prepare/submit、missing reason、资源/帧上传和 calls；CSV 字符串带引号并转义内部引号。未返回现代 GPU 结果标 not-returned，旧无采集标 not-collected，已解释 missing 保留原原因；统计不以缺失填 0。focus 时长是按 poll 时焦点分类累加帧间隔的近似，不是硬件焦点时间线；frame_ms 也是连续呈现返回间隔，不是物理显示延迟。
 
-原生 Benchmark GUI/CLI 当前仍按旧 GL 协议消费，现代 telemetry 的扩展输出不等于工具已接通，见 [benchmark](benchmark.md)。schema/protocol 数字未因新增列自动改成新的生产 Benchmark 验收。
+原生Benchmark runner已支持旧GL v2/25列与D3D12/Vulkan modern v1/32列，实际消费者及发布边界见[benchmark](benchmark.md)；候选运行和批准分别见T3/T4验证，不从新增字段推定。schema/protocol不因T4生命周期扩成新性能协议或自动预算达标。
 
 YAML parser 仅是 telemetry 私有依赖，公共边界仍为 foundation Data::Value。Dump 构造独立 YAML node/string，不修改输入；Mapping/Sequence 保持值结构及 flow style，能被解释为 bool/number 的 string 显式标为字符串。Load 同步复制 text，再返回自有值；显式字符串不重解释，其他 scalar 按 bool → int64 → uint64 → double → string 尝试，map key 转 string，null 为 monostate。LoadYamlFile 直接使用传入 path，不经 Assets resolver；文件/语法/转换异常传播，不返回半个成功文档。它不是业务 schema 校验器，也没有对任意文档分配量提供界限。
 
@@ -68,4 +68,4 @@ YAML parser 仅是 telemetry 私有依赖，公共边界仍为 foundation Data::
 | I3 | valid_run = 正常退出、completed、无 invalid reason、measured 帧非空，不由文件存在推定。 |
 | I4 | GPU 缺失不填 0，warmup 排除统计，慢帧不剔除。 |
 
-静态核对 [performance_tests](../../test/unit/telemetry/performance_tests.cpp) 的 nearest-rank、重复目录、失焦策略、重复 Export/partial status 及 [renderer_performance_tests](../../test/unit/telemetry/renderer_performance_tests.cpp) 的旧兼容、sparse ID、乱序/重复/非法样本、有效零值、missing/上传归属。测试中的 sharing-violation 拒绝与重试不证明 Win32 1175 根因已消除，也不证明任意 OOM、Seal 或并发安全。本轮未运行这些测试；历史证据统一由 [VERIFICATION](../verification/VERIFICATION.md) 定位。
+现有performance/renderer_performance协议测试保留，lifecycle补封闭后全部写入口拒绝、同事实/冲突Seal、失败显式重试与Saved无重写，真实finished Publish被无delete-sharing读者阻断的Win32共享错误32保留。正式库内窄私有probe只在冷路径发布前安排外部竞争，不代替Files::Publish。实际结果见[T4 verification](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md#2026-10-15-完整生产迁移)；不证明1175根因消除、任意OOM或并发安全。

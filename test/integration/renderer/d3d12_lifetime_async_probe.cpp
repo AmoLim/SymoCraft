@@ -263,15 +263,14 @@ int main(int argc, char** argv) {
     Value report; report["schema"] = "symocraft.d3d12-lifetime-async.v1"; report["mode"] = mode;
     report["success"] = false; report["public_facade_and_production_backend"] = true;
     report["performance_acceptance"] = false;
-    const auto started = Clock::now(); bool initialized = false; int code = 1;
+    const auto started = Clock::now(); int code = 1;
     try {
-        Window::Init(); initialized = true;
-        std::unique_ptr<Window> window(Window::Create("Symocraft D3D12 lifetime/async",640,360,false,true,WindowMode::Native));
+        Platform::Runtime runtime;
+        auto window = Window::Create(runtime,"Symocraft D3D12 lifetime/async",640,360,false,true,WindowMode::Native);
         { Scene scene(*window, argv[2], output, report); Run(mode, scene, report); }
-        window->Destroy(); window.reset(); Window::Free(); initialized = false;
+        window->Destroy(); window.reset(); runtime.Shutdown();
         report["success"] = true; code = 0;
     } catch (const std::exception& error) { report["harness_error"] = error.what(); std::cerr << error.what() << '\n'; }
-    if (initialized) { try { Window::Free(); } catch (...) {} }
     report["elapsed_ms"] = std::chrono::duration<double,std::milli>(Clock::now()-started).count();
     std::ofstream file(output/"report.json"); Json(file,report); file << '\n'; return file ? code : 2;
 }

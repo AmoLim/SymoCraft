@@ -1,0 +1,7 @@
+add_library(symocraft_physics STATIC src/physics.cpp)
+target_compile_features(symocraft_physics PUBLIC cxx_std_20)
+target_include_directories(symocraft_physics PUBLIC include PRIVATE src)
+target_link_libraries(symocraft_physics PUBLIC symocraft_foundation)
+if(MSVC)
+    target_compile_options(symocraft_physics PRIVATE /W4 /utf-8)
+endif()

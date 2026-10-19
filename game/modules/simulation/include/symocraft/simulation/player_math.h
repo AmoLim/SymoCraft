@@ -30,6 +30,7 @@ namespace SymoCraft::PlayerMath
         }
 
         void Reset() { accumulated_ = 0.0; }
+        double Remainder() const { return accumulated_; }
 
     private:
         double accumulated_ = 0.0;

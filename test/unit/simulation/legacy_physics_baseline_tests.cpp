@@ -16,7 +16,7 @@ namespace {
         body.use_gravity = true;
         const glm::vec3 start(0.5f, 200.5f, 0.5f);
         const auto entity = fixture.AddBody(start, body);
-        Physics::Update(fixture.registry, *fixture.world, Step);
+        Physics::Update(fixture.registry, *fixture.world, Step, fixture.budget);
         const auto result = fixture.Capture(entity);
         Near(result.transform.position, start + glm::vec3(0.1f, 0.05f, -0.025f), "single-step.position");
         Near(result.body.velocity, {13, 6.333333333f, -5}, "single-step.velocity");
@@ -34,7 +34,7 @@ namespace {
         body.acceleration = {120, -120, 120};
         body.is_sensor = body.on_ground = body.use_gravity = true;
         const auto entity = fixture.AddBody({0.5f, 200.5f, 0.5f}, body);
-        Physics::Update(fixture.registry, *fixture.world, Step);
+        Physics::Update(fixture.registry, *fixture.world, Step, fixture.budget);
         const auto result = fixture.Capture(entity);
         Near(result.transform.position, {1, 200, 1}, "sensor.position-before-limit");
         Near(result.body.velocity, {50, -50, 50}, "sensor.velocity-limit");
@@ -50,23 +50,23 @@ namespace {
         const auto entity = fixture.AddBody({0.5f, 200.5f, 0.5f}, body);
         for (float delta : {0.0f, -1.0f, std::numeric_limits<float>::quiet_NaN(),
                             std::numeric_limits<float>::infinity()}) {
-            Physics::Update(fixture.registry, *fixture.world, delta);
+            Physics::Update(fixture.registry, *fixture.world, delta, fixture.budget);
             Near(fixture.Capture(entity).transform.position.x, 0.5f, "legacy-invalid-time.no-step");
         }
-        Physics::Update(fixture.registry, *fixture.world, Step / 2);
+        Physics::Update(fixture.registry, *fixture.world, Step / 2, fixture.budget);
         Near(fixture.Capture(entity).transform.position.x, 0.5f, "half-step.no-step");
-        Physics::Update(fixture.registry, *fixture.world, 0);
-        Physics::Update(fixture.registry, *fixture.world, Step / 2);
+        Physics::Update(fixture.registry, *fixture.world, 0, fixture.budget);
+        Physics::Update(fixture.registry, *fixture.world, Step / 2, fixture.budget);
         Near(fixture.Capture(entity).transform.position.x, 0.6f, "zero-time.retained-remainder");
-        Physics::Update(fixture.registry, *fixture.world, Step * 3);
+        Physics::Update(fixture.registry, *fixture.world, Step * 3, fixture.budget);
         Near(fixture.Capture(entity).transform.position.x, 0.9f, "three-steps.position");
-        Physics::Update(fixture.registry, *fixture.world, 10);
+        Physics::Update(fixture.registry, *fixture.world, 10, fixture.budget);
         Near(fixture.Capture(entity).transform.position.x, 1.7f, "long-frame.eight-steps");
-        Physics::Update(fixture.registry, *fixture.world, Step);
+        Physics::Update(fixture.registry, *fixture.world, Step, fixture.budget);
         Near(fixture.Capture(entity).transform.position.x, 1.8f, "long-frame.no-backlog");
-        Physics::Update(fixture.registry, *fixture.world, Step / 2);
-        Physics::ResetTiming();
-        Physics::Update(fixture.registry, *fixture.world, Step / 2);
+        Physics::Update(fixture.registry, *fixture.world, Step / 2, fixture.budget);
+        fixture.budget.Reset();
+        Physics::Update(fixture.registry, *fixture.world, Step / 2, fixture.budget);
         Near(fixture.Capture(entity).transform.position.x, 1.8f, "reset.discarded-remainder");
     }
 
@@ -79,16 +79,16 @@ namespace {
         body.acceleration = {0, -2, 0};
         body.use_gravity = true;
         const auto entity = fixture.AddBody({0.5f, 201.55f, 0.5f}, body);
-        Physics::Update(fixture.registry, *fixture.world, Step);
+        Physics::Update(fixture.registry, *fixture.world, Step, fixture.budget);
         auto result = fixture.Capture(entity);
         Near(result.transform.position, {0.5f, 201.5f, 0.5f}, "landing.position");
         Near(result.body.velocity, glm::vec3(0), "landing.velocity");
         Near(result.body.acceleration, glm::vec3(0), "landing.acceleration");
         Require(result.body.on_ground, "landing.ground");
-        Physics::Update(fixture.registry, *fixture.world, Step);
+        Physics::Update(fixture.registry, *fixture.world, Step, fixture.budget);
         Require(fixture.Capture(entity).body.on_ground, "face-contact.support");
         fixture.RemoveBlock({0, 200, 0});
-        Physics::Update(fixture.registry, *fixture.world, Step);
+        Physics::Update(fixture.registry, *fixture.world, Step, fixture.budget);
         result = fixture.Capture(entity);
         Require(!result.body.on_ground, "removed-support.ground");
         Near(result.body.velocity.y, -20.0f * Step, "removed-support.gravity");
@@ -101,7 +101,7 @@ namespace {
         fixture.SetBlock({0, 200, 0});
         const auto near_ground = fixture.AddBody({0.5f, 201.501f, 0.5f}, {});
         const auto airborne = fixture.AddBody({0.5f, 201.503f, 0.5f}, {});
-        Physics::Update(fixture.registry, *fixture.world, Step);
+        Physics::Update(fixture.registry, *fixture.world, Step, fixture.budget);
         Require(fixture.Capture(near_ground).body.on_ground, "support.within-0.002");
         Require(!fixture.Capture(airborne).body.on_ground, "support.outside-0.002");
     }
@@ -119,7 +119,7 @@ namespace {
         top.velocity = {0, 12, 0};
         top.acceleration = {2, 3, 4};
         const auto top_entity = fixture.AddBody({4.5f, 200.45f, 0.5f}, top);
-        Physics::Update(fixture.registry, *fixture.world, Step);
+        Physics::Update(fixture.registry, *fixture.world, Step, fixture.budget);
         const auto side = fixture.Capture(wall_entity);
         Near(side.transform.position, {0.5f, 200.5f, 0.5f}, "wall.position");
         Near(side.body.velocity, {0, 4 * Step, 5 * Step}, "wall.velocity");
@@ -144,7 +144,7 @@ namespace {
         exiting.velocity = {-6, 0, 0};
         exiting.acceleration = {-2, 0, 0};
         const auto moving_out = fixture.AddBody({3.8f, 200.5f, 0.5f}, exiting);
-        Physics::Update(fixture.registry, *fixture.world, Step);
+        Physics::Update(fixture.registry, *fixture.world, Step, fixture.budget);
         const auto result = fixture.Capture(tied);
         Near(result.transform.position, {-0.2f, 200.5f, -0.5f}, "equal-overlap.tie-z-position");
         Near(result.body.velocity, {6, 0, 0}, "equal-overlap.tie-z-velocity");
@@ -164,7 +164,7 @@ namespace {
                 {glm::vec3(1), {0.25f, 0.25f, 0}});
             fixture.registry.GetComponent<Transform>(entity).scale = glm::vec3(20);
         }
-        Physics::Update(fixture.registry, *fixture.world, Step);
+        Physics::Update(fixture.registry, *fixture.world, Step, fixture.budget);
         for (const auto entity : fixture.registry.View<Transform, Physics::RigidBody, Physics::HitBox>()) {
             const auto result = fixture.Capture(entity);
             Require(result.body.on_ground, "offset-negative-chunk-boundary.support");
@@ -179,7 +179,7 @@ namespace {
         fixture.SetBlock({0, 200, 0});
         const auto entity = fixture.AddBody({1.125f, 201.125f, 0.5f}, {},
             {glm::vec3(0.5f), glm::vec3(0)});
-        Physics::Update(fixture.registry, *fixture.world, Step);
+        Physics::Update(fixture.registry, *fixture.world, Step, fixture.budget);
         const auto result = fixture.Capture(entity);
         // Equal x/y minima currently fall through to z, even when z is not minimal.
         Near(result.transform.position, {1.125f, 201.125f, -0.25f}, "xy-minimum-tie.falls-through-z");
@@ -195,7 +195,7 @@ namespace {
         const auto entity = fixture.AddBody({0.25f, 201.3f, 0.5f}, body,
             {glm::vec3(1), {0.25f, 0.25f, 0}});
         fixture.registry.GetComponent<Transform>(entity).scale = glm::vec3(20);
-        Physics::Update(fixture.registry, *fixture.world, Step);
+        Physics::Update(fixture.registry, *fixture.world, Step, fixture.budget);
         const auto result = fixture.Capture(entity);
         Near(result.transform.position, {0.25f, 201.25f, 0.5f}, "offset.correction");
         Near(result.body.velocity, glm::vec3(0), "offset.velocity");
@@ -226,7 +226,7 @@ namespace {
         };
         const auto before = publications();
         const auto entity = fixture.AddBody({0.5f, 201.5f, 0.5f}, {});
-        Physics::Update(fixture.registry, *fixture.world, Step);
+        Physics::Update(fixture.registry, *fixture.world, Step, fixture.budget);
         Require(fixture.Capture(entity).body.on_ground, "read-only.actual-support-query");
         Require(Physics::RayCastStatic(*fixture.world, {0.5f, 202, 0.5f}, {0, -1, 0}, 3).hit, "read-only.actual-ray-query");
         Require(fixture.world->Digest() == digest && fixture.world->Identity() == identity && fixture.world->ChunkCount() == chunks,
@@ -252,7 +252,7 @@ namespace {
             fixture.SetBlock(test.first);
             fixture.SetBlock(test.second);
             const auto entity = fixture.AddBody(test.position, {}, {test.size, glm::vec3(0)});
-            Physics::Update(fixture.registry, *fixture.world, Step);
+            Physics::Update(fixture.registry, *fixture.world, Step, fixture.budget);
             const auto result = fixture.Capture(entity);
             Near(result.transform.position, test.expected, test.name);
             Require(!result.body.on_ground, std::string(test.name) + ".not-ground");
@@ -272,9 +272,9 @@ namespace {
                                      glm::vec3(50.5f, 200.5f, 0.5f), glm::vec3(0.5f, -2.5f, 0.5f),
                                      glm::vec3(0.5f, 258.5f, 0.5f)}) {
             const auto entity = fixture.AddBody(start, body);
-            Physics::ResetTiming();
+            fixture.budget.Reset();
             const auto previous = fixture.Capture(entity);
-            Physics::Update(fixture.registry, *fixture.world, Step);
+            Physics::Update(fixture.registry, *fixture.world, Step, fixture.budget);
             const auto result = fixture.Capture(entity);
             Near(result.transform.position, previous.transform.position + body.velocity * Step, "outside-or-water.position");
             Near(result.body.velocity.y, -6 - 20 * Step, "outside-or-water.velocity");
@@ -307,7 +307,10 @@ namespace {
         Require(inside.hit, "ray.start-inside");
         Require(inside.hit_normal == glm::vec3(0), "ray.exact-start-inside-normal");
         Require(!Physics::RayCastStatic(*fixture.world, {-34, 200.5f, 0.5f}, {-1, 0, 0}, 3).hit, "ray.outside-world");
-        Require(!Physics::RayCastStatic(*fixture.world, {0.5f, 200.5f, 0.5f}, glm::vec3(0), 3).hit, "legacy-ray.zero-direction-no-hit");
+        bool rejected = false;
+        try { Physics::RayCastStatic(*fixture.world, {0.5f, 200.5f, 0.5f}, glm::vec3(0), 3); }
+        catch (const std::runtime_error&) { rejected = true; }
+        Require(rejected, "new-core.zero-direction-rejected (legacy returned no hit)");
     }
 
     void RegistryTraversal(const char* config)
@@ -321,7 +324,7 @@ namespace {
         fixture.registry.AddComponent<Transform>(incomplete) = {};
         fixture.registry.GetComponent<Transform>(incomplete).position = {4.5f, 200.5f, 0.5f};
         fixture.registry.AddComponent<Physics::RigidBody>(incomplete) = body;
-        Physics::Update(fixture.registry, *fixture.world, Step * 2);
+        Physics::Update(fixture.registry, *fixture.world, Step * 2, fixture.budget);
         Near(fixture.Capture(first).transform.position.x, 0.7f, "registry.first-two-steps");
         Near(fixture.Capture(second).transform.position.x, 2.7f, "registry.second-two-steps");
         Near(fixture.registry.GetComponent<Transform>(incomplete).position.x, 4.5f, "registry.missing-hitbox-skipped");

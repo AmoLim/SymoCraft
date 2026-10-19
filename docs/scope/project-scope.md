@@ -29,19 +29,19 @@ tags:
 
 同日玩法范围更新：用户确认加入装备栏、攻击动作、NPC 实体、NPC AI、生态生成和村落演化。其中 **NPC 实体、NPC AI、村落演化为下一玩法阶段的最高优先级**；其余三项纳入后续玩法任务。新增阶段的编号及与既有技术节点的衔接点在阶段 spec 中确认，不默认排在 M6 之后，也不以本次范围更新改动已确认的 M3 顺序或授权实施。用户同时确认：需要其决策的方案选型由原先两个候选扩大为三至四个，具体编写规则见下文“方案决策与选型规则”。
 
-同日渲染方向调整：用户确认 T3 先由 **D3D12 接管现有玩法，再接入 Vulkan；两个现代后端都完成接管后才验收 T3**。OpenGL 仅作过渡和回归对照，停止新增渲染特性的完整移植，最终退出生产构建与发布留后续单独节点，不以永久三后端等价为目标。PImpl、游戏侧 Renderer v1、可演进的私有后端及按真实重复需求提取小型内部 RHI 的原则不变。已选 D01/1、D02/2 及候选对比见 [T3 阶段决策](../openspec/changes/m3-t3-renderer/decisions.md)。Micro voxel 纳入下一玩法阶段的 NPC/玩家实体外表构建思路，基础方块保持原样；不扩为细体素世界、破坏或光追系统，不自动选定第三方 RHI。本次仅更新设计，不授权渲染实施或删除 OpenGL。
+同日渲染方向调整：用户确认 T3 先由 **D3D12 接管现有玩法，再接入 Vulkan；两个现代后端都完成接管后才验收 T3**。OpenGL 仅作过渡和回归对照，停止新增渲染特性的完整移植，最终退出生产构建与发布留后续单独节点，不以永久三后端等价为目标。PImpl、游戏侧 Renderer v1、可演进的私有后端及按真实重复需求提取小型内部 RHI 的原则不变。已选 D01/1、D02/2 及候选对比见 [T3 阶段决策](../openspec/changes/archive/2026-10-19-m3-t3-renderer/decisions.md)。Micro voxel 纳入下一玩法阶段的 NPC/玩家实体外表构建思路，基础方块保持原样；不扩为细体素世界、破坏或光追系统，不自动选定第三方 RHI。本次仅更新设计，不授权渲染实施或删除 OpenGL。
 
-2026-10-08 T4 物理边界确认（当时快照）：用户选择 **当前采用方案2，逐步迁移到方案3**。先在 simulation 下建立独立物理板块与真实 CPU target，单步运动/碰撞核心只消费中立数据与只读查询；固定步预算归 SimulationSession，ECS 遍历及 World 碰撞适配留在 simulation。后续迁为 `game/modules/physics` 正式模块，保持 target/include/命名空间和调用语义，按证据更新模块清单与构建边界；不以此改写 T0 九模块的历史交付。正式迁移落在 T4 内还是后续节点尚待确认，不擅自设为 T4 完成门槛。完整历史稿由 [原提交恢复导航](../verification/VERIFICATION.md#退役材料恢复) 定位；目标机制在 [T4 design](../openspec/changes/m3-t4-application-simulation/design.md)，不声称 design 保存历史全文；当前目标只见 [T4 change](../openspec/changes/m3-t4-application-simulation/proposal.md)。本次只记录路线和拟定草案，不授权 T4 实施，不撤销 T2 当前开发或独立 D3D12 前置实验的既有授权。
+2026-10-08 T4 物理边界确认（当时快照）：用户选择 **当前采用方案2，逐步迁移到方案3**。先在 simulation 下建立独立物理板块与真实 CPU target，单步运动/碰撞核心只消费中立数据与只读查询；固定步预算归 SimulationSession，ECS 遍历及 World 碰撞适配留在 simulation。后续迁为 `game/modules/physics` 正式模块，保持 target/include/命名空间和调用语义，按证据更新模块清单与构建边界；不以此改写 T0 九模块的历史交付。正式迁移落在 T4 内还是后续节点尚待确认，不擅自设为 T4 完成门槛。完整历史稿由 [原提交恢复导航](../verification/VERIFICATION.md#退役材料恢复) 定位；目标机制在 [T4 design](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/design.md)，不声称 design 保存历史全文；当前目标只见 [T4 change](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/proposal.md)。本次只记录路线和拟定草案，不授权 T4 实施，不撤销 T2 当前开发或独立 D3D12 前置实验的既有授权。
 
 同日长期架构确认：用户要求逐步迁移到 **dedicated compute server + render client**，用于多实体世界、NPC/AI、村落及生态的演化计算。计算服务承载权威模拟，渲染客户端承载呈现与交互；先建立可无窗口运行的逻辑边界，再分阶段验证独立进程及按需求独立机器部署。这里的 compute 是世界演化计算，不是 GPU compute shader 或云端视频渲染。具体边界、迁移和验收方向见下文 [[project-scope#长期架构：独立计算服务与渲染客户端|长期架构]]。本次仅纳入长期范围，不启动服务部署或通信实现，不改变当前 M3 顺序及 NPC/AI/村落的 P0 优先级；T4 草稿是否需要补充只在聊天分析，尚未修改。
 
 2026-10-09 T2 节点与预算决定（该次决定时的状态）：用户明确批准 **T2 节点正式通过**，并选择 MB01 方案2：working set ≤ **704 MiB**、private bytes ≤ **1408 MiB**；已选 FB01 方案2的 P95 ≤ 10 ms、P99 ≤ 12 ms 保持。批准及适用范围见 [T2 正式节点批准](../openspec/changes/m3-t2-publication-fix1/verification.md) 和 [批准身份](../verification/archive/t2-approval-20261009/approval.json)。用户节点决定覆盖此前遗留事项阻断 T2 节点的安排，不把 Win32 1175、暂停的 Fix1、正式同源 Q06 未完成、首次可操作时间预算未确认改判为已修复或实测通过，也不恢复 002 废弃数据的预算资格。该次 T2 决定解除 T3 的 T2 节点批准前置，但未批准 R1 自身交接、Renderer v1 冻结和 R2 生产实施；随后 R1 决定见下文。下一玩法前的中低端整机性能门槛不变，本次只同步决定，不产生新验证成绩。
 
-2026-10-09 后续 R1 节点批准：用户明确表示“我已经审查了R1了，可以冻结R1，批准进入R2”。据此 **T3-R1 / Renderer v1 与当前 target 设计基线已冻结，R2 已获准进入**，见 [R1 冻结快照](../verification/archive/t3-r1/freeze-20261009-001/README.md)、[冻结清单](../verification/archive/t3-r1/freeze-20261009-001/freeze-manifest.json) 和 [R2 实施入口](../openspec/changes/m3-t3-renderer/verification.md)。这是节点审阅与实施授权，不是新实测或生产接管交付；实验 helpers 不因此成为生产 API，生产采样/颜色、混层行为、相机 GPU 画面和实际 target 边界须在 R2 复核，不静默收窄契约。D3D12 A01–A19、默认切换批准、Vulkan、完整玩法和 OpenGL 退役仍按各自阶段要求执行，历史来源与遗留风险不改写。
+2026-10-09 后续 R1 节点批准：用户明确表示“我已经审查了R1了，可以冻结R1，批准进入R2”。据此 **T3-R1 / Renderer v1 与当前 target 设计基线已冻结，R2 已获准进入**，见 [R1 冻结快照](../verification/archive/t3-r1/freeze-20261009-001/README.md)、[冻结清单](../verification/archive/t3-r1/freeze-20261009-001/freeze-manifest.json) 和 [R2 实施入口](../openspec/changes/archive/2026-10-19-m3-t3-renderer/verification.md)。这是节点审阅与实施授权，不是新实测或生产接管交付；实验 helpers 不因此成为生产 API，生产采样/颜色、混层行为、相机 GPU 画面和实际 target 边界须在 R2 复核，不静默收窄契约。D3D12 A01–A19、默认切换批准、Vulkan、完整玩法和 OpenGL 退役仍按各自阶段要求执行，历史来源与遗留风险不改写。
 
-2026-10-09 T4 选型收口：用户填写/确认的 D01–D13 均已确定，当前目标已迁至 [T4 正式计划](../openspec/changes/m3-t4-application-simulation/proposal.md)；完整草稿当时归入旧 T4 的附录，目前仍只由上述退役来源及迁移起点保存，新 change 不复制该历史全文，独立 draft 停止维护。D02 方案2明确 T4 交付 simulation 内部独立物理 target，正式 physics 模块在 T5 审计后、NPC 物理复用前另立节点；D06 方案1保持最小观察交付，D08 方案2锁定封闭/重试/幂等，D09–D13 方案1锁定自有结果、输入清理/恢复、统一时间校验、CPU/本地对照和具名异常。角色输入缓冲与已校验时间值的后续选型由 [future-scope](future-scope.md) 维护。仅完成文档收口，前序成立契约/消费者核对、正式计划整体审核及独立实施授权仍须成立，不产生 T4 代码或测试成绩。
+2026-10-09 T4 选型收口：用户填写/确认的 D01–D13 均已确定，当前目标已迁至 [T4 正式计划](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/proposal.md)；完整草稿当时归入旧 T4 的附录，目前仍只由上述退役来源及迁移起点保存，新 change 不复制该历史全文，独立 draft 停止维护。D02 方案2明确 T4 交付 simulation 内部独立物理 target，正式 physics 模块在 T5 审计后、NPC 物理复用前另立节点；D06 方案1保持最小观察交付，D08 方案2锁定封闭/重试/幂等，D09–D13 方案1锁定自有结果、输入清理/恢复、统一时间校验、CPU/本地对照和具名异常。角色输入缓冲与已校验时间值的后续选型由 [future-scope](future-scope.md) 维护。仅完成文档收口，前序成立契约/消费者核对、正式计划整体审核及独立实施授权仍须成立，不产生 T4 代码或测试成绩。
 
-2026-10-09 后续T4准备授权：用户明确指定与T3并行进行接口细化与消费者核对，材料进入 [T4-P01阶段目录](../openspec/changes/m3-t4-application-simulation/verification.md)，新增 [接口落地未决项Q01–Q04](../openspec/changes/m3-t4-application-simulation/decisions.md) 与固定人工审阅入口。D01–D13不重开，授权仅覆盖设计、静态核对与文档，不扩成物理/生产接口/CMake或测试代码实施，不替代T3交接、正式计划整体审核及后续独立实施授权。
+2026-10-09 后续T4准备授权：用户明确指定与T3并行进行接口细化与消费者核对，材料进入 [T4-P01阶段目录](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md)，新增 [接口落地未决项Q01–Q04](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/decisions.md) 与固定人工审阅入口。D01–D13不重开，授权仅覆盖设计、静态核对与文档，不扩成物理/生产接口/CMake或测试代码实施，不替代T3交接、正式计划整体审核及后续独立实施授权。
 
 Symocraft 是 Windows x64 单机体素游戏工程，继续使用 C++，以现有 OpenGL 为过渡回归基线，在 M3 由 D3D12、Vulkan 接管现有玩法，长期聚焦两个现代后端。兼顾图形技术栈和游戏引擎技术栈，重点展示两者之间的数据流设计。
 
@@ -279,7 +279,7 @@ M3 的任务编号与顺序为 T0、T1、T2 SDL3、T3 渲染、T4 应用/平台/
 - [x] 完善拥有自身数据的 CPU 网格及邻居读取契约，不保留失效的邻块缓冲引用；GPU 对象继续不进入世界模块。
 - [x] 在根级 `test/unit/world` 与集成场景补齐真实坐标、配置、邻居、编辑和网格回归；不重新建立一套目录或绕开 T0 的正式库测试。
 
-完成条件：世界模块的新设计、实现及测试一致，seed 摘要和固定场景保持正确，旧 OpenGL 调用仍可用；交付供后续 T3 渲染使用的 CPU 数据契约，交接入口见 [T1→T3 CPU 契约清单](../openspec/changes/m3-t3-renderer/design.md#architecture)。T0 的职责是让模块彼此隔离，T1 的职责是在隔离后完成世界模块的内部设计变更；编号调整不改变已交付 CPU 数据语义。
+完成条件：世界模块的新设计、实现及测试一致，seed 摘要和固定场景保持正确，旧 OpenGL 调用仍可用；交付供后续 T3 渲染使用的 CPU 数据契约，交接入口见 [T1→T3 CPU 契约清单](../openspec/changes/archive/2026-10-19-m3-t3-renderer/design.md#architecture)。T0 的职责是让模块彼此隔离，T1 的职责是在隔离后完成世界模块的内部设计变更；编号调整不改变已交付 CPU 数据语义。
 
 #### M3-T2 GLFW 到 SDL3 平台迁移
 
@@ -302,21 +302,23 @@ T2 现役行为及选型理由见 [platform](../openspec/specs/platform/spec.md)
 
 #### M3-T3 渲染模块变更需求：PImpl 与现代后端接管
 
-目标设计和任务验收条件见 [M3-T3 渲染器重构](../openspec/changes/m3-t3-renderer/proposal.md)，当前实现见 [renderer](../architecture/renderer.md)，决策见 [M3 decisions](../openspec/changes/m3-t3-renderer/decisions.md)。文档按模块契约组织，不要求 Obsidian 模板。T2 获节点批准后，用户于 2026-10-09 批准冻结 T3-R1、进入 R2，批准和冻结依据唯一定位于 [VERIFICATION](../verification/VERIFICATION.md#关键节点)；不沿用未经验证的 GLFW 窗口前提，不将节点批准写为生产接管通过。
+2026-10-19归档状态：用户已批准T3完成并明确要求主规格同步后归档；当前行为见现役renderer，R1–R4设计、任务与保留风险见下方归档链接，不再维护活动T3计划。GL仍保留，下一玩法前中低端整机门槛及旧失败不因归档取消。
 
-2026-10-07 用户确认保持 T3 当前方向：先稳定游戏侧 Renderer v1，私有后端接口允许演进；仅在实际重复渲染算法形成明确复用需求时提取小型内部 RHI，公共算法留在 renderer，不扩为完整通用 RHI。R1 须验证实际纹理绘制、资源更新/删除和窗口呈现资源重建后再冻结，具体门槛见 [R1 关键契约实验与冻结门槛](../openspec/changes/m3-t3-renderer/tasks.md#1-r1-契约与关键实验既有节点)。本次只确认设计，不代表实验已完成或实施已授权。
+目标设计和任务验收条件见 [M3-T3 渲染器重构](../openspec/changes/archive/2026-10-19-m3-t3-renderer/proposal.md)，当前实现见 [renderer](../architecture/renderer.md)，决策见 [M3 decisions](../openspec/changes/archive/2026-10-19-m3-t3-renderer/decisions.md)。文档按模块契约组织，不要求 Obsidian 模板。T2 获节点批准后，用户于 2026-10-09 批准冻结 T3-R1、进入 R2，批准和冻结依据唯一定位于 [VERIFICATION](../verification/VERIFICATION.md#关键节点)；不沿用未经验证的 GLFW 窗口前提，不将节点批准写为生产接管通过。
 
-同日进一步确认：D3D12 先行，随后 Vulkan；两者都完整接管后申请 T3 验收，OpenGL 最终退役留后续。决策及三个候选对比见 [T3 阶段决策](../openspec/changes/m3-t3-renderer/decisions.md)。优先完成现代玩法路径，不以完整重写 GL 门面为前置；旧 GL 对照包或隔离路径保留必要回归，不承担新增特性的永久等价移植。
+2026-10-07 用户确认保持 T3 当前方向：先稳定游戏侧 Renderer v1，私有后端接口允许演进；仅在实际重复渲染算法形成明确复用需求时提取小型内部 RHI，公共算法留在 renderer，不扩为完整通用 RHI。R1 须验证实际纹理绘制、资源更新/删除和窗口呈现资源重建后再冻结，具体门槛见 [R1 关键契约实验与冻结门槛](../openspec/changes/archive/2026-10-19-m3-t3-renderer/tasks.md#1-r1-契约与关键实验既有节点)。本次只确认设计，不代表实验已完成或实施已授权。
 
-R1–R4 的交付状态、依赖、未完成验收和人工核查仅在 [T3 tasks](../openspec/changes/m3-t3-renderer/tasks.md) 跟踪，不在 scope 保留第二活动清单。原路线勾选可从退役来源和本轮迁移基线复核；冻结与实施入口以 VERIFICATION 为准。
+同日进一步确认：D3D12 先行，随后 Vulkan；两者都完整接管后申请 T3 验收，OpenGL 最终退役留后续。决策及三个候选对比见 [T3 阶段决策](../openspec/changes/archive/2026-10-19-m3-t3-renderer/decisions.md)。优先完成现代玩法路径，不以完整重写 GL 门面为前置；旧 GL 对照包或隔离路径保留必要回归，不承担新增特性的永久等价移植。
+
+R1–R4 的交付状态、依赖、未完成验收和人工核查仅在 [T3 tasks](../openspec/changes/archive/2026-10-19-m3-t3-renderer/tasks.md) 跟踪，不在 scope 保留第二活动清单。原路线勾选可从退役来源和本轮迁移基线复核；冻结与实施入口以 VERIFICATION 为准。
 
 完成条件：详细 spec 的 A01–A19 适用项和现代单/双后端整合验收有证据，D3D12、Vulkan 分别在本机 RTX 5070 Ti 运行现有体素玩法后，才申请 T3 整体验收；只有设备初始化、清屏/三角形或假后端测试不算完成。不等待其他 GPU 或第二机器；中低端整机性能验证另为下一玩法开发前门槛，不把本机功能通过宣称为 Y9000P 或 M4 通过。OpenGL 最终退役不是本次通过条件，不能宣称已移除。Micro voxel 外表留下一玩法阶段，基础方块不改。稳定承诺首先针对源码接口与行为，不据 PImpl 宣称跨编译器/STL 的二进制 ABI 兼容。
 
 #### M3-T4 完成应用、平台与模拟模块接口
 
-目标与边界见 [T4 proposal](../openspec/changes/m3-t4-application-simulation/proposal.md)，D01–D13 已选决定与 Q01–Q04 未决项集中于 [decisions](../openspec/changes/m3-t4-application-simulation/decisions.md)。T4-P01 文档/静态准备已授权；之后用户独立授权 CPU 基线/夹具及独立核心/单测，并要求先交付基线。当前仅基线/夹具已有交付，没有 physics target、SimulationSession 或完整生产接口迁移。完整 T4 仍需前序契约、整体审核和独立正式入口；T3 R1/R2 决定不等于整个 T3 验收。
+目标与边界见[T4 proposal](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/proposal.md)，既定D/Q见[decisions](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/decisions.md)。P01、旧CPU基线、局部核心及限定ECS前提均有先前授权/结果；2026-10-15用户进一步明确授权完整T4生产迁移，组合一致性由实施方核对、新设计冲突或范围扩大再确认，继续独自工作且docs同步F审核目录。E候选已接通Session/核心/实例应用；T4于2026-10-19获用户整体验收并归档，随后按用户独立明确授权同步生产代码及配套到F主工作区，不产生Git提交/历史合并或T5实施授权；唯一批准身份见[VERIFICATION](../verification/VERIFICATION.md#关键节点)。
 
-T4 的唯一活动任务在 [tasks](../openspec/changes/m3-t4-application-simulation/tasks.md)；具体输入、时间、借用、失败、关闭、物理与观测契约在同一 change 的 specs/design 维护，本页只保留范围与进入边界。
+T4 的唯一活动任务在 [tasks](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/tasks.md)；具体输入、时间、借用、失败、关闭、物理与观测契约在同一 change 的 specs/design 维护，本页只保留范围与进入边界。
 
 完成条件：模拟、独立物理核心与数据导出不依赖窗口/GPU，平台图形桥接仅被后端使用；已交付现代后端沿用同一模拟/交互调用方，在本机 RTX 5070 Ti 完成适用组合回归。T4 选定范围内的对象、底层实现、软硬边界和真实验收一致，物理方案2必须成立；D02 方案2明确正式模块方案3及 A23 属 T5 审计后、NPC 复用前的独立节点，不作为 T4 门槛，也不将尚未完成项标通过。D09 自有结果及选型注释/落实后的渐进式 architecture 记录、D10 清理/恢复、D11/D13 double 秒与具名异常、D12 对照字段/阈值/用例边界均按正式计划验收。输入历史、相机插值、实体间动力学和细体素碰撞不默认新增；不由接口重构推定算法缺陷或 M4 性能已解决。
 
@@ -451,7 +453,7 @@ flowchart LR
 
 1. 保留既有 M2 与低端/中端/开发机基准的点时结论；未集中核对的整体批准不补造为通过，也不将早期“继续补齐”直接解释为当前实施授权。优化对照按固定 allow-unfocused 协议另留证，不因失焦重复采集已确认基准。
 2. T0 已完成迁移检查，T1 已有技术交付；旧节点的未确认批准仍按原状态保留，不能据早期顺序要求重新启动已交付任务。当前任务从 [设计与任务入口](../README.md#设计与任务) 导航，各 change 独立维护依赖。
-3. 当前 T2 已批准，T3-R1 已冻结、R3 已批准并切默认D3D12，R4及整体T3于2026-10-17获用户明确批准（本机范围及保留风险见T3验证，GL保留）；T4 已有独立 CPU 局部授权且仅基线/夹具交付，完整生产实施仍须独立正式入口。路线继续为 T3 渲染接管 → T4 应用/平台/模拟 → T5 ECS/内存及整体验收。树叶剔除与视角突变继续延期，严重正确性缺陷随时报告；关键节点按 [VERIFICATION](../verification/VERIFICATION.md) 核对，不由旧子步骤批准表扩权。
+3. 当前T2已批准，T3-R1冻结、R3已批准并切默认D3D12；R4/Vulkan及整体T3于2026-10-17获用户明确批准，本机范围及保留风险见T3验证，GL保留。T4于2026-10-15获完整生产入口，E候选已接通Session/核心/应用，跨候选组合及整体验收仍按change验证，不由F文档同步推定代码合并。路线继续T3→T4→T5，树叶剔除/视角突变延期，严重正确性缺陷随时报告；关键节点仅见[VERIFICATION](../verification/VERIFICATION.md)，不由旧子步骤表扩权。
 4. M3 通过后按基线选择 M4 优化，随后完成 M5 稳定性与 M6 独立发布。
 
 以上保留既有技术路线，不表示新增玩法必须等到 M6 后才开始。下一玩法阶段的内部顺序以 NPC 实体 → NPC AI → 村落演化的 P0 闭环为先，再按确认的依赖开展 P1；与技术路线的衔接点须在该阶段 spec 明确，但功能实施前必须先完成已确认的中低端整机性能验证门槛，不能因本次 scope 更新自行中断已授权任务或启动新功能实现。

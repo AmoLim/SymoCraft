@@ -7,6 +7,7 @@
 #include <symocraft/foundation/math.h>
 #include <symocraft/ecs/registry.h>
 #include <symocraft/simulation/component.h>
+#include <symocraft/simulation/player_math.h>
 
 namespace SymoCraft::World { class VoxelWorld; }
 
@@ -23,12 +24,10 @@ namespace SymoCraft
 
     namespace Physics
     {
-        // TODO: Make Physic System a System object
-        // Initializing physics system
-
-        // physic update function
-        void Update(ECS::Registry& registry, const World::VoxelWorld& world, float frame_delta);
-        void ResetTiming();
+        // Explicit caller budget for low-level consumers; gameplay uses SimulationSession.
+        // Both paths call the same value core and per-body commit adapter.
+        void Update(ECS::Registry& registry, const World::VoxelWorld& world, float frame_delta,
+                    PlayerMath::FixedStepBudget& budget);
 
         // Ray Casting for player on the block
         RaycastStaticResult RayCastStatic(const World::VoxelWorld& world,

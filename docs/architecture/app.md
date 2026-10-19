@@ -5,39 +5,39 @@ tags:
 
 # App 组合与运行
 
-2026-10-17本地同步状态：已批准的T3代码现已同步至本地feature-refactoring，生产owner为symocraft_app_runtime，薄main调用Application::RunGame，复用原Init/Run/Free循环；不包含T4实例化Application/SimulationSession代码。下述独立T4候选机制仍按其worktree与验证记录判读，不由本次T3同步推定合并。
+2026-10-19当前源码状态：用户在T4验收、规格同步及归档后明确授权同步生产代码，F主工作区feature-refactoring现已取得E目录T4实现及必要构建、测试配套。同步以已验收候选为源，保留主目录独立修改及旧构建，不执行Git提交/合并；下文2026-10-14/17等旧状态保留原时点。当前Application/SimulationSession与内部physics均已在主工作区，实际计算服务与T5仍未实施。既有候选批准及风险见[T4记录](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md#2026-10-19-t4整体完成批准)。
 
 `game/app` 是私有组合根，不是下层模块的服务定位器。公开行为引用 [module-boundaries](../openspec/specs/module-boundaries/spec.md)、[platform](../openspec/specs/platform/spec.md)、[world](../openspec/specs/world/spec.md)、[simulation](../openspec/specs/simulation/spec.md) 和 [renderer](../openspec/specs/renderer/spec.md)。
-当前仍是 namespace `Application::Init/Run/Free` 与静态运行状态，不是实例化 Application/SimulationSession；目标及 Q01-Q04 只在 [T4](../openspec/changes/m3-t4-application-simulation/design.md)。节点与历史结果唯一从 [VERIFICATION](../verification/VERIFICATION.md) 判读。
-
-`symocraft_app_runtime` 是仅游戏配置创建的生产STATIC owner，唯一编译启动入口、Application循环与GameRenderer；游戏薄main和隔离probe链接同一实现，不重编译生产源码。`Application::RunGame` 位于 [game_entry.cpp](../../game/app/src/game_entry.cpp)，保留原main的参数/资产预检、错误分类、Free及Export时序；不是T4实例化或新公开模块API。
+以下T4机制已落实于[Application](../../game/app/src/application.cpp)，该实现已按后续明确授权同步到F主工作区。`symocraft_application`正式静态库唯一拥有Application/GameRenderer/RunGame实现，`symocraft_app_runtime`仅为旧消费者兼容target别名，exe仅编薄main；T4于2026-10-19获用户整体批准并保留风险，节点与实际结果分别从[VERIFICATION](../verification/VERIFICATION.md)和change verification判读，本次源码同步不产生Git历史合并。
 
 ## 所有权与寿命
 
-启动入口拥有 `StartupOptions` 和可选 Performance::Session；记录覆盖装配、运行、Free 与显式 Export。参数中的 checkpoint/benchmark/output_directory/focus_policy/renderer 等 `string_view` 借 argv 或静态字面量，参数存储必须覆盖使用；转成自有 SessionConfig 不延长原 view。
-Application 静态 unique_ptr 拥有 Window、Registry、Camera、GameRenderer；Camera 借 Registry，GameRenderer 借 Window。玩家 ID、选材/输入状态与放置冷却也在 app 保存，物理余数仍属于 simulation 的共享预算。
-pending BlockDefinition 在 Init 取得，Run 校验图集层后移动到局部 PreparedWorld 并 reset。PreparedWorld 独占 VoxelWorld，同时持有 Pose/报告值；Pose 名字借静态字符串。World、夹具、物理、射线、编辑、摘要与网格都用这一实例，至 Run/summary 返回或异常展开自动销毁。
+共享RunGame入口拥有不可复制/移动的私有Application实例。Impl复制五个CLI文本值并重新绑定StartupOptions views，拥有可选Performance::Session、Runtime、Window、GameRenderer、World、专属Registry、SimulationSession、可选Scenario和复用输入缓冲。Performance记录早于装配、保留到显式关闭后Seal/Export；无Camera实体或静态玩法owner。
+World/Registry覆盖会话，Window覆盖GameRenderer，Runtime覆盖Window；Session只借存储，不在析构删除玩家。玩家ID仅供app场景边界覆盖姿态，运动长期权威仍是组件；镜头、预算/选材/冷却属于Session。Q01失败整体丢弃专属装配，不保证共享Registry精确回滚。
+定义在CPU预检阶段取得、atlas层验证后移动进同一VoxelWorld。PreparedWorld只交接World与自有Pose/报告，Pose名字借静态字符串。夹具、物理、射线、编辑、摘要与网格都消费同一实例。
 
-Init 先确定后端/WindowMode，再取得本模块 SDL 责任并立即设置清理标志，依次建立窗口、Registry 注册、Camera/GameRenderer、定义及玩家。重入 Init 拒绝；失败可能已取得部分对象，由 main 的 Free 清理，不提供失败后续跑或任意状态回滚。
-Run 要求上述 owner 和未消费的定义全部存在；成功消费定义后不能直接再 Run。PrepareWorld 的候选 RAII 不等于 Session 字段事务：后续失败前写入的启动元数据可保留。PrintWorldSummary 不创建窗口、Renderer 或 CPU 网格，但仍加载玩法定义/世界数据。
-全部装配、模拟、缓存与清理在主线程串行、非重入，不提供多窗口、多会话或后台 GPU 交接。未验证同进程反复 Init/Free 的旧 ECS 全局类型状态，不把重复独立进程测试扩为此保证。
+Initialize一次装配：可选记录/Scenario→CPU定义→Runtime→指定模式Window→Renderer/atlas→World→Registry注册→Session玩家→首网格/上传；每个对象取得后立即进入成员owner。失败后不可Run或重试装配，由共享入口显式Shutdown，部分启动metadata可保留，不宣称全字段事务。PrintWorldSummary仍不创建窗口、Renderer或CPU网格。
+Run仅在完整装配成功后一次执行；装配、模拟、缓存和关闭串行、非重入、创建线程调用。独立CPU Session可交错验证隔离，不推出多窗口、共享Registry或后台GPU调度保证。
 
 ## 帧策略与提交顺序
 
-加载/首网格结束后清共享物理余数，才开启帧时钟。帧顺序是 Poll/关闭与实际尺寸事实 → 暂停策略 → 规则时间/冷却 → Capture → 普通输入或 benchmark 场景 → Transform/角色 → 物理 → 安全出生点恢复/相机同步 → 普通射线请求及 World 提交 → 重建 → 缓存/绘制 → 观测。
-普通有序指针逐事件应用，键盘映射只传意图；不重复使用指针汇总值。普通编辑在模拟后，benchmark edit 在模拟前；基准预条件错误抛出而非悄悄跳过操作。当前 benchmark 是否启用仍由非空 Session 分支决定，尚未分离 Scenario 与记录。
+加载/首网格后才开启帧时钟。顺序为Poll/关闭/实际像素→Capture及暂停策略→普通意图或Scenario→Session一次Advance（输入/Character/固定步/恢复/交互结果）→普通World提交→mesh/cache/render→观测。所有输入消费者完成后Clear复用缓冲，不借用Window内部帧。
+显式strict前台准备沿T3既有协议：连续1秒获焦且实际尺寸可绘制后才开始完整预热；有界等待不Advance/Render，输入自有交接后逐轮Clear，成功Reset输入、Resume本会话并重设时钟，准备时间单列startup。超时/Esc/关闭保具名失败并沿同一Shutdown/Seal/Export；awaiting-foreground仅Recording可发布，不能借状态入口提前宣布exporting/finished。
+普通有序指针逐事件应用，键盘Down纯读held OR pressed，不重复填指针汇总。独立BenchmarkScenario由显式benchmark配置选择，不由Performance指针存在性驱动；static/walk/edit可在无记录的CPU调用方使用。普通编辑在Advance后、场景edit在前，预条件错误抛出，不悄悄跳过。
 普通无限帧玩法失焦、最小化或零 drawable 暂停：清旧输入/运动/待跳、水平速度及物理余数，WaitEvents 有限等待；恢复首帧规则 dt=0。同轮失焦再获焦也处理清理事实。普通有限帧诊断只豁免失焦暂停，不豁免零尺寸/最小化绘制。
-普通规则 float 时间由实际差值 clamp 到 [0,0.1] 后转换，物理预算另最多 8/120 秒；不是 T4 的全量预检/Rejected/Failed 会话保证。玩家低于 y=-8 时恢复 World 出生点、清力/接地/跳跃/预算。每轮持有组件引用期间不能扩容或结构修改 Registry，实际 ECS 风险见 [ecs](ecs.md)。
+Session先全量预检double时间/有序指针再开始写入，规则float时间最多0.1秒，独立预算每轮最多8/120秒；预检Rejected不改状态，推进后故障转Failed并保留此前提交。低于y=-8恢复World出生点、清力/接地/跳跃/预算。持有组件引用期间禁止结构修改；最小ECS修补不替代[T5边界](ecs.md)。
 benchmark 使用实际经过时间调度原 static/walk/edit，不被玩家键鼠修改；本窗口 Escape/关闭仍能取消。实际尺寸改变/最小化使记录无效，allow-unfocused 不豁免。Poll 计入 event_ms，Capture 在 simulation_ms 中，不挪计时点制造收益。
 
 ## 两条渲染路径
 
-`GameRenderer` 私有PImpl将同一玩法循环连接到legacy与现代两条路径。用户批准R3后默认D3D12/Native Window，GL只经显式选择进入；工作目录候选另可显式编入并选择Vulkan/Vulkan Window，复用同一公开v1、缓存、atlas/相机/selection和循环，尚未R4接管验收。没有热切换或失败fallback，缺资产/能力不降低请求。
-GameRenderer 独占现代 Renderer、port/cache、图集句柄、draws 或旧 timer；port 只借门面且其寿命覆盖 cache 使用/释放，World/Camera/Session 仅同步借用。普通无记录现代帧仍非阻塞清空有界 GPU 结果队列。
+2026-10-14审核同步：E盘refactor-renderer的[Vulkan候选GameRenderer](E:/Codex/Worktrees/refactor-renderer/Symocraft/game/app/src/game_renderer.cpp)已将显式Vulkan/Vulkan Window连接同一公开v1、持久缓存、atlas/相机/selection与循环。选中现代路径分别预检DXIL/SPIR-V，telemetry使用实际后端名；后端先观察到ZeroExtent时清本地extent缓存，防恢复旧尺寸却跳过Resize。F盘源码不因本文同步复制或变为已交付Vulkan，现役默认仍D3D12、GL保留；机制及实际范围见[renderer候选机制](renderer.md#vulkan工作目录候选机制)和[T3验证](../openspec/changes/archive/2026-10-19-m3-t3-renderer/verification.md#2026-10-14-r4生产vulkan实现)，不是T4迁移或R4批准。
+
+当前T4 E候选的GameRenderer已连接默认D3D12/Native与显式Vulkan/Vulkan Window，保留显式legacy OpenGL；没有热切换或失败fallback。现代分别使用DXIL/SPIR-V及实际生成身份，Vulkan精确surface_extent_pending重试与ZeroExtent缓存失效沿上游，受控Window实际尺寸读取替代旧public字段；旧两路径成绩不代替整合后组合验证。
+GameRenderer 独占现代 Renderer、port/cache、图集句柄、draws 或旧 timer；port 只借门面且其寿命覆盖 cache 使用/释放，World/PlayerView/观测记录仅同步借用。普通无记录现代帧仍非阻塞清空有界 GPU 结果队列。
 现代每帧只调用一次 Renderer::Render，由其唯一 Present；app 不额外交换 Native 缓冲。旧 GL 继续每帧 VisitMeshes→AppendMesh→Render→独立 Present，不继承现代持久缓存和 Failed/Stopped 强保证。
-现代 Resize 在帧边界使用 Window 的实际 drawable extent，最小化传零；调用成功后才更新本地 extent。若后端Render先观察到ZeroExtent skip，清本地尺寸缓存，使后续恢复即使等于旧尺寸也重新Resize。相机使用真实 getter、度转弧度、near=0.1/far=2000，不复制 GL 投影到现代接口；旧投影在 app 按实际 aspect 派生。
+现代Resize使用Window真实drawable extent，最小化传零，成功后更新缓存。app从同一身体姿态及自有Lens派生中立PlayerView；现代转换度到弧度、near=0.1/far=2000，GL按实际aspect使用RH_NO投影，不复制GL矩阵到现代接口；零像素拒绝派生/绘制。
 现代真实图集必须 512x512、64 个 64x64 tile，底行优先层号、层内 top-left RGBA8、RGB 补 alpha=255、Linear。World 顶点已是 world-space，model 恒等；自有化时只作一次 V=1-V，shader 不再翻转，不裁剪 repeat UV 或混层三角形。
-资源预检按选中路径检查：legacy必需项只要求regular_file，现代还检查非零大小，D3D12只查所需DXIL、Vulkan只查所需SPIR-V；不初始化GPU、不证明解码或shader/pipeline正确。现代telemetry使用实际后端名与实际Info，不把Vulkan冒充D3D12；上传范围单列每帧常量/selection与持久资源接受。新RenderError保类别/后端/操作与原生诊断，具名向上退出，不转普通World::Rejected。
+资源预检按选中路径检查：legacy 必需项只要求 regular_file，D3D12/Vulkan 必需项还检查非零大小；不初始化 GPU、不证明解码或 shader/PSO 正确。新 RenderError 保类别/后端/操作与原生诊断，具名向上退出，不转普通 World::Rejected。
 
 ## 发布缓存与失效
 
@@ -50,13 +50,14 @@ Find 返回账本元素只读借用，在对应 entry erase/cache 销毁后失�
 ## 关闭与失败后状态
 
 Run 正常结束先非阻塞交接已就绪 GPU 结果、记录最终摘要；completed 时才在正式采样外作独立额外截图帧，排除其 GPU frame ID。PNG 写入错误传播，不能把旧文件存在当成功。该结束观测不是额外 GPU 等待/Seal 保证。
-Free 分段处理 pending定义 → GameRenderer::Shutdown/reset → Camera → Registry::Clear/reset → Window::Destroy/reset → 本模块 Window::Free。图形 owner 在借用窗口仍有效时终结；Camera 先于 Registry。CleanupSequence 捕获全部异常，继续后续清理、保首异常并尽力诊断次错，最后包装重抛；诊断输出失败不阻断其他步骤。
+Shutdown先停Scenario/新模拟→仍合法时交接已就绪GPU→Bindings/texture/Renderer→Session/World/Registry→Renderer对象→Window→Runtime。固定数组ShutdownReport逐项保NotAcquired/Released/Failed/Unavailable及原exception_ptr，继续所有适用清理；正常return与自有ShutdownError是两个出口，RunGame在catch内复制完整报告后统一FinalFacts。错误保持原类别/原生码，不用文字取代。
 GameRenderer::Shutdown 先置 stopped，再尝试 ReleaseAll、图集 Destroy 和现代 Shutdown，清 draws/cache并 reset门面；旧路径释放 timer和旧Renderer。首次清理失败后重复调用不重做原步骤，不代表成功/可恢复；终止 quarantine 与安全等待由 [renderer](renderer.md) 保证，app 不强行释放未知在途资源。析构仅诊断兜底，不能替代显式成功关闭。
-main 保持解析64、缺资产2、运行/关闭/导出错误3、保存成功但观测无效4、正常0的现有分类；先 Free 再 Export，清理/导出次错不把失败变绿。运行 std/非std 异常都进入清理，预检仅捕获 RenderError，Export 仅捕获 std::exception，不能声称所有入口/OOM/非std都有完整诊断出口。记录仍可变、无 Seal/显式失败重试幂等状态，未来目标见 T4。
+重复Shutdown返回或抛出首次缓存事实，不重做资源操作，也不把首次失败改绿；析构只作有界兜底，不Seal/Export。GameRenderer对终止状态禁止额外Poll/Destroy普通资源API，交给正式Renderer Shutdown/quarantine；GPU观测缺失不伪装安全释放。
+main仅转交同一生产RunGame；入口保解析64/缺资产2/运行关闭导出错误3/已保存无效4/正常0。先完成Window/Runtime关闭，再汇合首错/次错/completed并Seal，显式Export检查自有receipt；Saved重复不写盘，失败仅显式调用重试。std/非std运行及最终化错误皆有退出路径，但不承诺任意OOM时完整诊断文字或目录事务，也未修复1175/Fix1。
 
 ## 稳定不变量与验证
 
-保留原 Application I1-I6 的局部身份：I1 Camera 借用期 Registry 有效；I2 图形先于 Window/context；I3 modules 不包含 app或查静态owner；I4 benchmark 不提交普通意图；I5 生产 cpp 唯一owner；I6 运行数据均来自同一局部World。与 renderer/T4 的同号身份不得混淆。
+保留原Application I1-I6局部身份：I1存储覆盖借用会话（旧Camera仅兼容测试）；I2图形先于Window/context；I3 modules不包含app或查静态owner；I4 benchmark不提交普通意图；I5生产cpp唯一owner；I6同一局部World。与renderer/T4同号身份不混淆。
 缓存和 GameRenderer 原无编号约束由上述所有权、成功接受/显式释放、单次 Present、复制与转换章节维护，不新造历史验收身份。
-依据：[Application](../../game/app/src/application.cpp)、[main](../../game/app/src/main.cpp)、[GameRenderer](../../game/app/src/game_renderer.cpp)、[cache](../../game/app/src/world_render_cache.h)、[统计](../../game/app/src/world_render_cache.cpp)、[转换](../../game/app/src/render_conversion.cpp)、[参数](../../game/app/src/startup_options.h)、[cleanup](../../game/app/src/cleanup_sequence.h)。
-聚焦测试：[cache](../../test/unit/app/render_cache_tests.cpp)、[conversion](../../test/unit/app/render_conversion_tests.cpp)、[参数](../../test/unit/app/startup_options_tests.cpp)；它们不能证明实际 GPU 同步/故障、长期资源回收或整组玩法。R2 顺序1-4为候选，R3整组/默认切换/Vulkan仍未通过；本次只静态核对，不重跑游戏。
+依据：[Application](../../game/app/src/application.cpp)、[薄main](../../game/app/src/main.cpp)、[T4共享入口](E:/Codex/Worktrees/refactor-application-simulation/Symocraft/game/app/src/game_entry.cpp)、[GameRenderer](../../game/app/src/game_renderer.cpp)、[cache](../../game/app/src/world_render_cache.h)、[统计](../../game/app/src/world_render_cache.cpp)、[转换](../../game/app/src/render_conversion.cpp)、[参数](../../game/app/src/startup_options.h)、[cleanup](../../game/app/src/cleanup_sequence.h)。
+聚焦测试保cache/conversion/参数、正式Scenario/关闭报告及真实Application装配探针。T3/R4已批准，T4于2026-10-19独立获整体批准并归档；整合后的实际构建/CPU/SDL/真实后端结果只在[T4 verification](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md#2026-10-17-t3批准基线整合)，不由架构文字推定人工体验、长期资源或整体验收。

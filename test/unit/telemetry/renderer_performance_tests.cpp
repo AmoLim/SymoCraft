@@ -1,4 +1,5 @@
 #include "symocraft/telemetry/performance.h"
+#include "../../support/sealed_export.h"
 
 #include <yaml-cpp/yaml.h>
 #include <fstream>
@@ -75,7 +76,7 @@ int main(int argc, char** argv)
         std::filesystem::create_directories(parent);
 
         Session legacy(Options(parent, "legacy"), Clock::now());
-        legacy.metadata["gl_renderer"] = "legacy-fixture";
+        legacy.SetMetadata("gl_renderer", "legacy-fixture");
         Frame old_frame;
         old_frame.frame_ms = 10;
         old_frame.measured = old_frame.focused = true;
@@ -89,8 +90,8 @@ int main(int argc, char** argv)
         Reject<std::invalid_argument>([&] { legacy.SetGpu(0, -1); }, "Negative legacy GPU sample accepted");
         Reject<std::invalid_argument>([&] { legacy.SetGpu(0, std::numeric_limits<double>::infinity()); }, "Infinite legacy GPU sample accepted");
         Reject<std::logic_error>([&] { legacy.SetGpu(2, 1); }, "Unmatched legacy row accepted");
-        legacy.completed = true;
-        Require(legacy.Export(true), "Legacy valid capture rejected");
+        legacy.Complete();
+        Require(SymoCraft::Test::ExportSealed(legacy, true), "Legacy valid capture rejected");
         const auto old_report = YAML::LoadFile((legacy.Directory() / "summary.yaml").string());
         Require(old_report["metadata"]["schema_version"].as<int>() == 2, "Legacy schema version changed");
         Require(old_report["metadata"]["gl_renderer"].as<std::string>() == "legacy-fixture", "Legacy identity changed");
@@ -162,8 +163,8 @@ int main(int argc, char** argv)
         invalid_frame.gpu_draw_ms = std::numeric_limits<double>::infinity();
         Reject<std::invalid_argument>([&] { session.Add(invalid_frame); }, "Nonfinite prefilled GPU result accepted");
         Require(session.NextFrame() == 5, "Rejected sample mutated the row count");
-        session.completed = true;
-        Require(session.Export(true), "Modern valid capture rejected");
+        session.Complete();
+        Require(SymoCraft::Test::ExportSealed(session, true), "Modern valid capture rejected");
         const auto report = YAML::LoadFile((session.Directory() / "summary.yaml").string());
         const auto info = report["metadata"]["renderer"];
         Require(info["backend"].as<std::string>() == "d3d12" && info["device_identity"].as<std::string>() == "actual-luid",
@@ -212,8 +213,8 @@ int main(int argc, char** argv)
         skipped.SetGpuSample(10, std::nullopt, "discarded");
         skipped.SetGpuSample(11, .5);
         Reject<std::logic_error>([&] { skipped.SetGpuSample(11, 1); }, "Skipped frame allowed duplicate GPU result");
-        skipped.completed = true;
-        Require(!skipped.Export(true), "Skipped renderer frame incorrectly validated the run");
+        skipped.Complete();
+        Require(!SymoCraft::Test::ExportSealed(skipped, true), "Skipped renderer frame incorrectly validated the run");
         const auto skipped_report = YAML::LoadFile((skipped.Directory() / "summary.yaml").string());
         Require(skipped_report["gpu_draw_ms"]["count"].as<int>() == 1
                 && skipped_report["gpu_missing_sample_reasons"]["discarded"].as<int>() == 1
@@ -227,8 +228,8 @@ int main(int argc, char** argv)
         auto missing = ModernFrame(0);
         overflow.Add(missing);
         overflow.SetGpuSample(0, std::nullopt, "device, \"failed\"");
-        overflow.completed = true;
-        Require(overflow.Export(true), "Explained unavailable GPU capture rejected");
+        overflow.Complete();
+        Require(SymoCraft::Test::ExportSealed(overflow, true), "Explained unavailable GPU capture rejected");
         const auto quoted = Lines(overflow.Directory() / "frames.csv");
         Require(quoted.at(1).find("\"device, \"\"failed\"\"\"") != std::string::npos, "GPU missing reason not escaped as CSV");
         const auto overflow_report = YAML::LoadFile((overflow.Directory() / "summary.yaml").string());

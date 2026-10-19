@@ -302,6 +302,9 @@ class MigratedTests(unittest.TestCase):
         log = "Building CXX object game/app/CMakeFiles/symocraft_app_runtime.dir/src/game_renderer.cpp.obj"
         counts = incremental.compiled_owners(log)
         incremental.assert_app(counts, incremental.app_sources(log), ["symocraft_app_runtime:game_renderer.cpp"])
+        t4_log = log.replace("symocraft_app_runtime", "symocraft_application")
+        incremental.assert_app(incremental.compiled_owners(t4_log), incremental.app_sources(t4_log),
+                               ["symocraft_application:game_renderer.cpp"])
         log = ("Building CXX object game/modules/renderer/CMakeFiles/symocraft_renderer_vulkan.dir/src/backend/vulkan/vulkan_backend.cpp.obj\n"
                "Building CXX object game/modules/renderer/CMakeFiles/symocraft_renderer.dir/src/backend/backend_factory.cpp.obj\n"
                "Linking CXX executable test/renderer_public_api_consumer.exe\n")

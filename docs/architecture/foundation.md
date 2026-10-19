@@ -36,8 +36,11 @@ Win32 1175 根因/正式同源 Q06 仍未关闭，[Fix1](../openspec/changes/m3-
 
 `AmoBase` 兼容入口保留 `malloc/realloc/free` 和字节操作。tracking 模式在分配前后增加哨兵，以私有 vector 记录地址、大小、来源和活动计数；记录拥有元数据而不拥有调用方 payload。`file_allocator` 借用来源字符串，宏的 `__FILE__` 有静态寿命；自行调用须保证该字符串覆盖后续诊断。`references` 是旧记账，不是通用共享引用计数或稳定 allocation handle。
 
-调用方不得混用 tracking/非 tracking 指针，不得在活动分配期间改变模式或 buffer 单位；原始字节函数要求合法足量内存，CopyMem 沿 `memcpy` 的非重叠前提。这里没有 RAII payload owner、异常安全容器或完整错误返回保证。
-当前 tracking 的 OOM 指针偏移、realloc 失败/记账、分配大小加法及查找/迭代器锁范围均有旧风险，不把“存在 mutex”写成线程安全或失败保旧保证。初始化/模式、日志级别也没有完整同步；T5 审计未实施，本轮不修算法或声称故障已覆盖。
+调用方不得混用 tracking/非 tracking 指针，不得在活动分配期间改变模式或 buffer 单位；Free仍要求有效、非空、未释放的库分配，非法/重复释放处理没有在本轮重构。原始字节函数要求合法足量内存，CopyMem沿 `memcpy` 的非重叠前提。没有通用RAII payload owner；具体调用方仍须在取得分配后接管所有权。
+
+2026-10-15为T4装配清理做限定修补：Allocate/ReAlloc先检查零请求和哨兵padding加法溢出，失败返回真实nullptr而不偏移空地址；零请求不隐式释放旧块，`ReAlloc(nullptr, positive)`沿Allocate。tracked Allocate以局部owner保管raw malloc，元数据插入bad_alloc/length_error或故障拒绝时释放raw块，不发布记录。tracked ReAlloc在同一锁范围内查找活动记录、复制旧尾哨兵并调用realloc；尾缓冲或realloc失败保留旧块、payload及活动记账。成功后只更新/复用已有记录，不在旧块可能移动后再扩容元数据；尾哨兵保留原字节，不抹掉已有越界证据。底层仍为malloc/realloc/free，未改变buffer单位、对齐和分配策略。
+
+私有 [allocation_probe](E:/Codex/Worktrees/refactor-application-simulation/Symocraft/game/modules/foundation/src/allocation_diagnostics/allocation_probe.h) 提供线程局部故障点及加锁的活动块/字节/哨兵快照；探针须非重入且不抛异常，只由指定分配回归测试取得窄include根，不成为公共分配器替换接口或生产对测试的依赖。关闭测试时同一正式库仍成立。此锁范围修补不赋予调用方并发安全；初始化/模式、日志级别仍没有完整同步，特殊对齐、非法Free、全进程OOM恢复及T5完整审计未覆盖。
 
 Error/Warning 是输出，不自动抛异常；Assert 受日志级别控制，启用且失败时断点并 `exit(-1)`，不能靠 catch 得到正常清理，也不能当作 Release 下始终有效的参数检查。日志输出锁只保护该局部输出过程，不赋予 ECS/分配器/整个应用并发保证。
 
@@ -49,5 +52,4 @@ Error/Warning 是输出，不自动抛异常；Assert 受日志级别控制，�
 | Foundation I2 | 不兼容 mapping/sequence 修改明确失败，不静默替换已有类型；不扩大为 OOM 事务保证。 |
 | Foundation I3 | Files 发布须关闭临时文件、同卷且不依赖窗口；成功完整可见及失败状态以现役发布契约限定。 |
 
-[document_tests](../../test/unit/foundation/document_tests.cpp) 核对值复制、类型/精度和 telemetry YAML 适配；[files_tests](../../test/unit/foundation/files_tests.cpp) 核对首次/替换、旧读者身份与具名失败，不证明所有文件系统并发及 1175 根因。旧 allocator 不由这两组测试获得安全背书。
-历史结果/批准统一从 [VERIFICATION](../verification/VERIFICATION.md) 进入；本次只有源码及文档核对，未重新运行 C++ 测试、发布复现或性能测量。
+[document_tests](../../test/unit/foundation/document_tests.cpp)核对值复制、类型/精度和telemetry YAML适配；[files_tests](../../test/unit/foundation/files_tests.cpp)核对首次/替换、旧读者身份与具名失败，不证明所有文件系统并发及1175根因。[memory_tests](E:/Codex/Worktrees/refactor-application-simulation/Symocraft/test/unit/foundation/memory_tests.cpp)直接链接正式foundation，覆盖普通/跟踪分配失败、真实记录vector抛错、旧块保留、增缩容及哨兵；不是操作系统整体耗尽实验。实际CPU结果及限制见 [T4 verification](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md#2026-10-15-最小-ecs-前提修补)，历史结果/批准仍从 [VERIFICATION](../verification/VERIFICATION.md) 进入；未做新发布复现或性能测量。

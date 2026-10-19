@@ -12,15 +12,15 @@ using namespace SymoCraft::Rendering;
 using Color = std::array<int, 3>;
 void Require(bool ok, const char* message) { if (!ok) throw std::runtime_error(message); }
 struct OwnedWindow {
+    Platform::Runtime runtime;
     std::unique_ptr<Window> window;
     explicit OwnedWindow(Backend backend) {
-        Window::Init();
-        window.reset(Window::Create("SymoCraft layer summary GPU verification", 640, 480, false, true,
-            backend == Backend::Vulkan ? WindowMode::Vulkan : WindowMode::Native));
+        window = Window::Create(runtime, "SymoCraft layer summary GPU verification", 640, 480, false, true,
+            backend == Backend::Vulkan ? WindowMode::Vulkan : WindowMode::Native);
     }
     ~OwnedWindow() {
         if (window) { window->Destroy(); window.reset(); }
-        Window::Free();
+        runtime.Shutdown();
     }
 };
 MeshData Quads(unsigned right_layer) {

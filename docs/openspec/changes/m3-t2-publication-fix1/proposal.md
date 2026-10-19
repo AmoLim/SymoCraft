@@ -9,7 +9,7 @@ tags:
 
 为 [M3-I1/M3-I2](../../../issue/issues.md#issue-简述)保留一份可恢复但当前暂停的修复意图：已有窄 Publish 修补未关闭普通替换的间歇失败，诊断也仅部分交付。T2 已由用户批准不等于文件可靠性通过，也不恢复本任务；节点事实只从 [VERIFICATION](../../../verification/VERIFICATION.md#关键节点)判读。
 
-本轮已按 AGENTS 重新读取规则、docmap、[scope](../../../scope/project-scope.md)、config 和本 change 的实际 full proposal instructions；写入前独立盘点并完整读取当时全部五份现役 specs/scenarios：[module-boundaries](../../specs/module-boundaries/spec.md)、[world](../../specs/world/spec.md)、[platform](../../specs/platform/spec.md)、[foundation-files](../../specs/foundation-files/spec.md)、[renderer](../../specs/renderer/spec.md)。并读取 [T3](../m3-t3-renderer/proposal.md) 的 delta/design/decisions 与文档迁移 change；T4 当时只有 metadata，后续交叉内容完成后须再读，基线有限不代表其他行为不存在。
+本轮已按 AGENTS 重新读取规则、docmap、[scope](../../../scope/project-scope.md)、config 和本 change 的实际 full proposal instructions；写入前独立盘点并完整读取当时全部五份现役 specs/scenarios：[module-boundaries](../../specs/module-boundaries/spec.md)、[world](../../specs/world/spec.md)、[platform](../../specs/platform/spec.md)、[foundation-files](../../specs/foundation-files/spec.md)、[renderer](../../specs/renderer/spec.md)。并读取 [T3](../archive/2026-10-19-m3-t3-renderer/proposal.md) 的 delta/design/decisions 与文档迁移 change；T4 当时只有 metadata，后续交叉内容完成后须再读，基线有限不代表其他行为不存在。
 
 ## What Changes
 

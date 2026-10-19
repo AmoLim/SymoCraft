@@ -11,9 +11,9 @@ tags:
 
 当前生产静态库私有链接 SDL3 3.4.18 与 Psapi，不再以 GLFW 创建游戏窗口。公开 Window/input/process-memory 头无 SDL、Win32、GL、Vulkan SDK；renderer 与显式探针通过 CMake 允许的私有 bridge 访问图形入口，不形成普通消费者 include 权限。
 
-Window 独占 `unique_ptr<Impl>`，Impl 拥有 SDL_Window、GL 模式的 SDL_GLContext、InputState 及首个输入适配异常；Window 不可复制、不可移动。Create 返回拥有的裸指针，app 立即接管 unique_ptr；函数内局部 owner 覆盖创建中途失败，不发布半初始化对象。窗口用途在创建前确定为 OpenGL/Native/Vulkan，不在运行中热切换。
+以下T4机制的[生产实现](../../game/modules/platform/src/window.cpp)已于2026-10-19按后续源码同步授权进入F主工作区，不是Git历史合并。不可复制/移动的Platform::Runtime取得一份SDL video责任，覆盖Window；公开Create必须借活Runtime并返回unique_ptr。Window独占Impl/native/context/InputState/首输入故障；局部owner覆盖创建失败，不发布半对象。OpenGL/Native/Vulkan模式创建前确定，不热切换。
 
-TU 静态状态记录本模块 video 初始化责任、一个活窗口、计时起点/频率。Init 主线程取得 SDL video，重复 Init 不再增加该责任；计时频率失败时退回 video。Free 拒绝活窗口，仅 QuitSubSystem(video)，不调用全局 SDL_Quit 或替其他持有者释放责任。主线程/单窗口是调用者约束并在主要 checked 入口检查，没有后台窗口线程、锁或可并发调度保证。
+TU静态只保单owner/活窗口计数及SDL计时簿记，不承载玩法。第二Runtime/Window拒绝，旧Init/Free为私有；Runtime Shutdown在主线程拒绝活Window，只QuitSubSystem自己一次video引用，可重复，不全局SDL_Quit。计时频率失败归还已取得引用，无后台窗口线程/并发保证；Runtime必须覆盖Window，析构故障诊断不能替代正确借用顺序。
 
 销毁顺序是外部 GPU 工作/Renderer/借用 surface 结束后，再 Window 的 context → NonRudeHWND 属性 → native window → 输入/像素/活窗口计数，最后 video。Destroy 在主线程且 video 有效的前提下，即使 context/属性清理报错也继续余下回收，保留首故障、具名记录次级故障，完成回收后重抛首故障；再次 Destroy 是空操作。noexcept 析构捕获并输出故障，是兜底而非 checked 清理成功证据。错误线程或 video 已释放等前提失败会在回收开始前拒绝，不能概括为任意调用都能清干净。
 
@@ -21,29 +21,29 @@ TU 静态状态记录本模块 video 初始化责任、一个活窗口、计时�
 
 ## 创建、尺寸与图形交接
 
-非正创建尺寸使用主显示器一半及 800/600 下限；SetSize 的参数则是正逻辑尺寸。`width/height` 目前仍是可写 public int，由 SDL_GetWindowSizeInPixels 在创建、尺寸/最小化/恢复事件及 SetSize 后更新，表示真实像素，不是请求值。消费者不能通过写字段伪造实际 extent；GetAspectRatio 使用 max(width,1)/max(height,1) 只避免除零，不证明可绘制。T4 的受控尺寸/Runtime 实例尚未实施。
+非正创建尺寸使用主显示器一半及800/600下限，SetSize只接受正逻辑尺寸。Width()/Height()只读返回私有实际像素，SDL_GetWindowSizeInPixels在创建/事件/SetSize更新；请求尺寸不能伪造实际extent。GetAspectRatio对零尺寸拒绝，不以max(1)掩盖不可绘制状态。
 
 创建先隐藏、配置完成后显示。GL 要求并核对实际 OpenGL 4.6 Core、4x MSAA 和 Debug context，不静默降级；GL 全局 attributes/hints 的变化没有事务回滚。Benchmark 是普通无边框窗口，非 exclusive/topmost，以 NonRudeHWND 避免覆盖任务栏，并核对实际像素与请求工作负载完全相等。SetCursorMode 的相对模式、可见性、Reset 是连续操作，后项失败不会自动回滚已经完成的原生状态。
 
 三条私有桥接各保留自己的寿命：
 
 - GraphicsBridge 只用于 OpenGL：MakeCurrent 核对 window/context 一致；GetProcedure 可合法返回空入口；ExtensionSupported 的不支持为 false，查询错误则抛错，不混同两者；SetVsync 读取实际 swap interval 核对，不能据此推定物理显示延迟；Present 要求此窗口/context 当前，交换失败即停止正常提交。
-- NativeBridge 返回经校验的借用 HWND，至 Window::Destroy 失效，调用者不得 DestroyWindow。它可从三种活窗口取 handle，但当前实际 D3D12 后端创建 Native 模式窗口并消费它，不是“只为未来预留”；platform 不拥有 swapchain/device。游戏默认仍为旧 GL，D3D12 仍是 opt-in 候选。
-- VulkanBridge 限定 Vulkan 模式；SDL 负责对应窗口的 loader 责任，GetInstanceProcedureAddress 是实例入口来源，required extensions 返回自有 string vector。instance/device/surface 属于调用方，须用同 loader/匹配 allocator，在有效窗口/loader 期间销毁并先结束相关在途 GPU 工作；DestroySurface 的空 handle 为无操作，但不会清调用者的非空变量，也不保证重复非空销毁安全。不要额外 UnloadLibrary，不从静态 SDL 推导静态 Vulkan loader。桥接/探针已存在，不等于 Vulkan 游戏后端已实现。
+- NativeBridge返回经校验的借用HWND，至Window::Destroy失效，不能DestroyWindow；D3D12默认路径实际创建Native Window并消费它，platform不拥有swapchain/device。GL保留显式过渡路径。
+- VulkanBridge限定Vulkan模式，SDL负责窗口loader，required extensions返回自有string vector。instance/device/surface归caller，同loader/匹配allocator、窗口有效期间先结束在途GPU再销毁。空surface销毁无操作，不清caller变量或保证重复非空销毁；不额外UnloadLibrary。T4 E目录已整合上游批准的Vulkan后端并由GameRenderer消费此桥，F仍不含T4生命周期改动；不以桥接测试代替整合/运行依据或用户节点批准。
 
 依据：[GL bridge](../../game/modules/platform/src/graphics_bridge/graphics_bridge.h)、[Native bridge](../../game/modules/platform/src/graphics_bridge/native_bridge.h)、[Vulkan bridge](../../game/modules/platform/src/graphics_bridge/vulkan_bridge.h)、[D3D12 消费者](../../game/modules/renderer/src/backend/d3d12/d3d12_backend.cpp)。
 
-## 输入归约与借用失效
+## 输入归约与自有交换
 
-InputState 以窗口 ID 过滤事件，接受全局 Quit，只转换平台事实；不访问 simulation/renderer。11 个控制键映射固定物理 scancode，不采用字符布局语义。`down` 记录 held，`pressed` 锁存非 repeat 的短按；Capture 对每个键执行 held OR pressed 后仍无条件清 pressed，避免短路导致旧按键漏消费。repeat 不制造新短按，鼠标按钮保持 held。
+InputState按窗口ID过滤，接受全局Quit，只转换平台事实，不访问simulation/renderer或按benchmark筛玩家控制。11键固定物理scancode；InputFrame分别自有held/pressed，Down纯读OR无副作用，CaptureKeys一次消费内部pressed。repeat不造新短按，鼠标按钮保持held。未来复杂键盘顺序reducer仅方向，不增加空公开接口。
 
 相对 motion 保留 double dx、反转 SDL y 为向上正；wheel 保留小数并归一 flipped 方向。窗口激活/恢复/Reset 后抑制首个 motion，再按事件顺序存储，不合并成总量，保持 simulation 的逐事件 pitch/FOV 裁剪。published/pending 两个 vector 各预留 64，Publish clear/swap 复用；预留不是事件无界或全程零分配保证。
 
 PollInt 排空 SDL 队列，经同一 Handle 适配，再按真实窗口 flags 收敛焦点/最小化并 Publish；Capture 在 app 的 simulation_ms 边界内同步 scancode/鼠标物理态后消费键锁存。只在 focused 且非 minimized 时采纳全局物理按键；丢失 regain/restore 事件可由 flags 修复，失焦后同轮恢复仍保留一次 focus_lost。Reset 清已发布/待发布控制、短按、指针及首 motion 基线；活跃窗口仍已知的 held 可保留/在下一 Capture 重同步，Reset 不是永久丢弃物理 held。
 
-Window::Input 返回内部 InputSnapshot 的 const 引用，不是冻结帧：Poll/Wait 的收敛、Capture、Reset、cursor mode 更新可能改变它；pointer 元素在 clear/swap/扩容后失效，Window Destroy 后整个借用失效。延后使用须自行复制，当前生产路径同步消费。`Down` 要求合法枚举，不检查非法索引。KeySampling::Capture 是独立纯 CPU helper，顺序同步调用每个 Control 一次，不保存 callback；异常上抛且外部读键副作用不回滚。当前 SDL Capture 使用私有 InputState，不靠该 helper 采集硬件。
+公开借用Input()/InputSnapshot已退出。CaptureInput要求caller目的帧已Clear，先同步物理态，再复制键/按钮/focus事实、交换published pointer vector；不交换pending，不让容量搬移变成事件。app所有消费者结束后才Clear，旧自有帧不随Poll/Reset/Destroy改变。Down要求合法枚举；KeySampling纯CPU helper仍保留，不参与SDL硬件采集。
 
-适配中的 vector 等分配异常保存首个嵌套原因并立即停止当前 Poll/Wait；后续 Poll/Wait/Capture/Reset checked 入口重抛，不能返回伪成功空输入或以 Reset 恢复。已取出的事件和先前状态修改不回滚；Input() 本身不检查该 latch，旧内容不可当作失败后的新成功帧。SDL 查询/操作失败具名抛出，但并非每一种 SDL 异常都进入 input_error。
+适配vector等异常保存首个嵌套原因并停止Poll/Wait，后续Poll/Wait/Capture/Reset重抛，不能伪成功空帧或Reset恢复。已取事件/已改内部状态不回滚，先前自有帧仍可读但不是新采集成功。SDL查询失败具名传播，非每类SDL故障都进入input_error；全局持续OOM不保证完整嵌套文字。
 
 依据：[InputState](../../game/modules/platform/src/input_state.h)、[KeySampling](../../game/modules/platform/include/symocraft/platform/key_snapshot.h)。
 
@@ -51,9 +51,9 @@ Window::Input 返回内部 InputSnapshot 的 const 引用，不是冻结帧：Po
 
 WaitEvents 接受有限非负秒数，ceil 转毫秒并封顶 INT_MAX；等待取出的第一个事件经 Handle 恰好一次，再排空队列、收敛 flags，不 Publish，随后 Poll 才发布待输入。超时不是事件错误，真正 SDL 故障抛出；不能只等待而丢弃首个 close/focus/resize 事件。
 
-普通无限游戏失焦、最小化或零实际像素时清输入/水平移动/待跳和共享物理预算，Wait 而不忙绘；恢复首帧 dt=0。有限 frame-limit 是专用诊断，可在失焦但仍可绘制时继续，不能推广成普通游戏后台规则；最小化/零像素始终不绘制。关闭事件在该帧 simulation/render 前退出。Window::Time 是 Init 起点的单调计时，未 Init/Free 后为 0，再 Init 重置起点，不是应用持久时钟。
+普通无限游戏失焦/最小化/零像素时由app清输入并Pause Session，清水平/待跳/该会话预算，有限Wait不忙绘；Resume首次成功Advance规则dt=0。有限frame-limit仅豁免失焦暂停，不豁免零尺寸/最小化。关闭在模拟/绘制前退出；Window::Time是当前Runtime起点计时，不是持久应用时钟。
 
-Benchmark platform reducer 屏蔽玩家控制/指针/鼠标，只保留本窗口 Escape 和关闭；本窗口已排队未消费 Escape 在失焦两种先后顺序及 flags 收敛时保留，不采集后台全局 Escape，最小化清除。app 对尺寸变化/最小化判 invalid，allow-unfocused 仅改变失焦有效性，不允许最小化，也不能偷渡普通游戏有限帧规则。Poll 归 event_ms、Capture 仍归 simulation_ms，迁移不改测量边界。
+Benchmark输入屏蔽属于app Scenario策略，平台交出本窗口全部事实。本窗口已排队Escape跨失焦保留，但后台全局Escape不采纳，最小化清除；普通玩法仍按focus_lost丢旧操作。尺寸变化/最小化判invalid，allow-unfocused不豁免；Poll归event_ms、Capture仍归simulation_ms，不挪边界制造收益。
 
 ## 内存查询、不变量与验证边界
 
@@ -63,8 +63,8 @@ SampleProcessMemory 返回自有 optional working-set/private bytes；GetProcess
 | --- | --- |
 | I1 | native 有效期 Impl 存活；Create 局部 owner 不发布半初始化对象。 |
 | I2 | 有效清理前提下 Destroy 继续释放、清空 context/native/input/像素并可重复，完成后报告首错。 |
-| I3 | 每个映射键一次 Capture 消费短按，指针保序交换复用；借用随后续更新失效。 |
+| I3 | 一次Capture消费短按，指针保序交换复用；caller自有帧独立于后续平台状态。 |
 | I4 | 事件只生成平台事实，公开 API 不泄漏 SDK，不含游戏状态 callback。 |
 | I5 | 主线程单窗口，video 覆盖 Window；GPU/surface 先于窗口/context 释放。 |
 
-静态核对包括 [key snapshot 测试](../../test/unit/platform/key_snapshot_tests.cpp)、[公开头/三 bridge 声明测试](../../test/experimental/platform-handoff/contracts.cpp)、[生产 InputState 合成测试](../../test/experimental/platform-sdl3/input_state_tests.cpp) 与 [分配失败探针](../../test/experimental/platform-sdl3/allocation_tests.cpp)。合成 reducer 或声明编译不证明真实 SDL、硬件布局/DPI、任务栏或驱动行为；本轮没有执行这些测试或创建窗口。历史证据/批准从 VERIFICATION 进入；[T4 platform delta](../openspec/changes/m3-t4-application-simulation/specs/platform/spec.md) 的 owned snapshot、Runtime 与受控尺寸仍是目标。
+当前测试为key_snapshot、owned_frame和显式真实SDL runtime_probe，另对Window工厂实际C++分配序列扫查。InputFrame/pending/app pointer缓冲用可抛的零count构造，避开MSVC Debug vector默认noexcept构造分配proxy时的terminate；不改vector布局/allocator或推广为整个标准库OOM保证。采集同步失败也锁存。范围/成绩见[T4 verification](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md#2026-10-15-完整生产迁移)。test/experimental保留旧API历史材料，未冒称可直接重放新API或改历史命令/结果。合成事件和真实Native窗口不证明物理键盘布局、全部DPI/任务栏/驱动、人工体验或长期资源稳定。

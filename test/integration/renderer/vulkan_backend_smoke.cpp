@@ -63,8 +63,8 @@ int main(int argc, char** argv) {
         Require(argc == 4, "usage: smoke shader-root new-output-directory samples(1/4)");
         const std::filesystem::path output = std::filesystem::absolute(argv[2]);
         Require(!std::filesystem::exists(output), "output directory must be new"); std::filesystem::create_directories(output);
-        Window::Init();
-        auto window = std::unique_ptr<Window>(Window::Create("Vulkan production v1 smoke",640,480,false,true,WindowMode::Vulkan));
+        Platform::Runtime runtime;
+        auto window = Window::Create(runtime,"Vulkan production v1 smoke",640,480,false,true,WindowMode::Vulkan);
         {
             RendererConfig config; config.backend = Backend::Vulkan; config.shader_asset_root = std::filesystem::absolute(argv[1]);
             config.enable_validation = true; config.vsync = false; config.requested_samples = static_cast<uint32_t>(std::stoul(argv[3]));
@@ -103,12 +103,12 @@ int main(int argc, char** argv) {
             bool rejected = false; try { render(false); } catch (const RenderError& error) { rejected = error.Category() == RenderErrorCategory::InvalidHandle; }
             Require(rejected,"destroyed handle was accepted");
             mesh = renderer.CreateMesh(Quads()); draws[0].mesh = mesh;
-            window->SetSize(800,600); window->PollInt(); renderer.Resize({static_cast<uint32_t>(window->width),static_cast<uint32_t>(window->height)});
+            window->SetSize(800,600); window->PollInt(); renderer.Resize({static_cast<uint32_t>(window->Width()),static_cast<uint32_t>(window->Height())});
             image = render(true); CheckImage(*image.screenshot,true);
             Assets::WritePng(output/"resize.png",static_cast<int>(image.screenshot->extent.width),static_cast<int>(image.screenshot->extent.height),4,image.screenshot->pixels);
             renderer.Resize({0,0}); frame.frame_id = id++; frame.request_screenshot = false;
             auto skipped = renderer.Render(frame); Require(skipped.skip_reason == FrameSkipReason::ZeroExtent,"zero extent not suspended");
-            renderer.Resize({static_cast<uint32_t>(window->width),static_cast<uint32_t>(window->height)});
+            renderer.Resize({static_cast<uint32_t>(window->Width()),static_cast<uint32_t>(window->Height())});
             renderer.SetVSync(true); Require(renderer.GetInfo().actual_present_mode == PresentMode::Fifo,"FIFO not reported"); render(true);
             renderer.SetVSync(false); for (int i=0;i<8;++i) render(false);
             // One capture retires the graphics queue without adding a wait to PollGpuSamples.
@@ -122,6 +122,6 @@ int main(int argc, char** argv) {
             renderer.Shutdown(); renderer.Shutdown();
             std::cout << "saved_captures=4; mesh_update_empty_destroy=passed; resize_zero_restore=passed; vsync=passed; gpu_samples=" << sampled.size() << "; shutdown=passed\n";
         }
-        window->Destroy(); window.reset(); Window::Free(); return 0;
+        window->Destroy(); window.reset(); runtime.Shutdown(); return 0;
     } catch (const std::exception& error) { std::cerr << error.what() << '\n'; return 1; }
 }

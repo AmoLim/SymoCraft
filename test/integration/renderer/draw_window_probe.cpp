@@ -5,6 +5,7 @@
 #include <symocraft/assets/image.h>
 #include <symocraft/renderer/renderer.h>
 #include <symocraft/simulation/camera.h>
+#include <symocraft/simulation/session.h>
 #include <symocraft/simulation/component.h>
 #include <symocraft/simulation/transform_system.h>
 #include <symocraft/world/benchmark_workload.h>
@@ -77,12 +78,13 @@ size_t Count(const Screenshot& image, Color color) {
 }
 void Nonblank(const Screenshot& image) { Check(Count(image,{135,206,235})+5000 < size_t(image.extent.width)*image.extent.height,"complete world screenshot is blank"); }
 struct OwnedWindow {
+    Platform::Runtime runtime;
     std::unique_ptr<Window> value;
     OwnedWindow(Backend backend, int width, int height) {
-        Window::Init(); value.reset(Window::Create("SymoCraft production draw/window probe",width,height,false,true,
-            backend == Backend::Vulkan ? WindowMode::Vulkan : WindowMode::Native));
+        value = Window::Create(runtime,"SymoCraft production draw/window probe",width,height,false,true,
+            backend == Backend::Vulkan ? WindowMode::Vulkan : WindowMode::Native);
     }
-    void Close() { value->Destroy(); value.reset(); Window::Free(); }
+    void Close() { value->Destroy(); value.reset(); runtime.Shutdown(); }
     ~OwnedWindow() { try { if (value) Close(); } catch (...) {} }
 };
 Extent2D Await(Window& window, HWND hwnd, bool minimized) {
@@ -91,12 +93,12 @@ Extent2D Await(Window& window, HWND hwnd, bool minimized) {
         window.PollInt(); Check(!window.ShouldClose(),"window closed during automatic verification");
         const bool iconic=IsIconic(hwnd)!=0;
         if (minimized && window.Minimized() && iconic) return {};
-        if (!minimized && !window.Minimized() && !iconic && window.width>0 && window.height>0) {
+        if (!minimized && !window.Minimized() && !iconic && window.Width()>0 && window.Height()>0) {
             const auto previous=SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
             Check(previous!=nullptr,"cannot query physical client pixels"); RECT rect{};
             const bool ok=GetClientRect(hwnd,&rect)!=0; const bool restored=SetThreadDpiAwarenessContext(previous)!=nullptr;
             Check(ok && restored,"client query or DPI context restore failed");
-            if (rect.right-rect.left==window.width && rect.bottom-rect.top==window.height) return {unsigned(window.width),unsigned(window.height)};
+            if (rect.right-rect.left==window.Width() && rect.bottom-rect.top==window.Height()) return {unsigned(window.Width()),unsigned(window.Height())};
         }
         window.WaitEvents(.01);
     } while (Clock::now()<deadline);
@@ -232,19 +234,21 @@ void WorldWindow(Backend backend, unsigned samples, const std::filesystem::path&
     report["initial_rebuilt_meshes"]=world->RebuildDirtyMeshes(); const auto first=renderer.Synchronize(*world);
     report["initial_upload_calls"]=first.calls; report["initial_upload_bytes"]=first.bytes;
     ECS::Registry registry; registry.RegisterComponent<Transform>("Transform"); Camera camera(registry,1920,1080);
+    const auto view = [&] { return Simulation::PlayerView{camera.GetCameraPos(), camera.GetCameraFront(),
+        camera.GetCameraUp(), camera.GetFov(), 0.1f, 2000.0f}; };
     auto pose=[&](const TestScene::Pose& value) { camera.SetCameraPos(value.position); camera.SetYaw(value.yaw); camera.SetPitch(value.pitch); TransformSystem::Update(registry); };
     std::uint64_t id=1; unsigned capture_skips=0;
     auto capture=[&](const std::string& name) {
         const auto deadline=Clock::now()+std::chrono::seconds(3);
         do {
-            window.PollInt(); const auto frame=renderer.Render(id++,camera,{},nullptr,true).result;
+            window.PollInt(); const auto frame=renderer.Render(id++,view(),{},nullptr,true).result;
             if (frame.status==FrameStatus::Skipped) {
                 Check(frame.skip_reason==FrameSkipReason::ZeroExtent || frame.skip_reason==FrameSkipReason::Occluded,"unexpected capture skip");
                 report["capture_skips"]=++capture_skips; window.WaitEvents(.01); continue;
             }
             Check(frame.screenshot.has_value() && frame.statistics.draw_calls==361,"complete world did not render all 361 accepted meshes");
             const auto& image=*frame.screenshot;
-            Check(image.extent.width==unsigned(window.width) && image.extent.height==unsigned(window.height),"capture disagrees with real drawable pixels");
+            Check(image.extent.width==unsigned(window.Width()) && image.extent.height==unsigned(window.Height()),"capture disagrees with real drawable pixels");
             Nonblank(image); Save(report,output,name,image); return image;
         } while (Clock::now()<deadline);
         throw std::runtime_error("world capture did not resume within three seconds");
@@ -267,7 +271,7 @@ void WorldWindow(Backend backend, unsigned samples, const std::filesystem::path&
         Check(rebuilt==changed && upload.calls==changed && changed>0,"cache updated other than changed published chunks");
         Value row; row["index"]=i; row["x"]=edit.position.x; row["y"]=edit.position.y; row["z"]=edit.position.z; row["changed_records"]=changed; row["upload_calls"]=upload.calls; row["upload_bytes"]=upload.bytes;
         report["edits"].push_back(row);
-        (void)renderer.Render(id++,camera,{});
+        (void)renderer.Render(id++,view(),{});
         if (i==15 || i==31) for (const auto& p : TestScene::Checkpoints()) {
             pose(p); const auto image=capture(std::string(i==15 ? "edited-" : "restored-")+std::string(p.name));
             if (i==31) Check(image.pixels==original.at(std::string(p.name)).pixels,"reverse edits did not restore exact same-view pixels");
@@ -282,12 +286,12 @@ void WorldWindow(Backend backend, unsigned samples, const std::filesystem::path&
         Check(Platform::NativeBridge::GetHandle(window)==hwnd,"Window was hot recreated");
     }
     ShowWindow(hwnd,SW_MINIMIZE); Await(window,hwnd,true); renderer.Resize();
-    report["minimized_sdl_width"]=window.width; report["minimized_sdl_height"]=window.height;
+    report["minimized_sdl_width"]=window.Width(); report["minimized_sdl_height"]=window.Height();
     Mark("PAUSE_BEGIN"); const auto start=Clock::now(); unsigned steps=0;
     while (Clock::now()-start<std::chrono::seconds(10)) {
         const auto wake=Clock::now()+std::chrono::milliseconds(100);
         window.PollInt(); Check(window.Minimized() && IsIconic(hwnd),"actual minimize state lost");
-        const auto frame=renderer.Render(id++,camera,{}).result;
+        const auto frame=renderer.Render(id++,view(),{}).result;
         Check(frame.status==FrameStatus::Skipped && frame.skip_reason==FrameSkipReason::ZeroExtent && frame.statistics.draw_calls==0 && frame.statistics.upload_bytes==0 && !frame.screenshot,"minimized frame was not suspended");
         ++steps; window.WaitEvents(.09); std::this_thread::sleep_until(wake);
     }
@@ -304,11 +308,12 @@ void WorldWindow(Backend backend, unsigned samples, const std::filesystem::path&
     const auto key_data=LPARAM(1)|(LPARAM(MapVirtualKeyW('W',MAPVK_VK_TO_VSC))<<16);
     Check(PostMessageW(hwnd,WM_KEYDOWN,'W',key_data)!=0 && PostMessageW(hwnd,WM_KEYUP,'W',key_data|(LPARAM(3)<<30))!=0,"cannot post owned-window key pair");
     const auto input_deadline=Clock::now()+std::chrono::seconds(2); bool key=false;
-    while (!key && Clock::now()<input_deadline) { window.CaptureInput(); key=window.Input().Down(Key::W); if (!key) window.WaitEvents(.01); }
+    InputFrame input;
+    while (!key && Clock::now()<input_deadline) { input.Clear(); window.CaptureInput(input); key=input.Down(Key::W); if (!key) window.WaitEvents(.01); }
     Check(key,"native-window synthetic key did not resume input");
     camera.SetCameraPos(camera.GetCameraPos()+camera.GetCameraFront()*.5f); TransformSystem::Update(registry);
     Check(capture("restored-input-camera").pixels!=reference.pixels,"post-restore camera input had no visible effect");
-    window.CaptureInput(); Check(!window.Input().Down(Key::W),"synthetic released key remained stuck");
+    input.Clear(); window.CaptureInput(input); Check(!input.Down(Key::W),"synthetic released key remained stuck");
     report["synthetic_native_key_after_restore"]=true; report["no_performance_session"]=true;
     renderer.ReleaseWorld(world->Identity()); renderer.Shutdown(); renderer.Shutdown(); owner.Close();
 }

@@ -16,14 +16,14 @@ using namespace SymoCraft::Rendering::Detail;
 using Color = std::array<int, 3>;
 void Require(bool ok, const char* message) { if (!ok) throw std::runtime_error(message); }
 struct OwnedWindow {
+    Platform::Runtime runtime;
     std::unique_ptr<Window> window;
     OwnedWindow() {
-        Window::Init();
-        window.reset(Window::Create("SymoCraft D3D12 SRV cache GPU verification", 640, 480, false, true, WindowMode::Native));
+        window = Window::Create(runtime, "SymoCraft D3D12 SRV cache GPU verification", 640, 480, false, true, WindowMode::Native);
     }
     ~OwnedWindow() {
         if (window) { window->Destroy(); window.reset(); }
-        Window::Free();
+        runtime.Shutdown();
     }
 };
 MeshData Quad(bool right) {

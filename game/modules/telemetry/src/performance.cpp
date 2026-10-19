@@ -1,6 +1,7 @@
 #include "symocraft/telemetry/performance.h"
 #include "symocraft/telemetry/document_io.h"
 #include "symocraft/foundation/files.h"
+#include "export_diagnostics/export_probe.h"
 #include <algorithm>
 #include <cmath>
 #include <fstream>
@@ -14,6 +15,8 @@
 
 namespace SymoCraft::Performance {
     namespace {
+        thread_local Detail::ExportProbe export_probe = nullptr;
+        thread_local void* export_probe_context = nullptr;
         std::ofstream Output(const std::filesystem::path& path)
         {
             std::ofstream file(path);
@@ -44,6 +47,9 @@ namespace SymoCraft::Performance {
                 throw std::overflow_error("Performance counter overflow");
             return value + increment;
         }
+    }
+    void Detail::SetExportProbe(ExportProbe probe, void* context) noexcept {
+        export_probe = probe; export_probe_context = context;
     }
     Data::Value Statistics(std::vector<double> values)
     {
@@ -96,6 +102,15 @@ namespace SymoCraft::Performance {
     }
     void Session::Status(const char* phase, double elapsed)
     {
+        RequireRecording("Status");
+        if (!phase || (std::string_view(phase) != "initializing" && std::string_view(phase) != "awaiting-foreground" && std::string_view(phase) != "warmup" &&
+                       std::string_view(phase) != "sampling"))
+            throw std::invalid_argument("Status: only collection phases are caller-controlled");
+        WriteStatus(phase, elapsed);
+    }
+    void Session::WriteStatus(const char* phase, double elapsed)
+    {
+        export_.path = directory_ / "status.yaml";
         Data::Value state;
         state["protocol_version"] = 2;
         state["phase"] = phase;
@@ -104,6 +119,7 @@ namespace SymoCraft::Performance {
         auto file = Output(temporary);
         file << Data::DumpYaml(state) << '\n';
         file.close();
+        if (export_probe) export_probe(export_probe_context, directory_, phase);
         try { Files::Publish(temporary, directory_ / "status.yaml"); }
         catch (const std::system_error& error) {
             throw std::system_error(error.code(), std::string("Benchmark status phase=") + phase
@@ -112,6 +128,7 @@ namespace SymoCraft::Performance {
     }
     void Session::Add(Frame frame)
     {
+        RequireRecording("Add frame");
         if (frames_.size() == 1000000) throw std::runtime_error("Benchmark frame capacity exceeded; partial data retained");
         if (frame.gpu_draw_ms) ValidateDuration(*frame.gpu_draw_ms);
         if (frame.cpu_prepare_ms) ValidateDuration(*frame.cpu_prepare_ms);
@@ -135,6 +152,7 @@ namespace SymoCraft::Performance {
     }
     void Session::SetGpu(std::size_t frame, double milliseconds)
     {
+        RequireRecording("SetGpu");
         if (frame >= frames_.size()) throw std::logic_error("GPU result has no matching CPU frame");
         ValidateDuration(milliseconds);
         frames_[frame].gpu_draw_ms = milliseconds;
@@ -144,6 +162,7 @@ namespace SymoCraft::Performance {
     void Session::SetGpuSample(std::uint64_t frame_id, std::optional<double> milliseconds,
                                const std::string& missing_reason)
     {
+        RequireRecording("SetGpuSample");
         if (milliseconds) ValidateDuration(*milliseconds);
         if ((milliseconds && !missing_reason.empty()) || (!milliseconds && missing_reason.empty()))
             throw std::invalid_argument("GPU result requires either a duration or a missing reason");
@@ -157,6 +176,7 @@ namespace SymoCraft::Performance {
     }
     void Session::SetRendererInfo(const RendererInfo& info)
     {
+        RequireRecording("SetRendererInfo");
         if (info.backend.empty() || info.actual_present_mode.empty() || info.gpu_time_scope.empty())
             throw std::invalid_argument("Renderer telemetry requires backend, actual present mode and GPU timing scope");
         Data::Value renderer;
@@ -191,6 +211,7 @@ namespace SymoCraft::Performance {
     }
     void Session::AddStartupUpload(UploadStatistics statistics)
     {
+        RequireRecording("AddStartupUpload");
         ValidateDuration(statistics.cpu_ms);
         const UploadStatistics combined{startup_upload_.cpu_ms + statistics.cpu_ms,
                                         AddCounter(startup_upload_.bytes, statistics.bytes),
@@ -203,18 +224,67 @@ namespace SymoCraft::Performance {
     }
     void Session::Invalidate(const std::string& reason)
     {
+        RequireRecording("Invalidate");
         if (std::find(invalid_reasons_.begin(), invalid_reasons_.end(), reason) == invalid_reasons_.end())
             invalid_reasons_.push_back(reason);
     }
-    bool Session::Export(bool normal_exit)
+    void Session::RequireRecording(const char* operation) const {
+        if (state_ != RecordState::Recording)
+            throw std::logic_error(std::string(operation) + ": performance record is sealed");
+    }
+    void Session::Add(Memory memory) { RequireRecording("Add memory"); memory_.push_back(memory); }
+    void Session::SetMetadata(std::string_view key, Data::Value value) {
+        RequireRecording("SetMetadata"); metadata[key] = std::move(value);
+    }
+    void Session::SetStartup(std::string_view key, Data::Value value) {
+        RequireRecording("SetStartup"); startup[key] = std::move(value);
+    }
+    void Session::Complete() { RequireRecording("Complete"); completed = true; }
+    void Session::Seal(const FinalFacts& facts) {
+        if (state_ == RecordState::Sealed) {
+            if (*final_ != facts) throw std::logic_error("Seal: conflicting final facts");
+            return;
+        }
+        if (facts.completed != completed) throw std::logic_error("Seal: completion fact differs from the recorded outcome");
+        auto reasons = invalid_reasons_;
+        const auto add = [&](const char* reason) {
+            if (std::find(reasons.begin(), reasons.end(), reason) == reasons.end()) reasons.emplace_back(reason);
+        };
+        if (!facts.runtime_succeeded) add("runtime-error");
+        if (!facts.shutdown_succeeded) add("shutdown-error");
+        if (!completed) add("duration-not-completed");
+        auto candidate = std::make_unique<FinalFacts>(facts);
+        final_ = std::move(candidate);
+        invalid_reasons_.swap(reasons);
+        state_ = RecordState::Sealed;
+    }
+    ExportResult Session::Export() {
+        if (state_ != RecordState::Sealed) throw std::logic_error("Export: record must be sealed");
+        if (export_.state == ExportState::Saved) return export_;
+        export_ = {ExportState::Failed, false, directory_, "exporting", {}, {}};
+        try {
+            const bool valid = WriteExport();
+            export_.valid_run = valid;
+            export_.state = ExportState::Saved;
+        } catch (const std::system_error& error) {
+            export_.native_error = error.code();
+            export_.diagnostic = error.what();
+        } catch (const std::exception& error) {
+            export_.diagnostic = error.what();
+        } catch (...) {
+            export_.diagnostic = "Unknown export failure";
+        }
+        return export_;
+    }
+    bool Session::WriteExport()
     {
-        Status("exporting");
-        if (!normal_exit) Invalidate("runtime-error");
-        if (!completed) Invalidate("duration-not-completed");
+        WriteStatus("exporting", 0);
+        const bool normal_exit = final_->runtime_succeeded && final_->shutdown_succeeded;
         const bool renderer_rows = renderer_info_set_ || std::any_of(frames_.begin(), frames_.end(), [](const Frame& frame) {
             return frame.frame_id.has_value() || frame.cpu_prepare_ms.has_value() || frame.cpu_submit_ms.has_value();
         });
-        auto csv = Output(directory_ / "frames.csv");
+        export_.stage = "frames"; export_.path = directory_ / "frames.csv";
+        auto csv = Output(export_.path);
         csv << "frame,phase,elapsed_s,frame_ms,simulation_delta_ms,event_ms,simulation_ms,mesh_ms,pack_ms,render_cpu_ms,upload_cpu_ms,present_ms,instrumentation_ms,gpu_draw_ms,rebuilt_chunks,vertices,upload_bytes,draw_calls,edits,edit_lateness_ms,x,y,z,yaw,focused";
         if (renderer_rows) csv << ",renderer_frame_id,cpu_prepare_ms,cpu_submit_ms,gpu_missing_reason,resource_upload_bytes,render_upload_bytes,upload_calls";
         csv << '\n';
@@ -224,11 +294,13 @@ namespace SymoCraft::Performance {
         std::uint64_t edits = 0, rebuilt = 0;
         std::uint64_t unfocused_frames = 0, sample_unfocused_frames = 0, transitions = 0;
         double unfocused_ms = 0, sample_unfocused_ms = 0;
-        auto focus = Output(directory_ / "focus.csv");
+        export_.stage = "focus"; export_.path = directory_ / "focus.csv";
+        auto focus = Output(export_.path);
         focus << "frame,elapsed_s,focused\n";
         for (std::size_t i = 0; i < frames_.size(); ++i) {
             const auto& f = frames_[i];
             if (i == 0 || frames_[i - 1].focused != f.focused) {
+                export_.stage = "focus"; export_.path = directory_ / "focus.csv";
                 focus << i << ',' << f.elapsed << ',' << f.focused << '\n';
                 if (i != 0) ++transitions;
             }
@@ -236,6 +308,7 @@ namespace SymoCraft::Performance {
                 ++unfocused_frames; unfocused_ms += f.frame_ms;
                 if (f.measured) { ++sample_unfocused_frames; sample_unfocused_ms += f.frame_ms; }
             }
+            export_.stage = "frames"; export_.path = directory_ / "frames.csv";
             csv << i << ',' << (f.measured ? "sample" : "warmup") << ',' << f.elapsed << ',' << f.frame_ms << ','
                 << f.simulation_delta_ms << ',' << f.event_ms << ',' << f.simulation_ms << ',' << f.mesh_ms << ','
                 << f.pack_ms << ',' << f.render_cpu_ms << ',' << f.upload_cpu_ms << ',' << f.present_ms << ',' << f.instrumentation_ms << ',';
@@ -268,9 +341,10 @@ namespace SymoCraft::Performance {
             }
             edits += f.edits; rebuilt += f.rebuilt_chunks;
         }
-        csv.close();
-        focus.close();
-        auto memory = Output(directory_ / "memory.csv");
+        export_.stage = "frames"; export_.path = directory_ / "frames.csv"; csv.close();
+        export_.stage = "focus"; export_.path = directory_ / "focus.csv"; focus.close();
+        export_.stage = "memory"; export_.path = directory_ / "memory.csv";
+        auto memory = Output(export_.path);
         memory << "elapsed_s,working_set_bytes,private_bytes,device_dedicated_kib,device_available_kib\n";
         for (const auto& m : memory_) {
             memory << m.elapsed << ','; Optional(memory, m.working_set_bytes); memory << ',';
@@ -282,6 +356,10 @@ namespace SymoCraft::Performance {
         report["metadata"] = metadata;
         report["startup_ms"] = startup;
         report["completed"] = completed;
+        report["lifecycle"]["runtime_succeeded"] = final_->runtime_succeeded;
+        report["lifecycle"]["shutdown_succeeded"] = final_->shutdown_succeeded;
+        report["lifecycle"]["first_error"] = final_->first_error;
+        report["lifecycle"]["secondary_errors"] = final_->secondary_errors;
         report["valid_run"] = normal_exit && completed && invalid_reasons_.empty() && !frame_times.empty();
         report["invalid_reasons"] = invalid_reasons_;
         report["total_frames"] = frames_.size();
@@ -312,10 +390,12 @@ namespace SymoCraft::Performance {
         report["sample_rebuilt_chunks"] = rebuilt;
         const double duration = std::accumulate(frame_times.begin(), frame_times.end(), 0.0);
         if (duration > 0) report["throughput_fps"] = frame_times.size() * 1000.0 / duration;
-        auto yaml = Output(directory_ / "summary.yaml");
+        export_.stage = "summary"; export_.path = directory_ / "summary.yaml";
+        auto yaml = Output(export_.path);
         yaml << Data::DumpYaml(report) << '\n';
         yaml.close();
-        Status("finished");
+        export_.stage = "finished";
+        WriteStatus("finished", 0);
         return report["valid_run"].as<bool>();
     }
 }

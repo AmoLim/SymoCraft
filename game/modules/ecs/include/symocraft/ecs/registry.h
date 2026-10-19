@@ -4,6 +4,7 @@
 #include <bitset>
 #include <cstddef>
 #include <memory>
+#include <stdexcept>
 #include <type_traits>
 #include <typeinfo>
 
@@ -43,8 +44,15 @@ namespace SymoCraft::ECS {
                           "Legacy ECS components must be POD");
             RegisterType(Detail::ComponentType<T>(), sizeof(T), debug_name);
         }
+        // Type IDs remain process-wide; this does not register storage or relax its order.
+        template<class T> bool IsComponentRegistered() const {
+            return IsTypeRegistered(Detail::ComponentType<T>());
+        }
         template<class T> T& AddComponent(EntityId entity) {
-            return *reinterpret_cast<T*>(AddOrGetComponentByType(entity, Detail::ComponentType<T>()));
+            auto* component = AddOrGetComponentByType(entity, Detail::ComponentType<T>());
+            if (!component)
+                throw std::runtime_error("ECS AddComponent: invalid entity or unavailable component");
+            return *reinterpret_cast<T*>(component);
         }
         bool HasComponentByType(EntityId entity, int32 component_type) const;
         template<class T> bool HasComponent(EntityId entity) const {
@@ -52,8 +60,10 @@ namespace SymoCraft::ECS {
         }
         uint8* GetComponentByType(EntityId entity, int32 component_type) const;
         template<class T> T& GetComponent(EntityId entity) const {
-            AmoLogger_Assert(HasComponent<T>(entity), "Entity does not have the requested component");
-            return *reinterpret_cast<T*>(GetComponentByType(entity, Detail::ComponentType<T>()));
+            auto* component = GetComponentByType(entity, Detail::ComponentType<T>());
+            if (!component)
+                throw std::runtime_error("ECS GetComponent: invalid entity or missing component");
+            return *reinterpret_cast<T*>(component);
         }
         uint8* AddOrGetComponentByType(EntityId entity, int32 component_id);
         template<class T> void RemoveComponent(EntityId entity) {
@@ -69,6 +79,7 @@ namespace SymoCraft::ECS {
         struct Storage;
         std::unique_ptr<Storage> storage_;
         void RegisterType(int32 type, std::size_t size, const char* debug_name);
+        bool IsTypeRegistered(int32 type) const;
         void RemoveType(EntityId entity, int32 type);
         std::size_t EntitySlots() const;
         EntityId EntityAt(std::size_t index) const;
@@ -87,8 +98,8 @@ namespace SymoCraft::ECS {
                        , bool all);
 
             // Indirect operator = Indexing operator
-            // Return an entity index
-            EntityIndex operator*() const;
+            // Return the complete entity ID, including its generation.
+            EntityId operator*() const;
 
             // identity operator
             bool operator ==(Iterator& other) const;
@@ -121,14 +132,17 @@ namespace SymoCraft::ECS {
                 if (!_is_searching_all)
                 {
                     int component_type[] = {0 , Detail::ComponentType<Components>() ...};
-                    for (int i = 1; i <= (sizeof...(Components)); i++)
+                    for (int i = 1; i <= (sizeof...(Components)); i++) {
+                        if (!registry.IsTypeRegistered(component_type[i]))
+                            throw std::logic_error("ECS View: component type is not registered");
                         components_need.set(component_type[i]);
+                    }
                 }
             }
 
             const Iterator begin() const
             {
-                int first_index = 0;
+                EntityIndex first_index = 0;
                 for (; first_index < registry.EntitySlots() &&
                         (
                                 !HasRequiredComponents(registry, components_need, registry.EntityAt(first_index)) ||
@@ -149,11 +163,11 @@ namespace SymoCraft::ECS {
             bool _is_searching_all;
 
             static bool HasRequiredComponents(Registry& reg, const std::bitset<MaxComponents> &need,
-                                             EntityIndex entity_index)
+                                             EntityId entity)
             {
                 bool has_required_components = true;
                 for (int i = 0; i < need.size(); i++)
-                    if (need.test(i) && !reg.HasComponentByType(entity_index, i))
+                    if (need.test(i) && !reg.HasComponentByType(entity, i))
                     {
                         has_required_components = false;
                         break;

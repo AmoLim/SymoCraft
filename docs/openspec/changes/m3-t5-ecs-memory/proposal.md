@@ -25,12 +25,12 @@ tags:
 
 - **新增 `ecs`**：首次形成独立公开行为规格；这是对既有 ECS 行为的有意替换，不是声称项目原先没有 ECS。目标覆盖身份、生命周期、typed 组件、注册、读取、查询、借用、失败与串行交接。
 - **扩展 `module-boundaries`**：追加 typed 第三方依赖、窄私有测试适配及 M3 组合验收/定向退役要求，沿用其余[现役边界](../../specs/module-boundaries/spec.md)，不修改已有 requirement。
-- **保持行为**：[world](../../specs/world/spec.md)、[renderer](../../specs/renderer/spec.md)、[platform](../../specs/platform/spec.md)、[foundation-files](../../specs/foundation-files/spec.md)不另造平行 delta；[simulation 现役基线](../../specs/simulation/spec.md)及其[T4 增量](../m3-t4-application-simulation/specs/simulation/spec.md)的业务语义不由 T5 重写。
+- **保持行为**：[world](../../specs/world/spec.md)、[renderer](../../specs/renderer/spec.md)、[platform](../../specs/platform/spec.md)、[foundation-files](../../specs/foundation-files/spec.md)不另造平行 delta；[simulation 现役基线](../../specs/simulation/spec.md)及其[T4 增量](../archive/2026-10-19-m3-t4-application-simulation/specs/simulation/spec.md)的业务语义不由 T5 重写。
 
 ## Impact
 
 直接影响 ECS 公开头/实现/CMake、simulation 的装配与遍历、app 的必要调用、根测试和 EnTT 许可部署。仅当核对确认依赖变化时定向调整 foundation 或边界规则；不将整个 foundation 纳入重写。
 
-T4 的[设计与交接](../m3-t4-application-simulation/design.md)、[候选验证身份](../m3-t4-application-simulation/verification.md#2026-10-15-完整生产迁移)是必要依赖。F 审核目录尚未合入 E 的完整 T4 生产代码；独立 Vulkan 候选也不等于本目录已具备双现代组合。实施前须确认采用的源码/配置身份和交接授权，不自动合并其他工作树。T3 仍按其[接管目标](../m3-t3-renderer/specs/renderer/spec.md)独立收口；T5 不接管或豁免 R4/T3 的剩余批准。
+T4 的[设计与交接](../archive/2026-10-19-m3-t4-application-simulation/design.md)、[候选验证身份](../archive/2026-10-19-m3-t4-application-simulation/verification.md#2026-10-15-完整生产迁移)是必要依赖。F 审核目录尚未合入 E 的完整 T4 生产代码；独立 Vulkan 候选也不等于本目录已具备双现代组合。实施前须确认采用的源码/配置身份和交接授权，不自动合并其他工作树。T3 仍按其[接管目标](../archive/2026-10-19-m3-t3-renderer/specs/renderer/spec.md)独立收口；T5 不接管或豁免 R4/T3 的剩余批准。
 
 采用本地固定官方发布源码，初步候选 EnTT `v4.0.0`，不修改上游源码、不在配置时追踪远端最新版。完整 commit/摘要/许可证、统一配置及关键适配结果须在生产替换前核对并冻结；候选不兼容时报告冲突，不静默削弱契约。目标机制、具体检查和唯一活动任务分别见 [design](design.md) 与 [tasks](tasks.md)。

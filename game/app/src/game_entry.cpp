@@ -59,6 +59,10 @@ int SymoCraft::Application::RunGame(int argc, char* argv[])
     } catch (const SymoCraft::Rendering::RenderError& error) {
         PrintRenderError(error);
         return 3;
+    } catch (const std::exception& error) {
+        std::cerr << "[runtime] asset preflight failed: " << error.what() << '\n'; return 3;
+    } catch (...) {
+        std::cerr << "[runtime] asset preflight failed: unexpected non-standard exception\n"; return 3;
     }
     if (options.check_assets)
     {
@@ -70,70 +74,88 @@ int SymoCraft::Application::RunGame(int argc, char* argv[])
     AmoBase::AmoMemory_Init(true, 1024);
 #endif
     int exit_code = 0;
-    std::unique_ptr<SymoCraft::Performance::Session> performance;
-    try
-    {
+    std::exception_ptr first_failure;
+    std::unique_ptr<SymoCraft::Application::Application> application;
+    try {
         if (options.world_summary) SymoCraft::Application::PrintWorldSummary(options);
         else {
-            if (!options.benchmark.empty()) {
-                SymoCraft::Performance::SessionConfig config;
-                config.output_directory = options.output_directory;
-                config.focus_policy = options.focus_policy;
-                config.benchmark = options.benchmark;
-                config.width = options.width; config.height = options.height;
-                config.warmup_seconds = options.warmup_seconds; config.sample_seconds = options.sample_seconds;
-                config.vsync = options.vsync;
-                performance = std::make_unique<SymoCraft::Performance::Session>(config, entry);
-                performance->startup["argument_preflight_and_collector_setup"] = SymoCraft::Performance::Milliseconds(entry);
-            }
-            SymoCraft::Application::Init(options, performance.get());
-            SymoCraft::Application::Run(options, performance.get());
+            application = std::make_unique<SymoCraft::Application::Application>(options, entry);
+            application->Initialize();
+            application->Run();
         }
-    }
-    catch (const SymoCraft::Rendering::RenderError& error)
-    {
-        PrintRenderError(error);
+    } catch (const SymoCraft::Rendering::RenderError& error) {
+        first_failure = std::current_exception();
+        PrintRenderError(error); exit_code = 3;
+    } catch (const std::exception& error) {
+        first_failure = std::current_exception();
+        std::cerr << "[runtime] fatal: " << error.what() << "; requested_backend=" << options.renderer << std::endl;
         exit_code = 3;
-    }
-    catch (const std::exception& error)
-    {
-        std::cerr << "[runtime] fatal: " << error.what()
-                  << "; requested_backend=" << options.renderer << std::endl;
-        exit_code = 3;
-    }
-    catch (...)
-    {
-        std::cerr << "[runtime] fatal: unexpected non-standard exception" << std::endl;
-        exit_code = 3;
+    } catch (...) {
+        first_failure = std::current_exception();
+        std::cerr << "[runtime] fatal: unexpected non-standard exception" << std::endl; exit_code = 3;
     }
 
-    // Release all graphics ownership while the borrowed Window is still alive.
-    try {
-        SymoCraft::Application::Free();
-    }
-    catch (const SymoCraft::Rendering::RenderError& error) {
-        std::cerr << "[runtime] shutdown failed; requested_backend=" << options.renderer << '\n';
-        PrintRenderError(error);
-        if (exit_code == 0) exit_code = 3;
-    }
-    catch (const std::exception& error) {
-        std::cerr << "[runtime] shutdown failed: " << error.what() << std::endl;
-        if (exit_code == 0) exit_code = 3;
-    }
-    catch (...) {
-        std::cerr << "[runtime] shutdown failed: unexpected non-standard exception" << std::endl;
-        if (exit_code == 0) exit_code = 3;
-    }
-    if (performance) {
-        try {
-            const bool valid = performance->Export(exit_code == 0);
-            std::cout << "[performance] exported; valid_run=" << valid << '\n';
-            if (!valid && exit_code == 0) exit_code = 4;
+    SymoCraft::Application::ShutdownReport shutdown;
+    if (application) {
+        try { shutdown = application->Shutdown(); }
+        catch (const SymoCraft::Application::ShutdownError& error) {
+            // The exception owns its report. Copy the values before its lifetime ends,
+            // then join this path with successful Shutdown before sealing observations.
+            shutdown = error.Report();
+        } catch (...) {
+            auto& item = shutdown.items[static_cast<std::size_t>(SymoCraft::Application::ShutdownStep::Runtime)];
+            item.fact = SymoCraft::Application::ReleaseFact::Failed; item.error = std::current_exception();
         }
-        catch (const std::exception& error) { std::cerr << "[performance] export failed: " << error.what() << '\n'; exit_code = 3; }
     }
+    try {
+    SymoCraft::Performance::FinalFacts facts;
+    facts.runtime_succeeded = exit_code == 0;
+    facts.shutdown_succeeded = shutdown.Succeeded();
+    for (const auto& item : shutdown.items) {
+        if (!item.error) continue;
+        if (!first_failure) first_failure = item.error;
+        try { std::rethrow_exception(item.error); }
+        catch (const SymoCraft::Rendering::RenderError& error) { PrintRenderError(error); }
+        catch (const std::exception& error) { std::cerr << "[runtime] shutdown failed: " << error.what() << '\n'; }
+        catch (...) { std::cerr << "[runtime] shutdown failed: unexpected non-standard exception\n"; }
+        if (item.error != first_failure) {
+            try { std::rethrow_exception(item.error); }
+            catch (const std::exception& error) { facts.secondary_errors.emplace_back(error.what()); }
+            catch (...) { facts.secondary_errors.emplace_back("Unknown shutdown failure"); }
+        }
+    }
+    if (!shutdown.Succeeded()) exit_code = 3;
+    if (first_failure) {
+        try { std::rethrow_exception(first_failure); }
+        catch (const std::exception& error) { facts.first_error = error.what(); }
+        catch (...) { facts.first_error = "Unknown primary failure"; }
+    }
+    if (auto* performance = application ? application->Observation() : nullptr) {
+        try {
+            facts.completed = performance->Completed();
+            performance->Seal(facts);
+            const auto result = performance->Export();
+            if (result.state != SymoCraft::Performance::ExportState::Saved) {
+                std::cerr << "[performance] export failed: " << result.stage << "; path=" << result.path.string()
+                          << "; native=" << result.native_error.value() << "; " << result.diagnostic << '\n';
+                exit_code = 3;
+            } else {
+                std::cout << "[performance] exported; valid_run=" << result.valid_run << '\n';
+                if (!result.valid_run && exit_code == 0) exit_code = 4;
+            }
+        } catch (const std::exception& error) {
+            std::cerr << "[performance] finalization failed: " << error.what() << '\n'; exit_code = 3;
+        } catch (...) {
+            std::cerr << "[performance] finalization failed: unexpected non-standard exception\n"; exit_code = 3;
+        }
+    }
+    } catch (const std::exception& error) {
+        std::cerr << "[runtime] final facts unavailable: " << error.what() << '\n'; exit_code = 3;
+    } catch (...) {
+        std::cerr << "[runtime] final facts unavailable: unexpected non-standard exception\n"; exit_code = 3;
+    }
+    application.reset();
     AmoBase::AmoMemory_MemoryLeaksDetected();
-    if (!options.world_summary)
-        std::cout << "[runtime] shutdown complete; exit_code=" << exit_code << std::endl;
+    if (!options.world_summary) std::cout << "[runtime] shutdown complete; exit_code=" << exit_code << std::endl;
     return exit_code;
 }

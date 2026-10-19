@@ -51,6 +51,7 @@ MeshData Quad() {
 }
 
 int main(int argc, char** argv) {
+    std::unique_ptr<Platform::Runtime> runtime;
     std::unique_ptr<Window> window;
     try {
         Require(argc == 4, "usage: probe mode shader-root new-output-directory");
@@ -61,8 +62,8 @@ int main(int argc, char** argv) {
         const auto output = std::filesystem::absolute(argv[3]);
         Require(!std::filesystem::exists(output), "output must be new");
         std::filesystem::create_directories(output);
-        Window::Init();
-        window.reset(Window::Create("Vulkan capability and WSI diagnostic",640,480,false,true,WindowMode::Vulkan));
+        runtime = std::make_unique<Platform::Runtime>();
+        window = Window::Create(*runtime,"Vulkan capability and WSI diagnostic",640,480,false,true,WindowMode::Vulkan);
         auto d = std::make_shared<VulkanDiagnosticAccess>();
         d->wait_timeout = std::chrono::milliseconds(3000);
         d->hide_maintenance_extension = mode == "missing-extension";
@@ -172,11 +173,11 @@ int main(int argc, char** argv) {
         report["native_retired"] = true; report["validation_warnings"] = d->warnings; report["validation_errors"] = d->errors;
         report["success"] = true;
         std::ofstream out(output/"report.json"); Json(out, report); out << '\n'; Require(out.good(),"cannot write report");
-        window->Destroy(); window.reset(); Window::Free();
+        window->Destroy(); window.reset(); runtime->Shutdown(); runtime.reset();
         return 0;
     } catch (const std::exception& error) {
         std::cerr << error.what() << '\n';
-        if (window) { window->Destroy(); window.reset(); Window::Free(); }
+        if (window) { window->Destroy(); window.reset(); }
         return 1;
     }
 }

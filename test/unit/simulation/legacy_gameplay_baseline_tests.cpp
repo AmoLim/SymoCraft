@@ -62,21 +62,21 @@ namespace {
         Require(character.is_jumping, "jump.zero_step.is_jumping");
         Require(!character.apply_jump_force, "jump.zero_step.pending_consumed");
 
-        Physics::Update(registry, *scene.fixture.world, 0.0f);
+        Physics::Update(registry, *scene.fixture.world, 0.0f, scene.fixture.budget);
         const auto zero_delta = scene.fixture.Capture(scene.player);
         Near(zero_delta.transform.position, start.transform.position, "jump.zero_delta.position");
         Near(zero_delta.body.velocity, {0.0f, 7.6f, 0.0f}, "jump.zero_delta.physics_velocity");
         Require(!zero_delta.body.on_ground && character.is_jumping && !character.apply_jump_force,
                 "jump.zero_delta.physics_discrete");
 
-        Physics::Update(registry, *scene.fixture.world, Step * 0.25f);
+        Physics::Update(registry, *scene.fixture.world, Step * 0.25f, scene.fixture.budget);
         const auto zero_step = scene.fixture.Capture(scene.player);
         Near(zero_step.transform.position, start.transform.position, "jump.zero_step.position");
         Near(zero_step.body.velocity, {0.0f, 7.6f, 0.0f}, "jump.zero_step.physics_velocity");
         Require(!zero_step.body.on_ground && character.is_jumping && !character.apply_jump_force,
                 "jump.zero_step.physics_discrete");
 
-        Physics::Update(registry, *scene.fixture.world, Step * 0.75f);
+        Physics::Update(registry, *scene.fixture.world, Step * 0.75f, scene.fixture.budget);
         const auto one_step = scene.fixture.Capture(scene.player);
         Near(one_step.transform.position, start.transform.position + glm::vec3(0.0f, 7.6f * Step, 0.0f),
              "jump.following_step.position");
@@ -104,7 +104,7 @@ namespace {
         Simulation::ApplyInput(registry, scene.player, scene.camera, input, state, 0.1f);
         TransformSystem::Update(registry);
         Character::Player::Update(registry);
-        Physics::Update(registry, *scene.fixture.world, 0.1f);
+        Physics::Update(registry, *scene.fixture.world, 0.1f, scene.fixture.budget);
 
         const auto result = scene.fixture.Capture(scene.player);
         Near(result.transform.position,
@@ -145,7 +145,7 @@ namespace {
         Simulation::PlayerInputState state;
         Simulation::ApplyInput(registry, scene.player, scene.camera, {}, state, 0.0f);
         Character::Player::Update(registry);
-        Physics::Update(registry, *scene.fixture.world, 0.0f);
+        Physics::Update(registry, *scene.fixture.world, 0.0f, scene.fixture.budget);
         Near(registry.GetComponent<Transform>(scene.player).pitch, 79.0f, "pointer.not_replayed_by_rules");
         Near(scene.camera.GetFov(), 35.0f, "pointer.scroll_not_replayed_by_rules");
     }
@@ -220,7 +220,7 @@ namespace {
         Simulation::PlayerInputState state;
         Simulation::ApplyInput(registry, scene.player, scene.camera, {}, state, Step);
         Character::Player::Update(registry);
-        Physics::Update(registry, *scene.fixture.world, Step);
+        Physics::Update(registry, *scene.fixture.world, Step, scene.fixture.budget);
         Near(scene.fixture.Capture(scene.player).transform.position, start.transform.position,
              "ordinary_edit.physics_before_interaction.position");
         Near(registry.GetComponent<Physics::RigidBody>(scene.player).velocity.y, -20.0f * Step,
@@ -330,7 +330,7 @@ namespace {
         const auto start = scene.fixture.Capture(scene.player);
         Simulation::ApplyInput(registry, scene.player, scene.camera, {}, state, Step);
         Character::Player::Update(registry);
-        Physics::Update(registry, *scene.fixture.world, Step);
+        Physics::Update(registry, *scene.fixture.world, Step, scene.fixture.budget);
         Require(body.on_ground, "ordinary_removal.physics_observes_support_before_commit");
         Near(body.velocity.y, 0.0f, "ordinary_removal.supported_velocity.y");
         Near(scene.fixture.Capture(scene.player).transform.position, start.transform.position,
@@ -353,12 +353,12 @@ namespace {
 
         Simulation::ApplyInput(registry, scene.player, scene.camera, {}, state, Step);
         Character::Player::Update(registry);
-        Physics::Update(registry, *scene.fixture.world, Step);
+        Physics::Update(registry, *scene.fixture.world, Step, scene.fixture.budget);
         Require(!body.on_ground, "ordinary_removal.following_step_support_lost");
         Near(body.velocity.y, -20.0f * Step, "ordinary_removal.following_step.velocity.y");
         Near(scene.fixture.Capture(scene.player).transform.position, start.transform.position,
              "ordinary_removal.following_step.position_before_gravity");
-        Physics::Update(registry, *scene.fixture.world, Step);
+        Physics::Update(registry, *scene.fixture.world, Step, scene.fixture.budget);
         Near(scene.fixture.Capture(scene.player).transform.position,
              start.transform.position + glm::vec3(0.0f, -20.0f * Step * Step, 0.0f),
              "ordinary_removal.next_step.position_falls");

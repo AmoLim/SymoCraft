@@ -3,6 +3,7 @@
 #include <SDL3/SDL_events.h>
 #include <array>
 #include <optional>
+#include <stdexcept>
 
 namespace SymoCraft::Platform::Detail {
     inline constexpr std::array<SDL_Scancode, static_cast<std::size_t>(Key::Count)> ControlScancodes{
@@ -25,8 +26,8 @@ namespace SymoCraft::Platform::Detail {
 
     class InputState {
     public:
-        explicit InputState(SDL_WindowID window_id, bool benchmark, bool initially_focused)
-            : window_id_(window_id), benchmark_(benchmark), focused_(initially_focused) {
+        explicit InputState(SDL_WindowID window_id, bool initially_focused)
+            : window_id_(window_id), focused_(initially_focused) {
             input_.pointer_events.reserve(64);
             pending_pointer_events_.reserve(64);
         }
@@ -37,12 +38,11 @@ namespace SymoCraft::Platform::Detail {
             switch (event.type) {
             case SDL_EVENT_WINDOW_CLOSE_REQUESTED: close_ = true; break;
             case SDL_EVENT_WINDOW_FOCUS_LOST: {
-                const bool escape_press = benchmark_ && !minimized_ &&
-                                          pressed_[static_cast<std::size_t>(Key::Escape)];
+                const auto queued = pressed_;
                 focused_ = false;
                 ResetInput();
                 pending_focus_loss_ = true;
-                if (escape_press) pressed_[static_cast<std::size_t>(Key::Escape)] = true;
+                pressed_ = queued;
                 break;
             }
             case SDL_EVENT_WINDOW_FOCUS_GAINED: focused_ = true; first_motion_ = true; break;
@@ -57,21 +57,21 @@ namespace SymoCraft::Platform::Detail {
             case SDL_EVENT_KEY_DOWN:
             case SDL_EVENT_KEY_UP: HandleKey(event.key); break;
             case SDL_EVENT_MOUSE_MOTION:
-                if (!benchmark_ && focused_ && !minimized_) {
+                if (focused_ && !minimized_) {
                     if (!first_motion_)
                         pending_pointer_events_.push_back({event.motion.xrel, -event.motion.yrel, 0});
                     first_motion_ = false;
                 }
                 break;
             case SDL_EVENT_MOUSE_WHEEL:
-                if (!benchmark_ && focused_ && !minimized_) {
+                if (focused_ && !minimized_) {
                     const double direction = event.wheel.direction == SDL_MOUSEWHEEL_FLIPPED ? -1.0 : 1.0;
                     pending_pointer_events_.push_back({0, 0, direction * event.wheel.y});
                 }
                 break;
             case SDL_EVENT_MOUSE_BUTTON_DOWN:
             case SDL_EVENT_MOUSE_BUTTON_UP:
-                if (!benchmark_ && focused_ && !minimized_) {
+                if (focused_ && !minimized_) {
                     const bool down = event.type == SDL_EVENT_MOUSE_BUTTON_DOWN;
                     if (event.button.button == SDL_BUTTON_LEFT) left_button_ = down;
                     else if (event.button.button == SDL_BUTTON_RIGHT) right_button_ = down;
@@ -90,54 +90,61 @@ namespace SymoCraft::Platform::Detail {
 
         void CaptureKeys() {
             for (std::size_t index = 0; index < down_.size(); ++index) {
-                input_.keys[index] = down_[index] || pressed_[index];
+                input_.held[index] = down_[index];
+                input_.pressed[index] = pressed_[index];
                 pressed_[index] = false;
             }
             input_.left_button = left_button_;
             input_.right_button = right_button_;
         }
 
+        void Exchange(InputFrame& destination) {
+            if (!destination.Empty()) throw std::logic_error("CaptureInput: destination must be cleared");
+            CaptureKeys();
+            destination.held = input_.held;
+            destination.pressed = input_.pressed;
+            destination.left_button = input_.left_button;
+            destination.right_button = input_.right_button;
+            destination.focus_lost = input_.focus_lost;
+            destination.pointer_events.swap(input_.pointer_events);
+            input_.Clear();
+        }
+
         void SynchronizeWindowState(SDL_WindowID window_id, bool focused, bool minimized) {
             if (window_id != window_id_ || (focused == focused_ && minimized == minimized_)) return;
             const bool focus_loss = pending_focus_loss_ || (focused_ && !focused);
-            const bool escape_press = benchmark_ && !minimized && pressed_[static_cast<std::size_t>(Key::Escape)];
+            const auto queued = pressed_;
             focused_ = focused;
             minimized_ = minimized;
             ClearHeldInput();
             ResetInput();
             pending_focus_loss_ = focus_loss;
-            // Focus changes must not discard an already queued benchmark exit event.
-            if (escape_press) pressed_[static_cast<std::size_t>(Key::Escape)] = true;
+            // Preserve window-local presses as facts; app chooses gameplay/cancellation policy.
+            if (!minimized) pressed_ = queued;
         }
 
         void SynchronizePhysicalState(const PhysicalInputState& physical) {
             if (physical.window_id != window_id_) return;
             if (physical.focused != focused_ || physical.minimized != minimized_ || !focused_ || minimized_) {
                 ClearHeldInput();
-                // Benchmark Escape events remain valid without sampling global unfocused keys.
-                if (!benchmark_) pressed_.fill(false);
                 return;
             }
             down_ = physical.keys;
-            if (benchmark_)
-                for (std::size_t index = 1; index < down_.size(); ++index) down_[index] = false;
-            left_button_ = !benchmark_ && physical.left_button;
-            right_button_ = !benchmark_ && physical.right_button;
+            left_button_ = physical.left_button;
+            right_button_ = physical.right_button;
         }
 
         void ResetInput() {
             // Match sticky-key reset: discard presses, but retain physically held controls.
             if (!focused_ || minimized_) ClearHeldInput();
             pressed_.fill(false);
-            input_.keys.fill(false);
-            input_.left_button = input_.right_button = input_.focus_lost = false;
-            input_.pointer_events.clear();
+            input_.Clear();
             pending_pointer_events_.clear();
             pending_focus_loss_ = false;
             first_motion_ = true;
         }
 
-        const InputSnapshot& Input() const { return input_; }
+        const InputFrame& Input() const { return input_; }
         bool ShouldClose() const { return close_; }
         void Close() { close_ = true; }
 
@@ -163,21 +170,21 @@ namespace SymoCraft::Platform::Detail {
 
         void HandleKey(const SDL_KeyboardEvent& event) {
             const auto key = ProjectKey(event.scancode);
-            if (!key || (benchmark_ && *key != Key::Escape)) return;
+            if (!key) return;
             const auto index = static_cast<std::size_t>(*key);
             if (event.type == SDL_EVENT_KEY_UP) down_[index] = false;
-            else if (!event.repeat && !minimized_ && (focused_ || benchmark_)) {
+            else if (!event.repeat && !minimized_) {
                 if (!down_[index]) pressed_[index] = true;
                 down_[index] = true;
             }
         }
 
         SDL_WindowID window_id_{};
-        bool benchmark_{}, focused_{}, minimized_{}, close_{};
+        bool focused_{}, minimized_{}, close_{};
         bool first_motion_{true}, pending_focus_loss_{}, left_button_{}, right_button_{};
         std::array<bool, static_cast<std::size_t>(Key::Count)> down_{};
         std::array<bool, static_cast<std::size_t>(Key::Count)> pressed_{};
-        InputSnapshot input_;
-        std::vector<PointerEvent> pending_pointer_events_;
+        InputFrame input_;
+        std::vector<PointerEvent> pending_pointer_events_ = std::vector<PointerEvent>(0);
     };
 }

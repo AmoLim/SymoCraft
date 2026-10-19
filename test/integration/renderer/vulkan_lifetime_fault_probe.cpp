@@ -89,9 +89,10 @@ struct Gate {
     std::uint64_t Counter() { std::uint64_t value{}; Check(Proc<PFN_vkGetSemaphoreCounterValue>(d,"vkGetSemaphoreCounterValue")(d.device,event,&value)); return value; }
 };
 struct OwnedWindow {
+    Platform::Runtime runtime;
     std::unique_ptr<Window> window;
-    OwnedWindow() { Window::Init(); window.reset(Window::Create("Vulkan production lifetime/fault probe",640,480,false,true,WindowMode::Vulkan)); }
-    ~OwnedWindow() { try { window->Destroy(); window.reset(); Window::Free(); } catch(...) {} }
+    OwnedWindow() { window = Window::Create(runtime,"Vulkan production lifetime/fault probe",640,480,false,true,WindowMode::Vulkan); }
+    ~OwnedWindow() { try { window->Destroy(); window.reset(); runtime.Shutdown(); } catch(...) {} }
 };
 MeshData Quad(unsigned layer=0,unsigned copies=1) {
     MeshData data; const glm::ivec3 p[]{{-1,-1,0},{1,-1,0},{1,1,0},{-1,-1,0},{1,1,0},{-1,1,0}};
@@ -198,7 +199,7 @@ void Facade(const std::string& mode,const std::filesystem::path& output,Value& r
             ShowWindow(hwnd,SW_RESTORE); deadline=Clock::now()+std::chrono::seconds(2);
             do {owner.window->PollInt();owner.window->WaitEvents(.01);} while(owner.window->Minimized()&&Clock::now()<deadline);
             Require(!owner.window->Minimized(),"discard probe did not restore");
-            r.Resize({unsigned(owner.window->width),unsigned(owner.window->height)});
+            r.Resize({unsigned(owner.window->Width()),unsigned(owner.window->Height())});
             Require(capture("after-discard")==original,"discarded frame corrupted accepted resources");
             report["missing_reason"]="discarded"; report["missing_has_duration"]=false;
         } else if(mode=="async-device-error") {
@@ -302,7 +303,7 @@ void Game(const std::string& mode,Value& report) {
     std::vector<char*> argv; for(auto& a:args)argv.push_back(a.data());
     const auto code=Application::RunGame(int(argv.size()),argv.data()); report["game_exit_code"]=code;
     Require(code==(mode=="game-normal"?0:3),"production game error exit classification changed");
-    Application::Free(); report["repeat_application_free"]=true;
+    report["entry_cleanup_returned"]=true;
     if(gate) {
         Require(d->quarantined&&gate->Status()==VK_NOT_READY&&gate->Counter()==0,"game texture timeout was not actually pending/retained");
         gate->Close(); report["actual_in_flight"]=true; report["owned_work_completed_after_failure"]=true;

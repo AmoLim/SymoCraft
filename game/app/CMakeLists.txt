@@ -2,7 +2,7 @@ add_library(symocraft_startup STATIC src/startup_options.cpp)
 target_compile_features(symocraft_startup PUBLIC cxx_std_20)
 target_compile_options(symocraft_startup PRIVATE /W4 /utf-8)
 
-add_library(symocraft_app_render_data STATIC src/world_render_cache.cpp src/render_conversion.cpp)
+add_library(symocraft_app_render_data STATIC src/world_render_cache.cpp src/render_conversion.cpp src/benchmark_scenario.cpp)
 target_link_libraries(symocraft_app_render_data PUBLIC symocraft_renderer_api symocraft_world
     symocraft_assets symocraft_simulation)
 target_compile_options(symocraft_app_render_data PRIVATE /W4 /utf-8)
@@ -12,23 +12,22 @@ if(NOT SYMOCRAFT_BUILD_GAME)
     return()
 endif()
 
-add_library(symocraft_app_runtime STATIC src/application.cpp src/game_renderer.cpp src/game_entry.cpp)
-target_link_libraries(symocraft_app_runtime PUBLIC symocraft_startup symocraft_foundation symocraft_scene
+add_library(symocraft_application STATIC src/application.cpp src/game_renderer.cpp src/game_entry.cpp)
+add_library(symocraft_app_runtime ALIAS symocraft_application)
+target_compile_features(symocraft_application PRIVATE cxx_std_20)
+target_compile_options(symocraft_application PRIVATE /W4 /utf-8)
+target_link_libraries(symocraft_application PRIVATE symocraft_startup symocraft_foundation symocraft_scene
     symocraft_assets symocraft_ecs symocraft_world symocraft_simulation symocraft_platform
     symocraft_renderer symocraft_app_render_data symocraft_telemetry)
-target_compile_features(symocraft_app_runtime PUBLIC cxx_std_20)
-target_compile_options(symocraft_app_runtime PRIVATE /W4 /utf-8)
-
 add_executable(SymoCraft src/main.cpp)
-target_link_libraries(SymoCraft PRIVATE symocraft_startup symocraft_foundation symocraft_scene
-    symocraft_assets symocraft_ecs symocraft_world symocraft_simulation symocraft_platform
-    symocraft_renderer symocraft_app_render_data symocraft_telemetry symocraft_app_runtime)
+target_link_libraries(SymoCraft PRIVATE symocraft_application symocraft_startup symocraft_foundation
+    symocraft_renderer symocraft_telemetry symocraft_assets)
 if(TARGET symocraft_renderer_legacy_opengl)
-    target_link_libraries(symocraft_app_runtime PRIVATE symocraft_renderer_legacy_opengl)
-    target_compile_definitions(symocraft_app_runtime PRIVATE SYMOCRAFT_APP_OPENGL=1)
+    target_link_libraries(symocraft_application PRIVATE symocraft_renderer_legacy_opengl)
+    target_compile_definitions(symocraft_application PRIVATE SYMOCRAFT_APP_OPENGL=1)
 endif()
 if(TARGET symocraft_renderer_d3d12)
-    target_compile_definitions(symocraft_app_runtime PRIVATE SYMOCRAFT_APP_D3D12=1)
+    target_compile_definitions(symocraft_application PRIVATE SYMOCRAFT_APP_D3D12=1)
     # Candidate provenance has stricter scope than ordinary preset builds.
     cmake_path(IS_PREFIX SYMOCRAFT_REPOSITORY_ROOT "${PROJECT_BINARY_DIR}" NORMALIZE in_repository)
     file(RELATIVE_PATH candidate_build_relative "${SYMOCRAFT_REPOSITORY_ROOT}" "${PROJECT_BINARY_DIR}")
@@ -75,7 +74,7 @@ if(TARGET symocraft_renderer_d3d12)
     endif()
 endif()
 if(TARGET symocraft_renderer_vulkan)
-    target_compile_definitions(symocraft_app_runtime PRIVATE SYMOCRAFT_APP_VULKAN=1)
+    target_compile_definitions(symocraft_application PRIVATE SYMOCRAFT_APP_VULKAN=1)
 endif()
 target_compile_features(SymoCraft PRIVATE cxx_std_20)
 target_compile_options(SymoCraft PRIVATE /W4 /utf-8)

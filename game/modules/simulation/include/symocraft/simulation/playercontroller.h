@@ -6,6 +6,7 @@
 #include <array>
 #include <optional>
 
+namespace SymoCraft { struct RaycastStaticResult; }
 namespace SymoCraft::PlayerController {
     inline constexpr std::array<uint16, 8> kBlockInventor = {2, 3, 4, 5, 6, 7, 10, 11};
     struct InteractionInput {
@@ -20,5 +21,7 @@ namespace SymoCraft::PlayerController {
     // Returns values, never edits the world. App commits the request in the same frame.
     InteractionResult DoRayCast(ECS::Registry& registry, const World::VoxelWorld& world, ECS::EntityId player,
                                 const InteractionInput& input, float& placement_debounce);
+    InteractionResult EvaluateHit(ECS::Registry& registry, const World::VoxelWorld& world, ECS::EntityId player,
+                                 const RaycastStaticResult& hit, const InteractionInput& input, float& placement_debounce);
     void DisplayCurrentBlockName(int selected_block);
 }

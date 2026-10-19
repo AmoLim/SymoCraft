@@ -7,7 +7,7 @@ tags:
 
 目标公开行为仅由 [ecs](specs/ecs/spec.md) 与 [module-boundaries delta](specs/module-boundaries/spec.md)维护，范围见 [proposal](proposal.md)，现状见[当前 ECS](../../../architecture/ecs.md)。这里解释目标机制，不把模板头、版本号或规划完成视为已经实现。
 
-F 当前代码仍是 `Registry::Storage` 加字节组件池、进程类型 counter 和 iterator；T4 在另一个候选中补齐了局部注册/分配安全及真实 Session/physics 适配。已只读核对 T4 验证页所指 E 候选的 `session.cpp`、`physics_adapter.cpp`、`player.cpp`、app 装配及根测试：Session 借专属 Registry，物理取值求解后提交，app 仍注册类型、查玩家、读初态及覆盖场景姿态。源码身份由 [T4 verification](../m3-t4-application-simulation/verification.md#2026-10-15-完整生产迁移)定位，不能把该候选当成本目录已合入的代码。
+F 当前代码仍是 `Registry::Storage` 加字节组件池、进程类型 counter 和 iterator；T4 在另一个候选中补齐了局部注册/分配安全及真实 Session/physics 适配。已只读核对 T4 验证页所指 E 候选的 `session.cpp`、`physics_adapter.cpp`、`player.cpp`、app 装配及根测试：Session 借专属 Registry，物理取值求解后提交，app 仍注册类型、查玩家、读初态及覆盖场景姿态。源码身份由 [T4 verification](../archive/2026-10-19-m3-t4-application-simulation/verification.md#2026-10-15-完整生产迁移)定位，不能把该候选当成本目录已合入的代码。
 
 ## Technical Approach
 
@@ -66,7 +66,7 @@ registry.EachOrdered<Transform, const Velocity>(
 
 ### 消费者与退役组织
 
-迁移基线按[T4 交接](../m3-t4-application-simulation/design.md#消费者交接)和执行时确认的生产源码核对。当前发现的具体适配如下，不复制成另一份任务清单：
+迁移基线按[T4 交接](../archive/2026-10-19-m3-t4-application-simulation/design.md#消费者交接)和执行时确认的生产源码核对。当前发现的具体适配如下，不复制成另一份任务清单：
 
 | 消费者 | 必要迁移及不得改变的边界 |
 | --- | --- |
@@ -86,7 +86,7 @@ registry.EachOrdered<Transform, const Velocity>(
 
 真实分配故障用隔离测试可执行程序控制实际 standard new/aligned new 等所需路径，关闭故障后再做可能分配的断言/诊断；旧 AmoMemory probe 不再证明新池失败。第一版覆盖代表性的注册、创建、增长、构造、有序暂存/Clear 准备路径，不要求一开始扫描每个分配序号。普通 MSVC Debug 的 iterator proxy 在 noexcept 路径可能终止，须在实际配置核实，不能用关闭全库 iterator debug 的专用结果冒充默认 Debug 可恢复。生产库布局、EnTT 配置不为测试改成另一份；原始 bad_alloc、资源计数、未发布及失败后再次正常操作都需证据。
 
-第二层复用 T4 同一生产 CPU 双装配对照及小值核心/World 测试，不以旧坏 ECS 作基准；按[T4 D12](../m3-t4-application-simulation/specs/simulation/spec.md#requirement-same-production-cpu-comparison)逐 Advance/World 提交核对，逻辑角色对应、不比原 ID。第三层按受影响范围验证真实构建/SDK隔离/后端组合/部署/玩法及退出；不把每个历史矩阵机械全部重跑，也不以代码或一个 API 代双现代。
+第二层复用 T4 同一生产 CPU 双装配对照及小值核心/World 测试，不以旧坏 ECS 作基准；按[T4 D12](../archive/2026-10-19-m3-t4-application-simulation/specs/simulation/spec.md#requirement-same-production-cpu-comparison)逐 Advance/World 提交核对，逻辑角色对应、不比原 ID。第三层按受影响范围验证真实构建/SDK隔离/后端组合/部署/玩法及退出；不把每个历史矩阵机械全部重跑，也不以代码或一个 API 代双现代。
 
 成本核对限代表性的注册/创建/增删、普通/有序遍历、增长与清理，记录源码/配置、场景规模、时间/分配/峰值或缺失项。旧实现仅可作为已知正确子集的定性或局部成本对照，不能为性能保留永久双实现。未设 T5 数值预算，不倒定通过线、不自动沿用 T2/T3 GPU 或内存预算，不新增长采样/多机任务。人工项目/总时长与新增正式性能执行范围在执行前确认。
 

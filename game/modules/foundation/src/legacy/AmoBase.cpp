@@ -1,4 +1,10 @@
 #include "AmoBase.h"
+#include "../allocation_diagnostics/allocation_probe.h"
+#include <algorithm>
+#include <limits>
+#include <memory>
+#include <new>
+#include <stdexcept>
 #include <vector>
 #include <mutex>
 #include <stdio.h>
@@ -43,6 +49,43 @@ static const std::array<uint8_t, 8> special_memory_flags = { (uint8_t)'A', (uint
                                                              (uint8_t)'G', (uint8_t)'S' };
 static uint16_t buffer_unit = 5;    // bytes of the buffer filler
 
+namespace {
+    thread_local AmoBase::Detail::AllocationFailureProbe allocation_probe = nullptr;
+    thread_local void* allocation_probe_context = nullptr;
+    bool FailAllocation(AmoBase::Detail::AllocationStage stage) noexcept {
+        return allocation_probe && allocation_probe(stage, allocation_probe_context);
+    }
+    bool AllocationSize(std::size_t payload, std::size_t& total) noexcept {
+        const auto padding = track_memory_allocations ? std::size_t(buffer_unit) * 2 : 0;
+        if (payload == 0 || payload > (std::numeric_limits<std::size_t>::max)() - padding)
+            return false;
+        total = payload + padding;
+        return true;
+    }
+}
+
+void AmoBase::Detail::SetAllocationFailureProbe(AllocationFailureProbe probe, void* context) noexcept {
+    allocation_probe = probe;
+    allocation_probe_context = context;
+}
+
+AmoBase::Detail::AllocationSnapshot AmoBase::Detail::CaptureAllocations() {
+    std::lock_guard<std::mutex> lock(memory_mtx);
+    AllocationSnapshot snapshot;
+    for (const auto& allocation : allocations) {
+        if (allocation.references <= 0) continue;
+        ++snapshot.active_blocks;
+        snapshot.payload_bytes += allocation.memory_size - std::size_t(buffer_unit) * 2;
+        const auto* bytes = static_cast<const uint8_t*>(allocation.memory);
+        for (std::size_t i = 0; i < buffer_unit; ++i) {
+            const auto flag = special_memory_flags[i % special_memory_flags.size()];
+            if (bytes[i] != flag || bytes[allocation.memory_size - buffer_unit + i] != flag)
+                snapshot.sentinels_intact = false;
+        }
+    }
+    return snapshot;
+}
+
 void AmoBase::AmoMemory_Init(bool detect_memory_leaks, uint16_t in_buffer_unit)
 {
     track_memory_allocations = detect_memory_leaks;
@@ -51,161 +94,73 @@ void AmoBase::AmoMemory_Init(bool detect_memory_leaks, uint16_t in_buffer_unit)
 
 void* AmoBase::_AmoMemory_Allocate(const char *filename, int line, size_t num_bytes)
 {
-    if (track_memory_allocations)
-    {
-        // Memory tracking mode
-        // add sentinel values to the beginning and end of the block of memory
-        // to ensure it doesn't have any errors on free
-        num_bytes += (buffer_unit * 2) * sizeof(uint8_t);
+    std::size_t total;
+    if (!AllocationSize(num_bytes, total) || FailAllocation(Detail::AllocationStage::Allocate))
+        return nullptr;
+    // Own the raw block until bookkeeping succeeds, including a throwing vector growth.
+    std::unique_ptr<void, decltype(&std::free)> memory(std::malloc(total), &std::free);
+    if (!memory || !track_memory_allocations) return memory.release();
 
-        // allocate 10 extra bytes, 5 before the block and 5 after.
-        // use these to detect Buffer overruns or under-runs
-        void* memory = std::malloc(num_bytes);
-        if (memory)
-        {
-            // cursor of memory
-            uint8_t* memory_bytes = (uint8_t*)memory;
-            for (int i = 0; i < buffer_unit; i++)
-                memory_bytes[i] = special_memory_flags[i % special_memory_flags.size()];
-            // add sentinel values to the front
-
-            memory_bytes = ((uint8_t*)memory) + num_bytes - buffer_unit;
-            for (int i = 0; i < buffer_unit; i++)
-                memory_bytes[i] = special_memory_flags[i % special_memory_flags.size()];
-            // add sentinel values to the back
-        }
-
-        std::lock_guard<std::mutex> lock(memory_mtx);   // lock memory mutex for multiple thread mode
-        // in debug build, track all memory allocations to see
-        // if we free them all as well
-
-        // find the exact allocation in allocation-vector
-        auto iterator = std::find(allocations.begin(), allocations.end(),
-                                  DebugMemoryAllocation{ filename, line, 0, num_bytes, memory});
-
-
-        if (iterator == allocations.end())
-        {
-            // if not found, create a new allocation at the end of allocation-vector
-            allocations.emplace_back( DebugMemoryAllocation{ filename, line, 1, num_bytes, memory });
-        }
-        else
-        {
-            if (iterator->references <= 0)
-            {
-                // the memory is not in use, allocate it
-                iterator->references++;         // set memory status to be in use
-                iterator->file_allocator = filename;
-                iterator->file_allocator_line = line;
-                iterator->memory_size = num_bytes;
-                iterator->memory = memory;
-            }
-            else
-            {
-                // memory is in use, throw error info
-                AmoLogger_Error("Tried to allocate memory that has already been allocated..."
-                                "This should never be hit. If it is, we have a problem.");
-            }
-        }
-
-        return (void*)((uint8_t*)memory + buffer_unit);
+    std::lock_guard<std::mutex> lock(memory_mtx);
+    auto* bytes = static_cast<uint8_t*>(memory.get());
+    for (std::size_t i = 0; i < buffer_unit; ++i) {
+        bytes[i] = special_memory_flags[i % special_memory_flags.size()];
+        bytes[total - buffer_unit + i] = special_memory_flags[i % special_memory_flags.size()];
     }
-
-    // if not in tracking memory mode, just return malloc
-    return std::malloc(num_bytes);
+    if (FailAllocation(Detail::AllocationStage::TrackingRecord)) return nullptr;
+    auto iterator = std::find(allocations.begin(), allocations.end(),
+        DebugMemoryAllocation{filename, line, 0, total, memory.get()});
+    const DebugMemoryAllocation record{filename, line, 1, total, memory.get()};
+    if (iterator == allocations.end()) {
+        try { allocations.emplace_back(record); }
+        catch (const std::bad_alloc&) { return nullptr; }
+        catch (const std::length_error&) { return nullptr; }
+    } else {
+        *iterator = record;
+    }
+    return static_cast<uint8_t*>(memory.release()) + buffer_unit;
 }
 
 void* AmoBase::_AmoMemory_ReAlloc(const char *filename, int line, void *old_memory, size_t num_bytes)
 {
-    if (track_memory_allocations)
-    {
-        // Memory tracking mode
-        // add sentinel values to the beginning and end of the block of memory
-        // to ensure it doesn't have any errors on free
-        old_memory = (void*)((uint8_t*)old_memory - buffer_unit);
-
-        // find the old memory allocation
-        auto old_memory_iter = std::find(allocations.begin(), allocations.end(),
-                                         DebugMemoryAllocation{ filename, line, 0, num_bytes, old_memory});
-
-        if (old_memory_iter == allocations.end())
-        {
-            AmoLogger_Error("Tried to reallocate a block of memory "
-                            "that was not allocated by this library.");
-            return nullptr;
-        }
-
-        // copy the sentinel values at the end to sentinel_copy
-        void* sentinel_copy = std::malloc(sizeof(uint8_t) * buffer_unit);
-        std::memcpy( sentinel_copy
-                     , (void*)((uint8_t*)old_memory + old_memory_iter->memory_size - buffer_unit)
-                     , sizeof(uint8_t) * buffer_unit);
-
-        num_bytes += buffer_unit * 2 * sizeof(uint8_t);
-        void* new_memory = std::realloc( old_memory, num_bytes);    // reallocate the allocation's memory
-        if (new_memory)
-        {
-            // copy the old sentinel values that were at the end
-            // to the end of the new memory block
-            old_memory_iter->memory_size = num_bytes;
-            std::memcpy((uint8_t*)new_memory + num_bytes - buffer_unit
-                        , sentinel_copy
-                        , buffer_unit * sizeof(uint8_t));
-
-            std::free(sentinel_copy);
-        }
-
-        std::lock_guard<std::mutex> lock(memory_mtx);   // lock memory mutex for multiple thread mode
-        // In debug mode, track all memory allocations to see if we free them as well
-        auto new_memory_iter = std::find( allocations.begin(), allocations.end(),
-                                          DebugMemoryAllocation{ filename, line, 0, num_bytes, new_memory});
-        if (new_memory_iter != old_memory_iter)
-        {
-            // reallocate could not expand the current pointer, so it
-            // should allocate a new memory block
-            if ( old_memory_iter == allocations.end())
-            {
-                // old memory can not be found, invalid memory reallocate
-                AmoLogger_Error("Tried to reallocate invalid memory in"
-                                "'%s' line: %d.", filename, line);
-            }
-            else
-            {
-                old_memory_iter->references--;
-                // reset the status of old memory to be not in use
-            }
-
-            if (new_memory_iter == allocations.end())
-            {
-                allocations.emplace_back(DebugMemoryAllocation{ filename, line, 1, num_bytes, new_memory});
-                // emplace an allocation at the end of the allocations-vector for new_memory
-            }
-            else
-            {
-                if (new_memory_iter->references <= 0)
-                {
-                    new_memory_iter->references++;      // set memory status to be in use
-                    new_memory_iter->file_allocator = filename;
-                    new_memory_iter->file_allocator_line = line;
-                    new_memory_iter->memory_size = num_bytes;
-                    new_memory_iter->memory = new_memory;
-                }
-                else
-                {
-                    // memory is in use, throw error info
-                    AmoLogger_Error("Tried to allocate memory that has already been allocated..."
-                                    "This should never be hit. If it is, we have a problem.");
-                }
-            }
-        }
-        // If reallocate expanded the memory in-place,
-        // then we don't need to do anything
-        // because no "new" memory locations were allocated
-        return (void*)((uint8_t*)new_memory + buffer_unit);
-
+    std::size_t total;
+    if (!AllocationSize(num_bytes, total)) return nullptr;
+    if (!old_memory) return _AmoMemory_Allocate(filename, line, num_bytes);
+    if (!track_memory_allocations) {
+        if (FailAllocation(Detail::AllocationStage::Reallocate)) return nullptr;
+        return std::realloc(old_memory, total);
     }
-    // if not in tracking mode, return ReAlloc
-    return std::realloc(old_memory, num_bytes);
+
+    std::lock_guard<std::mutex> lock(memory_mtx);
+    auto* raw = static_cast<uint8_t*>(old_memory) - buffer_unit;
+    auto old = std::find(allocations.begin(), allocations.end(),
+        DebugMemoryAllocation{filename, line, 0, 0, raw});
+    if (old == allocations.end() || old->references <= 0) {
+        AmoLogger_Error("Tried to reallocate memory that is not an active library allocation.");
+        return nullptr;
+    }
+
+    // Preserve even a corrupted tail sentinel; never erase evidence during growth/shrink.
+    std::unique_ptr<void, decltype(&std::free)> tail(nullptr, &std::free);
+    if (buffer_unit != 0) {
+        if (FailAllocation(Detail::AllocationStage::SentinelCopy)) return nullptr;
+        tail.reset(std::malloc(buffer_unit));
+        if (!tail) return nullptr;
+        std::memcpy(tail.get(), raw + old->memory_size - buffer_unit, buffer_unit);
+    }
+    if (FailAllocation(Detail::AllocationStage::Reallocate)) return nullptr;
+    void* memory = std::realloc(raw, total);
+    if (!memory) return nullptr;
+    if (buffer_unit != 0)
+        std::memcpy(static_cast<uint8_t*>(memory) + total - buffer_unit, tail.get(), buffer_unit);
+
+    // Reuse existing records: nothing may allocate or throw after realloc moves the block.
+    auto target = std::find(allocations.begin(), allocations.end(),
+        DebugMemoryAllocation{filename, line, 0, 0, memory});
+    if (target == allocations.end()) target = old;
+    else if (target != old) old->references = 0;
+    *target = DebugMemoryAllocation{filename, line, 1, total, memory};
+    return static_cast<uint8_t*>(memory) + buffer_unit;
 }
 
 void AmoBase::_AmoMemory_Free(const char *filename, int line, void *memory)

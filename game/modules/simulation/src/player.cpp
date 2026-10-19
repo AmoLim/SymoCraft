@@ -3,10 +3,18 @@
 #include <symocraft/simulation/component.h>
 #include <symocraft/simulation/camera.h>
 #include <symocraft/simulation/playercontroller.h>
+#include <symocraft/simulation/session.h>
+#include <algorithm>
 
 namespace SymoCraft::Simulation{
 
     ECS::EntityId CreatePlayer(ECS::Registry& registry, Camera& camera)
+    {
+        const auto& transform = registry.GetComponent<Transform>(camera.entity_id);
+        return CreatePlayer(registry, transform.position - glm::vec3(0.0f, 0.65f, 0.0f), transform.yaw, transform.pitch);
+    }
+
+    ECS::EntityId CreatePlayer(ECS::Registry& registry, glm::vec3 position, float yaw, float pitch)
     {
         const auto player = registry.CreateEntity();
         registry.AddComponent<Transform>(player);
@@ -26,12 +34,9 @@ namespace SymoCraft::Simulation{
         auto& transform = registry.GetComponent<Transform>(player);
         transform = {};
         transform.scale = glm::vec3(1.0f);
-        auto& camera_transform = registry.GetComponent<Transform>(camera.entity_id);
-        transform.position.x = camera_transform.position.x;
-        transform.position.y = camera_transform.position.y - 0.65f;
-        transform.position.z = camera_transform.position.z;
-        transform.yaw = camera_transform.yaw;
-        transform.pitch = camera_transform.pitch;
+        transform.position = position;
+        transform.yaw = yaw;
+        transform.pitch = pitch;
 
         //  character component init
         auto &controller = registry.GetComponent<Character::CharacterComponent>(player);
@@ -59,10 +64,18 @@ namespace SymoCraft::Simulation{
     void ApplyPointerInput(ECS::Registry& registry, ECS::EntityId player, Camera& camera,
                            double mouse_dx, double mouse_dy, double scroll_y)
     {
+        LensState lens;
+        ApplyPointerInput(registry, player, lens, mouse_dx, mouse_dy, 0);
+        camera.Scroll(scroll_y);
+    }
+
+    void ApplyPointerInput(ECS::Registry& registry, ECS::EntityId player, LensState& lens,
+                           double mouse_dx, double mouse_dy, double scroll_y)
+    {
         auto& transform = registry.GetComponent<Transform>(player);
         transform.pitch = glm::clamp(transform.pitch + static_cast<float>(mouse_dy) * 0.05f, -89.0f, 89.0f);
         transform.yaw += static_cast<float>(mouse_dx) * 0.05f;
-        camera.Scroll(scroll_y);
+        lens.fov = std::clamp(lens.fov - static_cast<float>(scroll_y), 1.0f, 45.0f);
     }
 
     void ApplyInput(ECS::Registry& registry, ECS::EntityId player, Camera& camera,
@@ -70,6 +83,12 @@ namespace SymoCraft::Simulation{
     {
         if (input.mouse_dx != 0 || input.mouse_dy != 0 || input.scroll_y != 0)
             ApplyPointerInput(registry, player, camera, input.mouse_dx, input.mouse_dy, input.scroll_y);
+        ApplyControlInput(registry, player, input, state, delta);
+    }
+
+    void ApplyControlInput(ECS::Registry& registry, ECS::EntityId player,
+                           const PlayerIntent& input, PlayerInputState& state, float delta)
+    {
         auto& character = registry.GetComponent<Character::CharacterComponent>(player);
         auto& body = registry.GetComponent<Physics::RigidBody>(player);
         character.is_running = input.run;

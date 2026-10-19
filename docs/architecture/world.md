@@ -8,7 +8,7 @@ tags:
 ## 边界与权威
 
 `symocraft_world` 拥有固定有限世界、定义、确定性生成、受控编辑及 CPU 网格；不持有 Registry、Window、GPU、telemetry 会话或 app 配置。公开值/坐标/编辑/版本/发布及 D01–D09 已选理由以 [world spec](../openspec/specs/world/spec.md) 为唯一权威，本文只解释实现正确性所依赖的机制。
-公开 foundation/scene，YAML/noise 私有；[CMake](../../game/modules/world/CMakeLists.txt)、[world.h](../../game/modules/world/include/symocraft/world/world.h)、[私有 owner](../../game/modules/world/src/world_internal.h) 是核对入口。现代缓存/上传属于 app/[renderer](renderer.md)，独立 Session/physics 的 [T4 目标](../openspec/changes/m3-t4-application-simulation/proposal.md) 尚未实现，不改变本模块当前寿命。
+公开 foundation/scene，YAML/noise 私有；[CMake](../../game/modules/world/CMakeLists.txt)、[world.h](../../game/modules/world/include/symocraft/world/world.h)、[私有 owner](../../game/modules/world/src/world_internal.h) 是核对入口。现代缓存/上传属于 app/[renderer](renderer.md)，独立 Session/physics 的 [T4 目标](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/proposal.md) 尚未实现，不改变本模块当前寿命。
 
 ## 实例、定义与存储
 

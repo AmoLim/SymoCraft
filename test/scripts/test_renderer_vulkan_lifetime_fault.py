@@ -69,9 +69,13 @@ class NativeEvidenceTests(unittest.TestCase):
         with self.assertRaises(ValueError): probe.validate("lifetime", {**r, "events": r["events"][:2]}, errors("lifetime"), "")
 
     def test_game_must_retain_loader_after_real_window_cleanup(self):
-        r = report("game-submit"); r.update(game_exit_code=3, repeat_application_free=True, platform_reinitialized=True,
+        r = report("game-submit"); r.update(game_exit_code=3, entry_cleanup_returned=True, platform_reinitialized=True,
             actual_loader_mapped_after_window_free=True)
         probe.validate("game-submit", r, errors("game-submit")+" shutdown failed", "")
+        typed = errors("game-submit") + "\n[renderer] Vulkan Shutdown: terminal retention; category=Timeout; native=; diagnostic="
+        probe.validate("game-submit", r, typed, "")
+        with self.assertRaises(ValueError): probe.validate("game-submit", r, typed.replace("category=Timeout", "category=InvalidInput"), "")
+        with self.assertRaises(ValueError): probe.validate("game-submit", r, typed.replace("Vulkan Shutdown:", "Vulkan Resize:"), "")
         with self.assertRaises(ValueError): probe.validate("game-submit", r, errors("game-submit"), "")
         with self.assertRaises(ValueError): probe.validate("game-submit", {**r, "game_exit_code": 0}, errors("game-submit"), "")
 
