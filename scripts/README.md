@@ -6,7 +6,7 @@ are installed automatically.
 
 | Entry Point | Scope |
 | --- | --- |
-| `build.py` | MSVC 2022 x64 configure/build/test/install; Windows only |
+| `build.py` | VS 2026 / MSVC x64 configure/build/test/install; Windows only |
 | `benchmark.py` | static/walk/edit collection, sensor logs, strict validity and statistics |
 | `verify-runtime.py` | bounded game run, exit code, markers and frame count |
 | `verify-runtime-faults.py` | invalid OpenGL assets in copied packages only |
@@ -30,7 +30,7 @@ PowerShell array syntax, when invoking Python directly.
 
 ## Build Setup And Actions
 
-Use a complete Visual Studio 2022 C++ installation, Windows SDK, CMake 3.22+
+Use a complete Visual Studio 2026 C++ installation, Windows SDK, CMake 3.22+
 and Ninja. MSVC needs its English compiler language pack: the Ninja dependency
 checks require `1033/clui.dll`, `VSLANG=1033` and the English include prefix.
 After changing compiler/generator or repairing language detection, use a new
@@ -39,8 +39,19 @@ build directory rather than trusting an old dependency database.
 In CLion, select an x64 Visual Studio toolchain named `Symocraft MSVC`, with
 CMake and Ninja available, and enable `windows-debug` / `windows-release`.
 CLion import is not evidence that CTest ran. The helper can instead locate
-VS2022, load the x64 environment and use CLion's bundled CMake/Ninja without
+VS2026, load the x64 environment and use CLion's bundled CMake/Ninja without
 opening the IDE; override local paths through its options or `CLION_HOME`.
+
+The build and native-verification helpers default to the stable VS 2026
+installation, MSVC tools `14.51.36231` and Windows SDK `10.0.22621.0`.
+They verify the selected toolset/SDK rather than silently falling back to VS2022.
+An explicit installation and toolset can still select the retained old compiler.
+Use a fresh `--build-directory out/build/msvc51-debug` (or `msvc51-release`)
+when switching; `build.py` refuses a cache with a different compiler without
+changing or deleting it. In CLion, select the VS2026 installation for the named
+toolchain and initialize the same toolset/SDK; create fresh CMake profiles/caches.
+The scripts do not change shared IDE settings. Existing builds and results remain
+bound to their original compiler. SDK/DXC and third-party upgrades are separate.
 
 | `build.py` Option | Meaning |
 | --- | --- |
@@ -52,6 +63,7 @@ opening the IDE; override local paths through its options or `CLION_HOME`.
 | `--build-directory PATH` | Repository-relative or absolute build directory; never deletes an old tree |
 | `--jobs N` | Build parallelism, 1..64; default 8 |
 | `--visual-studio-path`, `--toolset-version` | Select already installed VS/tools; no download |
+| `--sdk-version` | Select an installed Windows SDK; default `10.0.22621.0` |
 | `--clion-path` or `--cmake-path` / `--ninja-path` | Select existing tools without storing machine paths in the repo |
 
 The helper has no arbitrary CMake-option passthrough. Configure CPU-only or

@@ -6,6 +6,7 @@
 #include <iosfwd>
 #include <memory>
 #include <optional>
+#include "shutdown_report.h"
 
 namespace SymoCraft {
 class Camera;
@@ -14,6 +15,7 @@ enum class WindowMode : std::uint8_t;
 struct StartupOptions;
 namespace World { class VoxelWorld; }
 namespace Performance { class Session; struct Memory; }
+namespace Simulation { struct PlayerView; }
 
 namespace Application::Detail {
 struct MeshUpload {
@@ -39,6 +41,7 @@ public:
     GameRenderer& operator=(const GameRenderer&) = delete;
 
     bool Modern() const noexcept;
+    bool CanCollectGpu() const noexcept;
     std::uint16_t LoadAtlas(const std::filesystem::path& path);
     MeshUpload AtlasUpload() const noexcept;
     MeshUpload Synchronize(const World::VoxelWorld& world);
@@ -47,13 +50,13 @@ public:
     void DescribeSession(Performance::Session& session) const;
     void SampleDeviceMemory(Performance::Memory& memory) const;
     void PollGpu(Performance::Session& session, std::optional<std::uint64_t> excluded_frame = {});
-    GameFrame Render(std::uint64_t frame_id, const Camera& camera,
+    GameFrame Render(std::uint64_t frame_id, const Simulation::PlayerView& camera,
                      std::optional<glm::vec3> selection, Performance::Session* session = nullptr,
                      bool screenshot = false);
-    void Capture(std::uint64_t frame_id, const Camera& camera,
+    void Capture(std::uint64_t frame_id, const Simulation::PlayerView& camera,
                  std::optional<glm::vec3> selection, const std::filesystem::path& path,
                  Performance::Session& session);
-    void Shutdown();
+    ShutdownReport Shutdown();
 
 private:
     struct Impl;

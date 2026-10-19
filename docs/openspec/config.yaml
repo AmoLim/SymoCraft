@@ -4,7 +4,8 @@ context: |
   Symocraft is a Windows x64 C++20 voxel game using MSVC, CMake/Ninja and SDL3.
   Default game renderer is D3D12; legacy OpenGL 4.6 is an explicit transition path.
   Vulkan and overall T3 were approved on 2026-10-17 for the local RTX 5070 Ti scope; the accepted T3 code is now synchronized to local feature-refactoring. D3D12 remains default, Vulkan is opt-in, and OpenGL is retained. This does not merge the independent T4 worktree.
-  An independent physics target and a compute service are not implemented in this worktree.
+  A compute service is not implemented. The T4 worktree connects the internal CPU physics target through SimulationSession; docs synchronization does not merge production code into this checkout.
+  On 2026-10-17, accepted upstream T3 commit 604c2b58 was source-integrated into the separate T4 worktree, retaining its instance lifecycle and sealed telemetry. F remains T3-only; this is not a Git merge or T4 acceptance. Current candidate identity and refreshed checks belong to T4 verification.md.
   Planning root is docs; the implementation root is its parent, not the CLI root.
   Rules are ../AGENTS.md and DOCUMENTATION_MAP.md (relative to planning root).
   Each proposing Agent independently executes ../AGENTS.md section Proposal 前的规格预读.
@@ -14,7 +15,10 @@ context: |
   Write Chinese content; retain structural English headers, SHALL/MUST and WHEN/THEN.
   Current specs are a bounded, code-reviewed baseline, not a claim of full repository or runtime validation.
   T2 approval does not close publication risks. Fix1 remains paused. R3 D3D12 was approved and default switch authorized on 2026-10-12. R4/Vulkan and overall T3 were approved on 2026-10-17 after the focused paired budget passed; historical failures and unrun boundary/regression, long-duration, clean-machine and lower-end coverage remain explicit risks, not passing tests.
-  T4 has local CPU baseline/core authorization, but only the baseline was delivered; full T4 production migration is not authorized.
+  T4 full production migration was explicitly authorized in this chat on 2026-10-15, following the earlier local CPU/ECS delivery. Combination checks belong to the implementer; new design conflicts or scope expansion require confirmation. This is not acceptance or T5 authorization.
+  On 2026-10-19, the user explicitly approved overall T4 completion for the local RTX 5070 Ti candidate, retaining the documented failures and coverage risks, and requested its change archive. This later decision supersedes pending-acceptance wording, not historical results; Fix1 remains paused, F production code is not merged, and T5/Git operations are not authorized. The user then explicitly selected spec sync followed by archive: the five T4 delta specs are synchronized and T4 is archived under 2026-10-19-m3-t4-application-simulation; T3 and Fix1 remain untouched as active changes.
+  On 2026-10-19, the user explicitly selected T3 main-spec sync and archive. Renderer now includes the completed T3 delta, and m3-t3-renderer is archived as 2026-10-19-m3-t3-renderer in this worktree; it is no longer active. This operation does not authorize Git writes, GL removal, new tests or changes to independent T4/T5 work.
+  Current source state after the later explicit 2026-10-19 user request: accepted T4 production sources and necessary build/test support are synchronized from E to the F feature-refactoring working tree. Earlier T3-only/docs-only sentences describe their historical points, not the current F source state. No Git commit/merge, T5 implementation, Fix1 resumption, new performance sampling or manual acceptance was performed. Old compiler caches and frozen archives remain unchanged.
   Migration is not implementation, Git write, real sync/archive or acceptance authorization.
   Each change keeps one verification.md; no attachments or raw data unless explicitly required. It archives with the change; existing frozen evidence stays untouched.
   verification/VERIFICATION.md contains only key-node approvals and navigation, not detailed results. Architecture owns current correctness mechanisms, not a duplicate spec.

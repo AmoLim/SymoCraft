@@ -179,22 +179,22 @@ int main(int argc, char** argv) {
     report["real_facade_state_and_backend"] = true;
     report["public_wrapper_or_gameplay_acceptance"] = false;
     report["success"] = false;
-    bool initialized = false;
+    std::unique_ptr<Platform::Runtime> runtime;
     int exit_code = 1;
     const auto started = Clock::now();
     try {
-        Window::Init(); initialized = true;
-        std::unique_ptr<Window> window(Window::Create("Symocraft controlled native fault", 640, 360, false, true, WindowMode::Native));
+        runtime = std::make_unique<Platform::Runtime>();
+        auto window = Window::Create(*runtime, "Symocraft controlled native fault", 640, 360, false, true, WindowMode::Native);
         Run(mode, *window, std::filesystem::path(argv[2]), report);
         window->Destroy(); window.reset();
-        Window::Free(); initialized = false;
+        runtime->Shutdown(); runtime.reset();
         report["success"] = true;
         exit_code = 0;
     } catch (const std::exception& error) {
         report["harness_error"] = error.what();
         std::cerr << error.what() << '\n';
     }
-    if (initialized) { try { Window::Free(); } catch (...) {} }
+    if (runtime) { try { runtime->Shutdown(); } catch (...) {} }
     report["elapsed_ms"] = std::chrono::duration<double, std::milli>(Clock::now() - started).count();
     std::ofstream stream(output, std::ios::binary);
     stream << Data::DumpYaml(report);

@@ -9,6 +9,7 @@
 #include "symocraft/foundation/diagnostics.h"
 #include <type_traits>
 #include <typeinfo>
+#include <utility>
 #include "internal.h"
 
 namespace SymoCraft
@@ -45,19 +46,16 @@ namespace SymoCraft
             {
             public:
 
-                void InitRaw(std::size_t size, EntityIndex entity_index, int type)
-                {
-                    component_type = type;
-                    component_size = size;
-                    num_pools = 1;
-                    pools = (SparseSetPool*)AmoMemory_Allocate(sizeof(SparseSetPool));
-                    pools[0].Init();
-                    pools[0].start_entity_index = GetPoolAlignedIndex(entity_index);
-                    num_components = 0;
-                    max_num_components = kSpareSetPoolSize;
-                    data = (char*)AmoMemory_Allocate(component_size * max_num_components);
-                    entities = (EntityIndex*)AmoMemory_Allocate(sizeof(EntityIndex) * max_num_components);
+                ComponentContainer() = default;
+                ~ComponentContainer() { Free(); }
+                ComponentContainer(const ComponentContainer&) = delete;
+                ComponentContainer& operator=(const ComponentContainer&) = delete;
+                ComponentContainer(ComponentContainer&& other) noexcept { Swap(other); }
+                ComponentContainer& operator=(ComponentContainer&& other) noexcept {
+                    if (this != &other) { Free(); Swap(other); }
+                    return *this;
                 }
+                void InitRaw(std::size_t size, EntityIndex entity_index, int type);
 
                 template<typename T>
                 static ComponentContainer DefaultComponentContainer(EntityIndex entity_index)
@@ -74,17 +72,7 @@ namespace SymoCraft
                 {
                     AmoLogger_Assert(std::is_standard_layout<T>() && std::is_trivial<T>()
                     , "Component must be POD. Component %s is not POD.", typeid(T).name());
-                    component_size = sizeof(T);
-
-                    num_pools = 1;
-                    pools = (SparseSetPool*) AmoMemory_Allocate(num_pools * sizeof(SparseSetPool));
-                    pools[0].Init();
-                    pools[0].start_entity_index = GetPoolAlignedIndex(entity_index);
-
-                    num_components = 0;
-                    max_num_components = Internal::kSpareSetPoolSize;
-                    data = (char*) AmoMemory_Allocate(component_size * max_num_components);
-                    entities = (EntityIndex*) AmoMemory_Allocate(sizeof(EntityIndex) * max_num_components);
+                    InitRaw(sizeof(T), entity_index, component_type);
                 }
 
 
@@ -104,18 +92,7 @@ namespace SymoCraft
                 template<typename T>
                 inline T* Get(EntityIndex index) const
                 {
-                    SparseSetPool* pool = GetPool(index);
-                    if (!pool)
-                    {
-                        AmoLogger_Error("Invalid entity '%d' for component '%d'", index, component_type);
-                        return nullptr;
-                    }
-
-                    auto dense_array_component_index =
-                            (ComponentIndex)pool->component_index_in_data[index - pool->start_entity_index];
-                    AmoLogger_Assert((dense_array_component_index < num_components && dense_array_component_index >=0)
-                    , "Invalid dense array index");
-                    return (T*)(data + dense_array_component_index * component_size);
+                    return reinterpret_cast<T*>(Get(index));
                 }
 
                 // byte wise Get
@@ -130,8 +107,8 @@ namespace SymoCraft
 
                     auto dense_array_component_index =
                             (ComponentIndex)pool->component_index_in_data[index - pool->start_entity_index];
-                    AmoLogger_Assert((dense_array_component_index < num_components && dense_array_component_index >=0)
-                    , "Invalid dense array index");
+                    if (dense_array_component_index >= num_components)
+                        return nullptr;
                     return (uint8*)(data + dense_array_component_index * component_size);
                 }
 
@@ -140,54 +117,8 @@ namespace SymoCraft
                 template<typename T>
                 void Add(EntityId entity, const T& component)
                 {
-                    EntityIndex entity_index = GetEntityIndex(entity);
-                    SparseSetPool* pool = GetPool(entity_index);
-                    // no satisfying pool, add one
-                    if (!pool)
-                    {
-                        const int new_num_pools = num_pools + 1;
-                        // reallocate pools
-                        SparseSetPool* new_pools = (SparseSetPool*) AmoMemory_ReAlloc(pools
-                        , new_num_pools * sizeof(SparseSetPool));
-                        if (!new_pools)
-                        {
-                            AmoLogger_Error("Failed to allocate memory for new sparse set pool for component '%d'", component_type);
-                            return;
-                        }
-                        num_pools = new_num_pools;
-                        pools = new_pools;
-                        pools[num_pools - 1].Init();
-                        pools[num_pools - 1].start_entity_index = GetPoolAlignedIndex(entity_index);
-                        pool = &pools[num_pools - 1];
-                    }
-
-                    // allocate memory for data
-                    ComponentIndex next_component_index = num_components;
-                    if (next_component_index >= max_num_components)
-                    {
-                        int new_max_num_components = max_num_components * 2;
-                        char* new_component_memory = (char*) AmoMemory_ReAlloc(data
-                        , component_size * new_max_num_components);
-                        EntityIndex* new_entity_memory = (EntityIndex*) AmoMemory_ReAlloc(entities
-                        , sizeof(EntityIndex) * new_max_num_components);
-                        if (!new_component_memory || !new_entity_memory)
-                        {
-                            AmoMemory_Free(new_entity_memory);
-                            AmoMemory_Free(new_component_memory);
-                            AmoLogger_Error("Failed to allocate new memory for "
-                                            "component pool or entities for component '%d'"
-                            , component_type);
-                            return;
-                        }
-                        data = new_component_memory;
-                        entities = new_entity_memory;
-                        max_num_components = new_max_num_components;
-                    }
-
-                    pool->component_index_in_data[entity_index - pool->start_entity_index] = next_component_index;
-                    AmoBase::AmoMemory_CopyMem(data + next_component_index * component_size, (void*)&component, component_size);
-                    entities[next_component_index] = entity_index;
-                    num_components++;
+                    Add(entity);
+                    AmoBase::AmoMemory_CopyMem(Get(GetEntityIndex(entity)), (void*)&component, component_size);
                 }
 
                 // Add a null component to entity
@@ -232,16 +163,27 @@ namespace SymoCraft
                     return component_size;
                 }
             private:
-                int component_type;
-                uint32 max_num_components;
-                uint32 num_components;
-                int num_pools;
+                void Swap(ComponentContainer& other) noexcept {
+                    using std::swap;
+                    swap(component_type, other.component_type);
+                    swap(max_num_components, other.max_num_components);
+                    swap(num_components, other.num_components);
+                    swap(num_pools, other.num_pools);
+                    swap(pools, other.pools);
+                    swap(entities, other.entities);
+                    swap(data, other.data);
+                    swap(component_size, other.component_size);
+                }
+                int component_type = 0;
+                uint32 max_num_components = 0;
+                uint32 num_components = 0;
+                int num_pools = 0;
 
-                SparseSetPool* pools;
+                SparseSetPool* pools = nullptr;
                 // Numbers of entities is always equal to num_components for a sparse set
-                EntityIndex* entities;
-                char * data;
-                size_t component_size;
+                EntityIndex* entities = nullptr;
+                char* data = nullptr;
+                size_t component_size = 0;
             };
         }
 

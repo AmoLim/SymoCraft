@@ -3,7 +3,10 @@
 #include <cstdint>
 #include <filesystem>
 #include <optional>
+#include <memory>
 #include <string>
+#include <string_view>
+#include <system_error>
 #include <unordered_map>
 #include <vector>
 #include "symocraft/foundation/document.h"
@@ -53,6 +56,21 @@ namespace SymoCraft::Performance {
         double cpu_ms{};
         std::uint64_t bytes{}, calls{};
     };
+    struct FinalFacts {
+        bool runtime_succeeded = false, shutdown_succeeded = false, completed = false;
+        std::string first_error;
+        std::vector<std::string> secondary_errors;
+        bool operator==(const FinalFacts&) const = default;
+    };
+    enum class RecordState { Recording, Sealed };
+    enum class ExportState { NotAttempted, Failed, Saved };
+    struct ExportResult {
+        ExportState state = ExportState::NotAttempted;
+        bool valid_run = false;
+        std::filesystem::path path;
+        std::string stage, diagnostic;
+        std::error_code native_error;
+    };
 
     class Session {
     public:
@@ -61,7 +79,7 @@ namespace SymoCraft::Performance {
         Session& operator=(const Session&) = delete;
         std::size_t NextFrame() const { return frames_.size(); }
         void Add(Frame frame);
-        void Add(Memory memory) { memory_.push_back(memory); }
+        void Add(Memory memory);
         void SetGpu(std::size_t frame, double milliseconds);
         void SetGpuSample(std::uint64_t frame_id, std::optional<double> milliseconds,
                           const std::string& missing_reason = {});
@@ -69,13 +87,29 @@ namespace SymoCraft::Performance {
         void AddStartupUpload(UploadStatistics statistics);
         void Invalidate(const std::string& reason);
         const std::filesystem::path& Directory() const { return directory_; }
-        bool Export(bool normal_exit);
+        void SetMetadata(std::string_view key, Data::Value value);
+        void SetStartup(std::string_view key, Data::Value value);
+        const Data::Value& Metadata() const noexcept { return metadata; }
+        const Data::Value& Startup() const noexcept { return startup; }
+        Clock::time_point Entry() const noexcept { return entry; }
+        void Complete();
+        bool Completed() const noexcept { return completed; }
+        void Seal(const FinalFacts& facts);
+        RecordState State() const noexcept { return state_; }
+        ExportResult Export();
+        ExportResult LastExport() const { return export_; }
         void Status(const char* phase, double elapsed = 0);
+    private:
+        void RequireRecording(const char* operation) const;
+        void WriteStatus(const char* phase, double elapsed);
+        bool WriteExport();
         Data::Value metadata;
         Data::Value startup;
         bool completed = false;
         Clock::time_point entry;
-    private:
+        RecordState state_ = RecordState::Recording;
+        std::unique_ptr<FinalFacts> final_;
+        ExportResult export_;
         std::filesystem::path directory_;
         std::vector<Frame> frames_;
         std::unordered_map<std::uint64_t, std::size_t> renderer_frames_;

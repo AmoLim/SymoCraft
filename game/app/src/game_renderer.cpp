@@ -1,11 +1,11 @@
 #include "game_renderer.h"
-#include <symocraft/telemetry/document_io.h>
 #include "cleanup_sequence.h"
 #include "render_conversion.h"
 #include "startup_options.h"
 #include "world_render_cache.h"
 #include <symocraft/assets/asset_paths.h>
 #include <symocraft/assets/image.h>
+#include <symocraft/telemetry/document_io.h>
 #include <symocraft/platform/window.h>
 #include <symocraft/renderer/error.h>
 #ifdef SYMOCRAFT_APP_OPENGL
@@ -13,12 +13,15 @@
 #include <symocraft/renderer/legacy_renderer.h>
 #endif
 #include <symocraft/renderer/renderer.h>
-#include <symocraft/simulation/camera.h>
+#include <symocraft/simulation/session.h>
+#include <glm/ext/matrix_clip_space.hpp>
 #include <symocraft/telemetry/performance.h>
 #include <symocraft/world/world.h>
 #include <array>
 #include <algorithm>
 #include <iostream>
+#include <exception>
+#include <cstdio>
 #include <limits>
 #include <stdexcept>
 #include <string>
@@ -55,6 +58,11 @@ struct ModernMeshPort {
     MeshHandle CreateMesh(const MeshData& data) { return renderer->CreateMesh(data); }
     void UpdateMesh(MeshHandle handle, const MeshData& data) { renderer->UpdateMesh(handle, data); }
     void DestroyMesh(MeshHandle handle) { renderer->DestroyMesh(handle); }
+};
+struct StopOnFailure {
+    bool& allowed;
+    int exceptions = std::uncaught_exceptions();
+    ~StopOnFailure() { if (std::uncaught_exceptions() > exceptions) allowed = false; }
 };
 }
 
@@ -125,6 +133,8 @@ struct GameRenderer::Impl {
     bool legacy_started{};
 #endif
     bool stopped{};
+    bool poll_allowed = true;
+    ShutdownReport shutdown;
 
     explicit Impl(Window& value) : window(value) {}
 };
@@ -181,13 +191,16 @@ GameRenderer::GameRenderer(Window& window, const StartupOptions& options, bool c
 #endif
 }
 GameRenderer::~GameRenderer() noexcept {
+    if (impl_ && impl_->stopped) return;
     try { Shutdown(); }
-    catch (const std::exception& error) { std::cerr << "[renderer] adapter destructor: " << error.what() << '\n'; }
-    catch (...) { std::cerr << "[renderer] adapter destructor: unknown failure\n"; }
+    catch (const std::exception& error) { std::fprintf(stderr, "[renderer] adapter destructor: %s\n", error.what()); }
+    catch (...) { std::fprintf(stderr, "[renderer] adapter destructor: unknown failure\n"); }
 }
 bool GameRenderer::Modern() const noexcept { return impl_->modern != nullptr; }
+bool GameRenderer::CanCollectGpu() const noexcept { return impl_ && !impl_->stopped && impl_->poll_allowed; }
 std::uint16_t GameRenderer::LoadAtlas(const std::filesystem::path& path) {
     auto& state = *impl_;
+    StopOnFailure guard{state.poll_allowed};
 #ifdef SYMOCRAFT_APP_OPENGL
     if (!Modern()) return Renderer::LoadTextureAtlas(path);
 #endif
@@ -201,6 +214,7 @@ std::uint16_t GameRenderer::LoadAtlas(const std::filesystem::path& path) {
 MeshUpload GameRenderer::AtlasUpload() const noexcept { return impl_->atlas_upload; }
 MeshUpload GameRenderer::Synchronize(const World::VoxelWorld& world) {
     auto& state = *impl_;
+    StopOnFailure guard{state.poll_allowed};
     const auto start = Performance::Clock::now();
 #ifdef SYMOCRAFT_APP_OPENGL
     if (!Modern()) {
@@ -223,9 +237,10 @@ void GameRenderer::ReleaseWorld(std::uint64_t identity) {
 void GameRenderer::Resize() {
     if (!Modern()) return;
     auto& state = *impl_;
+    StopOnFailure guard{state.poll_allowed};
     const Rendering::Extent2D extent{
-        state.window.Minimized() ? 0u : static_cast<std::uint32_t>(std::max(state.window.width, 0)),
-        state.window.Minimized() ? 0u : static_cast<std::uint32_t>(std::max(state.window.height, 0))};
+        state.window.Minimized() ? 0u : static_cast<std::uint32_t>(std::max(state.window.Width(), 0)),
+        state.window.Minimized() ? 0u : static_cast<std::uint32_t>(std::max(state.window.Height(), 0))};
     if (state.extent_pending || extent.width != state.extent.width || extent.height != state.extent.height) {
         try { state.modern->Resize(extent); }
         catch (const Rendering::RenderError& error) {
@@ -240,16 +255,17 @@ void GameRenderer::Resize() {
     }
 }
 void GameRenderer::DescribeSession(Performance::Session& session) const {
+    StopOnFailure guard{impl_->poll_allowed};
 #ifdef SYMOCRAFT_APP_OPENGL
     if (!Modern()) {
         const auto& device = Renderer::Device();
-        session.metadata["gl_vendor"] = device.vendor;
-        session.metadata["gl_renderer"] = device.renderer;
-        session.metadata["gl_version"] = device.version;
-        session.metadata["msaa_samples"] = device.msaa_samples;
-        session.metadata["allocated_vbo_bytes"] = Renderer::AllocatedBufferBytes();
-        session.metadata["gpu_timer_supported"] = impl_->legacy_timer->Supported();
-        session.metadata["nvx_memory_supported"] = device.nvx_memory_supported;
+        session.SetMetadata("gl_vendor", device.vendor);
+        session.SetMetadata("gl_renderer", device.renderer);
+        session.SetMetadata("gl_version", device.version);
+        session.SetMetadata("msaa_samples", device.msaa_samples);
+        session.SetMetadata("allocated_vbo_bytes", Renderer::AllocatedBufferBytes());
+        session.SetMetadata("gpu_timer_supported", impl_->legacy_timer->Supported());
+        session.SetMetadata("nvx_memory_supported", device.nvx_memory_supported);
         return;
     }
 #endif
@@ -272,13 +288,13 @@ void GameRenderer::DescribeSession(Performance::Session& session) const {
     description.gpu_timestamps = info.capabilities.gpu_timestamps;
     description.gpu_time_scope = "native timestamps around mesh/selection draw, excluding clear, resolve, screenshot copy and Present";
     session.SetRendererInfo(description);
-    session.metadata["requested_msaa_samples"] = impl_->requested_samples;
-    session.metadata["shader_generation"] = Data::LoadYamlFile(Assets::Resolve(
-        info.backend == Rendering::Backend::Vulkan ? "shaders/vulkan/build.json" : "shaders/d3d12/build.json"));
-    session.metadata["renderer_resource_upload_scope"] = info.backend == Rendering::Backend::Vulkan
+    session.SetMetadata("requested_msaa_samples", impl_->requested_samples);
+    session.SetMetadata("shader_generation", Data::LoadYamlFile(Assets::Resolve(
+        info.backend == Rendering::Backend::Vulkan ? "shaders/vulkan/build.json" : "shaders/d3d12/build.json")));
+    session.SetMetadata("renderer_resource_upload_scope", info.backend == Rendering::Backend::Vulkan
         ? "successful cache Create/Update bytes, counted once; Render upload bytes include local constants and selection staging"
-        : "successful cache Create/Update bytes, counted once; Render upload bytes separately include selection staging";
-    session.metadata["renderer_cpu_prepare_scope"] = "facade plus backend preparation, including frame-slot waits; excludes World cache upload and simulation";
+        : "successful cache Create/Update bytes, counted once; Render upload bytes separately include selection staging");
+    session.SetMetadata("renderer_cpu_prepare_scope", "facade plus backend preparation, including frame-slot waits; excludes World cache upload and simulation");
 }
 void GameRenderer::SampleDeviceMemory(Performance::Memory& memory) const {
 #ifdef SYMOCRAFT_APP_OPENGL
@@ -292,6 +308,8 @@ void GameRenderer::SampleDeviceMemory(Performance::Memory& memory) const {
 #endif
 }
 void GameRenderer::PollGpu(Performance::Session& session, std::optional<std::uint64_t> excluded_frame) {
+    if (!CanCollectGpu()) throw std::logic_error("PollGpu: renderer no longer accepts sampling");
+    StopOnFailure guard{impl_->poll_allowed};
 #ifdef SYMOCRAFT_APP_OPENGL
     if (!Modern()) {
         for (const auto& sample : impl_->legacy_timer->Poll()) session.SetGpu(sample.frame, sample.milliseconds);
@@ -305,9 +323,10 @@ void GameRenderer::PollGpu(Performance::Session& session, std::optional<std::uin
         else session.SetGpuSample(sample.frame_id, std::nullopt, MissingName(sample.missing_reason));
     }
 }
-GameFrame GameRenderer::Render(std::uint64_t frame_id, const Camera& camera,
+GameFrame GameRenderer::Render(std::uint64_t frame_id, const Simulation::PlayerView& camera,
     std::optional<glm::vec3> selection, Performance::Session* session, bool screenshot) {
     auto& state = *impl_;
+    StopOnFailure guard{state.poll_allowed};
     GameFrame output;
     if (Modern()) {
         const auto resize_start = Performance::Clock::now();
@@ -335,11 +354,12 @@ GameFrame GameRenderer::Render(std::uint64_t frame_id, const Camera& camera,
     }
 #ifdef SYMOCRAFT_APP_OPENGL
     const auto start = Performance::Clock::now();
-    Renderer::SetViewport(state.window.width, state.window.height);
+    Renderer::SetViewport(state.window.Width(), state.window.Height());
     Renderer::SetSelection(selection);
     RenderStats stats;
     if (session) state.legacy_timer->BeginFrame(session->NextFrame());
-    Renderer::Render({camera.GetCameraProjMat(state.window.GetAspectRatio()), camera.GetCameraViewMat()},
+    Renderer::Render({glm::perspectiveRH_NO(glm::radians(camera.fov), state.window.GetAspectRatio(), camera.near_plane, camera.far_plane),
+                      glm::lookAtRH(camera.position, camera.position + camera.forward, camera.up)},
                      session ? &stats : nullptr, state.legacy_timer.get());
     if (state.legacy_timer) state.legacy_timer->EndFrame();
     output.render_cpu_ms = Performance::Milliseconds(start);
@@ -357,13 +377,14 @@ GameFrame GameRenderer::Render(std::uint64_t frame_id, const Camera& camera,
     throw std::logic_error("GameRenderer has no accepted modern backend");
 #endif
 }
-void GameRenderer::Capture(std::uint64_t frame_id, const Camera& camera,
+void GameRenderer::Capture(std::uint64_t frame_id, const Simulation::PlayerView& camera,
     std::optional<glm::vec3> selection, const std::filesystem::path& path, Performance::Session& session) {
 #ifdef SYMOCRAFT_APP_OPENGL
     if (!Modern()) {
         Renderer::SetSelection(selection);
-        Renderer::Render({camera.GetCameraProjMat(impl_->window.GetAspectRatio()), camera.GetCameraViewMat()});
-        Renderer::CaptureFramebuffer(impl_->window.width, impl_->window.height, path);
+        Renderer::Render({glm::perspectiveRH_NO(glm::radians(camera.fov), impl_->window.GetAspectRatio(), camera.near_plane, camera.far_plane),
+                          glm::lookAtRH(camera.position, camera.position + camera.forward, camera.up)});
+        Renderer::CaptureFramebuffer(impl_->window.Width(), impl_->window.Height(), path);
         return;
     }
 #endif
@@ -377,25 +398,41 @@ void GameRenderer::Capture(std::uint64_t frame_id, const Camera& camera,
     // Screenshot waits are outside measurement and also permit previous timestamps to become ready.
     PollGpu(session, frame_id);
 }
-void GameRenderer::Shutdown() {
-    if (!impl_ || impl_->stopped) return;
+ShutdownReport GameRenderer::Shutdown() {
+    if (!impl_) return {};
     auto& state = *impl_;
+    if (state.stopped) {
+        if (!state.shutdown.Succeeded()) throw ShutdownError(state.shutdown);
+        return state.shutdown;
+    }
     state.stopped = true;
-    CleanupSequence cleanup(std::cerr);
+    auto& report = state.shutdown;
     if (state.modern) {
-        cleanup.Run("world mesh cache", [&] { state.cache->ReleaseAll(); });
-        cleanup.Run("texture array", [&] { if (!state.atlas.IsNull()) state.modern->DestroyTextureArray(state.atlas); });
-        cleanup.Run("Renderer::Shutdown", [&] { state.modern->Shutdown(); });
+        if (state.poll_allowed) {
+            report.Attempt(ShutdownStep::MeshBindings, state.cache != nullptr, [&] { state.cache->ReleaseAll(); });
+            report.Attempt(ShutdownStep::Texture, !state.atlas.IsNull(), [&] { state.modern->DestroyTextureArray(state.atlas); });
+        } else {
+            if (state.cache) report.Unavailable(ShutdownStep::MeshBindings);
+            if (!state.atlas.IsNull()) report.Unavailable(ShutdownStep::Texture);
+        }
+        report.Attempt(ShutdownStep::Renderer, true, [&] { state.modern->Shutdown(); });
+        if (report.items[static_cast<std::size_t>(ShutdownStep::Renderer)].fact == ReleaseFact::Released) {
+            for (auto step : {ShutdownStep::MeshBindings, ShutdownStep::Texture}) {
+                auto& item = report.items[static_cast<std::size_t>(step)];
+                if (item.fact == ReleaseFact::Unavailable) item.fact = ReleaseFact::Released;
+            }
+        }
         state.draws.clear();
         state.cache.reset();
         state.modern.reset();
     }
 #ifdef SYMOCRAFT_APP_OPENGL
     else {
-        cleanup.Run("legacy GPU timer", [&] { state.legacy_timer.reset(); });
-        cleanup.RunOnce("Renderer::Free", state.legacy_started, [] { Renderer::Free(); });
+        state.legacy_timer.reset();
+        report.Attempt(ShutdownStep::Renderer, std::exchange(state.legacy_started, false), [] { Renderer::Free(); });
     }
 #endif
-    cleanup.RethrowFailure();
+    if (!report.Succeeded()) throw ShutdownError(report);
+    return report;
 }
 }

@@ -5,13 +5,13 @@ tags:
 
 # 工程级契约
 
-2026-10-17本地同步状态：feature-refactoring已取得T3代码，游戏生产owner为symocraft_app_runtime，支持按开关启用的真实D3D12/Vulkan与隔离GL；CPU-only关闭三图形后端。下述独立T4候选的symocraft_application/physics机制不包含在本次同步，不能以文档描述推定源码已组合。
+2026-10-19当前源码状态：F目录feature-refactoring已按用户明确授权取得验收后的T4生产代码及构建/测试配套，应用owner为symocraft_application，symocraft_app_runtime仅保留兼容别名；Session和内部physics为真实生产实现。默认D3D12、显式Vulkan与过渡GL保持，CPU-only关闭三图形后端。CLI构建使用VS2026/MSVC tools14.51.36231和SDK10.0.22621.0；旧VS2022缓存/结果保留，必须使用全新构建目录，不修改共享IDE设置。不是Git提交/合并、T5或正式physics模块搬迁授权；历史候选验证见[T4归档](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md)。
 
 本页维护当前构建、依赖隔离、测试及部署的正确性约束，不记录逐函数行为或历史测试成绩。操作入口见[根 README](../../README.md#构建与测试)与[开发脚本](../../scripts/README.md#build-setup-and-actions)；阶段结论、冻结材料与未验证项从[验证索引](../verification/VERIFICATION.md)进入。
 
 ## 工具链与配置生命周期
 
-- 支持 Windows x64、MSVC、C++20，CMake 最低 3.22。共享 Debug/Release presets 使用单配置 Ninja；架构环境由 x64 VS2022 开发环境或 IDE 提供，Ninja 不负责初始化 SDK、头文件和库环境。
+- 支持 Windows x64、MSVC、C++20，CMake 最低 3.22。共享 Debug/Release presets 使用单配置 Ninja；T4工具链切换后由x64 VS2026开发环境或IDE提供，构建/原生验证helper固定MSVC工具集14.51.36231及原Windows SDK 10.0.22621.0、核对实际选择并允许显式回退。Ninja不初始化SDK、头文件或库环境；脚本不修改共享IDE配置，实际候选结果见[T4验证](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md)。
 - Ninja 的 MSVC 头依赖解析要求编译器安装有 `1033/clui.dll`，配置与编译均使用 `VSLANG=1033`，检测前缀为 `Note: including file:`。三者由[环境检查](../../cmake/ValidateMsvcEnvironment.cmake)在配置期校验，不靠过滤日志或修改生成文件规避。
 - 编译器、生成器、语言依赖检测或配置模式改变时使用独立构建目录；旧缓存及对象不能直接充当新条件的验证基线。尤其补装语言包后，普通增量成功不能证明旧依赖数据库有效。
 - 仓库不固化本机工具绝对安装路径，不自动安装或下载工具。开发自动化使用 Python 3.10+ 标准库；Windows 构建助手需要 64 位 Python，以隔离的 VS 环境启动 CMake/Ninja/CTest，不修改调用者环境、系统 PATH 或 IDE。
@@ -35,6 +35,10 @@ tags:
 | simulation | foundation、scene、ecs、world |
 | renderer | foundation、scene、assets、platform |
 | app | 上述生产模块 |
+
+simulation内部真实STATIC `symocraft_physics`不增加正式第十模块，只依赖foundation/math，有独立simulation/physics/include和src；生产只允许simulation直接PRIVATE链接，不直接取得目录/发布私有头。传递闭包/唯一源owner/窄include/反向私有引用由边界检查约束，根测试链接正式库。T4 E候选已接通核心/Session，旧physics_system只留适配；BUILD_TESTING=OFF仍构建同一实现。2026-10-19后续源码同步已将该实现带入F主工作区，不产生Git历史合并。
+
+T4 E候选以真实STATIC symocraft_application唯一拥有Application/GameRenderer/RunGame，SymoCraft只编薄main；symocraft_app_runtime为兼容旧T3探针的target别名而非第二实现库。2026-10-17已整合上游T3提交604c2b58；native生命周期及原生故障探针链接同一生产库，测试显式取得各自所需中立公开依赖，不将整个app依赖改为PUBLIC或复制生产cpp。Session只读诊断仅授权根session_tests的diagnostics窄私有根，不PUBLIC传播或开放整个src；冷路径导出故障probe同样在正式库且单独窄测试授权，不替代真实文件发布。
 
 ### 稳定不变量
 
@@ -71,20 +75,18 @@ D3D12 STATIC 后端只由现代门面私有链接；其原生库、SDK 头与平
 
 app 的 `symocraft_startup` 与 `symocraft_app_render_data` 是 app 私有 CPU STATIC 库；后者承载 World 网格缓存、相机与图集转换，在 CPU-only 可测试，不把 Application 或窗口依赖引入 CPU 模块。资源寿命及运行错误契约见[Renderer](renderer.md)，不在此重复。
 
-游戏启用时另有 `symocraft_app_runtime`，唯一拥有game_entry/application/game_renderer生产实现，SymoCraft薄main与审核的隔离probe链接同一库；CPU-only不创建它。测试不得再次编译这些生产源，生产库不依赖测试源码或私有SDK测试控制；后端诊断绑定由probe在创建线程显式安装。
-
 ## 配置组合
 
 | 组合 | 当前工程契约 |
 | --- | --- |
 | 默认 | game、CPU 模块与独立 benchmark；现代 renderer CPU 门面、D3D12 与保留的旧 GL；游戏运行默认 D3D12 |
-| `SYMOCRAFT_CPU_ONLY=ON` | 局部强制 GAME/BENCHMARK/OPENGL/D3D12/VULKAN OFF、CPU_MODULES ON；图形 SDK 不参与发现、配置或链接 |
+| `SYMOCRAFT_CPU_ONLY=ON` | 局部强制 GAME/BENCHMARK/OPENGL/D3D12 OFF、CPU_MODULES ON；图形 SDK 不参与发现、配置或链接 |
 | GAME OFF、CPU_MODULES ON | 仍组织 CPU 模块和 app CPU 库，不创建 platform 或游戏；benchmark 由自己的开关决定 |
 | 根入口仅 benchmark | GAME 与 CPU_MODULES 显式 OFF、BENCHMARK ON；旧缓存中的 CPU_MODULES 不会因改 GAME 自动消失 |
 | `cmake -S tools/benchmark` | 工具独立配置，复用仓库内 YAML 与工具链检查；不创建游戏或检查游戏资源，不表示子目录可以脱离仓库构建 |
 | D3D12 ON | 要求 GAME ON；新配置默认取 GAME 状态，私有发现 SDK/DXC；候选身份记录仅在下述候选组合触发 |
 | OPENGL OFF、D3D12 ON | 现代独占游戏，省略选择默认 D3D12；显式 OpenGL 具名 Unsupported 退出、不回退 |
-| GAME ON、OPENGL/D3D12/VULKAN 均 OFF | 配置期具名失败；不建无实际后端的游戏 |
+| GAME ON、OPENGL/D3D12 均 OFF | 配置期具名失败；不建无实际后端的游戏 |
 | `BUILD_TESTING=OFF` | 不注册测试和 fixture；符合候选组合时仍保留 Python 构建身份记录，普通游戏构建不由该步骤强制要求 Python |
 
 `SYMOCRAFT_BUILD_CPU_MODULES` 与 `SYMOCRAFT_RENDER_D3D12` 的默认值在首次定义时取 GAME 状态，之后是独立缓存选项。标准Debug/Release游戏preset显式设置D3D12=ON，重新配置会更新旧OFF缓存；自定义GL-only或GAME OFF组合使用命令行显式OFF覆盖preset，不经preset的旧缓存仍需显式启用，根option不使用FORCE。CPU-only强制值仍是当前配置作用域的覆盖，不将用户缓存全部改写。未编入默认后端时省略运行选择会具名拒绝而不是偷偷回退。模式矩阵应以实际target/Ninja图和产物检查为依据，而非仅看开关文字。
@@ -93,7 +95,7 @@ CPU-only 仍进入 game 的 CPU 组织并加载资产清单及共享 staging，�
 
 ### Vulkan候选构建
 
-Vulkan工作目录候选由默认OFF的 `SYMOCRAFT_RENDER_VULKAN` 单独启用且要求GAME；CPU-only局部强制VULKAN OFF，GAME全关闭拒绝也覆盖三后端。启用才私有发现SDK头和独立 `SYMOCRAFT_VULKAN_DXC`，构建时检查SPIR-V能力，不复用无该能力的Windows SDK DXC；同一blocks/selection HLSL及常量include生成四个VS/PS SPIR-V并单独安装。固定Vulkan1.2 target、DX布局/列主矩阵和b/t/s绑定位移，Debug保留direction location、Release优化移除，私有顶点layout分别匹配。运行只动态解析SDL所用loader，安装包不需要DXC/开发头；干净机器证明与组合矩阵仍独立验收。真实target及flags见[Vulkan构建](../../cmake/RendererVulkan.cmake)，工作目录来源/结果见[T3验证](../openspec/changes/m3-t3-renderer/verification.md#2026-10-14-r4生产vulkan实现)，不改变D3D12默认、旧GL或其既有预算。
+本节同步E盘托管worktree机制供审核，F盘源码与现有构建表不由文档同步改写。Vulkan工作目录候选由默认OFF的 `SYMOCRAFT_RENDER_VULKAN` 单独启用且要求GAME；CPU-only局部强制VULKAN OFF，GAME全关闭拒绝也覆盖三后端。启用才私有发现SDK头和独立 `SYMOCRAFT_VULKAN_DXC`，构建时检查SPIR-V能力，不复用无该能力的Windows SDK DXC；同一blocks/selection HLSL及常量include生成四个VS/PS SPIR-V并单独安装。固定Vulkan1.2 target、DX布局/列主矩阵和b/t/s绑定位移，Debug保留direction location、Release优化移除，私有顶点layout分别匹配。运行只动态解析SDL所用loader，安装包不需要DXC/开发头；干净机器证明与组合矩阵仍独立验收。真实target及flags见[Vulkan构建](E:/Codex/Worktrees/refactor-renderer/Symocraft/cmake/RendererVulkan.cmake)，工作目录来源/结果见[T3验证](../openspec/changes/archive/2026-10-19-m3-t3-renderer/verification.md#2026-10-14-r4生产vulkan实现)，不改变D3D12默认、旧GL或其既有预算。
 
 ### D3D12 候选身份限制
 
@@ -118,7 +120,7 @@ Python 与 DXC 是构建/查验依赖，不是生产游戏或原生 benchmark �
 
 构建助手指定自定义目录时，CTest 只使用明确的 `--test-dir` 和配置，不混入 preset；默认目录才使用 test preset。测试执行位置和 `Testing/` 日志位置必须一致，不能仅凭日志时间戳或测试退出码认定证据对应本轮。
 
-T3的[后端配置矩阵](../../test/integration/renderer/verify-renderer-configurations.py)检查实际SDK缓存、构建/链接图、各后端资产及无GPU预检；[渲染增量检查](../../test/integration/renderer/CheckRendererIncrementalBuild.py)依据真实生产owner核对私有/公开头与同源shader重编范围，临时改mtime而保持内容并恢复时间戳。Vulkan配置期除DXC帮助外，还按实际SPIR-V目标/布局参数试编译小shader并核对模块头；帮助宣告不能替代可用CodeGen，未启用后端不执行此检查。配置成功、无窗口检查及构建隔离不证明GPU能力、缺loader运行或干净机器部署。
+T3的[后端配置矩阵](E:/Codex/Worktrees/refactor-renderer/Symocraft/test/integration/renderer/verify-renderer-configurations.py)检查实际SDK缓存、构建/链接图、各后端资产及无GPU预检；[渲染增量检查](E:/Codex/Worktrees/refactor-renderer/Symocraft/test/integration/renderer/CheckRendererIncrementalBuild.py)依据真实生产owner核对私有/公开头与同源shader重编范围，临时改mtime而保持内容并恢复时间戳。Vulkan配置期除DXC帮助外，还按实际SPIR-V目标/布局参数试编译小shader并核对模块头；帮助宣告不能替代可用CodeGen，未启用后端不执行此检查。配置成功、无窗口检查及构建隔离不证明GPU能力、缺loader运行或干净机器部署。
 
 依据：[根测试注册](../../test/CMakeLists.txt)、[公开头消费者](../../cmake/PublicHeaderTests.cmake)、[集成测试](../../test/integration/CMakeLists.txt)、[模式矩阵](../../test/integration/VerifyBuildMatrix.cmake)、[增量检查](../../test/integration/CheckIncrementalBuild.py)。本轮文档迁移没有执行这些构建或运行入口。
 

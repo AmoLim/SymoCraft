@@ -274,25 +274,24 @@ private:
 class NativeWindow {
 public:
     NativeWindow() {
-        Window::Init();
-        try { window_.reset(Window::Create("SymoCraft D3D12 backend verification", 640, 480, false, true, WindowMode::Native)); }
-        catch (...) { Window::Free(); throw; }
+        window_ = Window::Create(runtime_, "SymoCraft D3D12 backend verification", 640, 480, false, true, WindowMode::Native);
     }
     ~NativeWindow() noexcept {
         window_.reset();
-        try { Window::Free(); }
-        catch (const std::exception& error) { std::cerr << "Window::Free cleanup: " << error.what() << '\n'; }
+        try { runtime_.Shutdown(); }
+        catch (const std::exception& error) { std::cerr << "Runtime cleanup: " << error.what() << '\n'; }
     }
     Window& Get() const { return *window_; }
 private:
+    Platform::Runtime runtime_;
     std::unique_ptr<Window> window_;
 };
 
 Extent2D Drawable(Window& window) {
     window.PollInt();
     if (window.Minimized()) return {};
-    return {static_cast<std::uint32_t>(std::max(window.width, 0)),
-            static_cast<std::uint32_t>(std::max(window.height, 0))};
+    return {static_cast<std::uint32_t>(std::max(window.Width(), 0)),
+            static_cast<std::uint32_t>(std::max(window.Height(), 0))};
 }
 
 TextureArrayData Fixture(ColorSpace color_space = ColorSpace::Linear) {

@@ -1,4 +1,5 @@
 #include "render_conversion.h"
+#include <symocraft/simulation/session.h>
 
 #include <symocraft/assets/image.h>
 #include <symocraft/simulation/camera.h>
@@ -6,6 +7,17 @@
 #include <stdexcept>
 
 namespace SymoCraft::AppRendering {
+
+Rendering::CameraParameters ToRendererCamera(const Simulation::PlayerView& view) {
+    Rendering::CameraParameters result;
+    result.position = view.position;
+    result.forward = view.forward;
+    result.up = view.up;
+    result.vertical_fov_radians = glm::radians(view.fov);
+    result.near_plane = view.near_plane;
+    result.far_plane = view.far_plane;
+    return result;
+}
 
 Rendering::CameraParameters ToRendererCamera(const Camera& camera) {
     Rendering::CameraParameters result;

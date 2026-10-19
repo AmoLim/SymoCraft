@@ -55,11 +55,10 @@ namespace CpuBaseline {
             registry.RegisterComponent<Physics::HitBox>("HitBox");
             registry.RegisterComponent<Character::CharacterComponent>("Character");
             registry.RegisterComponent<Character::PlayerComponent>("Player");
-            // The legacy budget is process-global. Reset between cases, not between frames.
-            Physics::ResetTiming();
+            // Each fixture owns its budget; no production process-global timing remains.
         }
 
-        ~Fixture() { Physics::ResetTiming(); }
+        ~Fixture() = default;
 
         ECS::EntityId AddBody(const glm::vec3& position, const Physics::RigidBody& body,
                              const Physics::HitBox& shape = {glm::vec3(1.0f), glm::vec3(0.0f)})
@@ -95,5 +94,6 @@ namespace CpuBaseline {
 
         std::unique_ptr<World::VoxelWorld> world;
         ECS::Registry registry;
+        PlayerMath::FixedStepBudget budget;
     };
 }

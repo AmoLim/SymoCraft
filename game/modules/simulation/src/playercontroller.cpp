@@ -15,6 +15,13 @@ namespace SymoCraft::PlayerController {
         const auto& player_com = registry.GetComponent<Character::PlayerComponent>(player);
         const auto& transform = registry.GetComponent<Transform>(player);
         const auto hit = Physics::RayCastStatic(world, transform.position + player_com.camera_offset, transform.front, 3.0f);
+        return EvaluateHit(registry, world, player, hit, input, placement_debounce);
+    }
+
+    InteractionResult EvaluateHit(ECS::Registry& registry, const World::VoxelWorld& world, ECS::EntityId player,
+                                  const RaycastStaticResult& hit, const InteractionInput& input, float& placement_debounce)
+    {
+        const auto& transform = registry.GetComponent<Transform>(player);
         InteractionResult result;
         if (!hit.hit) return result;
         result.selection = hit.block_center;

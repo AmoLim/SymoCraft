@@ -54,10 +54,13 @@ def validate(mode, report, errors, log):
         require(report["last_actual_present_result"] == 0 and report["fault_kind"] == "injected DeviceLost after actual native Present",
                 "DeviceLost injection was not distinguished from actual Present")
     if mode.startswith("game-"):
-        require(report.get("game_exit_code") == (0 if mode == "game-normal" else 3) and report.get("repeat_application_free") is True and
+        require(report.get("game_exit_code") == (0 if mode == "game-normal" else 3) and report.get("entry_cleanup_returned") is True and
                 report.get("platform_reinitialized") is True, "Production game did not attempt/complete aggregate cleanup")
         if mode in RETAINED:
-            require(report.get("actual_loader_mapped_after_window_free") is True and "shutdown failed" in errors,
+            shutdown_reported = "shutdown failed" in errors or any(
+                line.startswith("[renderer] Vulkan Shutdown:") and "; category=Timeout;" in line
+                for line in errors.splitlines())
+            require(report.get("actual_loader_mapped_after_window_free") is True and shutdown_reported,
                     "Game cleanup falsely reported success or lost retained loader")
         if mode in {"game-normal", "game-device-lost"}:
             require("[runtime] ready; chunks=441;" in log and "backend=Vulkan; device=NVIDIA GeForce RTX 5070 Ti" in log,

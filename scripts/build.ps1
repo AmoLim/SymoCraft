@@ -3,7 +3,7 @@
 param(
     [string]$Configuration, [string]$Action, [string]$CLionPath,
     [string]$CMakePath, [string]$NinjaPath, [string]$VisualStudioPath,
-    [string]$BuildDirectory, [string]$ToolsetVersion, [int]$Jobs
+    [string]$BuildDirectory, [string]$ToolsetVersion, [string]$SDKVersion, [int]$Jobs
 )
 $ErrorActionPreference = 'Stop'
 $python = $null

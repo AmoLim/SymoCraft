@@ -5,7 +5,7 @@ tags:
 
 # 当前架构入口
 
-本入口按模块机制导航，不要求逐类/逐函数笔记。现行维护规则见 [文档治理](../DOCUMENTATION_MAP.md)，公开行为见 [现役规格](../openspec/specs/)，目标设计见 [T3](../openspec/changes/m3-t3-renderer/proposal.md) / [T4](../openspec/changes/m3-t4-application-simulation/proposal.md)，批准与证据见 [验证索引](../verification/VERIFICATION.md)。
+本入口按模块机制导航，不要求逐类/逐函数笔记。现行维护规则见 [文档治理](../DOCUMENTATION_MAP.md)，公开行为见 [现役规格](../openspec/specs/)，目标设计见 [T3](../openspec/changes/archive/2026-10-19-m3-t3-renderer/proposal.md) / 已完成的[T4归档](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/proposal.md)，批准与证据见 [验证索引](../verification/VERIFICATION.md)。
 
 ## 模块导航
 
@@ -16,9 +16,9 @@ tags:
 | 资源路径、图片与非事务 PNG 输出 | [assets.md](assets.md) |
 | 有限世界、生成、受控编辑与网格发布 | [world.md](world.md) |
 | 旧实体/组件存储、借用失效与已知风险 | [ecs.md](ecs.md) |
-| 现有角色/共享物理预算与射线交互 | [simulation.md](simulation.md) |
+| 独立Session预算、自有结果、World适配与物理核心 | [simulation.md](simulation.md) |
 | SDL 单窗口、输入事实与三种私有图形交接 | [platform.md](platform.md) |
-| 可变观测记录、GPU 关联与非事务导出 | [telemetry.md](telemetry.md) |
+| 受控观测、GPU关联、Seal与显式幂等导出 | [telemetry.md](telemetry.md) |
 | 私有组合根、帧策略与现代发布缓存 | [app.md](app.md) |
 | Renderer：现代门面、私有后端与旧 GL 过渡 | [renderer.md](renderer.md) |
 | Benchmark：进程控制、文件协议与采样边界 | [benchmark.md](benchmark.md) |
@@ -34,4 +34,4 @@ tags:
 - 原生窗口/图形桥接和后端类型留在受限实现侧，不穿透现代公开三头。
 - telemetry 的异步 GPU 样本携带来源帧身份；CPU 提交成本不能冒充 GPU 执行时间，现代输出不能假定由旧 Benchmark 协议正确消费。
 
-这些是源码核对的当前契约，不是本轮新运行成绩。独立 physics target、Vulkan renderer 与计算服务仍属于目标设计，不能由 spec 或目录推定已实现。
+这些事实不代替运行成绩。T3/R4已于2026-10-17获用户批准，F取得对应T3代码；独立T4 E工作目录已整合批准的604c2b58并接通独立physics/SimulationSession、实例应用及D3D12/Vulkan/GL组合。2026-10-19后续明确源码同步授权已将T4实现及构建/测试配套带入F主工作区，无Git提交/历史合并；实际计算服务及T5仍未实施。当前交付、人工反馈及整体节点状态分别从[T4 verification](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md)和[批准索引](../verification/VERIFICATION.md#关键节点)判读，不由机制文字推定验收。

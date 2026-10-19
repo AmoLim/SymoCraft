@@ -58,14 +58,14 @@ void SaveBufferObservations(const VulkanDiagnosticAccess& observed, const std::f
     Require(bool(allocations) && bool(calls), "cannot save native buffer observations");
 }
 struct OwnedWindow {
+    Platform::Runtime runtime;
     std::unique_ptr<Window> window;
     OwnedWindow() {
-        Window::Init();
-        window.reset(Window::Create("SymoCraft Vulkan frame bindings GPU verification", 640, 480, false, true, WindowMode::Vulkan));
+        window = Window::Create(runtime, "SymoCraft Vulkan frame bindings GPU verification", 640, 480, false, true, WindowMode::Vulkan);
     }
     ~OwnedWindow() {
         if (window) { window->Destroy(); window.reset(); }
-        Window::Free();
+        runtime.Shutdown();
     }
 };
 MeshData Quad(bool right) {

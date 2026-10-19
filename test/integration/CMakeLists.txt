@@ -57,7 +57,7 @@ if(TARGET symocraft_renderer_vulkan)
     set_target_properties(renderer_vulkan_frame_bindings_gpu_probe PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
     add_dependencies(renderer_vulkan_frame_bindings_gpu_probe SymoCraft)
     symocraft_test_executable(renderer_vulkan_frame_timing_probe renderer/vulkan_frame_timing_probe.cpp
-        symocraft_app_runtime)
+        symocraft_app_runtime symocraft_renderer symocraft_platform symocraft_telemetry)
     target_include_directories(renderer_vulkan_frame_timing_probe PRIVATE
         "${SYMOCRAFT_REPOSITORY_ROOT}/game/app/src"
         "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/renderer/src"
@@ -75,7 +75,7 @@ if(TARGET symocraft_renderer_vulkan)
     set_target_properties(renderer_vulkan_wsi_probe PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
     add_dependencies(renderer_vulkan_wsi_probe SymoCraft)
     symocraft_test_executable(renderer_vulkan_lifetime_fault_probe renderer/vulkan_lifetime_fault_probe.cpp
-        symocraft_app_runtime)
+        symocraft_app_runtime symocraft_renderer symocraft_platform symocraft_telemetry symocraft_assets)
     target_include_directories(renderer_vulkan_lifetime_fault_probe PRIVATE
         "${SYMOCRAFT_REPOSITORY_ROOT}/game/app/src"
         "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/renderer/src/backend/vulkan"
@@ -85,7 +85,7 @@ if(TARGET symocraft_renderer_vulkan)
     set_target_properties(renderer_vulkan_lifetime_fault_probe PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
     add_dependencies(renderer_vulkan_lifetime_fault_probe SymoCraft)
     symocraft_test_executable(renderer_draw_window_probe renderer/draw_window_probe.cpp
-        symocraft_app_runtime)
+        symocraft_app_runtime symocraft_startup symocraft_renderer symocraft_platform symocraft_telemetry symocraft_assets symocraft_simulation)
     target_include_directories(renderer_draw_window_probe PRIVATE
         "${SYMOCRAFT_REPOSITORY_ROOT}/game/app/src"
         "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/platform/src/graphics_bridge")
@@ -105,7 +105,7 @@ if(TARGET symocraft_renderer_d3d12)
     set_target_properties(renderer_d3d12_srv_cache_gpu_probe PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
     add_dependencies(renderer_d3d12_srv_cache_gpu_probe SymoCraft)
     symocraft_test_executable(renderer_d3d12_frame_timing_probe renderer/d3d12_frame_timing_probe.cpp
-        symocraft_app_runtime)
+        symocraft_app_runtime symocraft_renderer symocraft_platform symocraft_telemetry)
     target_include_directories(renderer_d3d12_frame_timing_probe PRIVATE
         "${SYMOCRAFT_REPOSITORY_ROOT}/game/app/src"
         "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/renderer/src"
@@ -121,7 +121,7 @@ if(TARGET symocraft_renderer_d3d12)
     set_target_properties(renderer_d3d12_lifetime_async_probe PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
     add_dependencies(renderer_d3d12_lifetime_async_probe SymoCraft)
     symocraft_test_executable(renderer_d3d12_game_fault_probe renderer/d3d12_game_fault_probe.cpp
-        symocraft_app_runtime)
+        symocraft_app_runtime symocraft_renderer symocraft_platform symocraft_telemetry)
     target_include_directories(renderer_d3d12_game_fault_probe PRIVATE
         "${SYMOCRAFT_REPOSITORY_ROOT}/game/app/src"
         "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/renderer/src/backend/d3d12")

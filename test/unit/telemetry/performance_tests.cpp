@@ -1,5 +1,6 @@
 #include "symocraft/telemetry/performance.h"
 #include "../../support/publication_diagnostics.h"
+#include "../../support/sealed_export.h"
 #include <yaml-cpp/yaml.h>
 #include <fstream>
 #include <iostream>
@@ -105,8 +106,8 @@ int main(int argc, char** argv)
         measured.frame_ms = 200; measured.edits = 1; measured.rebuilt_chunks = 2;
         session.Add(measured);
         session.SetGpu(1, 2.5);
-        session.completed = true;
-        SessionOperation(diagnostic, "export_normal", "telemetry_export", path, [&] { session.Export(true); },
+        session.Complete();
+        SessionOperation(diagnostic, "export_normal", "telemetry_export", path, [&] { SymoCraft::Test::ExportSealed(session, true); },
                          FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, "target");
         Require(YAML::Load(initial_status.Read())["phase"].as<std::string>() == "initializing", "Existing status reader lost its old snapshot");
         Require(YAML::LoadFile((path / "status.yaml").string())["phase"].as<std::string>() == "finished", "New status reader did not observe finished");
@@ -127,11 +128,14 @@ int main(int argc, char** argv)
             rejected = true;
         }
         Require(rejected, "Existing result directory was overwritten");
-        session.Invalidate("test-interference");
-        session.completed = false;
-        SessionOperation(diagnostic, "export_interrupted", "telemetry_export", path, [&] { session.Export(false); },
-                         FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, "target");
-        Require(!YAML::LoadFile((path / "summary.yaml").string())["valid_run"].as<bool>(), "Interrupted capture marked valid");
+        const auto interrupted_path = std::filesystem::path(path.string() + "-interrupted");
+        options.output_directory = interrupted_path.string();
+        Performance::Session interrupted(options, Performance::Clock::now());
+        interrupted.Add(measured);
+        interrupted.Invalidate("test-interference");
+        SessionOperation(diagnostic, "export_interrupted", "telemetry_export", interrupted_path,
+                         [&] { Test::ExportSealed(interrupted, false); });
+        Require(!YAML::LoadFile((interrupted_path / "summary.yaml").string())["valid_run"].as<bool>(), "Interrupted capture marked valid");
         std::ifstream csv(path / "frames.csv");
         std::string line; int lines = 0;
         while (std::getline(csv, line)) ++lines;
@@ -147,17 +151,21 @@ int main(int argc, char** argv)
             measured.focused = false; measured.frame_ms = 100;
             focus_session.Add(measured);
             measured.focused = true; focus_session.Add(measured);
-            focus_session.completed = true;
+            focus_session.Complete();
             const auto export_phase = std::string("export_") + policy;
             SessionOperation(diagnostic, export_phase.c_str(), "telemetry_export", focus_path, [&] {
-                Require(focus_session.Export(true) == (options.focus_policy == "allow-unfocused"), "Wrong focus validity policy");
+                Require(SymoCraft::Test::ExportSealed(focus_session, true) == (options.focus_policy == "allow-unfocused"), "Wrong focus validity policy");
             });
             const auto focus_report = YAML::LoadFile((std::filesystem::path(focus_path) / "summary.yaml").string());
             Require(focus_report["focus"]["transitions"].as<int>() == 1 && focus_report["focus"]["unfocused_frames"].as<int>() == 1, "Focus accounting failed");
-            focus_session.Invalidate("framebuffer-changed-or-minimized");
+            const auto minimized_path = focus_path + "-minimized";
+            options.output_directory = minimized_path;
+            Performance::Session minimized(options, Performance::Clock::now());
+            minimized.Add(measured); minimized.Complete();
+            minimized.Invalidate("framebuffer-changed-or-minimized");
             const auto invalid_phase = std::string("export_invalid_") + policy;
-            SessionOperation(diagnostic, invalid_phase.c_str(), "telemetry_export", focus_path, [&] {
-                Require(!focus_session.Export(true), "Allow-unfocused accepted minimized capture");
+            SessionOperation(diagnostic, invalid_phase.c_str(), "telemetry_export", minimized_path, [&] {
+                Require(!Test::ExportSealed(minimized, true), "Allow-unfocused accepted minimized capture");
             });
         }
 
@@ -166,11 +174,11 @@ int main(int argc, char** argv)
         diagnostic.Begin("init_blocked_fixture", "telemetry_initialize", blocked_path / "status.tmp", blocked_path / "status.yaml");
         Performance::Session blocked_session(options, Performance::Clock::now());
         diagnostic.Success();
-        blocked_session.Add(measured); blocked_session.completed = true;
+        blocked_session.Add(measured); blocked_session.Complete();
         {
             StatusReader blocking_status(blocked_path / "status.yaml", FILE_SHARE_READ | FILE_SHARE_WRITE);
             SessionOperation(diagnostic, "blocked_exporting", "telemetry_export", blocked_path,
-                             [&] { blocked_session.Export(true); }, FILE_SHARE_READ | FILE_SHARE_WRITE,
+                             [&] { SymoCraft::Test::ExportSealed(blocked_session, true); }, FILE_SHARE_READ | FILE_SHARE_WRITE,
                              "target", ERROR_SHARING_VIOLATION);
             Require(YAML::LoadFile((blocked_path / "status.tmp").string())["phase"].as<std::string>() == "exporting",
                     "Rejected export lost its failed status stage");
@@ -180,7 +188,7 @@ int main(int argc, char** argv)
                     "Rejected exporting status continued to write result files");
         }
         SessionOperation(diagnostic, "blocking_status_reader_closed", "telemetry_export", blocked_path,
-                         [&] { Require(blocked_session.Export(true), "Status did not recover after blocking reader closed"); });
+                         [&] { Require(SymoCraft::Test::ExportSealed(blocked_session, true), "Status did not recover after blocking reader closed"); });
         Require(YAML::LoadFile((blocked_path / "status.yaml").string())["phase"].as<std::string>() == "finished"
                 && !std::filesystem::exists(blocked_path / "status.tmp"), "Recovered export did not commit finished");
         std::cout << "Percentiles, warmup, slow frames, missing GPU values and partial exports passed.\n";

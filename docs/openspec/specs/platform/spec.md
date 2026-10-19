@@ -5,6 +5,8 @@ tags:
 
 # Platform
 
+> 2026-10-19：T4已验收并同步本页要求；Purpose保留原编写时点。交付范围与保留风险见[T4记录](../../changes/archive/2026-10-19-m3-t4-application-simulation/verification.md#2026-10-19-t4整体完成批准)。后续用户明确授权后，T4生产代码及必要构建、测试配套已同步F主工作区；不是Git提交/合并或T5实施授权。
+
 ## Purpose
 
 维护 SDL3 迁移后已经存在的单窗口/输入/三种私有图形交接能力，不发布 T4 实例化目标或生产 Vulkan renderer。依据[公共头](../../../../game/modules/platform/include/symocraft/platform/window.h)、[窗口实现](../../../../game/modules/platform/src/window.cpp)、[输入 reducer](../../../../game/modules/platform/src/input_state.h)、[应用循环](../../../../game/app/src/application.cpp)及 [T2 S4 历史交接](spec.md)。旧T2正文可由全局退役材料恢复导航读取；本轮无构建/硬件输入/GPU 成绩。
@@ -13,55 +15,69 @@ tags:
 
 ### Requirement: Platform lifecycle and graphics handoff
 
-platform SHALL 在 SDL 主线程串行管理当前静态 Init/Free 和单个活 Window；成功 Init 取得本模块一次 video 责任，重复 Init 不增持有次数，Free 在活窗口存在时拒绝并只释放本模块责任。Window SHALL 唯一拥有 PImpl/系统窗口，禁止复制且不提供移动；完整创建才发布，部分取得资源失败时清理。创建前 SHALL 选择 OpenGL（默认）/Native/Vulkan，不支持运行中变更或第二窗口。renderer/app SHALL 在 Destroy/Free 前结束全部窗口借用与图形资源。
+platform SHALL 在 SDL主线程串行以一个活动 Runtime及单个活 Window管理资源；Runtime只释放自身取得的 video初始化责任，不终止外部SDL owner，有活窗口时拒绝先结束。Window SHALL 明确唯一拥有 PImpl/系统窗口并借用Runtime，禁止复制/移动，完整创建才发布、部分失败清理；公开尺寸改为受控实际drawable值，不暴露原生资源。创建前 SHALL 选择 OpenGL（默认）/Native/Vulkan，不支持热变更或第二窗口。renderer/app SHALL 在 Window/Runtime关闭前结束全部窗口借用与图形资源。
+
+OpenGL SHALL 要求并核实实际4.6 Core/4x MSAA与Debug所需context，不静默降低条件，GL资源先于context/window释放。Native桥 SHALL 返回实际有效HWND借用、不取得销毁权。Vulkan桥 SHALL 使用SDL窗口关联loader、返回自有扩展字符串并辅助真实surface创建/销毁；调用方拥有instance/device/surface及配对allocator/在途责任，相关调用/对象先于instance/window/loader终结。桥成功不是完整现代renderer能力。
 
 #### Scenario: M3-T2-A07 A08 lifecycle and mode rejection
-
-- **WHEN** 未 Init、非主线程、第二窗口、非法模式或已销毁窗口被用于受检查操作
-- **THEN** SHALL 具名拒绝；部分创建失败回收已取得资源，重复 Destroy 为空操作，不把 noexcept 析构日志当正常清理通过
+- **WHEN** 未建立Runtime、非主线程、第二窗口、非法模式或已销毁窗口被用于受检查操作
+- **THEN** SHALL 具名拒绝，部分创建回收已取得资源，重复显式关闭按幂等事实处理；noexcept析构日志不当正常清理通过
 
 #### Scenario: M3-T2-A02 A08 borrowed graphics access
+- **WHEN** GL MakeCurrent/Present、HWND或Vulkan交接被消费
+- **THEN** GL核对模式/context/窗口，HWND不跨销毁保存；Vulkan按原loader来源与有效寿命使用，调用方保证instance/surface/allocator及在途责任
 
-- **WHEN** GL MakeCurrent/Present、HWND 或 Vulkan 交接被消费
-- **THEN** GL 核对正确模式/当前 context 与窗口；HWND 不跨 Destroy 保存；Vulkan 按原 loader 来源和有效寿命使用，调用方保证 instance/surface/allocator 配对和在途责任
-- **AND** OpenGL SHALL 要求并核实实际 4.6 Core/4x MSAA 与 Debug 所需 context，不静默降低条件；GL 资源先于 context/window 释放。Native 桥 SHALL 返回实际有效 HWND 借用，不取得销毁权。Vulkan 桥 SHALL 使用 SDL 窗口关联 loader、返回自有必要扩展字符串、辅助真实 surface 创建/销毁；instance/device/surface 由调用方拥有且在 instance/window/loader 终结前结束相关调用与对象。桥接成功不代表完整 Vulkan 或 D3D12 渲染能力。
+#### Scenario: M3-T4-A04 A05 controlled owners
+- **WHEN** 部分装配失败、显式重复关闭或关闭仍有活窗口的Runtime
+- **THEN** 已取得对象立即有owner，Renderer先Window、Window先Runtime；失败报告真实阶段，不把未取得/未知状态当已安全回收，不变更后端quarantine保证
 
 ### Requirement: Physical input snapshot and ordered pointer events
 
-11 个当前控制 SHALL 按物理 scancode 位置映射 W/A/S/D、Space、LeftShift/LeftControl/CapsLock、E/Q/Escape，不按文本/keycode 替代。非 repeat 短按 SHALL 锁存至一次 Capture，即同轮按放也不丢；held 下轮继续为真，消费锁存不能被玩法分支短路。鼠标按钮是 held 采样而非 sticky click。PointerEvent SHALL 保留事件次序，x 向右为正、y 向上为正（xrel/-yrel），滚轮保留浮点和翻转方向，不预先相加改变相机截断结果。
+11个控制 SHALL 按物理scancode位置映射现有键，不按文本替代；非repeat短按锁存至一次交接，同轮按放不丢、held按当前事实持续，锁存消费不被分支短路。鼠标按钮 SHALL 是held而非sticky。PointerEvent SHALL 保序且x右正/y上正、浮点滚轮方向原样，不能相加改变裁剪。
 
-`Input()` SHALL 明确是 Window 自有的可变快照引用，不是历史冻结副本；Poll/Wait 收敛/Capture/Reset/模式切换可改变状态，容器元素不得跨这些操作借用，延后消费 SHALL 显式复制项目值。输入扩容失败 SHALL 锁存并停止本帧有效发布，后续受检查入口重抛，不继续消费半轮数据。
+app SHALL 提供清空的自有InputFrame，平台在原Capture边界完成键盘事实采样后交换已发布事件容器并填事实，不保存调用方对象地址；pending事件独立，交换不清待发布事件。所有消费者结束后才清记录内容保容量；记录不借用Window，Reset/Destroy不改已交接对象，历史须另留独立记录，显式复用同对象后不再保持旧内容。输入扩容/采集失败 SHALL 锁存并停止有效发布、具名报告，不用半轮或空输入伪成功、不承诺零分配。Q02方案1不改变上述消费保证。
+
+#### Scenario: M3-T4-A06 keyboard fact queries
+- **WHEN** 平台向自有InputFrame交接当前键盘事实，或多个消费者查询同一记录
+- **THEN** SHALL 分开表达当前held与本窗口非repeat短按pressed；Down为只读held/pressed合并，重复查询不消费锁存，锁存只在既定交接边界消费一次；app集中选择普通/场景意图，不因字段拆分改变既有玩法Down触发或直接将平台记录交给simulation
 
 #### Scenario: M3-T2-A03 physical short tap
-
-- **WHEN** 一个受支持物理键在一次 Capture 前完成 down/up，或 held/repeat 持续
-- **THEN** 短按至少在下一次 Capture 见真并只消费一次；held 依实际状态保持，repeat 不另造短按
+- **WHEN** 受支持物理键在一次交接前down/up或held/repeat持续
+- **THEN** 短按下一交接见真且只消费一次，held依事实，repeat不造新短按
 
 #### Scenario: M3-T2-A03 A04 ordered pointer and reset
+- **WHEN** 连续运动/滚轮交替或Reset/Normal-Hidden-Lock切换
+- **THEN** 保序应用原符号/灵敏度/缩放，清旧锁存和运动建立首运动基线；获焦后采当前held，不承诺Raw Input校准
 
-- **WHEN** 连续运动/滚轮交替，或 Reset/Normal-Hidden-Lock 切换
-- **THEN** 保序应用现有符号/灵敏度和缩放策略；清旧锁存与运动、建立首运动基线，获焦窗口后续 Capture 可重新采仍实际按住的控制，不承诺新 Raw Input 校准
+#### Scenario: M3-T4-A06 owned handoff and pending events
+- **WHEN** 消费后清记录、Wait累积后下一正常发布，或平台Reset/窗口销毁且旧记录仍持有
+- **THEN** 全消费者完成后才复用，pending/Wait首事件不丢或双消费，旧自有记录不被改写；多物理子步不重复输入，事件与汇总不双用
 
 ### Requirement: Focus recovery and event delivery
 
-Poll SHALL 排空事件、收敛真实焦点/最小化事实并发布指针与一次性 focus-loss。Capture SHALL 同步 held/消费短按，不再排队或重复发布指针。Wait SHALL 将首个取出事件恰好交同一适配器一次并排空剩余，不替代下一 Poll/Capture；非法 timeout 拒绝。全局 quit/本窗口 close SHALL 形成关闭请求，不在事件处理器做 GPU/ECS 操作。
+Poll SHALL 排空事件、收敛真实焦点/最小化并发布指针及一次性失焦事实；Capture/自有交接 SHALL 同步held并消费短按，不重新排队/重复发布指针。Wait SHALL 将首事件恰好交同一适配器一次并排空剩余，仅累积不替代下一正常发布/采样；非法timeout拒绝。全局quit/本窗口close SHALL 成关闭请求，不在事件处理器做GPU/ECS操作。
 
-普通交互玩法失焦暂停/最小化/零实际像素时 SHALL 清旧控制与累计运动、不继续绘制，在恢复帧以 dt=0 重新开始，而非积压暂停时间。有限帧诊断的失焦例外不授权零尺寸绘制。公开 width/height SHALL 是查询的实际 drawable 像素，不是请求逻辑尺寸；尺寸事件只更新事实，renderer 在帧边界处理。
+普通交互玩法失焦暂停/最小化/零实际像素 SHALL 清旧控制/运动、停止绘制，由app显式Pause/Resume并在首次成功恢复Advance以dt=0重新开始，不积压暂停时间。有限帧诊断失焦例外 SHALL 保留但不授权零尺寸绘制。同轮失焦再获焦 SHALL 清理一次，不仅看最终focused。受控尺寸值 SHALL 为实际drawable像素而非逻辑请求，尺寸事件只记事实、renderer在帧边界处理。
 
 #### Scenario: M3-T2-A04 A05 wake and drawable recovery
+- **WHEN** Wait被关闭/输入唤醒或普通窗口最小化后恢复
+- **THEN** 首事件不丢/不双消费，不可绘制不提交GPU，恢复无旧输入/首成功dt0且用最新实际像素
 
-- **WHEN** Wait 被关闭/输入事件唤醒，或普通窗口最小化后恢复
-- **THEN** 首事件不丢失且不双消费；不可绘制期间不提交图形，恢复不重复旧输入、首帧 dt=0，并使用最新实际像素
+#### Scenario: M3-T4-A09 same poll focus recovery
+- **WHEN** 同轮失焦再获焦或恢复后当前held仍按住
+- **THEN** app仍清旧记录/锁存/运动并重置会话约定状态，再采当前held，保首运动保护，不要求先放开再按或重放旧短按
 
 ### Requirement: Benchmark window isolation
 
-Benchmark SHALL 保持普通无边框、非独占、非置顶和 NonRudeHWND 策略；要求实际 1920×1080，不为成绩静默降负载。只允许本窗口 Escape/关闭影响退出，不用玩家键鼠改变脚本 workload；已排队 Escape 跨同轮失焦保留，最小化走无效/重置路径。strict/allow-unfocused SHALL 保持既有协议；允许失焦不豁免最小化/尺寸变化无效条件。event_ms 为 Poll 成本、Capture 在 simulation_ms 内，不通过挪计时点制造性能收益。
+Benchmark SHALL 保持普通无边框/非独占/非置顶/NonRudeHWND、实际1920×1080及原strict/allow-unfocused协议，不静默降负载。D05 SHALL 由app依据平台原始事实隔离玩家键鼠并选择场景，不能以Performance::Session是否存在决定。只允许本窗口Escape/关闭影响退出；已排队未消费Escape跨失焦保留、不补采后台全局键盘；最小化/尺寸变更沿既有无效/重置路径，allow-unfocused不豁免，不直接套普通暂停。event_ms SHALL 保持Poll成本，Capture在simulation_ms内。
 
 #### Scenario: M3-T2-A06 workload and cancellation
+- **WHEN** Benchmark收到玩家控制、失焦、最小化或尺寸不符
+- **THEN** 玩家输入不改脚本，焦点按所选策略记账，最小化/尺寸变更无效；缺合法终态不作成绩
 
-- **WHEN** Benchmark 接收玩家控制、失焦、最小化或实际尺寸不符
-- **THEN** 玩家输入不改变脚本；焦点按所选策略记账，最小化/尺寸变更无效；缺合法终态的轮次不作为成绩
-
+#### Scenario: M3-T4-A20 fact completeness and cancellation
+- **WHEN** Escape已排队后失焦/恢复、同轮失焦再获焦或无完整观测Session运行场景
+- **THEN** app仍可按窗口局部事实保留取消及场景动作，不依靠全局键或只删benchmark_筛选；计时和T2有限帧诊断例外保留，不授权零尺寸绘制
 ### Requirement: Platform SDK and deployment boundary
 
 SDL SHALL 固定本地 release-3.4.18、静态构建并只由 platform 私有消费，普通 main 与私有 SDL_MAIN_HANDLED/SetMainReady 不传播到 app。公共 Window SHALL 无 SDL/GLAD/Win32/D3D/Vulkan 类型或裸 `void*` 逃生口；renderer 仅消费授权三份私有桥，不取得整个 platform/src。CPU-only 与独立 benchmark SHALL 不配置/链接 SDL 或 GPU SDK；普通 GL/Native 路径不强制外部 Vulkan SDK 或 loader。静态 SDL 不代表静态 CRT/Vulkan loader，不新增 SDL3.dll 部署。

@@ -9,3 +9,13 @@ add_test(NAME simulation.legacy_physics_baseline COMMAND legacy_physics_baseline
 symocraft_test_executable(legacy_gameplay_baseline_tests legacy_gameplay_baseline_tests.cpp symocraft_simulation)
 add_test(NAME simulation.legacy_gameplay_baseline COMMAND legacy_gameplay_baseline_tests "${SYMOCRAFT_REPOSITORY_ROOT}/assets/configs/blockFormats.yaml")
 set_tests_properties(simulation.legacy_physics_baseline simulation.legacy_gameplay_baseline PROPERTIES TIMEOUT 240)
+symocraft_test_executable(physics_core_tests physics_core_tests.cpp symocraft_physics)
+add_test(NAME physics.core COMMAND physics_core_tests)
+symocraft_test_executable(physics_core_consumer physics_core_consumer.cpp symocraft_physics)
+add_test(NAME physics.independent_consumer COMMAND physics_core_consumer)
+set_tests_properties(physics.core physics.independent_consumer PROPERTIES TIMEOUT 45)
+symocraft_test_executable(session_tests session_tests.cpp symocraft_simulation)
+target_include_directories(session_tests PRIVATE
+    "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/simulation/src/diagnostics")
+add_test(NAME simulation.session COMMAND session_tests "${SYMOCRAFT_REPOSITORY_ROOT}/assets/configs/blockFormats.yaml")
+set_tests_properties(simulation.session PROPERTIES TIMEOUT 240)

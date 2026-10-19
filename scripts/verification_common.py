@@ -236,19 +236,14 @@ def evidence_sources(directories, extra=()):
 
 
 def toolchain(args):
-    from build import developer_environment, resolve_tool
+    from build import DEFAULT_SDK_VERSION, DEFAULT_TOOLSET_VERSION, developer_environment, resolve_tool, resolve_visual_studio
     require(os.name == "nt", "This native toolchain verification requires Windows x64/MSVC.")
     clion = getattr(args, "CLionPath", None)
     cmake = resolve_tool(getattr(args, "CMakePath", None), "cmake.exe", clion, "bin/cmake/win/x64/bin/cmake.exe")
     ninja = resolve_tool(getattr(args, "NinjaPath", None), "ninja.exe", clion, "bin/ninja/win/x64/ninja.exe")
-    studio = getattr(args, "VisualStudioPath", None)
-    if not studio:
-        vswhere = Path(os.environ.get("ProgramFiles(x86)", "C:/Program Files (x86)")) / "Microsoft Visual Studio/Installer/vswhere.exe"
-        studio = subprocess.run([str(vswhere), "-latest", "-products", "*", "-version", "[17.0,18.0)",
-                                 "-requires", "Microsoft.VisualStudio.Component.VC.Tools.x86.x64", "-property", "installationPath", "-utf8"],
-                                capture_output=True, encoding="utf-8", check=True, timeout=30, **hidden_process()).stdout.strip()
-    require(studio, "MSVC 2022 installation not found.")
-    env = developer_environment(studio, getattr(args, "ToolsetVersion", None))
+    studio = resolve_visual_studio(getattr(args, "VisualStudioPath", None))
+    env = developer_environment(studio, getattr(args, "ToolsetVersion", DEFAULT_TOOLSET_VERSION),
+                                sdk_version=getattr(args, "SDKVersion", DEFAULT_SDK_VERSION))
     env["PATH"] = os.pathsep.join((str(Path(sys.executable).parent), str(Path(cmake).parent), str(Path(ninja).parent), env.get("PATH", "")))
     env["VSLANG"] = "1033"
     compiler = shutil.which("cl.exe", path=env["PATH"])
@@ -258,9 +253,11 @@ def toolchain(args):
 
 
 def tool_options(parser):
+    from build import DEFAULT_SDK_VERSION, DEFAULT_TOOLSET_VERSION
     for name in ("CLionPath", "CMakePath", "NinjaPath", "VisualStudioPath"):
         option(parser, name)
-    option(parser, "ToolsetVersion", default="14.38")
+    option(parser, "ToolsetVersion", default=DEFAULT_TOOLSET_VERSION)
+    option(parser, "SDKVersion", default=DEFAULT_SDK_VERSION)
 
 
 def cache(directory):

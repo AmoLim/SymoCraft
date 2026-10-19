@@ -2,16 +2,21 @@
 
 ## Project
 Windows x64 single-player voxel game, using C++20, MSVC, CMake/Ninja and SDL3.
-The default game renderer is D3D12. Legacy OpenGL 4.6 remains an explicit
-transition path; Vulkan and an independent physics target are not yet implemented.
+The default game renderer is D3D12. Vulkan is an explicit opt-in backend;
+legacy OpenGL 4.6 remains a transition path. T4 production sources are synchronized
+to the main checkout, including SimulationSession and the independent CPU target
+under simulation/physics; a formal top-level physics module is still deferred.
 
 ## Build And Run
-Use an initialized x64 Visual Studio 2022 developer terminal:
-`cmake --preset windows-debug`
-`cmake --build --preset windows-debug`
-`ctest --preset windows-debug --no-tests=error`
-Run `out/build/windows-debug/bin/SymoCraft.exe`.
-For ordinary terminals, use `python scripts/build.py --configuration Debug`
+Use an initialized x64 Visual Studio 2026 developer terminal with MSVC tools
+14.51.36231 and Windows SDK 10.0.22621.0. Use a fresh directory when changing
+compilers; retain old caches and results:
+`cmake --preset windows-debug -B out/build/msvc51-debug`
+`cmake --build out/build/msvc51-debug`
+`ctest --test-dir out/build/msvc51-debug --output-on-failure --no-tests=error`
+Run `out/build/msvc51-debug/bin/SymoCraft.exe`.
+For ordinary terminals, use
+`python scripts/build.py --configuration Debug --build-directory out/build/msvc51-debug`
 with `--clion-path` or `CLION_HOME`. See `scripts/README.md` for prerequisites.
 CPU-only uses a separate build directory and `-DSYMOCRAFT_CPU_ONLY=ON`.
 D3D12 is explicitly enabled by the standard Debug/Release game presets, including

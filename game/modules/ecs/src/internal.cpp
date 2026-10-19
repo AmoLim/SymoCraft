@@ -3,6 +3,9 @@
 //
 
 #include "component_container.h"
+#include <limits>
+#include <new>
+#include <stdexcept>
 
 namespace SymoCraft::ECS
     {
@@ -28,6 +31,34 @@ namespace SymoCraft::ECS
 
             // ----------------------------------------------------------------------
             // ComponentContainer Implement
+            namespace {
+                std::size_t CheckedBytes(std::size_t size, std::size_t count) {
+                    if (size == 0 || count > (std::numeric_limits<std::size_t>::max)() / size)
+                        throw std::length_error("ECS component allocation size overflow");
+                    return size * count;
+                }
+                template<class T> T* Allocate(std::size_t bytes) {
+                    auto* result = static_cast<T*>(AmoMemory_Allocate(bytes));
+                    if (!result) throw std::bad_alloc();
+                    return result;
+                }
+            }
+
+            void ComponentContainer::InitRaw(std::size_t size, EntityIndex entity_index, int type) {
+                const auto bytes = CheckedBytes(size, kSpareSetPoolSize);
+                ComponentContainer pending;
+                pending.component_type = type;
+                pending.component_size = size;
+                pending.pools = Allocate<SparseSetPool>(sizeof(SparseSetPool));
+                pending.pools[0].Init();
+                pending.pools[0].start_entity_index = GetPoolAlignedIndex(entity_index);
+                pending.num_pools = 1;
+                pending.max_num_components = kSpareSetPoolSize;
+                pending.data = Allocate<char>(bytes);
+                pending.entities = Allocate<EntityIndex>(CheckedBytes(sizeof(EntityIndex), kSpareSetPoolSize));
+                Swap(pending);
+            }
+
             void ComponentContainer::Free()
             {
                 if (pools != nullptr)
@@ -58,7 +89,7 @@ namespace SymoCraft::ECS
                 for (int i = 0; i < num_pools; i++)
                 {
                     SparseSetPool& pool = pools[i];
-                    if (pool.start_entity_index <= index && pool.start_entity_index + kSpareSetPoolSize > index)
+                    if (pool.start_entity_index <= index && index - pool.start_entity_index < kSpareSetPoolSize)
                     {
                         return &pool;
                     }
@@ -74,14 +105,15 @@ namespace SymoCraft::ECS
                 // no satisfying pool, add one
                 if (!pool)
                 {
+                    if (num_pools == (std::numeric_limits<int>::max)())
+                        throw std::length_error("ECS sparse pool count overflow");
                     const int new_num_pools = num_pools + 1;
                     // reallocate pools
                     SparseSetPool* new_pools = (SparseSetPool*) AmoMemory_ReAlloc(pools
-                    , new_num_pools * sizeof(SparseSetPool));
+                    , CheckedBytes(sizeof(SparseSetPool), new_num_pools));
                     if (!new_pools)
                     {
-                        AmoLogger_Error("Failed to allocate memory for new sparse set pool for component '%d'", component_type);
-                        return;
+                        throw std::bad_alloc();
                     }
                     num_pools = new_num_pools;
                     pools = new_pools;
@@ -94,20 +126,19 @@ namespace SymoCraft::ECS
                 ComponentIndex next_component_index = num_components;
                 if (next_component_index >= max_num_components)
                 {
-                    int new_max_num_components = max_num_components * 2;
-                    char* new_component_memory = (char*) AmoMemory_ReAlloc(data
-                    , component_size * new_max_num_components);
-                    EntityIndex* new_entity_memory = (EntityIndex*) AmoMemory_ReAlloc(entities
-                    , sizeof(EntityIndex) * new_max_num_components);
-                    if (!new_component_memory || !new_entity_memory)
-                    {
-                        AmoMemory_Free(new_entity_memory);
-                        AmoMemory_Free(new_component_memory);
-                        AmoLogger_Error("Failed to allocate new memory for "
-                                        "component pool or entities for component '%d'"
-                        , component_type);
-                        return;
-                    }
+                    if (max_num_components == 0 || max_num_components > UINT32_MAX / 2)
+                        throw std::length_error("ECS component capacity overflow");
+                    const auto new_max_num_components = max_num_components * 2;
+                    const auto data_bytes = CheckedBytes(component_size, new_max_num_components);
+                    const auto entity_bytes = CheckedBytes(sizeof(EntityIndex), new_max_num_components);
+                    // Stage both buffers; neither old pointer can be lost on the second failure.
+                    ComponentContainer pending;
+                    pending.data = Allocate<char>(data_bytes);
+                    pending.entities = Allocate<EntityIndex>(entity_bytes);
+                    AmoBase::AmoMemory_CopyMem(pending.data, data, component_size * num_components);
+                    AmoBase::AmoMemory_CopyMem(pending.entities, entities, sizeof(EntityIndex) * num_components);
+                    auto* new_component_memory = std::exchange(pending.data, data);
+                    auto* new_entity_memory = std::exchange(pending.entities, entities);
                     data = new_component_memory;
                     entities = new_entity_memory;
                     max_num_components = new_max_num_components;

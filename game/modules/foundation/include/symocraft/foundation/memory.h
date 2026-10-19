@@ -4,6 +4,8 @@
 
 // Compatibility entry points; allocator bookkeeping stays private to foundation.
 namespace AmoBase {
+    // Zero/overflow/OOM returns nullptr. Failed ReAlloc keeps the old block owned
+    // by the caller; ReAlloc(nullptr, positive bytes) is Allocate. No implicit free.
     void* _AmoMemory_Allocate(const char* filename, int line, std::size_t bytes);
     void* _AmoMemory_ReAlloc(const char* filename, int line, void* memory, std::size_t bytes);
     void _AmoMemory_Free(const char* filename, int line, void* memory);

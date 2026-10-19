@@ -4,7 +4,7 @@ if(CMAKE_GENERATOR MATCHES "^Ninja")
         if(NOT EXISTS "${compiler_directory}/1033/clui.dll")
             message(FATAL_ERROR
                 "Reliable MSVC/Ninja dependency tracking requires the English compiler language pack. "
-                "In Visual Studio Installer, modify this VS2022 installation and add English under Language packs. "
+                "In Visual Studio Installer, modify the selected Visual Studio installation and add English under Language packs. "
                 "Missing: ${compiler_directory}/1033/clui.dll")
         endif()
         if(NOT "$ENV{VSLANG}" STREQUAL "1033")

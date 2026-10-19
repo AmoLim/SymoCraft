@@ -14,7 +14,7 @@ PATTERNS = {
     "nativeVulkan": r"game/modules/renderer/.*CMakeFiles/symocraft_renderer_vulkan\.dir/",
     "world": "game/modules/world/", "simulation": "game/modules/simulation/", "app": "game/app/",
     "appRenderData": r"game/app/.*CMakeFiles/symocraft_app_render_data\.dir/",
-    "appRuntime": r"game/app/.*CMakeFiles/(?:SymoCraft|symocraft_app_runtime)\.dir/",
+    "appRuntime": r"game/app/.*CMakeFiles/(?:SymoCraft|symocraft_app_runtime|symocraft_application)\.dir/",
     "appCacheTests": r"CMakeFiles/app_render_cache_tests\.dir/",
     "appConversionTests": r"CMakeFiles/app_render_conversion_tests\.dir/", "benchmark": "tools/benchmark/",
     "publicConsumer": r"CMakeFiles/renderer_public_api_consumer\.dir/", "facadeTests": r"CMakeFiles/renderer_facade_tests\.dir/",
@@ -27,7 +27,7 @@ def compiled_owners(log):
 
 
 def app_sources(log):
-    return [owner + ":" + source for owner, source in re.findall(r"Building CXX object [^\r\n]*game/app/CMakeFiles/(symocraft_app_render_data|symocraft_app_runtime|SymoCraft)\.dir/src/([^/]+)\.obj", log.replace("\\", "/"))]
+    return [owner + ":" + source for owner, source in re.findall(r"Building CXX object [^\r\n]*game/app/CMakeFiles/(symocraft_app_render_data|symocraft_app_runtime|symocraft_application|SymoCraft)\.dir/src/([^/]+)\.obj", log.replace("\\", "/"))]
 
 
 def exact(actual, expected):
@@ -51,7 +51,7 @@ def production_target(targets, sources, name, kind, expected):
 
 def assert_app(counts, actual, expected):
     require(counts["app"] == len(expected) and counts["appRenderData"] == sum(x.startswith("symocraft_app_render_data:") for x in expected)
-            and counts["appRuntime"] == sum(x.startswith(("SymoCraft:", "symocraft_app_runtime:")) for x in expected) and exact(actual, expected),
+            and counts["appRuntime"] == sum(x.startswith(("SymoCraft:", "symocraft_app_runtime:", "symocraft_application:")) for x in expected) and exact(actual, expected),
             f"Header rebuilt the wrong app sources: {actual}; owners={counts}")
 
 
@@ -112,16 +112,20 @@ def verify(args):
         result["baseline_compilations"] = len(re.findall(r"Building (?:C|CXX) object", baseline, re.I))
         require(result["baseline_compilations"] == 0, "The initial build was not settled. Rerun after production changes finish.")
         targets, sources = tsv("renderer-targets.tsv"), tsv("production-sources.tsv")
-        data = production_target(targets, sources, "symocraft_app_render_data", "STATIC_LIBRARY", ["game/app/src/world_render_cache.cpp", "game/app/src/render_conversion.cpp"])
-        runtime = production_target(targets, sources, "symocraft_app_runtime", "STATIC_LIBRARY", ["game/app/src/application.cpp", "game/app/src/game_renderer.cpp", "game/app/src/game_entry.cpp"])
+        data_sources = ["game/app/src/world_render_cache.cpp", "game/app/src/render_conversion.cpp"]
+        if any(x["target"] == "symocraft_app_render_data" and x["file"] == "game/app/src/benchmark_scenario.cpp" for x in sources):
+            data_sources.append("game/app/src/benchmark_scenario.cpp")
+        data = production_target(targets, sources, "symocraft_app_render_data", "STATIC_LIBRARY", data_sources)
+        runtime_name = "symocraft_application" if any(x["target"] == "symocraft_application" for x in targets) else "symocraft_app_runtime"
+        runtime = production_target(targets, sources, runtime_name, "STATIC_LIBRARY", ["game/app/src/application.cpp", "game/app/src/game_renderer.cpp", "game/app/src/game_entry.cpp"])
         entry = production_target(targets, sources, "SymoCraft", "EXECUTABLE", ["game/app/src/main.cpp"])
         require(entry == runtime, "Executable and production runtime ownership disagree.")
         require(not runtime or data, "Game runtime requires its real app render data target.")
         cache_tests = sum(x["target"] == "app_render_cache_tests" and x["property"] == "TYPE" and x["type"] == "EXECUTABLE" and x["raw_value"] == "EXECUTABLE" for x in targets) == 1
         result["production_callers"] = {"app_render_data": data, "game_runtime": runtime, "app_cache_tests": cache_tests,
             "targets_sha256": sha256(build / "renderer-targets.tsv").upper(), "sources_sha256": sha256(build / "production-sources.tsv").upper()}
-        public_app = (["symocraft_app_render_data:world_render_cache.cpp", "symocraft_app_render_data:render_conversion.cpp"] if data else []) + (["symocraft_app_runtime:application.cpp", "symocraft_app_runtime:game_renderer.cpp"] if runtime else [])
-        cache_app = (["symocraft_app_render_data:world_render_cache.cpp"] if data else []) + (["symocraft_app_runtime:game_renderer.cpp"] if runtime else [])
+        public_app = (["symocraft_app_render_data:world_render_cache.cpp", "symocraft_app_render_data:render_conversion.cpp"] if data else []) + ([runtime_name + ":application.cpp", runtime_name + ":game_renderer.cpp"] if runtime else [])
+        cache_app = (["symocraft_app_render_data:world_render_cache.cpp"] if data else []) + ([runtime_name + ":game_renderer.cpp"] if runtime else [])
         probes = [("private-backend-contract", "game/modules/renderer/src/backend/render_backend.h"), ("public-renderer-types", "game/modules/renderer/include/symocraft/renderer/types.h")]
         if data:
             probes.append(("private-app-world-cache", "game/app/src/world_render_cache.h"))

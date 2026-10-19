@@ -177,7 +177,7 @@ class ScriptTests(unittest.TestCase):
         (studio / "Common7/Tools").mkdir(parents=True)
         (studio / "Common7/Tools/VsDevCmd.bat").write_text("fixture")
         inherited = {"PATH": "original", "COMSPEC": "cmd.exe"}
-        output = "__SYMOCRAFT_DEVELOPER_ENVIRONMENT__\r\nPath=tools\r\nINCLUDE=C:\\a=b\\\u6d4b\u8bd5\r\n=C:=ignored\r\n".encode("utf-16-le")
+        output = "__SYMOCRAFT_DEVELOPER_ENVIRONMENT__\r\nPath=tools\r\nVCToolsVersion=14.38.33130\r\nINCLUDE=C:\\a=b\\\u6d4b\u8bd5\r\n=C:=ignored\r\n".encode("utf-16-le")
         with patch.object(build.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, output, b"")) as launch:
             environment = build.developer_environment(studio, "14.38", inherited)
         self.assertEqual(inherited["PATH"], "original")
@@ -187,6 +187,52 @@ class ScriptTests(unittest.TestCase):
         self.assertIn("-vcvars_ver=14.38", launch.call_args.args[0])
         with self.assertRaises(ValueError):
             build.developer_environment(studio, "14.38 & echo unwanted", inherited)
+
+    def test_toolchain_defaults_match_build_and_verification(self):
+        import argparse
+        import verification_common
+        parser = argparse.ArgumentParser()
+        verification_common.tool_options(parser)
+        for args in (build.parser().parse_args([]), parser.parse_args([])):
+            self.assertEqual(args.ToolsetVersion, "14.51.36231")
+            self.assertEqual(args.SDKVersion, "10.0.22621.0")
+
+    def test_visual_studio_discovery_selects_2026_without_old_fallback(self):
+        with patch.object(build.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, str(self.root), "")) as launch:
+            self.assertEqual(build.resolve_visual_studio(), self.root.resolve())
+        self.assertIn("[18.0,19.0)", launch.call_args.args[0])
+        self.assertNotIn("-prerelease", launch.call_args.args[0])
+        with patch.object(build.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, "", "")):
+            with self.assertRaisesRegex(RuntimeError, "2026"):
+                build.resolve_visual_studio()
+        with patch.object(build.subprocess, "run") as launch:
+            self.assertEqual(build.resolve_visual_studio(self.root), self.root.resolve())
+            launch.assert_not_called()
+
+    def test_developer_environment_checks_requested_toolset_and_sdk(self):
+        studio = self.root / "VS"
+        (studio / "Common7/Tools").mkdir(parents=True)
+        (studio / "Common7/Tools/VsDevCmd.bat").write_text("fixture")
+        output = "__SYMOCRAFT_DEVELOPER_ENVIRONMENT__\r\nVCToolsVersion=14.51.36231\r\nWindowsSDKVersion=10.0.22621.0\\\r\n".encode("utf-16-le")
+        with patch.object(build.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, output, b"")) as launch:
+            build.developer_environment(studio, "14.51.36231", {}, sdk_version="10.0.22621.0")
+            self.assertIn("-winsdk=10.0.22621.0", launch.call_args.args[0])
+            with self.assertRaisesRegex(RuntimeError, "Requested MSVC"):
+                build.developer_environment(studio, "14.38", {})
+            with self.assertRaisesRegex(RuntimeError, "Requested Windows SDK"):
+                build.developer_environment(studio, "14.51", {}, sdk_version="10.0.26100.0")
+        with self.assertRaises(ValueError):
+            build.developer_environment(studio, "14.51", {}, sdk_version="10.0 & command")
+
+    def test_compiler_change_rejects_old_cache_without_rewriting(self):
+        cache = self.root / "CMakeCache.txt"
+        original = b"CMAKE_C_COMPILER:FILEPATH=C:/old/cl.exe\nCMAKE_CXX_COMPILER:FILEPATH=C:/old/cl.exe\n"
+        cache.write_bytes(original)
+        build.check_compiler_cache(self.root, "C:/old/cl.exe")
+        with self.assertRaisesRegex(ValueError, "fresh --build-directory"):
+            build.check_compiler_cache(self.root, "C:/new/cl.exe")
+        self.assertEqual(cache.read_bytes(), original)
+        build.check_compiler_cache(self.root / "not-created", "C:/new/cl.exe")
 
     def test_snapshot_real_git_and_inventory_preserve_bytes(self):
         workspace = self.root / "snapshot source"

@@ -73,10 +73,8 @@ void Run(const std::string& mode, Data::Value& report) {
         report["queued_fence"] = access->last_signal;
         report["completed_fence_at_timeout"] = completed;
     }
-    // Application has attempted every owner, including Window::Destroy/Free.
-    // Idempotent aggregate cleanup must not leave a live platform/window owner.
-    Application::Free();
-    report["repeat_application_free_completed"] = true;
+    // The production entry has completed instance cleanup; reacquire platform ownership.
+    report["entry_cleanup_returned"] = true;
     if (gate) {
         Require(access->quarantined, "Incomplete native work was falsely reclaimed");
         CompleteOwnedWork(*access, *gate.Get());
@@ -84,11 +82,11 @@ void Run(const std::string& mode, Data::Value& report) {
         report["terminal_quarantine"] = true;
         report["owned_work_completed_before_process_exit"] = true;
     }
-    Window::Init();
-    std::unique_ptr<Window> window(Window::Create("Post-cleanup ownership check", 320, 240, false, true, WindowMode::Native));
+    Platform::Runtime runtime;
+    auto window = Window::Create(runtime,"Post-cleanup ownership check", 320, 240, false, true, WindowMode::Native);
     window->Destroy();
     window.reset();
-    Window::Free();
+    runtime.Shutdown();
     report["platform_reinitialization_completed"] = true;
 }
 }
@@ -114,7 +112,6 @@ int main(int argc, char** argv) {
     catch (const std::exception& error) {
         report["harness_error"] = error.what();
         std::cerr << "[probe] " << error.what() << '\n';
-        try { Application::Free(); } catch (...) {}
     }
     report["elapsed_ms"] = std::chrono::duration<double, std::milli>(Clock::now() - started).count();
     std::ofstream output(path, std::ios::binary);

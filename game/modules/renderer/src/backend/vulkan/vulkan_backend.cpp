@@ -981,7 +981,7 @@ public:
         try {
             Operation("Initialize", [&] {
                 Initialize(*native_, window_, config_, info_);
-                Rebuild(*native_, {static_cast<uint32_t>(window.width), static_cast<uint32_t>(window.height)}, config_.vsync, config_.shader_asset_root, info_);
+                Rebuild(*native_, {static_cast<uint32_t>(window.Width()), static_cast<uint32_t>(window.Height())}, config_.vsync, config_.shader_asset_root, info_);
                 if (auto& d = native_->diagnostic) {
                     d->instance = native_->instance; d->physical = native_->physical; d->device = native_->device;
                     d->graphics = native_->graphics; d->get_device_proc = native_->GetDeviceProcAddr;
@@ -1086,11 +1086,11 @@ FrameResult VulkanBackend::Render(const PreparedFrame& input) {
         auto& n = *native_;
         const auto start = Clock::now(); const auto deadline = n.Limit();
         FrameResult result; result.frame_id = input.frame_id;
-        if (window_.Minimized() || !window_.width || !window_.height) {
+        if (window_.Minimized() || !window_.Width() || !window_.Height()) {
             info_.framebuffer_extent = {}; result.skip_reason = FrameSkipReason::ZeroExtent;
             n.Ready({input.frame_id,false,{},GpuSampleMissingReason::Discarded}); return result;
         }
-        if (static_cast<uint32_t>(window_.width) != input.extent.width || static_cast<uint32_t>(window_.height) != input.extent.height)
+        if (static_cast<uint32_t>(window_.Width()) != input.extent.width || static_cast<uint32_t>(window_.Height()) != input.extent.height)
             Fail(RenderErrorCategory::InvalidState, "Render", "window extent changed; Resize is required before rendering");
         if (n.rebuild) {
             VkSurfaceCapabilitiesKHR current{};

@@ -20,20 +20,37 @@ namespace SymoCraft::ECS
             std::vector<EntityId> entities;
             std::vector<Internal::ComponentContainer> component_set;
             std::vector<EntityId> free_entities;
-            std::vector<std::string> debug_component_names;
+            std::vector<std::unique_ptr<std::string>> debug_component_names;
+            bool freed = false;
         };
         int32 Detail::NextComponentType() { return Internal::m_counter++; }
         Registry::Registry() : storage_(std::make_unique<Storage>()) {}
         Registry::~Registry() { Free(); }
         std::size_t Registry::EntitySlots() const { return storage_->entities.size(); }
         EntityId Registry::EntityAt(std::size_t index) const { return storage_->entities[index]; }
+        bool Registry::IsTypeRegistered(int32 type) const {
+            return !storage_->freed && type >= 0 && type < MaxComponents &&
+                static_cast<std::size_t>(type) < storage_->component_set.size();
+        }
         void Registry::RegisterType(int32 type, std::size_t size, const char* name) {
-            AmoLogger_Assert(type == storage_->component_set.size(), "Tried to register component '%s' twice", name);
-            AmoLogger_Assert(type < MaxComponents, "Exceeded the maximum number of components.");
+            if (storage_->freed)
+                throw std::logic_error("ECS RegisterComponent: Registry was freed");
+            if (!name || size == 0)
+                throw std::invalid_argument("ECS RegisterComponent: invalid component definition");
+            if (type < 0 || type >= MaxComponents)
+                throw std::out_of_range("ECS RegisterComponent: component type limit exceeded");
+            if (static_cast<std::size_t>(type) != storage_->component_set.size())
+                throw std::logic_error("ECS RegisterComponent: duplicate type or registration order mismatch");
             Internal::ComponentContainer container{};
             container.InitRaw(size, 0, type);
-            storage_->component_set.emplace_back(container);
-            storage_->debug_component_names.emplace_back(name);
+            auto component_name = std::make_unique<std::string>(name);
+            // Moving a Debug MSVC string may allocate its iterator proxy despite noexcept.
+            // Move the unique owner instead; neither final publication can allocate.
+            const auto count = storage_->component_set.size() + 1;
+            storage_->component_set.reserve(count);
+            storage_->debug_component_names.reserve(count);
+            storage_->component_set.emplace_back(std::move(container));
+            storage_->debug_component_names.emplace_back(std::move(component_name));
         }
         void Registry::RemoveType(EntityId entity, int32 type) {
             if (!IsEntityValid(entity)) {
@@ -52,6 +69,7 @@ namespace SymoCraft::ECS
 
         void Registry::Free()
         {
+            storage_->freed = true;
             for (Internal::ComponentContainer& container : storage_->component_set)
                 container.Free();
         }
@@ -64,19 +82,24 @@ namespace SymoCraft::ECS
             storage_->component_set = std::vector<Internal::ComponentContainer>();
             storage_->debug_component_names.clear();
             storage_->free_entities.clear();
+            storage_->freed = false;
         }
 
         EntityId Registry::CreateEntity()
         {
+            if (storage_->freed)
+                throw std::logic_error("ECS CreateEntity: Registry was freed");
             if (!storage_->free_entities.empty())
             {
-                EntityIndex new_index = storage_->free_entities.back();
+                EntityIndex new_index = static_cast<EntityIndex>(storage_->free_entities.back());
                 storage_->free_entities.pop_back();
                 EntityId new_id = Internal::CreateEntityId(new_index
                         , Internal::GetEntityVersion(storage_->entities[new_index]));
                 storage_->entities[new_index] = new_id;
                 return new_id;
             }
+            if (storage_->entities.size() >= UINT32_MAX)
+                throw std::length_error("ECS CreateEntity: entity index limit exceeded");
             storage_->entities.emplace_back(Internal::CreateEntityId((uint32)storage_->entities.size(), 0));
             return storage_->entities.back();
         }
@@ -93,11 +116,15 @@ namespace SymoCraft::ECS
 
         bool Registry::IsEntityValid(EntityId entity) const
         {
-            return Internal::GetEntityIndex(entity) < storage_->entities.size() && Internal::GetEntityIndex(entity) != UINT32_MAX;
+            const auto index = Internal::GetEntityIndex(entity);
+            return !storage_->freed && index != UINT32_MAX && index < storage_->entities.size() &&
+                storage_->entities[index] == entity;
         }
 
         void Registry::DestroyEntity(EntityId entity)
         {
+            if (!IsEntityValid(entity))
+                throw std::invalid_argument("ECS DestroyEntity: invalid entity");
             RemoveAllComponent(entity);
             EntityId new_id = Internal::CreateEntityId(UINT32_MAX, Internal::GetEntityVersion(entity) + 1);
             storage_->entities[Internal::GetEntityIndex(entity)] = new_id;
@@ -110,11 +137,11 @@ namespace SymoCraft::ECS
             if (!IsEntityValid(entity))
                 return false;
 
-            if (component_type >= storage_->component_set.size() || component_type < 0)
+            if (!IsTypeRegistered(component_type))
             {
                 AmoLogger_Warning("Tried to check if an entity had component '%d'"
                                 ", but a component of type '%d' does not exist in the registry "
-                                "which only has '%d' components."
+                                "which only has '%zu' components."
                                 , component_type, component_type, storage_->component_set.size());
                 return false;
             }
@@ -127,12 +154,12 @@ namespace SymoCraft::ECS
         {
             if (!IsEntityValid(entity))
             {
-                AmoLogger_Error("Cannot check if invalid entity %d has a component."
-                                , entity);
+                AmoLogger_Error("Cannot get a component from invalid entity %llu."
+                                , static_cast<unsigned long long>(entity));
                 return nullptr;
             }
 
-            if (component_type >= storage_->component_set.size() || component_type < 0)
+            if (!IsTypeRegistered(component_type))
             {
                 AmoLogger_Warning("Tried to check if an entity had component '%d', "
                                   "but a component of type '%d' does not exist in the registry."
@@ -140,7 +167,10 @@ namespace SymoCraft::ECS
                 return nullptr;
             }
 
-            return storage_->component_set[component_type].Get(Internal::GetEntityIndex(entity));
+            const auto& container = storage_->component_set[component_type];
+            if (!container.IsComponentExist(entity))
+                return nullptr;
+            return container.Get(Internal::GetEntityIndex(entity));
         }
 
         uint8* Registry::AddOrGetComponentByType(EntityId entity, int32 component_id)
@@ -152,7 +182,7 @@ namespace SymoCraft::ECS
                 return nullptr;
             }
 
-            if (component_id >= storage_->component_set.size() || component_id < 0)
+            if (!IsTypeRegistered(component_id))
             {
                 AmoLogger_Warning("Tried to check if an entity had component '%d'"
                                   ", but a component of type '%d' does not exist in the registry"
@@ -259,7 +289,7 @@ namespace SymoCraft::ECS
                            _is_searching_all(all)
         {/*empty*/}
 
-        EntityIndex Iterator::operator*() const
+        EntityId Iterator::operator*() const
         {
             return registry.storage_->entities[entity_index];
         }
