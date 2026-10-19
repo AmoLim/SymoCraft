@@ -246,8 +246,11 @@ def package(build: Path, output: Path, cache: dict, tools: list[dict], artifacts
         "msvcp140.dll", "vcruntime140.dll", "vcruntime140_1.dll")
     for name in runtime_names:
         file_identity(output / name)
+    runtime_family = cache.get("SYMOCRAFT_MSVC_REDIST_NAME", "VC143")
+    if not re.fullmatch(r"VC14[0-9]", runtime_family):
+        raise ValueError(f"Invalid selected MSVC runtime family: {runtime_family}")
     runtime_directory = Path(cache["MSVC_REDIST_DIR"]) / (
-        "Debug_NonRedist/x64/Microsoft.VC143.DebugCRT" if configuration == "Debug" else "x64/Microsoft.VC143.CRT")
+        f"Debug_NonRedist/x64/Microsoft.{runtime_family}.DebugCRT" if configuration == "Debug" else f"x64/Microsoft.{runtime_family}.CRT")
     runtime_origins = []
     dlls = sorted(output.glob("*.dll"))
     for dll in dlls:
