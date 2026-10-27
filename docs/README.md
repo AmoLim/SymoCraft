@@ -18,10 +18,10 @@ tags:
 - 文档迁移已归档，历史范围与处置从 [VERIFICATION](verification/VERIFICATION.md#后续集中与收口) 进入，不是活动计划或游戏实施授权。
 - 当前无 Git 提交批次，稳定规则见 AGENTS，不预建空批次计划。
 
-OpenSpec 的唯一目录为 docs/openspec，使用入口和验证命令见 [项目 README](../README.md#openspec)。
+OpenSpec 的唯一目录为 docs/openspec，命令入口与工作边界见 [AGENTS 的 OpenSpec 约定](../AGENTS.md#openspec)。
 
 ## 构建与操作
-- [项目构建运行](../README.md#构建与测试)、[Python 工具](../scripts/README.md)。
+- [项目构建运行](../README.md#快速开始)、[Python 工具](../scripts/README.md)。
 - [Benchmark 操作](../tools/benchmark/README.md)：原生执行器显式支持GL/D3D12/Vulkan，保持旧GL与现代telemetry-v1身份区别；当前包生成身份和实际后端校验不等于性能或干净机验收。
 - [第三方来源与通知](third-party.md)：核对实际依赖、通知安装与尚未确定的来源，不代替发行合规/干净机验证。
 

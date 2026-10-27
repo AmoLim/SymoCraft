@@ -5,7 +5,7 @@ tags:
 
 # T5 Module Boundaries Delta
 
-沿用[现役 module-boundaries](../../../../specs/module-boundaries/spec.md)全部已有 requirements/scenarios，仅追加本次 typed 依赖、验证与定向退役要求。T4/T3 仍各自维护目标及批准，不在此重写业务或渲染行为。
+沿用[现役 module-boundaries](../../../../../specs/module-boundaries/spec.md)全部已有 requirements/scenarios，仅追加本次 typed 依赖、验证与定向退役要求。T4/T3 仍各自维护目标及批准，不在此重写业务或渲染行为。
 
 ## ADDED Requirements
 

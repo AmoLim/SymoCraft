@@ -11,10 +11,13 @@ tags:
 
 以下版本声明、已核验来源和来源未解分别记录，不能互相推定。本页不是完整许可文本或法律结论，静态集成不等于没有系统 DLL；盘点完成不证明公开发行或干净机通过。包内阅读不依赖源码链接，末尾链接仅适用于源码 checkout。
 
+2026-10-25 定向更新：已验收 T5 的 EnTT 源码、配置及许可安装声明已按独立授权同步主工作区。以下仅补齐受影响的依赖/ABI 与当前后端范围，不将旧来源缺口或干净机验证改为通过；同步检查见 T5 verification。
+
 ## 活动依赖与边界
 
 | 项目 | 当前消费者与公开边界 | 本地身份与关键影响 |
 | --- | --- | --- |
+| EnTT | ECS 的受控 typed 模板依赖 `symocraft_entt`，仅传播 src 头根；非 ECS 生产代码不直接包含 native API，独立 benchmark 不引入 ECS/EnTT | 官方 v4.0.0、完整 commit `85c6bba014049b5de8fad49d25424df2f1f6a8c1`；本地原样 src 与 MIT，`ENTT_NO_ETO` 保真实空组件对象；DBG01 对全部 Debug C++ 统一 level 0 并保留 Debug CRT，须全新目录重建。准确来源/原始失败与保证边界见 T5 verification |
 | SDL3 | platform 私有 `SDL3::SDL3-static`，窗口/输入、GL/Native/Vulkan 桥接；不向游戏公共头或独立 runner 暴露 SDL 类型 | 官方 `release-3.4.18`，commit `829a65d769d935c4852f8159e964312c0957260a`；原样 vendor 及 ZIP/逐文件身份见 T2 来源证据。静态不另带 SDL3.dll；动态 Vulkan 窗口桥接不代表生产 Vulkan renderer 已实现 |
 | GLM | foundation 的 `symocraft_math` 公共数学入口，scene/world/simulation/renderer 等传递使用；`glm::glm` 是别名 | `vendor/glm/detail/setup.hpp` 为 0.9.9.8。公共 `glm::*`、宏和顶点布局属于跨模块契约，升级或改对齐须检查布局；不能把传递包含路径当所有模块直接调用 |
 | glad | 默认 legacy OpenGL renderer 私有函数加载/调用，部分白盒测试及显式 GL 对照 | glad 0.1.35，于 2022-06-05 生成 GL 4.6 core，记录 `Reproducible: False`；生成器身份不证明精确上游提交或可重复生成。D3D12 候选不自动使默认 GL 路径退役 |
@@ -33,12 +36,12 @@ yaml-cpp 的已知本地修改为 T1 的 `vendor/yaml-cpp/src/stream.h`、`strea
 
 | 模式 | 实际依赖范围与限制 |
 | --- | --- |
-| 默认游戏 / game-only | 上述游戏库；关闭 Benchmark 不改变游戏依赖。opt-in D3D12 另需 Windows/D3D12/DXC 构建能力，不改变默认 GL |
+| 默认游戏 / game-only | 上述游戏库含 EnTT；关闭 Benchmark 不改变游戏依赖。默认 D3D12 需 Windows/D3D12/DXC 构建能力，Vulkan 显式启用，GL 为保留的过渡路径 |
 | 根 runner-only | 显式 `SYMOCRAFT_BUILD_GAME=OFF`、`SYMOCRAFT_BUILD_BENCHMARK=ON`、`SYMOCRAFT_BUILD_CPU_MODULES=OFF`，只用 yaml-cpp 与 Win32 工具库；已有 cache 不随另一开关自动变更 |
 | 独立 tools/benchmark | yaml-cpp 与 Win32 工具库，不经过 game 构建或引入 SDL/GLM/glad/游戏 assets；子目录仍引用仓库共享材料，不能单独复制后构建 |
-| CPU-only | GLM、stb 读写、yaml-cpp、FastNoiseLite；assets 的 PNG 写出也编入 CPU 模块。关闭游戏/runner/原生后端，不配置 SDL 或编译 GL 实现。renderer API/app CPU 数据目标存在不代表 GPU 接入；仍要求 Windows x64/MSVC，不证明跨平台 |
+| CPU-only | EnTT、GLM、stb 读写、yaml-cpp、FastNoiseLite；assets 的 PNG 写出也编入 CPU 模块。关闭游戏/runner/原生后端，不配置 SDL 或编译 GL 实现。renderer API/app CPU 数据目标存在不代表 GPU 接入；仍要求 Windows x64/MSVC，不证明跨平台 |
 
-头视图仅暴露选定第三方头，不公开整个 vendor 根目录或 `.cpp`。GLM 是游戏公共数学例外，其余游戏实现依赖不得泄露到公共头；静态库 PRIVATE 依赖仍可能进入最终链接闭包，独立 runner 的公开 YAML 边界单独处理。
+头视图仅暴露选定第三方头，不公开整个 vendor 根目录或 `.cpp`。GLM 是游戏公共数学例外；EnTT 的 typed 模板依赖为 T5 明确授权的另一窄例外，不提供 native Registry/view/ID 逃生口，其余游戏实现依赖不得泄露到公共头。静态库 PRIVATE 依赖仍可能进入最终链接闭包，独立 runner 的公开 YAML 边界单独处理。
 
 系统和外部工具不作为 vendor 库盘点：Windows SDK/Win32 提供文件发布、exe 定位、窗口/进程/Job API；Psapi 提供进程 working set/private bytes；benchmark_core 链接 bcrypt/advapi32/powrprof/user32，GUI 另用 comctl32/comdlg32/shell32/ole32。OpenGL 驱动、可选 NVX 和 GPU 查询按能力判读。导出需要系统 `System32/tar.exe`，缺失时失败且保留目录。Python collector 的可选 `nvidia-smi` 是设备级传感器，不是进程 VRAM，原生 runner 不采温度；旧 PowerShell 文件只启动 Python。
 
@@ -50,6 +53,7 @@ yaml-cpp 的已知本地修改为 T1 的 `vendor/yaml-cpp/src/stream.h`、`strea
 
 | 项目 / 通知 | 本地材料与身份 | 游戏安装位置（相对包根） |
 | --- | --- | --- |
+| EnTT | vendor/entt/LICENSE 原始 MIT，SHA256 `73547f6370ee16ea560665329bb62d4e2d8250f41eaa204b47a6c694ca3286ea`，来源记录含完整官方 commit | licenses/EnTT-LICENSE.txt |
 | SDL3 | vendor/sdl3/LICENSE.txt，zlib；官方来源另有 T2 核验 | licenses/SDL3-LICENSE.txt |
 | GLM | cmake/licenses/GLM-LICENSE.txt，官方 0.9.9.8 copying.txt 的 MIT 选项；vendor 子集自身无独立完整许可文件 | licenses/GLM-LICENSE.txt |
 | glad / Khronos 规范 | cmake/licenses/glad-LICENSE.txt，官方 v0.1.35 的 MIT / Khronos 通知；另存完整 Apache 2.0 文本，不证明 vendored exact commit | licenses/glad-LICENSE.txt、Apache-2.0-LICENSE.txt |
@@ -78,4 +82,4 @@ yaml-cpp 的已知本地修改为 T1 的 `vendor/yaml-cpp/src/stream.h`、`strea
 
 ## 仓库核对入口
 
-当前接入见 [ThirdPartyGame](../cmake/ThirdPartyGame.cmake)、[ThirdPartyYaml](../cmake/ThirdPartyYaml.cmake)、[游戏安装声明](../game/app/CMakeLists.txt)、[独立工具安装声明](../tools/benchmark/CMakeLists.txt) 和 [通知来源](../cmake/licenses/SOURCES.txt)。SDL 的既有 [来源证据](verification/archive/milestone-evidence-20261011/m3-t2/evidence/sdl-provenance.json) 与各阶段原始验证从 [VERIFICATION](verification/VERIFICATION.md) 进入；历史二进制审计暂保留于 [旧盘点](verification/archive/docs-navigation-20261011/historical-extracts.json)，不是当前操作或计划权威。本轮未重跑这些历史检查或新建批准。
+当前接入见 [ThirdPartyGame](../cmake/ThirdPartyGame.cmake)、[ThirdPartyYaml](../cmake/ThirdPartyYaml.cmake)、[游戏安装声明](../game/app/CMakeLists.txt)、[独立工具安装声明](../tools/benchmark/CMakeLists.txt) 和 [通知来源](../cmake/licenses/SOURCES.txt)。SDL 的既有 [来源证据](verification/archive/milestone-evidence-20261011.7z "member: milestone-evidence-20261011/m3-t2/evidence/sdl-provenance.json") 与各阶段原始验证从 [VERIFICATION](verification/VERIFICATION.md) 进入；历史二进制审计暂保留于 [旧盘点](verification/archive/docs-navigation-20261011.7z "member: docs-navigation-20261011/historical-extracts.json")，不是当前操作或计划权威。本轮未重跑这些历史检查或新建批准。

@@ -3,9 +3,10 @@
 ## Project
 Windows x64 single-player voxel game, using C++20, MSVC, CMake/Ninja and SDL3.
 The default game renderer is D3D12. Vulkan is an explicit opt-in backend;
-legacy OpenGL 4.6 remains a transition path. T4 production sources are synchronized
-to the main checkout, including SimulationSession and the independent CPU target
-under simulation/physics; a formal top-level physics module is still deferred.
+legacy OpenGL 4.6 remains a transition path. Accepted T4/T5 production sources are
+synchronized to the main checkout, including the EnTT typed ECS facade,
+SimulationSession and the independent CPU target under simulation/physics;
+a formal top-level physics module is still deferred.
 
 ## Build And Run
 Use an initialized x64 Visual Studio 2026 developer terminal with MSVC tools
@@ -19,6 +20,9 @@ For ordinary terminals, use
 `python scripts/build.py --configuration Debug --build-directory out/build/msvc51-debug`
 with `--clion-path` or `CLION_HOME`. See `scripts/README.md` for prerequisites.
 CPU-only uses a separate build directory and `-DSYMOCRAFT_CPU_ONLY=ON`.
+T5 DBG01 sets `_ITERATOR_DEBUG_LEVEL=0` for all Debug C++ targets while retaining
+the Debug CRT and debug information. Use fresh directories and rebuild the full
+dependency closure; do not mix old level-2 objects or libraries with this ABI.
 D3D12 is explicitly enabled by the standard Debug/Release game presets, including
 when reconfiguring old caches. Custom configurations can override it with
 `-DSYMOCRAFT_RENDER_D3D12=OFF`; use `--renderer opengl` for the retained GL path.

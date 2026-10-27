@@ -7,16 +7,28 @@ tags:
 
 `symocraft_simulation`是CPU静态模块。[SimulationSession](../../game/modules/simulation/src/session.cpp)及内部物理核心适配已随获批准的T4实现于2026-10-19同步F主工作区，不是Git历史合并或T5实施。现役行为见[simulation spec](../openspec/specs/simulation/spec.md)/[world spec](../openspec/specs/world/spec.md)，历史设计与选择保留于[T4归档](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/design.md)。
 
+2026-10-25 源码适用范围：用户已独立授权将验收后的 T5 实现同步 F，本页相对源码链接现指向采用新 ECS 的主工作区。下方 T5 适配与 [ECS 机制](ecs.md#t5-实现机制)均已落实；其余时间/物理/输入/结果语义不变，主工作区检查与 E 的历史运行成绩分别记录。
+
+## T5 调用适配
+
+`session.cpp` 工厂要求注册六类组件（原五类加 PhysicsStepOrder），严格 Emplace 装配玩家并显式赋顺序键 0。组件按 C++ 对象初始化，调用方在全部结构新增后才重取引用并填完整姿态/形状/控制；不依赖旧字节清零。Camera 到玩家兼容工厂先复制原 Transform 值再创建玩家，避免构造输入借用跨结构修改。低层 CreatePlayer 仍是多步装配，失败整体丢弃 caller 的专属范围，不自动 Destroy 回滚半装配。
+
+`physics_adapter.cpp` 仍匹配 Transform/RigidBody/HitBox，EachOrdered 的只读 selector 再读取 PhysicsStepOrder，不能把缺键身体过滤掉。装配方保证本步完整集合有唯一 uint64 业务键；额外身体不能沿用玩家键 0，不按 native ID/地址/偶然顺序补序。键准备、暂存/排序、缺键或平局在任何本步物理 visitor 前拒绝；已经执行的 Character、预算或此前子步不回滚，“零本步身体提交”不等于整次 Advance 零变化。
+
+按键逐体复制 BodyState/shape，正式核心完整求解成功后只写该体 position/velocity/acceleration/grounded，再增加提交计数；后续坏体保留先前体/子步，不提前全体预检抹去既有前序提交语义。排序不改求解算法、World 规则或 D12 固定字段/绝对阈值，真实时间不同的 GPU 轨迹不要求相等。
+
+character/transform 使用 Each 的声明顺序引用与逐组件 const；只在当前回调借用，不保原生 view/iterator。Session 私有诊断先看 Registry::GetStatus，Registry Failed 时不扫描 native，motion 明确缺失而非补 0/缓存旧成功姿态。Session 因业务失败进入 Failed 不表示 Registry 一定损坏；两者失败域独立。原 S1-S4/C1-C3 继续，S5 对应 [T5 短借用/查询 guard](ecs.md#借用查询与同步)，不再使用 Free。
+
 ## 所有权与组合
 
 模块仅公开CPU值/Registry/World参数，依赖foundation/scene/ecs/world，PRIVATE链接真实symocraft_physics，不依赖Window/Renderer/app/SDK。Session借稳定专属Registry及const World，拥有固定步预算/控制冷却/Lens/状态，不保存平台/观测指针或组件地址。
 
-caller先注册五类组件，Session工厂检查注册与中立初态，在该Registry完整创建一个玩家后才发布；不创建Camera实体。失败可留下部分装配，caller丢弃专属范围，无共享Registry事务；Session析构不删除借用存储/实体。独立Session预算/选材/冷却隔离，不推出共享Registry、多窗口或并发安全。
+caller 先注册上节六类组件；Session 工厂检查注册与中立初态，在该 Registry 完整创建一个玩家后才发布，不创建 Camera 实体。失败可留下部分装配，caller 丢弃专属范围，无共享 Registry 事务；Session 析构不删除借用存储/实体。独立 Session 预算/选材/冷却隔离，不推出共享 Registry、多窗口或并发安全。
 AdvanceInput/有序PointerInput均为值；AdvanceResult自有身体pose、lens、selection、整数edit请求和本轮统计。普通caller决定是否派生视图/提交World，不借结果字段跨推进作第二运动权威。请求不带World版本条件，不代表已提交或异步队列。
 
-组件都是旧 ECS POD：Transform 保存 position/scale、以度为单位的 yaw/pitch 和 front/right/up；RigidBody 保存 velocity/acceleration 与 grounded/sensor/gravity；HitBox 保存绝对 size/offset，不由 Transform.scale 缩放。`zero_forces` 同时清 velocity 和 acceleration，名字不表示只清加速度。零填充组件不是所有算法都可直接使用的有效姿态/形状，创建者仍须完成初始化。
+Transform 保存 position/scale、以度为单位的 yaw/pitch 和 front/right/up；RigidBody 保存 velocity/acceleration 与 grounded/sensor/gravity；HitBox 保存绝对 size/offset，不由 Transform.scale 缩放。组件按正常对象初始化，不再依赖旧 POD/零填充；创建者须完成合法姿态/形状。`zero_forces` 同时清 velocity 和 acceleration，名字不表示只清加速度。
 
-CreatePlayer中立position/yaw/pitch重载初始化五组件，Camera重载仅保旧低层兼容；身体0.55×1.8×0.55、眼偏移0.65、速度4.4/6.2、起跳7.6、下落加速度-25不变。最小[ECS修补](ecs.md)支持检测拒绝/展开清理，不替代一般Remove、对齐、跨Registry/Clear身份等T5审计。
+CreatePlayer 的 position/yaw/pitch 重载装配原五组件并显式初始化 PhysicsStepOrder；Camera 重载仅保低层兼容。身体 0.55×1.8×0.55、眼偏移 0.65、速度 4.4/6.2、起跳 7.6、下落加速度 -25 不变。当前使用上节 T5 门面，实际结果不能从[旧 ECS 限定修补](ecs.md#f-主工作区旧实现)继承。
 
 依据：[目标](../../game/modules/simulation/CMakeLists.txt)、[组件](../../game/modules/simulation/include/symocraft/simulation/component.h)、[玩家值与创建](../../game/modules/simulation/src/player.cpp)、[交互值](../../game/modules/simulation/include/symocraft/simulation/playercontroller.h)。
 

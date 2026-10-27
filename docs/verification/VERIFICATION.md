@@ -15,6 +15,10 @@ tags:
 
 | 节点类型 | 节点与既有明确决定 | 权威批准依据 | 不可推导的结论 |
 | --- | --- | --- | --- |
+| 阶段整体验收通过 | M3-T5，2026-10-25 用户明确“批准 T5 整体完成，保留已列风险并更新验收记录，暂不提交 Git” | 本聊天用户明确决定；[整体批准与保留边界](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md#2026-10-25-t5与m3整体完成批准) | 未测/失败项通过、风险关闭、F 已取得 T5 代码、Git 或规格 sync/archive 授权 |
+| 阶段整体验收通过 | M3，2026-10-25 用户明确“M3 整体验收也通过”，其他机器 benchmark 改在现代性能分析工具接入后 | 本聊天用户明确决定；[M3 批准](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md#2026-10-25-t5与m3整体完成批准)及[最新范围](../scope/project-scope.md#已确认的目标) | 其他机器性能/M4/M5/M6 通过、Fix1 恢复或已修复、补造 T0/T1 独立历史批准、新玩法/分析工具接入授权 |
+| 设计冻结 | M3-T5，2026-10-20 用户明确“确认冻结，按此进入正式替换”：固定 EnTT v4.0.0/完整 commit、ENTT_NO_ETO、DBG01、按值身份批次与保留高水位及已核对接口方向 | 本聊天用户明确确认；[冻结设计](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/design.md#s014-待审冻结候选) | 新 Registry 已实现/通过、任意 OOM 恢复、T5/M3 验收或现役规格已同步 |
+| 正式实施入口 | M3-T5，2026-10-20 用户要求将上游代码同步至本 worktree 并进行正式工作，随后确认按冻结设计进入替换；实施根为 E 的 refactor-ecs-memory worktree | 本聊天用户明确授权；[输入与入口记录](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md#2026-10-20-上游输入同步与正式入口) | 删除清单批准、Git 提交/推送/合并、规格 sync/archive、额外性能/人工范围或整体验收 |
 | 阶段整体验收通过 | M3-T4，2026-10-19用户明确“批准T4整体完成，保留上述风险”并要求归档change | 本聊天用户明确决定；[完成批准与保留风险](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md#2026-10-19-t4整体完成批准) | 全套自动测试全绿、1175/Fix1关闭、跨工具链全部故障矩阵重跑、长时/中低端/真正干净机通过、T5/正式physics搬迁/GL退役或Git提交合并授权 |
 | 阶段整体验收通过 | T3-R4 / Vulkan及双现代接管、整体T3，2026-10-17用户明确“行，目前看来已达性能要求，批准r4/t3的完成” | 本聊天用户明确决定；[完成对账及保留风险](../openspec/changes/archive/2026-10-19-m3-t3-renderer/verification.md#2026-10-17-r4及t3完成确认) | 历史失败/尖峰根因已修复、最后局部改动完整边界/回归已补测、Win32 1175/Fix1关闭、长时/中低端/真正干净机通过、GL退役、T4验收或Git/规格sync/archive授权 |
 | 阶段整体验收通过 | M3-T2，2026-10-09 用户正式批准 | [批准身份](archive/t2-approval-20261009.7z) | Win32 1175 已修复、Fix1 恢复、正式同源 Q06 或首次可操作预算通过 |
@@ -29,6 +33,7 @@ tags:
 
 | Change | 验证正文 |
 | --- | --- |
+| T5 ECS/内存（2026-10-25 已批准、规格同步并归档，生产代码另获授权同步 F） | [verification.md](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md#2026-10-25-t5生产交付同步主工作区) |
 | T3 渲染接管（2026-10-19已归档） | [verification.md](../openspec/changes/archive/2026-10-19-m3-t3-renderer/verification.md) |
 | T4 应用/平台/模拟（2026-10-19已归档） | [verification.md](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md) |
 | T2 发布 Fix1（暂停） | [verification.md](../openspec/changes/m3-t2-publication-fix1/verification.md) |

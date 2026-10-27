@@ -7,7 +7,7 @@ tags:
 
 ## Purpose
 
-定义 T5 替换旧 ECS 的目标公开契约，不表示本目录已经实现或通过验证。旧机制见[architecture](../../../../../architecture/ecs.md)，实施组织见[design](../../design.md)。下述名称表达操作语义，最终 C++ 重载须经适配核对；不得借命名调整改变契约。验收身份均限定 M3-T5。
+定义 T5 替换旧 ECS 的目标公开契约，不表示本目录已经实现或通过验证。旧机制见[architecture](../../../../../../architecture/ecs.md)，实施组织见[design](../../design.md)。下述名称表达操作语义，最终 C++ 重载须经适配核对；不得借命名调整改变契约。验收身份均限定 M3-T5。
 
 ## ADDED Requirements
 

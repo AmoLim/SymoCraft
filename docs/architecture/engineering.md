@@ -7,7 +7,9 @@ tags:
 
 2026-10-19当前源码状态：F目录feature-refactoring已按用户明确授权取得验收后的T4生产代码及构建/测试配套，应用owner为symocraft_application，symocraft_app_runtime仅保留兼容别名；Session和内部physics为真实生产实现。默认D3D12、显式Vulkan与过渡GL保持，CPU-only关闭三图形后端。CLI构建使用VS2026/MSVC tools14.51.36231和SDK10.0.22621.0；旧VS2022缓存/结果保留，必须使用全新构建目录，不修改共享IDE设置。不是Git提交/合并、T5或正式physics模块搬迁授权；历史候选验证见[T4归档](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md)。
 
-本页维护当前构建、依赖隔离、测试及部署的正确性约束，不记录逐函数行为或历史测试成绩。操作入口见[根 README](../../README.md#构建与测试)与[开发脚本](../../scripts/README.md#build-setup-and-actions)；阶段结论、冻结材料与未验证项从[验证索引](../verification/VERIFICATION.md)进入。
+本页维护当前构建、依赖隔离、测试及部署的正确性约束，不记录逐函数行为或历史测试成绩。操作入口见[根 README](../../README.md#快速开始)与[开发脚本](../../scripts/README.md#build-setup-and-actions)；阶段结论、冻结材料与未验证项从[验证索引](../verification/VERIFICATION.md)进入。
+
+2026-10-25：T5 已获 T5/M3 整体验收批准、同步主规格并归档。用户随后独立授权生产传播，F 已取得 E 的 EnTT 门面/DBG01、调用迁移及必要构建/测试配套，并同步移除已验收的五份旧私有文件。本页 T5 专节现适用于主工作区；旧 ABI 缓存/结果保留，检查使用新目录，不启动游戏或执行 Git 提交/合并。
 
 ## 工具链与配置生命周期
 
@@ -57,7 +59,19 @@ T4 E候选以真实STATIC symocraft_application唯一拥有Application/GameRende
 
 ## 图形与第三方边界
 
-第三方头使用构建目录内的授权 `header-views/` 子集；数学、YAML、噪声、图像解码、PNG 写出、GLAD 和私有存储分别授权，不能发布整个 vendor 根。头视图复制失败使配置失败，已有副本不自动撤销。[受限头视图](../../cmake/ThirdPartyHeaders.cmake)与[游戏第三方配置](../../cmake/ThirdPartyGame.cmake)是实际来源。
+### T5 typed 依赖与统一 ABI
+
+本节已随 T5 生产传播适用于 F。`cmake/ThirdPartyEnTT.cmake` 建固定本地 v4.0.0 的 symocraft_entt INTERFACE target，只传播 EnTT 的窄 src 头根、C++20、ENTT_NO_ETO 和统一配置；唯一正式 symocraft_ecs STATIC owner PUBLIC 消费以满足 typed 模板定义。不会执行上游顶层 CMake/下载、发布整个 vendor、引入 EnTT 测试或给独立工具增加 ECS。EnTT 的原始源码/许可保字节，游戏安装增加原始 MIT 及完整来源通知。
+
+B3 的窄边界继续成立：ECS 受控模板对消费者可见 EnTT 定义不等于开放 native Registry/view/ID 或承诺完全隐藏第三方头/稳定二进制 ABI；非 ECS 生产代码仍不得直接 include native EnTT。`detail/entt_config.h` 拒绝未审覆盖并核对版本/traits/空对象配置；源码检查包括 .inl，PUBLIC 第三方例外只放行 ECS→symocraft_entt。
+
+`cmake/MsvcAbi.cmake` 在根和独立 benchmark 入口统一为全部 Debug C++ 设置 `_ITERATOR_DEBUG_LEVEL=0`，包含库、vendor 和消费者，保留 /MDd /Zi /Od /RTC1。不能只给 ECS 局部设宏或混用旧 level 2 对象；变更 ABI 用新目录全链路重建。DBG01 接受迭代器检查损失，不改 MSVC STL/EnTT、不证明任意 OOM 可恢复。Release 仍使用原 CRT/优化策略。
+
+合法极端状态适配留正式 ECS 库，只有 test/unit/ecs 的 registry_contract_tests 与 test/unit/simulation 的 session_tests 可 PRIVATE 取得精确 `ecs/src/diagnostics`，不开放整个 src、PUBLIC 或其他 target。测试和关闭测试都消费同一生产实现，不因测试创建不同 Registry 布局。退役后 ECS 编译源仅 registry.cpp，旧 internal.cpp 的临时所有权例外已撤除；CPU-only 不加图形 SDK，独立 benchmark 不加 EnTT。当前结果、增量范围及未覆盖项唯一见 [T5 verification](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md)。
+
+### 其他第三方边界
+
+除上节限定的 T5 EnTT 外，第三方头使用构建目录内的授权 `header-views/` 子集；数学、YAML、噪声、图像解码、PNG 写出、GLAD 和私有存储分别授权，不能发布整个 vendor 根。头视图复制失败使配置失败，已有副本不自动撤销。[受限头视图](../../cmake/ThirdPartyHeaders.cmake)与[游戏第三方配置](../../cmake/ThirdPartyGame.cmake)是实际来源。
 
 - SDL3 只由 `symocraft_platform` 私有消费，SDL 头仅存在于 platform 实现中；app、renderer 和 CPU 模块不得直接消费 SDL target、include path 或相对 vendor 头。SDL 静态构建，关闭共享库、内部测试、例子与独立安装，保留现有 MSVC CRT 策略。
 - platform 使用私有 `SDL_MAIN_HANDLED`；app 不需要引入 SDL 主入口头。SDL 窗口的 GL/Native/Vulkan 交接不代表生产 Vulkan renderer 已实现。
@@ -80,13 +94,14 @@ app 的 `symocraft_startup` 与 `symocraft_app_render_data` 是 app 私有 CPU S
 | 组合 | 当前工程契约 |
 | --- | --- |
 | 默认 | game、CPU 模块与独立 benchmark；现代 renderer CPU 门面、D3D12 与保留的旧 GL；游戏运行默认 D3D12 |
-| `SYMOCRAFT_CPU_ONLY=ON` | 局部强制 GAME/BENCHMARK/OPENGL/D3D12 OFF、CPU_MODULES ON；图形 SDK 不参与发现、配置或链接 |
+| `SYMOCRAFT_CPU_ONLY=ON` | 局部强制 GAME/BENCHMARK/OPENGL/D3D12/VULKAN OFF、CPU_MODULES ON；图形 SDK 不参与发现、配置或链接 |
 | GAME OFF、CPU_MODULES ON | 仍组织 CPU 模块和 app CPU 库，不创建 platform 或游戏；benchmark 由自己的开关决定 |
 | 根入口仅 benchmark | GAME 与 CPU_MODULES 显式 OFF、BENCHMARK ON；旧缓存中的 CPU_MODULES 不会因改 GAME 自动消失 |
 | `cmake -S tools/benchmark` | 工具独立配置，复用仓库内 YAML 与工具链检查；不创建游戏或检查游戏资源，不表示子目录可以脱离仓库构建 |
 | D3D12 ON | 要求 GAME ON；新配置默认取 GAME 状态，私有发现 SDK/DXC；候选身份记录仅在下述候选组合触发 |
 | OPENGL OFF、D3D12 ON | 现代独占游戏，省略选择默认 D3D12；显式 OpenGL 具名 Unsupported 退出、不回退 |
-| GAME ON、OPENGL/D3D12 均 OFF | 配置期具名失败；不建无实际后端的游戏 |
+| VULKAN ON | 要求 GAME ON，私有发现 Vulkan SDK 头及支持 SPIR-V 的独立 DXC；单 Vulkan 仍须显式选择 vulkan，不回退默认后端 |
+| GAME ON、OPENGL/D3D12/VULKAN 均 OFF | 配置期具名失败；不建无实际后端的游戏 |
 | `BUILD_TESTING=OFF` | 不注册测试和 fixture；符合候选组合时仍保留 Python 构建身份记录，普通游戏构建不由该步骤强制要求 Python |
 
 `SYMOCRAFT_BUILD_CPU_MODULES` 与 `SYMOCRAFT_RENDER_D3D12` 的默认值在首次定义时取 GAME 状态，之后是独立缓存选项。标准Debug/Release游戏preset显式设置D3D12=ON，重新配置会更新旧OFF缓存；自定义GL-only或GAME OFF组合使用命令行显式OFF覆盖preset，不经preset的旧缓存仍需显式启用，根option不使用FORCE。CPU-only强制值仍是当前配置作用域的覆盖，不将用户缓存全部改写。未编入默认后端时省略运行选择会具名拒绝而不是偷偷回退。模式矩阵应以实际target/Ninja图和产物检查为依据，而非仅看开关文字。
@@ -95,7 +110,7 @@ CPU-only 仍进入 game 的 CPU 组织并加载资产清单及共享 staging，�
 
 ### Vulkan候选构建
 
-本节同步E盘托管worktree机制供审核，F盘源码与现有构建表不由文档同步改写。Vulkan工作目录候选由默认OFF的 `SYMOCRAFT_RENDER_VULKAN` 单独启用且要求GAME；CPU-only局部强制VULKAN OFF，GAME全关闭拒绝也覆盖三后端。启用才私有发现SDK头和独立 `SYMOCRAFT_VULKAN_DXC`，构建时检查SPIR-V能力，不复用无该能力的Windows SDK DXC；同一blocks/selection HLSL及常量include生成四个VS/PS SPIR-V并单独安装。固定Vulkan1.2 target、DX布局/列主矩阵和b/t/s绑定位移，Debug保留direction location、Release优化移除，私有顶点layout分别匹配。运行只动态解析SDL所用loader，安装包不需要DXC/开发头；干净机器证明与组合矩阵仍独立验收。真实target及flags见[Vulkan构建](E:/Codex/Worktrees/refactor-renderer/Symocraft/cmake/RendererVulkan.cmake)，工作目录来源/结果见[T3验证](../openspec/changes/archive/2026-10-19-m3-t3-renderer/verification.md#2026-10-14-r4生产vulkan实现)，不改变D3D12默认、旧GL或其既有预算。
+标题保留原候选锚点；此机制已随获批准的 T3/T4 同步到 F，也被 T5 E 采用，并非 F 尚无 Vulkan。默认 OFF 的 `SYMOCRAFT_RENDER_VULKAN` 单独启用且要求 GAME；CPU-only 局部关闭，游戏三后端均关闭则拒绝。启用才私有发现 SDK 头和独立 `SYMOCRAFT_VULKAN_DXC`，检查真实 SPIR-V CodeGen，不复用无该能力的 Windows SDK DXC；同一 blocks/selection HLSL 及常量 include 生成四份 SPIR-V 并单独安装。固定 Vulkan1.2 target、DX 布局/列主矩阵和 b/t/s 绑定位移，Debug 保留 direction location、Release 优化移除，顶点 layout 分别匹配。运行动态解析 SDL 所用 loader，安装包不需要 DXC/开发头；干净机器和后续候选的实际组合另行验证。真实 target/flags 见 [Vulkan 构建](../../cmake/RendererVulkan.cmake)，点时来源/结果仍见 [T3 验证](../openspec/changes/archive/2026-10-19-m3-t3-renderer/verification.md#2026-10-14-r4生产vulkan实现)，不改变默认、GL 或既有预算。
 
 ### D3D12 候选身份限制
 

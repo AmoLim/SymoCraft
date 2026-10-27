@@ -8,6 +8,10 @@ tags:
 2026-10-19当前源码状态：用户在T4验收、规格同步及归档后明确授权同步生产代码，F主工作区feature-refactoring现已取得E目录T4实现及必要构建、测试配套。同步以已验收候选为源，保留主目录独立修改及旧构建，不执行Git提交/合并；下文2026-10-14/17等旧状态保留原时点。当前Application/SimulationSession与内部physics均已在主工作区，实际计算服务与T5仍未实施。既有候选批准及风险见[T4记录](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md#2026-10-19-t4整体完成批准)。
 
 `game/app` 是私有组合根，不是下层模块的服务定位器。公开行为引用 [module-boundaries](../openspec/specs/module-boundaries/spec.md)、[platform](../openspec/specs/platform/spec.md)、[world](../openspec/specs/world/spec.md)、[simulation](../openspec/specs/simulation/spec.md) 和 [renderer](../openspec/specs/renderer/spec.md)。
+
+2026-10-25 T5 更新：用户在 T5/M3 验收及归档后独立授权同步，F 已取得 E 的 EnTT 调用迁移；上段“T5 未实施”保留 T4 同步时点，不再代表当前源码。`application.cpp` 注册 PhysicsStepOrder 等六类组件，Session 创建玩家后用 Each<const PlayerComponent> 唯一查找并保留项目 EntityId，初态从装配后的组件读取，不以空 Advance 取初态。Scenario 的模拟前姿态覆盖仍在稳定结构阶段按 ID 重取 Transform，未新增相机 owner、原生存储逃生口或改变输入/时间/普通编辑时点。
+
+T5 的 Registry 仍先于借用 Session 存活且后于它清理；ECS 结构阶段后即重取借用，不以失败保值恢复旧地址。现有逐实例装配/Shutdown、首错与封闭导出策略保持，相关机制分别见 [ecs](ecs.md#t5-实现机制) / [simulation](simulation.md#t5-调用适配)。新候选集成与三路径用户反馈只在 [T5 verification](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md) 记录，不继承 T4 性能或自动形成 T5/M3 批准。
 以下T4机制已落实于[Application](../../game/app/src/application.cpp)，该实现已按后续明确授权同步到F主工作区。`symocraft_application`正式静态库唯一拥有Application/GameRenderer/RunGame实现，`symocraft_app_runtime`仅为旧消费者兼容target别名，exe仅编薄main；T4于2026-10-19获用户整体批准并保留风险，节点与实际结果分别从[VERIFICATION](../verification/VERIFICATION.md)和change verification判读，本次源码同步不产生Git历史合并。
 
 ## 所有权与寿命

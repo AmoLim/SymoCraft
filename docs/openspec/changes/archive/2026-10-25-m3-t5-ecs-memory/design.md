@@ -5,13 +5,13 @@ tags:
 
 ## Context
 
-目标公开行为仅由 [ecs](specs/ecs/spec.md) 与 [module-boundaries delta](specs/module-boundaries/spec.md)维护，范围见 [proposal](proposal.md)，现状见[当前 ECS](../../../architecture/ecs.md)。这里解释目标机制，不把模板头、版本号或规划完成视为已经实现。
+目标公开行为仅由 [ecs](specs/ecs/spec.md) 与 [module-boundaries delta](specs/module-boundaries/spec.md)维护，范围见 [proposal](proposal.md)，现状见[当前 ECS](../../../../architecture/ecs.md)。这里解释目标机制，不把模板头、版本号或规划完成视为已经实现。
 
-2026-10-19 当前输入：T4 已获本机范围整体验收，规格同步并归档；生产源码及必要构建/测试配套随后按用户明确授权同步至 F 的 feature-refactoring，依据为 [T4 完成批准](../archive/2026-10-19-m3-t4-application-simulation/verification.md#2026-10-19-t4整体完成批准)、[scope](../../../scope/project-scope.md#m3-t4-完成应用平台与模拟模块接口)和[当前工程状态](../../../architecture/engineering.md)。归档中早期“仅 E 候选/F 仅 T3”的文字保留其历史时点，不再代表当前输入；源码同步不是 Git 历史合并。
+2026-10-19 当前输入：T4 已获本机范围整体验收，规格同步并归档；生产源码及必要构建/测试配套随后按用户明确授权同步至 F 的 feature-refactoring，依据为 [T4 完成批准](../2026-10-19-m3-t4-application-simulation/verification.md#2026-10-19-t4整体完成批准)、[scope](../../../../scope/project-scope.md#m3-t4-完成应用平台与模拟模块接口)和[当前工程状态](../../../../architecture/engineering.md)。归档中早期“仅 E 候选/F 仅 T3”的文字保留其历史时点，不再代表当前输入；源码同步不是 Git 历史合并。
 
-F 当前 ECS 仍是含 T4 限定注册/分配安全修补的旧字节池、进程类型 counter 和 iterator，尚非 EnTT Registry。本轮只读核对 F 的 `session.cpp`、`physics_adapter.cpp` 和 app target：真实 SimulationSession 借专属 Registry，物理小值求解成功后提交当前实体；应用 owner 为 `symocraft_application`，`symocraft_app_runtime` 仅为别名，内部 `symocraft_physics` 位于 simulation/physics。现役行为由 [simulation](../../specs/simulation/spec.md)、[physics-core](../../specs/physics-core/spec.md)、[application-lifecycle](../../specs/application-lifecycle/spec.md)及[telemetry-lifecycle](../../specs/telemetry-lifecycle/spec.md)维护，不将旧归档的 Purpose 当当前未实现证明。
+F 当前 ECS 仍是含 T4 限定注册/分配安全修补的旧字节池、进程类型 counter 和 iterator，尚非 EnTT Registry。本轮只读核对 F 的 `session.cpp`、`physics_adapter.cpp` 和 app target：真实 SimulationSession 借专属 Registry，物理小值求解成功后提交当前实体；应用 owner 为 `symocraft_application`，`symocraft_app_runtime` 仅为别名，内部 `symocraft_physics` 位于 simulation/physics。现役行为由 [simulation](../../../specs/simulation/spec.md)、[physics-core](../../../specs/physics-core/spec.md)、[application-lifecycle](../../../specs/application-lifecycle/spec.md)及[telemetry-lifecycle](../../../specs/telemetry-lifecycle/spec.md)维护，不将旧归档的 Purpose 当当前未实现证明。
 
-T5 独立 CPU 实验仍位于原 E 实验树，该树尚未取得上述 Session 源码；不以实验树的旧检出覆盖 F。生产替换前由 S01.1 单独绑定实际源码/构建身份、统一 ABI 和代码根/实施范围，不因上游同步或本次文档更新自动进入生产实现。
+2026-10-20 用户明确授权后，原 E 实验树已定向取得上游 `6fea31e4631e267f132aa9b1608dc6538b562e13` 的代码/构建/测试输入，4362 项逐字节核对一致；原实验及旧结果保留，Git HEAD 未移动。E 是 T5 正式实施代码根，F 继续持有唯一规划正文，不将后续 T5 改动自动回写主工作区生产代码。输入原配置与计划采用的 DBG01 分开，新配置必须重新构建，具体基线与源身份见 [verification](verification.md#2026-10-20-上游输入同步与正式入口)。
 
 2026-10-18：S01.2/S01.3 的独立前置核对已完成；下方 S01.4 只是在用户确认范围内保存待审候选，不是正式冻结或生产入口。当前实验与生产 Registry 分开，实际依据及未覆盖项见 [verification](verification.md)。
 
@@ -74,7 +74,7 @@ registry.EachOrdered<Transform, const Velocity>(
 
 ### 消费者与退役组织
 
-迁移基线为 F 已同步的 T4 生产源码，沿用[T4 交接](../archive/2026-10-19-m3-t4-application-simulation/design.md#消费者交接)，并在 S01.1 绑定 T5 实际采用输入。下表保留既有消费者核对所得的必要适配方向，正式迁移仍须逐处复核，不复制成另一份任务清单：
+迁移基线为 F 已同步的 T4 生产源码，沿用[T4 交接](../2026-10-19-m3-t4-application-simulation/design.md#消费者交接)，并在 S01.1 绑定 T5 实际采用输入。下表保留既有消费者核对所得的必要适配方向，正式迁移仍须逐处复核，不复制成另一份任务清单：
 
 | 消费者 | 必要迁移及不得改变的边界 |
 | --- | --- |
@@ -86,6 +86,16 @@ registry.EachOrdered<Transform, const Velocity>(
 
 旧 `AddComponent` 实际是获取或新增，不能全仓库机械替换成严格 Emplace。检查跨增删持有的引用、传给构造的组件内部借用及旧 EntityId 数字运算；仅必要修正，不顺便改算法。某真实消费者依赖处理次序时，为它显式声明完整业务排序键；不能用 native ID 补齐后宣称确定性，也不因顺序变化悄悄放宽业务对照。
 
+#### 物理步进顺序
+
+2026-10-20 调用方复核确认 Session 的既有部分提交夹具依赖玩家先于后续坏实体求解，不能直接继承 EnTT 的池次序。用户明确同意显式业务顺序键并要求先更新设计。本项细化既有 A17/A22 的完整键/调用方迁移，沿用[现役部分推进失败与 D12](../../../specs/simulation/spec.md#requirement-rejection-and-partial-advance-failure)、[核心 D04 边界](../../../specs/physics-core/spec.md#requirement-borrowed-query-and-per-body-result)，不修改 T4 归档或现役规格，不扩大物理核心职责。
+
+simulation 的普通值组件 `PhysicsStepOrder` 保存装配方显式提供的 uint64 顺序键；它不是 EntityId、存档身份或 Registry 自动签发序号，不按原生实体、地址、默认池顺序或当前运动值补序。专属 Session 玩家装配显式使用键 0，额外刚体由其装配方使用其他唯一键；调用方负责注册该组件与本步完整刚体集合中的键唯一性。键可由业务确定，不为此新增全局分配器/持久排序表，不能靠默认构造多个键 0 当合法装配。
+
+`physics_adapter` 的匹配集合仍是 Transform/RigidBody/HitBox，不把顺序组件加到筛选中而静默遗漏缺键刚体。用 EachOrdered 的只读键生成读取每个匹配体的 PhysicsStepOrder，在任何本步物理 visitor 前完成键准备、排序和平局检查；缺注册/缺键、平局、键暂存分配或比较失败均停止本步，物理实体提交数为零。此前已执行角色规则/预算或前序子步不因此回滚，Session 仍按实际阶段报告 AdvanceFailed，不伪装为时间/输入预检 Rejected。
+
+按键逐体取小值、求解成功后才提交本体，不提前校验所有运动/形状来抹去合法的前序部分提交；排序只改变显式顺序依据，不改变求解算法、D12 字段/固定阈值或跨实体回滚边界。每子步键是自有快照；装配方不得借回调改键来重排本轮。配套验证覆盖反向装配/原生池重排后仍按业务键提交、缺键/平局零本步提交、后续坏体保前序提交及同一生产 CPU 双装配对照；有序准备的有界成本纳入既有 S04.5，不由此授权正式性能采样。
+
 旧 `component_container.h`、`internal.cpp` 的池逻辑、RegistryViewer/Iterator、byte API 和私有 RawMemory 序列化是定向退役候选；准确文件/符号/依赖清单仍须执行时报告并获确认。此前在 T4 候选核到 `Camera.cpp` 及 legacy 命名基线的正式 target 或测试消费者，S05.1 须在 F 当前源码复核，不能按文件名删除。`AmoBase.cpp` 同时含 allocator 与日志等责任，main、foundation 测试和旧故障探针仍有依赖；不因 ECS 改标准分配就整文件删除。旧线程池/输入残留若已在先前清理中不存在，不恢复一份再宣称删除。
 
 ### 验证分层与有限成本核对
@@ -94,13 +104,13 @@ registry.EachOrdered<Transform, const Velocity>(
 
 真实分配故障用隔离测试可执行程序控制实际 standard new/aligned new 等所需路径，关闭故障后再做可能分配的断言/诊断；旧 AmoMemory probe 不再证明新池失败。第一版覆盖代表性的注册、创建、增长、构造、有序暂存/Clear 准备路径，不要求一开始扫描每个分配序号。普通 MSVC Debug 的 iterator proxy 在 noexcept 路径可能终止，须在实际配置核实，不能用关闭全库 iterator debug 的专用结果冒充默认 Debug 可恢复。生产库布局、EnTT 配置不为测试改成另一份；原始 bad_alloc、资源计数、未发布及失败后再次正常操作都需证据。
 
-第二层复用 T4 同一生产 CPU 双装配对照及小值核心/World 测试，不以旧坏 ECS 作基准；按已同步的[现役 D12 契约](../../specs/simulation/spec.md#requirement-same-production-cpu-comparison)逐 Advance/World 提交核对，逻辑角色对应、不比原 ID。第三层按受影响范围验证真实构建/SDK隔离/后端组合/部署/玩法及退出；不把每个历史矩阵机械全部重跑，也不以代码或一个 API 代双现代。
+第二层复用 T4 同一生产 CPU 双装配对照及小值核心/World 测试，不以旧坏 ECS 作基准；按已同步的[现役 D12 契约](../../../specs/simulation/spec.md#requirement-same-production-cpu-comparison)逐 Advance/World 提交核对，逻辑角色对应、不比原 ID。第三层按受影响范围验证真实构建/SDK隔离/后端组合/部署/玩法及退出；不把每个历史矩阵机械全部重跑，也不以代码或一个 API 代双现代。
 
 成本核对限代表性的注册/创建/增删、普通/有序遍历、增长与清理，记录源码/配置、场景规模、时间/分配/峰值或缺失项。旧实现仅可作为已知正确子集的定性或局部成本对照，不能为性能保留永久双实现。未设 T5 数值预算，不倒定通过线、不自动沿用 T2/T3 GPU 或内存预算，不新增长采样/多机任务。人工项目/总时长与新增正式性能执行范围在执行前确认。
 
 ### S01.4 待审冻结候选
 
-本节为 2026-10-18 用户明确同意保存的待审稿，不新增批准。目标语义仍以两份 delta spec 为准；下列细化不重选已确认 D01、CT01/TH01/UP01/DF01/TK01/BT01/RS01/TH02/QO01。S01.4 只有在所需核对及版本/设计冻结、生产入口确认分别成立后才完成，当前不勾选。
+本节标题保留原待审锚点供历史链接使用。2026-10-20 用户明确确认“确认冻结，按此进入正式替换”，冻结现有依赖/配置与本设计，正式入口另按同日明确授权登记；权威节点见 [VERIFICATION](../../../../verification/VERIFICATION.md#关键节点)。目标语义仍以两份 delta spec 为准，不重选 D01、CT01/TH01/UP01/DF01/TK01/BT01/RS01/TH02/QO01。冻结不等于生产实现或契约验收，后续机制冲突/范围扩大仍先报告。
 
 #### 依赖与构建身份
 
@@ -118,11 +128,11 @@ registry.EachOrdered<Transform, const Velocity>(
 
 推荐用一个进程内、跨 Registry 外部串行的非零 uint64 单调批次，同时区分 owner 及每次成功 Clear；签发最大值后进入永久耗尽状态，避免自增回绕。EntityId 私有保存批次及 native 实体值，默认批次 0 为空；相等/哈希不读 Registry，只公开相等与 `std::hash<EntityId>`，不公开字段、整数转换或排序，也不冻结 padding/二进制布局。身份源在正式 ECS 实现中唯一拥有，不复制到每个 TU；不承诺 DLL/插件或跨进程身份。
 
-生产候选按值保存及准备批次，不为这一个整数必设堆 owner。S01.3 的 `unique_ptr<Batch>` 是验证“可能失败的准备先于清理”的实验路径，不是强制每次 Clear 分配 8 字节的设计依据。按值版本仍需核对耗尽拒绝、准备/提交顺序及构造展开；不能把原堆准备的 OOM 成绩写成按值版本的新实测。若最终准备阶段确无分配，则明确记为该点不发生分配，而不是模拟出一次恢复通过；A06 的耗尽及任何实际存在的准备失败保证不变。
+按值保存及准备批次，不为这一个整数必设堆 owner。S01.3 的 `unique_ptr<Batch>` 只是验证准备先于清理的实验路径，不是每次 Clear 分配 8 字节的设计依据。按值组合的耗尽拒绝、准备/提交及构造展开已有[独立实测](verification.md#2026-10-19-按值批次与创建高水位组合核对)，生产实现仍须按自身实际路径测试；不把原堆准备的 OOM 成绩转移过来。确无分配的准备点记为不发生分配，不模拟恢复通过，A06 保持。
 
 每 Registry 保留一个内部 fresh-index 高水位，而非第二套槽映射。有回收槽时只走 native 回收；否则先拒绝 `next_fresh >= 0xFFFFF`，以明确 hint 创建下一新槽，仅成功后推进高水位；不依赖原生 `next()` 的断言、占用实体数量或故障后继续扫描来维护容量边界。合法新索引为 0..1048574；保留原生版本 4095，销毁前拒绝版本 4094，允许 4093 正常递增至 4094。异常后不能确认实际存储一致性时进入 Failed，不猜测高水位回滚或继续签发。
 
-**Clear 与高水位必须一起处理。** 固定候选的 `registry.clear()` 清组件后对实体存储调用 erase，保留已取得实体槽以供回收，而非清空整个实体存储。因此推荐成功 Clear 后更换项目批次、保留注册/名称及 fresh-index 高水位；不能仅将高水位置 0，再让仍保留的槽与新 hint 冲突。新身份先准备、原生清理成功后才提交批次；若清理一致性不可确认则 Failed，已消耗批次不回收。析构不申请新身份。此组合来自静态核对，尚需下方定向实验，不冒称 S01.3 已测整合版本。
+**Clear 与高水位必须一起处理。** 固定候选的 `registry.clear()` 清组件后对实体存储调用 erase，保留已取得实体槽以供回收，而非清空整个实体存储。成功 Clear 更换项目批次、保留注册/名称及 fresh-index 高水位；不能将高水位置 0，与保留槽形成 hint 冲突。新身份先准备、原生清理成功后才提交；一致性不可确认则 Failed，已消耗批次不回收，析构不申请新身份。2026-10-19 的独立组合及故意清零反例已取证，不能据此宣称尚未实现的生产 Registry 通过。
 
 类型检查推荐复用实验的独立 inline 类型 token 地址，裸 T 归一化仅发生于允许 const 的入口；以真实 token 查重复，以默认 native key 查不同类型碰撞。限当前同一链接域的跨 TU 使用，不依赖 native type_info 的哈希相等或诊断名，配置变化/动态模块不自动沿用证据。名称副本、元数据容量和必要 native 空池先准备，最后通过已准备容量及不抛转移发布注册标记；留下空容量/空池不等于注册成功。真实对象存储及类型的移动/析构约束不变。
 
@@ -143,13 +153,13 @@ EntityId 的默认空值即可用于初态；是否保留既有 `null_entity` �
 
 统一入口仍先 Failed、再调用上下文、最后身份/注册/参数；所有结构入口含无变化路径先查 guard。查询保护覆盖筛选/键生成/暂存/排序/平局检查至本层 visitor 完成；不捕获 visitor 异常后假装回滚值，不把任意 bad_alloc 一律标 Failed 或一律可恢复。受控一致性错误分支只验证状态策略，不声称可以恢复任意内存损坏。
 
-#### 正式冻结前的准确缺口
+#### 冻结依据与实施前置
 
-- 补按值批次准备与受控创建组合的窄实验：成功/失败 Clear 保留对应批次和高水位，回收槽全部用尽后继续创建新槽，边界/耗尽后 Clear 仍不发生 hint 冲突或旧 ID 复活。S01.3 分别验证过这些机制，尚未运行这个整合序列。
-- 对上述公开重载补最小声明/实例化核对，特别是 const 传播、null 指针与 string_view 重载、零必需查询及返回协议；已有 native const 负例不能覆盖项目全部重载。原型不是生产门面，不将补声明试验当正式生产契约通过。
-- S01.1 仍须绑定 T5 采用的交付源码、实际统一 ABI/工具链输入和代码根/生产范围；设计冻结与正式实施入口分开记录。T3/T4 已批准归档、F 已同步 T4 源码，不再等待上游交付或重复验收；尚待的是 T5 自身输入/权限及替换后的适用组合验证，不能从旧实验树或上游成绩直接推定。
+- 按值批次/高水位组合已取得有界实测及错误清零反例，见[组合核对](verification.md#2026-10-19-按值批次与创建高水位组合核对)；生产身份、边界与失败保证仍按正式实现复验。
+- const/名称/查询重载已有正例实例化、运行及每配置 36 个预期编译拒绝，见[接口核对](verification.md#2026-10-19-公开重载候选定向核对)。冻结此接口方向不把原型当生产门面，其他完整对象/模板契约仍需生产测试。
+- S01.1 已绑定上游源码、实际工具链与 E 代码根，本轮正式工作授权及设计冻结分别记录。T3/T4 不重复验收；替换后的 CPU/消费者/图形/部署等结果不继承旧成绩，删除、额外采样和人工执行范围仍各自确认。
 
-上述只给出定向补核对范围，不启动生产实现、其他工作树合并、性能/人工矩阵或删除。已批准 DBG01 不重开；其余候选须审阅后才可升级为正式冻结。验证正文仍只维护同一 verification.md，不新增冻结包、API 清单文档或第二活动计划。
+按同日明确授权开始 S02 起的正式实现，不包含其他工作树合并、未确认的性能/人工矩阵或删除。已批准 DBG01 不重开，发现新冲突仍先报告；验证正文只维护同一 verification.md，不新增冻结包、API 清单文档或第二活动计划。
 
 ## Decisions
 
@@ -157,8 +167,8 @@ EntityId 的默认空值即可用于初态；是否保留既有 `null_entity` �
 
 ## Risks And Compatibility
 
-1. **候选库不等于契约实现。** S01.2/S01.3 已完成有界独立核对，未冻结精确版本/完整设计或交付新 Registry；S01.4 候选及准确缺口见上。若必须改上游或放宽已选语义，停止并报告，不默选其他路线。
-2. **上游已同步，T5 输入仍须绑定。** T3/T4 已批准归档，F 已取得 T4 生产源码及配套，不再是仅 T3/审核文档状态。旧 T5 实验树与 F 当前输入不同，实际采用源码、统一 ABI 和代码根权限仍归 S01.1；既有上游批准不自动授权 T5 替换，也不证明替换后组合正确，不用规划或历史成绩代批。
+1. **冻结不等于契约实现。** S01 已完成输入、独立核对和明确冻结/入口，尚未交付新 Registry。必须改上游或放宽已选语义时停止报告，不默选其他路线。
+2. **同步不继承验证成绩。** T3/T4 已批准归档，E 已定向取得 F 上游代码，但并非 Git HEAD 已切换，精确身份以同步清单为准。后续 DBG01 和 Registry 变更均使用新构建目录/结果，不复用旧 ABI 缓存，不用输入基线代替替换后验证。
 3. **普通引用没有运行时全保护。** 项目可检查 Registry 入口及查询深度，不能捕获所有隐藏别名/线程/失效借用；使用方及测试不得依赖越界误用被拦截。线程交接仍需结束所有借用和建立同步。
 4. **清理与 OOM 证明有边界。** noexcept 类型声明不证明每个 MSVC/allocator 组合都不会实际分配；只有明确配置/路径的测试结果才有效，不宣称全进程 OOM 恢复。销毁次序无保证，资源 owner 的线程/寿命限制独立成立。
 5. **收口还有显式执行前置。** 准确退役清单、T5 人工复查项目/总时长及任何新增正式采样范围须确认；这些不阻止形成规划，但未满足时对应执行/整体验收不能通过。结果只维护同一 change 的 verification.md，当前不预建成绩或附件。

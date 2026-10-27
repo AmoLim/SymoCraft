@@ -34,6 +34,8 @@ Win32 1175 根因/正式同源 Q06 仍未关闭，[Fix1](../openspec/changes/m3-
 
 ## 旧分配与诊断边界
 
+T5 的 [ECS](ecs.md#t5-实现机制) 已改用标准分配并于 2026-10-25 按用户独立授权同步 F，不再消费旧字节池或 allocator probe。AmoBase 仍同时承载实际日志、app 初始化/诊断及 foundation 分配测试，故保留本节机制与消费者，不因 ECS 停用而整文件/整库删除。新 ECS 的 OOM 依据来自实际 new/aligned-new 注入，不是旧 tracked 开关；本次不是全局内存、特殊对齐或全进程 OOM 审计完成声明。
+
 `AmoBase` 兼容入口保留 `malloc/realloc/free` 和字节操作。tracking 模式在分配前后增加哨兵，以私有 vector 记录地址、大小、来源和活动计数；记录拥有元数据而不拥有调用方 payload。`file_allocator` 借用来源字符串，宏的 `__FILE__` 有静态寿命；自行调用须保证该字符串覆盖后续诊断。`references` 是旧记账，不是通用共享引用计数或稳定 allocation handle。
 
 调用方不得混用 tracking/非 tracking 指针，不得在活动分配期间改变模式或 buffer 单位；Free仍要求有效、非空、未释放的库分配，非法/重复释放处理没有在本轮重构。原始字节函数要求合法足量内存，CopyMem沿 `memcpy` 的非重叠前提。没有通用RAII payload owner；具体调用方仍须在取得分配后接管所有权。

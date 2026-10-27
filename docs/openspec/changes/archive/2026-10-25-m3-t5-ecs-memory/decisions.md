@@ -11,9 +11,9 @@ tags:
 
 ### 依据与适用范围
 
-[T5 范围](../../../scope/project-scope.md#m3-t5-完成-ecs内存契约与整体验收)要求核对组件增删、所有权、引用失效及失败行为。当前[公开头](../../../../game/modules/ecs/include/symocraft/ecs/registry.h)仍限制 standard-layout 且 trivial 的组件；这里记录未来目标，不把正常 C++ 对象生命周期支持写成现役能力。
+[T5 范围](../../../../scope/project-scope.md#m3-t5-完成-ecs内存契约与整体验收)要求核对组件增删、所有权、引用失效及失败行为。当前[公开头](../../../../../game/modules/ecs/include/symocraft/ecs/registry.h)仍限制 standard-layout 且 trivial 的组件；这里记录未来目标，不把正常 C++ 对象生命周期支持写成现役能力。
 
-沿用现役[module-boundaries](../../specs/module-boundaries/spec.md)与[simulation](../../specs/simulation/spec.md)边界；[T4 设计](../archive/2026-10-19-m3-t4-application-simulation/design.md)及[实体装配选择](../archive/2026-10-19-m3-t4-application-simulation/decisions.md#q01-实体装配入口)仍独立有效。本项不接管 caller 的组件注册责任、不改变物理核心的中立小值输入，也不扩大 T4 的局部修补范围。
+沿用现役[module-boundaries](../../../specs/module-boundaries/spec.md)与[simulation](../../../specs/simulation/spec.md)边界；[T4 设计](../2026-10-19-m3-t4-application-simulation/design.md)及[实体装配选择](../2026-10-19-m3-t4-application-simulation/decisions.md#q01-实体装配入口)仍独立有效。本项不接管 caller 的组件注册责任、不改变物理核心的中立小值输入，也不扩大 T4 的局部修补范围。
 
 ### 候选与选择
 
@@ -60,7 +60,7 @@ tags:
 
 ### 依据与选择
 
-沿用[T5 范围](../../../scope/project-scope.md#m3-t5-完成-ecs内存契约与整体验收)与[T4 设计](../archive/2026-10-19-m3-t4-application-simulation/design.md)的所有权、同步借用、自有结果和部分提交边界。本项规定未来 Registry 的线程使用方向，不表示现有 ECS 已支持线程交接，也不授权修改 T4 调度或接入计算线程。
+沿用[T5 范围](../../../../scope/project-scope.md#m3-t5-完成-ecs内存契约与整体验收)与[T4 设计](../2026-10-19-m3-t4-application-simulation/design.md)的所有权、同步借用、自有结果和部分提交边界。本项规定未来 Registry 的线程使用方向，不表示现有 ECS 已支持线程交接，也不授权修改 T4 调度或接入计算线程。
 
 | 方案 | 使用方式 | 权衡与状态 |
 | --- | --- | --- |
@@ -101,7 +101,7 @@ tags:
 | 2 额外提供完整值替换 | 仅保留未来候选，尚未采用 | 可集中候选构造与提交契约；增加入口、参数别名、引用失效及失败路径的维护成本 |
 | 3 所有修改强制经过受控入口 | 本次未选 | 有利于统一追踪，但须改变已接受的可写引用契约，并迁移全部写入消费者 |
 
-沿用[现役 simulation](../../specs/simulation/spec.md)及[T4 部分推进失败契约](../archive/2026-10-19-m3-t4-application-simulation/specs/simulation/spec.md#requirement-rejection-and-partial-advance-failure)的职责边界；T4 的逐实体候选计算/提交与前序提交保留继续有效。本项不是取消业务层的候选提交，也不把未来 `Replace` 写成当前能力。
+沿用[现役 simulation](../../../specs/simulation/spec.md)及[T4 部分推进失败契约](../2026-10-19-m3-t4-application-simulation/specs/simulation/spec.md#requirement-rejection-and-partial-advance-failure)的职责边界；T4 的逐实体候选计算/提交与前序提交保留继续有效。本项不是取消业务层的候选提交，也不把未来 `Replace` 写成当前能力。
 
 ### 初版更新与异常边界
 
@@ -139,7 +139,7 @@ tags:
 | 2 ECS 显式命令缓冲 | 仅保留未来候选，调用方显式提交 | 可复用重复的记录与执行逻辑，但增加参数所有权、次序、身份及失败契约 |
 | 3 自动延迟结构修改 | 本次未选 | 接口生效时点随查询上下文变化，错误可能延迟暴露，增加推理与调试成本 |
 
-沿用[T5 范围](../../../scope/project-scope.md#m3-t5-完成-ecs内存契约与整体验收)、[现役模块边界](../../specs/module-boundaries/spec.md)及[T4 部分推进失败契约](../archive/2026-10-19-m3-t4-application-simulation/specs/simulation/spec.md#requirement-rejection-and-partial-advance-failure)。这里记录目标选择，不宣称当前旧 ECS 已具备对应检查，也不改变 T4 的业务提交时点或扩大生产迁移范围。
+沿用[T5 范围](../../../../scope/project-scope.md#m3-t5-完成-ecs内存契约与整体验收)、[现役模块边界](../../../specs/module-boundaries/spec.md)及[T4 部分推进失败契约](../2026-10-19-m3-t4-application-simulation/specs/simulation/spec.md#requirement-rejection-and-partial-advance-failure)。这里记录目标选择，不宣称当前旧 ECS 已具备对应检查，也不改变 T4 的业务提交时点或扩大生产迁移范围。
 
 ### 初版执行边界
 
@@ -175,7 +175,7 @@ NPC 数量增加、未来可能并行或底层库具有相关能力，不单独�
 | 1 默认键加碰撞检查 | 初版已选，注册前检查并拒绝真实类型碰撞 | 复用底层默认访问路径，但存在明确的类型键冲突拒绝边界 |
 | 2 项目分配内部存储键 | 仅保留未来候选，按类型分配不同键并适配指定存储访问 | 可避开默认键碰撞，但增加键分配、映射、容量与查询路径的维护成本 |
 
-依据为[T5 范围](../../../scope/project-scope.md#m3-t5-完成-ecs内存契约与整体验收)、[现役模块边界](../../specs/module-boundaries/spec.md)及 EnTT v4.0.0 的[默认和指定存储访问](https://github.com/skypjack/entt/blob/v4.0.0/src/entt/entity/registry.hpp)、[类型信息](https://github.com/skypjack/entt/blob/v4.0.0/src/entt/core/type_info.hpp)。当前[旧公开头](../../../../game/modules/ecs/include/symocraft/ecs/registry.h)仍采用类型 counter；本项是目标选择，不宣称已实现碰撞保护，也不在此冻结第三方版本或启动适配。
+依据为[T5 范围](../../../../scope/project-scope.md#m3-t5-完成-ecs内存契约与整体验收)、[现役模块边界](../../../specs/module-boundaries/spec.md)及 EnTT v4.0.0 的[默认和指定存储访问](https://github.com/skypjack/entt/blob/v4.0.0/src/entt/entity/registry.hpp)、[类型信息](https://github.com/skypjack/entt/blob/v4.0.0/src/entt/core/type_info.hpp)。当前[旧公开头](../../../../../game/modules/ecs/include/symocraft/ecs/registry.h)仍采用类型 counter；本项是目标选择，不宣称已实现碰撞保护，也不在此冻结第三方版本或启动适配。
 
 ### 初版边界
 
@@ -211,7 +211,7 @@ NPC 数量增加、未来可能并行或底层库具有相关能力，不单独�
 | 1 单实体操作加上层循环 | 初版已选，业务决定装配及批次失败处理 | 接口小，沿用单次操作契约，不新增批次事务 |
 | 2 显式批量入口 | 仅保留未来候选，一次接受数量或实体 ID 集合 | 可能集中校验、减少重复工作，但增加输入、次序、部分成功及重试契约 |
 
-沿用[T5 范围](../../../scope/project-scope.md#m3-t5-完成-ecs内存契约与整体验收)、[T4 实体装配边界](../archive/2026-10-19-m3-t4-application-simulation/decisions.md#q01-实体装配入口)及[部分推进失败契约](../archive/2026-10-19-m3-t4-application-simulation/specs/simulation/spec.md#requirement-rejection-and-partial-advance-failure)。批量接口解决一次处理多个实体，不等于[延迟命令缓冲](#m3-t5-df01-查询后的结构修改)；不因批次存在就改变查询期间禁止结构修改、专属装配范围或 T4 提交时点。
+沿用[T5 范围](../../../../scope/project-scope.md#m3-t5-完成-ecs内存契约与整体验收)、[T4 实体装配边界](../2026-10-19-m3-t4-application-simulation/decisions.md#q01-实体装配入口)及[部分推进失败契约](../2026-10-19-m3-t4-application-simulation/specs/simulation/spec.md#requirement-rejection-and-partial-advance-failure)。批量接口解决一次处理多个实体，不等于[延迟命令缓冲](#m3-t5-df01-查询后的结构修改)；不因批次存在就改变查询期间禁止结构修改、专属装配范围或 T4 提交时点。
 
 ### 初版边界
 
@@ -245,7 +245,7 @@ NPC 数量增加、未来可能并行或底层库具有相关能力，不单独�
 | 1 自动增长 | 初版已选，不公开实体或组件容量预分配入口 | 不要求消费者管理存储容量，但增长成本仍可能发生在普通操作中 |
 | 2 显式预分配 | 仅保留未来候选，由调用方按预期数量提前准备容量 | 可能将部分增长成本移至装配阶段，但增加容量、借用失效和失败契约，也可能保留闲置内存 |
 
-沿用[T5 范围](../../../scope/project-scope.md#m3-t5-完成-ecs内存契约与整体验收)及[线程使用边界](#m3-t5-th01-线程使用范围)。预分配决定准备容量的时点，不等于更换分配器，也不等于[批量增删](#m3-t5-bt01-批量实体增删)。本项只记录未来目标，不改变当前实现或授权新增接口；`ReserveEntities`、`Reserve<T>` 仅为讨论名称，不冻结签名。
+沿用[T5 范围](../../../../scope/project-scope.md#m3-t5-完成-ecs内存契约与整体验收)及[线程使用边界](#m3-t5-th01-线程使用范围)。预分配决定准备容量的时点，不等于更换分配器，也不等于[批量增删](#m3-t5-bt01-批量实体增删)。本项只记录未来目标，不改变当前实现或授权新增接口；`ReserveEntities`、`Reserve<T>` 仅为讨论名称，不冻结签名。
 
 ### 方案 2 的评估触发条件
 
@@ -274,7 +274,7 @@ NPC 数量增加、理论性能担忧或底层库支持 Reserve，不单独触�
 | 1 跨实例外部串行 | 初版已选，不同实例的 ECS 访问也由调用方协调先后 | 适合当前串行推进，不提前扩大共享机制的并发保证 |
 | 2 不同实例独立并行 | 仅保留未来候选，每个 Registry 仍独占、串行，不同实例可同时工作 | 可支持独立会话并行，但增加共享类型、身份分配、配置及外部资源的核对与测试 |
 
-本项细化[TH01 留待核对的跨实例边界](#m3-t5-th01-线程使用范围)，不改变其中已选方案 2，也不采用其同一 Registry 受控并行的方案 3。沿用[T4 设计](../archive/2026-10-19-m3-t4-application-simulation/design.md)的同步借用与所有权，不授权修改调度或接入计算线程。
+本项细化[TH01 留待核对的跨实例边界](#m3-t5-th01-线程使用范围)，不改变其中已选方案 2，也不采用其同一 Registry 受控并行的方案 3。沿用[T4 设计](../2026-10-19-m3-t4-application-simulation/design.md)的同步借用与所有权，不授权修改调度或接入计算线程。
 
 EnTT v4.0.0 的[类型信息](https://github.com/skypjack/entt/blob/v4.0.0/src/entt/core/type_info.hpp)涉及共享类型编号，其原子配置见[配置源码](https://github.com/skypjack/entt/blob/v4.0.0/src/entt/config/config.h)；仅组件池独立不能证明完整跨实例路径安全。这里是目标边界和源码依据，不表示已完成并发验证或正式冻结该版本。
 
@@ -311,7 +311,7 @@ EnTT v4.0.0 的[类型信息](https://github.com/skypjack/entt/blob/v4.0.0/src/e
 | 1 默认键比较 | 初版已选，调用方提供完整值键，由统一默认规则比较 | 接口简单，组合键可表达常见多字段顺序；特殊规则需要键转换 |
 | 2 自定义比较器 | 仅保留未来候选，额外接受调用方比较规则 | 表达更灵活，但增加排序关系、调用状态、异常及验证成本 |
 
-依据为[T5 范围](../../../scope/project-scope.md#m3-t5-完成-ecs内存契约与整体验收)、[现役模块边界](../../specs/module-boundaries/spec.md)及[T4 部分推进失败契约](../archive/2026-10-19-m3-t4-application-simulation/specs/simulation/spec.md#requirement-rejection-and-partial-advance-failure)。当前[旧公开头](../../../../game/modules/ecs/include/symocraft/ecs/registry.h)没有此有序查询入口；本项只记录目标选择，不表示已实现、冻结完整签名或授权适配。
+依据为[T5 范围](../../../../scope/project-scope.md#m3-t5-完成-ecs内存契约与整体验收)、[现役模块边界](../../../specs/module-boundaries/spec.md)及[T4 部分推进失败契约](../2026-10-19-m3-t4-application-simulation/specs/simulation/spec.md#requirement-rejection-and-partial-advance-failure)。当前[旧公开头](../../../../../game/modules/ecs/include/symocraft/ecs/registry.h)没有此有序查询入口；本项只记录目标选择，不表示已实现、冻结完整签名或授权适配。
 
 ### 初版比较边界
 
