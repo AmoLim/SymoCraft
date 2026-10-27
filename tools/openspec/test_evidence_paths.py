@@ -5,6 +5,9 @@ import json
 from pathlib import Path, PureWindowsPath
 import tempfile
 import unittest
+import subprocess
+import warnings
+import zipfile
 from unittest.mock import patch
 
 import evidence_paths as paths
@@ -110,6 +113,104 @@ class EvidencePaths(unittest.TestCase):
         linked = (self.root / self.target).parent
         actual = Path.is_symlink
         with patch.object(Path, 'is_symlink', lambda path: path == linked or actual(path)), self.assertRaises(ValueError):
+            paths.load_relocations(self.root)
+
+    def pack(self, members=None):
+        target = self.root / self.target
+        raw = target.read_bytes() if target.exists() else b'original failure\r\n'
+        if target.exists():
+            target.unlink()
+        archive = self.root / (paths.NEW_ARCHIVE.rstrip('/') + '.7z')
+        with zipfile.ZipFile(archive, 'w') as package:
+            for name, value in members or [(self.target.split('archive/', 1)[1], raw)]:
+                package.writestr(name, value)
+        # Zip keeps fixtures stdlib-only; tar detects the container by its bytes.
+        return archive
+
+    def test_packed_mapping_requires_exact_member_bytes(self):
+        archive = self.pack()
+        (self.root / self.target).parent.rmdir()
+        # Remove empty loose parents: a partial loose tree is not a packed archive.
+        (self.root / self.target).parents[1].rmdir()
+        (self.root / paths.NEW_ARCHIVE).rmdir()
+        targets, reviews = paths.load_relocations(self.root)
+        self.assertEqual(targets[self.root / self.source], archive)
+        self.assertEqual(reviews, {self.root / 'docs/spec/review.md'})
+
+    def test_packed_missing_changed_extra_and_unsafe_members_fail(self):
+        member = self.target.split('archive/', 1)[1]
+        self.pack()
+        for parent in [(self.root / self.target).parent, (self.root / self.target).parents[1],
+                       self.root / paths.NEW_ARCHIVE]:
+            parent.rmdir()
+        cases = [[(member, b'changed')], [(member + '.wrong', b'original failure\r\n')],
+                 [(member, b'original failure\r\n'), (paths.NEW_ARCHIVE.split('archive/', 1)[1] + 'extra', b'unknown')],
+                 [('../outside', b'unknown')], [(member, b'original failure\r\n'), (member, b'duplicate')]]
+        for members in cases:
+            with self.subTest(members=members), warnings.catch_warnings():
+                warnings.simplefilter('ignore', UserWarning)
+                self.pack(members)
+                with self.assertRaises(ValueError):
+                    paths.load_relocations(self.root)
+
+    def test_packed_markdown_keeps_historical_anchor_checks(self):
+        (self.root / self.target).unlink()
+        self.source = self.source.replace('.log', '.md')
+        self.target = self.target.replace('.log', '.md')
+        self.write(self.target, b'# Topic\n')
+        self.data['files'][0].update(source=self.source, target=self.target, **self.identity(self.target))
+        self.pack()
+        for parent in [(self.root / self.target).parent, (self.root / self.target).parents[1],
+                       self.root / paths.NEW_ARCHIVE]:
+            parent.rmdir()
+        review = self.root / 'docs/spec/review.md'
+        for anchor, expected in (('topic', []), ('missing', ['missing anchor'])):
+            review.write_text('---\ntags:\n  - area/spec\n---\n[old](../milestones/m0/evidence/failed.md#' + anchor + ')\n', encoding='utf-8')
+            self.data['readOnlyReviewSources'][0].update(self.identity('docs/spec/review.md'))
+            self.record()
+            with patch.object(checks, 'ROOT', self.root), patch.object(checks, 'documents', return_value=iter([review])):
+                result = checks.audit()
+            self.assertEqual([row['problem'] for row in result['errors']], expected)
+            self.assertEqual(result['historicalLinks'], 1)
+
+    def test_packed_symlink_and_reparse_archive_are_rejected(self):
+        member = self.target.split('archive/', 1)[1]
+        link = zipfile.ZipInfo(paths.NEW_ARCHIVE.split('archive/', 1)[1] + 'link')
+        link.create_system = 3
+        link.external_attr = 0o120777 << 16
+        archive = self.pack([(member, b'original failure\r\n'), (link, b'outside')])
+        with self.assertRaises(ValueError):
+            paths.load_relocations(self.root)
+        self.pack()
+        actual = Path.is_symlink
+        with patch.object(Path, 'is_symlink', lambda path: path == archive or actual(path)), self.assertRaises(ValueError):
+            paths.load_relocations(self.root)
+
+    def test_invalid_container_and_missing_tar_fail_closed(self):
+        archive = self.pack()
+        archive.write_bytes(b'not an archive')
+        with self.assertRaises(ValueError):
+            paths.load_relocations(self.root)
+        with patch.object(paths.shutil, 'which', return_value=None), self.assertRaises(OSError):
+            paths.load_relocations(self.root)
+
+    def test_missing_review_is_verified_from_exact_retirement_commit(self):
+        review = self.root / 'docs/spec/review.md'
+        raw = review.read_bytes()
+        review.unlink()
+        with patch.object(paths.subprocess, 'run', return_value=subprocess.CompletedProcess([], 0, raw, b'')) as run:
+            targets, reviews = paths.load_relocations(self.root)
+        self.assertEqual(reviews, set())
+        self.assertEqual(targets[self.root / self.source], self.root / self.target)
+        self.assertEqual(run.call_args.args[0][-1], paths.RETIRED_REVIEW_COMMIT + ':docs/spec/review.md')
+        for status, payload in ((1, b''), (0, b'changed')):
+            with patch.object(paths.subprocess, 'run', return_value=subprocess.CompletedProcess([], status, payload, b'')), \
+                    self.assertRaises(ValueError):
+                paths.load_relocations(self.root)
+        self.data['readOnlyReviewSources'].append(copy.deepcopy(self.data['readOnlyReviewSources'][0]))
+        self.record()
+        with patch.object(paths.subprocess, 'run', return_value=subprocess.CompletedProcess([], 0, raw, b'')), \
+                self.assertRaises(ValueError):
             paths.load_relocations(self.root)
 
     def register_change_archive(self):

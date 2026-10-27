@@ -97,4 +97,4 @@ Fix1 已增加结构化全操作记录、API 可选日志和 telemetry 原错误
 
 **归档证据**
 
-路径对照唯一维护于上述 VERIFICATION 章节；完整点时大小、SHA256 和测试结果来自 [S5 验证身份](../verification/archive/milestone-evidence-20261011/m3-t2/evidence/s5-validation.json)。原 JSON、日志和失败现场保持原字节；本页不再复制另一份路径/哈希表，也不把导航补齐视为全库历史入链闭合。
+路径对照唯一维护于上述 VERIFICATION 章节；完整点时大小、SHA256 和测试结果来自 [S5 验证身份](../verification/archive/milestone-evidence-20261011.7z "member: milestone-evidence-20261011/m3-t2/evidence/s5-validation.json")。原 JSON、日志和失败现场保持原字节；本页不再复制另一份路径/哈希表，也不把导航补齐视为全库历史入链闭合。

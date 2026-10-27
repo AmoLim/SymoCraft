@@ -68,7 +68,7 @@ bound to their original compiler. SDK/DXC and third-party upgrades are separate.
 
 The helper has no arbitrary CMake-option passthrough. Configure CPU-only or
 D3D12 with explicit CMake options in an initialized x64 developer terminal,
-using the [root build instructions](../README.md#构建与测试).
+using the [root build instructions](../README.md#快速开始).
 D3D12 candidates additionally require benchmark OFF, CPU-only OFF and a fresh
 child build directory below `out/m3-t3/`; the production POST_BUILD identity
 step rejects other roots/combinations. See the

@@ -108,6 +108,8 @@ schema 生成模板不是可维护知识笔记；冻结 evidence 与 verificatio
 标签清单 [tag-inventory.json](tag-inventory.json) 是生成查找辅助，不是第二份规则。由 `python tools/openspec/check_documents.py --write-index` 显式刷新；私有注册只保留已有索引信息，不读取正文。旧清单保留历史计数，Obsidian 配置与 UI 结论不覆盖。
 检查路径、入出链、锚点、图片、源码引用、权威重复、契约身份、冻结字节与非文档差异；机械检查不代替语义审阅。
 
+历史证据已压缩时，现役链接指向实际归档包，并用链接标题保留准确成员路径。检查器保持原迁移索引不变，通过系统 libarchive tar（Windows 自带 tar.exe）只读流式核验登记成员的大小/SHA256，不在仓库恢复散文件；已退役复核源按 VERIFICATION 记录的固定 Git 提交核验原字节。缺工具、缺成员、内容不符或无法核对退役原文仍报错，不扩大历史路径豁免，也不把包完整性核验当运行或历史缺项通过。
+
 ## 过渡状态
 
 文档迁移 change 已完成并归档，不再是活动计划；原字节规划、处置映射和验证边界从 [VERIFICATION](verification/VERIFICATION.md#后续集中与收口) 唯一入口进入。其他活动 change 的授权、任务及暂停状态不受此归档影响。
