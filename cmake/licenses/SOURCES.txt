@@ -1,5 +1,11 @@
 Third-party license source records (checked 2026-10-09)
 
+EnTT:
+Fixed official v4.0.0, commit 85c6bba014049b5de8fad49d25424df2f1f6a8c1.
+Local vendor/entt/src preserves the official header tree without patches.
+EnTT-LICENSE.txt is installed verbatim from vendor/entt/LICENSE (MIT).
+https://github.com/skypjack/entt/tree/85c6bba014049b5de8fad49d25424df2f1f6a8c1
+
 SDL3, stb, SDL3 hidapi, and SDL3 yuv2rgb notices are installed verbatim from
 the selected repository vendor files. Hidapi BSD is the included permissive
 alternative; the upstream multi-license index is preserved as context.
