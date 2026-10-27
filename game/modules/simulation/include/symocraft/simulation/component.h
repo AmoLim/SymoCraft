@@ -5,9 +5,14 @@
 #ifndef SYMOCRAFT_COMPONENT_H
 #define SYMOCRAFT_COMPONENT_H
 #include <symocraft/foundation/math.h>
+#include <cstdint>
 
 namespace SymoCraft
 {
+    namespace Simulation {
+        // Assembly-owned complete ordering key, not an ECS identity or pool index.
+        struct PhysicsStepOrder { std::uint64_t value; };
+    }
     struct Transform
     {
         glm::vec3 position;     // position in world

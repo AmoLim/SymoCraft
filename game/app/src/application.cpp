@@ -109,6 +109,7 @@ namespace SymoCraft::Application {
 
     namespace {
         void RegisterComponents(ECS::Registry& registry) {
+            registry.RegisterComponent<Simulation::PhysicsStepOrder>("PhysicsStepOrder");
             registry.RegisterComponent<Transform>("Transform");
             registry.RegisterComponent<Physics::RigidBody>("RigidBody");
             registry.RegisterComponent<Physics::HitBox>("HitBox");
@@ -242,10 +243,10 @@ namespace SymoCraft::Application {
         state.session = Simulation::SimulationSession::Create(*state.registry, *state.world,
             {prepared.pose.position, prepared.pose.yaw, prepared.pose.pitch});
         Assembled(Detail::AssemblyStage::Session);
-        for (const auto entity : state.registry->View<Character::PlayerComponent>()) {
+        state.registry->Each<const Character::PlayerComponent>([&](ECS::EntityId entity, const Character::PlayerComponent&) {
             if (state.player != ECS::null_entity) throw std::logic_error("Application requires one assembled player");
             state.player = entity;
-        }
+        });
         const auto& transform = state.registry->GetComponent<Transform>(state.player);
         state.last_result = Simulation::AdvanceResult{
             {transform.position, transform.yaw, transform.pitch, transform.front, transform.up}, {}, {}, {}, {}};

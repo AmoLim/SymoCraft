@@ -2,6 +2,7 @@
 #include <symocraft/simulation/component.h>
 #include <symocraft/foundation/memory.h>
 #include "session_diagnostics.h"
+#include "registry_test_access.h"
 #include <array>
 #include <cmath>
 #include <fstream>
@@ -50,6 +51,7 @@ namespace {
     }
     void Register(ECS::Registry& registry) {
         registry.RegisterComponent<Transform>("Transform");
+        registry.RegisterComponent<PhysicsStepOrder>("PhysicsStepOrder");
         registry.RegisterComponent<Physics::RigidBody>("RigidBody");
         registry.RegisterComponent<Physics::HitBox>("HitBox");
         registry.RegisterComponent<Character::CharacterComponent>("Character");
@@ -65,10 +67,10 @@ namespace {
             world = World::VoxelWorld::Create(definition, {424242, 2, false});
             session = SimulationSession::Create(registry, *world, {position, 0, 0});
             std::size_t count = 0;
-            for (auto entity : registry.View<Character::PlayerComponent>()) { player = entity; ++count; }
+            registry.Each<const Character::PlayerComponent>([&](ECS::EntityId entity, const Character::PlayerComponent&) { player = entity; ++count; });
             Require(count == 1, "Factory did not produce exactly one player");
             count = 0;
-            for (auto entity : registry.View<Transform>()) { static_cast<void>(entity); ++count; }
+            registry.Each<const Transform>([&](ECS::EntityId, const Transform&) { ++count; });
             Require(count == 1, "Factory retained a duplicate camera entity");
         }
         SessionDiagnostics Capture() const { return SessionDiagnosticsAdapter::Capture(*session); }
@@ -179,7 +181,8 @@ namespace {
         auto world = World::VoxelWorld::Create(definition, {424242, 2, false});
         unsigned failures = 0;
         bool succeeded = false;
-        for (int budget = 0; budget < 32 && !succeeded; ++budget) {
+        // Six real object pools have more preparation allocations than the old byte pools.
+        for (int budget = 0; budget < 64 && !succeeded; ++budget) {
             sequence_step = static_cast<unsigned>(budget);
             ECS::Registry registry;
             Register(registry);
@@ -218,9 +221,10 @@ namespace {
     void PartialFailure(const World::BlockDefinition& definition) {
         Fixture f(definition);
         const auto extra = f.registry.CreateEntity();
-        f.registry.AddComponent<Transform>(extra).position = {5, 210, 5};
-        f.registry.AddComponent<Physics::RigidBody>(extra).velocity = {1, 0, 0};
-        f.registry.AddComponent<Physics::HitBox>(extra).size = glm::vec3(-1);
+        f.registry.Emplace<Transform>(extra).position = {5, 210, 5};
+        f.registry.Emplace<Physics::RigidBody>(extra).velocity = {1, 0, 0};
+        f.registry.Emplace<Physics::HitBox>(extra).size = glm::vec3(-1);
+        f.registry.Emplace<PhysicsStepOrder>(extra, std::uint64_t{1});
         AdvanceInput input; input.player.sensor = input.player.forward = true;
         const auto failed_body_before = f.registry.GetComponent<Transform>(extra).position;
         const auto failure = Throws<AdvanceFailed>([&] { f.session->Advance(1.0 / 120.0, input); });
@@ -230,8 +234,40 @@ namespace {
         Require(f.Capture().motion->pose.position.x > 0.5f, "Prior body commit was rolled back");
         const auto after = f.Capture();
         Throws<Rejected>([&] { f.session->Advance(0, input); }); Compare(after, f.Capture());
-        f.registry.Free();
+        f.registry.Clear();
         Require(!f.Capture().motion, "Failed diagnostics invented missing motion");
+    }
+    void FailedRegistryDiagnostics(const World::BlockDefinition& definition) {
+        sequence = "failed-registry-diagnostics";
+        Fixture f(definition);
+        ECS::Detail::RegistryTestAccess::SimulatePostClearConsistencyFailure(f.registry);
+        Require(!f.Capture().motion, "Failed Registry diagnostics accessed unknown native storage");
+        const auto failure = Throws<AdvanceFailed>([&] { f.session->Advance(1.0 / 120.0, {}); });
+        Require(failure.BodyCommits() == 0 && f.session->State() == SessionState::Failed && !f.Capture().motion,
+                "Failed Registry did not preserve safe Session diagnostics");
+    }
+    void ExplicitBodyOrder(const World::BlockDefinition& definition) {
+        sequence = "explicit-body-order";
+        for (int mode = 0; mode < 4; ++mode) {
+            Fixture f(definition);
+            const auto extra = f.registry.CreateEntity();
+            f.registry.Emplace<Transform>(extra).position = {5, 210, 5};
+            f.registry.Emplace<Physics::RigidBody>(extra);
+            f.registry.Emplace<Physics::HitBox>(extra).size = glm::vec3(-1);
+            if (mode != 0) f.registry.Emplace<PhysicsStepOrder>(extra, std::uint64_t{mode == 1 ? 0u : 1u});
+            if (mode == 2) f.registry.GetComponent<PhysicsStepOrder>(f.player).value = 2;
+            // Deliberately repack one driver pool; logical order must remain assembly-owned.
+            const auto player_body = f.registry.GetComponent<Physics::RigidBody>(f.player);
+            f.registry.RemoveComponent<Physics::RigidBody>(f.player);
+            f.registry.Emplace<Physics::RigidBody>(f.player, player_body);
+            const auto before = f.registry.GetComponent<Transform>(f.player).position;
+            AdvanceInput input; input.player.sensor = input.player.forward = true;
+            const auto failure = Throws<AdvanceFailed>([&] { f.session->Advance(1.0 / 120.0, input); });
+            Require(failure.Stage() == AdvanceStage::Physics && failure.CompletedSteps() == 0 &&
+                failure.BodyCommits() == (mode == 3 ? 1u : 0u), "Explicit body key did not control failure prefix");
+            if (mode != 3) Near(f.registry.GetComponent<Transform>(f.player).position, before, "zero physical commits before key/first-body failure");
+            Require(f.session->State() == SessionState::Failed, "Body-order failure did not stop Session");
+        }
     }
     void PairSequence(const World::BlockDefinition& definition) {
         sequence = "mixed-input-edits-pause";
@@ -329,9 +365,10 @@ namespace {
         sequence = "partial-body-commit-failed";
         for (auto* fixture : {&a, &b}) {
             const auto extra = fixture->registry.CreateEntity();
-            fixture->registry.AddComponent<Transform>(extra).position = {5, 210, 5};
-            fixture->registry.AddComponent<Physics::RigidBody>(extra).velocity = {1, 0, 0};
-            fixture->registry.AddComponent<Physics::HitBox>(extra).size = glm::vec3(-1);
+            fixture->registry.Emplace<Transform>(extra).position = {5, 210, 5};
+            fixture->registry.Emplace<Physics::RigidBody>(extra).velocity = {1, 0, 0};
+            fixture->registry.Emplace<Physics::HitBox>(extra).size = glm::vec3(-1);
+            fixture->registry.Emplace<PhysicsStepOrder>(extra, std::uint64_t{1});
         }
         input = {}; input.player.sensor = input.player.forward = true;
         const auto left = Throws<AdvanceFailed>([&] { a.session->Advance(.1, input); });
@@ -369,6 +406,8 @@ int main(int argc, char** argv) {
         FactoryAllocationFailure(definition);
         RejectionAndOwnership(definition);
         PartialFailure(definition);
+        ExplicitBodyOrder(definition);
+        FailedRegistryDiagnostics(definition);
         PairSequence(definition);
         ContactAndFailurePairs(definition);
         std::cout << "Session: factory/timing, rejection/ownership, partial failure and per-advance pair comparison passed\n";

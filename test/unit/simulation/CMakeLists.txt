@@ -16,6 +16,7 @@ add_test(NAME physics.independent_consumer COMMAND physics_core_consumer)
 set_tests_properties(physics.core physics.independent_consumer PROPERTIES TIMEOUT 45)
 symocraft_test_executable(session_tests session_tests.cpp symocraft_simulation)
 target_include_directories(session_tests PRIVATE
-    "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/simulation/src/diagnostics")
+    "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/simulation/src/diagnostics"
+    "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/ecs/src/diagnostics")
 add_test(NAME simulation.session COMMAND session_tests "${SYMOCRAFT_REPOSITORY_ROOT}/assets/configs/blockFormats.yaml")
 set_tests_properties(simulation.session PROPERTIES TIMEOUT 240)

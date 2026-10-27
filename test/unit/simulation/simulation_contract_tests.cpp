@@ -35,6 +35,7 @@ int main(int argc, char** argv)
         auto world = World::VoxelWorld::Create(World::BlockDefinition::FromConfig(text), {TestScene::DefaultSeed, 3, true});
         ECS::Registry registry;
         registry.RegisterComponent<Transform>("Transform");
+        registry.RegisterComponent<Simulation::PhysicsStepOrder>("PhysicsStepOrder");
         registry.RegisterComponent<Physics::RigidBody>("RigidBody");
         registry.RegisterComponent<Physics::HitBox>("HitBox");
         registry.RegisterComponent<Character::CharacterComponent>("Character");

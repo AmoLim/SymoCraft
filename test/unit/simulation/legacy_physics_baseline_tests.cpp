@@ -165,12 +165,13 @@ namespace {
             fixture.registry.GetComponent<Transform>(entity).scale = glm::vec3(20);
         }
         Physics::Update(fixture.registry, *fixture.world, Step, fixture.budget);
-        for (const auto entity : fixture.registry.View<Transform, Physics::RigidBody, Physics::HitBox>()) {
+        fixture.registry.Each<const Transform, const Physics::RigidBody, const Physics::HitBox>(
+        [&](ECS::EntityId entity, const Transform&, const Physics::RigidBody&, const Physics::HitBox&) {
             const auto result = fixture.Capture(entity);
             Require(result.body.on_ground, "offset-negative-chunk-boundary.support");
             Near(result.transform.position.y, 201.25f, "offset.position");
             Near(result.transform.scale, glm::vec3(20), "transform-scale.ignored-by-physics");
-        }
+        });
     }
 
     void NonminimumTie(const char* config)
@@ -321,9 +322,9 @@ namespace {
         const auto first = fixture.AddBody({0.5f, 200.5f, 0.5f}, body);
         const auto second = fixture.AddBody({2.5f, 200.5f, 0.5f}, body);
         const auto incomplete = fixture.registry.CreateEntity();
-        fixture.registry.AddComponent<Transform>(incomplete) = {};
+        fixture.registry.Emplace<Transform>(incomplete);
         fixture.registry.GetComponent<Transform>(incomplete).position = {4.5f, 200.5f, 0.5f};
-        fixture.registry.AddComponent<Physics::RigidBody>(incomplete) = body;
+        fixture.registry.Emplace<Physics::RigidBody>(incomplete, body);
         Physics::Update(fixture.registry, *fixture.world, Step * 2, fixture.budget);
         Near(fixture.Capture(first).transform.position.x, 0.7f, "registry.first-two-steps");
         Near(fixture.Capture(second).transform.position.x, 2.7f, "registry.second-two-steps");

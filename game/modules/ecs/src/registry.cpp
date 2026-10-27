@@ -1,326 +1,197 @@
-//
-// Created by Amo on 2022/6/17.
-//
-
 #include "symocraft/ecs/registry.h"
-#include "component_container.h"
-#include "legacy/RawMemory.h"
+#include "diagnostics/registry_test_access.h"
+#include <limits>
 #include <string>
 #include <vector>
 
-
-namespace SymoCraft::ECS
-    {
-        typedef uint32 EntityIndex;
-        typedef uint32 EntityType;
-        typedef uint64 EntityId;
-        typedef uint32 ComponentIndex;
-
-        struct Registry::Storage {
-            std::vector<EntityId> entities;
-            std::vector<Internal::ComponentContainer> component_set;
-            std::vector<EntityId> free_entities;
-            std::vector<std::unique_ptr<std::string>> debug_component_names;
-            bool freed = false;
-        };
-        int32 Detail::NextComponentType() { return Internal::m_counter++; }
-        Registry::Registry() : storage_(std::make_unique<Storage>()) {}
-        Registry::~Registry() { Free(); }
-        std::size_t Registry::EntitySlots() const { return storage_->entities.size(); }
-        EntityId Registry::EntityAt(std::size_t index) const { return storage_->entities[index]; }
-        bool Registry::IsTypeRegistered(int32 type) const {
-            return !storage_->freed && type >= 0 && type < MaxComponents &&
-                static_cast<std::size_t>(type) < storage_->component_set.size();
-        }
-        void Registry::RegisterType(int32 type, std::size_t size, const char* name) {
-            if (storage_->freed)
-                throw std::logic_error("ECS RegisterComponent: Registry was freed");
-            if (!name || size == 0)
-                throw std::invalid_argument("ECS RegisterComponent: invalid component definition");
-            if (type < 0 || type >= MaxComponents)
-                throw std::out_of_range("ECS RegisterComponent: component type limit exceeded");
-            if (static_cast<std::size_t>(type) != storage_->component_set.size())
-                throw std::logic_error("ECS RegisterComponent: duplicate type or registration order mismatch");
-            Internal::ComponentContainer container{};
-            container.InitRaw(size, 0, type);
-            auto component_name = std::make_unique<std::string>(name);
-            // Moving a Debug MSVC string may allocate its iterator proxy despite noexcept.
-            // Move the unique owner instead; neither final publication can allocate.
-            const auto count = storage_->component_set.size() + 1;
-            storage_->component_set.reserve(count);
-            storage_->debug_component_names.reserve(count);
-            storage_->component_set.emplace_back(std::move(container));
-            storage_->debug_component_names.emplace_back(std::move(component_name));
-        }
-        void Registry::RemoveType(EntityId entity, int32 type) {
-            if (!IsEntityValid(entity)) {
-                AmoLogger_Error("Tried to remove a component from an invalid entity");
-                return;
-            }
-            if (type < 0 || type >= storage_->component_set.size()) {
-                AmoLogger_Error("Tried to remove a component that does not exist");
-                return;
-            }
-            storage_->component_set[type].Remove(entity);
-        }
-
-        // ----------------------------------------------------------------------
-        // Registry Implement
-
-        void Registry::Free()
-        {
-            storage_->freed = true;
-            for (Internal::ComponentContainer& container : storage_->component_set)
-                container.Free();
-        }
-
-        void Registry::Clear()
-        {
-            storage_->entities.clear();
-            Free();
-            storage_->component_set.clear();
-            storage_->component_set = std::vector<Internal::ComponentContainer>();
-            storage_->debug_component_names.clear();
-            storage_->free_entities.clear();
-            storage_->freed = false;
-        }
-
-        EntityId Registry::CreateEntity()
-        {
-            if (storage_->freed)
-                throw std::logic_error("ECS CreateEntity: Registry was freed");
-            if (!storage_->free_entities.empty())
-            {
-                EntityIndex new_index = static_cast<EntityIndex>(storage_->free_entities.back());
-                storage_->free_entities.pop_back();
-                EntityId new_id = Internal::CreateEntityId(new_index
-                        , Internal::GetEntityVersion(storage_->entities[new_index]));
-                storage_->entities[new_index] = new_id;
-                return new_id;
-            }
-            if (storage_->entities.size() >= UINT32_MAX)
-                throw std::length_error("ECS CreateEntity: entity index limit exceeded");
-            storage_->entities.emplace_back(Internal::CreateEntityId((uint32)storage_->entities.size(), 0));
-            return storage_->entities.back();
-        }
-
-        int Registry::NumComponents(EntityId entity) const
-        {
-            int num_components = 0;
-            for (int component_id = 0; component_id < storage_->component_set.size(); component_id++)
-                if (HasComponentByType(entity, component_id))
-                    num_components++;
-
-            return num_components;
-        }
-
-        bool Registry::IsEntityValid(EntityId entity) const
-        {
-            const auto index = Internal::GetEntityIndex(entity);
-            return !storage_->freed && index != UINT32_MAX && index < storage_->entities.size() &&
-                storage_->entities[index] == entity;
-        }
-
-        void Registry::DestroyEntity(EntityId entity)
-        {
-            if (!IsEntityValid(entity))
-                throw std::invalid_argument("ECS DestroyEntity: invalid entity");
-            RemoveAllComponent(entity);
-            EntityId new_id = Internal::CreateEntityId(UINT32_MAX, Internal::GetEntityVersion(entity) + 1);
-            storage_->entities[Internal::GetEntityIndex(entity)] = new_id;
-            storage_->free_entities.push_back(Internal::GetEntityIndex(entity));
-        }
-
-
-        bool Registry::HasComponentByType(EntityId entity, int32 component_type) const
-        {
-            if (!IsEntityValid(entity))
-                return false;
-
-            if (!IsTypeRegistered(component_type))
-            {
-                AmoLogger_Warning("Tried to check if an entity had component '%d'"
-                                ", but a component of type '%d' does not exist in the registry "
-                                "which only has '%zu' components."
-                                , component_type, component_type, storage_->component_set.size());
-                return false;
-            }
-
-            return storage_->component_set[component_type].IsComponentExist(entity);
-        }
-
-
-        uint8* Registry::GetComponentByType(EntityId entity, int32 component_type) const
-        {
-            if (!IsEntityValid(entity))
-            {
-                AmoLogger_Error("Cannot get a component from invalid entity %llu."
-                                , static_cast<unsigned long long>(entity));
-                return nullptr;
-            }
-
-            if (!IsTypeRegistered(component_type))
-            {
-                AmoLogger_Warning("Tried to check if an entity had component '%d', "
-                                  "but a component of type '%d' does not exist in the registry."
-                                  , component_type, component_type);
-                return nullptr;
-            }
-
-            const auto& container = storage_->component_set[component_type];
-            if (!container.IsComponentExist(entity))
-                return nullptr;
-            return container.Get(Internal::GetEntityIndex(entity));
-        }
-
-        uint8* Registry::AddOrGetComponentByType(EntityId entity, int32 component_id)
-        {
-            if (!IsEntityValid(entity))
-            {
-                AmoLogger_Error("Cannot check if invalid entity %d has a component."
-                                , Internal::GetEntityIndex(entity));
-                return nullptr;
-            }
-
-            if (!IsTypeRegistered(component_id))
-            {
-                AmoLogger_Warning("Tried to check if an entity had component '%d'"
-                                  ", but a component of type '%d' does not exist in the registry"
-                                  , component_id, component_id);
-                return nullptr;
-            }
-
-            return storage_->component_set[component_id].AddOrGet(entity);
-        }
-
-        void Registry::RemoveAllComponent(EntityId entity)
-        {
-            if (!IsEntityValid(entity))
-            {
-                AmoLogger_Error("Tried to remove invalid entity %d 's component."
-                                , entity);
-                return;
-            }
-
-            EntityIndex entity_index = Internal::GetEntityIndex(entity);
-            if (entity_index >= storage_->entities.size())
-            {
-                AmoLogger_Error("Tried to remove all components from invalid entity '%d'"
-                , entity);
-                return;
-            }
-
-            for (int i = 0; i < storage_->component_set.size(); i++)
-                if (storage_->component_set[i].IsComponentExist(entity))
-                    storage_->component_set[i].Remove(entity);
-        }
-
-        RawMemory Registry::Serialize()
-        {
-            /*
-             * uint32 number of storage_->entities
-             * Begin looping storage_->entities
-             * uint64 entity id
-             * int32 number of components
-             * Begin looping components
-             * int32 component id
-             * Copy component into this entity id or create this entity if it does not exist
-            */
-
-            RawMemory memory;
-            size_t entity_id_data_size = sizeof(uint32) + (sizeof(uint16) * storage_->entities.size());
-            memory.Init(entity_id_data_size);
-
-            auto num_of_entities = (uint32)storage_->entities.size();
-            memory.Write<uint32>(&num_of_entities);
-            for (ECS::EntityId entity : storage_->entities)
-            {
-                memory.Write<EntityId>(&entity);
-                int32 num_components = this->NumComponents(entity);
-                memory.Write<int32>(&num_components);
-                for (int i = 0; i <  storage_->component_set.size(); i++)
-                {
-                    if (HasComponentByType(entity, i))
-                    {
-                        memory.Write<int32>(&i);
-                        size_t component_size = storage_->component_set[i].GetComponentSize();
-                        uint8* component_data = storage_->component_set[i].Get(Internal::GetEntityIndex(entity));
-                        memory.WriteDangerous(component_data, component_size);
-                    }
-                }
-            }
-
-            memory.ShrinkToFit();
-            return memory;
-        }
-
-        void Registry::Deserialize(RawMemory &memory)
-        {
-            memory.ResetReadWriteCursor();
-
-            uint32 num_entities;
-            memory.Read<uint32>(&num_entities);
-            storage_->entities.resize(num_entities);
-            for (uint32 entity_counter = 0; entity_counter < num_entities; entity_counter++)
-            {
-                EntityId entity;
-                memory.Read<EntityId>(&entity);
-                storage_->entities[Internal::GetEntityIndex(entity)] = entity;
-                int32 num_components;
-                memory.Read<int32>(&num_components);
-                AmoLogger_Assert(num_components >= 0, "Deserialized bad data.");
-                for (int component_counter = 0; component_counter < num_components; component_counter++)
-                {
-                    int32 component_id;
-                    memory.Read<int32>(&component_id);
-                    uint8 *component_data = AddOrGetComponentByType(entity, component_id);
-                    size_t component_size = storage_->component_set[component_id].GetComponentSize();
-                    memory.ReadDangerous(component_data, component_size);
-                }
-            }
-            AmoLogger_Info("Deserialized %d entities.", num_entities);
-        }
-
-        // ----------------------------------------------------------------------
-        // Iterator implementation
-        Iterator::Iterator(Registry &reg, EntityIndex index, std::bitset<MaxComponents> com_need,
-                           bool all)
-                           : registry(reg), entity_index(index), components_need(com_need),
-                           _is_searching_all(all)
-        {/*empty*/}
-
-        EntityId Iterator::operator*() const
-        {
-            return registry.storage_->entities[entity_index];
-        }
-
-        bool Iterator::operator==(Iterator &other) const
-        {
-            return entity_index==other.entity_index;
-        }
-
-
-        bool Iterator::operator!=(Iterator &other) const
-        {
-            return entity_index!=other.entity_index;
-        }
-
-        Iterator& Iterator::operator++()
-        {
-            do
-            {
-                entity_index++;
-            } while (entity_index < registry.storage_->entities.size() && !IsIndexValid());
-            return *this;
-        }
-
-        bool Iterator::IsIndexValid()
-        {
-            return entity_index >=0 && registry.IsEntityValid(registry.storage_->entities[entity_index]) &&
-                    (
-                            _is_searching_all ||
-                            RegistryViewer<>::HasRequiredComponents(registry, components_need
-                                                                  , registry.storage_->entities[entity_index])
-                            );
+namespace SymoCraft::ECS {
+    namespace {
+        std::uint64_t next_batch = 1;
+        bool batches_exhausted = false;
+        std::uint64_t TakeBatch() {
+            if (batches_exhausted) throw RegistryError(RegistryErrorCode::IdentityExhausted);
+            const auto batch = next_batch;
+            if (batch == (std::numeric_limits<std::uint64_t>::max)()) batches_exhausted = true;
+            else ++next_batch;
+            return batch;
         }
     }
+    struct Registry::Storage {
+        struct Registration { const void* token; entt::id_type key; std::string name; };
+        static_assert(std::is_nothrow_move_constructible_v<Registration>);
+        std::uint64_t batch;
+        entt::registry native;
+        std::vector<Registration> registrations;
+        std::uint32_t next_fresh{};
+        std::size_t queries{};
+        bool mutating{};
+        RegistryStatus status{};
+        explicit Storage(std::uint64_t value) : batch(value) {}
+    };
+    const char* RegistryError::what() const noexcept {
+        switch (code_) {
+        case RegistryErrorCode::Failed: return "ECS: Registry is Failed";
+        case RegistryErrorCode::InvalidContext: return "ECS: query conflict or component lifecycle reentry";
+        case RegistryErrorCode::InvalidEntity: return "ECS: invalid entity";
+        case RegistryErrorCode::UnregisteredType: return "ECS: component is not registered";
+        case RegistryErrorCode::InvalidName: return "ECS: component name must not be null or empty";
+        case RegistryErrorCode::TypeCollision: return "ECS: component type key collision";
+        case RegistryErrorCode::DuplicateComponent: return "ECS: component already exists";
+        case RegistryErrorCode::MissingComponent: return "ECS: missing component";
+        case RegistryErrorCode::IdentityExhausted: return "ECS: identity batches exhausted";
+        case RegistryErrorCode::EntityCapacityExhausted: return "ECS: entity capacity exhausted";
+        case RegistryErrorCode::GenerationExhausted: return "ECS: entity generation exhausted";
+        case RegistryErrorCode::OrderingTie: return "ECS: equivalent ordered-query keys";
+        case RegistryErrorCode::StorageInconsistent: return "ECS: storage consistency could not be confirmed";
+        default: return "ECS: contract rejection";
+        }
+    }
+    Registry::Registry() : storage_(std::make_unique<Storage>(TakeBatch())) {}
+    Registry::~Registry() noexcept {
+        storage_->mutating = true;
+    }
+    entt::registry& Registry::Native() noexcept { return storage_->native; }
+    const entt::registry& Registry::Native() const noexcept { return storage_->native; }
+    RegistryStatus Registry::GetStatus() const noexcept { return storage_->status; }
+    void Registry::CheckRead() const {
+        if (storage_->status.health == RegistryHealth::Failed) throw RegistryError(RegistryErrorCode::Failed);
+        if (storage_->mutating) throw RegistryError(RegistryErrorCode::InvalidContext);
+    }
+    void Registry::CheckStructural() const {
+        CheckRead();
+        if (storage_->queries) throw RegistryError(RegistryErrorCode::InvalidContext);
+    }
+    Registry::MutationGuard::MutationGuard(Registry& owner) noexcept : owner_(owner) { owner_.storage_->mutating = true; }
+    Registry::MutationGuard::~MutationGuard() { owner_.storage_->mutating = false; }
+    Registry::QueryGuard::QueryGuard(const Registry& owner) : owner_(owner) {
+        owner_.CheckRead();
+        if (owner_.storage_->queries == (std::numeric_limits<std::size_t>::max)())
+            throw RegistryError(RegistryErrorCode::InvalidContext);
+        ++owner_.storage_->queries;
+    }
+    Registry::QueryGuard::~QueryGuard() { --owner_.storage_->queries; }
+    void Registry::Fail(RegistryOperation operation) noexcept {
+        storage_->status = {RegistryHealth::Failed, operation, RegistryErrorCode::StorageInconsistent, false};
+    }
+    bool Registry::IsEntityValid(EntityId id) const {
+        CheckRead();
+        return id.batch_ == storage_->batch && Native().valid(static_cast<entt::entity>(id.value_));
+    }
+    entt::entity Registry::RequireEntity(EntityId id) const {
+        if (!IsEntityValid(id)) throw RegistryError(RegistryErrorCode::InvalidEntity);
+        return static_cast<entt::entity>(id.value_);
+    }
+    EntityId Registry::ProjectId(entt::entity entity) const noexcept {
+        return EntityId(storage_->batch, entt::to_integral(entity));
+    }
+    bool Registry::IsTypeRegistered(const void* token) const {
+        for (const auto& entry : storage_->registrations) if (entry.token == token) return true;
+        return false;
+    }
+    void Registry::RequireType(const void* token) const {
+        if (!IsTypeRegistered(token)) throw RegistryError(RegistryErrorCode::UnregisteredType);
+    }
+    void Registry::RegisterType(const void* token, entt::id_type key, std::string_view name,
+                                void (*prepare)(entt::registry&)) {
+        if (name.empty()) throw RegistryError(RegistryErrorCode::InvalidName);
+        if (IsTypeRegistered(token)) return;
+        for (const auto& entry : storage_->registrations)
+            if (entry.key == key) throw RegistryError(RegistryErrorCode::TypeCollision);
+        MutationGuard guard(*this);
+        Storage::Registration pending{token, key, std::string(name)};
+        storage_->registrations.reserve(storage_->registrations.size() + 1);
+        prepare(Native());
+        // All capacity is ready; final publication cannot allocate under DBG01.
+        storage_->registrations.push_back(std::move(pending));
+    }
+    EntityId Registry::CreateEntity() {
+        CheckStructural();
+        using Traits = entt::entt_traits<entt::entity>;
+        auto& entities = Native().storage<entt::entity>();
+        const bool fresh = entities.free_list() == entities.size();
+        if (fresh && storage_->next_fresh >= Traits::entity_mask)
+            throw RegistryError(RegistryErrorCode::EntityCapacityExhausted);
+        const auto hint = Traits::construct(storage_->next_fresh, 0);
+        MutationGuard guard(*this);
+        const auto before = entities.free_list();
+        entt::entity created;
+        try { created = fresh ? Native().create(hint) : Native().create(); }
+        catch (...) {
+            if (entities.free_list() != before) Fail(RegistryOperation::Create);
+            throw;
+        }
+        if (!Native().valid(created) || (fresh && created != hint)) {
+            Fail(RegistryOperation::Create);
+            throw RegistryError(RegistryErrorCode::StorageInconsistent);
+        }
+        if (fresh) ++storage_->next_fresh;
+        return ProjectId(created);
+    }
+    void Registry::DestroyEntity(EntityId id) {
+        CheckStructural();
+        const auto entity = RequireEntity(id);
+        if (entt::to_version(entity) >= entt::entt_traits<entt::entity>::version_mask - 1)
+            throw RegistryError(RegistryErrorCode::GenerationExhausted);
+        MutationGuard guard(*this);
+        try { Native().destroy(entity); }
+        catch (...) { Fail(RegistryOperation::Destroy); throw; }
+    }
+    void Registry::Clear() {
+        CheckStructural();
+        const auto prepared = TakeBatch();
+        MutationGuard guard(*this);
+        try { Native().clear(); }
+        catch (...) { Fail(RegistryOperation::Clear); throw; }
+        storage_->batch = prepared;
+        // Clear retains recyclable slots: do not rewind the fresh frontier.
+    }
+    std::size_t Registry::NumComponents(EntityId id) const {
+        CheckRead();
+        const auto entity = RequireEntity(id);
+        std::size_t count = 0;
+        for (const auto& entry : storage_->registrations)
+            count += Native().storage(entry.key)->contains(entity) ? 1 : 0;
+        return count;
+    }
+
+    namespace Detail {
+        void RegistryTestAccess::PrepareNearCapacity(Registry& owner) {
+            owner.CheckStructural();
+            if (owner.Native().storage<entt::entity>().size() != 0 || owner.storage_->next_fresh != 0)
+                throw RegistryError(RegistryErrorCode::InvalidContext);
+            owner.storage_->next_fresh = entt::entt_traits<entt::entity>::entity_mask - 2;
+        }
+        EntityId RegistryTestAccess::PrepareGeneration4093(Registry& owner) {
+            owner.CheckStructural();
+            if (owner.Native().storage<entt::entity>().size() != 0 || owner.storage_->next_fresh != 0)
+                throw RegistryError(RegistryErrorCode::InvalidContext);
+            const auto hint = entt::entt_traits<entt::entity>::construct(0, 4093);
+            const auto entity = owner.Native().create(hint);
+            if (entity != hint) {
+                owner.Fail(RegistryOperation::Create);
+                throw RegistryError(RegistryErrorCode::StorageInconsistent);
+            }
+            owner.storage_->next_fresh = 1;
+            return owner.ProjectId(entity);
+        }
+        void RegistryTestAccess::AdvanceIdentitySourceToLastBatch() {
+            if (batches_exhausted) throw RegistryError(RegistryErrorCode::IdentityExhausted);
+            next_batch = (std::numeric_limits<std::uint64_t>::max)();
+        }
+        void RegistryTestAccess::SimulatePostClearConsistencyFailure(Registry& owner) {
+            owner.CheckStructural();
+            Registry::MutationGuard guard(owner);
+            owner.Native().clear();
+            owner.Fail(RegistryOperation::Clear);
+        }
+        std::uint32_t RegistryTestAccess::FreshFrontier(const Registry& owner) {
+            owner.CheckRead();
+            return owner.storage_->next_fresh;
+        }
+        std::string RegistryTestAccess::Name(const Registry& owner, const void* token) {
+            owner.CheckRead();
+            for (const auto& entry : owner.storage_->registrations) if (entry.token == token) return entry.name;
+            throw RegistryError(RegistryErrorCode::UnregisteredType);
+        }
+    }
+}

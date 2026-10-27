@@ -1,11 +1,41 @@
+symocraft_test_executable(registry_contract_tests registry_contract_tests.cpp symocraft_ecs)
+target_sources(registry_contract_tests PRIVATE contract_other.cpp)
+target_compile_options(registry_contract_tests PRIVATE /bigobj)
+target_include_directories(registry_contract_tests PRIVATE
+    "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/ecs/src/diagnostics")
+add_test(NAME ecs.contracts COMMAND registry_contract_tests)
+add_test(NAME ecs.identity_exhaustion COMMAND registry_contract_tests identity-exhaustion)
+set_tests_properties(ecs.contracts ecs.identity_exhaustion PROPERTIES TIMEOUT 45)
+add_executable(registry_cost_probe EXCLUDE_FROM_ALL registry_cost_probe.cpp)
+target_link_libraries(registry_cost_probe PRIVATE symocraft_ecs)
+target_compile_features(registry_cost_probe PRIVATE cxx_std_20)
+target_compile_options(registry_cost_probe PRIVATE /W4 /utf-8)
+add_test(NAME ecs.compile_contracts COMMAND "${Python3_EXECUTABLE}"
+    "${CMAKE_CURRENT_SOURCE_DIR}/check_registry_compilation.py"
+    --compiler "${CMAKE_CXX_COMPILER}" --root "${SYMOCRAFT_REPOSITORY_ROOT}"
+    --output "${CMAKE_CURRENT_BINARY_DIR}/compile-contracts" --configuration "${CMAKE_BUILD_TYPE}")
+set_tests_properties(ecs.compile_contracts PROPERTIES TIMEOUT 180)
+foreach(scenario IN ITEMS owner first-create resource growth ordered nested-ordered clear destroy resource-destroy cleanup)
+    add_test(NAME ecs.fault.${scenario} COMMAND registry_allocation_tests ${scenario} 0)
+    set_tests_properties(ecs.fault.${scenario} PROPERTIES TIMEOUT 45)
+endforeach()
+add_test(NAME ecs.fault.sparse_page COMMAND registry_allocation_tests aligned 1)
+add_test(NAME ecs.fault.aligned_page COMMAND registry_allocation_tests aligned 4)
+set_tests_properties(ecs.fault.sparse_page ecs.fault.aligned_page PROPERTIES TIMEOUT 45)
+foreach(index RANGE 0 3)
+    add_test(NAME ecs.fault.registration_${index} COMMAND registry_allocation_tests registration ${index})
+    set_tests_properties(ecs.fault.registration_${index} PROPERTIES TIMEOUT 45)
+endforeach()
+
 symocraft_test_executable(registry_tests registry_tests.cpp symocraft_ecs)
+symocraft_test_executable(entt_configuration_tests entt_configuration_tests.cpp symocraft_ecs)
+add_test(NAME ecs.entt_configuration COMMAND entt_configuration_tests)
+set_tests_properties(ecs.entt_configuration PROPERTIES TIMEOUT 45)
 add_test(NAME ecs.registry COMMAND registry_tests)
 add_test(NAME ecs.registry.tracked COMMAND registry_tests --tracked)
 set_tests_properties(ecs.registry ecs.registry.tracked PROPERTIES TIMEOUT 45)
 
 symocraft_test_executable(registry_allocation_tests registry_allocation_tests.cpp symocraft_ecs)
-target_include_directories(registry_allocation_tests PRIVATE
-    "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/foundation/src/allocation_diagnostics")
 add_test(NAME ecs.allocations COMMAND registry_allocation_tests)
 add_test(NAME ecs.allocations.tracked COMMAND registry_allocation_tests --tracked)
 set_tests_properties(ecs.allocations ecs.allocations.tracked PROPERTIES TIMEOUT 45)
