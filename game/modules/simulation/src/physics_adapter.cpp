@@ -15,10 +15,12 @@ namespace SymoCraft::Simulation::Detail {
     }
     Physics::TerrainCollisionQuery CollisionQuery(const World::VoxelWorld& world) { return {&world, Solid}; }
     void StepBodies(ECS::Registry& registry, const World::VoxelWorld& world, std::uint64_t& committed_bodies) {
-        for (const auto entity : registry.View<Transform, Physics::RigidBody, Physics::HitBox>()) {
-            auto& transform = registry.GetComponent<Transform>(entity);
-            auto& body = registry.GetComponent<Physics::RigidBody>(entity);
-            const auto& shape = registry.GetComponent<Physics::HitBox>(entity);
+        const ECS::Registry& readable = registry;
+        registry.EachOrdered<Transform, Physics::RigidBody, const Physics::HitBox>(
+        [&](ECS::EntityId entity, const Transform&, const Physics::RigidBody&, const Physics::HitBox&) {
+            // Do not filter on the key component: a missing key must reject, not skip a body.
+            return readable.GetComponent<PhysicsStepOrder>(entity).value;
+        }, [&](ECS::EntityId, Transform& transform, Physics::RigidBody& body, const Physics::HitBox& shape) {
             const Physics::BodyState current{transform.position, body.velocity, body.acceleration,
                 body.use_gravity, body.is_sensor, body.on_ground};
             const auto result = Physics::StepBody(current, {shape.size, shape.offset}, CollisionQuery(world));
@@ -28,6 +30,6 @@ namespace SymoCraft::Simulation::Detail {
             body.acceleration = result.body.acceleration;
             body.on_ground = result.body.on_ground;
             ++committed_bodies;
-        }
+        });
     }
 }

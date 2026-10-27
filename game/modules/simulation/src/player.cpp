@@ -10,18 +10,19 @@ namespace SymoCraft::Simulation{
 
     ECS::EntityId CreatePlayer(ECS::Registry& registry, Camera& camera)
     {
-        const auto& transform = registry.GetComponent<Transform>(camera.entity_id);
+        const auto transform = registry.GetComponent<Transform>(camera.entity_id);
         return CreatePlayer(registry, transform.position - glm::vec3(0.0f, 0.65f, 0.0f), transform.yaw, transform.pitch);
     }
 
     ECS::EntityId CreatePlayer(ECS::Registry& registry, glm::vec3 position, float yaw, float pitch)
     {
         const auto player = registry.CreateEntity();
-        registry.AddComponent<Transform>(player);
-        registry.AddComponent<Physics::HitBox>(player);
-        registry.AddComponent<Physics::RigidBody>(player);
-        registry.AddComponent<Character::CharacterComponent>(player);
-        registry.AddComponent<Character::PlayerComponent>(player);
+        registry.Emplace<Transform>(player);
+        registry.Emplace<Physics::HitBox>(player);
+        registry.Emplace<Physics::RigidBody>(player);
+        registry.Emplace<Character::CharacterComponent>(player);
+        registry.Emplace<Character::PlayerComponent>(player);
+        registry.Emplace<PhysicsStepOrder>(player, std::uint64_t{0});
 
         // Hit box init
         auto& boxCollider = registry.GetComponent<Physics::HitBox>(player);

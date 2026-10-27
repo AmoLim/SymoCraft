@@ -7,11 +7,8 @@ namespace SymoCraft::Character::Player
 {
     void Update(ECS::Registry& registry)
     {
-        for (ECS::EntityId entity : registry.View<Transform, CharacterComponent, Physics::RigidBody>())
-        {
-            const auto& transform = registry.GetComponent<Transform>(entity);
-            auto& character = registry.GetComponent<CharacterComponent>(entity);
-            auto& body = registry.GetComponent<Physics::RigidBody>(entity);
+        registry.Each<const Transform, CharacterComponent, Physics::RigidBody>(
+        [](ECS::EntityId, const Transform& transform, CharacterComponent& character, Physics::RigidBody& body) {
             const float speed = character.is_running ? character.run_speed : character.base_speed;
 
             const glm::vec3 desired = PlayerMath::DesiredVelocity(character.movement_axis, transform.yaw,
@@ -45,24 +42,22 @@ namespace SymoCraft::Character::Player
                 body.acceleration.y = character.down_jump_force;
                 character.is_jumping = false;
             }
-        }
+        });
     }
 
     void SyncCamera(ECS::Registry& registry, ECS::EntityId camera_entity)
     {
-        if (camera_entity == ECS::null_entity || !registry.HasComponent<Transform>(camera_entity))
+        if (!registry.IsEntityValid(camera_entity) || !registry.HasComponent<Transform>(camera_entity))
             return;
         auto& camera_transform = registry.GetComponent<Transform>(camera_entity);
-        for (ECS::EntityId entity : registry.View<Transform, PlayerComponent>())
-        {
-            const auto& transform = registry.GetComponent<Transform>(entity);
-            const auto& player = registry.GetComponent<PlayerComponent>(entity);
+        registry.Each<const Transform, const PlayerComponent>(
+        [&](ECS::EntityId, const Transform& transform, const PlayerComponent& player) {
             camera_transform.position = transform.position + player.camera_offset;
             camera_transform.yaw = transform.yaw;
             camera_transform.pitch = transform.pitch;
             camera_transform.front = transform.front;
             camera_transform.up = transform.up;
             camera_transform.right = transform.right;
-        }
+        });
     }
 }

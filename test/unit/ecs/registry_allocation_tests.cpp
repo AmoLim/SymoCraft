@@ -1,202 +1,163 @@
-#include "allocation_probe.h"
-#include <symocraft/ecs/registry.h>
+#include "contract_components.h"
 #include <symocraft/foundation/memory.h>
-#include <array>
-#include <cstdlib>
-#include <iostream>
-#include <new>
-#include <exception>
 #include <cstdio>
-#include <stdexcept>
+#include <cstdlib>
+#include <malloc.h>
+#include <new>
 #include <string_view>
+#include <vector>
 
 namespace {
-    thread_local std::ptrdiff_t fail_new_after = -1;
-    std::size_t live_new_blocks = 0;
-    std::size_t new_attempts = 0;
-    void* New(std::size_t bytes) {
-        ++new_attempts;
-        if (fail_new_after == 0) throw std::bad_alloc();
-        if (fail_new_after > 0) --fail_new_after;
-        auto* memory = std::malloc(bytes ? bytes : 1);
-        if (!memory) throw std::bad_alloc();
-        ++live_new_blocks;
-        return memory;
-    }
-    void Delete(void* memory) noexcept {
-        if (memory) { --live_new_blocks; std::free(memory); }
-    }
-    using namespace SymoCraft::ECS;
-    using namespace AmoBase::Detail;
-    struct Position { std::uint64_t x, y, z; };
-    struct Velocity { std::uint64_t x, y, z; };
-    constexpr const char* long_name = "Position name deliberately exceeds the small string optimization capacity";
-    void Require(bool value, const char* message) { if (!value) throw std::runtime_error(message); }
-    template<class Call> void BadAlloc(Call&& call) {
-        bool failed = false;
-        try { call(); } catch (const std::bad_alloc&) { failed = true; }
-        Require(failed, "Allocation failure was not propagated");
-    }
-    struct Failure {
-        AllocationStage stage;
-        int remaining;
-        bool hit = false;
-        Failure(AllocationStage value, int ordinal = 0) : stage(value), remaining(ordinal) {
-            SetAllocationFailureProbe([](AllocationStage current, void* context) noexcept {
-                auto& self = *static_cast<Failure*>(context);
-                if (current != self.stage || self.remaining-- > 0) return false;
-                self.hit = true;
-                return true;
-            }, this);
-        }
-        ~Failure() { SetAllocationFailureProbe(nullptr, nullptr); }
-    };
-    void SameAllocations(const AllocationSnapshot& before) {
-        const auto after = CaptureAllocations();
-        Require(before.active_blocks == after.active_blocks && before.payload_bytes == after.payload_bytes &&
-            after.sentinels_intact, "ECS failure leaked/damaged tracked storage");
-    }
-    void Initialization(bool tracked) {
-        for (auto stage : {AllocationStage::Allocate, AllocationStage::TrackingRecord}) {
-            if (!tracked && stage == AllocationStage::TrackingRecord) continue;
-            for (int point = 0; point < 3; ++point) {
-                const auto before = CaptureAllocations();
-                {
-                    Registry registry;
-                    {
-                        Failure fault(stage, point);
-                        BadAlloc([&] { registry.RegisterComponent<Position>(long_name); });
-                        Require(fault.hit, "Container initialization failure point not reached");
-                    }
-                    Require(!registry.IsComponentRegistered<Position>(), "Partially initialized type was published");
-                    SameAllocations(before);
-                    registry.RegisterComponent<Position>(long_name);
-                    const auto entity = registry.CreateEntity();
-                    registry.AddComponent<Position>(entity) = {1, 2, 3};
-                    Require(registry.GetComponent<Position>(entity).z == 3, "Registration retry lost data");
-                    {
-                        Failure cleanup(stage);
-                        fail_new_after = 0;
-                        registry.Free();
-                        registry.Free();
-                        fail_new_after = -1;
-                        Require(!cleanup.hit, "Cleanup tried to allocate");
-                    }
-                    SameAllocations(before);
-                }
-                SameAllocations(before);
-            }
+    bool armed{};
+    int ordinal{}, allocations{}, hits{};
+    std::size_t failed_bytes{};
+    bool failed_aligned{};
+    void BeforeAllocate(std::size_t bytes, bool aligned) {
+        if (armed && allocations++ == ordinal) {
+            ++hits; failed_bytes = bytes; failed_aligned = aligned;
+            throw std::bad_alloc();
         }
     }
-    void RegistrationTransfer(bool tracked) {
-        // Sweep actual string/vector allocations in RegisterType, not a simulated handoff error.
-        for (std::ptrdiff_t point = 0; point < 64; ++point) {
-            const auto before = CaptureAllocations();
-            const auto new_before = live_new_blocks;
-            bool failed = false;
-            std::size_t attempts;
-            {
-                Registry registry;
-                registry.RegisterComponent<Position>(long_name);
-                const auto entity = registry.CreateEntity();
-                registry.AddComponent<Position>(entity) = {11, 22, 33};
-                const auto owned = CaptureAllocations();
-                new_attempts = 0;
-                fail_new_after = point;
-                try { registry.RegisterComponent<Velocity>(long_name); }
-                catch (const std::bad_alloc&) { failed = true; }
-                fail_new_after = -1;
-                attempts = new_attempts;
-                Require(registry.IsComponentRegistered<Velocity>() == !failed, "Registration published half a type");
-                Require(registry.GetComponent<Position>(entity).z == 33, "Registration move damaged prior storage");
-                if (failed) {
-                    SameAllocations(owned);
-                    registry.RegisterComponent<Velocity>(long_name);
-                }
-                registry.AddComponent<Velocity>(entity) = {44, 55, 66};
-                Require(registry.GetComponent<Velocity>(entity).z == 66, "Registration retry failed after transfer error");
-            }
-            SameAllocations(before);
-            if (!tracked) Require(live_new_blocks == new_before, "Registration leaked C++ owner allocations");
-            if (!failed) {
-                Require(point >= 3 && attempts >= 3, "Did not exercise string and both vector allocations");
-                return;
-            }
-        }
-        throw std::runtime_error("Registration allocation sweep did not reach success");
-    }
-    void Growth(bool tracked) {
-        for (auto stage : {AllocationStage::Reallocate, AllocationStage::SentinelCopy,
-                           AllocationStage::Allocate, AllocationStage::TrackingRecord}) {
-            if (!tracked && (stage == AllocationStage::SentinelCopy || stage == AllocationStage::TrackingRecord)) continue;
-            const int points = (stage == AllocationStage::Allocate || stage == AllocationStage::TrackingRecord) ? 2 : 1;
-            for (int point = 0; point < points; ++point) for (bool retry : {false, true}) {
-                const auto before = CaptureAllocations();
-                {
-                    Registry registry;
-                    registry.RegisterComponent<Position>(long_name);
-                    std::array<EntityId, 9> entities;
-                    for (auto& entity : entities) entity = registry.CreateEntity();
-                    for (std::size_t i = 0; i < 8; ++i) registry.AddComponent<Position>(entities[i]) = {i, i + 10, i + 20};
-                    {
-                        Failure fault(stage, point);
-                        BadAlloc([&] { registry.AddComponent<Position>(entities[8]); });
-                        Require(fault.hit, "Sparse/dense growth failure point not reached");
-                    }
-                    Require(!registry.HasComponent<Position>(entities[8]) && registry.NumComponents(entities[8]) == 0,
-                        "Growth failure published a phantom component");
-                    std::size_t count = 0;
-                    for (auto entity : registry.View<Position>()) {
-                        const auto& value = registry.GetComponent<Position>(entity);
-                        Require(value.y == value.x + 10 && value.z == value.x + 20, "Growth lost old payload bytes");
-                        ++count;
-                    }
-                    Require(count == 8, "Growth changed existing sparse mappings");
-                    if (retry) {
-                        registry.AddComponent<Position>(entities[8]) = {8, 18, 28};
-                        Require(registry.GetComponent<Position>(entities[8]).z == 28, "Growth retry failed");
-                    }
-                    {
-                        Failure cleanup(stage);
-                        fail_new_after = 0;
-                        registry.Free();
-                        registry.Free();
-                        fail_new_after = -1;
-                        Require(!cleanup.hit, "Failed growth cleanup tried to allocate");
-                    }
-                    SameAllocations(before);
-                    registry.Clear();
-                    registry.RegisterComponent<Position>(long_name);
-                    registry.AddComponent<Position>(registry.CreateEntity()) = {1, 2, 3};
-                }
-                SameAllocations(before);
-            }
-        }
-    }
+    void Arm(int index) { ordinal = index; allocations = hits = 0; failed_bytes = 0; armed = true; }
+    void Require(bool condition) { if (!condition) throw std::runtime_error("allocation contract assertion"); }
 }
+void* operator new(std::size_t bytes) {
+    BeforeAllocate(bytes, false);
+    if (void* pointer = std::malloc(bytes ? bytes : 1)) return pointer;
+    throw std::bad_alloc();
+}
+void* operator new[](std::size_t bytes) { return ::operator new(bytes); }
+void operator delete(void* pointer) noexcept { std::free(pointer); }
+void operator delete[](void* pointer) noexcept { std::free(pointer); }
+void operator delete(void* pointer, std::size_t) noexcept { std::free(pointer); }
+void operator delete[](void* pointer, std::size_t) noexcept { std::free(pointer); }
+void* operator new(std::size_t bytes, std::align_val_t alignment) {
+    BeforeAllocate(bytes, true);
+    if (void* pointer = _aligned_malloc(bytes ? bytes : 1, static_cast<std::size_t>(alignment))) return pointer;
+    throw std::bad_alloc();
+}
+void* operator new[](std::size_t bytes, std::align_val_t alignment) { return ::operator new(bytes, alignment); }
+void operator delete(void* pointer, std::align_val_t) noexcept { _aligned_free(pointer); }
+void operator delete[](void* pointer, std::align_val_t) noexcept { _aligned_free(pointer); }
+void operator delete(void* pointer, std::size_t, std::align_val_t) noexcept { _aligned_free(pointer); }
+void operator delete[](void* pointer, std::size_t, std::align_val_t) noexcept { _aligned_free(pointer); }
 
-void* operator new(std::size_t bytes) { return New(bytes); }
-void* operator new[](std::size_t bytes) { return New(bytes); }
-void operator delete(void* memory) noexcept { Delete(memory); }
-void operator delete[](void* memory) noexcept { Delete(memory); }
-void operator delete(void* memory, std::size_t) noexcept { Delete(memory); }
-void operator delete[](void* memory, std::size_t) noexcept { Delete(memory); }
-
+using namespace SymoCraft::ECS;
 int main(int argc, char** argv) {
     try {
-        std::set_terminate([] { std::fputs("Unexpected terminate during allocation regression\n", stderr); std::_Exit(134); });
-        const bool tracked = argc == 2 && std::string_view(argv[1]) == "--tracked";
-        Require(argc == 1 || tracked, "Unexpected ECS allocation argument");
-        AmoBase::AmoMemory_Init(tracked, 1024);
-        Initialization(tracked);
-        RegistrationTransfer(tracked);
-        Growth(tracked);
-        Require(CaptureAllocations().active_blocks == 0, "ECS allocation regression leaked tracked blocks");
-        std::cout << "ECS allocation: initialization, registration transfer, sparse/dense failure cleanup passed; tracking=" << tracked << '\n';
+        Require(argc == 1 || (argc == 2 && std::string_view(argv[1]) == "--tracked") || argc == 3);
+        if (argc == 2) AmoBase::AmoMemory_Init(true);
+        const std::string_view scenario = argc == 3 ? argv[1] : "first-create";
+        const int index = argc == 3 ? std::atoi(argv[2]) : 0;
+        bool caught = false;
+        if (scenario == "owner") {
+            Arm(index);
+            try { Registry pending; } catch (const std::bad_alloc&) { caught = true; }
+            armed = false;
+            Require(caught && hits == 1);
+            Registry retry;
+            Require(retry.IsEntityValid(retry.CreateEntity()));
+        } else if (scenario == "first-create") {
+            Registry owner;
+            EntityId unpublished;
+            Arm(index);
+            try { unpublished = owner.CreateEntity(); } catch (const std::bad_alloc&) { caught = true; }
+            armed = false;
+            Require(caught && hits == 1 && unpublished == null_entity && owner.GetStatus().health == RegistryHealth::Healthy);
+            Require(owner.IsEntityValid(owner.CreateEntity()));
+        } else if (scenario == "resource-destroy" || scenario == "cleanup") {
+            {
+                Registry owner;
+                owner.RegisterComponent<ContractResource>("resource");
+                const auto first = owner.CreateEntity(), second = owner.CreateEntity();
+                for (int i = 2; i < 9001; ++i) (void)owner.CreateEntity();
+                const auto high = owner.CreateEntity();
+                owner.Emplace<ContractResource>(first, 1);
+                owner.Emplace<ContractResource>(second, 2);
+                owner.Emplace<ContractResource>(high, 3);
+                if (scenario == "resource-destroy") {
+                    Arm(index);
+                    owner.DestroyEntity(second); owner.DestroyEntity(first);
+                    armed = false;
+                    Require(allocations == 0 && hits == 0 && ContractResource::live == 1);
+                    Require(*owner.GetComponent<ContractResource>(high).value == 3);
+                } else Arm(index);
+            }
+            armed = false;
+            Require(allocations == 0 && hits == 0 && ContractResource::live == 0);
+        } else {
+            Registry owner;
+            owner.RegisterComponent<ContractValue>("value");
+            const auto old = owner.CreateEntity();
+            owner.Emplace<ContractValue>(old, 77);
+            const std::string name(96, 'r');
+            EntityId pending{};
+            if (scenario == "resource" || scenario == "aligned") owner.RegisterComponent<ContractResource>("resource");
+            if (scenario == "growth") {
+                for (int i = 1; i < 1024; ++i) owner.Emplace<ContractValue>(owner.CreateEntity(), i);
+                pending = owner.CreateEntity();
+            } else if (scenario == "resource" || scenario == "aligned") {
+                pending = owner.CreateEntity();
+                if (scenario == "resource") owner.Emplace<ContractResource>(old, 10);
+            }
+            Arm(index);
+            try {
+                if (scenario == "registration") owner.RegisterComponent<ContractResource>(name);
+                else if (scenario == "create") pending = owner.CreateEntity();
+                else if (scenario == "growth") owner.Emplace<ContractValue>(pending, 1000);
+                else if (scenario == "resource" || scenario == "aligned") owner.Emplace<ContractResource>(pending, 1000);
+                else if (scenario == "ordered" || scenario == "nested-ordered") {
+                    auto ordered = [&] { owner.EachOrdered<ContractValue>(
+                    [](EntityId, const ContractValue& v) { return v.value; },
+                    [](EntityId, ContractValue&) { throw std::runtime_error("unexpected business visitor"); }); };
+                    if (scenario == "ordered") ordered();
+                    else owner.Each<>([&](EntityId) {
+                        try { ordered(); } catch (const std::bad_alloc&) { caught = true; }
+                        try { owner.Clear(); Require(false); }
+                        catch (const RegistryError& error) { Require(error.Code() == RegistryErrorCode::InvalidContext); }
+                    });
+                }
+                else if (scenario == "clear") owner.Clear();
+                else if (scenario == "destroy") owner.DestroyEntity(old);
+                else throw std::runtime_error("unknown fault scenario");
+            } catch (const std::bad_alloc&) { caught = true; }
+            armed = false;
+            if (scenario == "clear" || scenario == "destroy") {
+                Require(!caught && allocations == 0 && hits == 0 && !owner.IsEntityValid(old));
+                if (scenario == "clear") Require(owner.IsComponentRegistered<ContractValue>());
+            } else {
+                Require(caught && hits == 1 && owner.GetStatus().health == RegistryHealth::Healthy);
+                Require(owner.IsEntityValid(old) && owner.GetComponent<ContractValue>(old).value == 77);
+                if (scenario == "registration") {
+                    Require(!owner.IsComponentRegistered<ContractResource>());
+                    owner.RegisterComponent<ContractResource>(name);
+                } else if (scenario == "create") {
+                    Require(pending == null_entity);
+                    Require(owner.IsEntityValid(owner.CreateEntity()));
+                } else if (scenario == "growth") {
+                    Require(!owner.HasComponent<ContractValue>(pending));
+                    owner.Emplace<ContractValue>(pending, 1000);
+                } else if (scenario == "resource" || scenario == "aligned") {
+                    Require(!owner.HasComponent<ContractResource>(pending));
+                    Require(ContractResource::live == (scenario == "resource" ? 1 : 0));
+                    if (scenario == "resource") Require(*owner.GetComponent<ContractResource>(old).value == 10);
+                    owner.Emplace<ContractResource>(pending, 1000);
+                } else if (scenario == "ordered" || scenario == "nested-ordered") {
+                    unsigned seen = 0;
+                    owner.Each<ContractValue>([&](EntityId, ContractValue&) { ++seen; });
+                    Require(seen == 1);
+                    owner.RegisterComponent<ContractEmpty>("guard released");
+                }
+            }
+        }
+        Require(ContractResource::live == 0);
+        std::printf("PASS %.*s #%d allocations=%d hits=%d failed-bytes=%zu aligned=%d caught=%d\n",
+                    static_cast<int>(scenario.size()), scenario.data(), index,
+                    allocations, hits, failed_bytes, failed_aligned, caught);
         return 0;
     } catch (const std::exception& error) {
-        fail_new_after = -1;
-        std::cerr << error.what() << '\n';
+        armed = false;
+        std::fprintf(stderr, "%s allocations=%d hits=%d\n", error.what(), allocations, hits);
         return 1;
     }
 }

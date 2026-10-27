@@ -147,6 +147,7 @@ def audit():
                 continue
             links += 1
             target = (path.parent / unquote(parsed.path)).resolve() if parsed.path else path
+            original_target = target
             relocated = False
             if not target.exists() and path in historical_sources and target in relocations:
                 target = relocations[target]
@@ -157,6 +158,9 @@ def audit():
                 problem = 'outside repository'
             elif not target.exists():
                 problem = 'missing target'
+            elif relocated and parsed.fragment and original_target.suffix.lower() == '.md' and target.suffix.lower() == '.7z':
+                if unquote(parsed.fragment) not in slugs(evidence_paths.read_relocated_text(ROOT, original_target)):
+                    problem = 'missing anchor'
             elif parsed.fragment and target.is_file() and target.suffix.lower() == '.md' and unquote(parsed.fragment) not in slugs(
                     texts[target] if target in texts else target.read_text(encoding='utf-8-sig')):
                 problem = 'missing anchor'

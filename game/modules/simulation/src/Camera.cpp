@@ -8,7 +8,7 @@ namespace SymoCraft {
         : registry_(registry)
     {
         entity_id = registry_.CreateEntity();
-        registry_.AddComponent<Transform>(entity_id);
+        registry_.Emplace<Transform>(entity_id);
         auto& transform = registry_.GetComponent<Transform>(entity_id);
         transform = {};
         transform.scale = glm::vec3(1.0f);

@@ -68,6 +68,7 @@ namespace SymoCraft::Simulation {
             throw Rejected("CreateSession: initial pose is invalid");
         if (!registry.IsComponentRegistered<Transform>() || !registry.IsComponentRegistered<Physics::RigidBody>() ||
             !registry.IsComponentRegistered<Physics::HitBox>() ||
+            !registry.IsComponentRegistered<PhysicsStepOrder>() ||
             !registry.IsComponentRegistered<Character::CharacterComponent>() ||
             !registry.IsComponentRegistered<Character::PlayerComponent>())
             throw Rejected("CreateSession: caller must register all player components");
@@ -181,13 +182,15 @@ namespace SymoCraft::Simulation {
         const auto& state = *session.impl_;
         SessionDiagnostics result{state.state, state.budget.Remainder(), state.edit_cooldown,
             state.controls.block_change_debounce, state.controls.selected_block, state.resume_pending, {}};
+        if (state.registry.GetStatus().health == ECS::RegistryHealth::Failed) return result;
         try {
             state.RequirePlayer();
             const auto& body = state.registry.GetComponent<Physics::RigidBody>(state.player);
             const auto& character = state.registry.GetComponent<Character::CharacterComponent>(state.player);
             if (PlayerMath::IsFinite(body.velocity) && PlayerMath::IsFinite(body.acceleration))
                 result.motion = MotionDiagnostics{ReadPose(state.registry, state.player), body, character, state.CurrentLens()};
-        } catch (const std::runtime_error&) { /* Missing/unsafe storage is explicitly unavailable. */ }
+        } catch (const ECS::RegistryError&) { /* No unsafe ECS access escapes into diagnostics. */ }
+        catch (const std::runtime_error&) { /* Missing/unsafe storage is explicitly unavailable. */ }
         return result;
     }
 }

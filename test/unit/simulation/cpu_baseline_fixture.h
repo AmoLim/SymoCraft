@@ -51,6 +51,7 @@ namespace CpuBaseline {
             const std::string text{std::istreambuf_iterator<char>(file), std::istreambuf_iterator<char>()};
             world = World::VoxelWorld::Create(World::BlockDefinition::FromConfig(text), {424242, 2, false});
             registry.RegisterComponent<Transform>("Transform");
+            registry.RegisterComponent<Simulation::PhysicsStepOrder>("PhysicsStepOrder");
             registry.RegisterComponent<Physics::RigidBody>("RigidBody");
             registry.RegisterComponent<Physics::HitBox>("HitBox");
             registry.RegisterComponent<Character::CharacterComponent>("Character");
@@ -64,12 +65,13 @@ namespace CpuBaseline {
                              const Physics::HitBox& shape = {glm::vec3(1.0f), glm::vec3(0.0f)})
         {
             const auto entity = registry.CreateEntity();
-            auto& transform = registry.AddComponent<Transform>(entity);
+            auto& transform = registry.Emplace<Transform>(entity);
             transform = {};
             transform.position = position;
             transform.scale = glm::vec3(1.0f);
-            registry.AddComponent<Physics::RigidBody>(entity) = body;
-            registry.AddComponent<Physics::HitBox>(entity) = shape;
+            registry.Emplace<Physics::RigidBody>(entity, body);
+            registry.Emplace<Physics::HitBox>(entity, shape);
+            registry.Emplace<Simulation::PhysicsStepOrder>(entity, next_body_order++);
             return entity;
         }
 
@@ -95,5 +97,6 @@ namespace CpuBaseline {
         std::unique_ptr<World::VoxelWorld> world;
         ECS::Registry registry;
         PlayerMath::FixedStepBudget budget;
+        std::uint64_t next_body_order = 1;
     };
 }
