@@ -3,315 +3,97 @@ tags:
   - area/meta
 ---
 
-# ECS/Memory 交付与 T5 文档收口提交划分
+# RenderDoc/Tracy 规划提交划分
 
-## 授权与基线
+## 当前授权与基线
 
-2026-10-27 本轮请求为“主工作区 ECS-Memory-apply 分步提交，先写 gitspec”。当前只授权盘点及替换本页，尚未授权暂存、commit、push、merge 或创建 PR；旧批次批准不沿用。后续取得明确提交授权后，才按本页逐组执行。
+2026-10-28 本轮明确要求“给 integrate-renderdoc-tracy 的 spec 改动进行 Git 提交划分，先更新 gitspec.md，不要暂存或提交”。本轮只替换本页，不修改其他文件、不调整索引、不提交或推送；旧 ECS/Memory 批次授权不沿用。
 
-分支 `feature-refactoring`，规划基线 HEAD 为 `6fea31e4631e267f132aa9b1608dc6538b562e13`，盘点时索引为空。排除个人目录后，当前有58个已跟踪差异路径及135个未跟踪路径，其中111个为 EnTT 原始依赖文件。排除另一个 NPC proposal 的2个路径，再加入本页，候选共192个唯一路径。旧路径删除与归档目标新增分别计数，不等于 Git rename 识别后的文件数。
+当前分支 `feature-integrate-renderdoc-tracy`，HEAD 为 `f7ac7a89cb318e0e47febbf877e074db16262bf4`。旧 gitspec 属于已经完成的 ECS/Memory 批次，本页取代旧计划，不追加提交历史。
 
-当前事实以 [scope](../scope/project-scope.md)、[文档治理](../DOCUMENTATION_MAP.md)和 [T5 验证记录](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md)为依据：T5/M3 已于2026-10-25获明确整体批准，ecs 与 module-boundaries 主规格已同步，T5 已归档；随后独立授权的生产传播已将 EnTT typed ECS、DBG01、调用方及构建/测试支持同步到 F 主工作区。此轮是保存这些既有改动，不重新实施、验收、同步规格或归档。
+盘点起点并非空索引：已有12个新增路径暂存，其中本 change 9项、独立 NPC proposal 2项、个人文档1项。起点工作区相对索引无差异；本页修改后保持未暂存。本轮不会把“已暂存”解释为当前提交授权，也不会擅自取消其他文件的暂存。
 
-归档中“F 尚未同步”“T5 待批准”等是历史时点，后续批准和生产传播章节已明确覆盖当前状态；不得为统一措辞改写旧命令、失败、结果或批准含义。源码传播不等于合并 Git 历史。
+本 change 当前为 `symocraft-lite`，创建日期2026-10-27；短设计、N1–N4 分工及唯一 S1–S10 任务清单均在 proposal.md，七份 delta 定义目标行为。所有实施任务尚未勾选；本批没有生产实现、工具安装、实际捕获、验收、主规格同步或归档结果。
 
-## 分组顺序
+## 提交划分
 
 | 组 | 拟提交消息 | 完整意图 | 路径数 |
 | --- | --- | --- | --- |
-| G1 | `build(ecs): 引入固定EnTT依赖并统一Debug ABI` | 固定原始依赖、许可证安装和全体 Debug C++ ABI；包含本页 | 118 |
-| G2 | `refactor(ecs): 交付类型化注册表并迁移生产调用方` | ECS 实现、业务调用、必要构建边界与测试一起替换，退役准确五文件 | 37 |
-| G3 | `fix(docs): 校验压缩证据成员并修正文档入口` | 独立保存已有文档审计修补、冻结材料读取规则和纯导航修正 | 6 |
-| G4 | `docs(t5): 同步ECS主规格归档与M3验收状态` | 已完成 T5 的完整归档、主规格、机制、范围与批准导航收口 | 31 |
+| G1 | `docs(profiling): 规划RenderDoc与Tracy接入及旧性能链退役` | change 元数据、完整 proposal、七份相互依赖的 delta 与本页一起提交 | 10 |
 
-G2 依赖 G1。G3 是现有配套文档维护，不是 ECS 行为的一部分，也不以通过审计替代 ECS 验收；单独提交便于审阅或独立回退。G4 在 G2 后提交，使现役规格与当前交付状态有对应实现；同时收进 scope/third-party 中混合的压缩链接修正，与 G3 共同完成这批文档维护。按 G1 → G2 → G3 → G4 执行，不按目录或任意文件数量拆分。
+本轮只需一组原子文档提交，不为满足“分步”而制造不完整规格快照。N1–N4 是后续实施的编辑责任及交接节点，不是四个可独立落地的规格包；S5/S7 跨应用与渲染，退役边界又分布于多个原 capability。仅先提交 proposal 会引用尚不存在的 delta，仅提交工具接入而遗漏退役边界则不能完整表达已选方向。
 
-所有路径均按当前差异整份归组，无共享文件局部暂存。以下清单是固定候选，不是目录通配授权；后续新增文件或相同路径的新并发差异不能自动纳入。
+未来实施提交需要在实际生产差异出现后另定批次，不将当前规划提交冒称 N1/N2/N3/N4 已交付，不在本页复制第二份实施任务清单。Git 消息使用 docs，是因为本次保存规划文档；父 Issue 使用 feature 不意味着本次已经新增运行能力。
 
-## G1 固定依赖与全局 Debug ABI
+### G1 准确文件清单
 
-EnTT 固定为项目已经选定的官方 v4.0.0 提交 `85c6bba014049b5de8fad49d25424df2f1f6a8c1`；保存原始 src 与 LICENSE，不补丁第三方文件、不改用在线下载。独立 INTERFACE target 提供受控模板依赖和 `ENTT_NO_ETO`，不调用上游顶层 CMake。
-
-`MsvcAbi.cmake` 在根构建和独立 benchmark 的依赖配置前统一 MSVC Debug C++ 的 `_ITERATOR_DEBUG_LEVEL=0`，保留 Debug CRT 和调试信息。这是已批准 DBG01 的实际配置，不是提高优化级别或取消 Debug。将来构建须使用全新目录并重建依赖闭包，不能混入旧 level-2 对象或库；本轮 Git 工作不因此启动构建或删除缓存。
-
-许可证源声明与安装规则一起交付。此组只准备依赖，不提前切换 ECS；`game/modules/ecs/CMakeLists.txt` 的源码替换及公开链接必须随 G2，否则会从旧实现中提前移除仍需的 internal.cpp。
-
-完整文件清单共118项，其中 EnTT 原始文件111项：
+9份 change 文件相对 HEAD 均为新增，当前已暂存624行；本页为已有文件的替换修改，当前不暂存。以下10项全部按整文件候选纳入，不使用目录通配，后续新增文件和并发修订不自动进入本组。
 
 ```text
-CMakeLists.txt
-cmake/MsvcAbi.cmake
-cmake/ThirdPartyEnTT.cmake
-cmake/licenses/SOURCES.txt
-game/app/CMakeLists.txt
-tools/benchmark/CMakeLists.txt
+docs/openspec/changes/integrate-renderdoc-tracy/.openspec.yaml
+docs/openspec/changes/integrate-renderdoc-tracy/proposal.md
+docs/openspec/changes/integrate-renderdoc-tracy/specs/application-lifecycle/spec.md
+docs/openspec/changes/integrate-renderdoc-tracy/specs/development-profiling/spec.md
+docs/openspec/changes/integrate-renderdoc-tracy/specs/foundation-files/spec.md
+docs/openspec/changes/integrate-renderdoc-tracy/specs/module-boundaries/spec.md
+docs/openspec/changes/integrate-renderdoc-tracy/specs/platform/spec.md
+docs/openspec/changes/integrate-renderdoc-tracy/specs/renderer/spec.md
+docs/openspec/changes/integrate-renderdoc-tracy/specs/telemetry-lifecycle/spec.md
 docs/git/gitspec.md
-vendor/entt/LICENSE
-vendor/entt/src/BUILD.bazel
-vendor/entt/src/entt/config/config.h
-vendor/entt/src/entt/config/macro.h
-vendor/entt/src/entt/config/version.h
-vendor/entt/src/entt/container/dense_map.hpp
-vendor/entt/src/entt/container/dense_set.hpp
-vendor/entt/src/entt/container/fwd.hpp
-vendor/entt/src/entt/container/table.hpp
-vendor/entt/src/entt/core/algorithm.hpp
-vendor/entt/src/entt/core/any.hpp
-vendor/entt/src/entt/core/bit.hpp
-vendor/entt/src/entt/core/compressed_pair.hpp
-vendor/entt/src/entt/core/concepts.hpp
-vendor/entt/src/entt/core/enum.hpp
-vendor/entt/src/entt/core/family.hpp
-vendor/entt/src/entt/core/fwd.hpp
-vendor/entt/src/entt/core/hashed_string.hpp
-vendor/entt/src/entt/core/ident.hpp
-vendor/entt/src/entt/core/iterator.hpp
-vendor/entt/src/entt/core/memory.hpp
-vendor/entt/src/entt/core/monostate.hpp
-vendor/entt/src/entt/core/ranges.hpp
-vendor/entt/src/entt/core/tuple.hpp
-vendor/entt/src/entt/core/type_info.hpp
-vendor/entt/src/entt/core/type_traits.hpp
-vendor/entt/src/entt/core/utility.hpp
-vendor/entt/src/entt/entity/component.hpp
-vendor/entt/src/entt/entity/entity.hpp
-vendor/entt/src/entt/entity/fwd.hpp
-vendor/entt/src/entt/entity/group.hpp
-vendor/entt/src/entt/entity/handle.hpp
-vendor/entt/src/entt/entity/helper.hpp
-vendor/entt/src/entt/entity/mixin.hpp
-vendor/entt/src/entt/entity/organizer.hpp
-vendor/entt/src/entt/entity/ranges.hpp
-vendor/entt/src/entt/entity/registry.hpp
-vendor/entt/src/entt/entity/runtime_view.hpp
-vendor/entt/src/entt/entity/snapshot.hpp
-vendor/entt/src/entt/entity/sparse_set.hpp
-vendor/entt/src/entt/entity/storage.hpp
-vendor/entt/src/entt/entity/view.hpp
-vendor/entt/src/entt/entt.hpp
-vendor/entt/src/entt/fwd.hpp
-vendor/entt/src/entt/graph/adjacency_matrix.hpp
-vendor/entt/src/entt/graph/dot.hpp
-vendor/entt/src/entt/graph/flow.hpp
-vendor/entt/src/entt/graph/fwd.hpp
-vendor/entt/src/entt/locator/locator.hpp
-vendor/entt/src/entt/meta/adl_pointer.hpp
-vendor/entt/src/entt/meta/container.hpp
-vendor/entt/src/entt/meta/context.hpp
-vendor/entt/src/entt/meta/factory.hpp
-vendor/entt/src/entt/meta/fwd.hpp
-vendor/entt/src/entt/meta/meta.hpp
-vendor/entt/src/entt/meta/node.hpp
-vendor/entt/src/entt/meta/pointer.hpp
-vendor/entt/src/entt/meta/policy.hpp
-vendor/entt/src/entt/meta/range.hpp
-vendor/entt/src/entt/meta/resolve.hpp
-vendor/entt/src/entt/meta/template.hpp
-vendor/entt/src/entt/meta/type_traits.hpp
-vendor/entt/src/entt/meta/utility.hpp
-vendor/entt/src/entt/natvis/config.natvis
-vendor/entt/src/entt/natvis/container.natvis
-vendor/entt/src/entt/natvis/core.natvis
-vendor/entt/src/entt/natvis/entity.natvis
-vendor/entt/src/entt/natvis/graph.natvis
-vendor/entt/src/entt/natvis/locator.natvis
-vendor/entt/src/entt/natvis/meta.natvis
-vendor/entt/src/entt/natvis/poly.natvis
-vendor/entt/src/entt/natvis/process.natvis
-vendor/entt/src/entt/natvis/resource.natvis
-vendor/entt/src/entt/natvis/signal.natvis
-vendor/entt/src/entt/poly/fwd.hpp
-vendor/entt/src/entt/poly/poly.hpp
-vendor/entt/src/entt/process/fwd.hpp
-vendor/entt/src/entt/process/process.hpp
-vendor/entt/src/entt/process/scheduler.hpp
-vendor/entt/src/entt/resource/cache.hpp
-vendor/entt/src/entt/resource/fwd.hpp
-vendor/entt/src/entt/resource/loader.hpp
-vendor/entt/src/entt/resource/resource.hpp
-vendor/entt/src/entt/signal/delegate.hpp
-vendor/entt/src/entt/signal/dispatcher.hpp
-vendor/entt/src/entt/signal/emitter.hpp
-vendor/entt/src/entt/signal/fwd.hpp
-vendor/entt/src/entt/signal/sigh.hpp
-vendor/entt/src/entt/stl/algorithm.hpp
-vendor/entt/src/entt/stl/array.hpp
-vendor/entt/src/entt/stl/atomic.hpp
-vendor/entt/src/entt/stl/bit.hpp
-vendor/entt/src/entt/stl/cmath.hpp
-vendor/entt/src/entt/stl/concepts.hpp
-vendor/entt/src/entt/stl/cstddef.hpp
-vendor/entt/src/entt/stl/cstdint.hpp
-vendor/entt/src/entt/stl/functional.hpp
-vendor/entt/src/entt/stl/ios.hpp
-vendor/entt/src/entt/stl/iterator.hpp
-vendor/entt/src/entt/stl/limits.hpp
-vendor/entt/src/entt/stl/memory.hpp
-vendor/entt/src/entt/stl/ostream.hpp
-vendor/entt/src/entt/stl/sstream.hpp
-vendor/entt/src/entt/stl/string.hpp
-vendor/entt/src/entt/stl/string_view.hpp
-vendor/entt/src/entt/stl/tuple.hpp
-vendor/entt/src/entt/stl/type_traits.hpp
-vendor/entt/src/entt/stl/utility.hpp
-vendor/entt/src/entt/stl/vector.hpp
-vendor/entt/src/entt/tools.hpp
-vendor/entt/src/entt/tools/davey.hpp
 ```
 
-## G2 类型化 ECS 与生产调用闭包
+### 完整交付意图
 
-整体交付 Registry/EntityId、模板实现、配置与私有诊断，保留唯一正式 ECS target。对象构造/销毁、跨 owner 与代数身份、每实例类型注册、const 读取、同步查询/有序查询、短借用和 Failed 状态属于同一个替换意图，不拆成只能链接旧实现的中间提交。
+- development-profiling：外部 RenderDoc 捕获/回放、有限 Tracy CPU 区域/帧标记/计数、工具与配置身份、历史证据保护。RenderDoc 不进入产品依赖，不新增 Tracy GPU 时间线或全局分配器挂钩。
+- module-boundaries：默认关闭的窄 profiling 适配、唯一静态 client、固定来源与许可、Release 优化/符号及 Debug DBG01；CPU-only/基础 foundation/ECS/独立 physics 不承接无关依赖。非性能 document_io 原义迁到 foundation 所属独立 YAML 适配 target。
+- application-lifecycle 与 platform：独立 static/walk/edit 场景、新参数及有界时限、旧参数拒绝、输入隔离与退出分类；保留 walk→spawn、static/edit→four-chunk、初始45度FOV、真实时间驱动及0.25秒编辑节奏。普通玩法和 SimulationSession 业务职责不被性能链退役取代。
+- telemetry-lifecycle：性能 Recording/Sealed/Export 退役，改为常量级、自有只读的 FPS/帧间隔/实际物理 TPS/坐标/后端快照，缺值及暂停恢复明确；不新增 HUD 或第二模拟/计步权威。
+- renderer：CPU 观测和两现代后端原生命名/成对 marker，退役旧计时 query/Poll；保留截图、实际配置/设备身份、部署/资产要求及正确性 fence/readback/资源寿命。旧 A02/A17/A18、预算和 strict 准备的适用范围在原 capability 内分别界定，不靠新增工具能力跨路径覆盖。
+- foundation-files：只撤销旧性能终态消费者要求，不修改 Files::Publish 机制、错误码或晚期失败边界。1175/诊断完整性不因消费者退役视为关闭，Fix1 继续暂停。
+- proposal：保留单一 change、S1–S10 和 N1–N4 的分工/文件归属/依赖。N4 先统筹 S1，共同接口成立后 N1–N3 可并行；共享构建归 N1，最终同一候选由 N4 汇合。并行开发安排不是本轮派发任务或实施授权。
 
-simulation/app 调用方同组迁移：物理按显式 `PhysicsStepOrder` 业务键执行，缺键或平局不靠 native entity 顺序补齐；保留逐体提交与 Session 错误边界。迁移玩家、相机、transform、character、Session 与 Application 的既有消费者，不新增 NPC、计算服务或正式顶层 physics 模块。
+以上是既有目标的提交范围说明，不在本轮重写 proposal、delta、主规格或设计决定。真实删除清单、代码根实施授权、检查范围/有界人工时长及最终接受仍分别确认。
 
-CMake 边界、负向夹具、真实库契约/多 TU、编译正负例、身份/资源/代表分配故障及受影响 Session/物理基线测试源码一并保存。私有诊断仅供已经指定的两份测试，不能开放整个 src 或让生产目标依赖测试实现。有界成本 probe 保留既有 EXCLUDE_FROM_ALL 身份，不把源码存在写成已运行。
+## 规划输入身份
 
-以下五个已退役文件作为本组删除提交，不恢复成活动后备，也不扩展其他删除：
+以下是盘点时九份已暂存文件的 Git blob 身份；用于后续发现并发内容变化，不是构建或工具验证。工作区与这九份索引版本当前一致。本页不记录自身 blob，避免循环身份。
 
-- `game/modules/ecs/src/component_container.h`
-- `game/modules/ecs/src/internal.cpp`
-- `game/modules/ecs/src/internal.h`
-- `game/modules/ecs/src/legacy/MemoryHelper.h`
-- `game/modules/ecs/src/legacy/RawMemory.h`
+| 路径 | 起点索引 blob |
+| --- | --- |
+| `docs/openspec/changes/integrate-renderdoc-tracy/.openspec.yaml` | `3b5f933c75f56bcc2ff9c17dbb72ed4c29599bac` |
+| `docs/openspec/changes/integrate-renderdoc-tracy/proposal.md` | `0cec846aae3d35504db23c52b29ea944401aa9ed` |
+| `docs/openspec/changes/integrate-renderdoc-tracy/specs/application-lifecycle/spec.md` | `eb953436af8a1288ea53622bdc61d60179f14e5c` |
+| `docs/openspec/changes/integrate-renderdoc-tracy/specs/development-profiling/spec.md` | `f5853e0963bd776b57f03c5eb6e46a08a2dfd9bf` |
+| `docs/openspec/changes/integrate-renderdoc-tracy/specs/foundation-files/spec.md` | `c1631caa3fba6a318204e3eebf2bf39f25d67729` |
+| `docs/openspec/changes/integrate-renderdoc-tracy/specs/module-boundaries/spec.md` | `bf01218c3277cf23db3a5da21b15322c185a4710` |
+| `docs/openspec/changes/integrate-renderdoc-tracy/specs/platform/spec.md` | `80e0c01cdffbb89c49e7c14a8f2810c7738a7807` |
+| `docs/openspec/changes/integrate-renderdoc-tracy/specs/renderer/spec.md` | `a602147746b253b7b4e73fa58bfd0e8bee16b3ec` |
+| `docs/openspec/changes/integrate-renderdoc-tracy/specs/telemetry-lifecycle/spec.md` | `2ed55620f46201bbbe54d22042bc72ce0f5c0705` |
 
-完整文件清单共37项，包含上述5项删除：
+## 明确排除与依赖缺口
 
-```text
-cmake/ModuleBoundaries.cmake
-game/app/src/application.cpp
-game/modules/ecs/CMakeLists.txt
-game/modules/ecs/include/symocraft/ecs/detail/entt_config.h
-game/modules/ecs/include/symocraft/ecs/detail/registry.inl
-game/modules/ecs/include/symocraft/ecs/entity.h
-game/modules/ecs/include/symocraft/ecs/registry.h
-game/modules/ecs/src/component_container.h
-game/modules/ecs/src/diagnostics/registry_test_access.h
-game/modules/ecs/src/internal.cpp
-game/modules/ecs/src/internal.h
-game/modules/ecs/src/legacy/MemoryHelper.h
-game/modules/ecs/src/legacy/RawMemory.h
-game/modules/ecs/src/registry.cpp
-game/modules/simulation/include/symocraft/simulation/component.h
-game/modules/simulation/src/Camera.cpp
-game/modules/simulation/src/character_system.cpp
-game/modules/simulation/src/physics_adapter.cpp
-game/modules/simulation/src/player.cpp
-game/modules/simulation/src/session.cpp
-game/modules/simulation/src/transform_system.cpp
-test/integration/CheckNegativeBoundaries.cmake
-test/unit/ecs/CMakeLists.txt
-test/unit/ecs/check_registry_compilation.py
-test/unit/ecs/contract_components.h
-test/unit/ecs/contract_other.cpp
-test/unit/ecs/entt_configuration_tests.cpp
-test/unit/ecs/registry_allocation_tests.cpp
-test/unit/ecs/registry_compile_negative.cpp
-test/unit/ecs/registry_contract_tests.cpp
-test/unit/ecs/registry_cost_probe.cpp
-test/unit/ecs/registry_tests.cpp
-test/unit/simulation/CMakeLists.txt
-test/unit/simulation/cpu_baseline_fixture.h
-test/unit/simulation/legacy_physics_baseline_tests.cpp
-test/unit/simulation/session_tests.cpp
-test/unit/simulation/simulation_contract_tests.cpp
-```
-
-foundation allocator/logger、有实际消费者的兼容路径、默认 D3D12、显式 Vulkan 和保留 GL 均维持现有边界；不顺带全局内存审计、退役 GL 或重选预算。生产接口、消费者及测试必须同组，不先提交新签名再等待后续修调用方。
-
-## G3 文档审计与导航维护
-
-保存工作区已有的独立修补，不在本轮重新运行全库审计：
-
-- 通过系统 libarchive tar 只读流式校验已登记压缩证据成员的路径、文件集合、大小和 SHA256，拒绝缺失、重复、越界及身份变化；不解包恢复散文件。
-- 被迁移的 Markdown 仍读取准确成员检查锚点，不因目标变成 .7z 而跳过校验。已退役只读 review 来源按固定历史 Git 对象核验，缺失工具、成员或不可验证原文仍报错。
-- DOCUMENTATION_MAP 保存相应维护规则；issues 只修正旧证据链接，scripts/README 只修正根 README 锚点，不关闭问题或改动构建脚本。
-
-完整文件清单共6项：
-
-```text
-docs/DOCUMENTATION_MAP.md
-docs/issue/issues.md
-scripts/README.md
-tools/openspec/check_documents.py
-tools/openspec/evidence_paths.py
-tools/openspec/test_evidence_paths.py
-```
-
-scope 与 third-party 同时含 T5 当前状态、依赖说明及压缩链接修正，整份归 G4；不为纯导航在共享文件上制造额外局部补丁。现有冻结包、登记清单及原始证据均不在本批差异清单内，不重新压缩或改写。
-
-## G4 主规格、完整归档与当前文档
-
-保存已完成的规格同步与归档结果，不调用 sync/archive 命令。旧活动目录的8项删除、新归档目录的8项新增，以及 ecs 新主规格、module-boundaries 增量必须同组；归档不是仅改名，包含基线之后的完整设计/任务/实施与验证记录，不声称八份内容与旧 HEAD 全字节相同。
-
-当前 ECS 门面、失败/借用机制、受控 EnTT 模板依赖、DBG01 及必要消费者职责更新到原有架构页；根 README/AGENTS、文档入口、OpenSpec context、第三方许可、scope 和关键节点保持同一交付身份。全局 VERIFICATION 只承载批准及导航，验证正文仍在归档 change 的 verification.md，不复制附件或另建报告。
-
-T5/M3 的整体批准及“F 已取得 T5”的后续传播事实分别保留。其他机器 benchmark 延至现代性能分析工具接入后，设备角色、预算、未测状态和保留风险不取消，不恢复旧玩法前硬门槛，也不暗示性能分析工具已选定或接入。
-
-完整文件清单共31项；旧目录8项为删除，归档目录8项为新增：
-
-```text
-AGENTS.md
-README.md
-docs/README.md
-docs/architecture/Overview.md
-docs/architecture/app.md
-docs/architecture/ecs.md
-docs/architecture/engineering.md
-docs/architecture/foundation.md
-docs/architecture/simulation.md
-docs/openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/.openspec.yaml
-docs/openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/decisions.md
-docs/openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/design.md
-docs/openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/proposal.md
-docs/openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/specs/ecs/spec.md
-docs/openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/specs/module-boundaries/spec.md
-docs/openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/tasks.md
-docs/openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md
-docs/openspec/changes/m3-t5-ecs-memory/.openspec.yaml
-docs/openspec/changes/m3-t5-ecs-memory/decisions.md
-docs/openspec/changes/m3-t5-ecs-memory/design.md
-docs/openspec/changes/m3-t5-ecs-memory/proposal.md
-docs/openspec/changes/m3-t5-ecs-memory/specs/ecs/spec.md
-docs/openspec/changes/m3-t5-ecs-memory/specs/module-boundaries/spec.md
-docs/openspec/changes/m3-t5-ecs-memory/tasks.md
-docs/openspec/changes/m3-t5-ecs-memory/verification.md
-docs/openspec/config.yaml
-docs/openspec/specs/ecs/spec.md
-docs/openspec/specs/module-boundaries/spec.md
-docs/scope/project-scope.md
-docs/third-party.md
-docs/verification/VERIFICATION.md
-```
-
-不重填人工 checkbox、不将历史测试改记为本轮通过、不改其他主规格或 T3/T4 冻结归档。新 NPC proposal 与本组无提交依赖，不因 scope 提到下一阶段就提前纳入。
-
-## 明确排除
-
-以下新文件属于另一项 NPC 规划，不属于本次 ECS/Memory apply 提交，保留未跟踪状态，后续另定范围：
+以下三项虽然已在索引中，但不属于本次 change 的提交清单：
 
 ```text
 docs/openspec/changes/npc-framework-harvest-mvp/.openspec.yaml
 docs/openspec/changes/npc-framework-harvest-mvp/proposal.md
+docs/development-journal/project-home.md
 ```
 
-个人 `docs/development-journal/`、`docs/.obsidian/`、忽略的 `.agents/`、out、旧缓存、运行包及任何未确认残留均不纳入，不读取个人正文或重新跟踪私有配置。不修改忽略规则、全局 Git 配置、凭据、hooks 或全库换行，不清场、不跨工作树复制或改写历史。
+不读取个人文档正文，不修改其内容、跟踪状态或忽略规则。其余个人 journal、Obsidian、被忽略的 .agents、旧缓存/包、冻结证据、其他 change、生产代码与主规格均不纳入。当前没有其他生产或现役主规格差异可因本批而提交。
 
-## 后续暂存与提交边界
+proposal 引用 NPC 草案作范围说明，但该草案尚不在 HEAD 中。若本组单独提交，这条链接在不含 NPC 的 Git 快照/云端页面暂时无对应文件；这是明确保留的跨批次文档依赖，不是本 change 的运行依赖。后续如需闭合该链接，应另行确认 NPC 的独立提交范围，不在本轮偷带两份 NPC 文件、重写其正文或删除链接来消错。
 
-取得当次明确提交授权后，仅进行必要 Git 操作：
+## 后续执行边界
 
-1. 重新核对分支、HEAD、索引和本页固定路径，检查新增并发差异；起点不符或文件内容超出已确认范围时先报告，不覆盖用户改动。
-2. 每组使用准确文件清单暂存；删除路径明确纳入，归档来源/目标成对，vendor 只取上述111项，不使用 `git add .` 或不限定范围的 `git add -A`。
-3. 检查准确 staged name/status/mode 和完整 diff，核对依赖、意外私密信息、冲突标记及 `git diff --cached --check`；确认只有当组内容后，使用约定中文消息提交。不得用 stash/reset 或改写工作区拼装中间版本。
-4. 本页完整计划随 G1 提交，不回填循环 hash 或追加旧批次历史；每组实际提交结果在聊天报告。最后核对剩余差异应为明确排除项及未纳入的并发变化，不自动处理它们。
+1. 本轮不执行 git add、restore --staged、reset、commit、push、merge 或任何索引重组；已有暂存内容原样保留。
+2. 获得新的明确提交授权后，先复核分支、HEAD、九份 blob、工作区差异及10项清单，重新审阅发生变化的内容，不把并发变更自动纳入。
+3. 当前索引混有三项排除文件，不能直接执行会提交全部索引的裸 git commit。后续须明确采用保留排除项索引状态的限定路径提交方式，或在获得相应索引调整授权后仅取消其暂存；无论哪种方式都不删除或覆盖其工作区文件。
+4. 对实际拟提交树核对准确路径、status/mode/blob、完整 diff、冲突标记/意外私密信息及空白；不得把其他已暂存内容作为“顺手提交”。本页随 G1 保存，实际提交结果在聊天报告，不追加旧批次历史。
+5. 只做必要 Git 检查，不自动追加构建、CTest、OpenSpec validate、全库文档审计、游戏/Viewer/RenderDoc 启动、GPU/人工/性能检查。未执行项明确记未执行；规划完整和历史成绩都不是本轮验证或实施通过。
 
-本轮及后续仅 Git 提交不自动附带构建、CTest、文档审计、OpenSpec validate、游戏启动、安装验证、GPU/人工检查或性能采样。若另需这些工作，须单独明确范围；不把它们设为擅自扩展提交任务的前置流程。push、merge、PR、tag 和历史改写同样需要独立当前授权。
+本轮编写 Git 批次计划不是 OpenSpec proposal 修订、apply、sync/archive、准确删除清单批准或创建外部 Issue 的授权。新工具轨迹也不自动等价于旧 CSV 预算；其他机器验证仍按 scope 后续另行安排。
 
-## 验证事实与保留风险
+## 本轮检查事实
 
-本轮只做只读 Git/差异盘点、依赖与路径归组、本页更新，以及本页空白/清单覆盖核对；索引保持不变。构建、测试、文档审计和运行验证均未执行，不能宣称任何中间提交已经通过工程验证。
-
-既有结果来源仅引用 T5 verification：生产传播轮 F 的 CPU-only Debug/Release 各83/83、独立 benchmark 各9/9、其他已列配置/边界/安装检查均有原版本和适用范围，不是本轮重跑，也不是全量107项测试通过。历史文档审计的16项问题与本批工具修补同存，本轮不作新的全库错误数或通过结论。
-
-继续保留 1175/诊断完整性、暂停 Fix1、DBG01 的检查损失与旧 level-2 terminate、有限 OOM/成本观察、非全量原生故障矩阵、长期/真正干净机和其他设备未测等已列限制。批准不关闭这些问题；不将短复查或功能构建提升为性能、M4/M5/M6 或全局内存保证。
+本轮只读取 Git 状态、目标规划与差异身份，替换本页，并检查本页空白、路径覆盖、HEAD及索引保持情况。没有修改或提交任何生产代码、规格正文、个人文档或冻结证据；没有暂存、取消暂存、提交或推送，没有运行工程、工具或集成验证。
