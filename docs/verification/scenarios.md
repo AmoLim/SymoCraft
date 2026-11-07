@@ -5,7 +5,13 @@ tags:
 
 # 共享验证场景
 
+> 已验收候选及保留限制见 [change 验证记录](../openspec/changes/integrate-renderdoc-tracy/verification.md)。构建和运行命令以仓库根目录为准。
+
 本页定义可复现输入与观察条件，不维护用例通过状态。来源为当前 [TestScene](../../game/modules/world/src/test_scene.cpp)、[工作负载](../../game/modules/world/include/symocraft/world/benchmark_workload.h)、[参数解析](../../game/app/src/startup_options.cpp) 和 [主循环](../../game/app/src/application.cpp)。结果与必要失败样本只由 [VERIFICATION](VERIFICATION.md) 索引。
+
+## 独立工具场景
+
+当前诊断使用`--profile-scenario static|walk|edit --scenario-seconds 1..1200`，默认60秒，无输出目录/预热采样；沿用seed424242、完整441区块、1920×1080/4x/VSync-off请求。walk初态spawn，static/edit为four-chunk，初始FOV45度；编辑保持0.25秒节奏及反向恢复。实际经过时间决定完成，玩家输入隔离，Escape/关闭取消，失焦允许继续，最小化或尺寸不符运行失败。工具流程与实际结果见[操作说明](../../scripts/README.md#profiling-build)及本change verification。下文旧benchmark采样参数/协议仅解释历史候选，原始命令和结果不回写为新入口。
 
 ## 固定世界与启动入口
 

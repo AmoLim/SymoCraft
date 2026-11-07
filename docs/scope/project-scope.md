@@ -41,7 +41,7 @@ tags:
 
 同日长期架构确认：用户要求逐步迁移到 **dedicated compute server + render client**，用于多实体世界、NPC/AI、村落及生态的演化计算。计算服务承载权威模拟，渲染客户端承载呈现与交互；先建立可无窗口运行的逻辑边界，再分阶段验证独立进程及按需求独立机器部署。这里的 compute 是世界演化计算，不是 GPU compute shader 或云端视频渲染。具体边界、迁移和验收方向见下文 [[project-scope#长期架构：独立计算服务与渲染客户端|长期架构]]。本次仅纳入长期范围，不启动服务部署或通信实现，不改变当前 M3 顺序及 NPC/AI/村落的 P0 优先级；T4 草稿是否需要补充只在聊天分析，尚未修改。
 
-2026-10-09 T2 节点与预算决定（该次决定时的状态）：用户明确批准 **T2 节点正式通过**，并选择 MB01 方案2：working set ≤ **704 MiB**、private bytes ≤ **1408 MiB**；已选 FB01 方案2的 P95 ≤ 10 ms、P99 ≤ 12 ms 保持。批准及适用范围见 [T2 正式节点批准](../openspec/changes/m3-t2-publication-fix1/verification.md) 和 [批准身份](../verification/archive/t2-approval-20261009.7z "member: t2-approval-20261009/approval.json")。用户节点决定覆盖此前遗留事项阻断 T2 节点的安排，不把 Win32 1175、暂停的 Fix1、正式同源 Q06 未完成、首次可操作时间预算未确认改判为已修复或实测通过，也不恢复 002 废弃数据的预算资格。该次 T2 决定解除 T3 的 T2 节点批准前置，但未批准 R1 自身交接、Renderer v1 冻结和 R2 生产实施；随后 R1 决定见下文。下一玩法前的中低端整机性能门槛不变，本次只同步决定，不产生新验证成绩。
+2026-10-09 T2 节点与预算决定（该次决定时的状态）：用户明确批准 **T2 节点正式通过**，并选择 MB01 方案2：working set ≤ **704 MiB**、private bytes ≤ **1408 MiB**；已选 FB01 方案2的 P95 ≤ 10 ms、P99 ≤ 12 ms 保持。批准及适用范围见 [T2 正式节点批准](../openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/verification.md) 和 [批准身份](../verification/archive/t2-approval-20261009.7z "member: t2-approval-20261009/approval.json")。用户节点决定覆盖此前遗留事项阻断 T2 节点的安排，不把 Win32 1175、暂停的 Fix1、正式同源 Q06 未完成、首次可操作时间预算未确认改判为已修复或实测通过，也不恢复 002 废弃数据的预算资格。该次 T2 决定解除 T3 的 T2 节点批准前置，但未批准 R1 自身交接、Renderer v1 冻结和 R2 生产实施；随后 R1 决定见下文。下一玩法前的中低端整机性能门槛不变，本次只同步决定，不产生新验证成绩。
 
 2026-10-09 后续 R1 节点批准：用户明确表示“我已经审查了R1了，可以冻结R1，批准进入R2”。据此 **T3-R1 / Renderer v1 与当前 target 设计基线已冻结，R2 已获准进入**，见 [R1 冻结快照](../verification/archive/t3-r1.7z "member: t3-r1/freeze-20261009-001/README.md")、[冻结清单](../verification/archive/t3-r1.7z "member: t3-r1/freeze-20261009-001/freeze-manifest.json") 和 [R2 实施入口](../openspec/changes/archive/2026-10-19-m3-t3-renderer/verification.md)。这是节点审阅与实施授权，不是新实测或生产接管交付；实验 helpers 不因此成为生产 API，生产采样/颜色、混层行为、相机 GPU 画面和实际 target 边界须在 R2 复核，不静默收窄契约。D3D12 A01–A19、默认切换批准、Vulkan、完整玩法和 OpenGL 退役仍按各自阶段要求执行，历史来源与遗留风险不改写。
 
@@ -175,7 +175,7 @@ M2-A 世界日志里的 seed 不能完整重放生成结果。M2-T2 已建立当
 
 本节开头的起点表及 M2 任务是早期规划快照，保留以解释迁移目标，不是当前实现或待执行授权。当前模块已解耦，现代路径经 app 自有缓存提交持久资源；请从 [当前架构](../architecture/Overview.md)、[现役规格及任务导航](../README.md#设计与任务) 和 [验证索引](../verification/VERIFICATION.md) 判断现状。下文带日期的历史未审状态不覆盖后续明确决定，也不补造整体批准。
 
-更新日期：2026-10-07。任务规划保留 `17e23e0` 起点之后的工作区、里程碑和冻结基准证据；T0 负责结构解耦，T1 负责世界变更，新 T2 负责 SDL3 迁移，原 T2 渲染变更后移为 T3，原应用/平台/模拟与 ECS/内存任务分别为 T4/T5。T2 已按用户选择形成正式计划；用户明确树叶剔除与视角突变不属于 T1 spec 或 T2 前置范围，两项继续延期，并授权直接继续 T2 准备。后续为 T2 准备评审及实施授权 → T2 实施及验收 → T3-R1 冻结 → T3 渲染实施 → T4 → T5。实际准备证据见 [T2 准备记录](../openspec/changes/m3-t2-publication-fix1/verification.md)，未标注的人工/硬件验收不能推定完成。
+更新日期：2026-10-07。任务规划保留 `17e23e0` 起点之后的工作区、里程碑和冻结基准证据；T0 负责结构解耦，T1 负责世界变更，新 T2 负责 SDL3 迁移，原 T2 渲染变更后移为 T3，原应用/平台/模拟与 ECS/内存任务分别为 T4/T5。T2 已按用户选择形成正式计划；用户明确树叶剔除与视角突变不属于 T1 spec 或 T2 前置范围，两项继续延期，并授权直接继续 T2 准备。后续为 T2 准备评审及实施授权 → T2 实施及验收 → T3-R1 冻结 → T3 渲染实施 → T4 → T5。实际准备证据见 [T2 准备记录](../openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/verification.md)，未标注的人工/硬件验收不能推定完成。
 
 ### 当前起点
 

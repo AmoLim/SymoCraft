@@ -13,7 +13,7 @@ tags:
 
 ### Requirement: Explicit export retry and saved idempotence
 **Reason**: 旧 CSV/summary/status 性能导出及重试协议随 benchmark 产品同步退役。
-**Migration**: 不再提供 Export/Saved/finished 或观测无效退出 4；普通参数/资产/运行关闭错误仍明确分类，工具由各自工作流保存轨迹，旧证据不删除，Files::Publish 风险不关闭。
+**Migration**: 不再提供 Export/Saved/finished 或观测无效退出 4；普通参数/资产/运行关闭错误仍明确分类，工具由各自工作流保存轨迹，旧证据不删除。Files::Publish 按 [foundation-files 增量](../foundation-files/spec.md)整体退役；历史发布故障不改判修复，Fix1 是否取消归档单独处理。
 
 ## MODIFIED Requirements
 

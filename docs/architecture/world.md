@@ -71,5 +71,5 @@ TestScene 的 Pose/Edit 表及名称是静态只读借用；姿态数值/编辑�
 | API-I1–API-I3 | 场景只改显式 World，经 TryEdit/Accepted；表及名称仅静态借用。 |
 
 [world_contract_tests](../../test/unit/world/world_contract_tests.cpp)、[mesh_safety_tests](../../test/unit/world/mesh_safety_tests.cpp)、[block_config_tests](../../test/unit/world/block_config_tests.cpp)、[world_generation_tests](../../test/unit/world/world_generation_tests.cpp) 使用正式库，覆盖隔离/版本/故障/回调/定义与旧摘要对照，不是影子实现。
-真实 C++ 分配扫描历史只在 Release 与全库 `_ITERATOR_DEBUG_LEVEL=0` 专用 Debug；[测试 CMake](../../test/unit/world/CMakeLists.txt) 禁用普通 MSVC Debug 扫描，不能据此称全部 Debug OOM 安全。cost probe 只计 C++ new 请求，非 malloc/OS/全部内存；历史测量不是性能预算通过。
-T1 人工 GL 玩法、矩阵/成本及延期树叶剔除/视角问题按 [world spec 的证明边界](../openspec/specs/world/spec.md#rationale-and-proof-boundary) 与 [VERIFICATION](../verification/VERIFICATION.md) 追溯，技术结果不补造节点批准。本轮未重新运行 C++、分配故障、游戏/GPU 或性能测试。
+真实 C++ 分配扫描历史只在 Release 与全库 `_ITERATOR_DEBUG_LEVEL=0` 专用 Debug。当前 DBG01 已为所有 Debug C++ 统一设置 level 0；[测试 CMake](../../test/unit/world/CMakeLists.txt) 不再仅凭 `CMAKE_CXX_FLAGS` 判断 ABI 而错误禁用扫描。2026-11-03 已恢复并通过 D3D12、Vulkan、双后端和 CPU-only 四种 Debug 的 `world.allocations`，具体身份及覆盖见 [本轮验证](../openspec/changes/integrate-renderdoc-tracy/verification.md#debug-worldallocations-注册修正与补测)。旧 level 2 的终止记录不改判修复；扫描只覆盖受控 C++ new 分配失败，不证明任意 OOM、malloc/OS 分配或全部内存安全。cost probe 的历史测量不是性能预算通过。
+T1 人工 GL 玩法、矩阵/成本及延期树叶剔除/视角问题按 [world spec 的证明边界](../openspec/specs/world/spec.md#rationale-and-proof-boundary) 与 [VERIFICATION](../verification/VERIFICATION.md) 追溯，技术结果不补造节点批准。本次注册修正与定向补测不增加游戏/GPU、性能采样或人工玩法通过结论。

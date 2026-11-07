@@ -9,7 +9,7 @@ tags:
 
 ### Requirement: Production ownership and narrow public headers
 
-生产源码 SHALL 归属 `game/modules/` 的 foundation、scene、assets、world、ecs、simulation、platform、renderer、telemetry、窄 profiling 编译适配或 `game/app/`；旧 `tools/benchmark/` 产品退役，不再是活动构建/安装入口。每个启用的生产实现只能有一个真实编译 owner，测试 SHALL 链接正式生产库，不重编译生产实现，也不成为生产依赖。公开头 SHALL 从所属窄 include 根消费，不暴露私有存储、解析器、SDL、图形 SDK 或 Tracy 类型。
+生产源码 SHALL 归属 `game/modules/` 的 foundation、scene、assets、world、ecs、simulation、platform、renderer、telemetry、窄 profiling 编译适配或 `game/app/`；旧 `tools/benchmark/` 产品退役，不再是活动构建/安装入口。每个启用的生产实现只能有一个真实编译 owner，测试 SHALL 链接正式生产库，不重编译生产实现，也不成为生产依赖。公开头 SHALL 从所属窄 include 根消费，不暴露私有存储、解析器、SDL、图形 SDK 或 Tracy 类型。按 [foundation-files 增量](../foundation-files/spec.md)退役后，Files::Publish 的源码、公开头消费者与 foundation.files 测试注册 SHALL 从活动图移除；其余 foundation 与独立 YAML 适配 owner 保持，不把历史 Fix1 探针变为活动生产依赖。
 
 #### Scenario: M3-T0-A01 A02 A04 A09 ownership and consumers
 - **WHEN** 配置启用某生产实现，或独立消费者只包含该模块一个公开头
@@ -67,9 +67,15 @@ Tracy SHALL 由显式项目构建开关选择，普通 Debug/Release 默认 OFF�
 
 开启路径 SHALL 仅接受本机连接、按需采集，不启系统追踪、自动调用栈采样、全局分配器/异常挂钩或等待 Viewer 才退出。profiling 配置 SHALL 保留 Release 优化及匹配符号；Debug 全闭包保持 DBG01 `_ITERATOR_DEBUG_LEVEL=0`、原 Debug CRT/调试及检查，不混用旧缓存/对象。工具许可与来源 SHALL 纳入对应构建的部署核对，不强制安装 Viewer/RenderDoc。
 
+上述退出保证 SHALL 适用于不启用 `TRACY_NO_EXIT` 的支持配置。按 2026-10-28 用户选择，官方源码 MUST 保持不变，构建不定义该编译宏；启动环境中的 `TRACY_NO_EXIT=1`（含上游按首字符 `1` 识别的其他值）明确不受支持，不承诺在此覆盖下仍不等待 Viewer。操作说明及验证 SHALL 明示该前提，不将环境限制冒称已实现强制忽略覆盖，不修改用户全局环境或依靠强制终止通过关闭检查。
+
 #### Scenario: DB-A02 consistent diagnostic builds
 - **WHEN** 构建 profiling preset、普通 Debug 或无测试安装产物
 - **THEN** 优化/符号及 DBG01/CRT 全闭包身份可核对，工具开关不暗改后端/validation/MSAA，关闭测试无 fixture，普通产品不需要外部工具或新增进程权限运行
+
+#### Scenario: DB-A04 explicit no-exit override is unsupported
+- **WHEN** 准备启用 Tracy 的启动环境或检查无 Viewer 退出
+- **THEN** SHALL 核对未定义 `TRACY_NO_EXIT` 编译宏且进程环境未启用该覆盖；显式启用覆盖的运行不属于支持配置，不能作为正常退出通过依据。关闭 Tracy 的构建不含 client，不因此新增此环境依赖
 
 ### Requirement: Preserve non-performance document adaptation
 

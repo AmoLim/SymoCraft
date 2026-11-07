@@ -23,6 +23,8 @@ tags:
 - **WHEN** 未安装 RenderDoc、未启动 Tracy Viewer 或关闭所有 profiler 构建开关
 - **THEN** 普通游戏和独立场景不加载/等待这些外部工具，不因缺少工具改变玩法、渲染能力或正常退出
 
+启用 Tracy 时，本能力的正常退出保证 SHALL 遵守 [支持的运行配置](../module-boundaries/spec.md#requirement-consistent-diagnostic-configuration-and-runtime-isolation)：不启用 `TRACY_NO_EXIT` 覆盖。用户已选择保持官方源码不变；显式设置 `TRACY_NO_EXIT=1` 的运行不在支持范围内，关闭 profiler 的普通构建不受该变量影响。
+
 ### Requirement: Optional CPU timeline and bounded instrumentation
 
 开启 Tracy 时 SHALL 提供稳定命名的帧边界、真实主要 CPU 阶段和已有物理步/网格重建/draw/上传字节事实，区分增量、累计及单位；CPU Present 等待不命名为 GPU 执行时间。关闭时 SHALL 不评估埋点参数、不建立采集线程/连接/存储。埋点 SHALL 不持有业务对象指针供异步访问、不推进规则、不改变提交顺序，不新增逐体素/逐实体高频区域或无界动态名称集合。
@@ -45,9 +47,9 @@ tags:
 
 ### Requirement: Retired performance products and immutable history
 
-本轮交付后 SHALL 不再提供活动旧 benchmark GUI/CLI、旧性能采样/导出/报告协议或专属运行脚本；不维持伪兼容壳，也不要求新游戏继续读取历史报告。既有历史证据、命令、失败、冻结包、旧构建缓存和暂停任务现场 MUST 原样保留。仅属于退役链的测试可退役，仍有效的文件、场景、截图、输入和 GPU 寿命契约 SHALL 先迁移覆盖。
+交付后 SHALL 不再提供活动旧 benchmark、性能采样/导出协议及专属脚本，不保留兼容壳或历史报告查看器。历史证据、失败、命令、冻结包、缓存和 Fix1 现场 MUST 保留。仍有效的文件、场景、截图、输入和 GPU 寿命测试 SHALL 先迁移覆盖。
 
-退役适用边界 SHALL 由各原能力明确维护：图形样本、截图及部署见 [renderer](../renderer/spec.md)，T4 旧工具/协议验收见 [application-lifecycle](../application-lifecycle/spec.md)，T2 既有测量口径见 [platform](../platform/spec.md)，产品/构建隔离见 [module-boundaries](../module-boundaries/spec.md)；本能力不跨路径覆盖其条款。暂停 Fix1 的目标冲突 SHALL 单列，不能以消费者退役推定文件故障修复或擅改暂停计划。
+各原能力 SHALL 分别限定退役范围：[renderer](../renderer/spec.md)、[application-lifecycle](../application-lifecycle/spec.md)、[platform](../platform/spec.md)、[module-boundaries](../module-boundaries/spec.md)及 Publish 的 [foundation-files](../foundation-files/spec.md)。Fix1 取消归档 SHALL 单独确认，保留未完成任务/失败，不合并未实施目标，不宣称修复。
 
 #### Scenario: DP-A06 exact retirement and retained obligations
 - **WHEN** 实施方形成旧链删除清单或核对新的可运行候选

@@ -7,9 +7,9 @@ tags:
 
 ## Context
 
-公开行为和允许失败状态由[现役 foundation-files](../../specs/foundation-files/spec.md)维护，目标/验收见 [delta](specs/foundation-files/spec.md)。当前用户暂停，F1 部分交付、F2 根因未定位、F3 未选替代机制；本页不是继续执行诊断的授权。
+公开行为和允许失败状态由[现役 foundation-files](../../../specs/foundation-files/spec.md)维护，目标/验收见 [delta](specs/foundation-files/spec.md)。当前用户暂停，F1 部分交付、F2 根因未定位、F3 未选替代机制；本页不是继续执行诊断的授权。
 
-当前 telemetry 在 Publish 前已关闭写流，runner 读状态使用兼容 share=7。普通 closed-target、关闭阻塞读者后恢复及共享读者阶段均有失败，不能预设漏 close、SDL/SDK 或 runner 是原因。历史主工程 40 进程中四个失败缺 numeric_win32，不能事后都改写为 1175；新诊断捕获的明确 1175 与旧批次分开。原事实入口为 [Issues 附录](../../../issue/issues.md#附录)及[Fix1 目标与暂停范围](proposal.md)，其中命令/结果只具点时意义。
+当前 telemetry 在 Publish 前已关闭写流，runner 读状态使用兼容 share=7。普通 closed-target、关闭阻塞读者后恢复及共享读者阶段均有失败，不能预设漏 close、SDL/SDK 或 runner 是原因。历史主工程 40 进程中四个失败缺 numeric_win32，不能事后都改写为 1175；新诊断捕获的明确 1175 与旧批次分开。原事实入口为 [Issues 附录](../../../../issue/issues.md#附录)及[Fix1 目标与暂停范围](proposal.md)，其中命令/结果只具点时意义。
 
 无 API 日志 Debug 控制批 files/export 为 10/20、19/20；开启 API 日志 Debug 两项各 20/20、关闭日志 Release 两项各 20/20。观察改变时序的可能性未排除，不能把诊断批次变绿当修复。完整主测试 Debug 62/63 启用通过（原 world.allocations 禁用），Release 63/64，均 files 失败；runner 新终态拒绝用例有既有通过结果，但不关闭 V01-V07 整组。本轮没有重跑这些结果。
 
@@ -45,7 +45,7 @@ tags:
 
 ## Decisions
 
-本轮没有足够根因证据选定新的 Win32 API、备份/恢复或环境例外，因此不创建伪决策表/decisions.md。现有窄 API 修补和不降低契约的边界继续有效，不重新选型。确有重要行为取舍时按 [scope 选型规则](../../../scope/project-scope.md#方案决策与选型规则)给出 3-4 个真实可行方案及失败状态/兼容性/成本/迁移，再等待确认；可完成 M3-I2 不代表 M3-I1 也可关闭。
+本轮没有足够根因证据选定新的 Win32 API、备份/恢复或环境例外，因此不创建伪决策表/decisions.md。现有窄 API 修补和不降低契约的边界继续有效，不重新选型。确有重要行为取舍时按 [scope 选型规则](../../../../scope/project-scope.md#方案决策与选型规则)给出 3-4 个真实可行方案及失败状态/兼容性/成本/迁移，再等待确认；可完成 M3-I2 不代表 M3-I1 也可关闭。
 
 ## Risks And Compatibility
 

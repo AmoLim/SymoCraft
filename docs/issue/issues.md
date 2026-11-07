@@ -13,6 +13,9 @@ tags:
 
 编号为 `Mx-Ix`，前一个 `x` 是 milestone 编号，后一个是该 milestone 内递增且不复用的 issue 序号。每行三个单元格均链接到同名附录。`review` 记录人工意见；未取得意见时明确写待审核，Agent 建议不冒充人工决定。关闭后从未关闭主表移除，保留编号、附录、关闭依据和人工审核记录，不删除原始失败证据。
 
+
+> 2026-11-03：用户因 Files::Publish 能力退役取消 Fix1 修复计划并归档，未合并未完成规格。下文 M3-I1/M3-I2 的失败/缺口及历史用户意见保持，不改判修复或验证通过；当前 API 退役和 N1 候选检查见 [integrate-renderdoc-tracy](../openspec/changes/integrate-renderdoc-tracy/verification.md#2026-11-03-publish-追加退役范围与准确清单)。
+
 ## Issue 简述
 
 | issue code      | issue overview                                                           | review  |
@@ -29,7 +32,7 @@ tags:
 
 状态：未关闭。关联 M3-T2 的 A01/A11、S5 发布稳定性及后续交付风险；T2 已于 2026-10-09 获用户节点批准，不将风险开放重新解释为节点未批准。
 
-2026-10-08 Fix1 已开始部分诊断实施，随后按用户明确要求暂停，不继续修复或管理员追踪。新增真实 1175、完整测试仍失败，详见 [Fix1 暂停事实](../openspec/changes/m3-t2-publication-fix1/proposal.md)。转向有效完整轮次的 P95/P99 和内存预算预采样，不将暂缓修复等同于风险关闭、协议放宽或最终交付批准。
+2026-10-08 Fix1 已开始部分诊断实施，随后按用户明确要求暂停，不继续修复或管理员追踪。新增真实 1175、完整测试仍失败，详见 [Fix1 暂停事实](../openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/proposal.md)。转向有效完整轮次的 P95/P99 和内存预算预采样，不将暂缓修复等同于风险关闭、协议放宽或最终交付批准。
 
 旧 `MoveFileExW` 在目标存在兼容共享读者时失败，确定性红/绿验证支持改用 `ReplaceFileW`。现行实现先调用 `ReplaceFileW`，仅在 `ERROR_FILE_NOT_FOUND` 时尝试一次不覆盖目标的 `MoveFileExW`；无重试、休眠或吞错。该条件是 API 错误码，不是独立的“目标缺失”判定。窄修复解决旧 API 的兼容读者缺口，不等于稳定性已达标。
 
@@ -53,13 +56,13 @@ Debug files 第 5 次在普通 closed-target 替换处失败，尚未进入共�
 
 **归档证据**
 
-- [S5 交付状态与未关闭项](../openspec/changes/m3-t2-publication-fix1/verification.md)、[T2 人工核查入口](../openspec/changes/m3-t2-publication-fix1/verification.md)：保留当时 T2-M08 意见和失败事实；当前批准与遗留边界以 VERIFICATION 为准，不再以旧待确认文字覆盖后续决定。
+- [S5 交付状态与未关闭项](../openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/verification.md)、[T2 人工核查入口](../openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/verification.md)：保留当时 T2-M08 意见和失败事实；当前批准与遗留边界以 VERIFICATION 为准，不再以旧待确认文字覆盖后续决定。
 - [窄修复红/绿摘要](../../out/m3-t2/s5/publish-audit-001/summary.json)、[旧实现失败日志](../../out/m3-t2/s5/publish-audit-001/files-before-runtime.log)、[新实现初次通过日志](../../out/m3-t2/s5/publish-audit-001/files-after-runtime.log)：只证明兼容读者缺口的修复。摘要内旧 `files-after.exe` 身份是历史记录；同名程序后来重新编译，当前身份见下一项。
 - [直接诊断摘要及逐次日志索引](../../out/m3-t2/s5/publish-audit-001/diagnostic-002/summary.json)：16/20，记录当前直接诊断程序身份及四次 1175。
 - [主工程独立重复摘要](../../out/m3-t2/s5/publication-repeat-003/summary.json)：40 次运行及原始 stdout/stderr、失败现场文件和摘要；本次审计核对其中 108 项文件身份均匹配。`publication-repeat-001/-002` 是采集器中断记录，不计作完整 40 次结果。
 - [Debug 首轮日志](../../out/m3-t2/log/s5/build/main-debug-001-test.log)、[Debug 诊断复测日志](../../out/m3-t2/log/s5/build/main-debug-001-followup-test.log)、[Release 完整测试日志](../../out/m3-t2/log/s5/build/main-release-001-test.log)：实际归档位置；证据索引旧路径问题见 [M3-I3](#m3-i3)。
 - [替代 API 实验摘要](../../out/m3-t2/s5/rename-api-audit-001/summary.json)、[原始逐案例记录](../../out/m3-t2/s5/rename-api-audit-001/result.jsonl)：两种非 POSIX API 不满足兼容读者约定；本次审计核对摘要关联的 7 项文件身份均匹配。
-- [生产发布实现](../../game/modules/foundation/src/files.cpp)、[状态发布调用](../../game/modules/telemetry/src/performance.cpp)：源码依据，不作为新的运行通过证据；写流在发布前显式关闭。
+- [退役前发布实现](../openspec/changes/integrate-renderdoc-tracy/verification.md#2026-11-03-publish-追加退役范围与准确清单)、[退役前状态发布调用](../openspec/changes/integrate-renderdoc-tracy/verification.md#s8-准确删除清单待确认)：历史源码恢复与退役依据，不作为新的运行通过证据；原写流在发布前显式关闭。
 - [微软 ReplaceFileW 文档](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-replacefilew)：1175/1176/1177 的错误与失败后状态边界，不提供责任进程归因。
 
 `out/` 链接为本工作区归档产物，不代表这些日志或程序已随 Git 仓库发布；不移动或改写原始证据。
@@ -72,7 +75,7 @@ Debug files 第 5 次在普通 closed-target 替换处失败，尚未进入共�
 
 历史主工程重复摘要的四次失败均为非零退出，但 `numeric_win32` 为空。当时 `files_tests.cpp` 仅在共享读者循环的 catch 中输出数值错误码、循环下标、share 和路径属性；普通 closed-target 替换、读者关闭后恢复等路径没有同等失败记录。历史 Release 主工程测试程序也不含增强共享读者诊断，摘要已明确其诊断字段不存在，不能拿当前源码快照冒充当时程序修订。
 
-Fix1 已增加结构化全操作记录、API 可选日志和 telemetry 原错误码/阶段上下文，新失败能直接记录 1175；原始缺码不回填。诊断完整性校验仍有缺口，V01 未完成，M3-I2 不关闭。用户已暂停该工作，详见 [当前暂停](../openspec/changes/m3-t2-publication-fix1/proposal.md)。
+Fix1 已增加结构化全操作记录、API 可选日志和 telemetry 原错误码/阶段上下文，新失败能直接记录 1175；原始缺码不回填。诊断完整性校验仍有缺口，V01 未完成，M3-I2 不关闭。用户已暂停该工作，详见 [当前暂停](../openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/proposal.md)。
 
 错误对象保留 Win32 错误码，不等于每份原始日志都输出了该码。完整 Debug 诊断复测与直接诊断证明发生过 1175，但不能直接把主工程四次重复失败逐一断言为数值码 1175。缺少阶段、即时错误码及现场关联信息会妨碍来源定位，也可能把不同失败机制合并。
 
@@ -83,7 +86,7 @@ Fix1 已增加结构化全操作记录、API 可选日志和 telemetry 原错误
 - [Debug files 第 5 次 stdout](../../out/m3-t2/s5/publication-repeat-003/debug/foundation.files-iteration-005/stdout.log)、[stderr](../../out/m3-t2/s5/publication-repeat-003/debug/foundation.files-iteration-005/stderr.log)：仅完成初次发布，随后普通替换失败，无数值码。
 - [Release files 第 6 次 stdout](../../out/m3-t2/s5/publication-repeat-003/release/foundation.files-iteration-006/stdout.log)、[stderr](../../out/m3-t2/s5/publication-repeat-003/release/foundation.files-iteration-006/stderr.log)：已完成共享读者循环及预期拒绝，恢复发布失败，无数值码。
 - [Debug 完整诊断复测日志](../../out/m3-t2/log/s5/build/main-debug-001-followup-test.log)、[直接诊断摘要](../../out/m3-t2/s5/publish-audit-001/diagnostic-002/summary.json)：明确 1175 的独立依据，不混同上述缺码记录。
-- [foundation 测试源码](../../test/unit/foundation/files_tests.cpp)、[telemetry 测试源码](../../test/unit/telemetry/performance_tests.cpp)：当前部分补齐后的源码，不冒充历史运行身份；完整性审核仍未通过。
+- [退役前 foundation 测试](../openspec/changes/integrate-renderdoc-tracy/verification.md#2026-11-03-publish-追加退役范围与准确清单)、[退役前 telemetry 测试](../openspec/changes/integrate-renderdoc-tracy/verification.md#s8-准确删除清单待确认)：导航至准确退役记录，不冒充当前测试或补齐历史运行身份；原完整性审核仍未通过。
 
 ### M3-I3
 

@@ -15,6 +15,7 @@ tags:
 
 | 节点类型 | 节点与既有明确决定 | 权威批准依据 | 不可推导的结论 |
 | --- | --- | --- | --- |
+| 阶段整体验收通过 | integrate-renderdoc-tracy，2026-11-07 用户明确通过整体验收并要求同步主规格 | [整体批准与规格同步](../openspec/changes/integrate-renderdoc-tracy/verification.md#2026-11-07-整体验收通过与主规格同步) | 历史故障修复、未测范围通过、原工作区传播、本 change 归档或 Git 授权 |
 | 阶段整体验收通过 | M3-T5，2026-10-25 用户明确“批准 T5 整体完成，保留已列风险并更新验收记录，暂不提交 Git” | 本聊天用户明确决定；[整体批准与保留边界](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md#2026-10-25-t5与m3整体完成批准) | 未测/失败项通过、风险关闭、F 已取得 T5 代码、Git 或规格 sync/archive 授权 |
 | 阶段整体验收通过 | M3，2026-10-25 用户明确“M3 整体验收也通过”，其他机器 benchmark 改在现代性能分析工具接入后 | 本聊天用户明确决定；[M3 批准](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md#2026-10-25-t5与m3整体完成批准)及[最新范围](../scope/project-scope.md#已确认的目标) | 其他机器性能/M4/M5/M6 通过、Fix1 恢复或已修复、补造 T0/T1 独立历史批准、新玩法/分析工具接入授权 |
 | 设计冻结 | M3-T5，2026-10-20 用户明确“确认冻结，按此进入正式替换”：固定 EnTT v4.0.0/完整 commit、ENTT_NO_ETO、DBG01、按值身份批次与保留高水位及已核对接口方向 | 本聊天用户明确确认；[冻结设计](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/design.md#s014-待审冻结候选) | 新 Registry 已实现/通过、任意 OOM 恢复、T5/M3 验收或现役规格已同步 |
@@ -33,10 +34,11 @@ tags:
 
 | Change | 验证正文 |
 | --- | --- |
+| RenderDoc / Tracy（2026-11-07 整体验收通过，主规格已同步） | [verification.md](../openspec/changes/integrate-renderdoc-tracy/verification.md) |
 | T5 ECS/内存（2026-10-25 已批准、规格同步并归档，生产代码另获授权同步 F） | [verification.md](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md#2026-10-25-t5生产交付同步主工作区) |
 | T3 渲染接管（2026-10-19已归档） | [verification.md](../openspec/changes/archive/2026-10-19-m3-t3-renderer/verification.md) |
 | T4 应用/平台/模拟（2026-10-19已归档） | [verification.md](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md) |
-| T2 发布 Fix1（暂停） | [verification.md](../openspec/changes/m3-t2-publication-fix1/verification.md) |
+| T2 发布 Fix1（因 Publish 退役取消归档，未修复） | [verification.md](../openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/verification.md) |
 
 ## 归档入口
 
@@ -59,7 +61,7 @@ tags:
 
 ## S5 历史日志导航
 
-[S5 原索引所在旧包](archive/milestone-evidence-20261011.7z)与 [Fix1 历史核对边界](../openspec/changes/m3-t2-publication-fix1/verification.md)维护原身份及限制；下表仅导航既存日志，不代表本次重测。
+[S5 原索引所在旧包](archive/milestone-evidence-20261011.7z)与 [Fix1 历史核对边界](../openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/verification.md)维护原身份及限制；下表仅导航既存日志，不代表本次重测。
 
 | 原索引字段 | 旧目录内文件名及当前入口 |
 | --- | --- |
@@ -84,7 +86,7 @@ tags:
 
 ## 未通过与未覆盖
 
-见 [T3 未覆盖项](../openspec/changes/archive/2026-10-19-m3-t3-renderer/verification.md#未通过与未覆盖)、[T4 验证范围](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md)及 [Fix1 暂停范围](../openspec/changes/m3-t2-publication-fix1/verification.md)。
+见 [T3 未覆盖项](../openspec/changes/archive/2026-10-19-m3-t3-renderer/verification.md#未通过与未覆盖)、[T4 验证范围](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md)及 [Fix1 历史暂停与取消归档](../openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/verification.md)。
 
 ## R2 补充验证
 
@@ -108,7 +110,7 @@ tags:
 | [M1](VERIFICATION.md#退役材料恢复) | 失败、授权复测及路径/资源环境，不用当前机制覆盖当时结果 |
 | [M2-A](VERIFICATION.md#退役材料恢复)、[M2-T2](VERIFICATION.md#退役材料恢复)、[M2-T3](VERIFICATION.md#退役材料恢复)、[原人工反馈](VERIFICATION.md#退役材料恢复)、[共享场景](scenarios.md) | 玩家反馈、双机与长时结果、包内玩家说明；共享 M2/ST 场景已归 scenarios，但不复制/补填历史勾选 |
 | [T0](VERIFICATION.md#退役材料恢复)、[T1](VERIFICATION.md#退役材料恢复) | 构建/失败/玩法/成本与交付记录，不由技术交付推导未核对的用户整体验收 |
-| [T2](../openspec/changes/m3-t2-publication-fix1/verification.md)、[S3 人工反馈恢复](VERIFICATION.md#退役材料恢复)、[S4 交接](../openspec/specs/platform/spec.md)、[S5 状态来源](../openspec/changes/m3-t2-publication-fix1/verification.md) | 原人工、1175/预算和交接来源；当前节点已批准，遗留风险与点时失败仍有效 |
+| [T2](../openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/verification.md)、[S3 人工反馈恢复](VERIFICATION.md#退役材料恢复)、[S4 交接](../openspec/specs/platform/spec.md)、[S5 状态来源](../openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/verification.md) | 原人工、1175/预算和交接来源；当前节点已批准，遗留风险与点时失败仍有效 |
 | [T3 阶段来源](../openspec/changes/archive/2026-10-19-m3-t3-renderer/verification.md)、[R2 原交接记录](../openspec/changes/archive/2026-10-19-m3-t3-renderer/verification.md) | 实验/候选、顺序1-4与人工入口；当前活动任务在 T3 change。2026-10-11 核对两组5份正文及28对不同链接的实际目标，目标文件 SHA256 相同；根组正文于2026-10-12获准清理，原提交及冻结 raw仍保存历史，r2/的5份副本此前已按清单删除，不证明原 out 整包完整或所有冻结内嵌来源可删除 |
 | [T4-P01 来源](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md)、[消费者核对](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/design.md)、[旧新 CPU 基线方法](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md) | 静态交接、未选 Q01-Q04、24 case 夹具与局部授权；不推定 SimulationSession/physics target 或正式整体入口完成 |
 | [休眠源码身份](archive/project-history-20261011.7z) | 13个 .disabled 来源的点时 SHA256 及非活动边界；2026-10-11 追加授权后已删除准确13份，恢复身份见退役项目材料入口。专项复核不等于 T5 全面审计，不将此证据当当前 app 机制 |

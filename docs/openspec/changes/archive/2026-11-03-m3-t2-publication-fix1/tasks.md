@@ -5,7 +5,7 @@ tags:
 
 # Fix1 唯一暂停计划
 
-F/V 编号继承 M3-T2-Fix1，目标见 [delta](specs/foundation-files/spec.md)，机制/原结果边界见 [design](design.md)。用户暂停继续有效，下面未完成项不是本轮执行授权；本轮文档完整和 CLI validate 不会使功能 tasks 完成。批准只从 [VERIFICATION](../../../verification/VERIFICATION.md)判读。
+F/V 编号继承 M3-T2-Fix1，目标见 [delta](specs/foundation-files/spec.md)，机制/原结果边界见 [design](design.md)。用户暂停继续有效，下面未完成项不是本轮执行授权；本轮文档完整和 CLI validate 不会使功能 tasks 完成。批准只从 [VERIFICATION](../../../../verification/VERIFICATION.md)判读。
 
 ## 1. F1 诊断补齐（部分交付）
 

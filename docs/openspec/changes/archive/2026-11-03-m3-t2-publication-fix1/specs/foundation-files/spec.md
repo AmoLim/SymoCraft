@@ -5,7 +5,7 @@ tags:
 
 # Publication Fix1 Delta
 
-本 delta 是暂停中的目标，不是已实现强保证。未修改的[现役窄契约及全部场景](../../../../specs/foundation-files/spec.md)继续有效，包括 1175/1176/1177 各自失败状态、首次移动不覆盖、即时错误传播、兼容读者旧快照和终态要求；不通过 MODIFIED 省略旧场景。机制见 [design](../../design.md)，唯一活动计划见 [tasks](../../tasks.md)。
+本 delta 是暂停中的目标，不是已实现强保证。未修改的[现役窄契约及全部场景](../../../../../specs/foundation-files/spec.md)继续有效，包括 1175/1176/1177 各自失败状态、首次移动不覆盖、即时错误传播、兼容读者旧快照和终态要求；不通过 MODIFIED 省略旧场景。机制见 [design](../../design.md)，唯一活动计划见 [tasks](../../tasks.md)。
 
 ## ADDED Requirements
 

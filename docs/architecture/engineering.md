@@ -5,6 +5,8 @@ tags:
 
 # 工程级契约
 
+> 已验收候选及保留限制见 [change 验证记录](../openspec/changes/integrate-renderdoc-tracy/verification.md)。构建和运行命令以仓库根目录为准。
+
 2026-10-19当前源码状态：F目录feature-refactoring已按用户明确授权取得验收后的T4生产代码及构建/测试配套，应用owner为symocraft_application，symocraft_app_runtime仅保留兼容别名；Session和内部physics为真实生产实现。默认D3D12、显式Vulkan与过渡GL保持，CPU-only关闭三图形后端。CLI构建使用VS2026/MSVC tools14.51.36231和SDK10.0.22621.0；旧VS2022缓存/结果保留，必须使用全新构建目录，不修改共享IDE设置。不是Git提交/合并、T5或正式physics模块搬迁授权；历史候选验证见[T4归档](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md)。
 
 本页维护当前构建、依赖隔离、测试及部署的正确性约束，不记录逐函数行为或历史测试成绩。操作入口见[根 README](../../README.md#快速开始)与[开发脚本](../../scripts/README.md#build-setup-and-actions)；阶段结论、冻结材料与未验证项从[验证索引](../verification/VERIFICATION.md)进入。
@@ -13,7 +15,7 @@ tags:
 
 ## 工具链与配置生命周期
 
-- 支持 Windows x64、MSVC、C++20，CMake 最低 3.22。共享 Debug/Release presets 使用单配置 Ninja；T4工具链切换后由x64 VS2026开发环境或IDE提供，构建/原生验证helper固定MSVC工具集14.51.36231及原Windows SDK 10.0.22621.0、核对实际选择并允许显式回退。Ninja不初始化SDK、头文件或库环境；脚本不修改共享IDE配置，实际候选结果见[T4验证](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md)。
+- 支持 Windows x64、MSVC、C++20，CMake 最低 3.22。共享 Debug/Release presets 使用单配置 Ninja；由x64 VS2026开发环境或IDE提供，构建/原生验证helper固定MSVC工具集14.51.36231与Windows SDK 10.0.28000.0，核对实际选择并支持显式版本参数。更换SDK使用新目录；上方22621说明保留原T4时点。Ninja不初始化SDK、头文件或库环境，脚本不修改共享IDE配置，实际候选结果见[本change验证](../openspec/changes/integrate-renderdoc-tracy/verification.md)。
 - Ninja 的 MSVC 头依赖解析要求编译器安装有 `1033/clui.dll`，配置与编译均使用 `VSLANG=1033`，检测前缀为 `Note: including file:`。三者由[环境检查](../../cmake/ValidateMsvcEnvironment.cmake)在配置期校验，不靠过滤日志或修改生成文件规避。
 - 编译器、生成器、语言依赖检测或配置模式改变时使用独立构建目录；旧缓存及对象不能直接充当新条件的验证基线。尤其补装语言包后，普通增量成功不能证明旧依赖数据库有效。
 - 仓库不固化本机工具绝对安装路径，不自动安装或下载工具。开发自动化使用 Python 3.10+ 标准库；Windows 构建助手需要 64 位 Python，以隔离的 VS 环境启动 CMake/Ninja/CTest，不修改调用者环境、系统 PATH 或 IDE。
@@ -23,9 +25,9 @@ tags:
 
 ## 生产所有权与依赖
 
-目录是所有权边界，CMake target 是可验证的编译与链接边界。`game/modules/` 的九模块拥有各自实现；`game/app/` 拥有启动、转接及应用编排；`tools/benchmark/` 是独立产品，不是游戏模块；统一测试位于 `test/`。
+目录是所有权边界，CMake target 是可验证的编译与链接边界。`game/modules/` 的九模块拥有各自实现；`game/app/` 拥有启动、转接及应用编排；旧独立benchmark已退役；统一测试位于 `test/`。
 
-除 scene 值类型目标及 renderer 的两个明确接口目标外，生产模块使用拥有真实实现的 STATIC target。公开头只通过所属目标的窄 `include/` 根提供，不能依赖全仓库、整个 vendor 或其他模块的 `src/` 搜索路径。
+除 scene 值类型目标、renderer 的两个明确接口目标及下述窄 profiling 宏适配外，生产模块使用拥有真实实现的 STATIC target。公开头只通过所属目标的窄 `include/` 根提供，不能依赖全仓库、整个 vendor 或其他模块的 `src/` 搜索路径。
 
 以下为允许的模块依赖方向，不意味着每种配置都创建全部目标；具体 PUBLIC/PRIVATE 关系以各模块 CMake 声明为准。
 
@@ -38,9 +40,11 @@ tags:
 | renderer | foundation、scene、assets、platform |
 | app | 上述生产模块 |
 
+N1 增加两项受控编译适配：`symocraft_document_io` 属 foundation，但独立私有消费 YAML，基础 foundation/physics 不反向依赖；`symocraft_profiling` 无业务依赖，仅授权 app/world/simulation/renderer 的实现 PRIVATE 消费。两者不改变原业务依赖方向，旧benchmark产品及专属协议已按准确清单授权退役。
+
 simulation内部真实STATIC `symocraft_physics`不增加正式第十模块，只依赖foundation/math，有独立simulation/physics/include和src；生产只允许simulation直接PRIVATE链接，不直接取得目录/发布私有头。传递闭包/唯一源owner/窄include/反向私有引用由边界检查约束，根测试链接正式库。T4 E候选已接通核心/Session，旧physics_system只留适配；BUILD_TESTING=OFF仍构建同一实现。2026-10-19后续源码同步已将该实现带入F主工作区，不产生Git历史合并。
 
-T4 E候选以真实STATIC symocraft_application唯一拥有Application/GameRenderer/RunGame，SymoCraft只编薄main；symocraft_app_runtime为兼容旧T3探针的target别名而非第二实现库。2026-10-17已整合上游T3提交604c2b58；native生命周期及原生故障探针链接同一生产库，测试显式取得各自所需中立公开依赖，不将整个app依赖改为PUBLIC或复制生产cpp。Session只读诊断仅授权根session_tests的diagnostics窄私有根，不PUBLIC传播或开放整个src；冷路径导出故障probe同样在正式库且单独窄测试授权，不替代真实文件发布。
+T4 E候选以真实STATIC symocraft_application唯一拥有Application/GameRenderer/RunGame，SymoCraft只编薄main；symocraft_app_runtime为兼容旧T3探针的target别名而非第二实现库。2026-10-17已整合上游T3提交604c2b58；native生命周期及原生故障探针链接同一生产库，测试显式取得各自所需中立公开依赖，不将整个app依赖改为PUBLIC或复制生产cpp。Session只读诊断仅授权根session_tests的diagnostics窄私有根，不PUBLIC传播或开放整个src；旧telemetry导出probe随产品退役；foundation文件发布API与专属测试已按追加清单退役；Fix1因能力退役取消归档，其历史记录和诊断现场保留。
 
 ### 稳定不变量
 
@@ -50,7 +54,7 @@ T4 E候选以真实STATIC symocraft_application唯一拥有Application/GameRende
 - **B2：单向依赖。** 实际链接和源码包含遵守允许方向；模块不得反向依赖 app，生产不得依赖 test。第三方依赖也需显式授权，不能绕过模块边界。
 - **B3：窄公开契约。** 公共头不暴露图形 SDK、SDL、YAML、噪声或私有存储实现；只允许审核过的私有桥接。需要头消费者编译核对自包含性，单靠文本扫描不是完整证明。
 - **B4：产品与测试隔离。** game/tool 不包含 test/support；关闭 `BUILD_TESTING` 不注册测试或 fixture，安装不混入测试程序和开发中间产物。
-- **B5：无依赖环与产品互隔离。** 生产 target 图无环；game 与独立 benchmark 不相互链接，也不包含对方实现。两者通过进程参数与版本化文件协议协作。
+- **B5：无依赖环与产品互隔离。** 生产target图无环；旧benchmark不再配置/构建/安装，旧开启选项具名失败。profiling与文档适配只按允许的窄依赖进入生产闭包。
 - **B6：CPU-only 图形隔离。** CPU-only 不创建 SDL、GLAD、platform、旧 GL 或原生图形后端。现代 renderer 的 CPU 门面和 app CPU 转接仍存在，不将“无图形库”误写为“无 renderer target”。
 
 根配置末尾的[边界检查器](../../cmake/ModuleBoundaries.cmake)读取实际 source/link/include 属性、检查所有者及环并扫描源码，违规时具名配置失败。成功配置的 DOT、source/dependency TSV 和 renderer target 属性输出归属于本次构建目录；失败过程的全局属性或部分文件不自动回滚。
@@ -65,16 +69,28 @@ T4 E候选以真实STATIC symocraft_application唯一拥有Application/GameRende
 
 B3 的窄边界继续成立：ECS 受控模板对消费者可见 EnTT 定义不等于开放 native Registry/view/ID 或承诺完全隐藏第三方头/稳定二进制 ABI；非 ECS 生产代码仍不得直接 include native EnTT。`detail/entt_config.h` 拒绝未审覆盖并核对版本/traits/空对象配置；源码检查包括 .inl，PUBLIC 第三方例外只放行 ECS→symocraft_entt。
 
-`cmake/MsvcAbi.cmake` 在根和独立 benchmark 入口统一为全部 Debug C++ 设置 `_ITERATOR_DEBUG_LEVEL=0`，包含库、vendor 和消费者，保留 /MDd /Zi /Od /RTC1。不能只给 ECS 局部设宏或混用旧 level 2 对象；变更 ABI 用新目录全链路重建。DBG01 接受迭代器检查损失，不改 MSVC STL/EnTT、不证明任意 OOM 可恢复。Release 仍使用原 CRT/优化策略。
+`cmake/MsvcAbi.cmake` 在根入口统一为全部 Debug C++ 设置 `_ITERATOR_DEBUG_LEVEL=0`，包含库、vendor 和消费者，保留 /MDd /Zi /Od /RTC1。不能只给 ECS 局部设宏或混用旧 level 2 对象；变更 ABI 用新目录全链路重建。DBG01 接受迭代器检查损失，不改 MSVC STL/EnTT、不证明任意 OOM 可恢复。Release 仍使用原 CRT/优化策略。
 
-合法极端状态适配留正式 ECS 库，只有 test/unit/ecs 的 registry_contract_tests 与 test/unit/simulation 的 session_tests 可 PRIVATE 取得精确 `ecs/src/diagnostics`，不开放整个 src、PUBLIC 或其他 target。测试和关闭测试都消费同一生产实现，不因测试创建不同 Registry 布局。退役后 ECS 编译源仅 registry.cpp，旧 internal.cpp 的临时所有权例外已撤除；CPU-only 不加图形 SDK，独立 benchmark 不加 EnTT。当前结果、增量范围及未覆盖项唯一见 [T5 verification](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md)。
+合法极端状态适配留正式 ECS 库，只有 test/unit/ecs 的 registry_contract_tests 与 test/unit/simulation 的 session_tests 可 PRIVATE 取得精确 `ecs/src/diagnostics`，不开放整个 src、PUBLIC 或其他 target。测试和关闭测试都消费同一生产实现，不因测试创建不同 Registry 布局。退役后 ECS 编译源仅 registry.cpp，旧 internal.cpp 的临时所有权例外已撤除；CPU-only 不加图形 SDK，已退役benchmark不恢复。当前结果、增量范围及未覆盖项唯一见 [T5 verification](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md)。
+
+### 可选 CPU Profiling
+
+`game/modules/profiling` 提供 `symocraft_profiling` INTERFACE target 和唯一薄宏头，开启时链接唯一 `symocraft_tracy_client` STATIC owner，只编译固定官方 v0.14.1 的 `public/TracyClient.cpp`。不执行上游顶层 CMake、不在线获取源码、不安装 Viewer/RenderDoc；来源、原字节摘要和许可见 [SOURCES](../../cmake/licenses/SOURCES.txt)。业务公开头不得包含门面或 Tracy，私有消费者不得直接绕过适配包含 vendor。基础 foundation、ECS、独立 physics 不获得 profiler 的头、定义或链接依赖；CPU-only 局部关闭 Tracy/marker。
+
+普通 Debug/Release 默认 `SYMOCRAFT_ENABLE_TRACY=OFF`，门面不含 vendor、不求值参数。开启态统一应用本机连接/按需采集及禁系统追踪、自动采样、调用栈、崩溃挂钩等定义；没有自建 Session、线程调度或业务状态。内部 client 线程只处理观测事件，不能借业务对象异步读取。新 target 继承全闭包 DBG01；profiling preset 仍为 Release，以 `/Zi`、`/DEBUG` 产生匹配符号并显式保持 `/OPT:REF`、`/OPT:ICF`，不替换原优化/CRT或 shader 配置。
+
+门面为 `SYMOCRAFT_PROFILE_ZONE/FRAME/PLOT/APP_INFO`：ZONE 名称为字符串字面量，局部名按编译单元计数唯一，RAII 生命周期到所在词法块末尾；多个阶段用各自实际作用域，不能借宏块使计时立即结束。FRAME 的生产共同边界归 app；PLOT 提交一次求值的 int64 数值，不累计/清零，调用方明确单位及每帧/累计口径。APP_INFO 同步借用 string_view 并由 Tracy 复制字节，空文本不发送；调用方须将单条身份限制在 4096 字节内、进程内只发有限一组，不按帧生成无界 deferred 身份。该上限是调用前提，不靠新增异常/日志服务改变业务故障处理。实际CPU区域覆盖app、World网格、SimulationSession及两现代后端prepare/submit/Present；独立physics不插桩，Present CPU区域不表示GPU执行时间。实际检查和性能解释边界在本change验证正文维护。
+
+原生注释由renderer私有target独立消费 `SYMOCRAFT_GPU_DEBUG_MARKERS`；关闭宏不求值对象、条件或名称，不发现外部捕获SDK。D3D12按[RenderDoc原生注释编码](https://github.com/baldurk/renderdoc/blob/v1.47/docs/how/how_annotate_capture.rst)使用ANSI BeginEvent/EndEvent，Vulkan独立请求可选VK_EXT_debug_utils并加载名称/区域函数，缺任一项明确诊断后关闭注释，validation自己的必需条件保持。资源名只在新资源/版本创建时同步赋值，无宿主地址/用户目录；区域RAII在Close/EndCommandBuffer前成对结束，异常仅结束已打开区域，不改变提交/退休。world、selection、upload、MSAA resolve及readback按实际工作条件分组，关闭态不为条件增加遍历。真实捕获/回放仍需独立验证，不由源码或mock证明。
+
+按用户选择 A 保持上游源码不变，不定义 `TRACY_NO_EXIT` 编译宏；进程环境显式设置 `TRACY_NO_EXIT=1`（上游按首字符 `1` 判断）不受支持。正常退出检查须先核实此前提，不承诺任意外部覆盖下都不等待 Viewer，也不修改用户全局环境或强杀进程来冒充清理成功。构建及启动前提见 [Profiling Build](../../scripts/README.md#profiling-build)，实际验证与未执行项归对应 change 的 verification。
 
 ### 其他第三方边界
 
 除上节限定的 T5 EnTT 外，第三方头使用构建目录内的授权 `header-views/` 子集；数学、YAML、噪声、图像解码、PNG 写出、GLAD 和私有存储分别授权，不能发布整个 vendor 根。头视图复制失败使配置失败，已有副本不自动撤销。[受限头视图](../../cmake/ThirdPartyHeaders.cmake)与[游戏第三方配置](../../cmake/ThirdPartyGame.cmake)是实际来源。
 
 - SDL3 只由 `symocraft_platform` 私有消费，SDL 头仅存在于 platform 实现中；app、renderer 和 CPU 模块不得直接消费 SDL target、include path 或相对 vendor 头。SDL 静态构建，关闭共享库、内部测试、例子与独立安装，保留现有 MSVC CRT 策略。
-- platform 使用私有 `SDL_MAIN_HANDLED`；app 不需要引入 SDL 主入口头。SDL 窗口的 GL/Native/Vulkan 交接不代表生产 Vulkan renderer 已实现。
+- platform 使用私有 `SDL_MAIN_HANDLED`；app 不需要引入 SDL 主入口头。SDL桥接与实际Vulkan后端仍是不同owner，生产Vulkan仅显式启用时构建。
 - renderer 到 platform 的私有通道只允许 `src/graphics_bridge/` 及 `graphics_bridge.h`、`native_bridge.h`、`vulkan_bridge.h`，不是整个 platform `src/`。桥接可以在授权私有层携带原生 SDK 类型，不能携带 SDL 头或把 SDK 类型泄漏到公共 API。
 - platform 的 Vulkan 私有交接使用 SDL 附带的 Khronos 头和动态 loader，不因普通游戏构建强制外部 Vulkan SDK 或链接 `vulkan-1.lib`；显式 Vulkan 实验探针的 SDK 要求另行声明。
 - GLFW 已退出活动目标。目标即使未链接，若重新配置 GLFW、包含其头或引入其库/搜索路径，也由检查器拒绝。仓库中的退休 vendor、休眠源和冻结包不是允许重新接入的依据。
@@ -93,11 +109,10 @@ app 的 `symocraft_startup` 与 `symocraft_app_render_data` 是 app 私有 CPU S
 
 | 组合 | 当前工程契约 |
 | --- | --- |
-| 默认 | game、CPU 模块与独立 benchmark；现代 renderer CPU 门面、D3D12 与保留的旧 GL；游戏运行默认 D3D12 |
-| `SYMOCRAFT_CPU_ONLY=ON` | 局部强制 GAME/BENCHMARK/OPENGL/D3D12/VULKAN OFF、CPU_MODULES ON；图形 SDK 不参与发现、配置或链接 |
-| GAME OFF、CPU_MODULES ON | 仍组织 CPU 模块和 app CPU 库，不创建 platform 或游戏；benchmark 由自己的开关决定 |
-| 根入口仅 benchmark | GAME 与 CPU_MODULES 显式 OFF、BENCHMARK ON；旧缓存中的 CPU_MODULES 不会因改 GAME 自动消失 |
-| `cmake -S tools/benchmark` | 工具独立配置，复用仓库内 YAML 与工具链检查；不创建游戏或检查游戏资源，不表示子目录可以脱离仓库构建 |
+| 默认 | game与CPU模块；现代 renderer CPU 门面、D3D12 与保留的旧 GL；游戏运行默认 D3D12 |
+| `SYMOCRAFT_CPU_ONLY=ON` | 局部强制GAME/OPENGL/D3D12/VULKAN/TRACY/注释OFF、CPU_MODULES ON；图形SDK/client不参与发现或链接。旧BENCHMARK=ON仍先拒绝 |
+| GAME OFF、CPU_MODULES ON | 仍组织 CPU 模块和 app CPU 库，不创建 platform 或游戏；不构建benchmark |
+| 旧BENCHMARK=ON / standalone目录 | 根入口明确拒绝并提示新场景；独立工具源码入口已退役，不沿旧缓存复活 |
 | D3D12 ON | 要求 GAME ON；新配置默认取 GAME 状态，私有发现 SDK/DXC；候选身份记录仅在下述候选组合触发 |
 | OPENGL OFF、D3D12 ON | 现代独占游戏，省略选择默认 D3D12；显式 OpenGL 具名 Unsupported 退出、不回退 |
 | VULKAN ON | 要求 GAME ON，私有发现 Vulkan SDK 头及支持 SPIR-V 的独立 DXC；单 Vulkan 仍须显式选择 vulkan，不回退默认后端 |
@@ -106,7 +121,7 @@ app 的 `symocraft_startup` 与 `symocraft_app_render_data` 是 app 私有 CPU S
 
 `SYMOCRAFT_BUILD_CPU_MODULES` 与 `SYMOCRAFT_RENDER_D3D12` 的默认值在首次定义时取 GAME 状态，之后是独立缓存选项。标准Debug/Release游戏preset显式设置D3D12=ON，重新配置会更新旧OFF缓存；自定义GL-only或GAME OFF组合使用命令行显式OFF覆盖preset，不经preset的旧缓存仍需显式启用，根option不使用FORCE。CPU-only强制值仍是当前配置作用域的覆盖，不将用户缓存全部改写。未编入默认后端时省略运行选择会具名拒绝而不是偷偷回退。模式矩阵应以实际target/Ninja图和产物检查为依据，而非仅看开关文字。
 
-CPU-only 仍进入 game 的 CPU 组织并加载资产清单及共享 staging，仅需要 YAML/PNG 两项公共源资产；GLSL 只随 OPENGL 启用加入。独立 benchmark 入口不加载游戏资产规则。无图形的 `--world-summary` 只预检公共资产，不选择后端或要求 shader。
+CPU-only 仍进入 game 的 CPU 组织并加载资产清单及共享 staging，仅需要 YAML/PNG 两项公共源资产；GLSL 只随 OPENGL 启用加入。已退役独立入口不再参与当前构建。无图形的 `--world-summary` 只预检公共资产，不选择后端或要求 shader。
 
 ### Vulkan候选构建
 
@@ -121,7 +136,7 @@ CPU-only 仍进入 game 的 CPU 组织并加载资产清单及共享 staging，�
 
 实际条件见[后端构建](../../cmake/RendererD3D12.cmake)、[app 构建](../../game/app/CMakeLists.txt)与[候选打包器](../../scripts/package-d3d12-candidate.py)。身份范围不是整个 SDK、驱动或操作系统快照。
 
-Python 与 DXC 是构建/查验依赖，不是生产游戏或原生 benchmark 的运行依赖；携带 Python runner 的独立实验包另按其包合同处理。
+Python 与 DXC 是构建/查验依赖，不是生产游戏的运行依赖；携带 Python runner 的独立实验包另按其包合同处理。
 
 ## 测试及验证边界
 
@@ -129,7 +144,7 @@ Python 与 DXC 是构建/查验依赖，不是生产游戏或原生 benchmark �
 
 公开头消费者逐个包含并链接所属公开目标，不添加私有路径、聚合头或预编译头补依赖；renderer 公共头消费者只链接 API target。生成消费者成功不等于编译、执行通过。
 
-白盒路径只授予明确测试：world 私有状态适配器、renderer 门面/旧 GL 测试、app 启动与转换、benchmark 内部进程测试等。它们链接正式实现，不向生产传播私有路径。现有 GLAD 函数指针替身、recording backend 和故障 fixture 只证明相应 CPU 调用/清理契约，不替代真实驱动或人为输入。
+白盒路径只授予明确测试：world 私有状态适配器、renderer 门面/旧 GL 测试、app 启动与转换等。它们链接正式实现，不向生产传播私有路径。现有 GLAD 函数指针替身、recording backend 和故障 fixture 只证明相应 CPU 调用/清理契约，不替代真实驱动或人为输入。
 
 生产 SDL 桥接探针导入同源码、同配置的正式静态库并核对身份，不重编译窗口实现。真实原生 D3D12 探针由显式入口执行，未注册为无人值守 CTest。独立头构建、负向边界、构建模式矩阵、增量探测、硬件运行与人工批准分别有结论，不互相推定。
 
@@ -144,8 +159,8 @@ T3的[后端配置矩阵](E:/Codex/Worktrees/refactor-renderer/Symocraft/test/in
 - 共享 `symocraft_runtime_assets` 在每次构建检查并以 `copy_if_different` 同步两项公共资产，以及 OPENGL 启用时的四项 GLSL，多个消费者共用一份部署任务，避免并发复制。资产内容变化无需重链接 exe 才能部署；缺少源资产在加载 StageAssets 时即配置失败，复制失败由 build 反馈，不撤销已同步内容。更换后端组合使用新目录，不把旧目录残留误认作当前部署清单。
 - 游戏及资源消费者输出到本配置的 `bin/`；运行资源根是 exe 旁的 `assets/`，不依赖当前工作目录或源码树。资产解析拒绝空路径、绝对/根路径、父目录穿越、流名及越根链接；移动运行包必须保留相邻资源。存在性检查不证明解码、配置语义、shader 或玩法正确。
 - 游戏 target 编入 [windows-utf8.manifest](../../cmake/windows-utf8.manifest)，申请 UTF-8 activeCodePage，衔接执行器 UTF-16 进程参数与游戏中的窄字符资源路径；这是限定机制，不是任意 Unicode 路径、全部第三方加载链或目标机器均已验证的保证。源码编译的 `/utf-8` 与运行时 manifest 是不同约束。
-- 安装仅选择产品、必要资源和许可通知，不安装测试/fixture、库/对象、PDB 或无用资源。D3D12 安装另含四份 DXIL；不会携带 DXC、开发 SDK、显卡驱动、Debug Layer 或 SDL DLL，目标机器仍需满足实际系统与驱动条件。
+- 安装仅选择产品、必要资源和许可通知，不安装测试/fixture、库/对象或无用资源；profiling Release仅额外携带匹配PDB与Tracy许可。D3D12 安装另含四份 DXIL；不会携带 DXC、开发 SDK、显卡驱动、Debug Layer 或 SDL DLL，目标机器仍需满足实际系统与驱动条件。
 - Release 使用工具链对应的 app-local 可再分发 CRT。普通 Debug 不作为分发包；D3D12 Debug 候选明确安装匹配工具集的 Debug CRT 与 SDK debug UCRT，仅限本机开发诊断，不能对外再分发，缺少要求的运行库会配置失败。
 - 安装或静态 DLL/import 检查不等于干净机器运行验收。环境裁剪仍在同一开发主机，不能宣称卸载 SDK 后或新机器通过；开发 staging 也不是最终发布认证。
 
-资源来源：[资产清单](../../cmake/RequiredAssets.cmake)、[部署规则](../../cmake/StageAssets.cmake)、[运行定位](../../game/modules/assets/src/asset_paths.cpp)。独立 benchmark 的安装说明从 [工具 README](../../tools/benchmark/README.md) 与 [第三方盘点](../third-party.md) 取输入，包内输出名不变；文档输入的隔离安装回归不证明原生产品编译、完整通知或真实部署通过。
+资源来源：[资产清单](../../cmake/RequiredAssets.cmake)、[部署规则](../../cmake/StageAssets.cmake)、[运行定位](../../game/modules/assets/src/asset_paths.cpp)。当前操作见[profiling说明](../../scripts/README.md#profiling-build)，通知身份见[第三方盘点](../third-party.md)；游戏不安装旧工具、Viewer、RenderDoc或开发SDK。安装回归不证明完整通知或真实干净机通过。
