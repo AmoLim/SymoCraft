@@ -1,7 +1,6 @@
 #include "renderer_impl.h"
 
 #include "validation.h"
-#include "frame_diagnostics.h"
 
 #include <chrono>
 #include <limits>
@@ -77,7 +76,6 @@ RendererInfo RendererState::ReadAcceptedInfo() {
 
 MeshHandle RendererState::CreateMesh(const MeshData& data) {
     return Invoke("CreateMesh", [&] {
-        DiagnosticWorkScope diagnostic(FrameWork::MeshCreateTotal);
         auto prepared = resources_.PrepareMesh(data);
         backend_->CreateMesh(prepared.id, prepared.data);
         resources_.Commit(prepared);
@@ -88,11 +86,10 @@ MeshHandle RendererState::CreateMesh(const MeshData& data) {
 void RendererState::UpdateMesh(MeshHandle handle, const MeshData& data) {
     Invoke("UpdateMesh", [&] {
         const auto id = resources_.Id(handle);
-        DiagnosticWorkScope diagnostic(FrameWork::MeshUpdateTotal);
         std::optional<std::uint32_t> maximum_layer;
-        { DiagnosticWorkScope validation(FrameWork::MeshValidate); maximum_layer = ValidateMesh(data); }
+        { maximum_layer = ValidateMesh(data); }
         std::shared_ptr<const MeshData> owned;
-        { DiagnosticWorkScope copy(FrameWork::MeshOwnedCopy); owned = std::make_shared<const MeshData>(data); }
+        { owned = std::make_shared<const MeshData>(data); }
         backend_->UpdateMesh(id, owned);
         resources_.ReplaceMesh(handle, std::move(owned), maximum_layer);
     });
@@ -125,9 +122,6 @@ void RendererState::DestroyTextureArray(TextureArrayHandle handle) {
 
 FrameResult RendererState::Render(const FrameInput& frame) {
     return Invoke("Render", [&] {
-        FrameDiagnosticScope diagnostic(config_.backend == Backend::Vulkan || config_.backend == Backend::D3D12,
-                                        frame.frame_id, frame.request_screenshot);
-        const auto begin = std::chrono::steady_clock::now();
         if (has_frame_ && frame.frame_id <= last_frame_id_)
             throw std::invalid_argument("frame identity must increase strictly after each accepted frame");
         ValidateCamera(frame.camera);
@@ -145,7 +139,6 @@ FrameResult RendererState::Render(const FrameInput& frame) {
             auto mesh = resources_.Mesh(draw.mesh);
             auto texture = resources_.Texture(draw.texture_array);
             {
-                DiagnosticWorkScope work(FrameWork::LayerSummaryCheck);
                 ValidateMeshTextureLayers(resources_.MeshMaximumLayer(draw.mesh), texture->layers);
             }
             prepared.draws.push_back({resources_.Id(draw.mesh), resources_.Id(draw.texture_array),
@@ -158,9 +151,6 @@ FrameResult RendererState::Render(const FrameInput& frame) {
         if (frame.request_screenshot && !info_.capabilities.screenshots)
             Throw(RenderErrorCategory::Unsupported, "Render", "backend does not support screenshots");
 
-        const auto prepared_time = std::chrono::duration_cast<std::chrono::nanoseconds>(
-            std::chrono::steady_clock::now() - begin);
-        DiagnosticPhase(FramePhase::BackendSetup);
         FrameResult result;
         if (lifecycle_ == RendererLifecycle::Suspended) {
             result.frame_id = frame.frame_id;
@@ -168,16 +158,12 @@ FrameResult RendererState::Render(const FrameInput& frame) {
             result.skip_reason = FrameSkipReason::ZeroExtent;
         } else {
             result = backend_->Render(prepared);
-            DiagnosticPhase(FramePhase::FacadeResult);
             if (result.frame_id != frame.frame_id ||
                 (result.status != FrameStatus::Presented && result.status != FrameStatus::Skipped) ||
                 (result.status == FrameStatus::Presented && result.skip_reason != FrameSkipReason::None) ||
                 (result.status == FrameStatus::Skipped && result.skip_reason != FrameSkipReason::Occluded &&
                  result.skip_reason != FrameSkipReason::ZeroExtent))
                 Throw(RenderErrorCategory::SubmissionFailure, "Render", "backend returned inconsistent frame result");
-            if (result.statistics.cpu_prepare.count() < 0 || result.statistics.cpu_submit.count() < 0 ||
-                result.statistics.present_wait.count() < 0)
-                Throw(RenderErrorCategory::SubmissionFailure, "Render", "backend returned negative frame duration");
             if (result.screenshot) {
                 const auto& capture = *result.screenshot;
                 const auto width = static_cast<std::size_t>(capture.extent.width);
@@ -198,19 +184,9 @@ FrameResult RendererState::Render(const FrameInput& frame) {
                 info_ = std::move(updated);
                 lifecycle_ = RendererLifecycle::Suspended;
             }
-            last_backend_frame_id_ = frame.frame_id;
-            has_backend_frame_ = true;
         }
-        const auto maximum_duration = std::chrono::nanoseconds::max().count();
-        if (prepared_time.count() < 0 ||
-            result.statistics.cpu_prepare.count() > maximum_duration - prepared_time.count()) {
-            RecordFatal(RenderErrorCategory::SubmissionFailure);
-            Throw(RenderErrorCategory::SubmissionFailure, "Render", "combined CPU preparation duration overflow");
-        }
-        result.statistics.cpu_prepare += prepared_time;
         last_frame_id_ = frame.frame_id;
         has_frame_ = true;
-        diagnostic.Complete();
         return result;
     });
 }
@@ -247,27 +223,6 @@ RendererInfo RendererState::GetInfo() const {
     return const_cast<RendererState*>(this)->Invoke("GetInfo", [&] { return info_; }, true);
 }
 
-std::vector<GpuFrameSample> RendererState::PollGpuSamples() {
-    return Invoke("PollGpuSamples", [&] {
-        auto samples = backend_->PollGpuSamples();
-        for (const auto& sample : samples) {
-            if (!has_backend_frame_ || sample.frame_id > last_backend_frame_id_ ||
-                sample.valid != sample.gpu_draw_time.has_value() ||
-                (sample.missing_reason != GpuSampleMissingReason::None &&
-                 sample.missing_reason != GpuSampleMissingReason::Unsupported &&
-                 sample.missing_reason != GpuSampleMissingReason::Discarded &&
-                 sample.missing_reason != GpuSampleMissingReason::DeviceFailure) ||
-                (sample.valid && (sample.missing_reason != GpuSampleMissingReason::None ||
-                                 sample.gpu_draw_time->count() < 0)) ||
-                (!sample.valid && sample.missing_reason == GpuSampleMissingReason::None))
-                Throw(RenderErrorCategory::SubmissionFailure, "PollGpuSamples", "backend returned inconsistent GPU sample");
-        }
-        for (const auto& sample : samples)
-            if (sample.missing_reason == GpuSampleMissingReason::DeviceFailure)
-                RecordFatal(RenderErrorCategory::DeviceLost);
-        return samples;
-    });
-}
 
 void RendererState::Shutdown() {
     Invoke("Shutdown", [&] {

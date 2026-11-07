@@ -46,7 +46,6 @@ namespace {
         int renders = 0;
         int resizes = 0;
         int vsync_changes = 0;
-        int polls = 0;
         int shutdowns = 0;
         int fallback_shutdowns = 0;
         BackendResourceId last_mesh_id;
@@ -67,7 +66,7 @@ namespace {
             info.framebuffer_extent = {2, 1};
             info.actual_samples = 1;
             info.actual_present_mode = PresentMode::Fifo;
-            info.capabilities = {true, true, true, true};
+            info.capabilities = {true, true, true};
         }
 
         RendererInfo GetInfo() const override
@@ -136,12 +135,6 @@ namespace {
             info.actual_present_mode = enabled ? PresentMode::Fifo : PresentMode::Immediate;
             if (on_vsync) on_vsync(info, enabled);
         }
-        std::vector<GpuFrameSample> PollGpuSamples() override
-        {
-            ++calls_->polls;
-            Fail("PollGpuSamples");
-            return samples;
-        }
         void Shutdown() override
         {
             ++calls_->shutdowns;
@@ -172,7 +165,6 @@ namespace {
         std::function<void(RendererInfo&)> on_resize;
         std::function<void(RendererInfo&, bool)> on_vsync;
         std::function<RendererInfo()> on_info;
-        std::vector<GpuFrameSample> samples;
 
     private:
         std::shared_ptr<Calls> calls_;
@@ -470,7 +462,6 @@ namespace {
         Require(fixture.state->GetInfo().device_identity == "no-device-no-GPU", "stopped renderer retains last info snapshot");
         ExpectCategory(RenderErrorCategory::InvalidState, [&] { fixture.state->CreateMesh({}); }, "resource creation after shutdown");
         ExpectCategory(RenderErrorCategory::InvalidState, [&] { fixture.state->Render(Frame(3)); }, "render after shutdown");
-        ExpectCategory(RenderErrorCategory::InvalidState, [&] { fixture.state->PollGpuSamples(); }, "poll after shutdown");
         fixture.state.reset();
         Require(fixture.calls->fallback_shutdowns == 0, "normal shutdown must not trigger a second backend cleanup");
 
@@ -512,54 +503,24 @@ namespace {
     void CheckFrameStatisticsComposition()
     {
         Fixture fixture;
-        const auto native_prepare = std::chrono::seconds{1};
         fixture.recording->on_result = [&](FrameResult& result) {
-            result.statistics.cpu_prepare = native_prepare;
-            result.statistics.cpu_submit = std::chrono::nanoseconds{17};
-            result.statistics.present_wait = std::chrono::nanoseconds{29};
             result.statistics.upload_bytes = 42;
             result.statistics.draw_calls = 3;
             result.statistics.drawn_vertices = 9;
         };
         const auto result = fixture.state->Render(Frame(0));
-        Require(result.statistics.cpu_prepare >= native_prepare,
-                "facade preparation must add to native preparation rather than overwrite it");
-        Require(result.statistics.cpu_submit == std::chrono::nanoseconds{17} &&
-                result.statistics.present_wait == std::chrono::nanoseconds{29},
-                "preparation aggregation must preserve native submit and presentation durations");
+        fixture.recording->on_result = [](FrameResult& next) { next.statistics = {}; };
+        fixture.state->Render(Frame(1));
         Require(result.statistics.upload_bytes == 42 && result.statistics.draw_calls == 3 &&
-                result.statistics.drawn_vertices == 9,
-                "preparation aggregation must preserve native work counters");
-
-        Fixture overflow;
-        const auto mesh = overflow.state->CreateMesh(Triangle());
-        const auto texture = overflow.state->CreateTextureArray(Texture());
-        // Validate enough owned draws to exceed the real clock's tick resolution.
-        const std::vector<MeshDraw> draws(2048, MeshDraw{mesh, texture});
-        overflow.recording->on_result = [](FrameResult& value) {
-            value.statistics.cpu_prepare = std::chrono::nanoseconds::max();
-        };
-        ExpectCategory(RenderErrorCategory::SubmissionFailure,
-                       [&] { overflow.state->Render(Frame(0, draws)); },
-                       "post-acceptance preparation duration overflow");
-        ExpectCategory(RenderErrorCategory::InvalidState, [&] { overflow.state->Render(Frame(1)); },
-                       "preparation overflow must stop further native submission");
-        Require(overflow.calls->renders == 1, "preparation overflow must not permit a second backend render");
-        Require(overflow.state->GetInfo().device_identity == "no-device-no-GPU",
-                "preparation overflow must preserve the last device identity snapshot");
-        overflow.state->Shutdown();
-        Require(overflow.calls->shutdowns == 1, "preparation overflow must allow bounded backend cleanup");
+                result.statistics.drawn_vertices == 9, "Owned frame work counters changed after another Render");
     }
 
     void CheckBackendResultValidation()
     {
-        const std::array<std::function<void(FrameResult&)>, 8> malformed_results{
+        const std::array<std::function<void(FrameResult&)>, 5> malformed_results{
             [](FrameResult& result) { result.screenshot.reset(); },
             [](FrameResult& result) { result.screenshot->extent = {1, 2}; },
             [](FrameResult& result) { result.screenshot->pixels.pop_back(); },
-            [](FrameResult& result) { result.statistics.cpu_submit = std::chrono::nanoseconds{-1}; },
-            [](FrameResult& result) { result.statistics.present_wait = std::chrono::nanoseconds{-1}; },
-            [](FrameResult& result) { result.statistics.cpu_prepare = std::chrono::nanoseconds{-1}; },
             [](FrameResult& result) { result.status = static_cast<FrameStatus>(99); },
             [](FrameResult& result) { result.skip_reason = static_cast<FrameSkipReason>(99); }
         };
@@ -632,8 +593,7 @@ namespace {
             ExpectCategory(RenderErrorCategory::InvalidState, [&] { fixture.state->Render(Frame(1)); }, "failed renderer must stop new submissions");
             ExpectCategory(RenderErrorCategory::InvalidState, [&] { fixture.state->CreateMesh(Triangle()); }, "failed renderer must stop uploads");
             ExpectCategory(RenderErrorCategory::InvalidState, [&] { fixture.state->Resize({5, 5}); }, "failed renderer must stop resize work");
-            ExpectCategory(RenderErrorCategory::InvalidState, [&] { fixture.state->PollGpuSamples(); }, "failed renderer must stop polls");
-            Require(fixture.calls->renders == 1 && fixture.calls->creates == 0 && fixture.calls->resizes == 0 && fixture.calls->polls == 0,
+            Require(fixture.calls->renders == 1 && fixture.calls->creates == 0 && fixture.calls->resizes == 0,
                     "fatal category must prevent all further backend operations except cleanup");
             Require(fixture.state->GetInfo().device_identity == "no-device-no-GPU", "failed renderer must expose last actual info snapshot");
             fixture.state->Shutdown();
@@ -716,54 +676,8 @@ namespace {
         }
     }
 
-    void CheckGpuSampleSemanticsAndCapabilities()
+    void CheckScreenshotCapabilities()
     {
-        Fixture fixture;
-        fixture.state->Render(Frame(5));
-        fixture.state->Render(Frame(6));
-        fixture.state->Render(Frame(7));
-        fixture.recording->samples = {{5, true, std::chrono::nanoseconds{17}, GpuSampleMissingReason::None},
-                                      {6, false, std::nullopt, GpuSampleMissingReason::Unsupported},
-                                      {7, false, std::nullopt, GpuSampleMissingReason::Discarded}};
-        const auto samples = fixture.state->PollGpuSamples();
-        Require(samples.size() == 3 && samples[0].gpu_draw_time->count() == 17 &&
-                !samples[1].gpu_draw_time && !samples[2].gpu_draw_time, "missing GPU duration must never become zero duration");
-        fixture.recording->samples[0].gpu_draw_time = std::chrono::nanoseconds{99};
-        Require(samples[0].gpu_draw_time->count() == 17, "sample batch must own its returned values");
-
-        for (const auto sample : {GpuFrameSample{0, true, std::nullopt, GpuSampleMissingReason::None},
-                                  GpuFrameSample{0, false, std::chrono::nanoseconds{0}, GpuSampleMissingReason::Discarded},
-                                  GpuFrameSample{0, true, std::chrono::nanoseconds{-1}, GpuSampleMissingReason::None},
-                                  GpuFrameSample{0, false, std::nullopt, GpuSampleMissingReason::None}}) {
-            Fixture malformed;
-            malformed.state->Render(Frame(0));
-            malformed.recording->samples = {sample};
-            ExpectCategory(RenderErrorCategory::SubmissionFailure, [&] { malformed.state->PollGpuSamples(); }, "inconsistent GPU sample");
-            ExpectCategory(RenderErrorCategory::InvalidState, [&] { malformed.state->Render(Frame(0)); }, "malformed sample must stop backend submissions");
-        }
-
-        Fixture unsubmitted_sample;
-        unsubmitted_sample.recording->samples = {{0, false, std::nullopt, GpuSampleMissingReason::Discarded}};
-        ExpectCategory(RenderErrorCategory::SubmissionFailure, [&] { unsubmitted_sample.state->PollGpuSamples(); }, "sample without any backend submitted frame");
-        ExpectCategory(RenderErrorCategory::InvalidState, [&] { unsubmitted_sample.state->Render(Frame(0)); }, "unsubmitted sample must fail renderer");
-        Fixture future_sample;
-        future_sample.state->Render(Frame(0));
-        future_sample.recording->samples = {{1, false, std::nullopt, GpuSampleMissingReason::Discarded}};
-        ExpectCategory(RenderErrorCategory::SubmissionFailure, [&] { future_sample.state->PollGpuSamples(); }, "sample claims future frame identity");
-        ExpectCategory(RenderErrorCategory::InvalidState, [&] { future_sample.state->Render(Frame(1)); }, "future sample must fail renderer");
-
-        Fixture device_failure;
-        device_failure.state->Render(Frame(9));
-        device_failure.recording->samples = {{9, false, std::nullopt, GpuSampleMissingReason::DeviceFailure}};
-        const auto failure_samples = device_failure.state->PollGpuSamples();
-        Require(failure_samples.size() == 1 && !failure_samples[0].valid && !failure_samples[0].gpu_draw_time &&
-                failure_samples[0].missing_reason == GpuSampleMissingReason::DeviceFailure,
-                "device failure sample must remain an explicit missing sample, not a zero duration");
-        ExpectCategory(RenderErrorCategory::InvalidState, [&] { device_failure.state->Render(Frame(10)); }, "device failure sample must stop submissions");
-        ExpectCategory(RenderErrorCategory::InvalidState, [&] { device_failure.state->PollGpuSamples(); }, "device failure sample must stop later polling");
-        Require(device_failure.state->GetInfo().device_identity == "no-device-no-GPU", "device failure sample retains diagnostics identity");
-        device_failure.state->Shutdown();
-
         Fixture unsupported([](RecordingBackend& backend) { backend.info.capabilities.screenshots = false; });
         auto frame = Frame(0);
         frame.request_screenshot = true;
@@ -789,7 +703,7 @@ int main()
         CheckBackendResultValidation();
         CheckFatalBackendFailures();
         CheckAcceptedOperationInfoFailures();
-        CheckGpuSampleSemanticsAndCapabilities();
+        CheckScreenshotCapabilities();
         std::cout << "R2 real facade CPU lifecycle: " << checks
                   << " checks passed with test-only recording backend; no GPU or production backend acceptance.\n";
         return 0;

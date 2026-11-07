@@ -13,17 +13,15 @@ from verification_common import (archive_destination, cache, capture, cmake_opti
                                  toolchain, utc_now, workspace_path, write_json)
 
 MODES = {
-    "standalone": ("tools/benchmark", True, []),
     "modern": (".", True, ["RENDER_OPENGL=OFF", "RENDER_D3D12=ON", "BUILD_BENCHMARK=OFF"]),
     "transition": (".", True, ["RENDER_OPENGL=ON", "RENDER_D3D12=ON", "BUILD_BENCHMARK=OFF"]),
     "cpu": (".", True, ["CPU_ONLY=ON"]),
-    "benchmark": (".", True, ["BUILD_GAME=OFF", "BUILD_CPU_MODULES=OFF"]),
     "modern-no-tests": (".", False, ["RENDER_OPENGL=OFF", "RENDER_D3D12=ON", "BUILD_BENCHMARK=OFF"]),
-    "benchmark-no-tests": (".", False, ["BUILD_GAME=OFF", "BUILD_CPU_MODULES=OFF"]),
-    "standalone-no-tests": ("tools/benchmark", False, []),
+    "retired-benchmark": (".", False, ["BUILD_GAME=OFF", "BUILD_CPU_MODULES=OFF", "BUILD_BENCHMARK=ON"]),
+    "cpu-retired-benchmark": (".", False, ["CPU_ONLY=ON", "BUILD_BENCHMARK=ON"]),
     "all-off": (".", False, ["RENDER_OPENGL=OFF", "RENDER_D3D12=OFF", "RENDER_VULKAN=OFF", "BUILD_BENCHMARK=OFF"]),
 }
-LEGACY_MODES = list(MODES)
+DEFAULT_MODES = ["r4-d3d12", "r4-vulkan", "r4-dual", "cpu", "modern-no-tests", "retired-benchmark", "cpu-retired-benchmark", "all-off"]
 for name, gl, direct, vulkan in (("d3d12", False, True, False),
                                  ("vulkan", False, False, True),
                                  ("dual", False, True, True),
@@ -67,7 +65,7 @@ def check_isolation(build, mode, options):
 
 
 def sources():
-    return evidence_sources([ROOT / p for p in ("game", "cmake", "tools/benchmark", "test", "assets/shaders/hlsl")],
+    return evidence_sources([ROOT / p for p in ("game", "cmake", "test", "assets/shaders/hlsl")],
                             [ROOT / "CMakeLists.txt", ROOT / "scripts/package-d3d12-candidate.py"])
 
 
@@ -75,17 +73,16 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--build-parent", required=True)
     parser.add_argument("--evidence-directory", required=True)
-    parser.add_argument("--modes", nargs="+", choices=MODES, default=LEGACY_MODES)
+    parser.add_argument("--modes", nargs="+", choices=MODES, default=DEFAULT_MODES)
     parser.add_argument("--configurations", nargs="+", choices=("Debug", "Release"), default=["Debug", "Release"])
-    parser.add_argument("--dxc", default="C:/Program Files (x86)/Windows Kits/10/bin/10.0.22621.0/x64/dxc.exe")
+    parser.add_argument("--dxc", help="Explicit DXC from the selected Windows SDK")
     parser.add_argument("--vulkan-headers")
     parser.add_argument("--spirv-dxc")
     parser.add_argument("--jobs", type=int, choices=range(1, 17), default=8)
     tool_options(parser)
     args = parser.parse_args()
     builds = workspace_path(args.build_parent, ROOT / "out")
-    evidence = (workspace_path(args.evidence_directory, ROOT / "out") if any(m.startswith("r4-") for m in args.modes)
-                else archive_destination(args.evidence_directory))
+    evidence = workspace_path(args.evidence_directory, ROOT / "out")
     require(not builds.exists(), "Choose a fresh build parent.")
     tools = toolchain(args)
     # Disabled backends must not rely on the SDK environment hint or PATH discovery.
@@ -123,11 +120,16 @@ def main():
                 configure = ["-S", ROOT / source, "-B", build, *cmake_options(tools, configuration, testing),
                              *(f"-DSYMOCRAFT_{option}" for option in options)]
                 if "RENDER_D3D12=ON" in options:
+                    require(args.dxc, "Enabled D3D12 needs explicit DXC from the selected SDK")
                     configure.append(f"-DSYMOCRAFT_DXC={args.dxc}")
                 if "RENDER_VULKAN=ON" in options:
                     require(args.vulkan_headers and args.spirv_dxc, "Enabled Vulkan needs explicit headers and SPIR-V compiler")
                     configure += [f"-DSYMOCRAFT_VULKAN_HEADERS={args.vulkan_headers}", f"-DSYMOCRAFT_VULKAN_DXC={args.spirv_dxc}"]
                 exit_code = run(case, "configure", tools["cmake"], configure)
+                if mode in ("retired-benchmark", "cpu-retired-benchmark"):
+                    case["passed"] = exit_code != 0 and "SYMOCRAFT_BUILD_BENCHMARK is retired" in read_log(evidence / f"{name}-configure.log")
+                    require(case["passed"], "Retired benchmark was not rejected explicitly")
+                    continue
                 if mode == "all-off":
                     case["passed"] = exit_code != 0 and "The game requires at least one implemented renderer" in read_log(evidence / f"{name}-configure.log")
                     require(case["passed"], "All-off game did not fail with the named error")
@@ -147,7 +149,7 @@ def main():
                                   if line.startswith('{"kind":"publication_test"')]
                         unexpected = [e for e in events if e.get("event") == "unexpected_failure" and e.get("suite") in failed]
                         case["legacy_failures"] = unexpected
-                        require(set(failed) <= {"foundation.files", "performance.export"}
+                        require(set(failed) <= {"foundation.files"}
                                 and set(e.get("suite") for e in unexpected) == set(failed)
                                 and all(e.get("numeric_win32") == 1175 for e in unexpected), f"Unexpected test failures: {name}: {failed}")
                     require(exit_code == 0 or bool(failed), f"CTest failed without named cases: {name}")

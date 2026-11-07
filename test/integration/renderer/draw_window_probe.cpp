@@ -223,7 +223,7 @@ Revisions RevisionsOf(const World::VoxelWorld& world) {
 void WorldWindow(Backend backend, unsigned samples, const std::filesystem::path& output, Value& report) {
     OwnedWindow owner(backend,1920,1080); auto& window=*owner.value; const auto hwnd=Platform::NativeBridge::GetHandle(window);
     StartupOptions options; options.renderer=backend==Backend::Vulkan ? "vulkan" : "d3d12"; options.requested_samples=samples; options.enable_validation=true;
-    Application::Detail::GameRenderer renderer(window,options,false);
+    Application::Detail::GameRenderer renderer(window,options);
     const auto config_bytes=Assets::ReadBytes(Assets::Resolve("configs/blockFormats.yaml"));
     auto definition=World::BlockDefinition::FromConfig(std::string(config_bytes.begin(),config_bytes.end()));
     const auto layers=renderer.LoadAtlas(Assets::Resolve("textures/texture_atlas.png")); definition.ValidateTextureLayers(layers);
@@ -241,7 +241,7 @@ void WorldWindow(Backend backend, unsigned samples, const std::filesystem::path&
     auto capture=[&](const std::string& name) {
         const auto deadline=Clock::now()+std::chrono::seconds(3);
         do {
-            window.PollInt(); const auto frame=renderer.Render(id++,view(),{},nullptr,true).result;
+            window.PollInt(); const auto frame=renderer.Render(id++,view(),{},true).result;
             if (frame.status==FrameStatus::Skipped) {
                 Check(frame.skip_reason==FrameSkipReason::ZeroExtent || frame.skip_reason==FrameSkipReason::Occluded,"unexpected capture skip");
                 report["capture_skips"]=++capture_skips; window.WaitEvents(.01); continue;

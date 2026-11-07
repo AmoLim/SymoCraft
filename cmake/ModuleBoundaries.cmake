@@ -35,7 +35,7 @@ set(SYMOCRAFT_RENDERER_BACKEND_TARGETS
 set(SYMOCRAFT_RENDERER_TARGETS symocraft_renderer ${SYMOCRAFT_RENDERER_INTERFACE_TARGETS}
     symocraft_renderer_legacy_opengl ${SYMOCRAFT_RENDERER_BACKEND_TARGETS})
 set(SYMOCRAFT_RENDERER_LEGACY_SOURCES
-    legacy_renderer.cpp shader.cpp shader_program.cpp texture.cpp gpu_timer.cpp performance_memory.cpp)
+    legacy_renderer.cpp shader.cpp shader_program.cpp texture.cpp)
 
 function(symocraft_check_source_file root module source)
     file(READ "${source}" content)

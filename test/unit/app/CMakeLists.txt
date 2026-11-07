@@ -3,11 +3,6 @@ target_include_directories(startup_options_tests PRIVATE "${SYMOCRAFT_REPOSITORY
 add_test(NAME core.startup_options COMMAND startup_options_tests)
 set_tests_properties(core.startup_options PROPERTIES TIMEOUT 45)
 
-symocraft_test_executable(foreground_readiness_tests foreground_readiness_tests.cpp)
-target_include_directories(foreground_readiness_tests PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/game/app/src")
-add_test(NAME app.foreground_readiness COMMAND foreground_readiness_tests)
-set_tests_properties(app.foreground_readiness PROPERTIES TIMEOUT 15)
-
 symocraft_test_executable(cleanup_sequence_tests cleanup_sequence_tests.cpp)
 target_include_directories(cleanup_sequence_tests PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/game/app/src")
 add_test(NAME core.cleanup_sequence COMMAND cleanup_sequence_tests)
@@ -25,6 +20,14 @@ target_include_directories(app_scenario_tests PRIVATE "${SYMOCRAFT_REPOSITORY_RO
 add_test(NAME app.scenario_and_reports COMMAND app_scenario_tests "${SYMOCRAFT_REPOSITORY_ROOT}/assets/configs/blockFormats.yaml")
 set_tests_properties(app.scenario_and_reports PROPERTIES TIMEOUT 45)
 if(TARGET symocraft_application)
+    symocraft_test_executable(app_profile_scenario_probe profile_scenario_probe.cpp
+        symocraft_application symocraft_startup symocraft_simulation symocraft_telemetry SDL3::SDL3-static)
+    target_compile_definitions(app_profile_scenario_probe PRIVATE SDL_MAIN_HANDLED)
+    target_include_directories(app_profile_scenario_probe PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/game/app/src")
+    set_target_properties(app_profile_scenario_probe PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+    symocraft_stage_assets(app_profile_scenario_probe)
+    add_dependencies(app_profile_scenario_probe SymoCraft)
+    # Explicit bounded native/window checks; never an unattended CTest GUI task.
     symocraft_test_executable(application_lifecycle_probe application_probe.cpp symocraft_application
         symocraft_startup symocraft_telemetry symocraft_foundation symocraft_document_io)
     target_include_directories(application_lifecycle_probe PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/game/app/src")

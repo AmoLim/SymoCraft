@@ -170,7 +170,6 @@ Value InfoDocument(const RendererInfo& info) {
     value["capabilities"]["texture_arrays"] = info.capabilities.texture_arrays;
     value["capabilities"]["selection_boxes"] = info.capabilities.selection_boxes;
     value["capabilities"]["screenshots"] = info.capabilities.screenshots;
-    value["capabilities"]["gpu_timestamps"] = info.capabilities.gpu_timestamps;
     return value;
 }
 
@@ -417,9 +416,6 @@ public:
         row["frame_id"] = result.frame_id;
         row["status"] = result.status == FrameStatus::Presented ? "Presented" : "Skipped";
         row["skip_reason"] = static_cast<std::uint32_t>(result.skip_reason);
-        row["cpu_prepare_ns"] = result.statistics.cpu_prepare.count();
-        row["cpu_submit_ns"] = result.statistics.cpu_submit.count();
-        row["present_wait_ns"] = result.statistics.present_wait.count();
         row["upload_bytes"] = result.statistics.upload_bytes;
         row["draw_calls"] = result.statistics.draw_calls;
         row["drawn_vertices"] = result.statistics.drawn_vertices;
@@ -429,7 +425,6 @@ public:
         report_.Check(result.frame_id == frame.frame_id, std::string(name) + ": exact frame association");
         if (result.status == FrameStatus::Presented) {
             submitted_.insert(frame.frame_id);
-            if (result.statistics.draw_calls > 0) drawn_.insert(frame.frame_id);
             report_.Check(result.skip_reason == FrameSkipReason::None, std::string(name) + ": presented has no skip reason");
             report_.Check(result.screenshot.has_value() == screenshot, std::string(name) + ": screenshot request association");
             if (result.screenshot) {
@@ -445,41 +440,10 @@ public:
             report_.Check(result.skip_reason != FrameSkipReason::None && !result.screenshot,
                 std::string(name) + ": skipped frame has explicit reason and no fake screenshot");
         }
-        Poll();
         return result;
     }
 
-    void Poll() {
-        for (const auto& sample : renderer_.PollGpuSamples()) {
-            Value row;
-            row["frame_id"] = sample.frame_id;
-            row["valid"] = sample.valid;
-            row["missing_reason"] = static_cast<std::uint32_t>(sample.missing_reason);
-            row["gpu_draw_time_ns"] = sample.gpu_draw_time ? Value{sample.gpu_draw_time->count()} : Value{};
-            report_.value["gpu_samples"].push_back(std::move(row));
-            report_.Check(submitted_.contains(sample.frame_id), "GPU sample maps to an actually presented sparse frame ID");
-            report_.Check(received_.insert(sample.frame_id).second, "GPU sample frame ID is delivered once");
-            report_.Check(sample.valid && sample.missing_reason == GpuSampleMissingReason::None &&
-                sample.gpu_draw_time && sample.gpu_draw_time->count() >= 0,
-                "ready GPU sample has an actual nonnegative duration; missing samples are never replaced by zero");
-            if (drawn_.contains(sample.frame_id) && sample.gpu_draw_time->count() > 0) ++positive_draw_samples_;
-        }
-    }
 
-    void Drain() {
-        const auto deadline = Clock::now() + std::chrono::seconds{5};
-        while (received_.size() != submitted_.size() && Clock::now() < deadline) {
-            window_.PollInt();
-            Poll();
-            std::this_thread::sleep_for(std::chrono::milliseconds{5});
-        }
-        report_.value["presented_sparse_frame_ids"] = Value::Sequence{};
-        for (const auto id : submitted_) report_.value["presented_sparse_frame_ids"].push_back(id);
-        report_.Check(submitted_ == received_, "bounded drain associates every measured GPU sample with exact submitted IDs");
-        report_.value["positive_nonempty_draw_samples"] = positive_draw_samples_;
-        report_.Check(positive_draw_samples_ > 0,
-            "at least one nonempty native draw has a positive measured GPU interval; samples are not fixed zero");
-    }
 
     std::uint64_t NextId() {
         static constexpr std::array<std::uint64_t, 4> increments{7, 29, 1009, 100003};
@@ -494,9 +458,6 @@ private:
     std::uint64_t serial_ = 0;
     std::size_t step_ = 0;
     std::set<std::uint64_t> submitted_;
-    std::set<std::uint64_t> received_;
-    std::set<std::uint64_t> drawn_;
-    std::uint64_t positive_draw_samples_ = 0;
 };
 
 const Screenshot& Capture(const FrameResult& result) {
@@ -543,8 +504,8 @@ void RunNormal(const Options& options, Window& window, Report& report) {
     report.Check(initial.actual_samples == options.samples, "actual sample count equals request without silent fallback");
     report.Check(initial.actual_present_mode == (options.vsync ? PresentMode::Fifo : PresentMode::Immediate),
         "initial actual present mode matches requested VSync");
-    report.Check(initial.capabilities.texture_arrays && initial.capabilities.selection_boxes &&
-        initial.capabilities.screenshots && initial.capabilities.gpu_timestamps, "native implemented capabilities are available");
+    report.Check(initial.capabilities.texture_arrays && initial.capabilities.selection_boxes && initial.capabilities.screenshots,
+        "native implemented drawing and screenshot capabilities are available");
     const auto initial_drawable = Drawable(window);
     report.Check(initial.framebuffer_extent.width == initial_drawable.width && initial.framebuffer_extent.height == initial_drawable.height,
         "initial framebuffer reports drawable pixels rather than logical request");
@@ -840,9 +801,7 @@ void RunNormal(const Options& options, Window& window, Report& report) {
         NearColor(WorldPixel(Capture(fov_retry), -0.5f, 0.5f), Red),
         "Unsupported matrix is nonfatal and preserves frame ID for a corrected native retry");
 
-    report.value["async_timestamp_screenshot_requested"] = false;
     for (int index = 0; index < 5; ++index) session.Render("async-" + std::to_string(index), {Draw(replacement_mesh, replacement_texture)}, false);
-    session.Drain();
     report.value["final_backend_info"] = InfoDocument(renderer.GetInfo());
     const auto shutdown_begin = Clock::now();
     renderer.Shutdown();
@@ -899,7 +858,6 @@ void RunConstructionFailure(const Options& options, Window& window, Report& repo
     const auto recovery = session.Render("constructor-recovery", {Draw(mesh, texture)});
     report.Check(NearColor(WorldPixel(Capture(recovery), -0.5f, 0.5f), Red),
         "good shaders initialize and draw on the same borrowed window after repeated constructor failures");
-    session.Drain();
     recovered.Shutdown();
     recovered.Shutdown();
 }

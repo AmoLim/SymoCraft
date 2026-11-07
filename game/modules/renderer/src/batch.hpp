@@ -7,9 +7,7 @@
 #include <limits>
 #include <stdexcept>
 #include <type_traits>
-#include <chrono>
 #include <symocraft/renderer/render_stats.h>
-#include <symocraft/renderer/gpu_timer.h>
 
 namespace SymoCraft{
 
@@ -103,16 +101,14 @@ namespace SymoCraft{
             m_dirty = true;
         }
 
-        void Draw(RenderStats* stats = nullptr, GpuTimer* timer = nullptr)
+        void Draw(RenderStats* stats = nullptr)
         {
             RequireInitialized();
             if (data.empty())
                 return;
             ReloadData(stats);
             glBindVertexArray(m_vao);
-            if (timer) timer->BeginDraw();
             glDrawArrays(m_primitive_type, 0, static_cast<GLsizei>(data.size()));
-            if (timer) timer->EndDraw();
             if (stats) { stats->vertices += data.size(); ++stats->draw_calls; }
             glBindVertexArray(0);
 
@@ -123,12 +119,10 @@ namespace SymoCraft{
         {
             RequireInitialized();
             if (m_dirty && !data.empty()) {
-                const auto start = stats ? std::chrono::steady_clock::now() : std::chrono::steady_clock::time_point{};
                 glNamedBufferSubData(m_vertex_data_vbo, 0,
                     static_cast<GLsizeiptr>(data.size() * sizeof(T)), data.data());
                 if (stats) {
                     stats->upload_bytes += data.size() * sizeof(T);
-                    stats->upload_cpu_ms += std::chrono::duration<double, std::milli>(std::chrono::steady_clock::now() - start).count();
                 }
             }
             m_dirty = false;

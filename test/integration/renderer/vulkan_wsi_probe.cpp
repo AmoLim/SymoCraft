@@ -105,10 +105,13 @@ int main(int argc, char** argv) {
                 auto texture = renderer.CreateTextureArray(atlas);
                 std::array<MeshDraw,1> draws{{{mesh,texture,glm::mat4(1)}}};
                 FrameInput frame; frame.draws = draws; frame.camera.position = {0,0,4};
-                std::set<uint64_t> ids, delivered;
+                std::set<uint64_t> ids;
                 const auto render = [&] {
                     window->PollInt(); frame.frame_id++; frame.request_screenshot = true;
-                    ids.insert(frame.frame_id); return renderer.Render(frame);
+                    ids.insert(frame.frame_id);
+                    auto result = renderer.Render(frame);
+                    Require(result.frame_id == frame.frame_id, "WSI result lost exact input frame identity");
+                    return result;
                 };
                 auto baseline = render();
                 Require(baseline.status == FrameStatus::Presented && baseline.screenshot, "baseline did not present");
@@ -153,14 +156,7 @@ int main(int argc, char** argv) {
                     report["events"].push_back(std::move(event));
                     Assets::WritePng(output/("recovered-"+std::to_string(repeat)+".png"),640,480,4,recovered.screenshot->pixels);
                 }
-                for (const auto& sample : renderer.PollGpuSamples()) {
-                    Require(ids.contains(sample.frame_id) && delivered.insert(sample.frame_id).second, "invalid/duplicate sample ID");
-                    Require(sample.valid ? sample.gpu_draw_time.has_value() :
-                        (mode == "acquire-out-of-date" && sample.missing_reason == GpuSampleMissingReason::Discarded),
-                        "unexpected WSI sample reason");
-                }
-                Require(ids == delivered, "WSI sample identities lost");
-                report["sample_ids_complete"] = true;
+                report["frame_identities_checked"] = true;
                 renderer.DestroyMesh(mesh); renderer.DestroyTextureArray(texture);
                 renderer.Shutdown(); renderer.Shutdown();
             }

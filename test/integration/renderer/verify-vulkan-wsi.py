@@ -26,7 +26,7 @@ def validate(mode, report):
         return
     require(report.get("device") == "NVIDIA GeForce RTX 5070 Ti" and report.get("identity") and
             report.get("driver") and report.get("api") and report.get("device_creations") == 1 and
-            report.get("swapchain_creations") == 4 and report.get("sample_ids_complete") is True and
+            report.get("swapchain_creations") == 4 and report.get("frame_identities_checked") is True and
             report.get("validation_enabled") is True and report.get("samples") == 1 and report.get("present_mode") == "Immediate",
             "Actual native configuration/identities incomplete")
     events = report.get("events", [])

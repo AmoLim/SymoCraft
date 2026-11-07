@@ -32,11 +32,9 @@ static_assert(std::is_same_v<decltype(&Renderer::Render), FrameResult (Renderer:
 static_assert(std::is_same_v<decltype(&Renderer::Resize), void (Renderer::*)(Extent2D)>);
 static_assert(std::is_same_v<decltype(&Renderer::SetVSync), void (Renderer::*)(bool)>);
 static_assert(std::is_same_v<decltype(&Renderer::GetInfo), RendererInfo (Renderer::*)() const>);
-static_assert(std::is_same_v<decltype(&Renderer::PollGpuSamples), std::vector<GpuFrameSample> (Renderer::*)()>);
 static_assert(std::is_same_v<decltype(&Renderer::Shutdown), void (Renderer::*)()>);
 static_assert(std::is_same_v<decltype(Screenshot::pixels), std::vector<std::uint8_t>>);
 static_assert(std::is_same_v<decltype(FrameInput::draws), std::span<const MeshDraw>>);
-static_assert(std::is_same_v<decltype(GpuFrameSample::gpu_draw_time), std::optional<std::chrono::nanoseconds>>);
 
 namespace {
     void ConstructAndDestroy(SymoCraft::Window& window, const RendererConfig& config)
@@ -55,14 +53,13 @@ namespace {
     auto volatile resize = &Renderer::Resize;
     auto volatile set_vsync = &Renderer::SetVSync;
     auto volatile get_info = &Renderer::GetInfo;
-    auto volatile poll_samples = &Renderer::PollGpuSamples;
     auto volatile shutdown = &Renderer::Shutdown;
 }
 
 int main()
 {
     if (!construct_probe || !create_mesh || !update_mesh || !destroy_mesh || !create_texture ||
-        !destroy_texture || !render_frame || !resize || !set_vsync || !get_info || !poll_samples || !shutdown)
+        !destroy_texture || !render_frame || !resize || !set_vsync || !get_info || !shutdown)
         return 1;
 
     const MeshHandle mesh;

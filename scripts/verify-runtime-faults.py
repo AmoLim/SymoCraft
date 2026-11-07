@@ -42,7 +42,7 @@ def verify(executable, output_directory):
         evidence = fixture / "evidence"
         probe = subprocess.run([sys.executable, str(Path(__file__).with_name("verify-runtime.py")),
                                 "--executable", str(fixture_executable), "--output-directory", str(evidence),
-                                "--frames", "1", "--expected-exit-code", "3"], capture_output=True, text=True, encoding="utf-8", errors="replace")
+                                "--frames", "1", "--expected-exit-code", "3", "--renderer", "opengl"], capture_output=True, text=True, encoding="utf-8", errors="replace")
         issues = []
         if probe.returncode:
             issues.append(f"Runtime probe failed: {probe.stderr.strip()}")
@@ -56,9 +56,12 @@ def verify(executable, output_directory):
             issues.append("The runtime probe did not produce result.json.")
         stdout = read_log(evidence / "stdout.log") if (evidence / "stdout.log").is_file() else ""
         stderr = read_log(evidence / "stderr.log") if (evidence / "stderr.log").is_file() else ""
-        for marker in ("OpenGL vendor:", "OpenGL renderer:", "OpenGL version:"):
-            if marker not in stdout:
-                issues.append(f"Missing proof of actual OpenGL initialization: {marker}")
+        graphics_required = name != "empty-block-configuration"
+        gl_initialized = all(marker in stdout for marker in ("OpenGL vendor:", "OpenGL renderer:", "OpenGL version:"))
+        if graphics_required and not gl_initialized:
+            issues.append("Missing proof of actual OpenGL initialization for shader/image fault.")
+        if not graphics_required and (gl_initialized or "Monitor size:" in stdout):
+            issues.append("Invalid block configuration was not rejected in CPU preflight before window creation.")
         if "[runtime] fatal:" not in stderr or diagnostic not in stderr:
             issues.append(f"Missing expected fault diagnostic: {diagnostic}")
         if "[runtime] shutdown complete; exit_code=3" not in stdout:
@@ -68,6 +71,7 @@ def verify(executable, output_directory):
             issues.append("The source asset changed during the probe; investigate before accepting this evidence.")
         result = {"case": name, "modifiedFixtureAsset": str(fault_file), "expectedDiagnostic": diagnostic,
                   "sourceSha256Before": hashes[asset], "sourceSha256After": after, "runtimeResult": runtime,
+                  "actualGlInitialized": gl_initialized, "cpuPreflightFailure": not graphics_required,
                   "passed": not issues, "issues": issues}
         write_json(fixture / "fault-result.json", result)
         results.append(result)

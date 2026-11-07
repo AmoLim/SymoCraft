@@ -23,11 +23,6 @@ if(TARGET symocraft_renderer_vulkan)
     add_test(NAME renderer.vulkan_buffer_basic COMMAND renderer_vulkan_buffer_basic_tests)
     set_tests_properties(renderer.vulkan_buffer_basic PROPERTIES TIMEOUT 15)
 endif()
-symocraft_test_executable(renderer_frame_diagnostics_tests frame_diagnostics_tests.cpp)
-target_include_directories(renderer_frame_diagnostics_tests PRIVATE
-    "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/renderer/src")
-add_test(NAME renderer.frame_diagnostics COMMAND renderer_frame_diagnostics_tests)
-set_tests_properties(renderer.frame_diagnostics PROPERTIES TIMEOUT 15)
 target_include_directories(renderer_facade_tests PRIVATE
     "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/renderer/src")
 add_test(NAME renderer.public_api_consumer COMMAND renderer_public_api_consumer)
@@ -39,7 +34,6 @@ if(NOT TARGET symocraft_renderer_legacy_opengl)
 endif()
 symocraft_test_executable(shader_loading_tests shader_loading_tests.cpp symocraft_renderer_legacy_opengl symocraft_glad)
 symocraft_test_executable(batch_safety_tests batch_safety_tests.cpp symocraft_renderer_legacy_opengl symocraft_glad symocraft_world)
-symocraft_test_executable(gpu_timer_tests gpu_timer_tests.cpp symocraft_renderer_legacy_opengl symocraft_glad)
 foreach(target IN ITEMS shader_loading_tests batch_safety_tests)
     # Existing GLAD function-pointer substitution is restricted to renderer white-box suites.
     target_include_directories(${target} PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/renderer/src")
@@ -51,5 +45,4 @@ add_test(NAME renderer.shader_loading COMMAND shader_loading_tests
     "${CMAKE_CURRENT_BINARY_DIR}/empty-shader.glsl")
 add_test(NAME renderer.batch_safety COMMAND batch_safety_tests
     "${SYMOCRAFT_REPOSITORY_ROOT}/assets/configs/blockFormats.yaml")
-add_test(NAME performance.gpu_timer COMMAND gpu_timer_tests)
-set_tests_properties(renderer.shader_loading renderer.batch_safety performance.gpu_timer PROPERTIES TIMEOUT 45)
+set_tests_properties(renderer.shader_loading renderer.batch_safety PROPERTIES TIMEOUT 45)

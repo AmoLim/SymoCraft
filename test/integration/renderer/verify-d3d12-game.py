@@ -1,26 +1,29 @@
 """Short real complete-world workloads, not manual gameplay acceptance."""
 import argparse
-import csv
 from pathlib import Path
 import sys
+import re
 import uuid
 sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "scripts"))
 from verification_common import ROOT, assert_hash, capture, clean_environment, cli, evidence_sources, file_path, files, identity, load_json, new_directory, option, read_log, require, utc_now, workspace_path, write_json
 from scripts_common import integer
 
 
-def validate_frames(frames, backend, workload):
-    require(frames, "No actual frame records.")
-    if backend == "d3d12":
-        ids = [r["renderer_frame_id"] for r in frames]
-        require(all(ids) and len(ids) == len(set(ids)), "Renderer frame IDs are not unique and explicit.")
-        uploads = [r for r in frames if int(r["resource_upload_bytes"]) > 0]
-        require(bool(uploads) == (workload == "edit"), "Real edits must update geometry; unchanged worlds must not reupload.")
-        for row in frames:
-            require(bool(row["gpu_draw_ms"]) != bool(row["gpu_missing_reason"]), "GPU duration/missing reason inconsistent.")
-            require(int(row["upload_calls"]) == int(row["rebuilt_chunks"]), "Cache operations differ from published rebuilds.")
-    if workload == "walk":
-        require(len({r["x"] for r in frames}) >= 2, "Actual player did not move.")
+def validate_run(stdout, stderr, backend, workload):
+    """Check real console facts; pose/edit correctness lives in the native probes."""
+    expected = "D3D12" if backend == "d3d12" else "OpenGL"
+    match = re.search(r"\[runtime\] loop finished; rendered_frames=(\d+);", stdout)
+    require(match and int(match[1]) > 0, "No actual rendered frames.")
+    require("[runtime] ready; chunks=441" in stdout, "Complete fixed world was not ready.")
+    require(f"[scenario] completed; name={workload};" in stdout, "Scenario did not complete.")
+    checkpoint = "spawn" if workload == "walk" else "four-chunk"
+    require(f"[scenario] initial; checkpoint={checkpoint}" in stdout, "Wrong initial checkpoint.")
+    require(f"[renderer] backend={expected};" in stdout, "Wrong actual backend.")
+    require("[runtime] shutdown complete; exit_code=0" in stdout, "Normal cleanup missing.")
+    require("[runtime] fatal:" not in stderr and "Debug Layer warning/error" not in stderr
+            and "[performance]" not in stdout, "Run failed or used the retired collector.")
+    return {"backend": expected, "rendered_frames": int(match[1]), "checkpoint": checkpoint,
+            "scenario_completed": True, "performance_collector": False}
 
 
 def main():
@@ -30,14 +33,13 @@ def main():
     option(parser, "IncludeOpenGLComparison", action="store_true")
     option(parser, "ProcessTimeoutSeconds", type=integer(30, 300), default=180)
     args = parser.parse_args()
-    build = workspace_path(args.BuildDirectory, ROOT / "out/m3-t3")
+    build = workspace_path(args.BuildDirectory, ROOT / "out")
     exe = file_path(build / "bin/SymoCraft.exe")
-    probe = file_path(build / "test/integration/renderer_game_report_probe.exe")
-    inputs = [identity(p) for p in [exe, probe, build / "CMakeCache.txt", *files(build / "bin/assets")]]
+    inputs = [identity(p) for p in [exe, build / "CMakeCache.txt", *files(build / "bin/assets")]]
     sources = evidence_sources([ROOT / p for p in ("game", "cmake", "test/integration/renderer", "assets/shaders")], [ROOT / "CMakeLists.txt"])
-    output = new_directory(workspace_path(args.OutputDirectory, ROOT / "out/m3-t3"))
+    output = new_directory(workspace_path(args.OutputDirectory, ROOT / "out"))
     workdir = new_directory(output / "unrelated-cwd")
-    manifest = {"schema": "symocraft.t3.r2-step3-game-verification", "version": 1, "run_id": str(uuid.uuid4()), "started_utc": utc_now(), "finished_utc": None,
+    manifest = {"schema": "symocraft.t3.r2-step3-game-verification", "version": 2, "run_id": str(uuid.uuid4()), "started_utc": utc_now(), "finished_utc": None,
                 "source_identity": sources, "input_identity": inputs, "process_timeout_seconds": args.ProcessTimeoutSeconds, "cases": [], "success": False,
                 "fixed_complete_world_short_workloads": True, "manual_gameplay_acceptance": False, "fifteen_minute_session": False,
                 "actual_device_lost_exercised": False, "actual_in_flight_timeout_exercised": False, "installed_package_acceptance": False,
@@ -60,20 +62,12 @@ def main():
         for backend in ["d3d12"] + (["opengl"] if args.IncludeOpenGLComparison else []):
             for workload, duration in (("static", "2"), ("walk", "3"), ("edit", "9")):
                 name = backend + "-" + workload
-                directory = output / name
-                arguments = ["--renderer", backend, "--benchmark", workload, "--output", directory, "--seed", "424242", "--width", "1920", "--height", "1080",
-                             "--vsync", "0", "--warmup-seconds", "0", "--sample-seconds", duration, "--focus-policy", "allow-unfocused"] + (["--msaa", "4", "--validation", "1"] if backend == "d3d12" else [])
+                arguments = ["--renderer", backend, "--profile-scenario", workload, "--scenario-seconds", duration,
+                             "--seed", "424242", "--width", "1920", "--height", "1080", "--vsync", "0"] + (["--msaa", "4", "--validation", "1"] if backend == "d3d12" else [])
                 row = run(name, arguments, 0)
                 if row["success"]:
-                    expected = "D3D12" if backend == "d3d12" else "OpenGL"
-                    actual = capture(probe, [directory, expected, workload], ROOT, output / (name + ".probe.json"), output / (name + ".probe.stderr.log"), 30)
-                    row["success"] = not actual["timed_out"] and actual["exit_code"] == 0
-                    if row["success"]:
-                        row["observation"] = load_json(output / (name + ".probe.json"))
-                        with (directory / "frames.csv").open(encoding="utf-8-sig", newline="") as stream:
-                            frames = list(csv.DictReader(stream))
-                        validate_frames(frames, backend, workload)
-                        row["observation"]["frame_rows"] = len(frames)
+                    row["observation"] = validate_run(read_log(row["stdout"]), read_log(row["stderr"]), backend, workload)
+                require(not list(workdir.iterdir()), "Game created unexpected files in the unrelated working directory.")
                 write_json(output / "verification.json", manifest)
         for entry in sources + inputs:
             assert_hash(entry["path"], entry["sha256"])

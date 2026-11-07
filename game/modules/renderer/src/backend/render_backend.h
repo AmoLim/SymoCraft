@@ -60,11 +60,6 @@ public:
     // A zero extent suspends presentation and never creates a zero-size swapchain.
     virtual void Resize(Extent2D extent) = 0;
     virtual void SetVSync(bool enabled) = 0;
-    // Only completed, previously accepted backend Render identities may appear.
-    // The backend owns exact query/frame association (including gaps in IDs),
-    // bounded pending-query storage, and discarded/unsupported sample reporting.
-    // Poll never waits, fabricates an identity, or invents a zero duration.
-    virtual std::vector<GpuFrameSample> PollGpuSamples() = 0;
     // Both shutdown paths must bound native waits using the configured timeout.
     // The fallback records diagnostics and never throws, even after device loss.
     virtual void Shutdown() = 0;

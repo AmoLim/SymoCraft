@@ -34,8 +34,7 @@ endif()
 
 if(SYMOCRAFT_BUILD_GAME AND SYMOCRAFT_RENDER_OPENGL)
     add_library(symocraft_renderer_legacy_opengl STATIC
-        src/legacy_renderer.cpp src/shader.cpp src/shader_program.cpp src/texture.cpp
-        src/gpu_timer.cpp src/performance_memory.cpp)
+        src/legacy_renderer.cpp src/shader.cpp src/shader_program.cpp src/texture.cpp)
     target_include_directories(symocraft_renderer_legacy_opengl PUBLIC
         "${CMAKE_CURRENT_SOURCE_DIR}/legacy/include" PRIVATE src
         "${CMAKE_CURRENT_SOURCE_DIR}/../platform/src/graphics_bridge")

@@ -3,7 +3,7 @@
 #include "game_entry.h"
 #include <symocraft/assets/asset_paths.h>
 #include "startup_options.h"
-#include <symocraft/telemetry/performance.h>
+#include <chrono>
 #include <symocraft/renderer/error.h>
 
 #include <iostream>
@@ -44,7 +44,7 @@ void PrintRenderError(const SymoCraft::Rendering::RenderError& error) {
 
 int SymoCraft::Application::RunGame(int argc, char* argv[])
 {
-    const auto entry = SymoCraft::Performance::Clock::now();
+    const auto entry = std::chrono::steady_clock::now();
     SymoCraft::StartupOptions options;
     try {
         std::vector<std::string_view> arguments;
@@ -100,7 +100,7 @@ int SymoCraft::Application::RunGame(int argc, char* argv[])
         try { shutdown = application->Shutdown(); }
         catch (const SymoCraft::Application::ShutdownError& error) {
             // The exception owns its report. Copy the values before its lifetime ends,
-            // then join this path with successful Shutdown before sealing observations.
+            // then join this path with successful Shutdown before choosing the exit result.
             shutdown = error.Report();
         } catch (...) {
             auto& item = shutdown.items[static_cast<std::size_t>(SymoCraft::Application::ShutdownStep::Runtime)];
@@ -108,9 +108,6 @@ int SymoCraft::Application::RunGame(int argc, char* argv[])
         }
     }
     try {
-    SymoCraft::Performance::FinalFacts facts;
-    facts.runtime_succeeded = exit_code == 0;
-    facts.shutdown_succeeded = shutdown.Succeeded();
     for (const auto& item : shutdown.items) {
         if (!item.error) continue;
         if (!first_failure) first_failure = item.error;
@@ -118,41 +115,12 @@ int SymoCraft::Application::RunGame(int argc, char* argv[])
         catch (const SymoCraft::Rendering::RenderError& error) { PrintRenderError(error); }
         catch (const std::exception& error) { std::cerr << "[runtime] shutdown failed: " << error.what() << '\n'; }
         catch (...) { std::cerr << "[runtime] shutdown failed: unexpected non-standard exception\n"; }
-        if (item.error != first_failure) {
-            try { std::rethrow_exception(item.error); }
-            catch (const std::exception& error) { facts.secondary_errors.emplace_back(error.what()); }
-            catch (...) { facts.secondary_errors.emplace_back("Unknown shutdown failure"); }
-        }
     }
     if (!shutdown.Succeeded()) exit_code = 3;
-    if (first_failure) {
-        try { std::rethrow_exception(first_failure); }
-        catch (const std::exception& error) { facts.first_error = error.what(); }
-        catch (...) { facts.first_error = "Unknown primary failure"; }
-    }
-    if (auto* performance = application ? application->Observation() : nullptr) {
-        try {
-            facts.completed = performance->Completed();
-            performance->Seal(facts);
-            const auto result = performance->Export();
-            if (result.state != SymoCraft::Performance::ExportState::Saved) {
-                std::cerr << "[performance] export failed: " << result.stage << "; path=" << result.path.string()
-                          << "; native=" << result.native_error.value() << "; " << result.diagnostic << '\n';
-                exit_code = 3;
-            } else {
-                std::cout << "[performance] exported; valid_run=" << result.valid_run << '\n';
-                if (!result.valid_run && exit_code == 0) exit_code = 4;
-            }
-        } catch (const std::exception& error) {
-            std::cerr << "[performance] finalization failed: " << error.what() << '\n'; exit_code = 3;
-        } catch (...) {
-            std::cerr << "[performance] finalization failed: unexpected non-standard exception\n"; exit_code = 3;
-        }
-    }
     } catch (const std::exception& error) {
-        std::cerr << "[runtime] final facts unavailable: " << error.what() << '\n'; exit_code = 3;
+        std::cerr << "[runtime] shutdown reporting failed: " << error.what() << '\n'; exit_code = 3;
     } catch (...) {
-        std::cerr << "[runtime] final facts unavailable: unexpected non-standard exception\n"; exit_code = 3;
+        std::cerr << "[runtime] shutdown reporting failed: unexpected non-standard exception\n"; exit_code = 3;
     }
     application.reset();
     AmoBase::AmoMemory_MemoryLeaksDetected();

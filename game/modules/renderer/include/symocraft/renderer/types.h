@@ -108,9 +108,6 @@ enum class FrameStatus { Presented, Skipped };
 enum class FrameSkipReason { None, ZeroExtent, Occluded };
 
 struct FrameStatistics {
-    std::chrono::nanoseconds cpu_prepare{};
-    std::chrono::nanoseconds cpu_submit{};
-    std::chrono::nanoseconds present_wait{};
     std::uint64_t upload_bytes = 0;
     std::uint64_t draw_calls = 0;
     std::uint64_t drawn_vertices = 0;
@@ -136,7 +133,6 @@ struct RendererCapabilities {
     bool texture_arrays = false;
     bool selection_boxes = false;
     bool screenshots = false;
-    bool gpu_timestamps = false;
 };
 
 struct RendererInfo {
@@ -151,16 +147,6 @@ struct RendererInfo {
     PresentMode actual_present_mode = PresentMode::Unknown;
     bool validation_enabled = false;
     RendererCapabilities capabilities;
-};
-
-enum class GpuSampleMissingReason { None, Unsupported, Discarded, DeviceFailure };
-
-struct GpuFrameSample {
-    std::uint64_t frame_id = 0;
-    bool valid = false;
-    // A missing or invalid duration is not a zero-cost sample.
-    std::optional<std::chrono::nanoseconds> gpu_draw_time;
-    GpuSampleMissingReason missing_reason = GpuSampleMissingReason::Discarded;
 };
 
 } // namespace SymoCraft::Rendering

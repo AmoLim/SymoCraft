@@ -48,7 +48,7 @@ def validate(mode, report, errors, log):
     if mode in {"submit", "device-lost", "texture-timeout", "frame-timeout"}:
         expected = (7, "-13") if mode == "submit" else (6, "-4") if mode == "device-lost" else (8, "2")
         require((report.get("first_category"), report.get("first_native_code")) == expected and
-                report.get("failed_rejections") == 4 and report.get("repeated_shutdown_not_success") is True and
+                report.get("failed_rejections") == 3 and report.get("repeated_shutdown_not_success") is True and
                 report.get("no_further_submit_or_present") is True, "Fatal category/Failed lifecycle/no-submit evidence mismatch")
     if "device-lost" in mode:
         require(report["last_actual_present_result"] == 0 and report["fault_kind"] == "injected DeviceLost after actual native Present",

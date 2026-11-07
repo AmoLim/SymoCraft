@@ -2,10 +2,6 @@ symocraft_test_executable(document_tests document_tests.cpp symocraft_foundation
 add_test(NAME foundation.document COMMAND document_tests "${CMAKE_CURRENT_BINARY_DIR}/document-probes")
 set_tests_properties(foundation.document PROPERTIES TIMEOUT 45)
 
-symocraft_test_executable(files_tests files_tests.cpp symocraft_foundation)
-add_test(NAME foundation.files COMMAND files_tests "${CMAKE_CURRENT_BINARY_DIR}/file-probes")
-set_tests_properties(foundation.files PROPERTIES TIMEOUT 45)
-
 symocraft_test_executable(memory_tests memory_tests.cpp symocraft_foundation)
 target_include_directories(memory_tests PRIVATE
     "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/foundation/src/allocation_diagnostics")

@@ -150,7 +150,7 @@ void Run(const std::string& mode, Window& window, const std::filesystem::path& s
         Require(FAILED(access->device->GetDeviceRemovedReason()), "Runtime device was not removed");
         report["controlled_native_device_removal"] = true;
         report["spontaneous_hardware_device_loss"] = false;
-        Expect(RenderErrorCategory::DeviceLost, [&] { renderer.PollGpuSamples(); }, report["primary"]);
+        Expect(RenderErrorCategory::DeviceLost, [&] { renderer.CreateMesh(mesh); }, report["primary"]);
         Expect(RenderErrorCategory::InvalidState, [&] { renderer.CreateMesh(mesh); }, report["continuation_rejected"]);
         try { renderer.Shutdown(); report["cleanup_reported_error"] = false; }
         catch (const RenderError& error) {

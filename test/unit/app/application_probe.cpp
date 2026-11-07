@@ -1,7 +1,6 @@
 #include "application.h"
 #include "application_probe.h"
 #include "startup_options.h"
-#include <symocraft/foundation/document_io.h>
 #include <symocraft/foundation/memory.h>
 #include <filesystem>
 #include <iostream>
@@ -11,7 +10,6 @@
 namespace {
     using namespace SymoCraft;
     namespace App = SymoCraft::Application;
-    unsigned export_failures = 0;
     void Require(bool value, const char* message) { if (!value) throw std::runtime_error(message); }
     struct Fault {
         App::Detail::AssemblyStage stage;
@@ -26,20 +24,6 @@ namespace {
             return error.Report(); // Copy ownership beyond the exception object.
         }
     }
-    void Export(App::Application& app, bool runtime_ok, bool shutdown_ok) {
-        auto* record = app.Observation(); Require(record != nullptr, "Partial assembly lost its observation owner");
-        record->Seal({runtime_ok, shutdown_ok, record->Completed(), runtime_ok ? "" : "controlled assembly failure", {}});
-        const auto receipt = record->Export();
-        if (receipt.state != Performance::ExportState::Saved) {
-            ++export_failures;
-            std::cerr << "Lifecycle export failed: stage=" << receipt.stage
-                << "; native_code=" << receipt.native_error.value()
-                << "; category=" << receipt.native_error.category().name()
-                << "; diagnostic=" << receipt.diagnostic << '\n';
-            return; // Keep the export failure while checking the remaining independent cleanup paths.
-        }
-        Require(!receipt.valid_run, "Incomplete diagnostic run was marked valid");
-    }
 }
 int main(int argc, char** argv) {
     using namespace SymoCraft;
@@ -49,13 +33,12 @@ int main(int argc, char** argv) {
         Require(std::filesystem::create_directory(parent), "Probe output must be new with an existing parent");
         AmoBase::AmoMemory_Init(true, 1024);
         for (int point = 0; point < static_cast<int>(App::Detail::AssemblyStage::Count); ++point) {
-            std::string renderer = argv[1], output = (parent / ("assembly-" + std::to_string(point))).string();
+            std::string renderer = argv[1], scenario = "static", output = (parent / ("assembly-" + std::to_string(point))).string();
             StartupOptions options;
-            options.renderer = renderer; options.benchmark = "static"; options.output_directory = output;
-            options.focus_policy = "allow-unfocused"; options.warmup_seconds = 0; options.sample_seconds = 1;
+            options.renderer = renderer; options.profile_scenario = scenario; options.scenario_seconds = 1;
             options.seed = 424242; options.regression_scene = true; options.frame_limit = 1;
-            App::Application app(options, Performance::Clock::now());
-            renderer = "invalid-mutated-caller-storage"; output = "invalid-mutated-caller-storage";
+            App::Application app(options, std::chrono::steady_clock::now());
+            renderer = "invalid-mutated-caller-storage"; scenario = "invalid-mutated-caller-storage"; output = "invalid-mutated-caller-storage";
             Fault fault{static_cast<App::Detail::AssemblyStage>(point)};
             App::Detail::SetAssemblyProbe([](void* context, App::Detail::AssemblyStage stage) {
                 auto& fault = *static_cast<Fault*>(context);
@@ -72,14 +55,14 @@ int main(int argc, char** argv) {
             Require(first.Succeeded() && repeated.Succeeded(), "Partial assembly did not close applicable owners");
             for (std::size_t i = 0; i < first.items.size(); ++i)
                 Require(first.items[i].fact == repeated.items[i].fact, "Repeated close changed cached facts");
-            Export(app, false, true); Close(app);
+            Require(app.DebugValues().state == Telemetry::DebugState::Paused, "Partial cleanup left rates active");
+            Close(app);
         }
         const std::string output = (parent / "shutdown-failure").string();
         StartupOptions options;
-        options.renderer = argv[1]; options.benchmark = "static"; options.output_directory = output;
-        options.focus_policy = "allow-unfocused"; options.warmup_seconds = 0; options.sample_seconds = 1;
+        options.renderer = argv[1]; options.profile_scenario = "static"; options.scenario_seconds = 1;
         options.seed = 424242; options.regression_scene = true; options.frame_limit = 1;
-        App::Application app(options, Performance::Clock::now());
+        App::Application app(options, std::chrono::steady_clock::now());
         app.Initialize(); app.Run();
         Fault shutdown_fault{};
         App::Detail::SetShutdownProbe([](void* context, App::ShutdownStep step) {
@@ -99,10 +82,10 @@ int main(int argc, char** argv) {
             "Window secondary diagnostic skipped Runtime cleanup");
         try { std::rethrow_exception(failed.items[index].error); }
         catch (const std::system_error& error) { Require(error.code().value() == 32, "Shutdown report lost original code"); }
-        Export(app, true, false); Close(app, true);
-        std::cout << "Real Application: ten owned-stage failures, repeated cleanup, caller-string lifetime and owned shutdown error passed; injected errors are controlled, not hardware failures; export_failures="
-            << export_failures << '\n';
-        return export_failures ? 1 : 0;
+        Close(app, true);
+        std::cout << "Real Application: ten owned-stage failures, repeated cleanup, caller-string lifetime and owned shutdown error passed; injected errors are controlled, not hardware failures" << '\n';
+        Require(std::filesystem::is_empty(parent), "Lifecycle cleanup created old performance files");
+        return 0;
     } catch (const std::exception& error) {
         App::Detail::SetAssemblyProbe(nullptr, nullptr); App::Detail::SetShutdownProbe(nullptr, nullptr);
         std::cerr << error.what() << '\n'; return 1;

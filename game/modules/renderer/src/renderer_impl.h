@@ -29,7 +29,6 @@ public:
     void Resize(Extent2D extent);
     void SetVSync(bool enabled);
     RendererInfo GetInfo() const;
-    std::vector<GpuFrameSample> PollGpuSamples();
     void Shutdown();
 
 private:
@@ -82,8 +81,6 @@ private:
     mutable bool in_call_ = false;
     bool has_frame_ = false;
     std::uint64_t last_frame_id_ = 0;
-    bool has_backend_frame_ = false;
-    std::uint64_t last_backend_frame_id_ = 0;
 };
 
 } // namespace SymoCraft::Rendering::Detail

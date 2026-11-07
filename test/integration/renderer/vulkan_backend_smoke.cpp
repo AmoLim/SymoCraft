@@ -80,7 +80,7 @@ int main(int argc, char** argv) {
             const auto srgb = renderer.CreateTextureArray(Atlas(ColorSpace::SRGB));
             std::array<MeshDraw,1> draws{{{mesh,linear,glm::mat4(1)}}};
             FrameInput frame; frame.camera.position = {0,0,4}; frame.draws = draws; uint64_t id = 0;
-            std::set<uint64_t> submitted, sampled;
+            std::set<uint64_t> submitted;
             const auto render = [&](bool capture) {
                 window->PollInt(); frame.frame_id = id++; frame.request_screenshot = capture;
                 auto result = renderer.Render(frame); Require(result.status == FrameStatus::Presented, "frame did not present");
@@ -111,16 +111,11 @@ int main(int argc, char** argv) {
             renderer.Resize({static_cast<uint32_t>(window->Width()),static_cast<uint32_t>(window->Height())});
             renderer.SetVSync(true); Require(renderer.GetInfo().actual_present_mode == PresentMode::Fifo,"FIFO not reported"); render(true);
             renderer.SetVSync(false); for (int i=0;i<8;++i) render(false);
-            // One capture retires the graphics queue without adding a wait to PollGpuSamples.
+            // Readback has its own completion wait; no timing collector is involved.
             render(true);
-            for (auto sample : renderer.PollGpuSamples()) {
-                Require(submitted.contains(sample.frame_id) && sampled.insert(sample.frame_id).second,"query ID missing/duplicate");
-                Require(sample.valid && sample.gpu_draw_time && sample.gpu_draw_time->count() >= 0,"missing native query");
-            }
-            Require(sampled.size() == submitted.size(),"submitted/query frame IDs differ");
             renderer.DestroyMesh(mesh); renderer.DestroyTextureArray(linear); renderer.DestroyTextureArray(srgb);
             renderer.Shutdown(); renderer.Shutdown();
-            std::cout << "saved_captures=4; mesh_update_empty_destroy=passed; resize_zero_restore=passed; vsync=passed; gpu_samples=" << sampled.size() << "; shutdown=passed\n";
+            std::cout << "saved_captures=4; mesh_update_empty_destroy=passed; resize_zero_restore=passed; vsync=passed; presented_frames=" << submitted.size() << "; shutdown=passed\n";
         }
         window->Destroy(); window.reset(); runtime.Shutdown(); return 0;
     } catch (const std::exception& error) { std::cerr << error.what() << '\n'; return 1; }

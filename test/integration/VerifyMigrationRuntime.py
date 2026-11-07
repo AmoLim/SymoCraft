@@ -28,19 +28,18 @@ def verify(args):
         "note": "Short migration comparison, not the frozen 36-minute baseline. No user gameplay claim."})
     arguments = ["--world-summary", "--seed", "424242", "--scene", "regression", "--checkpoint", "four-chunk", "--test-edits"]
     require(probe("old-world-summary", old, arguments) == probe("new-world-summary", new, arguments), "World summary differs byte-for-byte; inspect logs before continuing.")
-    probes = [("old-static", old, "static"), ("new-static", new, "static"), ("new-edit", new, "edit")]
+    # Historical reference is used only for the unchanged world-summary contract.
+    probes = [("new-static", new, "static"), ("new-edit", new, "edit")]
     if args.IncludeWorldRegression:
-        probes += [("old-edit", old, "edit"), ("old-walk", old, "walk"), ("new-walk", new, "walk")]
+        probes += [("new-walk", new, "walk")]
     for name, executable, scene in probes:
-        directory = output / name
-        probe(name, executable, ["--benchmark", scene, "--output", directory, "--seed", "424242", "--warmup-seconds", "5", "--sample-seconds", "15", "--focus-policy", "allow-unfocused"])
-        require((directory / "summary.yaml").is_file(), "Missing benchmark summary.")
+        probe(name, executable, ["--profile-scenario", scene, "--scenario-seconds", "9" if scene == "edit" else "3", "--seed", "424242"])
     probe("debug-smoke", debug, ["--scene", "regression", "--seed", "424242", "--smoke-frames", "120"])
     for fault, relative in (("shader", "assets/shaders/vs_BlockShader.glsl"), ("texture", "assets/textures/texture_atlas.png"), ("block-config", "assets/configs/blockFormats.yaml")):
         package = output / ("fault-" + fault)
         shutil.copytree(new.parent, package)
         (package / relative).write_text("deliberately invalid migration fixture", encoding="utf-8")
-        probe("fault-" + fault, package / new.name, ["--smoke-frames", "1"], 3)
+        probe("fault-" + fault, package / new.name, ["--renderer", "opengl", "--smoke-frames", "1"], 3)
     for executable, digest in inputs.items():
         assert_hash(executable, digest)
     print(f"Runtime checks finished. Evidence: {output}")
