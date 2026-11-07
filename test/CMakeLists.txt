@@ -36,7 +36,7 @@ function(symocraft_test_executable target source)
 endfunction()
 
 if(TARGET symocraft_foundation)
-    foreach(module IN ITEMS foundation assets ecs world simulation telemetry platform app)
+    foreach(module IN ITEMS foundation assets ecs world simulation telemetry platform app profiling)
         add_subdirectory("unit/${module}")
     endforeach()
     if(TARGET symocraft_renderer)

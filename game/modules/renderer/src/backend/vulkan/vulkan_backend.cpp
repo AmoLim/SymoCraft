@@ -1,3 +1,5 @@
+#include <symocraft/profiling/profiling.h>
+#include "debug_markers.h"
 #include "vulkan_backend.h"
 #include "diagnostic_access.h"
 #include "frame_binding_cache.h"
@@ -65,6 +67,10 @@ struct IdLess {
 
 // All dispatch and native ownership stay behind the private backend boundary.
 struct Native {
+#if defined(SYMOCRAFT_GPU_MARKERS_ENABLED)
+    VulkanAnnotations annotations;
+    bool annotation_extension{};
+#endif
     std::shared_ptr<VulkanDiagnosticAccess> diagnostic;
     HMODULE loader{};
     PFN_vkGetInstanceProcAddr get{};
@@ -600,6 +606,10 @@ void Initialize(Native& n, Window& window, const RendererConfig& config, Rendere
             Fail(RenderErrorCategory::Unsupported, "Validation", "synchronization validation configuration unavailable");
         required.emplace_back(VK_EXT_VALIDATION_FEATURES_EXTENSION_NAME);
     }
+#if defined(SYMOCRAFT_GPU_MARKERS_ENABLED)
+    n.annotation_extension = Has(extensions, VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+    if (n.annotation_extension && !config.enable_validation) required.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+#endif
     std::vector<const char*> names; for (auto& name : required) names.push_back(name.c_str());
     VkApplicationInfo app{VK_STRUCTURE_TYPE_APPLICATION_INFO}; app.pApplicationName = "SymoCraft"; app.apiVersion = VK_API_VERSION_1_2;
     VkDebugUtilsMessengerCreateInfoEXT debug{VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT};
@@ -706,6 +716,11 @@ void Initialize(Native& n, Window& window, const RendererConfig& config, Rendere
 #undef LOAD
 #undef DEVICE_PROCEDURES
     n.GetDeviceQueue(n.device, n.graphics_family, 0, &n.graphics); n.GetDeviceQueue(n.device, n.present_family, 0, &n.present);
+#if defined(SYMOCRAFT_GPU_MARKERS_ENABLED)
+    n.annotations.Load(n.GetDeviceProcAddr, n.device, n.annotation_extension);
+#endif
+    SYMOCRAFT_VK_NAME(n, n.graphics, VK_OBJECT_TYPE_QUEUE, "Graphics.Queue");
+    if (n.present != n.graphics) { SYMOCRAFT_VK_NAME(n, n.present, VK_OBJECT_TYPE_QUEUE, "Present.Queue"); }
     if (n.diagnostic && n.diagnostic->observe_performance)
         n.diagnostic->same_graphics_present_queue = n.graphics == n.present;
     n.samples = static_cast<VkSampleCountFlagBits>(config.requested_samples);
@@ -886,6 +901,7 @@ void Rebuild(Native& n, Extent2D extent, bool vsync, const std::filesystem::path
         if (n.diagnostic && n.diagnostic->observe_performance) n.diagnostic->swapchain_images = count;
         for (size_t i = 0; i < n.images.size(); ++i) {
             auto& image = n.images[i]; image.image = images[i];
+            SYMOCRAFT_VK_NAME(n, image.image, VK_OBJECT_TYPE_IMAGE, "Present.Color[" + std::to_string(i) + "]");
             image.view = n.MakeView(image.image, format, 1, VK_IMAGE_ASPECT_COLOR_BIT, false);
             image.depth = n.MakeImage(extent.width, extent.height, 1, VK_FORMAT_D32_SFLOAT, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT,
                                       n.samples, VK_IMAGE_ASPECT_DEPTH_BIT);
@@ -1248,20 +1264,27 @@ FrameResult VulkanBackend::Render(const PreparedFrame& input) {
         if (frame.query) n.CmdWriteTimestamp(frame.command, VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT, frame.query, 0);
         n.CmdBindPipeline(frame.command, VK_PIPELINE_BIND_POINT_GRAPHICS, n.blocks);
         const VkDeviceSize offset = 0;
-        for (size_t i = 0; i < frame.meshes.size(); ++i) if (frame.meshes[i]->vertices) {
-            const auto& mesh = frame.meshes[i];
-            n.CmdBindVertexBuffers(frame.command, 0, 1, &mesh->buffer->buffer, &offset);
-            n.CmdBindDescriptorSets(frame.command, VK_PIPELINE_BIND_POINT_GRAPHICS, n.pipeline_layout, 0, 1, &frame.bindings->sets[i], 0, nullptr);
-            n.CmdDraw(frame.command, mesh->vertices, 1, 0, 0); ++result.statistics.draw_calls; result.statistics.drawn_vertices += mesh->vertices;
+        {
+            SYMOCRAFT_VK_REGION_IF(n, frame.command, "world", std::any_of(frame.meshes.begin(), frame.meshes.end(), [](const auto& mesh) { return mesh->vertices != 0; }));
+            for (size_t i = 0; i < frame.meshes.size(); ++i) if (frame.meshes[i]->vertices) {
+                const auto& mesh = frame.meshes[i];
+                n.CmdBindVertexBuffers(frame.command, 0, 1, &mesh->buffer->buffer, &offset);
+                n.CmdBindDescriptorSets(frame.command, VK_PIPELINE_BIND_POINT_GRAPHICS, n.pipeline_layout, 0, 1, &frame.bindings->sets[i], 0, nullptr);
+                n.CmdDraw(frame.command, mesh->vertices, 1, 0, 0); ++result.statistics.draw_calls; result.statistics.drawn_vertices += mesh->vertices;
+            }
         }
         if (input.selection) {
+            SYMOCRAFT_VK_REGION(n, frame.command, "selection");
             n.CmdBindPipeline(frame.command, VK_PIPELINE_BIND_POINT_GRAPHICS, n.selection);
             n.CmdBindVertexBuffers(frame.command, 0, 1, &frame.selection->buffer, &offset);
             n.CmdBindDescriptorSets(frame.command, VK_PIPELINE_BIND_POINT_GRAPHICS, n.pipeline_layout, 0, 1, &frame.selection_binding->sets[0], 0, nullptr);
             n.CmdDraw(frame.command, 24, 1, 0, 0); ++result.statistics.draw_calls; result.statistics.drawn_vertices += 24;
         }
         if (frame.query) n.CmdWriteTimestamp(frame.command, VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT, frame.query, 1);
-        n.CmdEndRenderPass(frame.command);
+        {
+            SYMOCRAFT_VK_REGION_IF(n, frame.command, "resolve.msaa", n.samples != VK_SAMPLE_COUNT_1_BIT);
+            n.CmdEndRenderPass(frame.command);
+        }
         if (input.request_screenshot) {
             Barrier(n, frame.command, image.image, 1, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
                     VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT, VK_ACCESS_TRANSFER_READ_BIT, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT);
@@ -1286,7 +1309,8 @@ FrameResult VulkanBackend::Render(const PreparedFrame& input) {
         VkSubmitInfo submit{VK_STRUCTURE_TYPE_SUBMIT_INFO}; submit.waitSemaphoreCount = 1; submit.pWaitSemaphores = &frame.acquire; submit.pWaitDstStageMask = &wait_stage;
         submit.commandBufferCount = 1; submit.pCommandBuffers = &frame.command; submit.signalSemaphoreCount = 1; submit.pSignalSemaphores = &image.rendered;
         const bool gated = n.diagnostic && n.diagnostic->next_gate;
-        n.Submit(frame, submit); frame.frame_id = input.frame_id; frame.query_pending = frame.query != VK_NULL_HANDLE;
+        { SYMOCRAFT_PROFILE_ZONE("vulkan.submit_cpu"); n.Submit(frame, submit); }
+        frame.frame_id = input.frame_id; frame.query_pending = frame.query != VK_NULL_HANDLE;
         if (n.diagnostic && !frame.meshes.empty()) {
             n.diagnostic->frame_mesh = frame.meshes.front(); n.diagnostic->frame_texture = frame.textures.front();
         }

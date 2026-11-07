@@ -1,5 +1,6 @@
 #include "world_internal.h"
 #include <symocraft/world/constants.h>
+#include <symocraft/profiling/profiling.h>
 #include <array>
 #include <algorithm>
 #include <atomic>
@@ -77,6 +78,7 @@ namespace SymoCraft::World {
     WorldId VoxelWorld::Identity() const noexcept { return impl_->identity; }
     EditResult VoxelWorld::TryEdit(EditRequest request)
     {
+        SYMOCRAFT_PROFILE_ZONE("world.edit");
         impl_->EnsureMutable();
         if (request.operation != EditOperation::Set && request.operation != EditOperation::Remove)
             throw std::invalid_argument("Unknown edit operation");
@@ -118,6 +120,7 @@ namespace SymoCraft::World {
     }
     std::size_t VoxelWorld::RebuildDirtyMeshes()
     {
+        SYMOCRAFT_PROFILE_ZONE("world.mesh");
         impl_->EnsureMutable();
         impl_->rebuilding = true;
         struct Restore { bool& state; ~Restore() { state = false; } } restore{impl_->rebuilding};

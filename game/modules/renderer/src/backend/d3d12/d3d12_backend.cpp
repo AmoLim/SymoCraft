@@ -1,3 +1,5 @@
+#include <symocraft/profiling/profiling.h>
+#include "debug_markers.h"
 #include "d3d12_backend.h"
 #include "diagnostic_access.h"
 #include "srv_binding_cache.h"
@@ -473,7 +475,9 @@ void D3D12Backend::Initialize(Window& window) {
     D3D12_COMMAND_QUEUE_DESC queue_desc{};
     queue_desc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
     Check(device_->CreateCommandQueue(&queue_desc, IID_PPV_ARGS(&queue_)), "CreateCommandQueue", true);
+    SYMOCRAFT_D3D12_NAME(queue_.Get(), L"Graphics.Queue");
     Check(device_->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_)), "CreateFence", true);
+    SYMOCRAFT_D3D12_NAME(fence_.Get(), L"Graphics.RetirementFence");
     completion_.value = CreateEventW(nullptr, FALSE, FALSE, nullptr);
     if (!completion_.value) Check(HRESULT_FROM_WIN32(GetLastError()), "CreateEventW", true);
 
@@ -621,6 +625,7 @@ std::array<ComPtr<ID3D12Resource>, FrameCount> D3D12Backend::MakeColor(Extent2D 
 void D3D12Backend::CreateSizeResources(Extent2D extent) {
     for (UINT index = 0; index < FrameCount; ++index) {
         Check(swapchain_->GetBuffer(index, IID_PPV_ARGS(&backbuffers_[index])), "Swapchain.GetBuffer");
+        SYMOCRAFT_D3D12_NAME(backbuffers_[index].Get(), L"Present.Color[" + std::to_wstring(index) + L"]");
         D3D12_RENDER_TARGET_VIEW_DESC view{};
         view.Format = ColorFormat;
         view.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
@@ -784,6 +789,7 @@ void D3D12Backend::CreateMesh(BackendResourceId id, std::shared_ptr<const MeshDa
     Operation("CreateMesh", [&] {
         if (meshes_.contains(id)) throw RenderError(RenderErrorCategory::InvalidHandle, "D3D12", "CreateMesh", "duplicate native mesh identity");
         auto resource = PrepareMesh(*data);
+        SYMOCRAFT_D3D12_NAME(resource->buffer.Get(), L"World.Mesh[" + std::to_wstring(id.slot) + L":" + std::to_wstring(id.generation) + L"]");
         meshes_.emplace(id, std::move(resource));
     });
 }
@@ -793,6 +799,7 @@ void D3D12Backend::UpdateMesh(BackendResourceId id, std::shared_ptr<const MeshDa
         const auto found = meshes_.find(id);
         if (found == meshes_.end()) throw RenderError(RenderErrorCategory::InvalidHandle, "D3D12", "UpdateMesh", "unknown native mesh identity");
         auto resource = PrepareMesh(*data);
+        SYMOCRAFT_D3D12_NAME(resource->buffer.Get(), L"World.Mesh[" + std::to_wstring(id.slot) + L":" + std::to_wstring(id.generation) + L"]");
         found->second = std::move(resource);
     });
 }
@@ -819,6 +826,7 @@ void D3D12Backend::CreateTextureArray(BackendResourceId id, std::shared_ptr<cons
         const auto default_heap = Heap(D3D12_HEAP_TYPE_DEFAULT);
         Check(device_->CreateCommittedResource(&default_heap, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_COPY_DEST,
                                               nullptr, IID_PPV_ARGS(&resource->texture)), "CreateResource(texture)");
+        SYMOCRAFT_D3D12_NAME(resource->texture.Get(), L"World.Atlas[" + std::to_wstring(id.slot) + L":" + std::to_wstring(id.generation) + L"]");
         std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT> footprints(data->layers);
         std::vector<UINT> rows(data->layers);
         std::vector<UINT64> row_sizes(data->layers);
@@ -1103,20 +1111,24 @@ FrameResult D3D12Backend::Render(const PreparedFrame& input) {
         }
         commands->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
         if (timestamp_frequency_) commands->EndQuery(queries_.Get(), D3D12_QUERY_TYPE_TIMESTAMP, index * 2);
-        for (std::size_t draw = 0; draw < frame.mesh_refs.size(); ++draw) {
-            const auto& mesh = *frame.mesh_refs[draw];
-            if (!mesh.vertices) continue;
-            const D3D12_VERTEX_BUFFER_VIEW vertices{mesh.buffer->GetGPUVirtualAddress(), mesh.bytes, sizeof(BlockVertex3D)};
-            auto descriptor = frame.descriptors->GetGPUDescriptorHandleForHeapStart();
-            descriptor.ptr += draw * srv_stride_;
-            commands->SetGraphicsRoot32BitConstants(0, 16, glm::value_ptr(transforms[draw]), 0);
-            commands->SetGraphicsRootDescriptorTable(1, descriptor);
-            commands->IASetVertexBuffers(0, 1, &vertices);
-            commands->DrawInstanced(mesh.vertices, 1, 0, 0);
-            ++result.statistics.draw_calls;
-            result.statistics.drawn_vertices += mesh.vertices;
+        {
+            SYMOCRAFT_D3D12_REGION_IF(commands, "world", std::any_of(frame.mesh_refs.begin(), frame.mesh_refs.end(), [](const auto& mesh) { return mesh->vertices != 0; }));
+            for (std::size_t draw = 0; draw < frame.mesh_refs.size(); ++draw) {
+                const auto& mesh = *frame.mesh_refs[draw];
+                if (!mesh.vertices) continue;
+                const D3D12_VERTEX_BUFFER_VIEW vertices{mesh.buffer->GetGPUVirtualAddress(), mesh.bytes, sizeof(BlockVertex3D)};
+                auto descriptor = frame.descriptors->GetGPUDescriptorHandleForHeapStart();
+                descriptor.ptr += draw * srv_stride_;
+                commands->SetGraphicsRoot32BitConstants(0, 16, glm::value_ptr(transforms[draw]), 0);
+                commands->SetGraphicsRootDescriptorTable(1, descriptor);
+                commands->IASetVertexBuffers(0, 1, &vertices);
+                commands->DrawInstanced(mesh.vertices, 1, 0, 0);
+                ++result.statistics.draw_calls;
+                result.statistics.drawn_vertices += mesh.vertices;
+            }
         }
         if (frame.selection) {
+            SYMOCRAFT_D3D12_REGION(commands, "selection");
             commands->SetPipelineState(pipelines_.selection.Get());
             commands->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
             const D3D12_VERTEX_BUFFER_VIEW vertices{frame.selection->GetGPUVirtualAddress(), sizeof(LineVertex3D) * 24, sizeof(LineVertex3D)};
@@ -1131,6 +1143,7 @@ FrameResult D3D12Backend::Render(const PreparedFrame& input) {
             commands->ResolveQueryData(queries_.Get(), D3D12_QUERY_TYPE_TIMESTAMP, index * 2, 2, frame.query_readback.Get(), 0);
         }
         if (msaa) {
+            SYMOCRAFT_D3D12_REGION(commands, "resolve.msaa");
             const auto resolve = Transition(color_[index].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_RESOLVE_SOURCE);
             commands->ResourceBarrier(1, &resolve);
             commands->ResolveSubresource(buffer, 0, color_[index].Get(), 0, StorageFormat);
@@ -1162,13 +1175,16 @@ FrameResult D3D12Backend::Render(const PreparedFrame& input) {
         WaitEvent(latency_.value, "PresentationLatency.Wait");
         const auto latency_wait = std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now() - latency_begin);
         const auto submit_begin = Clock::now();
-        DiagnosticPhase(FramePhase::QueueSubmit);
-        irreversible_ = true;
-        ID3D12CommandList* lists[]{commands};
-        has_native_work_ = unfenced_work_ = true;
-        queue_->ExecuteCommandLists(1, lists);
-        // Establish draw retirement even if Present or the subsequent Signal fails.
-        frame.fence = Signal("Signal(frame draws)");
+        {
+            SYMOCRAFT_PROFILE_ZONE("d3d12.submit_cpu");
+            DiagnosticPhase(FramePhase::QueueSubmit);
+            irreversible_ = true;
+            ID3D12CommandList* lists[]{commands};
+            has_native_work_ = unfenced_work_ = true;
+            queue_->ExecuteCommandLists(1, lists);
+            // Establish draw retirement even if Present or the subsequent Signal fails.
+            frame.fence = Signal("Signal(frame draws)");
+        }
         result.statistics.cpu_submit = std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now() - submit_begin);
         const auto present_begin = Clock::now();
         DiagnosticPhase(FramePhase::QueuePresent);
