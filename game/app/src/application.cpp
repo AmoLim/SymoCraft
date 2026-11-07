@@ -6,7 +6,7 @@
 #include "startup_options.h"
 #include <symocraft/assets/asset_paths.h>
 #include <symocraft/assets/image.h>
-#include <symocraft/telemetry/document_io.h>
+#include <symocraft/foundation/document_io.h>
 #include <symocraft/world/benchmark_workload.h>
 #include <symocraft/platform/window.h>
 #include <symocraft/platform/process_memory.h>

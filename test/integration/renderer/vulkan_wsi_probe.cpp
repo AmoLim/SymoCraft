@@ -2,7 +2,7 @@
 #include <symocraft/assets/image.h>
 #include <symocraft/platform/window.h>
 #include <symocraft/renderer/renderer.h>
-#include <symocraft/telemetry/document_io.h>
+#include <symocraft/foundation/document_io.h>
 #include <algorithm>
 #include <array>
 #include <fstream>

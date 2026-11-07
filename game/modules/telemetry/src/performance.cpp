@@ -1,5 +1,5 @@
 #include "symocraft/telemetry/performance.h"
-#include "symocraft/telemetry/document_io.h"
+#include "symocraft/foundation/document_io.h"
 #include "symocraft/foundation/files.h"
 #include "export_diagnostics/export_probe.h"
 #include <algorithm>

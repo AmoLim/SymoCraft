@@ -1,7 +1,7 @@
 #include "application.h"
 #include "application_probe.h"
 #include "startup_options.h"
-#include <symocraft/telemetry/document_io.h>
+#include <symocraft/foundation/document_io.h>
 #include <symocraft/foundation/memory.h>
 #include <filesystem>
 #include <iostream>

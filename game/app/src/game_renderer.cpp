@@ -5,7 +5,7 @@
 #include "world_render_cache.h"
 #include <symocraft/assets/asset_paths.h>
 #include <symocraft/assets/image.h>
-#include <symocraft/telemetry/document_io.h>
+#include <symocraft/foundation/document_io.h>
 #include <symocraft/platform/window.h>
 #include <symocraft/renderer/error.h>
 #ifdef SYMOCRAFT_APP_OPENGL

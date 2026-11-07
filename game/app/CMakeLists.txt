@@ -18,7 +18,7 @@ target_compile_features(symocraft_application PRIVATE cxx_std_20)
 target_compile_options(symocraft_application PRIVATE /W4 /utf-8)
 target_link_libraries(symocraft_application PRIVATE symocraft_startup symocraft_foundation symocraft_scene
     symocraft_assets symocraft_ecs symocraft_world symocraft_simulation symocraft_platform
-    symocraft_renderer symocraft_app_render_data symocraft_telemetry)
+    symocraft_renderer symocraft_app_render_data symocraft_telemetry symocraft_document_io)
 add_executable(SymoCraft src/main.cpp)
 target_link_libraries(SymoCraft PRIVATE symocraft_application symocraft_startup symocraft_foundation
     symocraft_renderer symocraft_telemetry symocraft_assets)

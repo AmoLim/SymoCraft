@@ -26,7 +26,7 @@ add_test(NAME app.scenario_and_reports COMMAND app_scenario_tests "${SYMOCRAFT_R
 set_tests_properties(app.scenario_and_reports PROPERTIES TIMEOUT 45)
 if(TARGET symocraft_application)
     symocraft_test_executable(application_lifecycle_probe application_probe.cpp symocraft_application
-        symocraft_startup symocraft_telemetry symocraft_foundation)
+        symocraft_startup symocraft_telemetry symocraft_foundation symocraft_document_io)
     target_include_directories(application_lifecycle_probe PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/game/app/src")
     set_target_properties(application_lifecycle_probe PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
     symocraft_stage_assets(application_lifecycle_probe)

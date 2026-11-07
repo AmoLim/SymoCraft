@@ -1,5 +1,5 @@
-symocraft_test_executable(document_tests document_tests.cpp symocraft_foundation symocraft_telemetry)
-add_test(NAME foundation.document COMMAND document_tests)
+symocraft_test_executable(document_tests document_tests.cpp symocraft_foundation symocraft_document_io)
+add_test(NAME foundation.document COMMAND document_tests "${CMAKE_CURRENT_BINARY_DIR}/document-probes")
 set_tests_properties(foundation.document PROPERTIES TIMEOUT 45)
 
 symocraft_test_executable(files_tests files_tests.cpp symocraft_foundation)

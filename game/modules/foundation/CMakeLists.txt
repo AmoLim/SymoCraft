@@ -3,3 +3,9 @@ target_include_directories(symocraft_foundation PUBLIC "${CMAKE_CURRENT_SOURCE_D
 target_link_libraries(symocraft_foundation PUBLIC symocraft_math)
 target_compile_features(symocraft_foundation PUBLIC cxx_std_20)
 target_compile_options(symocraft_foundation PRIVATE /utf-8 /W4)
+
+add_library(symocraft_document_io STATIC src/document_io.cpp)
+target_include_directories(symocraft_document_io PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_link_libraries(symocraft_document_io PUBLIC symocraft_foundation PRIVATE symocraft_yaml)
+target_compile_features(symocraft_document_io PUBLIC cxx_std_20)
+target_compile_options(symocraft_document_io PRIVATE /utf-8 /W4)

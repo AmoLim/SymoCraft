@@ -7,7 +7,7 @@
 #include <symocraft/assets/asset_paths.h>
 #include <symocraft/assets/image.h>
 #include <symocraft/renderer/renderer.h>
-#include <symocraft/telemetry/document_io.h>
+#include <symocraft/foundation/document_io.h>
 #include <algorithm>
 #include <array>
 #include <condition_variable>

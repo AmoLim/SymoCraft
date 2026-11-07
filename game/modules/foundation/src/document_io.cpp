@@ -1,4 +1,4 @@
-#include "symocraft/telemetry/document_io.h"
+#include "symocraft/foundation/document_io.h"
 #include <fstream>
 #include <sstream>
 #include <yaml-cpp/yaml.h>

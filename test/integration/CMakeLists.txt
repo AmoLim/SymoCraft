@@ -144,3 +144,10 @@ if(TARGET symocraft_renderer_d3d12)
     target_compile_definitions(renderer_d3d12_backend_smoke PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
     # Native hardware verification is explicit, never part of unattended CTest.
 endif()
+
+foreach(document_consumer IN ITEMS renderer_d3d12_fault_probe renderer_d3d12_game_fault_probe
+        renderer_d3d12_lifetime_async_probe renderer_vulkan_wsi_probe renderer_vulkan_lifetime_fault_probe renderer_game_report_probe)
+    if(TARGET ${document_consumer})
+        target_link_libraries(${document_consumer} PRIVATE symocraft_document_io)
+    endif()
+endforeach()

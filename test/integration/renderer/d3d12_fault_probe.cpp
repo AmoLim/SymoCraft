@@ -2,7 +2,7 @@
 #include "backend/d3d12/d3d12_backend.h"
 #include "backend/d3d12/diagnostic_access.h"
 #include <symocraft/platform/window.h>
-#include <symocraft/telemetry/document_io.h>
+#include <symocraft/foundation/document_io.h>
 #include <array>
 #include <chrono>
 #include <fstream>

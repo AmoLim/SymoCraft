@@ -1,4 +1,4 @@
-#include <symocraft/telemetry/document_io.h>
+#include <symocraft/foundation/document_io.h>
 
 #include <algorithm>
 #include <array>
