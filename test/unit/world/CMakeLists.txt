@@ -17,9 +17,6 @@ add_test(NAME world.allocations COMMAND world_allocation_tests "${SYMOCRAFT_REPO
 set_tests_properties(world.mesh_safety world.block_config PROPERTIES TIMEOUT 45)
 set_tests_properties(world.generation PROPERTIES TIMEOUT 240)
 set_tests_properties(world.contract world.allocations PROPERTIES TIMEOUT 240)
-if(MSVC AND CMAKE_BUILD_TYPE STREQUAL "Debug" AND
-   NOT "${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_DEBUG}" MATCHES "_ITERATOR_DEBUG_LEVEL[= ]+0")
-    # MSVC's Debug vector constructor is noexcept but allocates an iterator proxy.
-    # Run the real allocation sweep in Release and a whole-build Debug ABI with proxies off.
-    set_tests_properties(world.allocations PROPERTIES DISABLED TRUE)
-endif()
+# Root DBG01 sets _ITERATOR_DEBUG_LEVEL=0 for every Debug C++ owner/consumer
+# through compile definitions. Inspecting only CMAKE_CXX_FLAGS misses that ABI
+# policy and incorrectly disables this allocation-failure sweep.
