@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import argparse
-import csv
 import hashlib
 import json
 import os
@@ -130,17 +129,15 @@ def runtime_environment() -> dict[str, str]:
 def parse_arguments() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--package-directory", required=True, type=Path)
-    parser.add_argument("--report-probe", required=True, type=Path)
     parser.add_argument("--output-directory", required=True, type=Path)
     parser.add_argument("--include-opengl-comparison", action="store_true")
     parser.add_argument("--process-timeout-seconds", type=int, default=180)
     arguments = parser.parse_args()
     require(30 <= arguments.process_timeout_seconds <= 300, "Process timeout must be 30..300 seconds.")
-    for name in ("package_directory", "report_probe", "output_directory"):
+    for name in ("package_directory", "output_directory"):
         path = checked_path(getattr(arguments, name), scoped=True)
         setattr(arguments, name, path)
     require(arguments.package_directory.is_dir(), "PackageDirectory is missing.")
-    require(arguments.report_probe.is_file(), "ReportProbe is missing.")
     require(not arguments.output_directory.exists(), "OutputDirectory must be new; old runs are never overwritten.")
     require(not arguments.output_directory.is_relative_to(arguments.package_directory), "Output must not be inside the original package.")
     require(os.name == "nt", "Native candidate verification requires Windows.")
@@ -151,17 +148,16 @@ class Verification:
     def __init__(self, arguments: argparse.Namespace) -> None:
         self.arguments = arguments
         self.package = arguments.package_directory
-        self.probe = arguments.report_probe
         self.output = arguments.output_directory
         self.workdir = self.output / "unrelated working directory"
         self.output.mkdir()
         self.workdir.mkdir()
         self.current_case = None
         self.manifest = {
-            "schema": "symocraft.t3.r2-step4-candidate-verification", "version": 1, "run_id": str(uuid.uuid4()),
+            "schema": "symocraft.t3.r2-step4-candidate-verification", "version": 2, "run_id": str(uuid.uuid4()),
             "started_utc": utc_now(), "finished_utc": None, "success": False,
             "package_directory": str(self.package), "package_manifest": None, "package_identity": [], "package_identity_after": [],
-            "report_probe_identity": identity(self.probe), "runner_identity": identity(Path(__file__).resolve()),
+            "runner_identity": identity(Path(__file__).resolve()),
             "process_timeout_seconds": arguments.process_timeout_seconds, "working_directory": str(self.workdir), "relocated_package": None,
             "child_environment_policy": "system-only PATH; compiler/SDK/include/library variables removed; original host still has developer tools installed",
             "fixed_complete_world_short_workloads": False, "installed_candidate_directory_exercised": False,
@@ -240,32 +236,6 @@ class Verification:
     def logs(self) -> tuple[str, str]:
         return tuple(Path(self.current_case[key]).read_text(encoding="utf-8-sig", errors="replace") for key in ("stdout", "stderr"))
 
-    def verify_frames(self, directory: Path, backend: str, workload: str) -> None:
-        name = self.current_case["name"]
-        with (self.output / f"{name}.probe.json").open("wb") as output, (self.output / f"{name}.probe.stderr.log").open("wb") as errors:
-            result = subprocess.run([str(self.probe), str(directory), backend, workload], cwd=self.workdir,
-                                    stdout=output, stderr=errors, timeout=30, creationflags=subprocess.CREATE_NO_WINDOW)
-        self.check(result.returncode == 0, "Structured report probe rejected the game report.")
-        if result.returncode != 0:
-            return
-        observation = json.loads((self.output / f"{name}.probe.json").read_text(encoding="utf-8-sig"))
-        self.current_case["observation"] = observation
-        self.check(observation["world_seed"] == 424242, "Actual world seed differs from requested 424242.")
-        with (directory / "frames.csv").open(encoding="utf-8-sig", newline="") as source:
-            frames = list(csv.DictReader(source))
-        observation["frame_rows"] = len(frames)
-        if backend == "D3D12":
-            ids = [row["renderer_frame_id"] for row in frames]
-            self.check(len(ids) == len(set(ids)) and "" not in ids, "Renderer frame IDs are not unique and explicit.")
-            uploaded = any(int(row["resource_upload_bytes"]) > 0 for row in frames)
-            self.check((workload == "edit") == uploaded, "Persistent geometry upload does not match the workload.")
-            self.check(all((row["gpu_draw_ms"] == "") == (row["gpu_missing_reason"] != "") for row in frames),
-                       "GPU sample validity and missing reason disagree.")
-            self.check(all(int(row["upload_calls"]) == int(row["rebuilt_chunks"]) for row in frames),
-                       "Cache operations differ from published mesh rebuilds.")
-        if workload == "walk":
-            self.check(len({row["x"] for row in frames}) > 1, "Walk workload did not move the actual player.")
-
     def run(self) -> None:
         try:
             self.manifest["package_manifest"] = read_package_manifest(self.package)
@@ -292,16 +262,14 @@ class Verification:
                        and "[performance] exported;" not in stdout, "Uncollected loop failed or unexpectedly created a collector.")
             self.current_case["observation"] = {"renderer": "D3D12", "world_chunks": 441, "rendered_frames": 400,
                                                 "benchmark_collector": False, "output_debug_string_captured": False,
-                                                "gpu_ring_drain_exercised": self.current_case["success"]}
+                                                "normal_native_shutdown": self.current_case["success"]}
             self.manifest["installed_candidate_directory_exercised"] = self.current_case["success"]
             backends = ["d3d12", "opengl"] if self.arguments.include_opengl_comparison else ["d3d12"]
             for backend in backends:
                 for workload, duration in (("static", "2"), ("walk", "3"), ("edit", "9")):
                     name = f"{backend}-{workload}"
-                    directory = self.output / name
-                    arguments = ["--renderer", backend, "--benchmark", workload, "--output", str(directory),
-                                 "--seed", "424242", "--width", "1920", "--height", "1080", "--vsync", "0",
-                                 "--warmup-seconds", "0", "--sample-seconds", duration, "--focus-policy", "allow-unfocused"]
+                    arguments = ["--renderer", backend, "--profile-scenario", workload, "--scenario-seconds", duration,
+                                 "--seed", "424242", "--width", "1920", "--height", "1080", "--vsync", "0"]
                     if backend == "d3d12":
                         arguments += ["--msaa", "4", "--validation", "1"]
                     self.run_process(name, executable, arguments, 0)
@@ -311,7 +279,15 @@ class Verification:
                     self.check("[runtime] fatal:" not in stderr and "[renderer] D3D12" not in stderr
                                and "Debug Layer warning/error" not in stderr, "Normal game run retained a fatal/renderer diagnostic.")
                     if self.current_case["success"]:
-                        self.verify_frames(directory, "D3D12" if backend == "d3d12" else "OpenGL", workload)
+                        expected = "D3D12" if backend == "d3d12" else "OpenGL"
+                        checkpoint = "spawn" if workload == "walk" else "four-chunk"
+                        self.check(f"[renderer] backend={expected};" in stdout and
+                                   f"[scenario] completed; name={workload};" in stdout and
+                                   f"[scenario] initial; checkpoint={checkpoint}" in stdout,
+                                   "Actual backend, initial checkpoint or scenario completion differs.")
+                        self.check(not list(self.workdir.iterdir()), "Game created files in the unrelated working directory.")
+                        self.current_case["observation"] = {"backend": expected, "checkpoint": checkpoint,
+                                                            "scenario_completed": self.current_case["success"], "performance_collector": False}
                     self.save()
                     print(f"{name} success={self.current_case['success']} exit={self.current_case['exit_code']}", flush=True)
             self.run_faults(executable)
@@ -319,7 +295,6 @@ class Verification:
             read_package_manifest(self.package)
             self.manifest["package_identity_after"] = package_identity(self.package)
             require(self.manifest["package_identity"] == self.manifest["package_identity_after"], "Original package changed during verification.")
-            require(identity(self.probe) == self.manifest["report_probe_identity"], "Report probe changed during verification.")
             require(identity(Path(__file__).resolve()) == self.manifest["runner_identity"], "Candidate runner changed during verification.")
             self.manifest["success"] = all(case["success"] for case in self.manifest["cases"])
             workload_cases = [case for case in self.manifest["cases"] if case["name"] in {"d3d12-static", "d3d12-walk", "d3d12-edit"}]

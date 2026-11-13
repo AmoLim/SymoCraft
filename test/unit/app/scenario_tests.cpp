@@ -55,6 +55,9 @@ int main(int argc, char** argv) {
         const auto expected = Benchmark::CycleEdit(1);
         Require(world->QueryBlock(expected.position).block.block_id == expected.after, "Scenario did not commit before simulation");
         Require(edit.BeforeAdvance(0.51, pose, *world).edits == 0, "Scenario repeated an applied edit");
+        const auto restored = edit.BeforeAdvance(8.0, pose, *world);
+        Require(restored.edits == 30 && edit.AppliedEdits() == 32 && world->Digest() == original,
+            "Real-time edit forward/reverse cycle failed to restore the original world");
         std::cout << "Owned shutdown reports and independent static/walk/edit scenarios passed\n";
         return 0;
     } catch (const std::exception& error) { std::cerr << error.what() << '\n'; return 1; }

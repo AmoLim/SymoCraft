@@ -5,7 +5,9 @@ tags:
 
 # 当前验证方法
 
-本页维护当前验证层次与共享 Benchmark/telemetry 方法，不保存批准或基准成绩。方法存在不等于已经执行；具体版本、结果、失败样本及关键节点只通过 [VERIFICATION](VERIFICATION.md) 查询。模块专用契约/测试入口按 [架构导航](../architecture/Overview.md) 进入，不复制各模块测试清单。
+> 已验收候选及保留限制见 [change 验证记录](../openspec/changes/integrate-renderdoc-tracy/verification.md)。构建和运行命令以仓库根目录为准。
+
+本页维护验证层次与历史Benchmark/telemetry方法的适用边界，不保存批准或基准成绩。方法存在不等于已经执行；具体版本、结果、失败样本及关键节点只通过 [VERIFICATION](VERIFICATION.md) 查询。模块专用契约/测试入口按 [架构导航](../architecture/Overview.md) 进入，不复制各模块测试清单。
 
 ## 验证层次
 
@@ -17,7 +19,11 @@ tags:
 
 [runtime 探针](../../scripts/verify-runtime.py) 的退出码 0 判定包含未超时、ready/loop/shutdown 标记、无 fatal 和零 GL 诊断；Frames > 0 还要求帧数精确相等，Frames=0 不传 smoke 限帧。退出码 3 只要求预期退出、ready 前失败及 shutdown；不是任意运行故障均已覆盖。[资产故障探针](../../scripts/verify-runtime-faults.py) 仅在独立副本注入 shader、图片、空方块配置三种故障，核对实际 GL 身份、指定诊断、退出码 3、清理标记及源资产哈希不变。副本只复制 EXE/assets、不复制运行 DLL，因此不能作为干净机部署证明；当前 D3D12 与任意异常安全也不由它证明。
 
-## 选择采集入口
+## 当前工具工作流
+
+旧benchmark/性能协议已随integrate-renderdoc-tracy退役。当前用游戏`--profile-scenario static|walk|edit --scenario-seconds N`直接运行，Tracy观测CPU、RenderDoc外部捕获现代图形帧；操作见[profiling说明](../../scripts/README.md#profiling-build)。计时query、CSV/summary/status及严格前台准备不再是当前游戏验收入口。下文旧采集器、协议和统计只解释退役前候选与冻结数据，不恢复旧产品或自动启动历史采样/预算。
+
+## 历史采集入口
 
 | 入口 | 当前行为与限制 |
 | --- | --- |
@@ -25,7 +31,7 @@ tags:
 | `scripts/benchmark.py` | collector 3，可选场景/时长/尺寸；不传 focus-policy，沿用游戏 strict；失焦帧判失败，可选 nvidia-smi |
 | 直接游戏 `--benchmark` | 支持游戏已编译的后端及采样参数，但不是原生执行器的协议兼容或正式计划保证 |
 
-Python 入口、原生协议和旧 PowerShell collector 2 的机器记录/结果结构不同，不把 JSON、YAML 或焦点策略混作同一协议。现有 `.ps1` 是 Python 启动兼容层，不再是独立采集实现。操作参数见 [工具 README](../../tools/benchmark/README.md) 与 [脚本 README](../../scripts/README.md)。
+Python 入口、原生协议和旧 PowerShell collector 2 的机器记录/结果结构不同，不把 JSON、YAML 或焦点策略混作同一协议。现有 `.ps1` 是 Python 启动兼容层，不再是独立采集实现。操作参数见 [历史验证入口](VERIFICATION.md)；当前工具操作见[脚本 README](../../scripts/README.md)。
 
 原生执行器默认 GL，D3D12 必须显式选择；未知版本、实际后端不符和现代数据伪装成 GL 明确拒绝。现代后端验证仍须按对应任务的版本、身份和预算执行，不能直接沿用旧 GL 成绩或宽松跳过协议检查。
 
@@ -66,7 +72,7 @@ GL GPU 时间为 draw 周围的 GL_TIME_ELAPSED，排除显式上传、clear、s
 每次运行使用新目录，不覆盖失败现场。结果统一记录于对应 change 的 verification.md，注明必要版本/配置、方法、实际结论、失败与未覆盖项；默认无附件，无特别要求不附原始数据，不另建逐步报告或归档包。特别要求和旧冻结保护按 [治理规则](../DOCUMENTATION_MAP.md#每个-change-一份验证记录) 执行。
 正式协议中已明确要求的完整逐帧数据留存及复算不因默认规则取消，精选摘要不能冒充可复算原始数据；其余原始工作产物不自动成为长期归档附件。旧冻结内容、当前候选和暂停任务现场不在本次规则修改中清理。
 
-在已配置的实际构建目录运行 `ctest --test-dir <目录> --output-on-failure -R "benchmark\.|performance\.export|performance\.script|telemetry\.renderer_performance"`，不要把旧目录的通过记录当成当前源码结果。native fixture、Python 和可选 PowerShell launcher 用例定义见 [Benchmark 测试配置](../../test/benchmark/CMakeLists.txt)；现代 frame ID/缺失原因/上传归属的 CPU 用例见 [telemetry 测试配置](../../test/unit/telemetry/CMakeLists.txt)，不产生真实 GPU 结论。
+历史命令为 `ctest --test-dir <目录> --output-on-failure -R "benchmark\.|performance\.export|performance\.script|telemetry\.renderer_performance"`，其专属测试已退役，原结果从[T4验证](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md)定位，不作为新源码通过。当前快照CPU检查见[telemetry测试配置](../../test/unit/telemetry/CMakeLists.txt)，帧ID/截图和上传归属由[renderer测试](../../test/unit/renderer/CMakeLists.txt)及实际图形probe覆盖，不从CPU测试推定真实GPU结论。
 
 本页的方法与源码核对不代表已经执行游戏、GUI、GPU、干净机或正式 36 分钟基准。当前未覆盖项及执行结果见对应 change 的 verification.md，关键节点批准和导航见 VERIFICATION。
 

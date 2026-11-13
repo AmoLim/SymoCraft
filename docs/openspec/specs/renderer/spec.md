@@ -107,19 +107,20 @@ tags:
 - **THEN** 成功关闭才使句柄失效并进入 Stopped、重复 Shutdown 幂等；析构执行有界兜底且不抛出，但不替代成功显式关闭或验收。无完成/设备移除证明的终止保留不是正常回收。
 
 ### Requirement: Owned Results and Observability
-现代门面的 Info、样本、截图 SHALL 为自有值，Info SHALL 报告实际后端/设备/驱动、extent、samples、呈现模式与能力，不拿请求值代填。GPU 样本 SHALL 非阻塞返回已就绪结果并保留来源 frame ID，缺失 SHALL 有原因而非填 0；统计 SHALL 区分 CPU prepare/submit/present 等待及上传归属。
+
+现代门面的 Info、帧结果与截图 SHALL 为自有值，Info SHALL 报告实际后端/设备/驱动、extent、MSAA samples、呈现模式与能力，不拿请求值代填。只为旧性能链服务的 `PollGpuSamples`、GPU 样本/缺失队列、timestamp query/校准及公开细分耗时结果 SHALL 退役，不在普通循环暗中创建、提交或轮询；这里的 GPU 时间样本不等于保留的 MSAA samples。CPU profiling SHALL 改由可选埋点表达 prepare/submit/present 等真实阶段和上传计数，而非旧导出协议。资源退休、呈现完成、设备错误判断、截图 readback 必需的 fence/等待/完成事实 MUST 保留，不能因删除计时而删除正确性同步。
 
 #### Scenario: Frame result and screenshot
 - **WHEN** Render 返回 Presented 或合法 Skipped，或 Presented 请求截图
-- **THEN** 结果 ID 对应输入，Presented 无 skip reason，Skipped 只有 ZeroExtent/Occluded 且不伪造截图；请求截图为实际 extent 的自有 top-left 紧密 RGBA8。返回不等于所有 GPU 工作已完成。
+- **THEN** 结果 ID 对应输入，Presented 无 skip reason，Skipped 只有 ZeroExtent/Occluded 且不伪造截图；请求截图为实际 extent 的自有 top-left 紧密 RGBA8。返回不等于所有 GPU 工作已完成，截图不要求旧性能 Session
 
 #### Scenario: Query and cost scope
-- **WHEN** Poll 返回有效、缺失或 DeviceFailure 样本
-- **THEN** 有效时长非负且 reason=None；缺失无时长并标 Unsupported/Discarded/DeviceFailure，后者使 Renderer Failed。D3D12 draw 时间仅含 mesh/selection draw，不含 clear/resolve/截图/Present；未及时 Poll 的有界队列可诊断丢弃，不承诺无损保存。
+- **WHEN** 普通运行、独立场景或截图路径执行一帧，或发生设备/提交失败
+- **THEN** 不再建立旧 GPU timing query 或 Poll 队列来获得耗时；原 DeviceFailure/提交失败仍从实际操作/完成检查传播并停止续交，不以移除采样吞掉故障。CPU 区域不冒称 GPU draw；RenderDoc 捕获与 readback 等待有独立诊断身份，不并入未经定义的正式预算
 
 #### Scenario: Upload and protocol identity
-- **WHEN** app 上传持久 mesh/texture 或导出现代采样
-- **THEN** 成功 Create/Update 字节单独计一次，Render-local 上传另计，CPU cache/simulation 不伪装为门面 prepare；现代输出具名后端，不把数据装进 `gl_*` 字段。原生 Benchmark SHALL 分别消费旧 GL 与具名 D3D12/Vulkan telemetry-v1，校验实际后端/配置及新会话的安装 shader 生成身份；历史 D3D12 缺生成元数据的报告仅保留离线读取兼容，不绕过新运行/恢复的包身份要求。
+- **WHEN** app 上传持久 mesh/texture，或工具观测当前运行
+- **THEN** 成功 Create/Update 与 Render-local 上传计数按真实归属表达，不重复计数，CPU cache/simulation 不伪装为门面 prepare；实际后端/设备/配置及 shader 生成身份仍可在诊断工作流核对，不依赖旧 summary/`gl_*` 字段或 Benchmark 消费者。历史报告/安装包身份不回写，不因新采集器替换而放宽当前 shader/资产要求
 
 ### Requirement: Game World Conversion and Cache
 现代游戏转接 SHALL 在 World mesh callback 借用期内复制顶点，以 WorldId+ChunkCoord 映射持久句柄并仅在成功接受后推进发布 revision；静止世界不重复上传，空发布清旧几何，缺席记录不得当作流式删除。Renderer SHALL 不接收 World/Chunk 私有对象；legacy GL仍每帧打包/上传，不从本 requirement 获得持久缓存或现代状态机保证。
@@ -161,13 +162,15 @@ T3 MUST 按M3-T3/D01方案1、D02方案2保持R1→R2→R3→R4：稳定游戏�
 ### Requirement: Modern Backend Takeover Acceptance
 D3D12在R3、Vulkan在R4 SHALL 用真实生产target与统一游戏调用方分别满足全部适用A01–A19。GPU必验仅本机RTX5070Ti；MUST核对实际创建设备与呈现身份，不以另一GPU/API、WARP、mock、旧GL或库存代替。未执行/失败/未交付 SHALL 明示，不因工作负载/能力缩减或旧成绩变为通过。
 
+旧 benchmark 产品、异步计时、文件协议及 strict 前台准备条款 SHALL 仅用于解释退役前候选及原证据；退役后的当前产品不再提供这些入口。截图、实际后端/配置、部署/资产身份和正确性同步继续有效；后续正式性能验证须先确认新工具口径，不自动执行、豁免预算或把旧成绩移用于新候选。
+
 #### Scenario: A01 Public-only independent consumer
 - **WHEN** 构建仅公开头消费者及越界包含检查
 - **THEN** 相同签名无需GLAD/GLFW/SDL3/Windows/D3D12/Vulkan私有头；私有接口/后端类型越界被边界检查拒绝。
 
 #### Scenario: A02 Production boundaries and independent configurations
-- **WHEN** 配置CPU-only、benchmark-only或关闭测试
-- **THEN** 游戏/renderer生产在game、测试在root test，生产不依赖test/support；无测试脚手架、图形SDK发现/链接，独立入口可构建运行。
+- **WHEN** 配置 CPU-only、关闭测试，或显式请求已退役 benchmark-only
+- **THEN** 游戏/renderer 生产在 game、测试在 root test，生产不依赖 test/support；CPU-only 无图形 SDK 发现/链接且独立 CPU 入口可构建运行，关闭测试无 fixture。benchmark-only 明确拒绝并提示迁移，不为保留此验收身份重建旧产品；原工具结果保持历史候选身份
 
 #### Scenario: A03 Debug Release backend matrix
 - **WHEN** 验证当前现代单后端或第二后端交付后的两种现代单/双组合
@@ -206,7 +209,7 @@ D3D12在R3、Vulkan在R4 SHALL 用真实生产target与统一游戏调用方分�
 - **THEN** 零尺寸无acquire/Present忙循环，过期交换链重建无死锁，真实framebuffer和相机比例正确、输入/画面恢复。
 
 #### Scenario: A12 VSync and sampling
-- **WHEN** 开关VSync或请求采样设置
+- **WHEN** 开关 VSync 或请求 MSAA 采样设置
 - **THEN** 实际模式/样本可查询，不支持明确记录，不将VSync-on帧率冒充off性能或以静默降级通过。
 
 #### Scenario: A13 Asset and allocation failures
@@ -226,12 +229,12 @@ D3D12在R3、Vulkan在R4 SHALL 用真实生产target与统一游戏调用方分�
 - **THEN** 分别启用D3D12 Debug Layer/Vulkan validation/适用GL诊断并留证，无未解决资源/同步错误；诊断不可用明示受阻，不静默关闭或把Release空日志当等效验证。
 
 #### Scenario: A17 Screenshots and asynchronous samples
-- **WHEN** 请求截图并采集异步GPU结果
-- **THEN** 截图非空、方向/内容正确，样本保留原frame ID，未就绪/不支持/丢弃有缺失标志；不为查询阻塞每帧，截图readback等待在正式性能区间外标记。
+- **WHEN** 当前产品请求截图，或核对退役前候选的异步 GPU 样本
+- **THEN** 当前截图仍为非空、方向/内容正确的实际帧自有结果，不要求旧 Session/Poll；必要 readback 等待保留且不冒称普通帧性能。样本 frame ID、缺失标志及不为计时每帧阻塞的原判据只解释历史样本，不要求当前产品继续创建计时 query；历史结果不回写
 
 #### Scenario: A18 Benchmark protocol and installed release
-- **WHEN** 现代后端导出/工具读取采样或从无关CWD运行安装包
-- **THEN** 保持CPU/上传/present/GPU draw语义并具名新后端/adapter/API/driver/shader生成/实际配置；差异成本单列，gl字段不装现代数据，协议变更加版本兼容或显式拒绝，旧GL可读且身份不变；设备/进程显存区别，缺指标不补0；shader/合法运行依赖齐全、不需开发SDK，退役后无GL专属依赖。
+- **WHEN** 从无关 CWD 运行当前现代后端安装包，或核对退役前性能报告及其消费者结果
+- **THEN** 当前包仍须有合法 shader/运行依赖、不需开发 SDK，实际后端/adapter/API/driver/shader 生成/配置身份可核对；该部署条件不再同时触发旧性能导出/读取协议。历史 CPU/上传/present/GPU draw 语义、差异成本、gl 字段及显存/缺失口径保持，不要求新产品继续读取旧报告；旧 CLI 明确拒绝而非兼容伪成功。OpenGL 仍是显式过渡路径，其最终退役条件不提前宣称成立
 
 #### Scenario: A19 Local gameplay regression
 - **WHEN** 每个现代后端在本机RTX5070Ti验证适用14项玩法及至少15分钟连续实际操作
@@ -242,7 +245,7 @@ D3D12在R3、Vulkan在R4 SHALL 用真实生产target与统一游戏调用方分�
 - **THEN** 先确定正式画面参考/容差与同条件基线/明确预算；无对应基线不称性能无回归，不接受丢几何/错材质/颠倒坐标；证据绑定实际版本、失败和复测，查验快照不冒称完整可运行包。
 
 #### Scenario: D3D12 frame and process memory budget
-- **WHEN** 用正式同版本、同机、同配置、同工作负载 GL/D3D12 配对采样判定本机 D3D12 性能预算
+- **WHEN** 核对退役前候选中用正式同版本、同机、同配置、同工作负载 GL/D3D12 配对采样判定本机 D3D12 性能预算
 - **THEN** SHALL 按 [已选预算口径](../../changes/archive/2026-10-19-m3-t3-renderer/decisions.md#d3d12-已选预算口径)逐场景、逐对应轮次同时检查 P95/P99 的绝对及相对双门槛，以及工作集/私有提交各自正式采样段约每秒观测最大值的相对门槛；不混池、平均、挑最好或删慢帧。内存不包含显存/启动阶段、不叠加 T2 绝对上限；缺失指标不补 0，无有效对应 GL 基线不得称预算通过。启动/首次可操作等其他指标仅观测、不新增硬预算；选择不是采集授权或实测通过，也不自动成为 Vulkan 的预算。
 
 #### Scenario: User limited short comparison closeout
@@ -250,19 +253,35 @@ D3D12在R3、Vulkan在R4 SHALL 用真实生产target与统一游戏调用方分�
 - **THEN** SHALL 保留原始短采样及用户人工反馈，标记正式预算未验收、实际焦点差异及其余未覆盖风险；不把 quick 结果或工作收口当完整 R2/R3 通过，不自动恢复长采样或降低原接管目标。
 
 #### Scenario: Explicitly approved shorter formal pairing
-- **WHEN** 按用户2026-10-13确认的 [18分钟正式配对窗口](../../changes/archive/2026-10-19-m3-t3-renderer/decisions.md#2026-10-13-正式配对短窗口)执行本机D3D12预算对照
+- **WHEN** 核对退役前候选中按用户2026-10-13确认的 [18分钟正式配对窗口](../../changes/archive/2026-10-19-m3-t3-renderer/decisions.md#2026-10-13-正式配对短窗口)执行本机D3D12预算对照
 - **THEN** SHALL 在同版本GL/D3D12三场景各三独立轮次中使用10秒预热和50秒正式采样，逐对应轮次按原已选帧时间/内存双门槛判定；保留全部失败/慢帧及实际焦点，原始数据与原生消费者校验完整才判数据有效。短窗口风险及原72分钟未执行事实不抹除，原quick不升级为正式，不自动复测或移用为Vulkan预算。
 
 #### Scenario: Explicit Vulkan budget and paired collection
-- **WHEN** 按用户2026-10-15确认的[Vulkan预算及采样口径](../../changes/archive/2026-10-19-m3-t3-renderer/decisions.md#2026-10-15-vulkan已选预算与正式配对口径)执行正式对照
+- **WHEN** 核对退役前候选中按用户2026-10-15确认的[Vulkan预算及采样口径](../../changes/archive/2026-10-19-m3-t3-renderer/decisions.md#2026-10-15-vulkan已选预算与正式配对口径)执行正式对照
 - **THEN** SHALL 独立采集同版本GL/Vulkan三场景各三进程、每轮10秒预热＋50秒正式采样，实际1920×1080/4x/VSync-off/allow-unfocused及固定完整世界；逐对应轮次同时检查P95≤10ms、P99≤12ms且各自≤GL的110%，两项进程内存正式窗口约每秒观测最大值各自≤GL的110%。保留全部慢帧/焦点/失败与原生校验，不自动复测/放宽、不借旧GL或D3D12成绩；焦点可比性、短窗口风险、预算结论和节点批准分别记账，不新增启动/显存硬预算或重开暂缓D3D12缺陷。
 
 
 #### Scenario: Opt-in bounded foreground preparation
-- **WHEN** 用户显式选择strict前台采样并设置`--foreground-ready-timeout-seconds 1..120`
+- **WHEN** 核对退役前候选中用户显式选择strict前台采样并设置`--foreground-ready-timeout-seconds 1..120`
 - **THEN** 游戏SHALL在初始世界/网格就绪后处理本窗口事件，以连续1秒获焦、非最小化且实际尺寸匹配为准备成功条件；准备等待有界，超时/关闭/Esc具名失败并清理，不生成可接受成绩。准备耗时单列startup，只有成功后才从零开始完整预热和采样，不模拟/绘制工作负载或删除已有测量帧。
 - **AND** 省略选项及allow-unfocused路径保持原行为；计时开始后失焦仍使strict整轮无效，不暂停/重置时钟、不剔除坏帧、不自动重试或放宽预算。GL及两现代采用同版本同准备协议配对，新结果不覆盖历史失败或自动产生节点批准。
 
 #### Scenario: Explicit manual visual acceptance for this round
 - **WHEN** 用户按[本轮人工视觉口径](../../changes/archive/2026-10-19-m3-t3-renderer/decisions.md#2026-10-13-人工视觉核查口径)认可已完成的GL/D3D12人工画面对照
 - **THEN** SHALL 记录“未发现明显错误”并按该范围收口视觉核查，不强加未批准的数值容差；同版本GL参考、透明深度差异单列及不接受丢几何/错材质/颠倒坐标仍保留。不得补造截图/视点/包身份或宣称逐像素完全一致，也不得将该反馈用于豁免正式性能超限或继承为Vulkan验收。
+
+### Requirement: Native resource names and balanced marker regions
+
+D3D12 和 Vulkan SHALL 在独立于 Tracy/validation 的注释构建开关下提供有意义的原生资源名及成对命令区域。名称 SHALL 标明逻辑用途和必要稳定身份，覆盖实际使用的持久 world mesh/纹理、呈现/深度/MSAA 资源、upload 与 command 对象；事件组 SHALL 对应实际存在的 world、selection、upload、resolve/readback 等工作，不虚构无工作区域或 GPU 时间。原生 SDK 类型与命名机制 SHALL 留在各私有后端，不泄漏到公开消费者或 World/ECS。
+
+#### Scenario: DR-A01 readable captures in both backends
+- **WHEN** 分别捕获启用注释的 D3D12 与 Vulkan 有效帧
+- **THEN** 工具可按资源用途及事件层次定位实际 draw/upload/resolve，空 selection/readback 不伪造工作；帧中使用的已命名资源可辨，名称不包含宿主地址/用户目录，不把每帧改名当稳定身份
+
+#### Scenario: DR-A02 marker and validation independence
+- **WHEN** Tracy/注释/validation 独立开关组合变化，或 Vulkan 缺 `VK_EXT_debug_utils`/注释函数
+- **THEN** Tracy 关闭仍能使用注释，validation 关闭不阻止受支持注释；无注释能力时明确诊断后禁用注释而非整个渲染，原本要求的 validation/能力缺失仍按原规则具名失败，不借此豁免
+
+#### Scenario: DR-A03 disabled and exceptional paths
+- **WHEN** 注释关闭、嵌套区域提前退出、记录失败或资源重建/关闭
+- **THEN** 关闭不求值动态注释参数，启用时成功打开的区域完整配对且字符串寿命有效；不改变在途资源所有权、呈现退休、有界等待、原始错误及 Failed/Stopped 约束，注释不新增线程或恢复设备

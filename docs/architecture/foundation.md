@@ -5,15 +5,17 @@ tags:
 
 # Foundation
 
+> 已验收候选及保留限制见 [change 验证记录](../openspec/changes/integrate-renderdoc-tracy/verification.md)。构建和运行命令以仓库根目录为准。
+
 ## 边界与权威
 
-`symocraft_foundation` 提供公共整数别名、统一 GLM 配置、自有元数据值、文件发布和旧内存/日志兼容入口；不管理 World、Registry、窗口、GPU 或会话。
-公开依赖只有数学 target；Windows、分配记录和日志状态留在私有实现。target 规则见 [module-boundaries](../openspec/specs/module-boundaries/spec.md)，发布的公开保证与错误特定状态以 [foundation-files](../openspec/specs/foundation-files/spec.md) 为准。
-实现入口：[CMake](../../game/modules/foundation/CMakeLists.txt)、[公开头](../../game/modules/foundation/include/symocraft/foundation)、[Value](../../game/modules/foundation/src/document.cpp)、[发布](../../game/modules/foundation/src/files.cpp)、[兼容实现](../../game/modules/foundation/src/legacy/AmoBase.cpp)。
+`symocraft_foundation` 提供公共整数别名、统一 GLM 配置、自有元数据值和旧内存/日志兼容入口；不管理 World、Registry、窗口、GPU 或会话。
+公开依赖只有数学 target；Windows、分配记录和日志状态留在私有实现。target 规则见 [module-boundaries](../openspec/specs/module-boundaries/spec.md)，Files::Publish 已随旧性能链退役，目标边界及候选验证见 [当前 change](../openspec/changes/integrate-renderdoc-tracy/verification.md#2026-11-03-publish-追加退役范围与准确清单)。
+实现入口：[CMake](../../game/modules/foundation/CMakeLists.txt)、[公开头](../../game/modules/foundation/include/symocraft/foundation)、[Value](../../game/modules/foundation/src/document.cpp)、[兼容实现](../../game/modules/foundation/src/legacy/AmoBase.cpp)。
 
 ## 自有元数据
 
-`Data::Value` 是递归自有 `variant`：undefined、bool、有符号/无符号 64 位整数、float、double、string、sequence、mapping。float 与 double 分开保存，避免元数据序列化时无意改变原数值表达；mapping 是插入顺序的 `vector<pair<string,Value>>`，不是共享解析节点或哈希表。YAML 解析/序列化属于 telemetry 的私有适配，不是 foundation 的公共依赖。
+`Data::Value` 是递归自有 `variant`：undefined、bool、有符号/无符号 64 位整数、float、double、string、sequence、mapping。float 与 double 分开保存，避免元数据序列化时无意改变原数值表达；mapping 是插入顺序的 `vector<pair<string,Value>>`，不是共享解析节点或哈希表。YAML 解析/序列化由下述独立适配负责，不是基础 `symocraft_foundation` 的依赖。
 
 - 默认值 undefined。复制递归拥有字符串/子集合；移动后源只具有标准库的有效但未指定状态，不承诺为空。flow-style 是值的输出提示，不是引用或解析器状态。
 - mutable key 访问可把 undefined 转为空 mapping，再查找/插入；`push_back` 可把 undefined 转为空 sequence。已有其他类型不能被这两种操作静默覆盖。后续分配失败可能已经留下空集合，不是整个操作的强事务保证。
@@ -24,13 +26,17 @@ tags:
 
 元数据构造、深复制、线性 key 查找和序列化属于启动/导出冷路径，不应放入逐格 meshing 或每 draw 热循环。`Value` 无锁；独立深副本消除共享所有权，不证明同一对象的并发读写安全。
 
-## 文件发布机制
+## 独立 YAML 适配
 
-调用方先完整写入并关闭同 Windows 卷临时文件。当前实现直接调用 `ReplaceFileW`（无 backup，flags=0）；仅 `ERROR_FILE_NOT_FOUND` 才调用一次不覆盖并发新目标的 `MoveFileExW`（flags=0）。不先 `exists`、不 truncate 目标、不 sleep/retry，不将该错误解释为“只有目标缺失”。成功的新读者取得完整发布结果，兼容 delete-sharing 的旧读者仍持旧文件身份。
+N1 将原 telemetry 适配原义迁入 foundation 所属的 `symocraft_document_io`，唯一编译 [document_io.cpp](../../game/modules/foundation/src/document_io.cpp)。消费者包含 [symocraft/foundation/document_io.h](../../game/modules/foundation/include/symocraft/foundation/document_io.h) 并链接该 target；它公开依赖 foundation 的中立 `Data::Value`，私有消费 yaml-cpp，基础 foundation 和独立 physics 不反向链接它。旧性能链已退役，world-summary、文档往返和有效故障探针继续消费此适配。
 
-API 后立即保存 `GetLastError`，再诊断/包装 `system_error`，避免时间/输出操作改写原错误。`SYMOCRAFT_PUBLISH_DIAGNOSTICS` 在首次检查时缓存，仅值 `1` 启用 API/flags/error/进程/线程/UTC/序列日志；诊断不改变发布选择，但会影响时序，日志不是无干扰复现。
-失败后的文件名/属性须按实际 Windows 错误判断，不能从“原子发布”推定所有 I/O 故障均回滚。1175、1176、1177 的不同后状态及 telemetry 晚期发布失败语义只在上述现役 spec 维护。
-Win32 1175 根因/正式同源 Q06 仍未关闭，[Fix1](../openspec/changes/m3-t2-publication-fix1/proposal.md) 暂停；T2 批准不使它们自动修复。
+Dump 构造独立 YAML node/string，不修改输入；Mapping/Sequence 保持值结构及 flow style，能被解释为 bool/number 的 string 显式标为字符串。Load 同步复制 text，再返回自有值；显式字符串不重解释，其他 scalar 按 bool → int64 → uint64 → double → string 尝试，map key 转 string，null 为 monostate。LoadYamlFile 直接使用传入 path，不经 Assets resolver；文件/语法/转换异常传播，不返回半个成功文档。它不是业务 schema 校验器，也没有对任意文档分配量提供界限。此适配从未依赖 Files::Publish，发布 API 退役不改变其行为。
+
+## 文件发布退役
+
+2026-11-03 用户确认移除无生产消费者的 Files::Publish 公开头、实现与专属测试/注册，不提供替代发布服务或兼容壳。YAML、world-summary 与图像输出各自的有效行为保留；外部性能工具不替代其正确性检查。
+
+旧同卷关闭流、ReplaceFileW/MoveFileExW、兼容读者快照与错误特定后状态只作历史依据，详见 [Fix1 设计](../openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/design.md)。Fix1 已因能力退役取消计划归档，14项未完成任务保持，未合并其目标规格。1175 根因、缺码和超时不改判已修复；旧诊断现场保留，不再作为活动产品编译或验收入口。正式同源 Q06 等历史未测范围也不由退役转为通过。
 
 ## 旧分配与诊断边界
 
@@ -52,6 +58,6 @@ Error/Warning 是输出，不自动抛异常；Assert 受日志级别控制，�
 | --- | --- |
 | Foundation I1 | Value 的拥有式副本不共享另一文档/解析节点的子树。 |
 | Foundation I2 | 不兼容 mapping/sequence 修改明确失败，不静默替换已有类型；不扩大为 OOM 事务保证。 |
-| Foundation I3 | Files 发布须关闭临时文件、同卷且不依赖窗口；成功完整可见及失败状态以现役发布契约限定。 |
+| Foundation I3（退役） | 原 Files 发布契约仅保留历史适用身份，当前不提供该 API；未证明的可靠性保证不因退役成立。 |
 
-[document_tests](../../test/unit/foundation/document_tests.cpp)核对值复制、类型/精度和telemetry YAML适配；[files_tests](../../test/unit/foundation/files_tests.cpp)核对首次/替换、旧读者身份与具名失败，不证明所有文件系统并发及1175根因。[memory_tests](E:/Codex/Worktrees/refactor-application-simulation/Symocraft/test/unit/foundation/memory_tests.cpp)直接链接正式foundation，覆盖普通/跟踪分配失败、真实记录vector抛错、旧块保留、增缩容及哨兵；不是操作系统整体耗尽实验。实际CPU结果及限制见 [T4 verification](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md#2026-10-15-最小-ecs-前提修补)，历史结果/批准仍从 [VERIFICATION](../verification/VERIFICATION.md) 进入；未做新发布复现或性能测量。
+[document_tests](../../test/unit/foundation/document_tests.cpp)核对值复制、类型/精度和独立 YAML 适配；旧 files_tests 随 API 退役，先前失败见 [退役记录](../openspec/changes/integrate-renderdoc-tracy/verification.md#2026-11-03-publish-追加退役范围与准确清单)，不改判1175根因已修复。[memory_tests](E:/Codex/Worktrees/refactor-application-simulation/Symocraft/test/unit/foundation/memory_tests.cpp)直接链接正式foundation，覆盖普通/跟踪分配失败、真实记录vector抛错、旧块保留、增缩容及哨兵；不是操作系统整体耗尽实验。实际CPU结果及限制见 [T4 verification](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md#2026-10-15-最小-ecs-前提修补)，历史结果/批准仍从 [VERIFICATION](../verification/VERIFICATION.md) 进入；未做新发布复现或性能测量。

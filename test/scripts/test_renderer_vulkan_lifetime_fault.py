@@ -38,7 +38,7 @@ class NativeEvidenceTests(unittest.TestCase):
         with self.assertRaises(ValueError): probe.validate("pipeline", r, "[renderer] Vulkan validation: bad", "")
 
     def test_unproven_owner_cannot_claim_cleanup(self):
-        r = report("submit"); r.update(first_category=7, first_native_code="-13", failed_rejections=4,
+        r = report("submit"); r.update(first_category=7, first_native_code="-13", failed_rejections=3,
             repeated_shutdown_not_success=True, no_further_submit_or_present=True)
         probe.validate("submit", r, errors("submit"), "")
         for field, value in (("quarantined", False), ("native_destroyed", True), ("loader_released", True), ("live_bytes", 0),
@@ -52,7 +52,7 @@ class NativeEvidenceTests(unittest.TestCase):
     def test_timeout_requires_real_incomplete_fence_and_closed_gate(self):
         r = report("texture-timeout"); r.update(actual_in_flight=True, fence_at_timeout=1, timeline_at_timeout=0,
             owned_work_completed_after_failure=True, isolated_timeline_gate_feature=True,
-            first_category=8, first_native_code="2", failed_rejections=4,
+            first_category=8, first_native_code="2", failed_rejections=3,
             repeated_shutdown_not_success=True, no_further_submit_or_present=True)
         probe.validate("texture-timeout", r, errors("texture-timeout"), "")
         for field, value in (("fence_at_timeout", 0), ("timeline_at_timeout", 1), ("owned_work_completed_after_failure", False)):

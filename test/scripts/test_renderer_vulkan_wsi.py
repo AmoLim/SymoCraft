@@ -18,7 +18,7 @@ def report(mode):
                  unsupported_before_device=True, error_operation="SelectDevice", error_message="swapchainMaintenance1 required")
     else:
         r.update(device="NVIDIA GeForce RTX 5070 Ti", identity="fixture", driver="fixture", api="fixture",
-                 device_creations=1, swapchain_creations=4, sample_ids_complete=True,
+                 device_creations=1, swapchain_creations=4, frame_identities_checked=True,
                  validation_enabled=True, samples=1, present_mode="Immediate")
         calls = int(mode != "acquire-out-of-date")
         r["events"] = [dict(native_acquire_calls=calls, native_submit_calls=calls, native_present_calls=calls,
@@ -66,7 +66,7 @@ class WsiEvidenceTests(unittest.TestCase):
 
     def test_retirement_diagnostics_and_complete_ids(self):
         for key,value in (("native_retired",False),("validation_errors",1),("validation_warnings",1),
-                          ("sample_ids_complete",False),("swapchain_creations",3)):
+                          ("frame_identities_checked",False),("swapchain_creations",3)):
             r=report("present-suboptimal");r[key]=value
             with self.assertRaises(ValueError): probe.validate("present-suboptimal",r)
 

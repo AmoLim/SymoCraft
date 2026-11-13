@@ -2,11 +2,13 @@
 #include <symocraft/simulation/component.h>
 #include <symocraft/ecs/registry.h>
 #include <symocraft/simulation/player_math.h>
+#include <symocraft/profiling/profiling.h>
 
 namespace SymoCraft::Character::Player
 {
     void Update(ECS::Registry& registry)
     {
+        SYMOCRAFT_PROFILE_ZONE("simulation.character");
         registry.Each<const Transform, CharacterComponent, Physics::RigidBody>(
         [](ECS::EntityId, const Transform& transform, CharacterComponent& character, Physics::RigidBody& body) {
             const float speed = character.is_running ? character.run_speed : character.base_speed;

@@ -15,7 +15,6 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts"))
 import scripts_common as common
 import build
-import benchmark
 
 
 def load(name):
@@ -94,44 +93,9 @@ class ScriptTests(unittest.TestCase):
         self.assertTrue(args.TestEdits)
         self.assertEqual(args.Seed, 0)
 
-    def test_statistics_nearest_rank_and_empty(self):
-        self.assertEqual(benchmark.stats([]), {"count": 0})
-        self.assertEqual(benchmark.stats([30, 10]), {"count": 2, "mean": 20, "p95": 30, "p99": 30, "max": 30})
-        self.assertEqual(benchmark.stats(range(1, 101))["p95"], 95)
-
-    def test_cli_bounds(self):
-        with contextlib.redirect_stderr(io.StringIO()):
-            for flag, value in (("--width", "1"), ("--seed", "-1"), ("--repeats", "11"), ("--sample-seconds", "0")):
-                with self.assertRaises(SystemExit):
-                    self.arguments(benchmark.parser(), extra=(flag, value))
+    def test_build_explicit_tool_options(self):
         args = build.parser().parse_args(["--clion-path", "clion", "--cmake-path", "cmake"])
         self.assertEqual(args.CLionPath, "clion")
-        self.assertEqual(benchmark.parser().parse_args(["-Executable", "x", "-OutputDirectory", "y", "--vsync", "1"]).VSync, 1)
-
-    def test_benchmark_malformed_csv_retains_failure_report(self):
-        run = common.new_directory(self.root / "run")
-        (run / "stdout.log").write_text("[performance] exported; valid_run=1\n[runtime] shutdown complete; exit_code=0")
-        (run / "stderr.log").write_text("")
-        (run / "capture").mkdir()
-        (run / "capture/frames.csv").write_text("phase,frame_ms\nsample,not-a-number\n")
-        result = benchmark.analyze(run, "static", 1, [], {"exitCode": 0, "timedOut": False}, "missing")
-        self.assertFalse(result["passed"])
-        self.assertIn("frames-csv-invalid", result["failureReasons"][0])
-        (run / "capture/frames.csv").unlink()
-        result = benchmark.analyze(run, "static", 1, [], {"exitCode": 0, "timedOut": False}, "missing")
-        self.assertEqual(result["failureReasons"], ["frames-csv-missing"])
-
-    def test_benchmark_sensor_is_stopped_when_game_launch_fails(self):
-        args = self.arguments(benchmark.parser(), extra=("--scenarios", "static", "--repeats", "1"))
-        sensor = unittest.mock.Mock()
-        sensor.poll.return_value = None
-        with patch.object(benchmark, "machine_record", return_value={}), patch.object(benchmark.shutil, "which", return_value="smi"), \
-             patch.object(benchmark.subprocess, "Popen", return_value=sensor), \
-             patch.object(benchmark, "run_logged", side_effect=OSError("launch failed")):
-            with self.assertRaises(OSError):
-                benchmark.collect(args)
-        sensor.kill.assert_called_once()
-        sensor.wait.assert_called_once()
 
     def test_real_process_logs_and_timeout_cleanup(self):
         run = common.new_directory(self.root / "real process \u6d4b\u8bd5")
@@ -195,7 +159,7 @@ class ScriptTests(unittest.TestCase):
         verification_common.tool_options(parser)
         for args in (build.parser().parse_args([]), parser.parse_args([])):
             self.assertEqual(args.ToolsetVersion, "14.51.36231")
-            self.assertEqual(args.SDKVersion, "10.0.22621.0")
+            self.assertEqual(args.SDKVersion, "10.0.28000.0")
 
     def test_visual_studio_discovery_selects_2026_without_old_fallback(self):
         with patch.object(build.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, str(self.root), "")) as launch:
@@ -213,9 +177,10 @@ class ScriptTests(unittest.TestCase):
         studio = self.root / "VS"
         (studio / "Common7/Tools").mkdir(parents=True)
         (studio / "Common7/Tools/VsDevCmd.bat").write_text("fixture")
-        output = "__SYMOCRAFT_DEVELOPER_ENVIRONMENT__\r\nVCToolsVersion=14.51.36231\r\nWindowsSDKVersion=10.0.22621.0\\\r\n".encode("utf-16-le")
+        output = "__SYMOCRAFT_DEVELOPER_ENVIRONMENT__\r\nVCToolsVersion=14.51.36231\r\nWindowsSDKVersion=10.0.22621.0\\\r\nWindowsSdkDir=F:\\SDK\\Windows Kits\\10\\\r\n".encode("utf-16-le")
         with patch.object(build.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, output, b"")) as launch:
-            build.developer_environment(studio, "14.51.36231", {}, sdk_version="10.0.22621.0")
+            environment = build.developer_environment(studio, "14.51.36231", {}, sdk_version="10.0.22621.0")
+            self.assertEqual(environment["CMAKE_WINDOWS_KITS_10_DIR"], "F:\\SDK\\Windows Kits\\10\\")
             self.assertIn("-winsdk=10.0.22621.0", launch.call_args.args[0])
             with self.assertRaisesRegex(RuntimeError, "Requested MSVC"):
                 build.developer_environment(studio, "14.38", {})
@@ -252,10 +217,11 @@ class ScriptTests(unittest.TestCase):
         result = capture.capture(Path("out/evidence"), root=workspace)
         output = Path(result["output"])
         manifest = json.loads((output / "build-inputs.json").read_text(encoding="utf-8"))
-        self.assertEqual(manifest["count"], 11)
+        self.assertEqual(manifest["count"], 9)
         captured_paths = {file["path"] for file in manifest["files"]}
         self.assertEqual(len(captured_paths), manifest["count"])
-        self.assertIn("tools/benchmark/README.md", captured_paths)
+        self.assertNotIn("tools/benchmark/README.md", captured_paths)
+        self.assertNotIn("tools/benchmark/input.txt", captured_paths)
         self.assertIn("docs/third-party.md", captured_paths)
         self.assertNotIn("docs/project/benchmark/\u4f7f\u7528\u4e0e\u4ea4\u4ed8.md", captured_paths)
         self.assertNotIn("docs/legacy/third-party-inventory.md", captured_paths)
@@ -279,12 +245,14 @@ class ScriptTests(unittest.TestCase):
         before = {asset: common.sha256(assets / asset) for _, asset, _, _ in faults.CASES}
 
         def fake_probe(command, **kwargs):
+            self.assertEqual(command[command.index("--renderer") + 1], "opengl")
             executable = Path(command[command.index("--executable") + 1])
             evidence = common.new_directory(command[command.index("--output-directory") + 1])
             case = next(case for case in faults.CASES if case[0] == executable.parent.parent.name)
             self.assertEqual((executable.parent / "assets" / case[1]).read_text(), case[2])
             common.write_json(evidence / "result.json", {"exitCode": 3, "timedOut": False, "ready": False, "shutdown": True, "passed": True})
-            (evidence / "stdout.log").write_text("OpenGL vendor: fixture\nOpenGL renderer: fixture\nOpenGL version: fixture\n[runtime] shutdown complete; exit_code=3\n")
+            graphics = "" if case[0] == "empty-block-configuration" else "OpenGL vendor: fixture\nOpenGL renderer: fixture\nOpenGL version: fixture\n"
+            (evidence / "stdout.log").write_text(graphics + "[runtime] shutdown complete; exit_code=3\n")
             (evidence / "stderr.log").write_text("[runtime] fatal: " + case[3])
             return subprocess.CompletedProcess(command, 0, "", "")
 

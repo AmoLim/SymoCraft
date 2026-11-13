@@ -2,7 +2,7 @@
 #include <symocraft/assets/image.h>
 #include <symocraft/platform/window.h>
 #include <symocraft/renderer/renderer.h>
-#include <symocraft/telemetry/document_io.h>
+#include <symocraft/foundation/document_io.h>
 #include <array>
 #include <condition_variable>
 #include <fstream>
@@ -122,7 +122,7 @@ struct Scene {
         : renderer(window, Config(shaders)), output(dir) {
         const auto info = renderer.GetInfo();
         Require(info.backend == Backend::D3D12 && info.device_name == "NVIDIA GeForce RTX 5070 Ti" &&
-                info.validation_enabled && info.actual_samples == 1 && info.capabilities.gpu_timestamps &&
+                info.validation_enabled && info.actual_samples == 1 &&
                 info.actual_present_mode == PresentMode::Immediate, "Actual device/configuration differs from local scope");
         report["device"] = info.device_name; report["identity"] = info.device_identity;
         report["driver"] = info.driver_version; report["api"] = info.api_version;
@@ -161,13 +161,12 @@ struct Scene {
         report["native_cleared"] = d->native_cleared; report["quarantined"] = d->quarantined;
         report["info_queue_checks"] = d->info_queue_checks; report["validation_warnings"] = d->validation_warnings;
         report["validation_errors"] = d->validation_errors; report["validation_corruptions"] = d->validation_corruptions;
-        report["sample_drops"] = d->sample_drops;
     }
 };
 
-void Run(const std::string& mode, Scene& s, Value& report) {
-    const auto baseline = s.Capture("baseline"); s.renderer.PollGpuSamples();
-    if (mode == "lifetime") {
+void Run(Scene& s, Value& report) {
+    const auto baseline = s.Capture("baseline");
+
         Value::Sequence events;
         for (int step = 0; step < 3; ++step) {
             s.renderer.UpdateMesh(s.handle, s.mesh);
@@ -216,58 +215,23 @@ void Run(const std::string& mode, Scene& s, Value& report) {
             events.push_back(std::move(event));
         }
         report["events"] = std::move(events);
-    } else if (mode == "async-pending") {
-        s.next_id = 9007199254740993ULL;
-        const auto pending_id = s.next_id;
-        Gate gate(*s.d); s.Draw(); Pending(*s.d, gate);
-        const auto waits = s.d->wait_calls, reads = s.d->query_readbacks;
-        for (int i = 0; i < 10; ++i) Require(s.renderer.PollGpuSamples().empty(), "Unready native query fabricated sample");
-        Pending(*s.d, gate);
-        Require(s.d->wait_calls == waits && s.d->query_readbacks == reads, "Unready Poll waited or mapped query readback");
-        report["pending_poll_calls"] = 10; report["poll_added_waits"] = s.d->wait_calls-waits;
-        report["poll_added_query_reads"] = s.d->query_readbacks-reads;
-        report["pending_submit_fence"] = s.d->last_signal;
-        report["completed_before_release"] = s.d->completion->GetCompletedValue();
-        gate.Release(); Await(*s.d);
-        const auto samples = s.renderer.PollGpuSamples();
-        Require(samples.size() == 1 && samples[0].frame_id == pending_id && samples[0].valid &&
-                samples[0].gpu_draw_time.has_value() && samples[0].missing_reason == GpuSampleMissingReason::None,
-                "Completed query lost exact original frame identity");
-        Require(s.renderer.PollGpuSamples().empty(), "GPU query returned twice");
-        report["resolved_frame_id"] = samples[0].frame_id; report["watchdog_fired"] = gate.watchdog_fired;
-    } else {
-        Value::Sequence submitted, returned; std::set<std::uint64_t> unique;
-        s.next_id = 9007199254740993ULL;
-        for (int i = 0; i < 301; ++i) {
-            submitted.emplace_back(s.next_id); s.Draw(); s.next_id += 2; Await(*s.d);
-        }
-        const auto samples = s.renderer.PollGpuSamples();
-        Require(samples.size() == 256 && s.d->sample_drops == 45, "Unexpected native result capacity");
-        for (const auto& sample : samples) {
-            Require(sample.valid && sample.gpu_draw_time.has_value() && sample.missing_reason == GpuSampleMissingReason::None &&
-                    unique.insert(sample.frame_id).second, "Invalid/duplicated native GPU sample");
-            returned.emplace_back(sample.frame_id);
-        }
-        Require(s.renderer.PollGpuSamples().empty(), "Native ring returned twice");
-        report["submitted_ids"] = std::move(submitted); report["returned_ids"] = std::move(returned);
-    }
-    s.Finish(report);
+        s.Finish(report);
 }
 }
 
 int main(int argc, char** argv) {
     if (argc != 4) return 64;
     const std::string mode = argv[1]; const std::filesystem::path output = argv[3];
-    if ((mode != "lifetime" && mode != "async-pending" && mode != "async-overflow") || std::filesystem::exists(output)) return 64;
+    if (mode != "lifetime" || std::filesystem::exists(output)) return 64;
     std::filesystem::create_directories(output);
-    Value report; report["schema"] = "symocraft.d3d12-lifetime-async.v1"; report["mode"] = mode;
+    Value report; report["schema"] = "symocraft.d3d12-lifetime.v2"; report["mode"] = mode;
     report["success"] = false; report["public_facade_and_production_backend"] = true;
     report["performance_acceptance"] = false;
     const auto started = Clock::now(); int code = 1;
     try {
         Platform::Runtime runtime;
         auto window = Window::Create(runtime,"Symocraft D3D12 lifetime/async",640,360,false,true,WindowMode::Native);
-        { Scene scene(*window, argv[2], output, report); Run(mode, scene, report); }
+        { Scene scene(*window, argv[2], output, report); Run(scene, report); }
         window->Destroy(); window.reset(); runtime.Shutdown();
         report["success"] = true; code = 0;
     } catch (const std::exception& error) { report["harness_error"] = error.what(); std::cerr << error.what() << '\n'; }

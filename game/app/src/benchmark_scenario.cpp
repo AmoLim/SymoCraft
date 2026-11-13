@@ -1,5 +1,6 @@
 #include "benchmark_scenario.h"
 #include <symocraft/world/benchmark_workload.h>
+#include <symocraft/profiling/profiling.h>
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
@@ -10,6 +11,7 @@ namespace SymoCraft::Application::Detail {
             throw std::invalid_argument("BenchmarkScenario: unknown workload");
     }
     ScenarioFrame BenchmarkScenario::BeforeAdvance(double elapsed, Simulation::PlayerPose pose, World::VoxelWorld& world) {
+        SYMOCRAFT_PROFILE_ZONE("app.scenario");
         if (!std::isfinite(elapsed) || elapsed < 0) throw std::invalid_argument("BenchmarkScenario: invalid elapsed time");
         ScenarioFrame frame;
         frame.input.allow_interaction = false;

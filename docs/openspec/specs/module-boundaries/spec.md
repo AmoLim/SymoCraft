@@ -17,21 +17,19 @@ tags:
 
 ### Requirement: Production ownership and narrow public headers
 
-生产源码 SHALL 归属 `game/modules/` 的 foundation、scene、assets、world、ecs、simulation、platform、renderer、telemetry 或 `game/app/`；独立工具 SHALL 归属 `tools/benchmark/`。每个启用的生产实现只能有一个真实编译 owner，测试 SHALL 链接正式生产库，不重编译生产实现，也不成为生产依赖。公开头 SHALL 从所属窄 `include/` 根消费，不暴露私有存储、解析器、SDL 或图形 SDK。
+生产源码 SHALL 归属 `game/modules/` 的 foundation、scene、assets、world、ecs、simulation、platform、renderer、telemetry、窄 profiling 编译适配或 `game/app/`；旧 `tools/benchmark/` 产品退役，不再是活动构建/安装入口。每个启用的生产实现只能有一个真实编译 owner，测试 SHALL 链接正式生产库，不重编译生产实现，也不成为生产依赖。公开头 SHALL 从所属窄 include 根消费，不暴露私有存储、解析器、SDL、图形 SDK 或 Tracy 类型。按 [foundation-files](../foundation-files/spec.md)退役后，Files::Publish 的源码、公开头消费者与 foundation.files 测试注册 SHALL 从活动图移除；其余 foundation 与独立 YAML 适配 owner 保持，不把历史 Fix1 探针变为活动生产依赖。
 
 #### Scenario: M3-T0-A01 A02 A04 A09 ownership and consumers
-
 - **WHEN** 配置启用某生产实现，或独立消费者只包含该模块一个公开头
-- **THEN** 实现具有唯一生产 owner，消费者不借全仓库、vendor、聚合头或其他模块 `src/` 补依赖；生产不编译或包含 test/support
+- **THEN** 实现具有唯一生产 owner，消费者不借全仓库、vendor、聚合头或其他模块 src 补依赖；生产不编译或包含 test/support
 
 #### Scenario: Retired source is not an active fallback
-
-- **WHEN** 历史 `.disabled` 源、旧 GLFW 或未授权私有路径被加入活动生产 target
-- **THEN** 边界检查 SHALL 具名拒绝，不以文件仍在仓库中作为兼容授权
+- **WHEN** 历史 .disabled 源、旧 GLFW、已退役 benchmark 实现或未授权私有路径被加入活动生产 target
+- **THEN** 边界检查 SHALL 具名拒绝，不以文件仍在仓库或冻结包中作为兼容授权
 
 ### Requirement: Acyclic authorized dependencies
 
-模块及 app SHALL 遵守[允许依赖方向](../../../architecture/engineering.md#生产所有权与依赖)，生产 target 图 SHALL 无环，模块不反向依赖 app，game 与独立 benchmark 不互相链接或包含实现。PUBLIC SHALL 只表达真实公开头依赖；PRIVATE/最终链接的 `LINK_ONLY` 不得被当作公开头、SDK 或编译选项传播。renderer 的窄私有 backend contract 与 platform 三桥属于明确授权例外，不是开放其他模块私有目录。
+模块及 app SHALL 遵守[允许依赖方向](../../../architecture/engineering.md#生产所有权与依赖)，生产 target 图 SHALL 无环，模块不反向依赖 app，已退役独立 benchmark 不得成为活动生产依赖或反向复用游戏实现，不再要求保留该产品。PUBLIC SHALL 只表达真实公开头依赖；PRIVATE/最终链接的 `LINK_ONLY` 不得被当作公开头、SDK 或编译选项传播。renderer 的窄私有 backend contract 与 platform 三桥属于明确授权例外，不是开放其他模块私有目录。
 
 #### Scenario: M3-T0-A03 actual boundary violations
 
@@ -45,17 +43,15 @@ tags:
 
 ### Requirement: Product and configuration isolation
 
-CPU-only SHALL 不发现、配置或链接 SDL、GLAD、platform 或原生图形后端；它仍可包含 renderer CPU 门面及 app CPU 转接，不沿用 T0 时“没有 renderer target”的过时描述。独立 benchmark SHALL 不创建游戏模块或加载游戏资产规则。`BUILD_TESTING=OFF` SHALL 不注册测试及 fixture、不安装其产物。模式选项的首次默认值与缓存后独立状态 SHALL 按[配置组合](../../../architecture/engineering.md#配置组合)解释。
+CPU-only SHALL 不发现、配置或链接 SDL、GLAD、platform、原生图形后端或 Tracy client，局部关闭 profiling 与 GPU 注释；它仍可包含 renderer CPU 门面及 app CPU 转接，不沿用 T0 时“没有 renderer target”的过时描述。独立 benchmark/runner-only/benchmark-only 产品及安装入口 SHALL 退役，旧开启该产品的配置请求明确拒绝、给出迁移提示，不静默成功构建空工具。`BUILD_TESTING=OFF` SHALL 不注册测试及 fixture、不安装其产物。模式选项首次默认值与缓存独立状态仍须明确，不破坏游戏、CPU 模块及已交付后端的现有隔离。
 
 #### Scenario: M3-T0-A05 CPU-only build graph
-
 - **WHEN** `SYMOCRAFT_CPU_ONLY=ON`
-- **THEN** 当前配置局部强制 GAME/BENCHMARK/D3D12 OFF、CPU_MODULES ON，CPU 图形隔离不被解释成全部 renderer 或必要源资产消失
+- **THEN** 当前配置局部强制 GAME/原生后端/Tracy/注释 OFF、CPU_MODULES ON，不发现 profiler 或图形依赖；CPU 图形隔离不被解释成全部 renderer 或必要源资产消失，旧 BENCHMARK 缓存不能复活工具
 
 #### Scenario: M3-T0-A07 A08 separate products
-
-- **WHEN** 关闭测试，或从 `tools/benchmark` 独立配置工具
-- **THEN** 产品不依赖测试源码/fixture；独立工具不依赖游戏、窗口或图形运行时
+- **WHEN** 关闭测试、安装普通游戏，或显式请求旧独立 benchmark 配置
+- **THEN** 游戏不依赖测试源码/fixture且不安装旧工具/Viewer/RenderDoc；旧产品请求明确拒绝，其历史包/配置/结果保持点时身份而非现役构建保证
 
 ### Requirement: Boundary checks have bounded proof
 
@@ -68,11 +64,11 @@ CPU-only SHALL 不发现、配置或链接 SDL、GLAD、platform 或原生图形
 
 ### Requirement: Narrow typed dependency and test access
 
-ECS 的通用 typed 门面 SHALL 允许模板实现所需的受控 EnTT 头依赖，但消费者只需链接正式 ECS target、包含项目公开头，不得自行拼接全 vendor/src 路径或使用原生 Registry/view/ID 逃生口。EnTT SHALL 固定本地官方版本/配置，相关翻译单元及测试一致；CPU-only 和独立 benchmark 不增加图形 SDK 或不相关依赖。必要极端状态测试 SHALL 经模块私有窄适配，只向指定根测试授权，返回自有事实；不公开 NativeRegistry、任意存储修改器或生产依赖 test/support，不使用改变生产布局/配置的测试专用 ECS 副本。
+ECS 的通用 typed 门面 SHALL 允许模板实现所需的受控 EnTT 头依赖，但消费者只需链接正式 ECS target、包含项目公开头，不得自行拼接全 vendor/src 路径或使用原生 Registry/view/ID 逃生口。EnTT SHALL 固定本地官方版本/配置，相关翻译单元及测试一致；CPU-only 不增加图形 SDK 或不相关依赖，已退役独立 benchmark 不恢复。必要极端状态测试 SHALL 经模块私有窄适配，只向指定根测试授权，返回自有事实；不公开 NativeRegistry、任意存储修改器或生产依赖 test/support，不使用改变生产布局/配置的测试专用 ECS 副本。
 
 #### Scenario: M3-T5-A21 public consumers and private adapter
-- **WHEN** 编译多翻译单元公开消费者、关闭测试、CPU-only、独立工具或尝试越界包含私有测试适配
-- **THEN** 生产与测试链接同一正式实现，配置/类型身份一致，公开头不泄露图形 SDK；只有指定测试取得窄头，非法私有访问被拒绝，关闭测试无测试源码/产物依赖
+- **WHEN** 编译多翻译单元公开消费者、关闭测试、CPU-only，或尝试越界包含私有测试适配
+- **THEN** 生产与测试链接同一正式实现，配置/类型身份一致，公开头不泄露图形 SDK/Tracy；只有指定测试取得窄头，非法私有访问被拒绝，关闭测试无测试源码/产物依赖；历史独立工具验证不再要求新候选构建已退役产品
 
 ### Requirement: T4-based migration without business drift
 
@@ -110,10 +106,40 @@ T5 SHALL 分别形成 ECS 契约、T4 调用方、受影响集成与 M3 收口�
 - **WHEN** 复用旧依据、安排人工或性能复验，或 OpenSpec 状态为 planning complete
 - **THEN** 保留失败/禁用/未执行及长期风险，具体新增执行范围先确认；不自动恢复 Fix1/正式采样，不修改既有预算/负载或下一玩法前中低端门槛，不把规划完整当实施授权或验收
 
+### Requirement: Optional fixed profiler dependency closure
+
+Tracy SHALL 由显式项目构建开关选择，普通 Debug/Release 默认 OFF，固定本地官方来源与匹配 Viewer，禁止配置时在线下载/跟随 master。关闭时 SHALL 无 vendor 必需输入、Tracy 编译/链接/线程或连接；开启但依赖缺失 SHALL 配置期具名失败。每个最终程序 SHALL 只有一个静态 client owner，编译定义/ABI 一致，第三方头与链接仅经窄 profiling 适配进入已授权 app/world/simulation/renderer 的私有埋点消费者，不沿 foundation、ECS 公开头或独立 physics 传递。适配 SHALL 不反向依赖业务模块、不承载业务状态或第二套 Session/导出框架。
+
+#### Scenario: DB-A01 off on and missing dependencies
+- **WHEN** vendor 不存在但 profiler OFF，或 profiler ON 缺源码，或多个已授权生产 target 被同一程序消费
+- **THEN** 前者可离线配置/构建且无 Tracy 符号依赖，中者明确配置失败，后者仅有一个 client 定义且不扩大公开 include/compile 传播；CPU-only 与公开消费者仍满足原隔离
+
+### Requirement: Consistent diagnostic configuration and runtime isolation
+
+开启路径 SHALL 仅接受本机连接、按需采集，不启系统追踪、自动调用栈采样、全局分配器/异常挂钩或等待 Viewer 才退出。profiling 配置 SHALL 保留 Release 优化及匹配符号；Debug 全闭包保持 DBG01 `_ITERATOR_DEBUG_LEVEL=0`、原 Debug CRT/调试及检查，不混用旧缓存/对象。工具许可与来源 SHALL 纳入对应构建的部署核对，不强制安装 Viewer/RenderDoc。
+
+上述退出保证 SHALL 适用于不启用 `TRACY_NO_EXIT` 的支持配置。按 2026-10-28 用户选择，官方源码 MUST 保持不变，构建不定义该编译宏；启动环境中的 `TRACY_NO_EXIT=1`（含上游按首字符 `1` 识别的其他值）明确不受支持，不承诺在此覆盖下仍不等待 Viewer。操作说明及验证 SHALL 明示该前提，不将环境限制冒称已实现强制忽略覆盖，不修改用户全局环境或依靠强制终止通过关闭检查。
+
+#### Scenario: DB-A02 consistent diagnostic builds
+- **WHEN** 构建 profiling preset、普通 Debug 或无测试安装产物
+- **THEN** 优化/符号及 DBG01/CRT 全闭包身份可核对，工具开关不暗改后端/validation/MSAA，关闭测试无 fixture，普通产品不需要外部工具或新增进程权限运行
+
+#### Scenario: DB-A04 explicit no-exit override is unsupported
+- **WHEN** 准备启用 Tracy 的启动环境或检查无 Viewer 退出
+- **THEN** SHALL 核对未定义 `TRACY_NO_EXIT` 编译宏且进程环境未启用该覆盖；显式启用覆盖的运行不属于支持配置，不能作为正常退出通过依据。关闭 Tracy 的构建不含 client，不因此新增此环境依赖
+
+### Requirement: Preserve non-performance document adaptation
+
+现有 Data::Value 的 YAML 编解码/文件加载 SHALL 脱离轻量 telemetry，由 foundation 所属独立适配 target 唯一编译并私有消费 yaml-cpp；基础 foundation 不反向链接该适配，独立 physics 不因此增加 YAML/Tracy 依赖。公开接口 SHALL 保持中立数据与路径，不泄露 YAML 节点或新增通用服务。world-summary、文档往返及仍有效诊断消费者 SHALL 原义保留，不把一切 YAML 输出都当旧性能协议删除。
+
+#### Scenario: DB-A03 retained document consumers
+- **WHEN** 旧性能链退役后执行 world-summary、foundation 文档往返或 GPU 故障诊断，或检查独立 physics 最终依赖
+- **THEN** 原编码/加载及错误含义保持，消费者使用正式唯一适配实现，不借旧 Performance::Session；physics 与基础 foundation 的允许依赖闭包不增长，不保留 telemetry 反向充当序列化 owner
+
 ## Rationale
 
 T0 选真实实现库、窄头视图和实图检查，目的是把职责边界变成可检出的工程约束，而非仅移动目录。scene 与 renderer 接口例外来自值契约/私有后端交接的真实需要；不为凑统一 target 形式建立空实现库。T0 不顺带替换 ECS、引入并行、动态区块或新 GPU 后端；后续已经发生的 renderer target 演进按当前源码表达，不把完成的迁移步骤重新列为待实施任务。
 
 历史 M3-T0-B1（world 无 GPU/平台 SDK）、B2（simulation 不读平台/Application、回调不直写 ECS）、B3（renderer 显式输入、不反查 World/Application）、B4（CPU 数据/资源/统计无图形 SDK）、B5（生产无 test/support 依赖）、B6（依赖可解释且无环）身份仍对应上述所有权及依赖契约。它们不是工程页后来归纳的同号条目，引用历史验收时必须带 M3-T0 前缀，不能把同号不同含义混为一次验证。
 
-M3-T0-A06 的全新 D/R 同生产树、A11 的 seed/网格/文件协议、A12 的真实 GL/受影响玩法和图形先于 context 清理、A13 的无关 cwd/缺坏资源/安装检查，继续由[测试验证边界](../../../architecture/engineering.md#测试及验证边界)、[资源安装](../../../architecture/engineering.md#资源与安装)、[world](../world/spec.md)、[platform](../platform/spec.md)及[Benchmark](../../../architecture/benchmark.md)表达，身份及历史结论留 T0 报告，不重新建立 T0 活动步骤或自动授予节点批准。
+M3-T0-A06 的全新 D/R 同生产树、A11 的 seed/网格/文件协议、A12 的真实 GL/受影响玩法和图形先于 context 清理、A13 的无关 cwd/缺坏资源/安装检查，继续由[测试验证边界](../../../architecture/engineering.md#测试及验证边界)、[资源安装](../../../architecture/engineering.md#资源与安装)、[world](../world/spec.md)、[platform](../platform/spec.md)及[Benchmark](../../../verification/methods.md#历史采集入口)表达，身份及历史结论留 T0 报告，不重新建立 T0 活动步骤或自动授予节点批准。

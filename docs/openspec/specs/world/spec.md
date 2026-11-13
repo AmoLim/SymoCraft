@@ -96,4 +96,4 @@ tags:
 
 稳定不变量身份为 M3-T1-BC-I1（定义 ID/名称一致、只读且发布前校验）、W-I1（坐标/索引/ID 合法、受控写入口与两世界隔离）、W-I2（自身/邻接版本与完整发布、失败保留 pending）、GE-I1（相同有效条件与固定顺序一致）、ME-I1（独占 scratch、异常后复用且输出不借 scratch），对应上面各 requirement，不另建活动计划。A09 的历史真实分配扫描仅覆盖 Release 和全库 `_ITERATOR_DEBUG_LEVEL=0` 的专用 Debug；普通 MSVC Debug 的已禁用扫描不算通过。树叶剔除/旧视角突变继续延期，当前引用不关闭问题或补造 T1 节点批准。
 
-M3-T1-A10 仍指原 GL 的移动/碰撞/射线/选块/编辑边界/材料/选择框/退出重启及真实人工身份，不是 mesh CPU 测试；A11 指 D/R 全套、CPU-only、独立工具、关闭测试、公开消费者/负向边界；A12 指生成/夹具/first-mesh 分段、有效编辑数及 before/after CPU、scratch/候选峰值、重建/上传/文件协议对照，不作性能目标通过。三项技术/人工历史结果及其限制在 T1 报告，当前复用规则分别见[工程](../../../architecture/engineering.md#测试及验证边界)与[Benchmark](../../../architecture/benchmark.md)，不把已完成验证列成虚假待实施任务。
+M3-T1-A10 仍指原 GL 的移动/碰撞/射线/选块/编辑边界/材料/选择框/退出重启及真实人工身份，不是 mesh CPU 测试；A11 指 D/R 全套、CPU-only、独立工具、关闭测试、公开消费者/负向边界；A12 指生成/夹具/first-mesh 分段、有效编辑数及 before/after CPU、scratch/候选峰值、重建/上传/文件协议对照，不作性能目标通过。三项技术/人工历史结果及其限制在 T1 报告，当前复用规则分别见[工程](../../../architecture/engineering.md#测试及验证边界)与[Benchmark](../../../verification/methods.md#历史采集入口)，不把已完成验证列成虚假待实施任务。

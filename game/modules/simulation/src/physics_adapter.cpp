@@ -1,6 +1,7 @@
 #include "physics_adapter.h"
 #include <symocraft/simulation/component.h>
 #include <symocraft/world/constants.h>
+#include <symocraft/profiling/profiling.h>
 
 namespace SymoCraft::Simulation::Detail {
     namespace {
@@ -15,6 +16,7 @@ namespace SymoCraft::Simulation::Detail {
     }
     Physics::TerrainCollisionQuery CollisionQuery(const World::VoxelWorld& world) { return {&world, Solid}; }
     void StepBodies(ECS::Registry& registry, const World::VoxelWorld& world, std::uint64_t& committed_bodies) {
+        SYMOCRAFT_PROFILE_ZONE("simulation.physics_adapter");
         const ECS::Registry& readable = registry;
         registry.EachOrdered<Transform, Physics::RigidBody, const Physics::HitBox>(
         [&](ECS::EntityId entity, const Transform&, const Physics::RigidBody&, const Physics::HitBox&) {

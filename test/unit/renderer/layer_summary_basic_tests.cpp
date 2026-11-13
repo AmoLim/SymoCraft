@@ -36,7 +36,6 @@ public:
     }
     void Resize(Extent2D extent) override { info.framebuffer_extent = extent; }
     void SetVSync(bool) override {}
-    std::vector<GpuFrameSample> PollGpuSamples() override { return {}; }
     void Shutdown() override {}
     void ShutdownNoexcept() noexcept override {}
     RendererInfo info;

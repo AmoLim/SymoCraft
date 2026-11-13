@@ -6,3 +6,7 @@
 
 # Preserve migrated frozen verification payloads and their SHA256 identities.
 /docs/verification/archive/** -text
+
+# Preserve original profiler sources and the fixed EnTT license bytes.
+/vendor/tracy/** -text
+/vendor/entt/LICENSE -text

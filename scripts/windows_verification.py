@@ -98,28 +98,6 @@ class Windows:
         require(hwnd, "Cannot create owned focus fixture.")
         return hwnd
 
-    def runner_control(self, hwnd, pid, identifier):
-        require(self.find(pid, "SymoCraft Benchmark", "SymoCraftBenchmarkRunner") == hwnd, "Runner identity no longer matches.")
-        control = self.user.GetDlgItem(hwnd, identifier)
-        self.owned(control, pid)
-        return control
-
-    def send(self, hwnd, message, wparam=0, lparam=0):
-        result = ctypes.c_size_t()
-        require(self.user.SendMessageTimeoutW(hwnd, message, wparam, lparam, 2, 1000, ctypes.byref(result)), "Owned runner message failed.")
-        return result.value
-
-    def text(self, hwnd, pid, identifier, text):
-        control = self.runner_control(hwnd, pid, identifier)
-        buffer = ctypes.create_unicode_buffer(text)
-        require(self.send(control, 0xc, 0, ctypes.cast(buffer, ctypes.c_void_p).value), "Owned runner text update failed.")
-
-    def choice(self, hwnd, pid, identifier, index):
-        require(self.send(self.runner_control(hwnd, pid, identifier), 0x14e, index) == index, "Owned runner choice failed.")
-
-    def start(self, hwnd, pid):
-        self.send(hwnd, 0x111, 110, self.runner_control(hwnd, pid, 110))
-
     def children(self, pid):
         snapshot = self.kernel.CreateToolhelp32Snapshot(2, 0)
         require(snapshot != ctypes.c_void_p(-1).value, "Process snapshot failed.")

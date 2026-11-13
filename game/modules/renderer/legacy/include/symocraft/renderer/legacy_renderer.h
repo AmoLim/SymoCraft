@@ -12,15 +12,10 @@
 
 namespace SymoCraft {
     class Window;
-    class GpuTimer;
     namespace Renderer {
         struct DeviceInfo {
             std::string vendor, renderer, version;
             int msaa_samples{};
-            bool nvx_memory_supported{};
-        };
-        struct DeviceMemory {
-            std::optional<std::uint64_t> dedicated_kib, available_kib;
         };
         void AttachContext(Window& window);
         void Init();
@@ -31,11 +26,10 @@ namespace SymoCraft {
         void AppendMesh(std::span<const BlockVertex3D> vertices);
         void SetSelection(std::optional<glm::vec3> position);
         void SetViewport(int width, int height);
-        void Render(const CameraView& camera, RenderStats* stats = nullptr, GpuTimer* timer = nullptr);
+        void Render(const CameraView& camera, RenderStats* stats = nullptr);
         void Present(Window& window);
         void SetVsync(bool enabled);
         void ReloadShaders();
-        DeviceMemory SampleDeviceMemory();
         void CaptureFramebuffer(int width, int height, const std::filesystem::path& path);
     }
 }

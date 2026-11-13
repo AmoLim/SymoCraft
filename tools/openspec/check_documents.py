@@ -24,7 +24,7 @@ def documents():
             path = Path(directory) / name
             if name.endswith('.md') and name not in {'source-migration.tsv.md', 'openspec-migration-context.tmp.md'}:
                 yield path
-    for path in (ROOT / 'AGENTS.md', ROOT / 'README.md', ROOT / 'tools/benchmark/README.md', ROOT / 'scripts/README.md'):
+    for path in (ROOT / 'AGENTS.md', ROOT / 'README.md', ROOT / 'scripts/README.md'):
         yield path
 
 

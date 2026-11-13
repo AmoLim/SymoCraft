@@ -3,315 +3,381 @@ tags:
   - area/meta
 ---
 
-# ECS/Memory 交付与 T5 文档收口提交划分
+# RenderDoc / Tracy 交付提交计划
 
-## 授权与基线
+2026-11-07 用户明确通过 `integrate-renderdoc-tracy` 整体验收并授权同步主规格，随后指定将完整交付提交到目标分支，先审阅本计划。实施来源为 `G:/Sandbox/Worktrees/integrate-renderdoc-tracy/Symocraft`。目标为主工作区 `G:/Projects/Symocraft` 当前检出的 `feature-integrate-renderdoc-tracy`，两处盘点基线均为 `fd09c947106c686755c269eebd4e4e504ee870d8`。
 
-2026-10-27 本轮请求为“主工作区 ECS-Memory-apply 分步提交，先写 gitspec”。当前只授权盘点及替换本页，尚未授权暂存、commit、push、merge 或创建 PR；旧批次批准不沿用。后续取得明确提交授权后，才按本页逐组执行。
+## 拟提交
 
-分支 `feature-refactoring`，规划基线 HEAD 为 `6fea31e4631e267f132aa9b1608dc6538b562e13`，盘点时索引为空。排除个人目录后，当前有58个已跟踪差异路径及135个未跟踪路径，其中111个为 EnTT 原始依赖文件。排除另一个 NPC proposal 的2个路径，再加入本页，候选共192个唯一路径。旧路径删除与归档目标新增分别计数，不等于 Git rename 识别后的文件数。
-
-当前事实以 [scope](../scope/project-scope.md)、[文档治理](../DOCUMENTATION_MAP.md)和 [T5 验证记录](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md)为依据：T5/M3 已于2026-10-25获明确整体批准，ecs 与 module-boundaries 主规格已同步，T5 已归档；随后独立授权的生产传播已将 EnTT typed ECS、DBG01、调用方及构建/测试支持同步到 F 主工作区。此轮是保存这些既有改动，不重新实施、验收、同步规格或归档。
-
-归档中“F 尚未同步”“T5 待批准”等是历史时点，后续批准和生产传播章节已明确覆盖当前状态；不得为统一措辞改写旧命令、失败、结果或批准含义。源码传播不等于合并 Git 历史。
-
-## 分组顺序
-
-| 组 | 拟提交消息 | 完整意图 | 路径数 |
+| 顺序 | 拟提交消息 | 完整意图 | 最终路径归属 |
 | --- | --- | --- | --- |
-| G1 | `build(ecs): 引入固定EnTT依赖并统一Debug ABI` | 固定原始依赖、许可证安装和全体 Debug C++ ABI；包含本页 | 118 |
-| G2 | `refactor(ecs): 交付类型化注册表并迁移生产调用方` | ECS 实现、业务调用、必要构建边界与测试一起替换，退役准确五文件 | 37 |
-| G3 | `fix(docs): 校验压缩证据成员并修正文档入口` | 独立保存已有文档审计修补、冻结材料读取规则和纯导航修正 | 6 |
-| G4 | `docs(t5): 同步ECS主规格归档与M3验收状态` | 已完成 T5 的完整归档、主规格、机制、范围与批准导航收口 | 31 |
+| G1 | `chore(deps): 固定 Tracy 0.14.1 源码和许可证` | 固定 Tracy 官方源码和许可证，保留 Tracy 与 EnTT 许可字节。 | 90（A 89 / M 1 / D 0） |
+| G2a | `refactor(foundation): 迁移 YAML 文档适配` | 将 YAML 编解码移到 foundation 的独立 target，同步所有仍在用的调用方和文档测试。 | 7（A 2 / M 3 / D 2） |
+| G2b | `feat(profiling): 接入可选 Tracy 与 RenderDoc 渲染标记` | 添加可选薄宏、构建开关、独立 CPU 区域及 D3D12/Vulkan 原生命名和事件组。 | 18（A 10 / M 8 / D 0） |
+| G2c | `feat(profiling): 切换独立诊断场景并退役旧性能链` | 切换独立 static/walk/edit、轻量快照和应用帧观测，退役旧 benchmark、Session、GPU timing query 与 Publish，同步构建、安装及测试迁移。 | 133（A 5 / M 72 / D 56） |
+| G2d | `fix(test): 恢复 Debug 世界分配测试` | 修正 Debug ABI 的过时判定，让 world.allocations 重新注册为启用测试。 | 1（A 0 / M 1 / D 0） |
+| G3 | `docs(profiling): 同步主规格和整体验收记录` | 同步七份主规格、验收与操作文档，提交 Fix1 的取消归档、导航和本计划。 | 47（A 8 / M 32 / D 7） |
 
-G2 依赖 G1。G3 是现有配套文档维护，不是 ECS 行为的一部分，也不以通过审计替代 ECS 验收；单独提交便于审阅或独立回退。G4 在 G2 后提交，使现役规格与当前交付状态有对应实现；同时收进 scope/third-party 中混合的压缩链接修正，与 G3 共同完成这批文档维护。按 G1 → G2 → G3 → G4 执行，不按目录或任意文件数量拆分。
+G1 提供固定依赖。G2a 独立迁移 YAML 适配。G2b 启用可选工具接线，旧采集链继续可用。G2c 一次切换应用、渲染接口、导出链及关联测试，Windows SDK 10.0.28000.0 的默认构建约定也随该笔落地。G2d 独立验证现有 DBG01 ABI 下的分配故障测试。G3 同步文档与主规格，作为完整文档审计点。
 
-所有路径均按当前差异整份归组，无共享文件局部暂存。以下清单是固定候选，不是目录通配授权；后续新增文件或相同路径的新并发差异不能自动纳入。
+最终树仍为 **296 个路径**，A 114、M 117、D 65。表中按从基线到最终树的状态统计，每个路径只计入最后完成它的一笔。前置提交需要修改同一路径时，以后文的跨提交清单补充。59 个产品退役路径分布在 G2a、G2c 和 G3。G3 另将 Fix1 的六份文件移到已授权归档位置，保留 14 项未完成任务。EnTT 原许可证 blob 与 HEAD 相同。
 
-## G1 固定依赖与全局 Debug ABI
+验收范围见 [整体验收记录](../openspec/changes/integrate-renderdoc-tracy/verification.md#2026-11-07-整体验收通过与主规格同步)。此前八种配置构建、累计 758 项测试、两后端的 Tracy 与 RenderDoc 检查绑定原验收候选。本轮更新的是提交划分。
 
-EnTT 固定为项目已经选定的官方 v4.0.0 提交 `85c6bba014049b5de8fad49d25424df2f1f6a8c1`；保存原始 src 与 LICENSE，不补丁第三方文件、不改用在线下载。独立 INTERFACE target 提供受控模板依赖和 `ENTT_NO_ETO`，不调用上游顶层 CMake。
+## 主工作区保留项
 
-`MsvcAbi.cmake` 在根构建和独立 benchmark 的依赖配置前统一 MSVC Debug C++ 的 `_ITERATOR_DEBUG_LEVEL=0`，保留 Debug CRT 和调试信息。这是已批准 DBG01 的实际配置，不是提高优化级别或取消 Debug。将来构建须使用全新目录并重建依赖闭包，不能混入旧 level-2 对象或库；本轮 Git 工作不因此启动构建或删除缓存。
+- 主工作区索引里已有 NPC change 的两份文件和一份个人日志。三项排除在本次提交外，复核其暂存 blob 与状态保持。
+- `restore-windows-development-environment`、`.python-version`、`pyproject.toml`、`uv.lock` 及主工作区现有 `.gitignore` 改动属于其他工作。保留在原位置和原状态。
+- 两个共享文件需按差异合并。主工作区 `CMakePresets.json` 的 `.venv/Scripts/python.exe` 路径，以及 `game/app/CMakeLists.txt` 从选定 SDK 显式收集 Debug UCRT 的改动，保留在主工作区的未提交层。G2a–G2d 的最终实现以已验收的工作树版本为准。
+- 已复制到主工作区的旧审阅稿需逐项与新版本核对，保留仅存在于主工作区的独有事实。生成的 `docs/tag-inventory.json` 需要区分分支候选与主工作区本地视图，主工作区的个人登记以及其他 change 的索引入口继续保留。
+- `out/`、本机工具、安装包、捕获轨迹、缓存、个人日志、Obsidian 和冻结归档均在批次之外。当前 change 目录保留在活动区。
 
-许可证源声明与安装规则一起交付。此组只准备依赖，不提前切换 ECS；`game/modules/ecs/CMakeLists.txt` 的源码替换及公开链接必须随 G2，否则会从旧实现中提前移除仍需的 internal.cpp。
+## 跨提交文件与中间态
 
-完整文件清单共118项，其中 EnTT 原始文件111项：
+下表是最终路径清单之外的前置改动。按改动内容组装提交，不能用整文件复制提前带入后续改动。
 
-```text
-CMakeLists.txt
-cmake/MsvcAbi.cmake
-cmake/ThirdPartyEnTT.cmake
-cmake/licenses/SOURCES.txt
-game/app/CMakeLists.txt
-tools/benchmark/CMakeLists.txt
-docs/git/gitspec.md
-vendor/entt/LICENSE
-vendor/entt/src/BUILD.bazel
-vendor/entt/src/entt/config/config.h
-vendor/entt/src/entt/config/macro.h
-vendor/entt/src/entt/config/version.h
-vendor/entt/src/entt/container/dense_map.hpp
-vendor/entt/src/entt/container/dense_set.hpp
-vendor/entt/src/entt/container/fwd.hpp
-vendor/entt/src/entt/container/table.hpp
-vendor/entt/src/entt/core/algorithm.hpp
-vendor/entt/src/entt/core/any.hpp
-vendor/entt/src/entt/core/bit.hpp
-vendor/entt/src/entt/core/compressed_pair.hpp
-vendor/entt/src/entt/core/concepts.hpp
-vendor/entt/src/entt/core/enum.hpp
-vendor/entt/src/entt/core/family.hpp
-vendor/entt/src/entt/core/fwd.hpp
-vendor/entt/src/entt/core/hashed_string.hpp
-vendor/entt/src/entt/core/ident.hpp
-vendor/entt/src/entt/core/iterator.hpp
-vendor/entt/src/entt/core/memory.hpp
-vendor/entt/src/entt/core/monostate.hpp
-vendor/entt/src/entt/core/ranges.hpp
-vendor/entt/src/entt/core/tuple.hpp
-vendor/entt/src/entt/core/type_info.hpp
-vendor/entt/src/entt/core/type_traits.hpp
-vendor/entt/src/entt/core/utility.hpp
-vendor/entt/src/entt/entity/component.hpp
-vendor/entt/src/entt/entity/entity.hpp
-vendor/entt/src/entt/entity/fwd.hpp
-vendor/entt/src/entt/entity/group.hpp
-vendor/entt/src/entt/entity/handle.hpp
-vendor/entt/src/entt/entity/helper.hpp
-vendor/entt/src/entt/entity/mixin.hpp
-vendor/entt/src/entt/entity/organizer.hpp
-vendor/entt/src/entt/entity/ranges.hpp
-vendor/entt/src/entt/entity/registry.hpp
-vendor/entt/src/entt/entity/runtime_view.hpp
-vendor/entt/src/entt/entity/snapshot.hpp
-vendor/entt/src/entt/entity/sparse_set.hpp
-vendor/entt/src/entt/entity/storage.hpp
-vendor/entt/src/entt/entity/view.hpp
-vendor/entt/src/entt/entt.hpp
-vendor/entt/src/entt/fwd.hpp
-vendor/entt/src/entt/graph/adjacency_matrix.hpp
-vendor/entt/src/entt/graph/dot.hpp
-vendor/entt/src/entt/graph/flow.hpp
-vendor/entt/src/entt/graph/fwd.hpp
-vendor/entt/src/entt/locator/locator.hpp
-vendor/entt/src/entt/meta/adl_pointer.hpp
-vendor/entt/src/entt/meta/container.hpp
-vendor/entt/src/entt/meta/context.hpp
-vendor/entt/src/entt/meta/factory.hpp
-vendor/entt/src/entt/meta/fwd.hpp
-vendor/entt/src/entt/meta/meta.hpp
-vendor/entt/src/entt/meta/node.hpp
-vendor/entt/src/entt/meta/pointer.hpp
-vendor/entt/src/entt/meta/policy.hpp
-vendor/entt/src/entt/meta/range.hpp
-vendor/entt/src/entt/meta/resolve.hpp
-vendor/entt/src/entt/meta/template.hpp
-vendor/entt/src/entt/meta/type_traits.hpp
-vendor/entt/src/entt/meta/utility.hpp
-vendor/entt/src/entt/natvis/config.natvis
-vendor/entt/src/entt/natvis/container.natvis
-vendor/entt/src/entt/natvis/core.natvis
-vendor/entt/src/entt/natvis/entity.natvis
-vendor/entt/src/entt/natvis/graph.natvis
-vendor/entt/src/entt/natvis/locator.natvis
-vendor/entt/src/entt/natvis/meta.natvis
-vendor/entt/src/entt/natvis/poly.natvis
-vendor/entt/src/entt/natvis/process.natvis
-vendor/entt/src/entt/natvis/resource.natvis
-vendor/entt/src/entt/natvis/signal.natvis
-vendor/entt/src/entt/poly/fwd.hpp
-vendor/entt/src/entt/poly/poly.hpp
-vendor/entt/src/entt/process/fwd.hpp
-vendor/entt/src/entt/process/process.hpp
-vendor/entt/src/entt/process/scheduler.hpp
-vendor/entt/src/entt/resource/cache.hpp
-vendor/entt/src/entt/resource/fwd.hpp
-vendor/entt/src/entt/resource/loader.hpp
-vendor/entt/src/entt/resource/resource.hpp
-vendor/entt/src/entt/signal/delegate.hpp
-vendor/entt/src/entt/signal/dispatcher.hpp
-vendor/entt/src/entt/signal/emitter.hpp
-vendor/entt/src/entt/signal/fwd.hpp
-vendor/entt/src/entt/signal/sigh.hpp
-vendor/entt/src/entt/stl/algorithm.hpp
-vendor/entt/src/entt/stl/array.hpp
-vendor/entt/src/entt/stl/atomic.hpp
-vendor/entt/src/entt/stl/bit.hpp
-vendor/entt/src/entt/stl/cmath.hpp
-vendor/entt/src/entt/stl/concepts.hpp
-vendor/entt/src/entt/stl/cstddef.hpp
-vendor/entt/src/entt/stl/cstdint.hpp
-vendor/entt/src/entt/stl/functional.hpp
-vendor/entt/src/entt/stl/ios.hpp
-vendor/entt/src/entt/stl/iterator.hpp
-vendor/entt/src/entt/stl/limits.hpp
-vendor/entt/src/entt/stl/memory.hpp
-vendor/entt/src/entt/stl/ostream.hpp
-vendor/entt/src/entt/stl/sstream.hpp
-vendor/entt/src/entt/stl/string.hpp
-vendor/entt/src/entt/stl/string_view.hpp
-vendor/entt/src/entt/stl/tuple.hpp
-vendor/entt/src/entt/stl/type_traits.hpp
-vendor/entt/src/entt/stl/utility.hpp
-vendor/entt/src/entt/stl/vector.hpp
-vendor/entt/src/entt/tools.hpp
-vendor/entt/src/entt/tools/davey.hpp
-```
+| 路径 | 先提交的内容 | 后续归属 |
+| --- | --- | --- |
+| `cmake/ModuleBoundaries.cmake` | G2a 授权独立 YAML target 及私有依赖，G2b 加 profiling 和唯一 Tracy client 的边界 | G2c 移除旧渲染源的边界登记 |
+| `game/modules/foundation/CMakeLists.txt`、`game/modules/telemetry/CMakeLists.txt` | G2a 建立独立 YAML target，旧 telemetry 私有链接该适配，保留 Publish 和旧性能实现 | G2c 移除 Publish 源和旧 telemetry，接入快照 |
+| `game/app/CMakeLists.txt` | G2a 增加 YAML target 链接 | G2b 添加 profiling 安装符号 |
+| `game/app/src/application.cpp`、`game/app/src/game_renderer.cpp`、`test/unit/app/application_probe.cpp` | G2a 只迁移 YAML include | G2c 切换运行流程、计数和保留测试 |
+| `test/integration/renderer/d3d12_fault_probe.cpp`、`test/integration/renderer/d3d12_lifetime_async_probe.cpp`、`test/integration/renderer/vulkan_wsi_probe.cpp`、`test/integration/renderer/vulkan_lifetime_fault_probe.cpp` | G2a 只迁移 YAML include | G2c 迁移旧采样、故障及寿命验证路径 |
+| `game/modules/telemetry/src/performance.cpp`、`test/integration/renderer/game_report_probe.cpp` | G2a 将仍存活的旧导出和旧报表探针接到新 YAML 适配 | G2c 退役两个旧消费者 |
+| `test/integration/CMakeLists.txt`、`test/unit/app/CMakeLists.txt`、`test/unit/foundation/CMakeLists.txt` | G2a 接线文档消费者和往返测试，旧报表探针先链接新适配 | G2c 移除旧消费者及其注册、接入迁移后的检查 |
+| `CMakeLists.txt`、`test/CMakeLists.txt` | G2b 加可选 Tracy、原生标记、符号配置、CPU-only 隔离和 profiling 测试，旧 benchmark 和旧测试注册继续生效 | G2c 退役旧入口、配置和注册 |
+| `game/modules/renderer/src/backend/d3d12/d3d12_backend.cpp`、`game/modules/renderer/src/backend/vulkan/vulkan_backend.cpp` | G2b 在既有提交、呈现和资源路径加入 CPU 区域与原生注释，保留旧计时、查询和同步 | G2c 移除旧计时与消费者，保留正确性同步 |
 
-## G2 类型化 ECS 与生产调用闭包
+## 提交前核对
 
-整体交付 Registry/EntityId、模板实现、配置与私有诊断，保留唯一正式 ECS target。对象构造/销毁、跨 owner 与代数身份、每实例类型注册、const 读取、同步查询/有序查询、短借用和 Failed 状态属于同一个替换意图，不拆成只能链接旧实现的中间提交。
+1. 复核分支 HEAD、两处工作区状态及准确清单。核对主工作区共享路径、59 个退役路径和 Fix1 的 6 个旧位置，保留主工作区独有修改。
+2. 从目标 HEAD 用隔离索引依次组装六笔，逐笔审阅相对父提交的 diff、模式和关键 blob。G1 核对 vendor 与许可字节。G2a 检查单一 YAML owner、公开头、文档往返和仍在的旧导出。G2b 检查工具开关、缺依赖拒绝、默认构建、双后端和原生注释，同时确认旧链仍可构建。
+3. G2c 验证受影响的构建、测试、安装和旧入口退役。G2d 在四种 Debug 配置验证 world.allocations 已启用并实际通过。每笔使用适用工具链验证自己的中间树，早期候选使用明确的 SDK 选择。
+4. G3 校验主规格、历史记录和文档链接。当前操作入口使用仓库相对链接，历史路径保留原候选身份。最终组合与已验收工作树逐路径对账，记录文档或本地叠加差异。历史 GPU 回放与人工结论沿用其原候选身份。
+5. 审阅通过后依次提交至现有目标分支。逐笔对照提交清单，并核对主工作区本地差异与原三项暂存。当前状态为提交计划待审。
 
-simulation/app 调用方同组迁移：物理按显式 `PhysicsStepOrder` 业务键执行，缺键或平局不靠 native entity 顺序补齐；保留逐体提交与 Session 错误边界。迁移玩家、相机、transform、character、Session 与 Application 的既有消费者，不新增 NPC、计算服务或正式顶层 physics 模块。
-
-CMake 边界、负向夹具、真实库契约/多 TU、编译正负例、身份/资源/代表分配故障及受影响 Session/物理基线测试源码一并保存。私有诊断仅供已经指定的两份测试，不能开放整个 src 或让生产目标依赖测试实现。有界成本 probe 保留既有 EXCLUDE_FROM_ALL 身份，不把源码存在写成已运行。
-
-以下五个已退役文件作为本组删除提交，不恢复成活动后备，也不扩展其他删除：
-
-- `game/modules/ecs/src/component_container.h`
-- `game/modules/ecs/src/internal.cpp`
-- `game/modules/ecs/src/internal.h`
-- `game/modules/ecs/src/legacy/MemoryHelper.h`
-- `game/modules/ecs/src/legacy/RawMemory.h`
-
-完整文件清单共37项，包含上述5项删除：
+## G1 准确路径 · 固定 Tracy 0.14.1 源码和许可证
 
 ```text
-cmake/ModuleBoundaries.cmake
-game/app/src/application.cpp
-game/modules/ecs/CMakeLists.txt
-game/modules/ecs/include/symocraft/ecs/detail/entt_config.h
-game/modules/ecs/include/symocraft/ecs/detail/registry.inl
-game/modules/ecs/include/symocraft/ecs/entity.h
-game/modules/ecs/include/symocraft/ecs/registry.h
-game/modules/ecs/src/component_container.h
-game/modules/ecs/src/diagnostics/registry_test_access.h
-game/modules/ecs/src/internal.cpp
-game/modules/ecs/src/internal.h
-game/modules/ecs/src/legacy/MemoryHelper.h
-game/modules/ecs/src/legacy/RawMemory.h
-game/modules/ecs/src/registry.cpp
-game/modules/simulation/include/symocraft/simulation/component.h
-game/modules/simulation/src/Camera.cpp
-game/modules/simulation/src/character_system.cpp
-game/modules/simulation/src/physics_adapter.cpp
-game/modules/simulation/src/player.cpp
-game/modules/simulation/src/session.cpp
-game/modules/simulation/src/transform_system.cpp
-test/integration/CheckNegativeBoundaries.cmake
-test/unit/ecs/CMakeLists.txt
-test/unit/ecs/check_registry_compilation.py
-test/unit/ecs/contract_components.h
-test/unit/ecs/contract_other.cpp
-test/unit/ecs/entt_configuration_tests.cpp
-test/unit/ecs/registry_allocation_tests.cpp
-test/unit/ecs/registry_compile_negative.cpp
-test/unit/ecs/registry_contract_tests.cpp
-test/unit/ecs/registry_cost_probe.cpp
-test/unit/ecs/registry_tests.cpp
-test/unit/simulation/CMakeLists.txt
-test/unit/simulation/cpu_baseline_fixture.h
-test/unit/simulation/legacy_physics_baseline_tests.cpp
-test/unit/simulation/session_tests.cpp
-test/unit/simulation/simulation_contract_tests.cpp
+M  .gitattributes
+A  vendor/tracy/LICENSE
+A  vendor/tracy/public/TracyClient.F90
+A  vendor/tracy/public/TracyClient.cpp
+A  vendor/tracy/public/client/TracyAlloc.cpp
+A  vendor/tracy/public/client/TracyArmCpuTable.hpp
+A  vendor/tracy/public/client/TracyCallstack.cpp
+A  vendor/tracy/public/client/TracyCallstack.h
+A  vendor/tracy/public/client/TracyCallstack.hpp
+A  vendor/tracy/public/client/TracyCpuid.hpp
+A  vendor/tracy/public/client/TracyDebug.hpp
+A  vendor/tracy/public/client/TracyDxt1.cpp
+A  vendor/tracy/public/client/TracyDxt1.hpp
+A  vendor/tracy/public/client/TracyElf.hpp
+A  vendor/tracy/public/client/TracyFastVector.hpp
+A  vendor/tracy/public/client/TracyKCore.cpp
+A  vendor/tracy/public/client/TracyKCore.hpp
+A  vendor/tracy/public/client/TracyLock.hpp
+A  vendor/tracy/public/client/TracyMangle.hpp
+A  vendor/tracy/public/client/TracyOverride.cpp
+A  vendor/tracy/public/client/TracyProfiler.cpp
+A  vendor/tracy/public/client/TracyProfiler.hpp
+A  vendor/tracy/public/client/TracyRingBuffer.hpp
+A  vendor/tracy/public/client/TracyRocprof.cpp
+A  vendor/tracy/public/client/TracyScoped.hpp
+A  vendor/tracy/public/client/TracyStringHelpers.hpp
+A  vendor/tracy/public/client/TracySysPower.cpp
+A  vendor/tracy/public/client/TracySysPower.hpp
+A  vendor/tracy/public/client/TracySysTime.cpp
+A  vendor/tracy/public/client/TracySysTime.hpp
+A  vendor/tracy/public/client/TracySysTrace.cpp
+A  vendor/tracy/public/client/TracySysTrace.hpp
+A  vendor/tracy/public/client/TracyThread.hpp
+A  vendor/tracy/public/client/apple/TracyMach.cpp
+A  vendor/tracy/public/client/tracy_SPSCQueue.h
+A  vendor/tracy/public/client/tracy_concurrentqueue.h
+A  vendor/tracy/public/client/tracy_rpmalloc.cpp
+A  vendor/tracy/public/client/tracy_rpmalloc.hpp
+A  vendor/tracy/public/client/windows/TracyETW.cpp
+A  vendor/tracy/public/client/windows/TracyETW_compat.h
+A  vendor/tracy/public/common/TracyAlign.hpp
+A  vendor/tracy/public/common/TracyAlloc.hpp
+A  vendor/tracy/public/common/TracyApi.h
+A  vendor/tracy/public/common/TracyAssert.hpp
+A  vendor/tracy/public/common/TracyColor.hpp
+A  vendor/tracy/public/common/TracyForceInline.hpp
+A  vendor/tracy/public/common/TracyFormat.h
+A  vendor/tracy/public/common/TracyMutex.hpp
+A  vendor/tracy/public/common/TracyProtocol.hpp
+A  vendor/tracy/public/common/TracyQueue.hpp
+A  vendor/tracy/public/common/TracySocket.cpp
+A  vendor/tracy/public/common/TracySocket.hpp
+A  vendor/tracy/public/common/TracyStackFrames.cpp
+A  vendor/tracy/public/common/TracyStackFrames.hpp
+A  vendor/tracy/public/common/TracyString.hpp
+A  vendor/tracy/public/common/TracySystem.cpp
+A  vendor/tracy/public/common/TracySystem.hpp
+A  vendor/tracy/public/common/TracyTaggedUserlandAddress.hpp
+A  vendor/tracy/public/common/TracyVersion.hpp
+A  vendor/tracy/public/common/TracyWinFamily.hpp
+A  vendor/tracy/public/common/TracyYield.hpp
+A  vendor/tracy/public/common/tracy_lz4.cpp
+A  vendor/tracy/public/common/tracy_lz4.hpp
+A  vendor/tracy/public/common/tracy_lz4hc.cpp
+A  vendor/tracy/public/common/tracy_lz4hc.hpp
+A  vendor/tracy/public/libbacktrace/LICENSE
+A  vendor/tracy/public/libbacktrace/alloc.cpp
+A  vendor/tracy/public/libbacktrace/backtrace.hpp
+A  vendor/tracy/public/libbacktrace/config.h
+A  vendor/tracy/public/libbacktrace/dwarf.cpp
+A  vendor/tracy/public/libbacktrace/elf.cpp
+A  vendor/tracy/public/libbacktrace/fileline.cpp
+A  vendor/tracy/public/libbacktrace/filenames.hpp
+A  vendor/tracy/public/libbacktrace/internal.hpp
+A  vendor/tracy/public/libbacktrace/macho.cpp
+A  vendor/tracy/public/libbacktrace/mmapio.cpp
+A  vendor/tracy/public/libbacktrace/posix.cpp
+A  vendor/tracy/public/libbacktrace/sort.cpp
+A  vendor/tracy/public/libbacktrace/state.cpp
+A  vendor/tracy/public/tracy/Tracy.hpp
+A  vendor/tracy/public/tracy/TracyC.h
+A  vendor/tracy/public/tracy/TracyCUDA.hpp
+A  vendor/tracy/public/tracy/TracyD3D11.hpp
+A  vendor/tracy/public/tracy/TracyD3D12.hpp
+A  vendor/tracy/public/tracy/TracyLua.hpp
+A  vendor/tracy/public/tracy/TracyMetal.hmm
+A  vendor/tracy/public/tracy/TracyOpenCL.hpp
+A  vendor/tracy/public/tracy/TracyOpenGL.hpp
+A  vendor/tracy/public/tracy/TracyVulkan.hpp
+A  vendor/tracy/public/tracy/TracyWebGPU.hpp
 ```
 
-foundation allocator/logger、有实际消费者的兼容路径、默认 D3D12、显式 Vulkan 和保留 GL 均维持现有边界；不顺带全局内存审计、退役 GL 或重选预算。生产接口、消费者及测试必须同组，不先提交新签名再等待后续修调用方。
-
-## G3 文档审计与导航维护
-
-保存工作区已有的独立修补，不在本轮重新运行全库审计：
-
-- 通过系统 libarchive tar 只读流式校验已登记压缩证据成员的路径、文件集合、大小和 SHA256，拒绝缺失、重复、越界及身份变化；不解包恢复散文件。
-- 被迁移的 Markdown 仍读取准确成员检查锚点，不因目标变成 .7z 而跳过校验。已退役只读 review 来源按固定历史 Git 对象核验，缺失工具、成员或不可验证原文仍报错。
-- DOCUMENTATION_MAP 保存相应维护规则；issues 只修正旧证据链接，scripts/README 只修正根 README 锚点，不关闭问题或改动构建脚本。
-
-完整文件清单共6项：
+## G2a 最终路径归属 · 迁移 YAML 文档适配
 
 ```text
-docs/DOCUMENTATION_MAP.md
-docs/issue/issues.md
-scripts/README.md
-tools/openspec/check_documents.py
-tools/openspec/evidence_paths.py
-tools/openspec/test_evidence_paths.py
+M  cmake/PublicHeaderTests.cmake
+A  game/modules/foundation/include/symocraft/foundation/document_io.h
+A  game/modules/foundation/src/document_io.cpp
+D  game/modules/telemetry/include/symocraft/telemetry/document_io.h
+D  game/modules/telemetry/src/document_io.cpp
+M  test/integration/renderer/d3d12_game_fault_probe.cpp
+M  test/unit/foundation/document_tests.cpp
 ```
 
-scope 与 third-party 同时含 T5 当前状态、依赖说明及压缩链接修正，整份归 G4；不为纯导航在共享文件上制造额外局部补丁。现有冻结包、登记清单及原始证据均不在本批差异清单内，不重新压缩或改写。
-
-## G4 主规格、完整归档与当前文档
-
-保存已完成的规格同步与归档结果，不调用 sync/archive 命令。旧活动目录的8项删除、新归档目录的8项新增，以及 ecs 新主规格、module-boundaries 增量必须同组；归档不是仅改名，包含基线之后的完整设计/任务/实施与验证记录，不声称八份内容与旧 HEAD 全字节相同。
-
-当前 ECS 门面、失败/借用机制、受控 EnTT 模板依赖、DBG01 及必要消费者职责更新到原有架构页；根 README/AGENTS、文档入口、OpenSpec context、第三方许可、scope 和关键节点保持同一交付身份。全局 VERIFICATION 只承载批准及导航，验证正文仍在归档 change 的 verification.md，不复制附件或另建报告。
-
-T5/M3 的整体批准及“F 已取得 T5”的后续传播事实分别保留。其他机器 benchmark 延至现代性能分析工具接入后，设备角色、预算、未测状态和保留风险不取消，不恢复旧玩法前硬门槛，也不暗示性能分析工具已选定或接入。
-
-完整文件清单共31项；旧目录8项为删除，归档目录8项为新增：
+## G2b 最终路径归属 · 接入可选 Tracy 与 RenderDoc 渲染标记
 
 ```text
-AGENTS.md
-README.md
-docs/README.md
-docs/architecture/Overview.md
-docs/architecture/app.md
-docs/architecture/ecs.md
-docs/architecture/engineering.md
-docs/architecture/foundation.md
-docs/architecture/simulation.md
-docs/openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/.openspec.yaml
-docs/openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/decisions.md
-docs/openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/design.md
-docs/openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/proposal.md
-docs/openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/specs/ecs/spec.md
-docs/openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/specs/module-boundaries/spec.md
-docs/openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/tasks.md
-docs/openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md
-docs/openspec/changes/m3-t5-ecs-memory/.openspec.yaml
-docs/openspec/changes/m3-t5-ecs-memory/decisions.md
-docs/openspec/changes/m3-t5-ecs-memory/design.md
-docs/openspec/changes/m3-t5-ecs-memory/proposal.md
-docs/openspec/changes/m3-t5-ecs-memory/specs/ecs/spec.md
-docs/openspec/changes/m3-t5-ecs-memory/specs/module-boundaries/spec.md
-docs/openspec/changes/m3-t5-ecs-memory/tasks.md
-docs/openspec/changes/m3-t5-ecs-memory/verification.md
-docs/openspec/config.yaml
-docs/openspec/specs/ecs/spec.md
-docs/openspec/specs/module-boundaries/spec.md
-docs/scope/project-scope.md
-docs/third-party.md
-docs/verification/VERIFICATION.md
+M  CMakePresets.json
+M  cmake/licenses/SOURCES.txt
+M  game/CMakeLists.txt
+M  game/app/CMakeLists.txt
+A  game/modules/profiling/CMakeLists.txt
+A  game/modules/profiling/include/symocraft/profiling/profiling.h
+A  game/modules/renderer/src/backend/d3d12/debug_markers.h
+A  game/modules/renderer/src/backend/vulkan/debug_markers.h
+M  game/modules/simulation/src/character_system.cpp
+M  game/modules/simulation/src/physics_adapter.cpp
+M  game/modules/simulation/src/session.cpp
+M  game/modules/world/src/world.cpp
+A  test/unit/profiling/CMakeLists.txt
+A  test/unit/profiling/check_configuration.py
+A  test/unit/profiling/gpu_markers_off_tests.cpp
+A  test/unit/profiling/profiling_other.cpp
+A  test/unit/profiling/profiling_tests.cpp
+A  test/unit/profiling/vulkan_debug_markers_tests.cpp
 ```
 
-不重填人工 checkbox、不将历史测试改记为本轮通过、不改其他主规格或 T3/T4 冻结归档。新 NPC proposal 与本组无提交依赖，不因 scope 提到下一阶段就提前纳入。
-
-## 明确排除
-
-以下新文件属于另一项 NPC 规划，不属于本次 ECS/Memory apply 提交，保留未跟踪状态，后续另定范围：
+## G2c 最终路径归属 · 切换独立诊断场景并退役旧性能链
 
 ```text
-docs/openspec/changes/npc-framework-harvest-mvp/.openspec.yaml
-docs/openspec/changes/npc-framework-harvest-mvp/proposal.md
+M  AGENTS.md
+M  CMakeLists.txt
+M  cmake/ModuleBoundaries.cmake
+M  game/app/src/application.cpp
+M  game/app/src/application.h
+M  game/app/src/application_probe.h
+M  game/app/src/benchmark_scenario.cpp
+D  game/app/src/foreground_readiness.h
+M  game/app/src/game_entry.cpp
+M  game/app/src/game_renderer.cpp
+M  game/app/src/game_renderer.h
+M  game/app/src/shutdown_report.h
+M  game/app/src/startup_options.cpp
+M  game/app/src/startup_options.h
+M  game/modules/foundation/CMakeLists.txt
+D  game/modules/foundation/include/symocraft/foundation/files.h
+D  game/modules/foundation/src/files.cpp
+M  game/modules/platform/CMakeLists.txt
+D  game/modules/platform/include/symocraft/platform/process_memory.h
+D  game/modules/platform/src/process_memory.cpp
+M  game/modules/renderer/CMakeLists.txt
+M  game/modules/renderer/include/symocraft/renderer/renderer.h
+M  game/modules/renderer/include/symocraft/renderer/types.h
+D  game/modules/renderer/legacy/include/symocraft/renderer/gpu_timer.h
+M  game/modules/renderer/legacy/include/symocraft/renderer/legacy_renderer.h
+M  game/modules/renderer/legacy/include/symocraft/renderer/render_stats.h
+M  game/modules/renderer/src/backend/d3d12/d3d12_backend.cpp
+M  game/modules/renderer/src/backend/d3d12/diagnostic_access.h
+M  game/modules/renderer/src/backend/render_backend.h
+M  game/modules/renderer/src/backend/vulkan/diagnostic_access.h
+M  game/modules/renderer/src/backend/vulkan/vulkan_backend.cpp
+M  game/modules/renderer/src/batch.hpp
+D  game/modules/renderer/src/frame_diagnostics.h
+D  game/modules/renderer/src/gpu_timer.cpp
+M  game/modules/renderer/src/legacy_renderer.cpp
+D  game/modules/renderer/src/performance_memory.cpp
+M  game/modules/renderer/src/renderer.cpp
+M  game/modules/renderer/src/renderer_impl.cpp
+M  game/modules/renderer/src/renderer_impl.h
+M  game/modules/telemetry/CMakeLists.txt
+A  game/modules/telemetry/include/symocraft/telemetry/debug_snapshot.h
+D  game/modules/telemetry/include/symocraft/telemetry/performance.h
+A  game/modules/telemetry/src/debug_snapshot.cpp
+D  game/modules/telemetry/src/export_diagnostics/export_probe.h
+D  game/modules/telemetry/src/performance.cpp
+D  scripts/benchmark.ps1
+D  scripts/benchmark.py
+M  scripts/build.py
+M  scripts/capture-migration-inputs.py
+M  scripts/verify-runtime-faults.py
+M  scripts/verify-runtime.ps1
+M  scripts/verify-runtime.py
+M  scripts/windows_verification.py
+M  test/CMakeLists.txt
+D  test/benchmark/CMakeLists.txt
+D  test/benchmark/benchmark_script_tests.ps1
+D  test/benchmark/benchmark_script_tests.py
+D  test/benchmark/capture_probe.cpp
+D  test/benchmark/publication_tests.cpp
+D  test/benchmark/runner_tests.cpp
+M  test/integration/CMakeLists.txt
+M  test/integration/VerifyBuildMatrix.cmake
+M  test/integration/VerifyMigrationRuntime.py
+D  test/integration/inspect-sdl-delivery.cpp
+M  test/integration/renderer/d3d12_backend_smoke.cpp
+M  test/integration/renderer/d3d12_fault_probe.cpp
+D  test/integration/renderer/d3d12_frame_timing_probe.cpp
+M  test/integration/renderer/d3d12_lifetime_async_probe.cpp
+M  test/integration/renderer/draw_window_probe.cpp
+D  test/integration/renderer/frame_timing_schema.py
+D  test/integration/renderer/game_report_probe.cpp
+A  test/integration/renderer/gl_capture_probe.cpp
+D  test/integration/renderer/test_budget_scripts.py
+D  test/integration/renderer/test_d3d12_frame_timings.py
+D  test/integration/renderer/test_foreground_comparison.py
+D  test/integration/renderer/test_vulkan_frame_timings.py
+D  test/integration/renderer/verify-d3d12-budgets.py
+M  test/integration/renderer/verify-d3d12-candidate.py
+D  test/integration/renderer/verify-d3d12-frame-timings.py
+M  test/integration/renderer/verify-d3d12-game.py
+M  test/integration/renderer/verify-d3d12-lifetime-async.py
+D  test/integration/renderer/verify-renderer-comparison.py
+M  test/integration/renderer/verify-renderer-configurations.py
+D  test/integration/renderer/verify-vulkan-async.py
+D  test/integration/renderer/verify-vulkan-frame-timings.py
+M  test/integration/renderer/verify-vulkan-lifetime-faults.py
+M  test/integration/renderer/verify-vulkan-wsi.py
+M  test/integration/renderer/vulkan_backend_smoke.cpp
+M  test/integration/renderer/vulkan_frame_bindings_gpu_probe.cpp
+D  test/integration/renderer/vulkan_frame_timing_probe.cpp
+M  test/integration/renderer/vulkan_lifetime_fault_probe.cpp
+D  test/integration/renderer/vulkan_native_observation.py
+M  test/integration/renderer/vulkan_wsi_probe.cpp
+M  test/integration/verify-sdl-delivery.py
+M  test/scripts/test_developer_scripts.py
+M  test/scripts/test_migrated_scripts.py
+M  test/scripts/test_renderer_d3d12_lifetime_async.py
+D  test/scripts/test_renderer_vulkan_async.py
+M  test/scripts/test_renderer_vulkan_lifetime_fault.py
+M  test/scripts/test_renderer_vulkan_wsi.py
+D  test/support/benchmark_fixture.cpp
+D  test/support/benchmark_process_fixture.cpp
+D  test/support/sealed_export.h
+M  test/unit/app/CMakeLists.txt
+M  test/unit/app/application_probe.cpp
+D  test/unit/app/foreground_readiness_tests.cpp
+A  test/unit/app/profile_scenario_probe.cpp
+M  test/unit/app/scenario_tests.cpp
+M  test/unit/app/startup_options_tests.cpp
+M  test/unit/foundation/CMakeLists.txt
+D  test/unit/foundation/files_tests.cpp
+M  test/unit/renderer/CMakeLists.txt
+M  test/unit/renderer/facade_tests.cpp
+D  test/unit/renderer/frame_diagnostics_tests.cpp
+D  test/unit/renderer/gpu_timer_tests.cpp
+M  test/unit/renderer/layer_summary_basic_tests.cpp
+M  test/unit/renderer/public_api_consumer.cpp
+M  test/unit/telemetry/CMakeLists.txt
+A  test/unit/telemetry/debug_snapshot_tests.cpp
+D  test/unit/telemetry/lifecycle_tests.cpp
+D  test/unit/telemetry/performance_tests.cpp
+D  test/unit/telemetry/renderer_performance_tests.cpp
+D  tools/benchmark/CMakeLists.txt
+D  tools/benchmark/README.md
+D  tools/benchmark/include/benchmark/runner.h
+D  tools/benchmark/runner.manifest
+D  tools/benchmark/src/gui.cpp
+D  tools/benchmark/src/gui.h
+D  tools/benchmark/src/main.cpp
+D  tools/benchmark/src/platform.cpp
+D  tools/benchmark/src/platform.h
+D  tools/benchmark/src/runner.cpp
+M  tools/openspec/check_documents.py
 ```
 
-个人 `docs/development-journal/`、`docs/.obsidian/`、忽略的 `.agents/`、out、旧缓存、运行包及任何未确认残留均不纳入，不读取个人正文或重新跟踪私有配置。不修改忽略规则、全局 Git 配置、凭据、hooks 或全库换行，不清场、不跨工作树复制或改写历史。
+## G2d 最终路径归属 · 恢复 Debug 世界分配测试
 
-## 后续暂存与提交边界
+```text
+M  test/unit/world/CMakeLists.txt
+```
 
-取得当次明确提交授权后，仅进行必要 Git 操作：
+## G3 准确路径 · 同步主规格和整体验收记录
 
-1. 重新核对分支、HEAD、索引和本页固定路径，检查新增并发差异；起点不符或文件内容超出已确认范围时先报告，不覆盖用户改动。
-2. 每组使用准确文件清单暂存；删除路径明确纳入，归档来源/目标成对，vendor 只取上述111项，不使用 `git add .` 或不限定范围的 `git add -A`。
-3. 检查准确 staged name/status/mode 和完整 diff，核对依赖、意外私密信息、冲突标记及 `git diff --cached --check`；确认只有当组内容后，使用约定中文消息提交。不得用 stash/reset 或改写工作区拼装中间版本。
-4. 本页完整计划随 G1 提交，不回填循环 hash 或追加旧批次历史；每组实际提交结果在聊天报告。最后核对剩余差异应为明确排除项及未纳入的并发变化，不自动处理它们。
-
-本轮及后续仅 Git 提交不自动附带构建、CTest、文档审计、OpenSpec validate、游戏启动、安装验证、GPU/人工检查或性能采样。若另需这些工作，须单独明确范围；不把它们设为擅自扩展提交任务的前置流程。push、merge、PR、tag 和历史改写同样需要独立当前授权。
-
-## 验证事实与保留风险
-
-本轮只做只读 Git/差异盘点、依赖与路径归组、本页更新，以及本页空白/清单覆盖核对；索引保持不变。构建、测试、文档审计和运行验证均未执行，不能宣称任何中间提交已经通过工程验证。
-
-既有结果来源仅引用 T5 verification：生产传播轮 F 的 CPU-only Debug/Release 各83/83、独立 benchmark 各9/9、其他已列配置/边界/安装检查均有原版本和适用范围，不是本轮重跑，也不是全量107项测试通过。历史文档审计的16项问题与本批工具修补同存，本轮不作新的全库错误数或通过结论。
-
-继续保留 1175/诊断完整性、暂停 Fix1、DBG01 的检查损失与旧 level-2 terminate、有限 OOM/成本观察、非全量原生故障矩阵、长期/真正干净机和其他设备未测等已列限制。批准不关闭这些问题；不将短复查或功能构建提升为性能、M4/M5/M6 或全局内存保证。
+```text
+M  README.md
+M  docs/README.md
+M  docs/architecture/Overview.md
+M  docs/architecture/app.md
+D  docs/architecture/benchmark.md
+M  docs/architecture/engineering.md
+M  docs/architecture/foundation.md
+M  docs/architecture/platform.md
+M  docs/architecture/renderer.md
+M  docs/architecture/telemetry.md
+M  docs/architecture/world.md
+M  docs/git/gitspec.md
+M  docs/issue/issues.md
+A  docs/openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/.openspec.yaml
+A  docs/openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/design.md
+A  docs/openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/proposal.md
+A  docs/openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/specs/foundation-files/spec.md
+A  docs/openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/tasks.md
+A  docs/openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/verification.md
+M  docs/openspec/changes/integrate-renderdoc-tracy/proposal.md
+M  docs/openspec/changes/integrate-renderdoc-tracy/specs/development-profiling/spec.md
+M  docs/openspec/changes/integrate-renderdoc-tracy/specs/foundation-files/spec.md
+M  docs/openspec/changes/integrate-renderdoc-tracy/specs/module-boundaries/spec.md
+M  docs/openspec/changes/integrate-renderdoc-tracy/specs/telemetry-lifecycle/spec.md
+A  docs/openspec/changes/integrate-renderdoc-tracy/verification.md
+D  docs/openspec/changes/m3-t2-publication-fix1/.openspec.yaml
+D  docs/openspec/changes/m3-t2-publication-fix1/design.md
+D  docs/openspec/changes/m3-t2-publication-fix1/proposal.md
+D  docs/openspec/changes/m3-t2-publication-fix1/specs/foundation-files/spec.md
+D  docs/openspec/changes/m3-t2-publication-fix1/tasks.md
+D  docs/openspec/changes/m3-t2-publication-fix1/verification.md
+M  docs/openspec/config.yaml
+M  docs/openspec/specs/application-lifecycle/spec.md
+A  docs/openspec/specs/development-profiling/spec.md
+M  docs/openspec/specs/foundation-files/spec.md
+M  docs/openspec/specs/module-boundaries/spec.md
+M  docs/openspec/specs/platform/spec.md
+M  docs/openspec/specs/renderer/spec.md
+M  docs/openspec/specs/telemetry-lifecycle/spec.md
+M  docs/openspec/specs/world/spec.md
+M  docs/scope/project-scope.md
+M  docs/tag-inventory.json
+M  docs/third-party.md
+M  docs/verification/VERIFICATION.md
+M  docs/verification/methods.md
+M  docs/verification/scenarios.md
+M  scripts/README.md
+```

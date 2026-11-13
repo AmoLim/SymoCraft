@@ -34,7 +34,9 @@
       "inherits": "windows-base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "SYMOCRAFT_RENDER_D3D12": true
+        "SYMOCRAFT_RENDER_D3D12": true,
+        "SYMOCRAFT_ENABLE_TRACY": false,
+        "SYMOCRAFT_GPU_DEBUG_MARKERS": false
       }
     },
     {
@@ -43,7 +45,18 @@
       "inherits": "windows-base",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
-        "SYMOCRAFT_RENDER_D3D12": true
+        "SYMOCRAFT_RENDER_D3D12": true,
+        "SYMOCRAFT_ENABLE_TRACY": false,
+        "SYMOCRAFT_GPU_DEBUG_MARKERS": false
+      }
+    },
+    {
+      "name": "windows-profiling",
+      "displayName": "Windows x64 MSVC Release with profiling symbols",
+      "inherits": "windows-release",
+      "cacheVariables": {
+        "SYMOCRAFT_ENABLE_TRACY": true,
+        "SYMOCRAFT_GPU_DEBUG_MARKERS": true
       }
     }
   ],
@@ -55,6 +68,10 @@
     {
       "name": "windows-release",
       "configurePreset": "windows-release"
+    },
+    {
+      "name": "windows-profiling",
+      "configurePreset": "windows-profiling"
     }
   ],
   "testPresets": [
@@ -68,6 +85,13 @@
     {
       "name": "windows-release",
       "configurePreset": "windows-release",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "windows-profiling",
+      "configurePreset": "windows-profiling",
       "output": {
         "outputOnFailure": true
       }

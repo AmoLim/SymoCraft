@@ -1,7 +1,8 @@
+#include <symocraft/profiling/profiling.h>
+#include "debug_markers.h"
 #include "d3d12_backend.h"
 #include "diagnostic_access.h"
 #include "srv_binding_cache.h"
-#include "../../frame_diagnostics.h"
 
 #include "pipeline.h"
 #include "native_bridge.h"
@@ -32,7 +33,6 @@ namespace {
 using Microsoft::WRL::ComPtr;
 using Clock = std::chrono::steady_clock;
 constexpr UINT FrameCount = 3;
-constexpr std::size_t ReadySampleCount = 256;
 constexpr DXGI_FORMAT StorageFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
 constexpr DXGI_FORMAT ColorFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
 constexpr DXGI_FORMAT SrgbTextureFormat = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
@@ -147,12 +147,9 @@ struct FrameContext {
     SrvBindingCache srv_bindings;
     ComPtr<ID3D12Resource> selection;
     ComPtr<ID3D12Resource> screenshot;
-    ComPtr<ID3D12Resource> query_readback;
     std::vector<std::shared_ptr<MeshResource>> mesh_refs;
     std::vector<std::shared_ptr<TextureResource>> texture_refs;
     UINT64 fence = 0;
-    std::uint64_t frame_id = 0;
-    bool query_pending = false;
 };
 
 struct NativeQuarantine {
@@ -164,7 +161,6 @@ struct NativeQuarantine {
     ComPtr<IDXGISwapChain3> swapchain;
     ComPtr<ID3D12Fence> fence;
     ComPtr<ID3D12DescriptorHeap> rtv_heap, dsv_heap;
-    ComPtr<ID3D12QueryHeap> queries;
     D3D12::PipelineSet pipelines;
     std::array<ComPtr<ID3D12Resource>, FrameCount> backbuffers, depth, color;
     std::array<FrameContext, FrameCount> frames;
@@ -262,7 +258,6 @@ public:
     FrameResult Render(const PreparedFrame& input) override;
     void Resize(Extent2D extent) override;
     void SetVSync(bool enabled) override;
-    std::vector<GpuFrameSample> PollGpuSamples() override;
     void Shutdown() override;
     void ShutdownNoexcept() noexcept override;
 
@@ -319,8 +314,6 @@ private:
     Extent2D NativeExtent() const;
     std::shared_ptr<MeshResource> PrepareMesh(const MeshData& data);
     ComPtr<ID3D12Resource> UploadBuffer(const void* bytes, UINT64 size, const char* operation);
-    void CollectQuery(FrameContext& frame);
-    void PushSample(const GpuFrameSample& sample) noexcept;
     void ClearNative() noexcept;
     bool MayReleaseNative() const noexcept;
     void QuarantineNative() noexcept;
@@ -341,7 +334,6 @@ private:
     UINT rtv_stride_ = 0;
     UINT dsv_stride_ = 0;
     UINT srv_stride_ = 0;
-    UINT64 timestamp_frequency_ = 0;
     UINT64 next_fence_ = 1;
     UINT64 last_submitted_ = 0;
     ComPtr<IDXGIFactory6> factory_;
@@ -353,7 +345,6 @@ private:
     ComPtr<ID3D12Fence> fence_;
     ComPtr<ID3D12DescriptorHeap> rtv_heap_;
     ComPtr<ID3D12DescriptorHeap> dsv_heap_;
-    ComPtr<ID3D12QueryHeap> queries_;
     D3D12::PipelineSet pipelines_;
     std::array<ComPtr<ID3D12Resource>, FrameCount> backbuffers_;
     std::array<ComPtr<ID3D12Resource>, FrameCount> depth_;
@@ -361,9 +352,6 @@ private:
     std::array<FrameContext, FrameCount> frames_;
     std::map<BackendResourceId, std::shared_ptr<MeshResource>, IdLess> meshes_;
     std::map<BackendResourceId, std::shared_ptr<TextureResource>, IdLess> textures_;
-    std::array<GpuFrameSample, ReadySampleCount> ready_samples_;
-    std::size_t ready_head_ = 0;
-    std::size_t ready_count_ = 0;
     EventHandle completion_;
     EventHandle latency_;
     // A submitted texture upload remains owned even when its bounded wait fails.
@@ -473,7 +461,9 @@ void D3D12Backend::Initialize(Window& window) {
     D3D12_COMMAND_QUEUE_DESC queue_desc{};
     queue_desc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
     Check(device_->CreateCommandQueue(&queue_desc, IID_PPV_ARGS(&queue_)), "CreateCommandQueue", true);
+    SYMOCRAFT_D3D12_NAME(queue_.Get(), L"Graphics.Queue");
     Check(device_->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence_)), "CreateFence", true);
+    SYMOCRAFT_D3D12_NAME(fence_.Get(), L"Graphics.RetirementFence");
     completion_.value = CreateEventW(nullptr, FALSE, FALSE, nullptr);
     if (!completion_.value) Check(HRESULT_FROM_WIN32(GetLastError()), "CreateEventW", true);
 
@@ -503,32 +493,14 @@ void D3D12Backend::Initialize(Window& window) {
     rtv_stride_ = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
     dsv_stride_ = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_DSV);
     srv_stride_ = device_->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-    const HRESULT timing = queue_->GetTimestampFrequency(&timestamp_frequency_);
-    if (FAILED(timing)) {
-        const HRESULT removed = device_->GetDeviceRemovedReason();
-        if (FAILED(removed)) Check(timing, "GetTimestampFrequency", true);
-        timestamp_frequency_ = 0;
-    }
-    info_.capabilities.gpu_timestamps = timestamp_frequency_ != 0;
-    if (timestamp_frequency_) {
-        D3D12_QUERY_HEAP_DESC desc{};
-        desc.Type = D3D12_QUERY_HEAP_TYPE_TIMESTAMP;
-        desc.Count = FrameCount * 2;
-        Check(device_->CreateQueryHeap(&desc, IID_PPV_ARGS(&queries_)), "CreateQueryHeap(timestamp)", true);
-    }
     for (auto& frame : frames_) {
         Check(device_->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&frame.allocator)),
               "CreateCommandAllocator(frame)", true);
         Check(device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, frame.allocator.Get(), nullptr,
                                         IID_PPV_ARGS(&frame.commands)), "CreateCommandList(frame)", true);
         Check(frame.commands->Close(), "Close(initial frame)", true);
-        if (timestamp_frequency_) {
-            const auto heap = Heap(D3D12_HEAP_TYPE_READBACK);
-            const auto desc = Buffer(sizeof(UINT64) * 2);
-            Check(device_->CreateCommittedResource(&heap, D3D12_HEAP_FLAG_NONE, &desc,
-                                                  D3D12_RESOURCE_STATE_COPY_DEST, nullptr,
-                                                  IID_PPV_ARGS(&frame.query_readback)), "CreateResource(query readback)", true);
-        }
+        SYMOCRAFT_D3D12_NAME(frame.allocator.Get(), L"Frame.Allocator[" + std::to_wstring(&frame - frames_.data()) + L"]");
+        SYMOCRAFT_D3D12_NAME(frame.commands.Get(), L"Frame.Commands[" + std::to_wstring(&frame - frames_.data()) + L"]");
     }
     info_.backend = Backend::D3D12;
     info_.validation_enabled = config_.enable_validation;
@@ -621,6 +593,9 @@ std::array<ComPtr<ID3D12Resource>, FrameCount> D3D12Backend::MakeColor(Extent2D 
 void D3D12Backend::CreateSizeResources(Extent2D extent) {
     for (UINT index = 0; index < FrameCount; ++index) {
         Check(swapchain_->GetBuffer(index, IID_PPV_ARGS(&backbuffers_[index])), "Swapchain.GetBuffer");
+        SYMOCRAFT_D3D12_NAME(backbuffers_[index].Get(), L"Present.Color[" + std::to_wstring(index) + L"]");
+        SYMOCRAFT_D3D12_NAME(depth_[index].Get(), L"Frame.Depth[" + std::to_wstring(index) + L"]");
+        SYMOCRAFT_D3D12_NAME(color_[index].Get(), L"Frame.MSAA[" + std::to_wstring(index) + L"]");
         D3D12_RENDER_TARGET_VIEW_DESC view{};
         view.Format = ColorFormat;
         view.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
@@ -734,14 +709,11 @@ ComPtr<ID3D12Resource> D3D12Backend::UploadBuffer(const void* bytes, UINT64 size
         Check(std::exchange(diagnostic_->next_mesh_allocation_result, S_OK), operation);
     const auto heap = Heap(D3D12_HEAP_TYPE_UPLOAD);
     const auto desc = Buffer(size);
-    const bool measured_mesh = frame_diagnostic_sink && std::string_view(operation) == "CreateResource(mesh upload)";
     {
-        DiagnosticWorkScope allocation(FrameWork::MeshAllocate, measured_mesh);
         Check(device_->CreateCommittedResource(&heap, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_GENERIC_READ,
                                               nullptr, IID_PPV_ARGS(&result)), operation);
     }
-    if (frame_diagnostic_sink && !measured_mesh) DiagnosticPhase(FramePhase::SelectionWrite);
-    DiagnosticWorkScope transfer(FrameWork::MeshMapCopy, measured_mesh);
+    SYMOCRAFT_D3D12_NAME(result.Get(), std::wstring(operation, operation + std::strlen(operation)));
     void* mapped = nullptr;
     const D3D12_RANGE no_read{0, 0};
     Check(result->Map(0, &no_read, &mapped), "UploadBuffer.Map");
@@ -758,7 +730,6 @@ std::shared_ptr<MeshResource> D3D12Backend::PrepareMesh(const MeshData& data) {
     resource->vertices = static_cast<UINT>(data.vertices.size());
     resource->bytes = resource->vertices * sizeof(BlockVertex3D);
     {
-        DiagnosticWorkScope bounds(FrameWork::MeshBounds);
         for (const auto& vertex : data.vertices)
             for (glm::length_t axis = 0; axis < 3; ++axis)
                 resource->max_coordinate[axis] = std::max(resource->max_coordinate[axis],
@@ -776,7 +747,7 @@ std::shared_ptr<MeshResource> D3D12Backend::PrepareMesh(const MeshData& data) {
         }
         diagnostic_->last_mesh = resource;
     }
-    { DiagnosticWorkScope validation(FrameWork::MeshDebug); CheckDebug("PrepareMesh"); }
+    { CheckDebug("PrepareMesh"); }
     return resource;
 }
 
@@ -784,6 +755,7 @@ void D3D12Backend::CreateMesh(BackendResourceId id, std::shared_ptr<const MeshDa
     Operation("CreateMesh", [&] {
         if (meshes_.contains(id)) throw RenderError(RenderErrorCategory::InvalidHandle, "D3D12", "CreateMesh", "duplicate native mesh identity");
         auto resource = PrepareMesh(*data);
+        SYMOCRAFT_D3D12_NAME(resource->buffer.Get(), L"World.Mesh[" + std::to_wstring(id.slot) + L":" + std::to_wstring(id.generation) + L"]");
         meshes_.emplace(id, std::move(resource));
     });
 }
@@ -793,6 +765,7 @@ void D3D12Backend::UpdateMesh(BackendResourceId id, std::shared_ptr<const MeshDa
         const auto found = meshes_.find(id);
         if (found == meshes_.end()) throw RenderError(RenderErrorCategory::InvalidHandle, "D3D12", "UpdateMesh", "unknown native mesh identity");
         auto resource = PrepareMesh(*data);
+        SYMOCRAFT_D3D12_NAME(resource->buffer.Get(), L"World.Mesh[" + std::to_wstring(id.slot) + L":" + std::to_wstring(id.generation) + L"]");
         found->second = std::move(resource);
     });
 }
@@ -819,6 +792,7 @@ void D3D12Backend::CreateTextureArray(BackendResourceId id, std::shared_ptr<cons
         const auto default_heap = Heap(D3D12_HEAP_TYPE_DEFAULT);
         Check(device_->CreateCommittedResource(&default_heap, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_COPY_DEST,
                                               nullptr, IID_PPV_ARGS(&resource->texture)), "CreateResource(texture)");
+        SYMOCRAFT_D3D12_NAME(resource->texture.Get(), L"World.Atlas[" + std::to_wstring(id.slot) + L":" + std::to_wstring(id.generation) + L"]");
         std::vector<D3D12_PLACED_SUBRESOURCE_FOOTPRINT> footprints(data->layers);
         std::vector<UINT> rows(data->layers);
         std::vector<UINT64> row_sizes(data->layers);
@@ -831,6 +805,7 @@ void D3D12Backend::CreateTextureArray(BackendResourceId id, std::shared_ptr<cons
         ComPtr<ID3D12Resource> upload;
         Check(device_->CreateCommittedResource(&upload_heap, D3D12_HEAP_FLAG_NONE, &upload_desc, D3D12_RESOURCE_STATE_GENERIC_READ,
                                               nullptr, IID_PPV_ARGS(&upload)), "CreateResource(texture upload)");
+        SYMOCRAFT_D3D12_NAME(upload.Get(), L"Upload.Atlas.Staging");
         void* mapped = nullptr;
         const D3D12_RANGE no_read{0, 0};
         Check(upload->Map(0, &no_read, &mapped), "TextureUpload.Map");
@@ -846,19 +821,24 @@ void D3D12Backend::CreateTextureArray(BackendResourceId id, std::shared_ptr<cons
         Check(device_->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&allocator)), "CreateCommandAllocator(texture upload)");
         Check(device_->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, allocator.Get(), nullptr,
                                         IID_PPV_ARGS(&commands)), "CreateCommandList(texture upload)");
-        for (UINT layer = 0; layer < data->layers; ++layer) {
-            D3D12_TEXTURE_COPY_LOCATION destination{};
-            destination.pResource = resource->texture.Get();
-            destination.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
-            destination.SubresourceIndex = layer;
-            D3D12_TEXTURE_COPY_LOCATION source{};
-            source.pResource = upload.Get();
-            source.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
-            source.PlacedFootprint = footprints[layer];
-            commands->CopyTextureRegion(&destination, 0, 0, 0, &source, nullptr);
+        SYMOCRAFT_D3D12_NAME(allocator.Get(), L"Upload.Atlas.Allocator");
+        SYMOCRAFT_D3D12_NAME(commands.Get(), L"Upload.Atlas.Commands");
+        {
+            SYMOCRAFT_D3D12_REGION(commands.Get(), "upload.atlas");
+            for (UINT layer = 0; layer < data->layers; ++layer) {
+                D3D12_TEXTURE_COPY_LOCATION destination{};
+                destination.pResource = resource->texture.Get();
+                destination.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+                destination.SubresourceIndex = layer;
+                D3D12_TEXTURE_COPY_LOCATION source{};
+                source.pResource = upload.Get();
+                source.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
+                source.PlacedFootprint = footprints[layer];
+                commands->CopyTextureRegion(&destination, 0, 0, 0, &source, nullptr);
+            }
+            const auto barrier = Transition(resource->texture.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+            commands->ResourceBarrier(1, &barrier);
         }
-        const auto barrier = Transition(resource->texture.Get(), D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-        commands->ResourceBarrier(1, &barrier);
         Check(commands->Close(), "Close(texture upload)");
         CheckDebug("TextureUpload.Record");
         pending_texture_ = resource->texture;
@@ -893,296 +873,251 @@ void D3D12Backend::DestroyTextureArray(BackendResourceId id) {
     });
 }
 
-void D3D12Backend::PushSample(const GpuFrameSample& sample) noexcept {
-    if (ready_count_ == ReadySampleCount) {
-        // A consumer that never polls cannot grow backend storage without bound.
-        OutputDebugStringA("Symocraft D3D12: GPU sample ring overflow; oldest completed identity discarded.\n");
-        std::fprintf(stderr, "Symocraft D3D12 GPU sample discarded: frame=%llu\n",
-                     static_cast<unsigned long long>(ready_samples_[ready_head_].frame_id));
-        if (diagnostic_) ++diagnostic_->sample_drops;
-        ready_head_ = (ready_head_ + 1) % ReadySampleCount;
-        --ready_count_;
-    }
-    ready_samples_[(ready_head_ + ready_count_) % ReadySampleCount] = sample;
-    ++ready_count_;
-}
 
-void D3D12Backend::CollectQuery(FrameContext& frame) {
-    if (!frame.query_pending || Completed("CollectGpuQuery") < frame.fence) return;
-    const D3D12_RANGE read{0, sizeof(UINT64) * 2};
-    void* mapped = nullptr;
-    Check(frame.query_readback->Map(0, &read, &mapped), "GpuQuery.Readback.Map");
-    if (diagnostic_) ++diagnostic_->query_readbacks;
-    std::array<UINT64, 2> ticks{};
-    std::memcpy(ticks.data(), mapped, sizeof(ticks));
-    const D3D12_RANGE no_write{0, 0};
-    frame.query_readback->Unmap(0, &no_write);
-    GpuFrameSample sample;
-    sample.frame_id = frame.frame_id;
-    if (ticks[1] >= ticks[0]) {
-        const long double nanoseconds = static_cast<long double>(ticks[1] - ticks[0]) * 1'000'000'000.0L / timestamp_frequency_;
-        if (nanoseconds <= std::numeric_limits<std::chrono::nanoseconds::rep>::max()) {
-            sample.valid = true;
-            sample.gpu_draw_time = std::chrono::nanoseconds(static_cast<std::chrono::nanoseconds::rep>(nanoseconds));
-            sample.missing_reason = GpuSampleMissingReason::None;
-        }
-    }
-    PushSample(sample);
-    frame.query_pending = false;
-}
 
 FrameResult D3D12Backend::Render(const PreparedFrame& input) {
     return Operation("Render", [&] {
-        const auto prepare_begin = Clock::now();
         FrameResult result;
-        result.frame_id = input.frame_id;
-        const auto native = NativeExtent();
-        if (native.IsSuspended()) {
-            info_.framebuffer_extent = native;
-            result.skip_reason = FrameSkipReason::ZeroExtent;
-            PushSample({input.frame_id, false, std::nullopt, GpuSampleMissingReason::Discarded});
-            return result;
-        }
-        if (!swapchain_ || input.extent.width != info_.framebuffer_extent.width || input.extent.height != info_.framebuffer_extent.height)
-            throw RenderError(RenderErrorCategory::InvalidState, "D3D12", "Render", "native extent changed; Resize must accept it before Render");
-        // A native resize can arrive after the app polls SDL but before submission.
-        if (native.width != input.extent.width || native.height != input.extent.height) {
-            result.skip_reason = FrameSkipReason::Occluded;
-            PushSample({input.frame_id, false, std::nullopt, GpuSampleMissingReason::Discarded});
-            return result;
-        }
-        if (input.draws.size() > D3D12_MAX_SHADER_VISIBLE_DESCRIPTOR_HEAP_SIZE_TIER_1)
-            throw RenderError(RenderErrorCategory::Unsupported, "D3D12", "Render", "frame exceeds shader-visible descriptor capacity");
-        const UINT index = swapchain_->GetCurrentBackBufferIndex();
-        if (index >= FrameCount) throw RenderError(RenderErrorCategory::SubmissionFailure, "D3D12", "Render", "invalid backbuffer index");
-        auto& frame = frames_[index];
-        DiagnosticPhase(FramePhase::SlotWaitCollect);
-        WaitFor(frame.fence, "FrameContext.Wait");
-        if (diagnostic_) {
-            diagnostic_->last_srv_slot = index;
-            diagnostic_->last_srv_frame_id = input.frame_id;
-        }
-        DiagnosticPhase(FramePhase::QueryCollect);
-        CollectQuery(frame);
-        DiagnosticPhase(FramePhase::CommandBegin);
-        Check(frame.allocator->Reset(), "DiscardFrame.Allocator.Reset");
-        Check(frame.commands->Reset(frame.allocator.Get(), nullptr), "DiscardFrame.Commands.Reset");
-        Check(frame.commands->Close(), "DiscardFrame.Commands.Close");
-        DiagnosticPhase(FramePhase::ResourceRetire);
-        frame.mesh_refs.clear(); frame.texture_refs.clear();
-        DiagnosticPhase(FramePhase::DescriptorRetire);
-        // A completed frame slot retains its SRV heap; growth or teardown releases it.
-        DiagnosticPhase(FramePhase::ResourceRetire);
-        frame.selection.Reset(); frame.screenshot.Reset();
-        DiagnosticPhase(FramePhase::CpuPack);
-        frame.mesh_refs.reserve(input.draws.size()); frame.texture_refs.reserve(input.draws.size());
-        std::vector<glm::mat4> transforms;
-        transforms.reserve(input.draws.size());
-        const auto camera = CameraMatrix(input.camera, input.extent);
-        for (const auto& draw : input.draws) {
-            const auto mesh = meshes_.find(draw.mesh);
-            const auto texture = textures_.find(draw.texture);
-            if (mesh == meshes_.end() || texture == textures_.end())
-                throw RenderError(RenderErrorCategory::InvalidHandle, "D3D12", "Render", "prepared resource has no accepted native version");
-            frame.mesh_refs.push_back(mesh->second);
-            frame.texture_refs.push_back(texture->second);
-            // Cancel matching distant eye/model translations before projection
-            // adds its near-plane term; VP * model can lose that term entirely.
-            const auto matrix = GpuMatrix(camera.projection * (camera.view * glm::dmat4(draw.object_transform)),
-                                          "projection * (view * object_transform)");
-            if (mesh->second->vertices) ValidateGpuPosition(matrix, mesh->second->max_coordinate, "mesh clip position");
-            transforms.push_back(matrix);
-        }
-        if (diagnostic_ && !frame.mesh_refs.empty()) {
-            diagnostic_->frame_mesh = frame.mesh_refs.front();
-            diagnostic_->frame_texture = frame.texture_refs.front();
-        }
-        if (!input.draws.empty()) {
-            DiagnosticPhase(FramePhase::DescriptorAllocate);
-            if (input.draws.size() > frame.srv_bindings.Capacity()) {
-                SrvBindingCache bindings(SrvBindingCache::CapacityFor(frame.srv_bindings.Capacity(),
-                    input.draws.size(), D3D12_MAX_SHADER_VISIBLE_DESCRIPTOR_HEAP_SIZE_TIER_1));
-                D3D12_DESCRIPTOR_HEAP_DESC heap{};
-                heap.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-                heap.NumDescriptors = static_cast<UINT>(bindings.Capacity());
-                heap.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-                ComPtr<ID3D12DescriptorHeap> replacement;
-                Check(device_->CreateDescriptorHeap(&heap, IID_PPV_ARGS(&replacement)), "CreateDescriptorHeap(frame SRV)");
-                if (diagnostic_) {
-                    ++diagnostic_->srv_slots[index].heaps_created;
-                    diagnostic_->srv_slots[index].capacity = heap.NumDescriptors;
-                }
-                DiagnosticPhase(FramePhase::DescriptorRetire);
-                frame.descriptors.Swap(replacement);
-                frame.srv_bindings.Swap(bindings);
-            }
-            DiagnosticPhase(FramePhase::DescriptorUpdate);
-            const auto start = frame.descriptors->GetCPUDescriptorHandleForHeapStart();
-            frame.srv_bindings.WriteChanged(input.draws.size(),
-                [&](std::size_t draw_index) { return input.draws[draw_index].texture; },
-                [&](std::size_t draw_index) {
-                    const auto& texture = frame.texture_refs[draw_index];
-                    D3D12_SHADER_RESOURCE_VIEW_DESC view_desc{};
-                    view_desc.Format = texture->format;
-                    view_desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-                    view_desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DARRAY;
-                    view_desc.Texture2DArray.MipLevels = 1;
-                    view_desc.Texture2DArray.ArraySize = texture->layers;
-                    auto handle = start;
-                    handle.ptr += draw_index * srv_stride_;
-                    device_->CreateShaderResourceView(texture->texture.Get(), &view_desc, handle);
-                    if (diagnostic_) ++diagnostic_->srv_slots[index].views_written;
-                });
-        }
-        DiagnosticPhase(FramePhase::CpuPack);
-        glm::mat4 selection_camera{1.0f};
-        if (input.selection) {
-            selection_camera = GpuMatrix(camera.projection * camera.view, "selection camera");
-            constexpr std::array<glm::vec3, 8> corners{{{0,0,0}, {0,0,1}, {1,0,1}, {1,0,0},
-                                                       {0,1,0}, {0,1,1}, {1,1,1}, {1,1,0}}};
-            constexpr std::array<UINT, 24> edges{7,6,6,2,2,3,3,7,7,4,6,5,2,1,3,0,5,4,4,0,0,1,1,5};
-            std::array<LineVertex3D, 24> vertices;
-            const glm::dvec3 minimum{input.selection->minimum};
-            const glm::dvec3 maximum{input.selection->maximum};
-            const auto center = (minimum + maximum) * 0.5;
-            const auto size = maximum - minimum;
-            std::array<double, 3> max_coordinate{};
-            for (std::size_t vertex = 0; vertex < edges.size(); ++vertex) {
-                const auto position = center + (glm::dvec3(corners[edges[vertex]]) - glm::dvec3(0.5)) * size * 1.004;
-                for (glm::length_t axis = 0; axis < 3; ++axis) {
-                    vertices[vertex].pos_coord[axis] = GpuFloat(position[axis], "selection expanded position");
-                    max_coordinate[axis] = std::max(max_coordinate[axis],
-                                                  std::abs(static_cast<double>(vertices[vertex].pos_coord[axis])));
-                }
-            }
-            ValidateGpuPosition(selection_camera, max_coordinate, "selection clip position");
-            DiagnosticPhase(FramePhase::SelectionAllocate);
-            frame.selection = UploadBuffer(vertices.data(), sizeof(vertices), "CreateResource(selection upload)");
-            result.statistics.upload_bytes += sizeof(vertices);
-        }
-        DiagnosticPhase(FramePhase::CommandBegin);
+        UINT index{};
         D3D12_PLACED_SUBRESOURCE_FOOTPRINT capture_footprint{};
         UINT64 capture_bytes = 0;
-        if (input.request_screenshot) {
-            Screenshot screenshot;
-            screenshot.extent = input.extent;
-            screenshot.pixels.resize(static_cast<std::size_t>(input.extent.width) * input.extent.height * 4);
-            result.screenshot = std::move(screenshot);
-            const auto desc = backbuffers_[index]->GetDesc();
-            device_->GetCopyableFootprints(&desc, 0, 1, 0, &capture_footprint, nullptr, nullptr, &capture_bytes);
-            const auto heap = Heap(D3D12_HEAP_TYPE_READBACK);
-            const auto buffer = Buffer(capture_bytes);
-            Check(device_->CreateCommittedResource(&heap, D3D12_HEAP_FLAG_NONE, &buffer, D3D12_RESOURCE_STATE_COPY_DEST,
-                                                  nullptr, IID_PPV_ARGS(&frame.screenshot)), "CreateResource(screenshot readback)");
+
+        {
+            SYMOCRAFT_PROFILE_ZONE("d3d12.prepare_cpu");
+            result.frame_id = input.frame_id;
+            const auto native = NativeExtent();
+            if (native.IsSuspended()) {
+                info_.framebuffer_extent = native;
+                result.skip_reason = FrameSkipReason::ZeroExtent;
+                return result;
+            }
+            if (!swapchain_ || input.extent.width != info_.framebuffer_extent.width || input.extent.height != info_.framebuffer_extent.height)
+                throw RenderError(RenderErrorCategory::InvalidState, "D3D12", "Render", "native extent changed; Resize must accept it before Render");
+            // A native resize can arrive after the app polls SDL but before submission.
+            if (native.width != input.extent.width || native.height != input.extent.height) {
+                result.skip_reason = FrameSkipReason::Occluded;
+                return result;
+            }
+            if (input.draws.size() > D3D12_MAX_SHADER_VISIBLE_DESCRIPTOR_HEAP_SIZE_TIER_1)
+                throw RenderError(RenderErrorCategory::Unsupported, "D3D12", "Render", "frame exceeds shader-visible descriptor capacity");
+            index = swapchain_->GetCurrentBackBufferIndex();
+            if (index >= FrameCount) throw RenderError(RenderErrorCategory::SubmissionFailure, "D3D12", "Render", "invalid backbuffer index");
+            auto& frame = frames_[index];
+            WaitFor(frame.fence, "FrameContext.Wait");
+            if (diagnostic_) {
+                diagnostic_->last_srv_slot = index;
+                diagnostic_->last_srv_frame_id = input.frame_id;
+            }
+            Check(frame.allocator->Reset(), "DiscardFrame.Allocator.Reset");
+            Check(frame.commands->Reset(frame.allocator.Get(), nullptr), "DiscardFrame.Commands.Reset");
+            Check(frame.commands->Close(), "DiscardFrame.Commands.Close");
+            frame.mesh_refs.clear(); frame.texture_refs.clear();
+            // A completed frame slot retains its SRV heap; growth or teardown releases it.
+            frame.selection.Reset(); frame.screenshot.Reset();
+            frame.mesh_refs.reserve(input.draws.size()); frame.texture_refs.reserve(input.draws.size());
+            std::vector<glm::mat4> transforms;
+            transforms.reserve(input.draws.size());
+            const auto camera = CameraMatrix(input.camera, input.extent);
+            for (const auto& draw : input.draws) {
+                const auto mesh = meshes_.find(draw.mesh);
+                const auto texture = textures_.find(draw.texture);
+                if (mesh == meshes_.end() || texture == textures_.end())
+                    throw RenderError(RenderErrorCategory::InvalidHandle, "D3D12", "Render", "prepared resource has no accepted native version");
+                frame.mesh_refs.push_back(mesh->second);
+                frame.texture_refs.push_back(texture->second);
+                // Cancel matching distant eye/model translations before projection
+                // adds its near-plane term; VP * model can lose that term entirely.
+                const auto matrix = GpuMatrix(camera.projection * (camera.view * glm::dmat4(draw.object_transform)),
+                                              "projection * (view * object_transform)");
+                if (mesh->second->vertices) ValidateGpuPosition(matrix, mesh->second->max_coordinate, "mesh clip position");
+                transforms.push_back(matrix);
+            }
+            if (diagnostic_ && !frame.mesh_refs.empty()) {
+                diagnostic_->frame_mesh = frame.mesh_refs.front();
+                diagnostic_->frame_texture = frame.texture_refs.front();
+            }
+            if (!input.draws.empty()) {
+                if (input.draws.size() > frame.srv_bindings.Capacity()) {
+                    SrvBindingCache bindings(SrvBindingCache::CapacityFor(frame.srv_bindings.Capacity(),
+                        input.draws.size(), D3D12_MAX_SHADER_VISIBLE_DESCRIPTOR_HEAP_SIZE_TIER_1));
+                    D3D12_DESCRIPTOR_HEAP_DESC heap{};
+                    heap.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+                    heap.NumDescriptors = static_cast<UINT>(bindings.Capacity());
+                    heap.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+                    ComPtr<ID3D12DescriptorHeap> replacement;
+                    Check(device_->CreateDescriptorHeap(&heap, IID_PPV_ARGS(&replacement)), "CreateDescriptorHeap(frame SRV)");
+                    SYMOCRAFT_D3D12_NAME(replacement.Get(), L"Frame.TextureBindings[" + std::to_wstring(index) + L"]");
+                    if (diagnostic_) {
+                        ++diagnostic_->srv_slots[index].heaps_created;
+                        diagnostic_->srv_slots[index].capacity = heap.NumDescriptors;
+                    }
+                    frame.descriptors.Swap(replacement);
+                    frame.srv_bindings.Swap(bindings);
+                }
+                const auto start = frame.descriptors->GetCPUDescriptorHandleForHeapStart();
+                frame.srv_bindings.WriteChanged(input.draws.size(),
+                    [&](std::size_t draw_index) { return input.draws[draw_index].texture; },
+                    [&](std::size_t draw_index) {
+                        const auto& texture = frame.texture_refs[draw_index];
+                        D3D12_SHADER_RESOURCE_VIEW_DESC view_desc{};
+                        view_desc.Format = texture->format;
+                        view_desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+                        view_desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DARRAY;
+                        view_desc.Texture2DArray.MipLevels = 1;
+                        view_desc.Texture2DArray.ArraySize = texture->layers;
+                        auto handle = start;
+                        handle.ptr += draw_index * srv_stride_;
+                        device_->CreateShaderResourceView(texture->texture.Get(), &view_desc, handle);
+                        if (diagnostic_) ++diagnostic_->srv_slots[index].views_written;
+                    });
+            }
+            glm::mat4 selection_camera{1.0f};
+            if (input.selection) {
+                selection_camera = GpuMatrix(camera.projection * camera.view, "selection camera");
+                constexpr std::array<glm::vec3, 8> corners{{{0,0,0}, {0,0,1}, {1,0,1}, {1,0,0},
+                                                           {0,1,0}, {0,1,1}, {1,1,1}, {1,1,0}}};
+                constexpr std::array<UINT, 24> edges{7,6,6,2,2,3,3,7,7,4,6,5,2,1,3,0,5,4,4,0,0,1,1,5};
+                std::array<LineVertex3D, 24> vertices;
+                const glm::dvec3 minimum{input.selection->minimum};
+                const glm::dvec3 maximum{input.selection->maximum};
+                const auto center = (minimum + maximum) * 0.5;
+                const auto size = maximum - minimum;
+                std::array<double, 3> max_coordinate{};
+                for (std::size_t vertex = 0; vertex < edges.size(); ++vertex) {
+                    const auto position = center + (glm::dvec3(corners[edges[vertex]]) - glm::dvec3(0.5)) * size * 1.004;
+                    for (glm::length_t axis = 0; axis < 3; ++axis) {
+                        vertices[vertex].pos_coord[axis] = GpuFloat(position[axis], "selection expanded position");
+                        max_coordinate[axis] = std::max(max_coordinate[axis],
+                                                      std::abs(static_cast<double>(vertices[vertex].pos_coord[axis])));
+                    }
+                }
+                ValidateGpuPosition(selection_camera, max_coordinate, "selection clip position");
+                frame.selection = UploadBuffer(vertices.data(), sizeof(vertices), "CreateResource(selection upload)");
+                result.statistics.upload_bytes += sizeof(vertices);
+            }
+            if (input.request_screenshot) {
+                Screenshot screenshot;
+                screenshot.extent = input.extent;
+                screenshot.pixels.resize(static_cast<std::size_t>(input.extent.width) * input.extent.height * 4);
+                result.screenshot = std::move(screenshot);
+                const auto desc = backbuffers_[index]->GetDesc();
+                device_->GetCopyableFootprints(&desc, 0, 1, 0, &capture_footprint, nullptr, nullptr, &capture_bytes);
+                const auto heap = Heap(D3D12_HEAP_TYPE_READBACK);
+                const auto buffer = Buffer(capture_bytes);
+                Check(device_->CreateCommittedResource(&heap, D3D12_HEAP_FLAG_NONE, &buffer, D3D12_RESOURCE_STATE_COPY_DEST,
+                                                      nullptr, IID_PPV_ARGS(&frame.screenshot)), "CreateResource(screenshot readback)");
+                SYMOCRAFT_D3D12_NAME(frame.screenshot.Get(), L"Readback.Screenshot[" + std::to_wstring(index) + L"]");
+            }
+            Check(frame.allocator->Reset(), "FrameAllocator.Reset");
+            Check(frame.commands->Reset(frame.allocator.Get(), pipelines_.mesh.Get()), "FrameCommands.Reset");
+            auto* commands = frame.commands.Get();
+            auto* buffer = backbuffers_[index].Get();
+            const bool msaa = info_.actual_samples > 1;
+            const auto backbuffer_state = msaa ? D3D12_RESOURCE_STATE_RESOLVE_DEST : D3D12_RESOURCE_STATE_RENDER_TARGET;
+            const auto before = Transition(buffer, D3D12_RESOURCE_STATE_PRESENT, backbuffer_state);
+            commands->ResourceBarrier(1, &before);
+            auto rtv = rtv_heap_->GetCPUDescriptorHandleForHeapStart();
+            rtv.ptr += (index + (msaa ? FrameCount : 0)) * rtv_stride_;
+            auto dsv = dsv_heap_->GetCPUDescriptorHandleForHeapStart();
+            dsv.ptr += index * dsv_stride_;
+            commands->OMSetRenderTargets(1, &rtv, FALSE, &dsv);
+            constexpr float clear[]{0.529f, 0.808f, 0.922f, 1.0f};
+            commands->ClearRenderTargetView(rtv, clear, 0, nullptr);
+            commands->ClearDepthStencilView(dsv, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
+            const D3D12_VIEWPORT viewport{0, 0, static_cast<float>(input.extent.width), static_cast<float>(input.extent.height), 0, 1};
+            const D3D12_RECT scissor{0, 0, static_cast<LONG>(input.extent.width), static_cast<LONG>(input.extent.height)};
+            commands->RSSetViewports(1, &viewport);
+            commands->RSSetScissorRects(1, &scissor);
+            commands->SetGraphicsRootSignature(pipelines_.root_signature.Get());
+            if (frame.descriptors) {
+                ID3D12DescriptorHeap* heaps[]{frame.descriptors.Get()};
+                commands->SetDescriptorHeaps(1, heaps);
+            }
+            commands->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+            {
+                SYMOCRAFT_D3D12_REGION_IF(commands, "world", std::any_of(frame.mesh_refs.begin(), frame.mesh_refs.end(), [](const auto& mesh) { return mesh->vertices != 0; }));
+                for (std::size_t draw = 0; draw < frame.mesh_refs.size(); ++draw) {
+                    const auto& mesh = *frame.mesh_refs[draw];
+                    if (!mesh.vertices) continue;
+                    const D3D12_VERTEX_BUFFER_VIEW vertices{mesh.buffer->GetGPUVirtualAddress(), mesh.bytes, sizeof(BlockVertex3D)};
+                    auto descriptor = frame.descriptors->GetGPUDescriptorHandleForHeapStart();
+                    descriptor.ptr += draw * srv_stride_;
+                    commands->SetGraphicsRoot32BitConstants(0, 16, glm::value_ptr(transforms[draw]), 0);
+                    commands->SetGraphicsRootDescriptorTable(1, descriptor);
+                    commands->IASetVertexBuffers(0, 1, &vertices);
+                    commands->DrawInstanced(mesh.vertices, 1, 0, 0);
+                    ++result.statistics.draw_calls;
+                    result.statistics.drawn_vertices += mesh.vertices;
+                }
+            }
+            if (frame.selection) {
+                SYMOCRAFT_D3D12_REGION(commands, "selection");
+                commands->SetPipelineState(pipelines_.selection.Get());
+                commands->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
+                const D3D12_VERTEX_BUFFER_VIEW vertices{frame.selection->GetGPUVirtualAddress(), sizeof(LineVertex3D) * 24, sizeof(LineVertex3D)};
+                commands->SetGraphicsRoot32BitConstants(0, 16, glm::value_ptr(selection_camera), 0);
+                commands->IASetVertexBuffers(0, 1, &vertices);
+                commands->DrawInstanced(24, 1, 0, 0);
+                ++result.statistics.draw_calls;
+                result.statistics.drawn_vertices += 24;
+            }
+            if (msaa) {
+                SYMOCRAFT_D3D12_REGION(commands, "resolve.msaa");
+                const auto resolve = Transition(color_[index].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_RESOLVE_SOURCE);
+                commands->ResourceBarrier(1, &resolve);
+                commands->ResolveSubresource(buffer, 0, color_[index].Get(), 0, StorageFormat);
+                const auto restore = Transition(color_[index].Get(), D3D12_RESOURCE_STATE_RESOLVE_SOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+                commands->ResourceBarrier(1, &restore);
+            }
+            auto final_state = backbuffer_state;
+            if (input.request_screenshot) {
+                SYMOCRAFT_D3D12_REGION(commands, "readback.screenshot");
+                const auto copy = Transition(buffer, final_state, D3D12_RESOURCE_STATE_COPY_SOURCE);
+                commands->ResourceBarrier(1, &copy);
+                D3D12_TEXTURE_COPY_LOCATION source{};
+                source.pResource = buffer;
+                source.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+                D3D12_TEXTURE_COPY_LOCATION destination{};
+                destination.pResource = frame.screenshot.Get();
+                destination.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
+                destination.PlacedFootprint = capture_footprint;
+                commands->CopyTextureRegion(&destination, 0, 0, 0, &source, nullptr);
+                final_state = D3D12_RESOURCE_STATE_COPY_SOURCE;
+            }
+            const auto present = Transition(buffer, final_state, D3D12_RESOURCE_STATE_PRESENT);
+            commands->ResourceBarrier(1, &present);
+            Check(commands->Close(), "Close(frame)");
+            CheckDebug("Render.Record");
         }
-        Check(frame.allocator->Reset(), "FrameAllocator.Reset");
-        Check(frame.commands->Reset(frame.allocator.Get(), pipelines_.mesh.Get()), "FrameCommands.Reset");
-        DiagnosticPhase(FramePhase::CommandRecord);
+        auto& frame = frames_[index];
         auto* commands = frame.commands.Get();
-        auto* buffer = backbuffers_[index].Get();
-        const bool msaa = info_.actual_samples > 1;
-        const auto backbuffer_state = msaa ? D3D12_RESOURCE_STATE_RESOLVE_DEST : D3D12_RESOURCE_STATE_RENDER_TARGET;
-        const auto before = Transition(buffer, D3D12_RESOURCE_STATE_PRESENT, backbuffer_state);
-        commands->ResourceBarrier(1, &before);
-        auto rtv = rtv_heap_->GetCPUDescriptorHandleForHeapStart();
-        rtv.ptr += (index + (msaa ? FrameCount : 0)) * rtv_stride_;
-        auto dsv = dsv_heap_->GetCPUDescriptorHandleForHeapStart();
-        dsv.ptr += index * dsv_stride_;
-        commands->OMSetRenderTargets(1, &rtv, FALSE, &dsv);
-        constexpr float clear[]{0.529f, 0.808f, 0.922f, 1.0f};
-        commands->ClearRenderTargetView(rtv, clear, 0, nullptr);
-        commands->ClearDepthStencilView(dsv, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
-        const D3D12_VIEWPORT viewport{0, 0, static_cast<float>(input.extent.width), static_cast<float>(input.extent.height), 0, 1};
-        const D3D12_RECT scissor{0, 0, static_cast<LONG>(input.extent.width), static_cast<LONG>(input.extent.height)};
-        commands->RSSetViewports(1, &viewport);
-        commands->RSSetScissorRects(1, &scissor);
-        commands->SetGraphicsRootSignature(pipelines_.root_signature.Get());
-        if (frame.descriptors) {
-            ID3D12DescriptorHeap* heaps[]{frame.descriptors.Get()};
-            commands->SetDescriptorHeaps(1, heaps);
+
+
+        { SYMOCRAFT_PROFILE_ZONE("d3d12.present_latency_wait_cpu");
+          WaitEvent(latency_.value, "PresentationLatency.Wait"); }
+
+
+        {
+            SYMOCRAFT_PROFILE_ZONE("d3d12.submit_cpu");
+            irreversible_ = true;
+            ID3D12CommandList* lists[]{commands};
+            has_native_work_ = unfenced_work_ = true;
+            queue_->ExecuteCommandLists(1, lists);
+            // Establish draw retirement even if Present or the subsequent Signal fails.
+            frame.fence = Signal("Signal(frame draws)");
         }
-        commands->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-        if (timestamp_frequency_) commands->EndQuery(queries_.Get(), D3D12_QUERY_TYPE_TIMESTAMP, index * 2);
-        for (std::size_t draw = 0; draw < frame.mesh_refs.size(); ++draw) {
-            const auto& mesh = *frame.mesh_refs[draw];
-            if (!mesh.vertices) continue;
-            const D3D12_VERTEX_BUFFER_VIEW vertices{mesh.buffer->GetGPUVirtualAddress(), mesh.bytes, sizeof(BlockVertex3D)};
-            auto descriptor = frame.descriptors->GetGPUDescriptorHandleForHeapStart();
-            descriptor.ptr += draw * srv_stride_;
-            commands->SetGraphicsRoot32BitConstants(0, 16, glm::value_ptr(transforms[draw]), 0);
-            commands->SetGraphicsRootDescriptorTable(1, descriptor);
-            commands->IASetVertexBuffers(0, 1, &vertices);
-            commands->DrawInstanced(mesh.vertices, 1, 0, 0);
-            ++result.statistics.draw_calls;
-            result.statistics.drawn_vertices += mesh.vertices;
-        }
-        if (frame.selection) {
-            commands->SetPipelineState(pipelines_.selection.Get());
-            commands->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINELIST);
-            const D3D12_VERTEX_BUFFER_VIEW vertices{frame.selection->GetGPUVirtualAddress(), sizeof(LineVertex3D) * 24, sizeof(LineVertex3D)};
-            commands->SetGraphicsRoot32BitConstants(0, 16, glm::value_ptr(selection_camera), 0);
-            commands->IASetVertexBuffers(0, 1, &vertices);
-            commands->DrawInstanced(24, 1, 0, 0);
-            ++result.statistics.draw_calls;
-            result.statistics.drawn_vertices += 24;
-        }
-        if (timestamp_frequency_) {
-            commands->EndQuery(queries_.Get(), D3D12_QUERY_TYPE_TIMESTAMP, index * 2 + 1);
-            commands->ResolveQueryData(queries_.Get(), D3D12_QUERY_TYPE_TIMESTAMP, index * 2, 2, frame.query_readback.Get(), 0);
-        }
-        if (msaa) {
-            const auto resolve = Transition(color_[index].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_RESOLVE_SOURCE);
-            commands->ResourceBarrier(1, &resolve);
-            commands->ResolveSubresource(buffer, 0, color_[index].Get(), 0, StorageFormat);
-            const auto restore = Transition(color_[index].Get(), D3D12_RESOURCE_STATE_RESOLVE_SOURCE, D3D12_RESOURCE_STATE_RENDER_TARGET);
-            commands->ResourceBarrier(1, &restore);
-        }
-        auto final_state = backbuffer_state;
-        if (input.request_screenshot) {
-            const auto copy = Transition(buffer, final_state, D3D12_RESOURCE_STATE_COPY_SOURCE);
-            commands->ResourceBarrier(1, &copy);
-            D3D12_TEXTURE_COPY_LOCATION source{};
-            source.pResource = buffer;
-            source.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
-            D3D12_TEXTURE_COPY_LOCATION destination{};
-            destination.pResource = frame.screenshot.Get();
-            destination.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
-            destination.PlacedFootprint = capture_footprint;
-            commands->CopyTextureRegion(&destination, 0, 0, 0, &source, nullptr);
-            final_state = D3D12_RESOURCE_STATE_COPY_SOURCE;
-        }
-        const auto present = Transition(buffer, final_state, D3D12_RESOURCE_STATE_PRESENT);
-        commands->ResourceBarrier(1, &present);
-        Check(commands->Close(), "Close(frame)");
-        DiagnosticPhase(FramePhase::DebugValidation);
-        CheckDebug("Render.Record");
-        result.statistics.cpu_prepare = std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now() - prepare_begin);
-        const auto latency_begin = Clock::now();
-        DiagnosticPhase(FramePhase::PresentationLatency);
-        WaitEvent(latency_.value, "PresentationLatency.Wait");
-        const auto latency_wait = std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now() - latency_begin);
-        const auto submit_begin = Clock::now();
-        DiagnosticPhase(FramePhase::QueueSubmit);
-        irreversible_ = true;
-        ID3D12CommandList* lists[]{commands};
-        has_native_work_ = unfenced_work_ = true;
-        queue_->ExecuteCommandLists(1, lists);
-        // Establish draw retirement even if Present or the subsequent Signal fails.
-        frame.fence = Signal("Signal(frame draws)");
-        result.statistics.cpu_submit = std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now() - submit_begin);
-        const auto present_begin = Clock::now();
-        DiagnosticPhase(FramePhase::QueuePresent);
+
+
         DXGI_PRESENT_PARAMETERS parameters{};
         const UINT flags = DXGI_PRESENT_DO_NOT_WAIT | (!config_.vsync && tearing_ ? DXGI_PRESENT_ALLOW_TEARING : 0);
         unfenced_work_ = true;
-        const HRESULT presented = swapchain_->Present1(config_.vsync ? 1 : 0, flags, &parameters);
+        const HRESULT presented = [&] {
+            SYMOCRAFT_PROFILE_ZONE("d3d12.present_call_cpu");
+            return swapchain_->Present1(config_.vsync ? 1 : 0, flags, &parameters);
+        }();
         // Signal even a failed Present so queued draw ownership has a known fence.
         frame.fence = Signal("Signal(frame including Present)");
-        frame.frame_id = input.frame_id;
-        frame.query_pending = timestamp_frequency_ != 0;
-        result.statistics.present_wait = latency_wait +
-            std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now() - present_begin);
-        DiagnosticPhase(FramePhase::BackendTail);
+
         Check(presented, "Present1(nonblocking)");
         if (presented == DXGI_STATUS_OCCLUDED) {
             result.skip_reason = FrameSkipReason::Occluded;
@@ -1191,7 +1126,6 @@ FrameResult D3D12Backend::Render(const PreparedFrame& input) {
             result.status = FrameStatus::Presented;
             result.skip_reason = FrameSkipReason::None;
         }
-        if (!timestamp_frequency_) PushSample({input.frame_id, false, std::nullopt, GpuSampleMissingReason::Unsupported});
         if (result.screenshot) {
             WaitFor(frame.fence, "Screenshot.Wait");
             const D3D12_RANGE read{static_cast<SIZE_T>(capture_footprint.Offset), static_cast<SIZE_T>(capture_bytes)};
@@ -1204,7 +1138,6 @@ FrameResult D3D12Backend::Render(const PreparedFrame& input) {
             const D3D12_RANGE no_write{0, 0};
             frame.screenshot->Unmap(0, &no_write);
         }
-        DiagnosticPhase(FramePhase::DebugValidation);
         CheckDebug("Render.Submitted");
         return result;
     });
@@ -1233,7 +1166,6 @@ void D3D12Backend::Resize(Extent2D extent) {
             auto depth = MakeDepth(extent);
             auto color = MakeColor(extent);
             WaitFor(last_submitted_, "Resize.Wait");
-            for (auto& frame : frames_) CollectQuery(frame);
             for (auto& frame : frames_) {
                 Check(frame.allocator->Reset(), "Resize.Allocator.Reset");
                 Check(frame.commands->Reset(frame.allocator.Get(), nullptr), "Resize.Commands.Reset");
@@ -1261,32 +1193,16 @@ void D3D12Backend::SetVSync(bool enabled) {
     });
 }
 
-std::vector<GpuFrameSample> D3D12Backend::PollGpuSamples() {
-    return Operation("PollGpuSamples", [&] {
-        for (auto& frame : frames_) CollectQuery(frame);
-        CheckDebug("PollGpuSamples");
-        std::vector<GpuFrameSample> result;
-        result.reserve(ready_count_);
-        for (std::size_t offset = 0; offset < ready_count_; ++offset)
-            result.push_back(ready_samples_[(ready_head_ + offset) % ReadySampleCount]);
-        std::sort(result.begin(), result.end(), [](const auto& left, const auto& right) {
-            return left.frame_id < right.frame_id;
-        });
-        ready_head_ = ready_count_ = 0;
-        return result;
-    });
-}
 
 void D3D12Backend::ClearNative() noexcept {
     meshes_.clear(); textures_.clear();
     ReleaseSizeResources();
     for (auto& frame : frames_) {
-        frame.query_readback.Reset(); frame.commands.Reset(); frame.allocator.Reset();
-        frame.query_pending = false;
+        frame.commands.Reset(); frame.allocator.Reset();
     }
     pending_texture_.Reset(); pending_upload_.Reset();
     upload_commands_.Reset(); upload_allocator_.Reset();
-    queries_.Reset(); pipelines_ = {};
+    pipelines_ = {};
     rtv_heap_.Reset(); dsv_heap_.Reset();
     latency_.Reset(); swapchain_.Reset();
     queue_.Reset(); fence_.Reset(); completion_.Reset();
@@ -1308,7 +1224,6 @@ void D3D12Backend::QuarantineNative() noexcept {
     holder.factory.Swap(factory_); holder.adapter.Swap(adapter_); holder.device.Swap(device_);
     holder.diagnostics.Swap(diagnostics_); holder.queue.Swap(queue_); holder.swapchain.Swap(swapchain_);
     holder.fence.Swap(fence_); holder.rtv_heap.Swap(rtv_heap_); holder.dsv_heap.Swap(dsv_heap_);
-    holder.queries.Swap(queries_);
     holder.pipelines.root_signature.Swap(pipelines_.root_signature);
     holder.pipelines.mesh.Swap(pipelines_.mesh);
     holder.pipelines.selection.Swap(pipelines_.selection);

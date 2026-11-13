@@ -7,7 +7,7 @@
 #include <symocraft/assets/asset_paths.h>
 #include <symocraft/assets/image.h>
 #include <symocraft/renderer/renderer.h>
-#include <symocraft/telemetry/document_io.h>
+#include <symocraft/foundation/document_io.h>
 #include <algorithm>
 #include <array>
 #include <condition_variable>
@@ -114,7 +114,7 @@ void Stats(Value& report,const VulkanDiagnosticAccess& d) {
     report["quarantined"]=d.quarantined; report["native_destroyed"]=d.native_destroyed; report["loader_released"]=d.loader_released;
     report["isolated_timeline_gate_feature"]=d.enable_timeline_gate;
     report["last_actual_present_result"]=int(d.last_actual_present);
-    report["native_wait_calls"]=d.wait_calls; report["native_query_calls"]=d.query_calls;
+    report["native_wait_calls"]=d.wait_calls;
 }
 void Failed(Renderer& r,VulkanDiagnosticAccess& d,const RenderError& first,Value& report) {
     report["first_category"]=int(first.Category()); report["first_operation"]=first.Operation(); report["first_native_code"]=first.NativeCode();
@@ -122,17 +122,15 @@ void Failed(Renderer& r,VulkanDiagnosticAccess& d,const RenderError& first,Value
     Expect([&]{r.CreateMesh(Quad());},RenderErrorCategory::InvalidState);
     Expect([&]{(void)r.Render(FrameInput{});},RenderErrorCategory::InvalidState);
     Expect([&]{r.Resize({800,600});},RenderErrorCategory::InvalidState);
-    Expect([&]{(void)r.PollGpuSamples();},RenderErrorCategory::InvalidState);
     (void)r.GetInfo();
     Expect([&]{r.Shutdown();},RenderErrorCategory::Timeout);
     Expect([&]{r.Shutdown();},RenderErrorCategory::Timeout);
     Require(attempts==d.submit_attempts&&presents==d.present_calls,"failed renderer continued submission");
-    report["failed_rejections"]=4; report["repeated_shutdown_not_success"]=true; report["no_further_submit_or_present"]=true;
+    report["failed_rejections"]=3; report["repeated_shutdown_not_success"]=true; report["no_further_submit_or_present"]=true;
 }
 void Facade(const std::string& mode,const std::filesystem::path& output,Value& report) {
     OwnedWindow owner; auto d=std::make_shared<VulkanDiagnosticAccess>(); ScopedVulkanDiagnostics binding(d);
-    d->enable_timeline_gate=mode=="lifetime"||mode=="texture-timeout"||mode=="frame-timeout"||mode=="async-gated";
-    d->disable_timestamps=mode=="async-unsupported";
+    d->enable_timeline_gate=mode=="lifetime"||mode=="texture-timeout"||mode=="frame-timeout";
     RendererConfig config; config.backend=Backend::Vulkan; config.enable_validation=true; config.vsync=false;
     config.shader_asset_root=Assets::Resolve("shaders/vulkan");
     if(mode=="pipeline") {
@@ -157,65 +155,7 @@ void Facade(const std::string& mode,const std::filesystem::path& output,Value& r
         Assets::WritePng(output/(name+".png"),int(image.extent.width),int(image.extent.height),4,image.pixels); return image.pixels;
     };
     const auto original=capture("original");
-    if(mode.starts_with("async-")) {
-        (void)r.PollGpuSamples();
-        if(mode=="async-gated") {
-            Gate gate(*d); const auto result=frame(); const auto waits=d->wait_calls,queries=d->query_calls;
-            Require(gate.Status()==VK_NOT_READY&&gate.Counter()==0,"async probe has no actual pending frame");
-            std::cout<<"BATCH4_POLL_BEGIN"<<std::endl;
-            for(int i=0;i<10;++i)Require(r.PollGpuSamples().empty(),"unready timestamp fabricated a sample");
-            std::cout<<"BATCH4_POLL_END"<<std::endl;
-            Require(gate.Status()==VK_NOT_READY&&gate.Counter()==0&&d->wait_calls==waits&&d->query_calls==queries,"unready Poll waited or read a pending query");
-            gate.Close(); const auto samples=r.PollGpuSamples();
-            Require(samples.size()==1&&samples[0].frame_id==result.frame_id&&samples[0].valid&&samples[0].gpu_draw_time&&samples[0].missing_reason==GpuSampleMissingReason::None,"completed query lost original frame ID");
-            Require(r.PollGpuSamples().empty(),"query was returned twice");
-            report["pending_poll_calls"]=10; report["pending_fence"]=int(VK_NOT_READY); report["pending_timeline"]=0;
-            report["poll_added_waits"]=d->wait_calls-waits; report["resolved_frame_id"]=result.frame_id;
-            report["actual_in_flight"]=true;
-        } else if(mode=="async-overflow") {
-            std::set<std::uint64_t> submitted,returned;
-            for(int i=0;i<300;++i)submitted.insert(frame().frame_id);
-            submitted.insert(frame(true).frame_id);
-            const auto samples=r.PollGpuSamples(); Require(samples.size()==256,"ready ring did not enforce 256 capacity");
-            for(const auto& sample:samples) {
-                Require(submitted.contains(sample.frame_id)&&returned.insert(sample.frame_id).second&&sample.valid&&sample.gpu_draw_time&&sample.missing_reason==GpuSampleMissingReason::None,"overflow returned invalid/duplicate sample");
-                report["returned_ids"].push_back(sample.frame_id);
-            }
-            for(auto value:submitted)report["submitted_ids"].push_back(value);
-            Require(r.PollGpuSamples().empty(),"overflow ring did not drain");
-        } else if(mode=="async-unsupported") {
-            Require(!r.GetInfo().capabilities.gpu_timestamps,"injected unsupported capability was not reflected");
-            const auto result=frame(); const auto samples=r.PollGpuSamples();
-            Require(samples.size()==1&&samples[0].frame_id==result.frame_id&&!samples[0].valid&&!samples[0].gpu_draw_time&&samples[0].missing_reason==GpuSampleMissingReason::Unsupported&&d->query_calls==0,"unsupported timing fabricated a duration");
-            report["simulated_unsupported"]=true; report["missing_reason"]="unsupported"; report["missing_has_duration"]=false;
-        } else if(mode=="async-discarded") {
-            const auto hwnd=Platform::NativeBridge::GetHandle(*owner.window); ShowWindow(hwnd,SW_MINIMIZE);
-            auto deadline=Clock::now()+std::chrono::seconds(2);
-            do {owner.window->PollInt();owner.window->WaitEvents(.01);} while(!owner.window->Minimized()&&Clock::now()<deadline);
-            Require(IsIconic(hwnd)&&owner.window->Minimized(),"native minimize did not occur");
-            FrameInput input; input.frame_id=id++; input.camera.position={0,0,5}; input.draws=draws;
-            const auto result=r.Render(input); const auto samples=r.PollGpuSamples();
-            Require(result.status==FrameStatus::Skipped&&result.skip_reason==FrameSkipReason::ZeroExtent&&samples.size()==1&&samples[0].frame_id==input.frame_id&&!samples[0].valid&&!samples[0].gpu_draw_time&&samples[0].missing_reason==GpuSampleMissingReason::Discarded,"native zero extent lacks discarded sample");
-            ShowWindow(hwnd,SW_RESTORE); deadline=Clock::now()+std::chrono::seconds(2);
-            do {owner.window->PollInt();owner.window->WaitEvents(.01);} while(owner.window->Minimized()&&Clock::now()<deadline);
-            Require(!owner.window->Minimized(),"discard probe did not restore");
-            r.Resize({unsigned(owner.window->Width()),unsigned(owner.window->Height())});
-            Require(capture("after-discard")==original,"discarded frame corrupted accepted resources");
-            report["missing_reason"]="discarded"; report["missing_has_duration"]=false;
-        } else if(mode=="async-device-error") {
-            frame(); d->next_query=VK_ERROR_DEVICE_LOST; std::optional<RenderError> first;
-            const auto deadline=Clock::now()+std::chrono::seconds(2);
-            while(!first&&Clock::now()<deadline) {
-                try {(void)r.PollGpuSamples();} catch(const RenderError& e){first=e;}
-                if(!first)std::this_thread::sleep_for(std::chrono::milliseconds(1));
-            }
-            Require(first&&first->Category()==RenderErrorCategory::DeviceLost&&first->NativeCode()=="-4","query error was converted to valid/zero GPU time");
-            Failed(r,*d,*first,report); renderer.reset();
-            Require(d->quarantined&&!d->native_destroyed,"query error owner was falsely retired");
-            report["injected_query_device_lost"]=true; Stats(report,*d); return;
-        }
-        r.DestroyMesh(mesh); r.DestroyTextureArray(texture);
-    } else if(mode=="lifetime") {
+    if(mode=="lifetime") {
         for(unsigned step=0;step<3;++step) {
             Gate gate(*d); const auto before=Clock::now(); frame();
             const auto old_mesh=d->frame_mesh,old_texture=d->frame_texture;
@@ -324,8 +264,7 @@ void Game(const std::string& mode,Value& report) {
 }
 int main(int argc,char** argv) {
     if(argc!=3)return 64; const std::string mode=argv[1];
-    const std::array modes{"lifetime","allocation","host-allocation","pipeline","submit","device-lost","texture-timeout","frame-timeout","game-normal","game-allocation","game-submit","game-device-lost","game-timeout",
-        "async-gated","async-overflow","async-unsupported","async-discarded","async-device-error"};
+    const std::array modes{"lifetime","allocation","host-allocation","pipeline","submit","device-lost","texture-timeout","frame-timeout","game-normal","game-allocation","game-submit","game-device-lost","game-timeout"};
     if(std::find(modes.begin(),modes.end(),mode)==modes.end())return 64;
     const auto output=std::filesystem::absolute(argv[2]); if(std::filesystem::exists(output))return 64; std::filesystem::create_directories(output);
     Value report; report["schema"]="symocraft.vulkan-production-lifetime-fault.v1"; report["mode"]=mode; report["success"]=false;
@@ -335,8 +274,6 @@ int main(int argc,char** argv) {
         mode=="device-lost"||mode=="game-device-lost"?"injected DeviceLost after actual native Present":
         mode=="texture-timeout"||mode=="frame-timeout"||mode=="game-timeout"?"actual gated native fence timeout":
         mode=="allocation"||mode=="host-allocation"||mode=="pipeline"||mode=="game-allocation"?"injected allocation/pipeline result":"normal controlled native work";
-    if(mode=="async-device-error")report["fault_kind"]="injected query result after actual query success";
-    if(mode=="async-unsupported")report["fault_kind"]="injected timestamp capability off; actual GPU drawing retained";
     try { if(mode.starts_with("game-"))Game(mode,report); else Facade(mode,output,report); report["success"]=true; code=0; }
     catch(const std::exception& e){report["harness_error"]=e.what();std::cerr<<"[probe] "<<e.what()<<'\n';}
     report["elapsed_ms"]=std::chrono::duration<double,std::milli>(Clock::now()-start).count();

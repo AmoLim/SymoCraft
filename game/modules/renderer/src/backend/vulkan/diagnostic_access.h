@@ -13,17 +13,17 @@ struct VulkanDiagnosticAccess {
         BufferCreate, BufferAllocate, BufferBind, BufferDestroy, BufferFree,
         ImageCreate, ImageAllocate, ImageBind, ImageDestroy, ImageFree,
         MapWrite, UnmapWrite, FlushWrite, PoolCreate, SetsAllocate, DescriptorUpdate, PoolDestroy,
-        QueryRead, FencePoll, WaitSubmit, WaitUpload, WaitReacquiredPresent, WaitDrainPresent,
+        FencePoll, WaitSubmit, WaitUpload, WaitReacquiredPresent, WaitDrainPresent,
         Acquire, QueueSubmit, QueuePresent, Count
     };
     inline static constexpr std::array<const char*, unsigned(Call::Count)> CallNames{
         "buffer_create", "buffer_allocate", "buffer_bind", "buffer_destroy", "buffer_free",
         "image_create", "image_allocate", "image_bind", "image_destroy", "image_free",
         "map_write", "unmap_write", "flush_write", "pool_create", "sets_allocate", "descriptor_update", "pool_destroy",
-        "query_read", "fence_poll", "wait_submit", "wait_upload", "wait_reacquired_present", "wait_drain_present",
+        "fence_poll", "wait_submit", "wait_upload", "wait_reacquired_present", "wait_drain_present",
         "acquire", "queue_submit", "queue_present"
     };
-    struct CallStats { std::uint64_t calls{}, successes{}, wall_ns{}; };
+    struct CallStats { std::uint64_t calls{}, successes{}; };
     enum class BufferRole : unsigned { Mesh, MeshUniform, SelectionUniform, SelectionVertex, Staging, Readback, Count };
     inline static constexpr std::array<const char*, unsigned(BufferRole::Count)> BufferRoleNames{
         "mesh", "mesh_uniform", "selection_uniform", "selection_vertex", "staging", "readback"
@@ -37,12 +37,11 @@ struct VulkanDiagnosticAccess {
             requested_bytes += requested; allocated_bytes += allocated; live_bytes += allocated;
         }
     };
-    bool observe_performance{};
+    bool observe_native_calls{};
     std::array<CallStats, unsigned(Call::Count)> native_calls{};
     std::array<std::array<AllocationStats, VK_MAX_MEMORY_TYPES>, unsigned(BufferRole::Count)> buffer_allocations{};
     VkPhysicalDeviceMemoryProperties memory_properties{};
-    std::uint32_t graphics_family{}, present_family{}, swapchain_images{}, timestamp_bits{};
-    float timestamp_period{};
+    std::uint32_t graphics_family{}, present_family{}, swapchain_images{};
     bool same_graphics_present_queue{};
     std::uint64_t queue_observation_frame_id{};
     std::uint32_t present_image = UINT32_MAX, tracked_submit_pending{}, tracked_present_pending{};
@@ -73,14 +72,12 @@ struct VulkanDiagnosticAccess {
     std::function<void()> finish_deferred_present;
     VkResult next_allocation = VK_SUCCESS, next_submit = VK_SUCCESS, next_present = VK_SUCCESS;
     VkResult next_pipeline = VK_SUCCESS;
-    VkResult next_query = VK_SUCCESS;
-    bool disable_timestamps{};
     bool hide_maintenance_extension{}, hide_maintenance_feature{};
     unsigned extension_rejections{}, feature_rejections{}, device_creations{};
     unsigned acquire_calls{}, acquire_out_of_date_injections{}, swapchain_creations{};
     VkResult next_acquire = VK_SUCCESS, last_actual_acquire = VK_SUCCESS;
     VkResult last_effective_acquire = VK_SUCCESS, last_effective_present = VK_SUCCESS;
-    unsigned wait_calls{}, query_calls{};
+    unsigned wait_calls{};
     VkResult last_actual_present = VK_SUCCESS;
     std::uintptr_t loader_address{};
     bool next_host_allocation{}, quarantined{}, native_destroyed{}, loader_released{};

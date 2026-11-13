@@ -5,6 +5,8 @@ tags:
 
 # Platform
 
+> 已验收候选及保留限制见 [change 验证记录](../openspec/changes/integrate-renderdoc-tracy/verification.md)。构建和运行命令以仓库根目录为准。
+
 `symocraft_platform` 拥有 SDL3 窗口、按需 GL context、窗口事件/键鼠事实和进程内存查询，不拥有游戏角色、World 或 Renderer 资源。公开行为唯一正文为 [platform spec](../openspec/specs/platform/spec.md)，本文维护正确性机制与未覆盖限制。M3-T2 已于 2026-10-09 获用户批准，依据只在 [VERIFICATION](../verification/VERIFICATION.md)；旧笔记中的“待 T2 验收”是点时文字，不是当前状态，也不关闭 Fix1、同源 Q06 或首次可操作时间缺口。
 
 ## 资源所有权与线程
@@ -39,7 +41,7 @@ InputState按窗口ID过滤，接受全局Quit，只转换平台事实，不访�
 
 相对 motion 保留 double dx、反转 SDL y 为向上正；wheel 保留小数并归一 flipped 方向。窗口激活/恢复/Reset 后抑制首个 motion，再按事件顺序存储，不合并成总量，保持 simulation 的逐事件 pitch/FOV 裁剪。published/pending 两个 vector 各预留 64，Publish clear/swap 复用；预留不是事件无界或全程零分配保证。
 
-PollInt 排空 SDL 队列，经同一 Handle 适配，再按真实窗口 flags 收敛焦点/最小化并 Publish；Capture 在 app 的 simulation_ms 边界内同步 scancode/鼠标物理态后消费键锁存。只在 focused 且非 minimized 时采纳全局物理按键；丢失 regain/restore 事件可由 flags 修复，失焦后同轮恢复仍保留一次 focus_lost。Reset 清已发布/待发布控制、短按、指针及首 motion 基线；活跃窗口仍已知的 held 可保留/在下一 Capture 重同步，Reset 不是永久丢弃物理 held。
+PollInt 排空 SDL 队列，经同一 Handle 适配，再按真实窗口 flags 收敛焦点/最小化并 Publish；Capture在app独立input阶段同步 scancode/鼠标物理态后消费键锁存。只在 focused 且非 minimized 时采纳全局物理按键；丢失 regain/restore 事件可由 flags 修复，失焦后同轮恢复仍保留一次 focus_lost。Reset 清已发布/待发布控制、短按、指针及首 motion 基线；活跃窗口仍已知的 held 可保留/在下一 Capture 重同步，Reset 不是永久丢弃物理 held。
 
 公开借用Input()/InputSnapshot已退出。CaptureInput要求caller目的帧已Clear，先同步物理态，再复制键/按钮/focus事实、交换published pointer vector；不交换pending，不让容量搬移变成事件。app所有消费者结束后才Clear，旧自有帧不随Poll/Reset/Destroy改变。Down要求合法枚举；KeySampling纯CPU helper仍保留，不参与SDL硬件采集。
 
@@ -53,7 +55,7 @@ WaitEvents 接受有限非负秒数，ceil 转毫秒并封顶 INT_MAX；等待�
 
 普通无限游戏失焦/最小化/零像素时由app清输入并Pause Session，清水平/待跳/该会话预算，有限Wait不忙绘；Resume首次成功Advance规则dt=0。有限frame-limit仅豁免失焦暂停，不豁免零尺寸/最小化。关闭在模拟/绘制前退出；Window::Time是当前Runtime起点计时，不是持久应用时钟。
 
-Benchmark输入屏蔽属于app Scenario策略，平台交出本窗口全部事实。本窗口已排队Escape跨失焦保留，但后台全局Escape不采纳，最小化清除；普通玩法仍按focus_lost丢旧操作。尺寸变化/最小化判invalid，allow-unfocused不豁免；Poll归event_ms、Capture仍归simulation_ms，不挪边界制造收益。
+Benchmark输入屏蔽属于app Scenario策略，平台交出本窗口全部事实。本窗口已排队Escape跨失焦保留，但后台全局Escape不采纳，最小化清除；普通玩法仍按focus_lost丢旧操作。尺寸变化/最小化在app具名失败3，allow-unfocused不豁免；Poll/Capture由Tracy分开的CPU区域观测，不再输出旧event_ms/simulation_ms。
 
 ## 内存查询、不变量与验证边界
 

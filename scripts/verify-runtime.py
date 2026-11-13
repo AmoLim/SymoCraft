@@ -18,6 +18,7 @@ def parser():
     option(result, "Scene", choices=("terrain", "regression"))
     option(result, "Checkpoint", choices=("spawn", "positive-x", "negative-x", "four-chunk", "wall-corner", "low-ceiling", "single-block"))
     option(result, "TestEdits", action="store_true")
+    option(result, "Renderer", choices=("opengl", "d3d12", "vulkan"))
     return result
 
 
@@ -27,6 +28,8 @@ def probe(args):
     executable = file_path(args.Executable)
     output = new_directory(args.OutputDirectory)
     arguments = []
+    if args.Renderer is not None:
+        arguments += ["--renderer", args.Renderer]
     if args.Scene is not None:
         arguments += ["--scene", args.Scene]
     if args.Frames > 0:

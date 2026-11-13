@@ -29,7 +29,6 @@ public:
     void Resize(Extent2D framebuffer_extent);
     void SetVSync(bool enabled);
     RendererInfo GetInfo() const;
-    std::vector<GpuFrameSample> PollGpuSamples();
     void Shutdown();
 
 private:

@@ -50,3 +50,12 @@ This unresolved vendor-origin detail remains explicit for later release review.
 MSVC runtime files are toolchain components, not these third-party libraries.
 Debug_NonRedist and debug UCRT are local developer diagnostic components; their
 presence in a Debug candidate does not authorize external redistribution.
+
+Tracy (added 2026-11-02):
+Fixed official v0.14.1, commit 30997d5ca6bb632cc10807a1da8a6d3de0aeeb3c (BSD-3-Clause).
+Source ZIP: https://codeload.github.com/wolfpld/tracy/zip/30997d5ca6bb632cc10807a1da8a6d3de0aeeb3c
+ZIP SHA256: 14d458af6f78e1c4f517bc41c2ae2d3a8ad334219fe767f3387fb8e3d272c62d
+Local vendor/tracy contains all 88 public/ files plus the original LICENSE,
+89 files total, copied byte-for-byte without patches. Only public/TracyClient.cpp
+is compiled by symocraft_tracy_client. Viewer must match v0.14.1 and is not installed
+with the game. The original LICENSE is deployed when profiling is enabled.

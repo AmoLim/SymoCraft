@@ -1,4 +1,5 @@
 #include <symocraft/simulation/session.h>
+#include <symocraft/profiling/profiling.h>
 #include <symocraft/simulation/component.h>
 #include <symocraft/simulation/character_system.h>
 #include <symocraft/simulation/transform_system.h>
@@ -102,6 +103,7 @@ namespace SymoCraft::Simulation {
 
     AdvanceResult SimulationSession::Advance(double seconds, const AdvanceInput& input,
                                               std::span<const PointerInput> pointer) {
+        SYMOCRAFT_PROFILE_ZONE("simulation.advance");
         if (impl_->state != SessionState::Ready) throw Rejected("Advance: session is not Ready");
         if (!std::isfinite(seconds) || seconds < 0) throw Rejected("Advance: seconds must be finite/nonnegative");
         const PointerInput aggregate{input.player.mouse_dx, input.player.mouse_dy, input.player.scroll_y};

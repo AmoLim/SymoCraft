@@ -1,8 +1,9 @@
+#include <symocraft/profiling/profiling.h>
+#include "debug_markers.h"
 #include "vulkan_backend.h"
 #include "diagnostic_access.h"
 #include "frame_binding_cache.h"
 #include "buffer_policy.h"
-#include "../../frame_diagnostics.h"
 #include "vulkan_bridge.h"
 #include <symocraft/renderer/error.h>
 #include <Windows.h>
@@ -73,8 +74,13 @@ struct Native {
     VkSurfaceKHR surface{};
     VkPhysicalDevice physical{};
     VkDevice device{};
+#if defined(SYMOCRAFT_GPU_MARKERS_ENABLED)
+    VulkanAnnotations annotations;
+    bool annotation_extension{};
+    uint64_t annotation_serial{};
+#endif
     VkQueue graphics{}, present{};
-    uint32_t graphics_family{}, present_family{}, timestamp_bits{};
+    uint32_t graphics_family{}, present_family{};
     VkPhysicalDeviceProperties properties{};
     VkPhysicalDeviceMemoryProperties memory{};
     uint32_t reported_mesh_memory_types{};
@@ -85,15 +91,12 @@ struct Native {
     std::chrono::milliseconds timeout{};
 
     template<class Work> auto Observe(ObservedCall call, Work&& work) {
-        if (!diagnostic || !diagnostic->observe_performance) return work();
-        const auto begin = Clock::now();
+        if (!diagnostic || !diagnostic->observe_native_calls) return work();
         auto& stats = diagnostic->native_calls[unsigned(call)];
         if constexpr (std::is_void_v<decltype(work())>) {
             work(); ++stats.calls; ++stats.successes;
-            stats.wall_ns += std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now() - begin).count();
         } else {
             const auto result = work(); ++stats.calls; stats.successes += result == VK_SUCCESS;
-            stats.wall_ns += std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now() - begin).count();
             return result;
         }
     }
@@ -121,10 +124,9 @@ struct Native {
     X(CreateDescriptorSetLayout) X(DestroyDescriptorSetLayout) X(CreatePipelineLayout) X(DestroyPipelineLayout) \
     X(CreateShaderModule) X(DestroyShaderModule) X(CreateGraphicsPipelines) X(DestroyPipeline) \
     X(CreateDescriptorPool) X(DestroyDescriptorPool) X(AllocateDescriptorSets) X(UpdateDescriptorSets) \
-    X(CreateQueryPool) X(DestroyQueryPool) X(GetQueryPoolResults) \
     X(CmdPipelineBarrier) X(CmdCopyBufferToImage) X(CmdCopyImageToBuffer) X(CmdBeginRenderPass) X(CmdEndRenderPass) \
     X(CmdSetViewport) X(CmdSetScissor) X(CmdBindPipeline) X(CmdBindVertexBuffers) X(CmdBindDescriptorSets) \
-    X(CmdDraw) X(CmdResetQueryPool) X(CmdWriteTimestamp)
+    X(CmdDraw)
 #define DECLARE(name) PFN_vk##name name{};
     DEVICE_PROCEDURES(DECLARE)
 #undef DECLARE
@@ -209,9 +211,7 @@ struct Native {
         VkCommandBuffer command{};
         VkFence fence{};
         VkSemaphore acquire{};
-        VkQueryPool query{};
-        bool pending{}, query_pending{};
-        uint64_t frame_id{};
+        bool pending{};
         std::vector<std::shared_ptr<Mesh>> meshes;
         std::vector<std::shared_ptr<Image>> textures;
         std::shared_ptr<Buffer> selection, readback;
@@ -245,8 +245,6 @@ struct Native {
     VkSampler sampler{};
     std::map<BackendResourceId, std::shared_ptr<Mesh>, IdLess> meshes;
     std::map<BackendResourceId, std::shared_ptr<Image>, IdLess> textures;
-    std::array<GpuFrameSample, 256> ready{};
-    size_t ready_begin{}, ready_count{};
 
     Deadline Limit() const { return Clock::now() + timeout; }
     VkResult Allocate(const VkMemoryAllocateInfo& info, VkDeviceMemory& allocation, ObservedCall call) {
@@ -276,6 +274,8 @@ struct Native {
         VkBufferCreateInfo create{VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO};
         create.size = size; create.usage = usage; create.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
         Check(Observe(ObservedCall::BufferCreate, [&] { return CreateBuffer(device, &create, nullptr, &result->buffer); }), "CreateBuffer");
+        SYMOCRAFT_VK_NAME(*this, result->buffer, VK_OBJECT_TYPE_BUFFER,
+            std::string("Buffer.") + VulkanDiagnosticAccess::BufferRoleNames[unsigned(role)] + "[" + std::to_string(++annotation_serial) + "]");
         VkMemoryRequirements requirements{}; GetBufferMemoryRequirements(device, result->buffer, &requirements);
         VkMemoryAllocateInfo allocate{VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO};
         allocate.allocationSize = requirements.size;
@@ -285,7 +285,7 @@ struct Native {
         result->coherent = (memory.memoryTypes[allocate.memoryTypeIndex].propertyFlags & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT) != 0;
         Check(Allocate(allocate, result->memory, ObservedCall::BufferAllocate), "AllocateBufferMemory");
         result->allocated = requirements.size; CountAllocation(requirements.size, false);
-        if (diagnostic && diagnostic->observe_performance) {
+        if (diagnostic && diagnostic->observe_native_calls) {
             result->observation = &diagnostic->buffer_allocations[unsigned(role)][allocate.memoryTypeIndex];
             result->observation->Allocate(size, requirements.size, requirements.memoryTypeBits);
         }
@@ -320,11 +320,9 @@ struct Native {
         result->packed.resize(static_cast<size_t>(stride * capacity));
         const auto count = static_cast<uint32_t>(capacity);
         std::vector<VkDescriptorSetLayout> layouts(capacity, set_layout);
-        DiagnosticPhase(FramePhase::UniformAllocate);
         result->uniforms = MakeBuffer(stride * capacity, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
             selection ? BufferRole::SelectionUniform : BufferRole::MeshUniform);
         if (result->observed) ++result->observed->uniform_allocations;
-        DiagnosticPhase(FramePhase::DescriptorAllocate);
         VkDescriptorPoolSize sizes[]{{VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,count},
             {VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE,count},{VK_DESCRIPTOR_TYPE_SAMPLER,count}};
         VkDescriptorPoolCreateInfo pool{VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO};
@@ -371,6 +369,8 @@ struct Native {
         create.extent = {width, height, 1}; create.mipLevels = 1; create.arrayLayers = layers;
         create.samples = count; create.tiling = VK_IMAGE_TILING_OPTIMAL; create.usage = usage;
         Check(Observe(ObservedCall::ImageCreate, [&] { return CreateImage(device, &create, nullptr, &result->image); }), "CreateImage");
+        SYMOCRAFT_VK_NAME(*this, result->image, VK_OBJECT_TYPE_IMAGE,
+            std::string(aspect == VK_IMAGE_ASPECT_DEPTH_BIT ? "Frame.Depth[" : count != VK_SAMPLE_COUNT_1_BIT ? "Frame.MSAA[" : "World.Atlas[") + std::to_string(++annotation_serial) + "]");
         VkMemoryRequirements requirements{}; GetImageMemoryRequirements(device, result->image, &requirements);
         VkMemoryAllocateInfo allocate{VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO};
         allocate.allocationSize = requirements.size;
@@ -388,20 +388,19 @@ struct Native {
         create.subresourceRange = {aspect, 0, 1, 0, layers};
         VkImageView result{}; Check(CreateImageView(device, &create, nullptr, &result), "CreateImageView"); return result;
     }
-    void CreateFrame(Frame& frame, bool queries) {
+    void CreateFrame(Frame& frame) {
         VkCommandPoolCreateInfo pool{VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO}; pool.queueFamilyIndex = graphics_family;
         Check(CreateCommandPool(device, &pool, nullptr, &frame.pool), "CreateCommandPool");
         VkCommandBufferAllocateInfo allocate{VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO};
         allocate.commandPool = frame.pool; allocate.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY; allocate.commandBufferCount = 1;
         Check(AllocateCommandBuffers(device, &allocate, &frame.command), "AllocateCommandBuffer");
+        SYMOCRAFT_VK_NAME(*this, frame.pool, VK_OBJECT_TYPE_COMMAND_POOL, "Frame.CommandPool[" + std::to_string(++annotation_serial) + "]");
+        SYMOCRAFT_VK_NAME(*this, frame.command, VK_OBJECT_TYPE_COMMAND_BUFFER, "Frame.Commands[" + std::to_string(annotation_serial) + "]");
         VkFenceCreateInfo fence{VK_STRUCTURE_TYPE_FENCE_CREATE_INFO};
         Check(CreateFence(device, &fence, nullptr, &frame.fence), "CreateSubmitFence");
+        SYMOCRAFT_VK_NAME(*this, frame.fence, VK_OBJECT_TYPE_FENCE, "Frame.RetirementFence[" + std::to_string(annotation_serial) + "]");
         VkSemaphoreCreateInfo semaphore{VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO};
         Check(CreateSemaphore(device, &semaphore, nullptr, &frame.acquire), "CreateAcquireSemaphore");
-        if (queries && timestamp_bits) {
-            VkQueryPoolCreateInfo query{VK_STRUCTURE_TYPE_QUERY_POOL_CREATE_INFO}; query.queryType = VK_QUERY_TYPE_TIMESTAMP; query.queryCount = 2;
-            Check(CreateQueryPool(device, &query, nullptr, &frame.query), "CreateTimestampQuery");
-        }
     }
     void Begin(Frame& frame, bool reset = true) {
         if (reset) Check(ResetCommandPool(device, frame.pool, 0), "ResetCommandPool");
@@ -436,38 +435,10 @@ struct Native {
         frame.pending = true; unsafe = false;
         if (diagnostic) { ++diagnostic->successful_submits; diagnostic->last_submit = frame.fence; }
     }
-    void Ready(GpuFrameSample sample) noexcept {
-        if (ready_count == ready.size()) {
-            std::fprintf(stderr, "[renderer] Vulkan GPU sample discarded: frame=%llu\n",
-                         static_cast<unsigned long long>(ready[ready_begin].frame_id));
-            ready_begin = (ready_begin + 1) % ready.size(); --ready_count;
-        }
-        ready[(ready_begin + ready_count++) % ready.size()] = sample;
-    }
-    void Collect(Frame& frame) {
-        if (!frame.query_pending) return;
-        std::array<uint64_t, 2> values{};
-        auto result = Observe(ObservedCall::QueryRead, [&] { return GetQueryPoolResults(device, frame.query, 0, 2, sizeof(values), values.data(),
-                                               sizeof(uint64_t), VK_QUERY_RESULT_64_BIT); });
-        if (diagnostic) {
-            ++diagnostic->query_calls;
-            if (result == VK_SUCCESS && diagnostic->next_query != VK_SUCCESS)
-                result = std::exchange(diagnostic->next_query, VK_SUCCESS);
-        }
-        if (result == VK_NOT_READY) return;
-        if (result != VK_SUCCESS) { unsafe = true; Check(result, "ReadTimestampQuery", true); }
-        const uint64_t mask = timestamp_bits == 64 ? UINT64_MAX : (uint64_t{1} << timestamp_bits) - 1;
-        const auto ticks = (values[1] - values[0]) & mask;
-        const double ns = static_cast<double>(ticks) * properties.limits.timestampPeriod;
-        if (!std::isfinite(ns) || ns > static_cast<double>(INT64_MAX))
-            Fail(RenderErrorCategory::SubmissionFailure, "Timestamp", "timestamp duration is not representable");
-        Ready({frame.frame_id, true, std::chrono::nanoseconds(static_cast<int64_t>(ns)), GpuSampleMissingReason::None});
-        frame.query_pending = false;
-    }
     void Finish(Frame& frame, Deadline deadline) {
         if (!frame.pending) return;
         Wait(frame.fence, deadline, "WaitSubmit", &frame == &upload ? ObservedCall::WaitUpload : ObservedCall::WaitSubmit);
-        frame.pending = false; Collect(frame);
+        frame.pending = false;
     }
     void Drain(Deadline deadline) {
         Finish(upload, deadline);
@@ -502,7 +473,6 @@ struct Native {
     }
     void DestroyFrame(Frame& frame) noexcept {
         DropFrame(frame);
-        if (frame.query) DestroyQueryPool(device, frame.query, nullptr);
         if (frame.acquire) DestroySemaphore(device, frame.acquire, nullptr);
         if (frame.fence) DestroyFence(device, frame.fence, nullptr);
         if (frame.pool) DestroyCommandPool(device, frame.pool, nullptr);
@@ -600,7 +570,12 @@ void Initialize(Native& n, Window& window, const RendererConfig& config, Rendere
             Fail(RenderErrorCategory::Unsupported, "Validation", "synchronization validation configuration unavailable");
         required.emplace_back(VK_EXT_VALIDATION_FEATURES_EXTENSION_NAME);
     }
+#if defined(SYMOCRAFT_GPU_MARKERS_ENABLED)
+    n.annotation_extension = Has(extensions, VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+    if (n.annotation_extension && !config.enable_validation) required.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+#endif
     std::vector<const char*> names; for (auto& name : required) names.push_back(name.c_str());
+
     VkApplicationInfo app{VK_STRUCTURE_TYPE_APPLICATION_INFO}; app.pApplicationName = "SymoCraft"; app.apiVersion = VK_API_VERSION_1_2;
     VkDebugUtilsMessengerCreateInfoEXT debug{VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT};
     debug.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
@@ -666,19 +641,16 @@ void Initialize(Native& n, Window& window, const RendererConfig& config, Rendere
         }
         if (graphics == UINT32_MAX || present == UINT32_MAX) continue;
         n.physical = candidate; n.graphics_family = graphics; n.present_family = present; n.khr_maintenance = khr;
-        n.timestamp_bits = queues[graphics].timestampValidBits; break;
+        break;
     }
     if (!n.physical) Fail(RenderErrorCategory::Unsupported, "SelectDevice", "hardware Vulkan 1.2 + surface/swapchain + KHR/EXT swapchainMaintenance1 required; no software fallback");
     VkPhysicalDeviceProperties2 properties{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2};
     properties.pNext = &n.identity; n.identity.pNext = &n.driver; get_properties(n.physical, &properties); n.properties = properties.properties;
     get_memory(n.physical, &n.memory);
-    if (n.diagnostic && n.diagnostic->observe_performance) {
+    if (n.diagnostic && n.diagnostic->observe_native_calls) {
         n.diagnostic->memory_properties = n.memory;
         n.diagnostic->graphics_family = n.graphics_family; n.diagnostic->present_family = n.present_family;
-        n.diagnostic->timestamp_bits = n.timestamp_bits; n.diagnostic->timestamp_period = n.properties.limits.timestampPeriod;
     }
-    if (!n.properties.limits.timestampComputeAndGraphics) n.timestamp_bits = 0;
-    if (n.diagnostic && n.diagnostic->disable_timestamps) n.timestamp_bits = 0;
     const float priority = 1;
     std::array<VkDeviceQueueCreateInfo, 2> queues{};
     queues[0] = {VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO}; queues[0].queueFamilyIndex = n.graphics_family;
@@ -706,13 +678,18 @@ void Initialize(Native& n, Window& window, const RendererConfig& config, Rendere
 #undef LOAD
 #undef DEVICE_PROCEDURES
     n.GetDeviceQueue(n.device, n.graphics_family, 0, &n.graphics); n.GetDeviceQueue(n.device, n.present_family, 0, &n.present);
-    if (n.diagnostic && n.diagnostic->observe_performance)
+#if defined(SYMOCRAFT_GPU_MARKERS_ENABLED)
+    n.annotations.Load(n.GetDeviceProcAddr, n.device, n.annotation_extension);
+#endif
+    SYMOCRAFT_VK_NAME(n, n.graphics, VK_OBJECT_TYPE_QUEUE, "Graphics.Queue");
+    if (n.present != n.graphics) { SYMOCRAFT_VK_NAME(n, n.present, VK_OBJECT_TYPE_QUEUE, "Present.Queue"); }
+    if (n.diagnostic && n.diagnostic->observe_native_calls)
         n.diagnostic->same_graphics_present_queue = n.graphics == n.present;
     n.samples = static_cast<VkSampleCountFlagBits>(config.requested_samples);
     if (!(n.properties.limits.framebufferColorSampleCounts & n.samples) || !(n.properties.limits.framebufferDepthSampleCounts & n.samples))
         Fail(RenderErrorCategory::Unsupported, "Samples", "requested sample count unavailable");
-    for (auto& frame : n.frames) n.CreateFrame(frame, true);
-    n.CreateFrame(n.upload, false);
+    for (auto& frame : n.frames) n.CreateFrame(frame);
+    n.CreateFrame(n.upload);
     VkDescriptorSetLayoutBinding bindings[3]{};
     bindings[0] = {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, nullptr};
     bindings[1] = {1, VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1, VK_SHADER_STAGE_VERTEX_BIT | VK_SHADER_STAGE_FRAGMENT_BIT, nullptr};
@@ -729,7 +706,7 @@ void Initialize(Native& n, Window& window, const RendererConfig& config, Rendere
     for (auto byte : n.identity.deviceUUID) { id.width(2); id.fill('0'); id << static_cast<unsigned>(byte); }
     info.device_identity = id.str(); info.driver_version = std::string(n.driver.driverName) + ":" + n.driver.driverInfo;
     info.api_version = Version(n.properties.apiVersion); info.actual_samples = config.requested_samples;
-    info.validation_enabled = config.enable_validation; info.capabilities = {true, true, true, n.timestamp_bits != 0};
+    info.validation_enabled = config.enable_validation; info.capabilities = {true, true, true};
 }
 
 struct Shader {
@@ -883,9 +860,10 @@ void Rebuild(Native& n, Extent2D extent, bool vsync, const std::filesystem::path
         Check(n.GetSwapchainImagesKHR(n.device, n.swapchain, &count, nullptr), "SwapchainImages");
         std::vector<VkImage> images(count); Check(n.GetSwapchainImagesKHR(n.device, n.swapchain, &count, images.data()), "SwapchainImages");
         n.images.resize(count); CreatePipelines(n, root);
-        if (n.diagnostic && n.diagnostic->observe_performance) n.diagnostic->swapchain_images = count;
+        if (n.diagnostic && n.diagnostic->observe_native_calls) n.diagnostic->swapchain_images = count;
         for (size_t i = 0; i < n.images.size(); ++i) {
             auto& image = n.images[i]; image.image = images[i];
+            SYMOCRAFT_VK_NAME(n, image.image, VK_OBJECT_TYPE_IMAGE, "Present.Color[" + std::to_string(i) + "]");
             image.view = n.MakeView(image.image, format, 1, VK_IMAGE_ASPECT_COLOR_BIT, false);
             image.depth = n.MakeImage(extent.width, extent.height, 1, VK_FORMAT_D32_SFLOAT, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT,
                                       n.samples, VK_IMAGE_ASPECT_DEPTH_BIT);
@@ -896,6 +874,7 @@ void Rebuild(Native& n, Extent2D extent, bool vsync, const std::filesystem::path
             framebuffer.attachmentCount = image.color ? 3 : 2; framebuffer.pAttachments = views;
             framebuffer.width = extent.width; framebuffer.height = extent.height; framebuffer.layers = 1;
             Check(n.CreateFramebuffer(n.device, &framebuffer, nullptr, &image.framebuffer), "CreateFramebuffer");
+            SYMOCRAFT_VK_NAME(n, image.framebuffer, VK_OBJECT_TYPE_FRAMEBUFFER, "Frame.Targets[" + std::to_string(i) + "]");
             VkFenceCreateInfo fence{VK_STRUCTURE_TYPE_FENCE_CREATE_INFO};
             Check(n.CreateFence(n.device, &fence, nullptr, &image.presented), "CreatePresentFence");
             VkSemaphoreCreateInfo semaphore{VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO};
@@ -1020,12 +999,15 @@ public:
                     VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_ASPECT_COLOR_BIT);
                 if (n.diagnostic) n.diagnostic->last_texture = n.uploading;
                 n.Begin(n.upload);
-                Barrier(n, n.upload.command, n.uploading->image, data->layers, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                        0, VK_ACCESS_TRANSFER_WRITE_BIT, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT);
-                VkBufferImageCopy copy{}; copy.imageSubresource = {VK_IMAGE_ASPECT_COLOR_BIT, 0, 0, data->layers}; copy.imageExtent = {data->width, data->height, 1};
-                n.CmdCopyBufferToImage(n.upload.command, n.staging->buffer, n.uploading->image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &copy);
-                Barrier(n, n.upload.command, n.uploading->image, data->layers, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
-                        VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_READ_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
+                {
+                    SYMOCRAFT_VK_REGION(n, n.upload.command, "upload.atlas");
+                    Barrier(n, n.upload.command, n.uploading->image, data->layers, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                            0, VK_ACCESS_TRANSFER_WRITE_BIT, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT);
+                    VkBufferImageCopy copy{}; copy.imageSubresource = {VK_IMAGE_ASPECT_COLOR_BIT, 0, 0, data->layers}; copy.imageExtent = {data->width, data->height, 1};
+                    n.CmdCopyBufferToImage(n.upload.command, n.staging->buffer, n.uploading->image, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &copy);
+                    Barrier(n, n.upload.command, n.uploading->image, data->layers, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
+                            VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_READ_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT);
+                }
                 Check(n.EndCommandBuffer(n.upload.command), "EndTextureUpload");
                 VkSubmitInfo submit{VK_STRUCTURE_TYPE_SUBMIT_INFO}; submit.commandBufferCount = 1; submit.pCommandBuffers = &n.upload.command;
                 n.Submit(n.upload, submit); n.Finish(n.upload, n.Limit());
@@ -1046,19 +1028,6 @@ public:
     void SetVSync(bool enabled) override {
         if (enabled == config_.vsync) return;
         Operation("SetVSync", [&] { Rebuild(*native_, info_.framebuffer_extent, enabled, config_.shader_asset_root, info_); config_.vsync = enabled; });
-    }
-    std::vector<GpuFrameSample> PollGpuSamples() override {
-        return Operation("PollGpuSamples", [&] {
-            auto& n = *native_;
-            for (auto& frame : n.frames) if (frame.pending) {
-                const auto result = n.Observe(ObservedCall::FencePoll, [&] { return n.GetFenceStatus(n.device, frame.fence); });
-                if (result == VK_SUCCESS) { frame.pending = false; n.Collect(frame); }
-                else if (result != VK_NOT_READY) { n.unsafe = true; Check(result, "PollSubmitFence", true); }
-            }
-            std::vector<GpuFrameSample> result; result.reserve(n.ready_count);
-            while (n.ready_count) { result.push_back(n.ready[n.ready_begin]); n.ready_begin = (n.ready_begin + 1) % n.ready.size(); --n.ready_count; }
-            return result;
-        });
     }
     void Shutdown() override {
         if (!native_) return;
@@ -1084,215 +1053,207 @@ public:
 FrameResult VulkanBackend::Render(const PreparedFrame& input) {
     return Operation("Render", [&] {
         auto& n = *native_;
-        const auto start = Clock::now(); const auto deadline = n.Limit();
+        const auto deadline = n.Limit();
         FrameResult result; result.frame_id = input.frame_id;
-        if (window_.Minimized() || !window_.Width() || !window_.Height()) {
-            info_.framebuffer_extent = {}; result.skip_reason = FrameSkipReason::ZeroExtent;
-            n.Ready({input.frame_id,false,{},GpuSampleMissingReason::Discarded}); return result;
-        }
-        if (static_cast<uint32_t>(window_.Width()) != input.extent.width || static_cast<uint32_t>(window_.Height()) != input.extent.height)
-            Fail(RenderErrorCategory::InvalidState, "Render", "window extent changed; Resize is required before rendering");
-        if (n.rebuild) {
-            VkSurfaceCapabilitiesKHR current{};
-            Check(n.GetPhysicalDeviceSurfaceCapabilitiesKHR(n.physical,n.surface,&current),"RebuildSurfaceCapabilities");
-            if (!current.currentExtent.width || !current.currentExtent.height) {
-                info_.framebuffer_extent = {}; result.skip_reason = FrameSkipReason::ZeroExtent;
-                n.Ready({input.frame_id,false,{},GpuSampleMissingReason::Discarded}); return result;
-            }
-            if (current.currentExtent.width != UINT32_MAX &&
-                (current.currentExtent.width != input.extent.width || current.currentExtent.height != input.extent.height)) {
-                result.skip_reason = FrameSkipReason::Occluded;
-                n.Ready({input.frame_id,false,{},GpuSampleMissingReason::Discarded}); return result;
-            }
-            try { Rebuild(n, input.extent, config_.vsync, config_.shader_asset_root, info_); }
-            catch (const RenderError& error) {
-                if (error.Category() != RenderErrorCategory::InvalidState || error.Diagnostic() != "surface_extent_pending") throw;
-                result.skip_reason = FrameSkipReason::Occluded;
-                n.Ready({input.frame_id,false,{},GpuSampleMissingReason::Discarded}); return result;
-            }
-        }
-        DiagnosticPhase(FramePhase::SlotWaitCollect);
-        auto& frame = n.frames[n.next_frame]; n.Finish(frame, deadline); n.Collect(frame);
-        if (n.diagnostic) {
-            n.diagnostic->last_binding_slot = static_cast<unsigned>(n.next_frame);
-            n.diagnostic->last_binding_frame_id = input.frame_id;
-        }
-        DiagnosticPhase(FramePhase::CommandBegin);
-        Check(n.ResetCommandPool(n.device, frame.pool, 0), "ResetRetiredCommands");
-        DiagnosticPhase(FramePhase::ResourceRetire);
-        n.RetireFrame(frame);
-        DiagnosticPhase(FramePhase::CpuPack);
-        frame.meshes.reserve(input.draws.size()); frame.textures.reserve(input.draws.size());
-        const auto camera = CameraMatrix(input.camera, input.extent);
-        const size_t draw_count = input.draws.size() + (input.selection ? 1 : 0);
-        if (draw_count > UINT32_MAX / 3) Fail(RenderErrorCategory::Unsupported, "Descriptors", "frame descriptor count exceeds Vulkan range");
-        const auto alignment = std::max<VkDeviceSize>(64, n.properties.limits.minUniformBufferOffsetAlignment);
-        const auto stride = (64 + alignment - 1) / alignment * alignment;
-        std::vector<glm::mat4> constants; constants.reserve(draw_count);
-        for (const auto& draw : input.draws) {
-            auto mesh = n.meshes.at(draw.mesh); auto texture = n.textures.at(draw.texture);
-            constants.push_back(GpuMatrix(camera * glm::dmat4(draw.object_transform), mesh->maximum));
-            frame.meshes.push_back(std::move(mesh)); frame.textures.push_back(std::move(texture));
-        }
-        if (input.selection) {
-            const glm::dvec3 center = (glm::dvec3(input.selection->minimum) + glm::dvec3(input.selection->maximum)) * .5;
-            const glm::dvec3 size = glm::dvec3(input.selection->maximum) - glm::dvec3(input.selection->minimum);
-            const glm::dvec3 corners[]{{0,0,0},{0,0,1},{1,0,1},{1,0,0},{0,1,0},{0,1,1},{1,1,1},{1,1,0}};
-            const int edges[]{7,6,6,2,2,3,3,7,7,4,6,5,2,1,3,0,5,4,4,0,0,1,1,5};
-            std::array<LineVertex3D,24> vertices; std::array<double,3> maximum{};
-            for (size_t i = 0; i < vertices.size(); ++i) for (int c = 0; c < 3; ++c) {
-                const auto coordinate = center[c] + (corners[edges[i]][c] - .5) * size[c] * 1.004;
-                vertices[i].pos_coord[c] = GpuFloat(coordinate); maximum[c] = std::max(maximum[c], std::abs(coordinate));
-            }
-            constants.push_back(GpuMatrix(camera, maximum));
-            DiagnosticPhase(FramePhase::SelectionAllocate);
-            WriteRetainedSelectionBuffer(frame.selection, [&] {
-                return n.MakeBuffer(sizeof(vertices), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, BufferRole::SelectionVertex);
-            }, [&](Native::Buffer& buffer) {
-                DiagnosticPhase(FramePhase::SelectionWrite);
-                buffer.Write(vertices.data(), sizeof(vertices));
-            });
-            result.statistics.upload_bytes += sizeof(vertices);
-        }
-        DiagnosticPhase(FramePhase::CpuPack);
-        DiagnosticPhase(FramePhase::UniformAllocate);
-        if (draw_count) {
-            const auto limit = static_cast<size_t>(std::min<uint64_t>(UINT32_MAX / 3,
-                std::min<uint64_t>(SIZE_MAX, std::numeric_limits<VkDeviceSize>::max()) / stride));
-            if (input.draws.size() > limit)
-                Fail(RenderErrorCategory::Unsupported, "Uniforms", "frame uniform storage exceeds addressable range");
-            std::unique_ptr<Native::FrameBindings> replacement, selection_replacement;
-            if (!input.draws.empty() && (!frame.bindings || frame.bindings->cache.Capacity() < input.draws.size())) {
-                const auto capacity = FrameBindingCache::CapacityFor(frame.bindings ? frame.bindings->cache.Capacity() : 0,
-                    input.draws.size(), limit);
-                replacement = n.MakeFrameBindings(capacity, stride);
-            }
-            if (input.selection && !frame.selection_binding) selection_replacement = n.MakeFrameBindings(1, stride, true);
-            // Publish both bundles only after every candidate allocation succeeds.
-            if (replacement) frame.bindings.swap(replacement);
-            if (selection_replacement) frame.selection_binding.swap(selection_replacement);
-            replacement.reset(); selection_replacement.reset();
-            DiagnosticPhase(FramePhase::UniformPackWrite);
-            if (!input.draws.empty()) {
-                auto& bindings = *frame.bindings;
-                const auto bytes = stride * input.draws.size();
-                for (size_t i = 0; i < input.draws.size(); ++i)
-                    std::memcpy(bindings.packed.data() + stride * i, &constants[i], 64);
-                bindings.uniforms->Write(bindings.packed.data(), bytes);
-                if (bindings.observed) { ++bindings.observed->uniform_writes; bindings.observed->uniform_bytes += bytes; }
-                result.statistics.upload_bytes += bytes;
-            }
-            if (input.selection) {
-                auto& bindings = *frame.selection_binding;
-                std::memcpy(bindings.packed.data(), &constants.back(), 64);
-                bindings.uniforms->Write(bindings.packed.data(), stride);
-                if (bindings.observed) { ++bindings.observed->uniform_writes; bindings.observed->uniform_bytes += stride; }
-                result.statistics.upload_bytes += stride;
-            }
-            DiagnosticPhase(FramePhase::DescriptorAllocate);
-            // On cache hits this phase is a logical boundary, not a native allocation.
-            DiagnosticPhase(FramePhase::DescriptorUpdate);
-            for (size_t i = 0; i < input.draws.size(); ++i) {
-                auto& bindings = *frame.bindings;
-                bindings.cache.WriteMesh(i, input.draws[i].texture, [&](FrameBindingCache::Writes dirty) {
-                    n.WriteFrameDescriptors(bindings, i, dirty, frame.textures[i].get());
-                });
-            }
-            if (input.selection) {
-                auto& bindings = *frame.selection_binding;
-                bindings.cache.WriteUniform(0, [&](FrameBindingCache::Writes dirty) {
-                    n.WriteFrameDescriptors(bindings, 0, dirty, nullptr);
-                });
-            }
-        }
-        DiagnosticPhase(FramePhase::CommandBegin);
-        if (input.request_screenshot) {
-            const auto bytes = static_cast<uint64_t>(input.extent.width) * input.extent.height * 4;
-            result.screenshot.emplace(Screenshot{input.extent, std::vector<uint8_t>(static_cast<size_t>(bytes))});
-            frame.readback = n.MakeBuffer(bytes, VK_BUFFER_USAGE_TRANSFER_DST_BIT, BufferRole::Readback);
-        }
-        n.Begin(frame, false);
-        DiagnosticPhase(FramePhase::AcquireImage);
+        auto& frame = n.frames[n.next_frame];
         uint32_t index{};
-        VkResult acquire;
-        const auto injected_acquire = n.diagnostic ? std::exchange(n.diagnostic->next_acquire, VK_SUCCESS) : VK_SUCCESS;
-        if (injected_acquire == VK_ERROR_OUT_OF_DATE_KHR) {
-            // Do not acquire/signify a semaphore and then pretend no image was acquired.
-            ++n.diagnostic->acquire_out_of_date_injections; acquire = injected_acquire;
-        } else {
-            acquire = n.Observe(ObservedCall::Acquire, [&] { return n.AcquireNextImageKHR(n.device, n.swapchain, Remaining(deadline), frame.acquire, {}, &index); });
-            if (n.diagnostic) {
-                ++n.diagnostic->acquire_calls; n.diagnostic->last_actual_acquire = acquire;
-                if (acquire == VK_SUCCESS && injected_acquire == VK_SUBOPTIMAL_KHR) acquire = injected_acquire;
+        VkResult acquire{};
+        {
+            SYMOCRAFT_PROFILE_ZONE("vulkan.prepare_cpu");
+            if (window_.Minimized() || !window_.Width() || !window_.Height()) {
+                info_.framebuffer_extent = {}; result.skip_reason = FrameSkipReason::ZeroExtent;
+                return result;
             }
+            if (static_cast<uint32_t>(window_.Width()) != input.extent.width || static_cast<uint32_t>(window_.Height()) != input.extent.height)
+                Fail(RenderErrorCategory::InvalidState, "Render", "window extent changed; Resize is required before rendering");
+            if (n.rebuild) {
+                VkSurfaceCapabilitiesKHR current{};
+                Check(n.GetPhysicalDeviceSurfaceCapabilitiesKHR(n.physical,n.surface,&current),"RebuildSurfaceCapabilities");
+                if (!current.currentExtent.width || !current.currentExtent.height) {
+                    info_.framebuffer_extent = {}; result.skip_reason = FrameSkipReason::ZeroExtent;
+                    return result;
+                }
+                if (current.currentExtent.width != UINT32_MAX &&
+                    (current.currentExtent.width != input.extent.width || current.currentExtent.height != input.extent.height)) {
+                    result.skip_reason = FrameSkipReason::Occluded;
+                    return result;
+                }
+                try { Rebuild(n, input.extent, config_.vsync, config_.shader_asset_root, info_); }
+                catch (const RenderError& error) {
+                    if (error.Category() != RenderErrorCategory::InvalidState || error.Diagnostic() != "surface_extent_pending") throw;
+                    result.skip_reason = FrameSkipReason::Occluded;
+                    return result;
+                }
+            }
+            n.Finish(frame, deadline);
+            if (n.diagnostic) {
+                n.diagnostic->last_binding_slot = static_cast<unsigned>(n.next_frame);
+                n.diagnostic->last_binding_frame_id = input.frame_id;
+            }
+            Check(n.ResetCommandPool(n.device, frame.pool, 0), "ResetRetiredCommands");
+            n.RetireFrame(frame);
+            frame.meshes.reserve(input.draws.size()); frame.textures.reserve(input.draws.size());
+            const auto camera = CameraMatrix(input.camera, input.extent);
+            const size_t draw_count = input.draws.size() + (input.selection ? 1 : 0);
+            if (draw_count > UINT32_MAX / 3) Fail(RenderErrorCategory::Unsupported, "Descriptors", "frame descriptor count exceeds Vulkan range");
+            const auto alignment = std::max<VkDeviceSize>(64, n.properties.limits.minUniformBufferOffsetAlignment);
+            const auto stride = (64 + alignment - 1) / alignment * alignment;
+            std::vector<glm::mat4> constants; constants.reserve(draw_count);
+            for (const auto& draw : input.draws) {
+                auto mesh = n.meshes.at(draw.mesh); auto texture = n.textures.at(draw.texture);
+                constants.push_back(GpuMatrix(camera * glm::dmat4(draw.object_transform), mesh->maximum));
+                frame.meshes.push_back(std::move(mesh)); frame.textures.push_back(std::move(texture));
+            }
+            if (input.selection) {
+                const glm::dvec3 center = (glm::dvec3(input.selection->minimum) + glm::dvec3(input.selection->maximum)) * .5;
+                const glm::dvec3 size = glm::dvec3(input.selection->maximum) - glm::dvec3(input.selection->minimum);
+                const glm::dvec3 corners[]{{0,0,0},{0,0,1},{1,0,1},{1,0,0},{0,1,0},{0,1,1},{1,1,1},{1,1,0}};
+                const int edges[]{7,6,6,2,2,3,3,7,7,4,6,5,2,1,3,0,5,4,4,0,0,1,1,5};
+                std::array<LineVertex3D,24> vertices; std::array<double,3> maximum{};
+                for (size_t i = 0; i < vertices.size(); ++i) for (int c = 0; c < 3; ++c) {
+                    const auto coordinate = center[c] + (corners[edges[i]][c] - .5) * size[c] * 1.004;
+                    vertices[i].pos_coord[c] = GpuFloat(coordinate); maximum[c] = std::max(maximum[c], std::abs(coordinate));
+                }
+                constants.push_back(GpuMatrix(camera, maximum));
+                WriteRetainedSelectionBuffer(frame.selection, [&] {
+                    return n.MakeBuffer(sizeof(vertices), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, BufferRole::SelectionVertex);
+                }, [&](Native::Buffer& buffer) {
+                    buffer.Write(vertices.data(), sizeof(vertices));
+                });
+                result.statistics.upload_bytes += sizeof(vertices);
+            }
+            if (draw_count) {
+                const auto limit = static_cast<size_t>(std::min<uint64_t>(UINT32_MAX / 3,
+                    std::min<uint64_t>(SIZE_MAX, std::numeric_limits<VkDeviceSize>::max()) / stride));
+                if (input.draws.size() > limit)
+                    Fail(RenderErrorCategory::Unsupported, "Uniforms", "frame uniform storage exceeds addressable range");
+                std::unique_ptr<Native::FrameBindings> replacement, selection_replacement;
+                if (!input.draws.empty() && (!frame.bindings || frame.bindings->cache.Capacity() < input.draws.size())) {
+                    const auto capacity = FrameBindingCache::CapacityFor(frame.bindings ? frame.bindings->cache.Capacity() : 0,
+                        input.draws.size(), limit);
+                    replacement = n.MakeFrameBindings(capacity, stride);
+                }
+                if (input.selection && !frame.selection_binding) selection_replacement = n.MakeFrameBindings(1, stride, true);
+                // Publish both bundles only after every candidate allocation succeeds.
+                if (replacement) frame.bindings.swap(replacement);
+                if (selection_replacement) frame.selection_binding.swap(selection_replacement);
+                replacement.reset(); selection_replacement.reset();
+                if (!input.draws.empty()) {
+                    auto& bindings = *frame.bindings;
+                    const auto bytes = stride * input.draws.size();
+                    for (size_t i = 0; i < input.draws.size(); ++i)
+                        std::memcpy(bindings.packed.data() + stride * i, &constants[i], 64);
+                    bindings.uniforms->Write(bindings.packed.data(), bytes);
+                    if (bindings.observed) { ++bindings.observed->uniform_writes; bindings.observed->uniform_bytes += bytes; }
+                    result.statistics.upload_bytes += bytes;
+                }
+                if (input.selection) {
+                    auto& bindings = *frame.selection_binding;
+                    std::memcpy(bindings.packed.data(), &constants.back(), 64);
+                    bindings.uniforms->Write(bindings.packed.data(), stride);
+                    if (bindings.observed) { ++bindings.observed->uniform_writes; bindings.observed->uniform_bytes += stride; }
+                    result.statistics.upload_bytes += stride;
+                }
+                // On cache hits this phase is a logical boundary, not a native allocation.
+                for (size_t i = 0; i < input.draws.size(); ++i) {
+                    auto& bindings = *frame.bindings;
+                    bindings.cache.WriteMesh(i, input.draws[i].texture, [&](FrameBindingCache::Writes dirty) {
+                        n.WriteFrameDescriptors(bindings, i, dirty, frame.textures[i].get());
+                    });
+                }
+                if (input.selection) {
+                    auto& bindings = *frame.selection_binding;
+                    bindings.cache.WriteUniform(0, [&](FrameBindingCache::Writes dirty) {
+                        n.WriteFrameDescriptors(bindings, 0, dirty, nullptr);
+                    });
+                }
+            }
+            if (input.request_screenshot) {
+                const auto bytes = static_cast<uint64_t>(input.extent.width) * input.extent.height * 4;
+                result.screenshot.emplace(Screenshot{input.extent, std::vector<uint8_t>(static_cast<size_t>(bytes))});
+                frame.readback = n.MakeBuffer(bytes, VK_BUFFER_USAGE_TRANSFER_DST_BIT, BufferRole::Readback);
+            }
+            n.Begin(frame, false);
+            const auto injected_acquire = n.diagnostic ? std::exchange(n.diagnostic->next_acquire, VK_SUCCESS) : VK_SUCCESS;
+            if (injected_acquire == VK_ERROR_OUT_OF_DATE_KHR) {
+                // Do not acquire/signify a semaphore and then pretend no image was acquired.
+                ++n.diagnostic->acquire_out_of_date_injections; acquire = injected_acquire;
+            } else {
+                acquire = n.Observe(ObservedCall::Acquire, [&] { return n.AcquireNextImageKHR(n.device, n.swapchain, Remaining(deadline), frame.acquire, {}, &index); });
+                if (n.diagnostic) {
+                    ++n.diagnostic->acquire_calls; n.diagnostic->last_actual_acquire = acquire;
+                    if (acquire == VK_SUCCESS && injected_acquire == VK_SUBOPTIMAL_KHR) acquire = injected_acquire;
+                }
+            }
+            if (n.diagnostic) n.diagnostic->last_effective_acquire = acquire;
+            if (acquire == VK_ERROR_OUT_OF_DATE_KHR) {
+                n.rebuild = true; result.screenshot.reset(); result.skip_reason = FrameSkipReason::Occluded;
+                return result;
+            }
+            Check(acquire == VK_SUBOPTIMAL_KHR ? VK_SUCCESS : acquire, "AcquireImage", true);
+            n.unsafe = true; // Until the acquired semaphore has a tracked submitted consumer.
+            auto& image = n.images.at(index);
+            if (image.pending) { n.Wait(image.presented, deadline, "WaitReacquiredPresent", ObservedCall::WaitReacquiredPresent); image.pending = false; }
+            const VkClearValue clear[2]{{{{.529f,.808f,.922f,1.f}}}, {.depthStencil={1,0}}};
+            const VkRect2D scissor{{0,0},n.extent};
+            VkRenderPassBeginInfo render{VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO}; render.renderPass = n.render_pass;
+            render.framebuffer = image.framebuffer; render.renderArea = scissor; render.clearValueCount = 2; render.pClearValues = clear;
+            n.CmdBeginRenderPass(frame.command, &render, VK_SUBPASS_CONTENTS_INLINE);
+            const VkViewport viewport{0,static_cast<float>(n.extent.height),static_cast<float>(n.extent.width),-static_cast<float>(n.extent.height),0,1};
+            n.CmdSetViewport(frame.command, 0, 1, &viewport); n.CmdSetScissor(frame.command, 0, 1, &scissor);
+            n.CmdBindPipeline(frame.command, VK_PIPELINE_BIND_POINT_GRAPHICS, n.blocks);
+            const VkDeviceSize offset = 0;
+            {
+                SYMOCRAFT_VK_REGION_IF(n, frame.command, "world", std::any_of(frame.meshes.begin(), frame.meshes.end(), [](const auto& mesh) { return mesh->vertices != 0; }));
+                for (size_t i = 0; i < frame.meshes.size(); ++i) if (frame.meshes[i]->vertices) {
+                    const auto& mesh = frame.meshes[i];
+                    n.CmdBindVertexBuffers(frame.command, 0, 1, &mesh->buffer->buffer, &offset);
+                    n.CmdBindDescriptorSets(frame.command, VK_PIPELINE_BIND_POINT_GRAPHICS, n.pipeline_layout, 0, 1, &frame.bindings->sets[i], 0, nullptr);
+                    n.CmdDraw(frame.command, mesh->vertices, 1, 0, 0); ++result.statistics.draw_calls; result.statistics.drawn_vertices += mesh->vertices;
+                }
+            }
+            if (input.selection) {
+                SYMOCRAFT_VK_REGION(n, frame.command, "selection");
+                n.CmdBindPipeline(frame.command, VK_PIPELINE_BIND_POINT_GRAPHICS, n.selection);
+                n.CmdBindVertexBuffers(frame.command, 0, 1, &frame.selection->buffer, &offset);
+                n.CmdBindDescriptorSets(frame.command, VK_PIPELINE_BIND_POINT_GRAPHICS, n.pipeline_layout, 0, 1, &frame.selection_binding->sets[0], 0, nullptr);
+                n.CmdDraw(frame.command, 24, 1, 0, 0); ++result.statistics.draw_calls; result.statistics.drawn_vertices += 24;
+            }
+            {
+                SYMOCRAFT_VK_REGION_IF(n, frame.command, "resolve.msaa", n.samples != VK_SAMPLE_COUNT_1_BIT);
+                n.CmdEndRenderPass(frame.command);
+            }
+            if (input.request_screenshot) {
+                SYMOCRAFT_VK_REGION(n, frame.command, "readback.screenshot");
+                Barrier(n, frame.command, image.image, 1, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
+                        VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT, VK_ACCESS_TRANSFER_READ_BIT, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT);
+                VkBufferImageCopy copy{}; copy.imageSubresource = {VK_IMAGE_ASPECT_COLOR_BIT,0,0,1}; copy.imageExtent = {n.extent.width,n.extent.height,1};
+                n.CmdCopyImageToBuffer(frame.command, image.image, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, frame.readback->buffer, 1, &copy);
+                VkBufferMemoryBarrier host{VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER};
+                host.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT; host.dstAccessMask = VK_ACCESS_HOST_READ_BIT;
+                host.srcQueueFamilyIndex = host.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
+                host.buffer = frame.readback->buffer; host.size = VK_WHOLE_SIZE;
+                n.CmdPipelineBarrier(frame.command, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_HOST_BIT, 0,
+                                     0, nullptr, 1, &host, 0, nullptr);
+            }
+            Barrier(n, frame.command, image.image, 1,
+                    input.request_screenshot ? VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL : VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
+                    input.request_screenshot ? VK_ACCESS_TRANSFER_READ_BIT : VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT, 0,
+                    input.request_screenshot ? VK_PIPELINE_STAGE_TRANSFER_BIT : VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT);
+            Check(n.EndCommandBuffer(frame.command), "EndFrame", true);
         }
-        if (n.diagnostic) n.diagnostic->last_effective_acquire = acquire;
-        if (acquire == VK_ERROR_OUT_OF_DATE_KHR) {
-            n.rebuild = true; result.screenshot.reset(); result.skip_reason = FrameSkipReason::Occluded;
-            n.Ready({input.frame_id, false, {}, GpuSampleMissingReason::Discarded}); return result;
-        }
-        Check(acquire == VK_SUBOPTIMAL_KHR ? VK_SUCCESS : acquire, "AcquireImage", true);
-        DiagnosticPhase(FramePhase::PresentFenceWait);
-        n.unsafe = true; // Until the acquired semaphore has a tracked submitted consumer.
         auto& image = n.images.at(index);
-        if (image.pending) { n.Wait(image.presented, deadline, "WaitReacquiredPresent", ObservedCall::WaitReacquiredPresent); image.pending = false; }
-        DiagnosticPhase(FramePhase::CommandRecord);
-        const VkClearValue clear[2]{{{{.529f,.808f,.922f,1.f}}}, {.depthStencil={1,0}}};
-        const VkRect2D scissor{{0,0},n.extent};
-        VkRenderPassBeginInfo render{VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO}; render.renderPass = n.render_pass;
-        render.framebuffer = image.framebuffer; render.renderArea = scissor; render.clearValueCount = 2; render.pClearValues = clear;
-        if (frame.query) n.CmdResetQueryPool(frame.command, frame.query, 0, 2);
-        n.CmdBeginRenderPass(frame.command, &render, VK_SUBPASS_CONTENTS_INLINE);
-        const VkViewport viewport{0,static_cast<float>(n.extent.height),static_cast<float>(n.extent.width),-static_cast<float>(n.extent.height),0,1};
-        n.CmdSetViewport(frame.command, 0, 1, &viewport); n.CmdSetScissor(frame.command, 0, 1, &scissor);
-        if (frame.query) n.CmdWriteTimestamp(frame.command, VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT, frame.query, 0);
-        n.CmdBindPipeline(frame.command, VK_PIPELINE_BIND_POINT_GRAPHICS, n.blocks);
-        const VkDeviceSize offset = 0;
-        for (size_t i = 0; i < frame.meshes.size(); ++i) if (frame.meshes[i]->vertices) {
-            const auto& mesh = frame.meshes[i];
-            n.CmdBindVertexBuffers(frame.command, 0, 1, &mesh->buffer->buffer, &offset);
-            n.CmdBindDescriptorSets(frame.command, VK_PIPELINE_BIND_POINT_GRAPHICS, n.pipeline_layout, 0, 1, &frame.bindings->sets[i], 0, nullptr);
-            n.CmdDraw(frame.command, mesh->vertices, 1, 0, 0); ++result.statistics.draw_calls; result.statistics.drawn_vertices += mesh->vertices;
-        }
-        if (input.selection) {
-            n.CmdBindPipeline(frame.command, VK_PIPELINE_BIND_POINT_GRAPHICS, n.selection);
-            n.CmdBindVertexBuffers(frame.command, 0, 1, &frame.selection->buffer, &offset);
-            n.CmdBindDescriptorSets(frame.command, VK_PIPELINE_BIND_POINT_GRAPHICS, n.pipeline_layout, 0, 1, &frame.selection_binding->sets[0], 0, nullptr);
-            n.CmdDraw(frame.command, 24, 1, 0, 0); ++result.statistics.draw_calls; result.statistics.drawn_vertices += 24;
-        }
-        if (frame.query) n.CmdWriteTimestamp(frame.command, VK_PIPELINE_STAGE_ALL_GRAPHICS_BIT, frame.query, 1);
-        n.CmdEndRenderPass(frame.command);
-        if (input.request_screenshot) {
-            Barrier(n, frame.command, image.image, 1, VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL,
-                    VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT, VK_ACCESS_TRANSFER_READ_BIT, VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT);
-            VkBufferImageCopy copy{}; copy.imageSubresource = {VK_IMAGE_ASPECT_COLOR_BIT,0,0,1}; copy.imageExtent = {n.extent.width,n.extent.height,1};
-            n.CmdCopyImageToBuffer(frame.command, image.image, VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL, frame.readback->buffer, 1, &copy);
-            VkBufferMemoryBarrier host{VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER};
-            host.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT; host.dstAccessMask = VK_ACCESS_HOST_READ_BIT;
-            host.srcQueueFamilyIndex = host.dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED;
-            host.buffer = frame.readback->buffer; host.size = VK_WHOLE_SIZE;
-            n.CmdPipelineBarrier(frame.command, VK_PIPELINE_STAGE_TRANSFER_BIT, VK_PIPELINE_STAGE_HOST_BIT, 0,
-                                 0, nullptr, 1, &host, 0, nullptr);
-        }
-        Barrier(n, frame.command, image.image, 1,
-                input.request_screenshot ? VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL : VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR,
-                input.request_screenshot ? VK_ACCESS_TRANSFER_READ_BIT : VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT, 0,
-                input.request_screenshot ? VK_PIPELINE_STAGE_TRANSFER_BIT : VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT);
-        Check(n.EndCommandBuffer(frame.command), "EndFrame", true);
-        result.statistics.cpu_prepare = Clock::now() - start;
-        const auto submit_start = Clock::now();
-        DiagnosticPhase(FramePhase::QueueSubmit);
+
+
         const VkPipelineStageFlags wait_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
         VkSubmitInfo submit{VK_STRUCTURE_TYPE_SUBMIT_INFO}; submit.waitSemaphoreCount = 1; submit.pWaitSemaphores = &frame.acquire; submit.pWaitDstStageMask = &wait_stage;
         submit.commandBufferCount = 1; submit.pCommandBuffers = &frame.command; submit.signalSemaphoreCount = 1; submit.pSignalSemaphores = &image.rendered;
         const bool gated = n.diagnostic && n.diagnostic->next_gate;
-        n.Submit(frame, submit); frame.frame_id = input.frame_id; frame.query_pending = frame.query != VK_NULL_HANDLE;
+        { SYMOCRAFT_PROFILE_ZONE("vulkan.submit_cpu"); n.Submit(frame, submit); }
         if (n.diagnostic && !frame.meshes.empty()) {
             n.diagnostic->frame_mesh = frame.meshes.front(); n.diagnostic->frame_texture = frame.textures.front();
         }
-        if (!frame.query) n.Ready({input.frame_id,false,{},GpuSampleMissingReason::Unsupported});
-        result.statistics.cpu_submit = Clock::now() - submit_start;
-        DiagnosticPhase(FramePhase::BackendTail);
+
         if (gated) {
             // WSI cannot wait on an unresolved host timeline dependency. Only the
             // isolated diagnostic defers Present until the host has released it.
@@ -1309,7 +1270,7 @@ FrameResult VulkanBackend::Render(const PreparedFrame& input) {
         VkPresentInfoKHR present{VK_STRUCTURE_TYPE_PRESENT_INFO_KHR}; present.pNext = &retirement;
         present.waitSemaphoreCount = 1; present.pWaitSemaphores = &image.rendered; present.swapchainCount = 1;
         present.pSwapchains = &n.swapchain; present.pImageIndices = &index;
-        if (n.diagnostic && n.diagnostic->observe_performance) {
+        if (n.diagnostic && n.diagnostic->observe_native_calls) {
             auto& observed = *n.diagnostic;
             observed.queue_observation_frame_id = input.frame_id; observed.present_image = index;
             observed.tracked_submit_pending = static_cast<uint32_t>(std::count_if(n.frames.begin(), n.frames.end(), [](const auto& f) { return f.pending; }));
@@ -1317,9 +1278,11 @@ FrameResult VulkanBackend::Render(const PreparedFrame& input) {
             // Nonblocking diagnostic snapshots are not a queue occupancy or completion wait.
             observed.submit_before_present = n.Observe(ObservedCall::FencePoll, [&] { return n.GetFenceStatus(n.device, frame.fence); });
         }
-        const auto present_start = Clock::now(); n.unsafe = true;
-        DiagnosticPhase(FramePhase::QueuePresent);
-        auto presented = n.Observe(ObservedCall::QueuePresent, [&] { return n.QueuePresentKHR(n.present, &present); });
+        n.unsafe = true;
+        auto presented = [&] {
+            SYMOCRAFT_PROFILE_ZONE("vulkan.present_call_cpu");
+            return n.Observe(ObservedCall::QueuePresent, [&] { return n.QueuePresentKHR(n.present, &present); });
+        }();
         if (n.diagnostic) {
             ++n.diagnostic->present_calls;
             n.diagnostic->last_actual_present = presented;
@@ -1327,10 +1290,9 @@ FrameResult VulkanBackend::Render(const PreparedFrame& input) {
             if (injected != VK_SUCCESS && presented == VK_SUCCESS) presented = injected;
             n.diagnostic->last_effective_present = presented;
         }
-        result.statistics.present_wait = Clock::now() - present_start;
-        if (n.diagnostic && n.diagnostic->observe_performance)
+
+        if (n.diagnostic && n.diagnostic->observe_native_calls)
             n.diagnostic->submit_after_present = n.Observe(ObservedCall::FencePoll, [&] { return n.GetFenceStatus(n.device, frame.fence); });
-        DiagnosticPhase(FramePhase::BackendTail);
         if (presented == VK_SUCCESS || presented == VK_SUBOPTIMAL_KHR || presented == VK_ERROR_OUT_OF_DATE_KHR) {
             image.pending = true; n.unsafe = false;
         } else Check(presented, "QueuePresent", true);

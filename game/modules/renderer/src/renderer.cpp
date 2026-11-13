@@ -49,7 +49,6 @@ FrameResult Renderer::Render(const FrameInput& frame) { return impl_->state.Rend
 void Renderer::Resize(Extent2D extent) { impl_->state.Resize(extent); }
 void Renderer::SetVSync(bool enabled) { impl_->state.SetVSync(enabled); }
 RendererInfo Renderer::GetInfo() const { return impl_->state.GetInfo(); }
-std::vector<GpuFrameSample> Renderer::PollGpuSamples() { return impl_->state.PollGpuSamples(); }
 void Renderer::Shutdown() { impl_->state.Shutdown(); }
 
 } // namespace SymoCraft::Rendering

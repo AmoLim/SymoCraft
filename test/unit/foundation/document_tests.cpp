@@ -1,11 +1,13 @@
 #include "symocraft/foundation/document.h"
-#include "symocraft/telemetry/document_io.h"
+#include "symocraft/foundation/document_io.h"
 #include <iostream>
+#include <filesystem>
+#include <fstream>
 #include <limits>
 #include <stdexcept>
 
 namespace { void Require(bool value, const char* message) { if (!value) throw std::runtime_error(message); } }
-int main() {
+int main(int argc, char** argv) {
     using namespace SymoCraft::Data;
     try {
         Value source;
@@ -37,6 +39,21 @@ int main() {
         bool rejected = false;
         try { source["enabled"].push_back(1); } catch (const std::invalid_argument&) { rejected = true; }
         Require(rejected, "Invalid document mutation accepted");
+        bool invalid_yaml = false;
+        try { (void)LoadYaml("value: [unterminated"); }
+        catch (const std::exception&) { invalid_yaml = true; }
+        Require(invalid_yaml, "Malformed YAML accepted");
+        Require(argc == 2, "Missing owned file-probe directory");
+        const std::filesystem::path directory(argv[1]);
+        std::filesystem::create_directories(directory);
+        const auto path = directory / "document.yaml";
+        { std::ofstream file(path, std::ios::binary); file << DumpYaml(source); }
+        Require(LoadYamlFile(path)["integer"].as<std::uint64_t>() ==
+                std::numeric_limits<std::uint64_t>::max(), "File roundtrip changed metadata");
+        bool missing_file = false;
+        try { (void)LoadYamlFile(directory / "missing" / "document.yaml"); }
+        catch (const std::exception&) { missing_file = true; }
+        Require(missing_file, "Missing document file accepted");
         std::cout << "Owned metadata and private YAML adapter contracts passed.\n";
         return 0;
     } catch (const std::exception& e) { std::cerr << e.what() << '\n'; return 1; }

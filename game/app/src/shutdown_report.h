@@ -7,7 +7,7 @@
 
 namespace SymoCraft::Application {
     enum class ShutdownStep : std::size_t {
-        GpuSamples, MeshBindings, Texture, Renderer, Simulation, World, Registry, RendererObject, Window, Runtime, Count
+        MeshBindings, Texture, Renderer, Simulation, World, Registry, RendererObject, Window, Runtime, Count
     };
     enum class ReleaseFact { NotAcquired, Released, Failed, Unavailable };
     struct ShutdownItem {
@@ -26,7 +26,7 @@ namespace SymoCraft::Application {
         bool Succeeded() const noexcept {
             for (std::size_t i = 0; i < items.size(); ++i)
                 if (items[i].fact == ReleaseFact::Failed ||
-                    (i != static_cast<std::size_t>(ShutdownStep::GpuSamples) && items[i].fact == ReleaseFact::Unavailable)) return false;
+                    items[i].fact == ReleaseFact::Unavailable) return false;
             return true;
         }
     };

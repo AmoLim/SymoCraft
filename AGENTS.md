@@ -10,14 +10,14 @@ a formal top-level physics module is still deferred.
 
 ## Build And Run
 Use an initialized x64 Visual Studio 2026 developer terminal with MSVC tools
-14.51.36231 and Windows SDK 10.0.22621.0. Use a fresh directory when changing
-compilers; retain old caches and results:
-`cmake --preset windows-debug -B out/build/msvc51-debug`
-`cmake --build out/build/msvc51-debug`
-`ctest --test-dir out/build/msvc51-debug --output-on-failure --no-tests=error`
-Run `out/build/msvc51-debug/bin/SymoCraft.exe`.
+14.51.36231 and Windows SDK 10.0.28000.0. Use a fresh directory when changing
+compilers or SDKs; retain old caches and results:
+`cmake --preset windows-debug -B out/build/msvc51-sdk28000-debug`
+`cmake --build out/build/msvc51-sdk28000-debug`
+`ctest --test-dir out/build/msvc51-sdk28000-debug --output-on-failure --no-tests=error`
+Run `out/build/msvc51-sdk28000-debug/bin/SymoCraft.exe`.
 For ordinary terminals, use
-`python scripts/build.py --configuration Debug --build-directory out/build/msvc51-debug`
+`python scripts/build.py --configuration Debug --build-directory out/build/msvc51-sdk28000-debug`
 with `--clion-path` or `CLION_HOME`. See `scripts/README.md` for prerequisites.
 CPU-only uses a separate build directory and `-DSYMOCRAFT_CPU_ONLY=ON`.
 T5 DBG01 sets `_ITERATOR_DEBUG_LEVEL=0` for all Debug C++ targets while retaining
@@ -28,8 +28,9 @@ when reconfiguring old caches. Custom configurations can override it with
 `-DSYMOCRAFT_RENDER_D3D12=OFF`; use `--renderer opengl` for the retained GL path.
 
 ## Ownership And Workflow
-Production code belongs in `game/modules/` and `game/app/`; tests in `test/`;
-the independent benchmark in `tools/benchmark/`. Respect CMake module boundaries.
+Production code belongs in `game/modules/` and `game/app/`; tests in `test/`.
+The old independent benchmark is retired; use bounded game profiling scenarios
+and external Tracy/RenderDoc. Respect CMake module boundaries.
 Automation uses Python 3.10+ and the standard library. Do not add PowerShell
 business logic or move native production logic into Python.
 Read `docs/scope/project-scope.md` and `docs/DOCUMENTATION_MAP.md` first.

@@ -1,5 +1,6 @@
 #include <symocraft/renderer/legacy_renderer.h>
 #include <symocraft/assets/asset_paths.h>
+#include <symocraft/assets/image.h>
 #include "batch.hpp"
 #include "shader_program.h"
 #include "texture.h"
@@ -44,7 +45,6 @@ namespace SymoCraft::Renderer {
         device.renderer = reinterpret_cast<const char*>(renderer);
         device.version = reinterpret_cast<const char*>(version);
         glGetIntegerv(GL_SAMPLES, &device.msaa_samples);
-        device.nvx_memory_supported = Platform::GraphicsBridge::ExtensionSupported("GL_NVX_gpu_memory_info");
         std::cout << "OpenGL vendor: " << device.vendor << '\n'
                   << "OpenGL renderer: " << device.renderer << '\n'
                   << "OpenGL version: " << device.version << std::endl;
@@ -102,18 +102,26 @@ namespace SymoCraft::Renderer {
             glViewport(0, 0, width, height); viewport_width = width; viewport_height = height;
         }
     }
-    void Render(const CameraView& camera, RenderStats* stats, GpuTimer* timer) {
+    void Render(const CameraView& camera, RenderStats* stats) {
         glBindTextureUnit(0, texture_array.m_texture_Id);
         glClearNamedFramebufferfv(0, GL_COLOR, 0, clear_color.data());
         glClearNamedFramebufferfv(0, GL_DEPTH, 0, &depth_value);
         const auto combined = camera.projection * camera.view;
         block_shader.Bind(); block_shader.UploadMat4("u_combo_mat", combined);
-        chunk_batch.Draw(stats, timer); block_shader.Unbind();
+        chunk_batch.Draw(stats); block_shader.Unbind();
         line_shader.Bind(); line_shader.UploadMat4("u_combo_mat", combined);
-        line_batch.ReloadData(stats); line_batch.Draw(stats, timer); line_shader.Unbind();
+        line_batch.ReloadData(stats); line_batch.Draw(stats); line_shader.Unbind();
     }
     void Present(Window& window) { Platform::GraphicsBridge::Present(window); }
     void SetVsync(bool enabled) { Platform::GraphicsBridge::SetVsync(enabled); }
+    void CaptureFramebuffer(int width, int height, const std::filesystem::path& path)
+    {
+        std::vector<unsigned char> pixels(static_cast<std::size_t>(width) * height * 3);
+        glReadBuffer(GL_BACK);
+        glPixelStorei(GL_PACK_ALIGNMENT, 1);
+        glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
+        Assets::WritePng(path, width, height, 3, pixels, true);
+    }
     void ReloadShaders() {
         block_shader.Destroy(); line_shader.Destroy();
         block_shader.CompileAndLink(Assets::Resolve("shaders/vs_BlockShader.glsl").string(),

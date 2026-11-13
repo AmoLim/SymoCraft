@@ -3,7 +3,7 @@
 #include "diagnostic_access.h"
 #include <symocraft/platform/window.h>
 #include <symocraft/renderer/error.h>
-#include <symocraft/telemetry/document_io.h>
+#include <symocraft/foundation/document_io.h>
 #include <chrono>
 #include <filesystem>
 #include <fstream>

@@ -18,7 +18,7 @@ target_compile_features(symocraft_application PRIVATE cxx_std_20)
 target_compile_options(symocraft_application PRIVATE /W4 /utf-8)
 target_link_libraries(symocraft_application PRIVATE symocraft_startup symocraft_foundation symocraft_scene
     symocraft_assets symocraft_ecs symocraft_world symocraft_simulation symocraft_platform
-    symocraft_renderer symocraft_app_render_data symocraft_telemetry)
+    symocraft_renderer symocraft_app_render_data symocraft_telemetry symocraft_document_io)
 add_executable(SymoCraft src/main.cpp)
 target_link_libraries(SymoCraft PRIVATE symocraft_application symocraft_startup symocraft_foundation
     symocraft_renderer symocraft_telemetry symocraft_assets)
@@ -81,6 +81,9 @@ target_compile_options(SymoCraft PRIVATE /W4 /utf-8)
 target_sources(SymoCraft PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/cmake/windows-utf8.manifest")
 symocraft_stage_assets(SymoCraft)
 install(TARGETS SymoCraft RUNTIME DESTINATION .)
+if(SYMOCRAFT_ENABLE_TRACY)
+    install(FILES "$<TARGET_PDB_FILE:SymoCraft>" DESTINATION .)
+endif()
 install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/sdl3/LICENSE.txt" DESTINATION licenses RENAME SDL3-LICENSE.txt)
 install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/stb/LICENSE" DESTINATION licenses RENAME stb-LICENSE.txt)
 install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/entt/LICENSE" DESTINATION licenses RENAME EnTT-LICENSE.txt)

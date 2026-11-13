@@ -12,7 +12,7 @@ import sys
 from scripts_common import ROOT, cli, hidden_process, integer, option
 
 DEFAULT_TOOLSET_VERSION = "14.51.36231"
-DEFAULT_SDK_VERSION = "10.0.22621.0"
+DEFAULT_SDK_VERSION = "10.0.28000.0"
 
 
 def resolve_visual_studio(explicit=None):
@@ -91,6 +91,10 @@ def developer_environment(visual_studio, toolset, inherited=None, *, sdk_version
     actual_sdk = loaded.get("WINDOWSSDKVERSION", "").rstrip("\\/")
     if sdk_version and actual_sdk != sdk_version:
         raise RuntimeError(f"Requested Windows SDK {sdk_version}, but developer environment selected {actual_sdk or 'unknown'}.")
+    # CMake's app-local UCRT discovery needs this for a custom SDK installation.
+    # Keep it local to child processes and aligned with the selected VS environment.
+    if loaded.get("WINDOWSSDKDIR"):
+        loaded["CMAKE_WINDOWS_KITS_10_DIR"] = loaded["WINDOWSSDKDIR"]
     return loaded
 
 

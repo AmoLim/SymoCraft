@@ -1,4 +1,4 @@
-"""Bounded public-facade observations of real D3D12 lifetime and async capacity."""
+"""Bounded public-facade observations of real D3D12 in-flight resource lifetime."""
 import argparse
 from pathlib import Path
 import re
@@ -8,13 +8,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[3]/"scripts"))
 from verification_common import (ROOT, capture, clean_environment, cli, evidence_sources, identity,
                                  load_json, new_directory, read_log, require, utc_now, workspace_path, write_json)
 
-MODES = ("lifetime", "async-pending", "async-overflow")
+MODES = ("lifetime",)
 
 
 def validate(mode, report, errors):
-    require(report.get("schema") == "symocraft.d3d12-lifetime-async.v1" and report.get("mode") == mode and
-            report.get("success") is True and report.get("public_facade_and_production_backend") is True,
-            "Missing/mismatched native lifetime evidence")
+    require(mode == "lifetime" and report.get("schema") == "symocraft.d3d12-lifetime.v2" and
+            report.get("mode") == mode and report.get("success") is True and
+            report.get("public_facade_and_production_backend") is True, "Missing/mismatched native lifetime evidence")
     require(report.get("device") == "NVIDIA GeForce RTX 5070 Ti" and report.get("validation_enabled") is True and
             report.get("samples") == 1 and bool(report.get("identity")) and bool(report.get("driver")), "Actual native scope mismatch")
     require(report.get("info_queue_checks", 0) > 0 and all(report.get(k) == 0 for k in
@@ -22,31 +22,15 @@ def validate(mode, report, errors):
     require(report.get("native_cleared") is True and report.get("quarantined") is False and
             report.get("live_resource_bytes") == 0 and report.get("peak_resource_bytes", 0) > 0 and
             report.get("mesh_buffers_created", 0) > 0 and report["mesh_buffers_created"] == report.get("mesh_buffers_released") and
-            report.get("textures_created", 0) > 0 and report["textures_created"] == report.get("textures_released"),
-            "Persistent native resource retirement incomplete")
-    dropped = list(map(int, re.findall(r"D3D12 GPU sample discarded: frame=(\d+)", errors)))
-    if mode == "lifetime":
-        events = report.get("events", [])
-        require(len(events) == 3 and [e.get("step") for e in events] == [0, 1, 2], "Missing update/empty/destroy event")
-        for event in events:
-            require(event.get("pending_submit_fence", 0) > event.get("completed_before_release", 0) and
-                    event.get("gate_before_release") == 0 and event.get("watchdog_fired") is False and
-                    event.get("allocation_failure_preserved_old_version") is True and event.get("old_versions_retained") is True and
-                    event.get("old_mesh_retired") is True and event.get("capacity_creates") == 48 and
-                    event.get("deleted_texture_retired") == (event["step"] == 2), "Unproven actual in-flight retirement")
-    if mode == "async-pending":
-        require(report.get("pending_poll_calls") == 10 and report.get("poll_added_waits") == report.get("poll_added_query_reads") == 0 and
-                report.get("pending_submit_fence", 0) > report.get("completed_before_release", 0) and
-                report.get("resolved_frame_id") == 9007199254740993 and report.get("watchdog_fired") is False,
-                "Poll did not prove pending non-waiting exact frame identity")
-    if mode == "async-overflow":
-        submitted, returned = report.get("submitted_ids", []), report.get("returned_ids", [])
-        require(submitted == [9007199254740993+3*i for i in range(301)] and
-                len(returned) == len(set(returned)) == 256 and len(dropped) == len(set(dropped)) == report.get("sample_drops") == 45 and
-                not set(returned).intersection(dropped) and set(returned).union(dropped) == set(submitted),
-                "Native bounded ring loss/duplication is not fully explained")
-    else:
-        require(not dropped and report.get("sample_drops") == 0, "Unexpected GPU result loss")
+            report.get("textures_created", 0) > 0 and report["textures_created"] == report.get("textures_released"), "Native retirement incomplete")
+    events = report.get("events", [])
+    require(len(events) == 3 and [e.get("step") for e in events] == [0, 1, 2], "Missing update/empty/destroy event")
+    for event in events:
+        require(event.get("pending_submit_fence", 0) > event.get("completed_before_release", 0) and
+                event.get("gate_before_release") == 0 and event.get("watchdog_fired") is False and
+                event.get("allocation_failure_preserved_old_version") is True and event.get("old_versions_retained") is True and
+                event.get("old_mesh_retired") is True and event.get("capacity_creates") == 48 and
+                event.get("deleted_texture_retired") == (event["step"] == 2), "Unproven actual in-flight retirement")
 
 
 def main():

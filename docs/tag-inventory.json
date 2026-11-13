@@ -4,16 +4,16 @@
   "spec": "DOCUMENTATION_MAP.md",
   "uiVerification": "not-run",
   "counts": {
-    "managed": 51,
+    "managed": 43,
     "areas": {
-      "architecture": 13,
+      "architecture": 12,
       "dependencies": 1,
       "meta": 4,
-      "spec": 30,
+      "spec": 23,
       "verification": 3
     },
     "retiredReviewSources": 0,
-    "preservedPrivateRegistrations": 1
+    "preservedPrivateRegistrations": 0
   },
   "managed": [
     {
@@ -25,13 +25,6 @@
     },
     {
       "path": "architecture/assets.md",
-      "area": "area/architecture",
-      "tags": [
-        "area/architecture"
-      ]
-    },
-    {
-      "path": "architecture/benchmark.md",
       "area": "area/architecture",
       "tags": [
         "area/architecture"
@@ -129,147 +122,84 @@
       ]
     },
     {
-      "path": "openspec/changes/m3-t2-publication-fix1/design.md",
+      "path": "openspec/changes/integrate-renderdoc-tracy/proposal.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
       ]
     },
     {
-      "path": "openspec/changes/m3-t2-publication-fix1/proposal.md",
+      "path": "openspec/changes/integrate-renderdoc-tracy/specs/application-lifecycle/spec.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
       ]
     },
     {
-      "path": "openspec/changes/m3-t2-publication-fix1/specs/foundation-files/spec.md",
+      "path": "openspec/changes/integrate-renderdoc-tracy/specs/development-profiling/spec.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
       ]
     },
     {
-      "path": "openspec/changes/m3-t2-publication-fix1/tasks.md",
+      "path": "openspec/changes/integrate-renderdoc-tracy/specs/foundation-files/spec.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
       ]
     },
     {
-      "path": "openspec/changes/m3-t2-publication-fix1/verification.md",
+      "path": "openspec/changes/integrate-renderdoc-tracy/specs/module-boundaries/spec.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
       ]
     },
     {
-      "path": "openspec/changes/m3-t3-renderer/decisions.md",
+      "path": "openspec/changes/integrate-renderdoc-tracy/specs/platform/spec.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
       ]
     },
     {
-      "path": "openspec/changes/m3-t3-renderer/design.md",
+      "path": "openspec/changes/integrate-renderdoc-tracy/specs/renderer/spec.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
       ]
     },
     {
-      "path": "openspec/changes/m3-t3-renderer/proposal.md",
+      "path": "openspec/changes/integrate-renderdoc-tracy/specs/telemetry-lifecycle/spec.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
       ]
     },
     {
-      "path": "openspec/changes/m3-t3-renderer/specs/renderer/spec.md",
+      "path": "openspec/changes/integrate-renderdoc-tracy/verification.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
       ]
     },
     {
-      "path": "openspec/changes/m3-t3-renderer/tasks.md",
+      "path": "openspec/specs/application-lifecycle/spec.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
       ]
     },
     {
-      "path": "openspec/changes/m3-t3-renderer/verification.md",
+      "path": "openspec/specs/development-profiling/spec.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
       ]
     },
     {
-      "path": "openspec/changes/m3-t4-application-simulation/decisions.md",
-      "area": "area/spec",
-      "tags": [
-        "area/spec"
-      ]
-    },
-    {
-      "path": "openspec/changes/m3-t4-application-simulation/design.md",
-      "area": "area/spec",
-      "tags": [
-        "area/spec"
-      ]
-    },
-    {
-      "path": "openspec/changes/m3-t4-application-simulation/proposal.md",
-      "area": "area/spec",
-      "tags": [
-        "area/spec"
-      ]
-    },
-    {
-      "path": "openspec/changes/m3-t4-application-simulation/specs/application-lifecycle/spec.md",
-      "area": "area/spec",
-      "tags": [
-        "area/spec"
-      ]
-    },
-    {
-      "path": "openspec/changes/m3-t4-application-simulation/specs/physics-core/spec.md",
-      "area": "area/spec",
-      "tags": [
-        "area/spec"
-      ]
-    },
-    {
-      "path": "openspec/changes/m3-t4-application-simulation/specs/platform/spec.md",
-      "area": "area/spec",
-      "tags": [
-        "area/spec"
-      ]
-    },
-    {
-      "path": "openspec/changes/m3-t4-application-simulation/specs/simulation/spec.md",
-      "area": "area/spec",
-      "tags": [
-        "area/spec"
-      ]
-    },
-    {
-      "path": "openspec/changes/m3-t4-application-simulation/specs/telemetry-lifecycle/spec.md",
-      "area": "area/spec",
-      "tags": [
-        "area/spec"
-      ]
-    },
-    {
-      "path": "openspec/changes/m3-t4-application-simulation/tasks.md",
-      "area": "area/spec",
-      "tags": [
-        "area/spec"
-      ]
-    },
-    {
-      "path": "openspec/changes/m3-t4-application-simulation/verification.md",
+      "path": "openspec/specs/ecs/spec.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
@@ -284,6 +214,13 @@
     },
     {
       "path": "openspec/specs/module-boundaries/spec.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "openspec/specs/physics-core/spec.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
@@ -305,6 +242,13 @@
     },
     {
       "path": "openspec/specs/simulation/spec.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "openspec/specs/telemetry-lifecycle/spec.md",
       "area": "area/spec",
       "tags": [
         "area/spec"
@@ -375,15 +319,7 @@
     }
   ],
   "retiredReviewSources": [],
-  "preservedPrivateEntries": [
-    {
-      "path": "development-journal/project-home.md",
-      "area": "area/meta",
-      "tags": [
-        "area/meta"
-      ]
-    }
-  ],
+  "preservedPrivateEntries": [],
   "exclusionRules": [
     "**/evidence/**",
     "verification/archive/**",

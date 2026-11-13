@@ -113,7 +113,7 @@ size_t Differences(const Pixels& a, const Pixels& b, unsigned xmin, unsigned xma
 void Run(const std::filesystem::path& shaders, const std::filesystem::path& output, bool buffer_policy) {
     OwnedWindow owner;
     auto observed = std::make_shared<VulkanDiagnosticAccess>();
-    observed->observe_performance = buffer_policy; // Actual native counts/types only; no performance verdict.
+    observed->observe_native_calls = buffer_policy; // Actual native counts/types only; no performance verdict.
     observed->wait_timeout = RendererConfig{}.wait_timeout;
     ScopedVulkanDiagnostics binding(observed);
     RendererConfig config; config.backend = Backend::Vulkan; config.shader_asset_root = shaders;

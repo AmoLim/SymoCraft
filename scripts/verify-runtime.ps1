@@ -4,7 +4,7 @@ param(
     [Parameter(Mandatory)][string]$Executable,
     [Parameter(Mandatory)][string]$OutputDirectory,
     [int]$Frames, [int]$TimeoutSeconds, [int]$ExpectedExitCode, [uint32]$Seed,
-    [string]$Scene, [string]$Checkpoint, [switch]$TestEdits
+    [string]$Scene, [string]$Checkpoint, [switch]$TestEdits, [string]$Renderer
 )
 $ErrorActionPreference = 'Stop'
 $python = $null

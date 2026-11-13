@@ -18,10 +18,9 @@ def capture(output_directory, root=ROOT):
     if output.exists():
         raise ValueError("Use a new directory; existing migration evidence is never overwritten.")
     command = ["rg", "--files", "--hidden", "-g", "!.git/**", "-g", "!test/experimental/**",
-               "game", "cmake", "test", "scripts", "tools/benchmark", "vendor", "assets"]
+               "game", "cmake", "test", "scripts", "vendor", "assets"]
     inventory = subprocess.run(command, cwd=root, capture_output=True, encoding="utf-8", check=True)
-    paths = {"CMakeLists.txt", "CMakePresets.json", "tools/benchmark/README.md",
-             "docs/third-party.md", *(Path(relative).as_posix() for relative in inventory.stdout.splitlines())}
+    paths = {"CMakeLists.txt", "CMakePresets.json", "docs/third-party.md", *(Path(relative).as_posix() for relative in inventory.stdout.splitlines())}
     # Resolve the inventory before creating output, so a snapshot cannot include itself.
     originals = []
     for relative in sorted(paths):
@@ -51,7 +50,7 @@ def capture(output_directory, root=ROOT):
     (output / "git-status.txt").write_bytes(git("status", "--porcelain=v1"))
     (output / "tracked-changes.patch").write_bytes(git("diff", "--binary", "--", ".", ":!vendor/sdl3"))
     manifest = {"captured_at": datetime.now().astimezone().isoformat(), "git_head": head,
-                "scope": "Conservative root CMake/presets, game, cmake, test (excluding isolated experimental probes), scripts, tools/benchmark, vendor, assets and the two installed benchmark documents. Includes dirty and untracked inputs; not a compiler-read trace.",
+                "scope": "Conservative root CMake/presets, game, cmake, test (excluding isolated experimental probes), scripts, vendor, assets and third-party documentation. Includes dirty and untracked inputs; not a compiler-read trace.",
                 "restore_policy": "Reference only. Never reset or overwrite the live worktree automatically.",
                 "count": len(files), "files": files}
     write_json(output / "build-inputs.json", manifest)

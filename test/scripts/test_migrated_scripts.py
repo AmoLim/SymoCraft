@@ -402,12 +402,17 @@ class MigratedTests(unittest.TestCase):
         report["checks"][0]["passed"] = False
         self.assertEqual(len(backend.validate_report(report, "id", "normal", "GPU")), 1)
 
-    def test_game_frame_upload_gpu_and_walk_invariants(self):
-        row = {"renderer_frame_id": "1", "resource_upload_bytes": "0", "gpu_draw_ms": "1", "gpu_missing_reason": "", "upload_calls": "0", "rebuilt_chunks": "0", "x": "0"}
-        game.validate_frames([row], "d3d12", "static")
-        for workload, rows in (("walk", [row]), ("edit", [row]), ("static", [row, row]), ("static", [{**row, "gpu_missing_reason": "missing"}])):
+    def test_game_checks_actual_completion_backend_and_checkpoint_without_protocol(self):
+        stdout = ("[runtime] ready; chunks=441\n[renderer] backend=D3D12; device=GPU;\n"
+                  "[scenario] initial; checkpoint=four-chunk\n[scenario] completed; name=static; edits=0\n"
+                  "[runtime] loop finished; rendered_frames=20;\n[runtime] shutdown complete; exit_code=0")
+        self.assertEqual(game.validate_run(stdout, "", "d3d12", "static")["rendered_frames"], 20)
+        for output, errors, scene in ((stdout, "", "walk"), (stdout.replace("frames=20", "frames=0"), "", "static"),
+                                      (stdout.replace("backend=D3D12", "backend=OpenGL"), "", "static"),
+                                      (stdout.replace("completed;", "cancelled;"), "", "static"),
+                                      (stdout, "[runtime] fatal: failure", "static")):
             with self.assertRaises(ValueError):
-                game.validate_frames(rows, "d3d12", workload)
+                game.validate_run(output, errors, "d3d12", scene)
 
     def test_application_forced_exit_partial_or_missing_protocol_not_pass(self):
         row = {"timed_out": False, "forced_termination": False, "error": None, "protocol": None, "actual_owned_action": True, "exit_code": 0}
@@ -434,6 +439,14 @@ class MigratedTests(unittest.TestCase):
         self.assertTrue(delivery.finite_valid(record, stdout, "", 0, 120)[0])
         self.assertFalse(delivery.finite_valid(record, stdout, "", 0, 121)[0])
         self.assertFalse(delivery.finite_valid(record, stdout, "OpenGL diagnostic", 0, 120)[0])
+
+    def test_delivery_cpu_config_failure_precedes_window_and_device(self):
+        record = {"exit_code": 3, "timed_out": False}
+        stdout = "[runtime] shutdown complete; exit_code=3"
+        stderr = "[runtime] fatal: invalid block configuration"
+        self.assertTrue(delivery.finite_valid(record, stdout, stderr, 3, 1, "invalid block configuration", False)[0])
+        self.assertFalse(delivery.finite_valid(record, stdout, stderr, 3, 1, "invalid block configuration")[0])
+        self.assertFalse(delivery.finite_valid(record, "Monitor size: 320,240\n" + stdout, stderr, 3, 1, "invalid block configuration", False)[0])
 
     def test_windows_adapter_initializes_real_64_bit_signatures(self):
         if os.name != "nt":
