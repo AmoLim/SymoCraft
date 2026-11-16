@@ -40,7 +40,7 @@ def main():
 
         cases = [
             ('foundation', 'game/modules/foundation/src/invalid.cpp', 'symocraft/profiling/profiling.h', False),
-            ('physics', 'game/modules/simulation/physics/src/invalid.cpp', 'symocraft/profiling/profiling.h', False),
+            ('physics', 'game/modules/physics/src/invalid.cpp', 'symocraft/profiling/profiling.h', False),
             ('world', 'game/modules/world/include/public.h', 'symocraft/profiling/profiling.h', False),
             ('world', 'game/modules/world/src/direct.cpp', 'tracy/Tracy.hpp', False),
             ('world', 'game/modules/world/src/valid.cpp', 'symocraft/profiling/profiling.h', True),

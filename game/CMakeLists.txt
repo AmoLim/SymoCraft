@@ -2,7 +2,7 @@ include("${SYMOCRAFT_REPOSITORY_ROOT}/cmake/ThirdPartyGame.cmake")
 include("${SYMOCRAFT_REPOSITORY_ROOT}/cmake/StageAssets.cmake")
 
 add_subdirectory(modules/profiling)
-foreach(module IN ITEMS foundation scene assets ecs world simulation telemetry)
+foreach(module IN ITEMS foundation scene assets ecs world physics simulation telemetry)
     add_subdirectory("modules/${module}")
 endforeach()
 if(SYMOCRAFT_BUILD_GAME)

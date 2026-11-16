@@ -61,7 +61,7 @@ World适配同步只读，域外/高度外/空气/nonsolid不碰撞，Found坏�
 
 ## 唯一活动物理核心
 
-`simulation/physics` 的 `symocraft_physics` 仅依赖 foundation/math，公开 [physics.h](E:/Codex/Worktrees/refactor-application-simulation/Symocraft/game/modules/simulation/physics/include/symocraft/physics/physics.h)。BodyState/AabbShape/PhysicsSettings 是值；StepBody 只推进调用方提供的一步，先验证参数，再以局部副本求解并返回自有结果，不写输入、不累计预算、不保存查询或身体。查询是 `const void*` 加函数指针的同步只读借用，回调必须有效，空上下文可供无状态实现；调用方保证使用期存活，串行非重入，不在查询中改变地形。
+`game/modules/physics` 唯一拥有正式 `symocraft_physics` STATIC target、核心源码与公开 [physics.h](../../game/modules/physics/include/symocraft/physics/physics.h)，仅依赖标准库与 foundation/math。simulation 只 PRIVATE 链接该库，不取得其私有 src；固定步预算、ECS 有序遍历、World 查询适配和逐实体提交仍由 simulation 负责。BodyState/AabbShape/PhysicsSettings 是值；StepBody 只推进调用方提供的一步，先验证参数，再以局部副本求解并返回自有结果，不写输入、不累计预算、不保存查询或身体。查询是 `const void*` 加函数指针的同步只读借用，回调必须有效，空上下文可供无状态实现；调用方保证使用期存活，串行非重入，不在查询中改变地形。
 
 默认步长/重力/逐轴限速/接地容差与旧算法一致，合法数据保留积分、扫描、严格平局与 DDA 顺序。参数错误、求解产生的非有限/不可表示值及查询失败分别具名；查询错误保留嵌套原因，失败不返回可提交结果。扫描端点先验证整数范围、循环使用宽计数；RayCast 延续旧一百万坐标/距离保护域，但非法输入具名抛错而不是普通 miss。无命中返回中立 RayHit，无 draw/SDK 副作用。
 
@@ -99,4 +99,4 @@ AdvanceResult返回处已写D09理由/所有权/演进触发：当前小自有�
 
 [player_math_tests](../../test/unit/simulation/player_math_tests.cpp)、[simulation_contract_tests](../../test/unit/simulation/simulation_contract_tests.cpp)、15物理+9玩法基线保旧字面期望；夹具改各自预算并调用正式核心。Session测试另验双会话、拒绝/部分提交、每Advance/World提交固定阈值对照及自有视图/旧结果，不能从旧基线单独推定这些保证。
 
-本轮完整授权与实际候选结果见[T4 verification](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md#2026-10-15-完整生产迁移)，不由机制文字代替人工体验/整体验收。D02正式physics搬迁在T5后/NPC前独立授权；既定Q01-Q04按[decisions](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/decisions.md)落实，无新公开Inspect或一般ECS重构。
+T4 完整授权与当时候选结果见 [T4 verification](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md#2026-10-15-完整生产迁移)，不由机制文字代替人工体验/整体验收。D02 正式 physics 所有权已按独立授权在本工作树迁移，A23 方案 A 的结果与未覆盖项见 [当前 change](../openspec/changes/promote-physics-module/verification.md)；2026-11-16 用户已独立验收，该交付的 NPC 物理复用前置成立，主工作区真实接入仍需代码传播；不将结果回写为 T4 当时 A23 已通过。既定 Q01–Q04 按 [decisions](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/decisions.md)落实，无新公开 Inspect 或一般 ECS 重构。

@@ -25,7 +25,7 @@ tags:
 
 ## 生产所有权与依赖
 
-目录是所有权边界，CMake target 是可验证的编译与链接边界。`game/modules/` 的九模块拥有各自实现；`game/app/` 拥有启动、转接及应用编排；旧独立benchmark已退役；统一测试位于 `test/`。
+目录是所有权边界，CMake target 是可验证的编译与链接边界。`game/modules/` 的十个业务模块（含正式 physics）拥有各自实现；`game/app/` 拥有启动、转接及应用编排；旧独立benchmark已退役；统一测试位于 `test/`。
 
 除 scene 值类型目标、renderer 的两个明确接口目标及下述窄 profiling 宏适配外，生产模块使用拥有真实实现的 STATIC target。公开头只通过所属目标的窄 `include/` 根提供，不能依赖全仓库、整个 vendor 或其他模块的 `src/` 搜索路径。
 
@@ -36,13 +36,16 @@ tags:
 | foundation | 无 |
 | scene / assets / ecs / platform / telemetry | foundation |
 | world | foundation、scene |
-| simulation | foundation、scene、ecs、world |
+| physics | foundation 数学 |
+| simulation | foundation、scene、ecs、world、physics（PRIVATE） |
 | renderer | foundation、scene、assets、platform |
-| app | 上述生产模块 |
+| app | 除 physics 外的上述生产模块 |
 
 N1 增加两项受控编译适配：`symocraft_document_io` 属 foundation，但独立私有消费 YAML，基础 foundation/physics 不反向依赖；`symocraft_profiling` 无业务依赖，仅授权 app/world/simulation/renderer 的实现 PRIVATE 消费。两者不改变原业务依赖方向，旧benchmark产品及专属协议已按准确清单授权退役。
 
-simulation内部真实STATIC `symocraft_physics`不增加正式第十模块，只依赖foundation/math，有独立simulation/physics/include和src；生产只允许simulation直接PRIVATE链接，不直接取得目录/发布私有头。传递闭包/唯一源owner/窄include/反向私有引用由边界检查约束，根测试链接正式库。T4 E候选已接通核心/Session，旧physics_system只留适配；BUILD_TESTING=OFF仍构建同一实现。2026-10-19后续源码同步已将该实现带入F主工作区，不产生Git历史合并。
+正式 `symocraft_physics` STATIC target 由 [game/modules/physics](../../game/modules/physics/CMakeLists.txt) 唯一拥有，在 foundation 之后、simulation 之前注册；核心只依赖标准库与 foundation 数学，公开根为模块自身 `include`，私有实现为 `src`。旧 `simulation/physics` 不保留活动 target、转发头或算法副本。生产仅 simulation 可直接 PRIVATE 链接，根测试通过公开接口链接同一库；最终游戏经 simulation 的静态链接闭包取得实现，不因此获得 app 直接链接或包含 physics 头的权限。
+
+边界检查继续核对唯一源码 owner、窄 include、依赖闭包和反向私有访问，并拒绝以 alias 或生成器表达式绕过消费方限制；physics 不取得 simulation include/src、World/ECS、图形 SDK、profiling/Tracy 或 document_io/YAML。固定步预算、ECS 有序遍历、World 查询适配与逐实体成功后提交仍归 simulation，`BUILD_TESTING=OFF` 继续构建同一物理实现。本工作树已于 2026-11-16 独立验收通过，迁移及未覆盖边界见 [promote-physics-module](../openspec/changes/promote-physics-module/proposal.md)，T4 当时的交付与 A23 后续不适用结论保持原义。
 
 T4 E候选以真实STATIC symocraft_application唯一拥有Application/GameRenderer/RunGame，SymoCraft只编薄main；symocraft_app_runtime为兼容旧T3探针的target别名而非第二实现库。2026-10-17已整合上游T3提交604c2b58；native生命周期及原生故障探针链接同一生产库，测试显式取得各自所需中立公开依赖，不将整个app依赖改为PUBLIC或复制生产cpp。Session只读诊断仅授权根session_tests的diagnostics窄私有根，不PUBLIC传播或开放整个src；旧telemetry导出probe随产品退役；foundation文件发布API与专属测试已按追加清单退役；Fix1因能力退役取消归档，其历史记录和诊断现场保留。
 

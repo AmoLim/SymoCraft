@@ -19,7 +19,8 @@ tags:
 - [T3渲染接管归档](openspec/changes/archive/2026-10-19-m3-t3-renderer/proposal.md)、[T4应用与模拟归档](openspec/changes/archive/2026-10-19-m3-t4-application-simulation/proposal.md)、[Fix1 取消归档](openspec/changes/archive/2026-11-03-m3-t2-publication-fix1/proposal.md)：T3/T4保留已完成设计、决策与验证历史；Fix1于2026-11-03因 Publish 退役取消计划归档，未合并修复规格，历史失败不改判通过。
 - 文档迁移已归档，历史范围与处置从 [VERIFICATION](verification/VERIFICATION.md#后续集中与收口) 进入，不是活动计划或游戏实施授权。
 - [RenderDoc / Tracy 当前 change](openspec/changes/integrate-renderdoc-tracy/proposal.md)及其[验证记录](openspec/changes/integrate-renderdoc-tracy/verification.md)：独立场景、轻量观测和旧链退役已通过整体验收。现役行为见 [开发观测主规格](openspec/specs/development-profiling/spec.md)。
-- 当前无 Git 提交批次，稳定规则见 AGENTS，不预建空批次计划。
+- [正式 physics 模块迁移](openspec/changes/promote-physics-module/proposal.md)：本工作树已迁至独立 owner，A23 方案 A 的构建、CPU 回归和边界结果见同 change 的 [verification.md](openspec/changes/promote-physics-module/verification.md)，2026-11-16 用户已通过独立验收并授权主规格同步，physics 交付前置成立，主工作区代码传播另行处理。
+- 当前获授权的 physics 提交批次见 [gitspec.md](git/gitspec.md)，在托管工作树执行；主工作区其他改动和索引不纳入。
 
 OpenSpec 的唯一目录为 docs/openspec，命令入口与工作边界见 [AGENTS 的 OpenSpec 约定](../AGENTS.md#openspec)。
 

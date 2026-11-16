@@ -10,7 +10,7 @@ Symocraft 是面向 Windows x64 的 C++20 单机体素游戏工程，关注基�
 
 - 固定 441 区块世界，包含噪声地形、植被、角色运动与碰撞、方块选择、放置和破坏。
 - 显式 seed、回归场景、checkpoint、世界摘要及固定启动编辑序列。
-- 九个生产模块与私有应用组合根；World、SimulationSession 及 simulation 内部独立物理核心支持不依赖窗口和图形 SDK 的 CPU-only 构建。
+- 十个生产模块与私有应用组合根；World、SimulationSession 及独立 physics 模块支持不依赖窗口和图形 SDK 的 CPU-only 构建。
 - 轻量 FPS、帧间隔、实际物理 TPS、坐标及后端快照；可选 Tracy CPU 时间线与原生图形注释。
 - 独立 static / walk / edit 游戏诊断场景，支持外部 RenderDoc 捕获两现代后端。
 
@@ -72,6 +72,6 @@ W / A / S / D 移动，左 Shift 奔跑，鼠标转动视角，滚轮调整视�
 
 ## 后续方向
 
-T4/T5 迁移已经交付并同步主工作区；后续按独立授权开展性能、长时稳定性与独立部署验证，正式 physics 模块搬迁仍是 NPC 复用前的独立节点。
+T4/T5 迁移已经交付并同步主工作区；后续按独立授权开展性能、长时稳定性与独立部署验证。正式 physics 模块已在本工作树迁至 `game/modules/physics`，已于 2026-11-16 通过[独立验收](docs/openspec/changes/promote-physics-module/verification.md)，该交付的 physics 复用前置已满足；主工作区实际接入仍需生产代码传播。
 
 下一玩法阶段优先形成 **NPC 实体 → NPC AI → 村落演化** 的可观察闭环。Micro voxel 仅作为角色外表的构建方向，基础方块世界保持不变。独立计算服务与渲染客户端属于长期演进方向；存档、联网、区块流式加载及完整生存系统不计入当前已交付能力。

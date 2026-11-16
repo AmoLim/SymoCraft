@@ -111,32 +111,41 @@ foreach(case IN LISTS cases)
     check_source("${case}" "${root}" "${module}" "${path}" "${content}" "${accepted}")
 endforeach()
 
-# Physics is a nested owner, not part of simulation's private implementation.
+# Physics is a formal owner, separate from simulation's private implementation.
 function(physics_source_case case module path header accepted)
     set(root "${OUTPUT}/${case}")
-    set(physics "${root}/game/modules/simulation/physics")
+    set(physics "${root}/game/modules/physics")
     file(MAKE_DIRECTORY "${physics}/src" "${physics}/include/symocraft/physics"
         "${root}/game/modules/simulation/src")
     file(WRITE "${physics}/src/physics_private.h" "#pragma once\n")
     file(WRITE "${root}/game/modules/simulation/src/session_private.h" "#pragma once\n")
-    check_source("${case}" "${root}" "${module}" "${root}/game/modules/simulation/${path}"
+    if(module STREQUAL "app")
+        set(directory "${root}/game/app")
+    else()
+        set(directory "${root}/game/modules/${module}")
+    endif()
+    get_filename_component(source_directory "${directory}/${path}" DIRECTORY)
+    file(MAKE_DIRECTORY "${source_directory}")
+    check_source("${case}" "${root}" "${module}" "${directory}/${path}"
         "#include ${header}\n" "${accepted}")
 endfunction()
 
-physics_source_case(physics-source-foundation physics physics/src/probe.cpp "<symocraft/foundation/math.h>" TRUE)
-physics_source_case(physics-source-own-private physics physics/src/probe.cpp "\"physics_private.h\"" TRUE)
-physics_source_case(physics-source-simulation physics physics/src/probe.cpp "<symocraft/simulation/player_math.h>" FALSE)
-physics_source_case(physics-source-world physics physics/src/probe.cpp "<symocraft/world/world.h>" FALSE)
-physics_source_case(physics-source-windows physics physics/src/probe.cpp "<Windows.h>" FALSE)
-physics_source_case(physics-source-vulkan physics physics/src/probe.cpp "<vulkan/vulkan_core.h>" FALSE)
-physics_source_case(physics-public-sdk physics physics/include/symocraft/physics/probe.h "<d3d12.h>" FALSE)
-physics_source_case(physics-public-own-private physics physics/include/symocraft/physics/probe.h "\"../../../src/physics_private.h\"" FALSE)
-physics_source_case(physics-public-short-private physics physics/include/symocraft/physics/probe.h "<physics_private.h>" FALSE)
-physics_source_case(physics-source-relative-simulation physics physics/src/probe.cpp "\"../../src/session_private.h\"" FALSE)
-physics_source_case(physics-source-short-simulation physics physics/src/probe.cpp "<session_private.h>" FALSE)
+physics_source_case(physics-source-foundation physics src/probe.cpp "<symocraft/foundation/math.h>" TRUE)
+physics_source_case(physics-source-own-private physics src/probe.cpp "\"physics_private.h\"" TRUE)
+physics_source_case(physics-source-simulation physics src/probe.cpp "<symocraft/simulation/player_math.h>" FALSE)
+physics_source_case(physics-source-world physics src/probe.cpp "<symocraft/world/world.h>" FALSE)
+physics_source_case(physics-source-windows physics src/probe.cpp "<Windows.h>" FALSE)
+physics_source_case(physics-source-vulkan physics src/probe.cpp "<vulkan/vulkan_core.h>" FALSE)
+physics_source_case(physics-public-sdk physics include/symocraft/physics/probe.h "<d3d12.h>" FALSE)
+physics_source_case(physics-public-own-private physics include/symocraft/physics/probe.h "\"../../../src/physics_private.h\"" FALSE)
+physics_source_case(physics-public-short-private physics include/symocraft/physics/probe.h "<physics_private.h>" FALSE)
+physics_source_case(physics-source-relative-simulation physics src/probe.cpp "\"../../simulation/src/session_private.h\"" FALSE)
+physics_source_case(physics-source-short-simulation physics src/probe.cpp "<session_private.h>" FALSE)
 physics_source_case(simulation-source-physics-public simulation src/probe.cpp "<symocraft/physics/physics.h>" TRUE)
-physics_source_case(simulation-source-relative-physics simulation src/probe.cpp "\"../physics/src/physics_private.h\"" FALSE)
+physics_source_case(simulation-source-relative-physics simulation src/probe.cpp "\"../../physics/src/physics_private.h\"" FALSE)
 physics_source_case(simulation-source-short-physics simulation src/probe.cpp "<physics_private.h>" FALSE)
+physics_source_case(world-source-physics-public world src/probe.cpp "<symocraft/physics/physics.h>" FALSE)
+physics_source_case(app-source-physics-public app src/probe.cpp "<symocraft/physics/physics.h>" FALSE)
 
 # Configure real targets to verify the core's owner, include roots and full link closure.
 foreach(case IN ITEMS physics-target-private-consumer physics-target-narrow-roots
@@ -147,7 +156,7 @@ foreach(case IN ITEMS physics-target-private-consumer physics-target-narrow-root
     physics-link-direct-world physics-link-indirect-world physics-link-expression-world
     physics-link-native-library physics-source-wrong-owner physics-target-wrong-owner)
     set(root "${OUTPUT}/${case}")
-    set(physics "${root}/game/modules/simulation/physics")
+    set(physics "${root}/game/modules/physics")
     file(MAKE_DIRECTORY "${physics}/src" "${physics}/include/symocraft/physics"
         "${root}/game/modules/foundation/src" "${root}/game/modules/simulation/src"
         "${root}/game/modules/world/src" "${root}/game/app/src" "${root}/test/src")
@@ -231,11 +240,11 @@ foreach(case IN ITEMS physics-target-private-consumer physics-target-narrow-root
         file(WRITE "${root}/test/CMakeLists.txt"
             "add_library(symocraft_physics STATIC src/owned.cpp)\nset_target_properties(symocraft_physics PROPERTIES LINKER_LANGUAGE CXX)\n")
         string(APPEND cmakelists "add_subdirectory(test)\n")
-        set(expected "physics target is declared outside simulation/physics")
+        set(expected "physics target is declared outside physics")
     endif()
     if(NOT case MATCHES "^physics-(source-wrong-owner|target-wrong-owner)$")
         file(WRITE "${physics}/CMakeLists.txt" "${core_cmake}")
-        string(APPEND cmakelists "add_subdirectory(game/modules/simulation/physics)\n")
+        string(APPEND cmakelists "add_subdirectory(game/modules/physics)\n")
     endif()
     if(consumer)
         if(consumer STREQUAL "app")
@@ -246,7 +255,7 @@ foreach(case IN ITEMS physics-target-private-consumer physics-target-narrow-root
         file(WRITE "${directory}/src/owned.cpp" "int consumer_owned() { return 0; }\n")
         set(consumer_cmake "add_library(${consumer_target} STATIC src/owned.cpp)\nset_target_properties(${consumer_target} PROPERTIES LINKER_LANGUAGE CXX)\n")
         if(case STREQUAL "physics-source-wrong-owner")
-            string(APPEND consumer_cmake "target_sources(${consumer_target} PRIVATE physics/src/owned.cpp)\n")
+            string(APPEND consumer_cmake "target_sources(${consumer_target} PRIVATE ../physics/src/owned.cpp)\n")
         elseif(case STREQUAL "physics-path-simulation-physics-include")
             string(APPEND consumer_cmake "target_include_directories(${consumer_target} PRIVATE \"${physics}/include\")\n")
         elseif(case STREQUAL "physics-target-app-alias-consumer")
@@ -266,6 +275,60 @@ foreach(case IN ITEMS physics-target-private-consumer physics-target-narrow-root
     endif()
     unset(consumer)
     check_target("${case}" "${root}" "${cmakelists}" "${accepted}" "${expected}")
+endforeach()
+
+# New-root ownership and neutral closure must reject actual new targets and sources.
+foreach(case IN ITEMS physics-formal-other-target physics-formal-duplicate-source
+    physics-retired-source physics-retired-target physics-path-app-direct
+    physics-link-direct-ecs physics-link-indirect-ecs
+    physics-link-direct-profiling physics-link-indirect-profiling
+    physics-link-direct-document_io physics-link-indirect-document_io
+    physics-link-direct-yaml physics-link-indirect-yaml)
+    set(root "${OUTPUT}/${case}")
+    set(physics "${root}/game/modules/physics")
+    file(MAKE_DIRECTORY "${physics}/src" "${physics}/include/symocraft/physics"
+        "${root}/game/modules/foundation/src" "${root}/game/app/src"
+        "${root}/game/modules/simulation/physics/src")
+    file(WRITE "${physics}/src/owned.cpp" "int physics_owned() { return 0; }\n")
+    file(WRITE "${root}/game/modules/foundation/src/owned.cpp" "int foundation_owned() { return 0; }\n")
+    file(WRITE "${root}/game/modules/foundation/CMakeLists.txt"
+        "add_library(symocraft_foundation STATIC src/owned.cpp)\nset_target_properties(symocraft_foundation PROPERTIES LINKER_LANGUAGE CXX)\ntarget_link_libraries(symocraft_foundation PUBLIC symocraft_math)\n")
+    set(cmakelists "cmake_minimum_required(VERSION 3.22)\nproject(FormalPhysicsBoundary LANGUAGES NONE)\nset(CMAKE_CXX_ARCHIVE_CREATE \"<CMAKE_COMMAND> -E true\")\nset(CMAKE_CXX_ARCHIVE_FINISH \"<CMAKE_COMMAND> -E true\")\nset(SYMOCRAFT_REPOSITORY_ROOT \"${root}\")\nadd_library(symocraft_math INTERFACE)\nadd_subdirectory(game/modules/foundation)\n")
+    set(core_cmake "add_library(symocraft_physics STATIC src/owned.cpp)\nset_target_properties(symocraft_physics PROPERTIES LINKER_LANGUAGE CXX)\ntarget_include_directories(symocraft_physics PUBLIC \"${physics}/include\" PRIVATE \"${physics}/src\")\ntarget_link_libraries(symocraft_physics PUBLIC symocraft_foundation)\n")
+    set(expected "Boundary violation")
+    if(case STREQUAL "physics-formal-other-target")
+        set(core_cmake "add_library(physics_other STATIC src/owned.cpp)\nset_target_properties(physics_other PROPERTIES LINKER_LANGUAGE CXX)\n")
+        set(expected "unique target owner")
+    elseif(case STREQUAL "physics-formal-duplicate-source")
+        string(APPEND core_cmake "add_library(physics_duplicate STATIC src/owned.cpp)\nset_target_properties(physics_duplicate PROPERTIES LINKER_LANGUAGE CXX)\n")
+        set(expected "duplicate production source|unique target owner")
+    elseif(case STREQUAL "physics-retired-source")
+        file(WRITE "${root}/game/modules/simulation/physics/src/retired.cpp" "int retired_physics() { return 0; }\n")
+        set(expected "retired simulation/physics")
+    elseif(case STREQUAL "physics-retired-target")
+        file(WRITE "${root}/game/modules/simulation/physics/CMakeLists.txt" "add_library(retired_physics INTERFACE)\n")
+        string(APPEND cmakelists "add_subdirectory(game/modules/simulation/physics)\n")
+        set(expected "retired simulation/physics")
+    elseif(case STREQUAL "physics-path-app-direct")
+        file(WRITE "${root}/game/app/src/owned.cpp" "int app_owned() { return 0; }\n")
+        file(WRITE "${root}/game/app/CMakeLists.txt"
+            "add_library(symocraft_startup STATIC src/owned.cpp)\nset_target_properties(symocraft_startup PROPERTIES LINKER_LANGUAGE CXX)\ntarget_include_directories(symocraft_startup PRIVATE \"${physics}/include\")\n")
+        string(APPEND cmakelists "add_subdirectory(game/app)\n")
+        set(expected "gains an internal physics include")
+    else()
+        string(REGEX REPLACE "^physics-link-(direct|indirect)-" "" dependency "${case}")
+        string(APPEND cmakelists "add_library(symocraft_${dependency} INTERFACE)\n")
+        if(case MATCHES "^physics-link-indirect-")
+            string(APPEND cmakelists "target_link_libraries(symocraft_math INTERFACE symocraft_${dependency})\n")
+            set(expected "physics dependency closure")
+        else()
+            string(APPEND core_cmake "target_link_libraries(symocraft_physics PRIVATE symocraft_${dependency})\n")
+            set(expected "physics|symocraft_physics")
+        endif()
+    endif()
+    file(WRITE "${physics}/CMakeLists.txt" "${core_cmake}")
+    string(APPEND cmakelists "add_subdirectory(game/modules/physics)\n")
+    check_target("${case}" "${root}" "${cmakelists}" FALSE "${expected}")
 endforeach()
 
 # Retired GLFW must not be configured, linked or made visible by active targets.

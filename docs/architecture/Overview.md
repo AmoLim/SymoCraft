@@ -18,7 +18,7 @@ tags:
 | 资源路径、图片与非事务 PNG 输出 | [assets.md](assets.md) |
 | 有限世界、生成、受控编辑与网格发布 | [world.md](world.md) |
 | 已同步主工作区的 T5 EnTT 门面、身份与查询 | [ecs.md](ecs.md) |
-| 独立Session预算、自有结果、World适配与物理核心 | [simulation.md](simulation.md) |
+| 独立 Session 预算、自有结果、World/ECS 适配与正式 physics 核心 | [simulation.md](simulation.md) |
 | SDL 单窗口、输入事实与三种私有图形交接 | [platform.md](platform.md) |
 | 常量存储的自有调试快照与实际完成速率 | [telemetry.md](telemetry.md) |
 | 私有组合根、帧策略与现代发布缓存 | [app.md](app.md) |

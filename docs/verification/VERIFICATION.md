@@ -15,6 +15,8 @@ tags:
 
 | 节点类型 | 节点与既有明确决定 | 权威批准依据 | 不可推导的结论 |
 | --- | --- | --- | --- |
+| 阶段整体验收通过 | promote-physics-module，2026-11-16 用户明确验收通过，并授权先拟 gitspec、提交本次修改及同步对应主规格 | 本聊天用户明确决定；[验证与交接](../openspec/changes/promote-physics-module/verification.md#保留限制与交接)；[当前提交批次](../git/gitspec.md) | GPU/人工玩法/性能/长时/其他机器通过、主工作区生产传播、NPC 功能实施、推送/合并或归档授权 |
+| 正式实施入口 | promote-physics-module，2026-11-13 用户授权当前托管工作树按 P1–P5 实施，三个同推理强度子 agent、主 agent 集成，完成后交用户验收 | 本聊天用户明确授权；[实施与验证](../openspec/changes/promote-physics-module/verification.md) | 用户独立验收通过、NPC N1.3 前置解除、Git 提交、主规格同步或归档 |
 | 阶段整体验收通过 | integrate-renderdoc-tracy，2026-11-07 用户明确通过整体验收并要求同步主规格 | [整体批准与规格同步](../openspec/changes/integrate-renderdoc-tracy/verification.md#2026-11-07-整体验收通过与主规格同步) | 历史故障修复、未测范围通过、原工作区传播、本 change 归档或 Git 授权 |
 | 阶段整体验收通过 | M3-T5，2026-10-25 用户明确“批准 T5 整体完成，保留已列风险并更新验收记录，暂不提交 Git” | 本聊天用户明确决定；[整体批准与保留边界](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md#2026-10-25-t5与m3整体完成批准) | 未测/失败项通过、风险关闭、F 已取得 T5 代码、Git 或规格 sync/archive 授权 |
 | 阶段整体验收通过 | M3，2026-10-25 用户明确“M3 整体验收也通过”，其他机器 benchmark 改在现代性能分析工具接入后 | 本聊天用户明确决定；[M3 批准](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md#2026-10-25-t5与m3整体完成批准)及[最新范围](../scope/project-scope.md#已确认的目标) | 其他机器性能/M4/M5/M6 通过、Fix1 恢复或已修复、补造 T0/T1 独立历史批准、新玩法/分析工具接入授权 |
@@ -34,6 +36,7 @@ tags:
 
 | Change | 验证正文 |
 | --- | --- |
+| 正式 physics 模块迁移（2026-11-16 已验收、主规格同步，未归档） | [verification.md](../openspec/changes/promote-physics-module/verification.md) |
 | RenderDoc / Tracy（2026-11-07 整体验收通过，主规格已同步） | [verification.md](../openspec/changes/integrate-renderdoc-tracy/verification.md) |
 | T5 ECS/内存（2026-10-25 已批准、规格同步并归档，生产代码另获授权同步 F） | [verification.md](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md#2026-10-25-t5生产交付同步主工作区) |
 | T3 渲染接管（2026-10-19已归档） | [verification.md](../openspec/changes/archive/2026-10-19-m3-t3-renderer/verification.md) |

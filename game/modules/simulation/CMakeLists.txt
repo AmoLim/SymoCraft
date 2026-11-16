@@ -1,5 +1,3 @@
-add_subdirectory(physics)
-
 add_library(symocraft_simulation STATIC
     src/Camera.cpp
     src/character_system.cpp
