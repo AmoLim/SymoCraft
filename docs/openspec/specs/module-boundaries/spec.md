@@ -7,7 +7,7 @@ tags:
 
 > 2026-10-25：已按用户选择同步 T5 的五项边界增量，用户随后独立授权将对应生产实现及必要构建/测试配套从 E 同步 F，现已完成源码传播。T5/M3 批准、同步检查与保留风险见 [T5 记录](../../changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md)；A26 中旧中低端采样时点由用户最新明确决定覆盖，改为现代性能分析工具接入后执行，设备/预算/未测状态不变，见 [scope](../../../scope/project-scope.md#已确认的目标)。
 
-> 2026-11-16：用户已独立验收正式 physics 迁移，并授权同步本页增量；实现与验证代码根为 `G:/Sandbox/Worktrees/promote-physics-module/Symocraft`，主工作区生产代码尚未传播。当前 owner/依赖契约见下方 Requirements，历史 T4 结论及 Purpose 起点描述保留，证据与未测范围见 [physics 验收记录](../../changes/promote-physics-module/verification.md)。
+> 2026-11-16：用户已独立验收正式 physics 迁移，并授权同步本页增量；实现与验证代码根为 `G:/Sandbox/Worktrees/promote-physics-module/Symocraft`，主工作区生产代码尚未传播。当前 owner/依赖契约见下方 Requirements，历史 T4 结论及 Purpose 起点描述保留，证据与未测范围见 [physics 验收记录](../../changes/archive/2026-11-16-promote-physics-module/verification.md)。
 
 ## Purpose
 

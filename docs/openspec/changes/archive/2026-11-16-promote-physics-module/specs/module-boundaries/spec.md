@@ -7,7 +7,7 @@ tags:
 
 ### Requirement: Production ownership and narrow public headers
 
-生产源码 SHALL 归属 `game/modules/` 的 foundation、scene、assets、world、ecs、physics、simulation、platform、renderer、telemetry、窄 profiling 编译适配或 `game/app/`；旧 `tools/benchmark/` 产品退役，不再是活动构建/安装入口。每个启用的生产实现只能有一个真实编译 owner，测试 SHALL 链接正式生产库，不重编译生产实现，也不成为生产依赖。公开头 SHALL 从所属窄 include 根消费，不暴露私有存储、解析器、SDL、图形 SDK 或 Tracy 类型。按 [foundation-files](../../../../specs/foundation-files/spec.md)退役后，Files::Publish 的源码、公开头消费者与 foundation.files 测试注册 SHALL 从活动图移除；其余 foundation 与独立 YAML 适配 owner 保持，不把历史 Fix1 探针变为活动生产依赖。
+生产源码 SHALL 归属 `game/modules/` 的 foundation、scene、assets、world、ecs、physics、simulation、platform、renderer、telemetry、窄 profiling 编译适配或 `game/app/`；旧 `tools/benchmark/` 产品退役，不再是活动构建/安装入口。每个启用的生产实现只能有一个真实编译 owner，测试 SHALL 链接正式生产库，不重编译生产实现，也不成为生产依赖。公开头 SHALL 从所属窄 include 根消费，不暴露私有存储、解析器、SDL、图形 SDK 或 Tracy 类型。按 [foundation-files](../../../../../specs/foundation-files/spec.md)退役后，Files::Publish 的源码、公开头消费者与 foundation.files 测试注册 SHALL 从活动图移除；其余 foundation 与独立 YAML 适配 owner 保持，不把历史 Fix1 探针变为活动生产依赖。
 
 physics SHALL 由 `game/modules/physics` 唯一拥有 `symocraft_physics` 及其生产源码，公开头根为该模块的 include；simulation 不取得 physics 私有 src，physics 不取得 simulation include/src。公开头测试与独立核心测试 SHALL 通过既有公开 include 链接同一正式库，旧 `game/modules/simulation/physics` 不再是活动编译 owner。
 
@@ -25,7 +25,7 @@ physics SHALL 由 `game/modules/physics` 唯一拥有 `symocraft_physics` 及其
 
 ### Requirement: Acyclic authorized dependencies
 
-模块及 app SHALL 遵守[允许依赖方向](../../../../../architecture/engineering.md#生产所有权与依赖)，生产 target 图 SHALL 无环，模块不反向依赖 app，已退役独立 benchmark 不得成为活动生产依赖或反向复用游戏实现，不再要求保留该产品。PUBLIC SHALL 只表达真实公开头依赖；PRIVATE/最终链接的 `LINK_ONLY` 不得被当作公开头、SDK 或编译选项传播。renderer 的窄私有 backend contract 与 platform 三桥属于明确授权例外，不是开放其他模块私有目录。
+模块及 app SHALL 遵守[允许依赖方向](../../../../../../architecture/engineering.md#生产所有权与依赖)，生产 target 图 SHALL 无环，模块不反向依赖 app，已退役独立 benchmark 不得成为活动生产依赖或反向复用游戏实现，不再要求保留该产品。PUBLIC SHALL 只表达真实公开头依赖；PRIVATE/最终链接的 `LINK_ONLY` 不得被当作公开头、SDK 或编译选项传播。renderer 的窄私有 backend contract 与 platform 三桥属于明确授权例外，不是开放其他模块私有目录。
 
 simulation SHALL 是唯一允许直接链接 `symocraft_physics` 的生产模块，使用 PRIVATE 依赖；根测试与独立验证消费者可按公开接口链接该正式库。app/其他生产模块 MUST 不因 physics 纳入模块清单而取得直接链接或包含其公开/私有头的权限，也不得通过 alias 或生成器表达式绕过限制。最终游戏经 simulation 静态链接闭包取得 physics SHALL 保持合法，不传播 physics 为 app 的直接公开头依赖。核心自身允许闭包 SHALL 仍限标准库与 foundation 数学，直接或传递引入 World/ECS、其他业务模块、图形 SDK、profiling/Tracy、document_io/YAML 均拒绝。
 
@@ -35,7 +35,7 @@ simulation SHALL 是唯一允许直接链接 `symocraft_physics` 的生产模块
 
 #### Scenario: Current renderer interfaces are explicit exceptions
 - **WHEN** 创建 renderer CPU API、CPU STATIC 门面、窄私有 backend contract 或原生后端
-- **THEN** 其依赖 SHALL 按[当前分层](../../../../../architecture/engineering.md#renderer-的工程分层)隔离；只有审核过的消费者可取得私有契约，旧 GL 不混入现代 CPU 门面
+- **THEN** 其依赖 SHALL 按[当前分层](../../../../../../architecture/engineering.md#renderer-的工程分层)隔离；只有审核过的消费者可取得私有契约，旧 GL 不混入现代 CPU 门面
 
 #### Scenario: PHYS-MOVE-A02 restricted production consumers
 - **WHEN** simulation 私有链接正式 physics 并参与游戏最终链接，或 app/World/其他生产模块通过直接链接、alias、生成器表达式尝试消费该库

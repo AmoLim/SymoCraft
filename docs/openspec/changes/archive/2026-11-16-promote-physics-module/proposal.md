@@ -7,9 +7,9 @@ tags:
 
 ## Why
 
-落实 [T4 D01/D02](../archive/2026-10-19-m3-t4-application-simulation/decisions.md) 的分阶段路线：T5 审计及生产传播已经完成，正式 physics 所有权迁移须在 NPC 复用前独立验收。提案起点的独立静态库已形成中立核心，但源码和构建定义仍嵌于 simulation，检查器为旧位置维护特殊规则。实施后的 [独立静态库](../../../../game/modules/physics/CMakeLists.txt) 由正式模块拥有；将所有权正式化并验证边界，可在新增 NPC 行为前建立清楚的回归基线。
+落实 [T4 D01/D02](../2026-10-19-m3-t4-application-simulation/decisions.md) 的分阶段路线：T5 审计及生产传播已经完成，正式 physics 所有权迁移须在 NPC 复用前独立验收。提案起点的独立静态库已形成中立核心，但源码和构建定义仍嵌于 simulation，检查器为旧位置维护特殊规则。实施后的 [独立静态库](../../../../../game/modules/physics/CMakeLists.txt) 由正式模块拥有；将所有权正式化并验证边界，可在新增 NPC 行为前建立清楚的回归基线。
 
-本轮已盘点并预读全部 11 份现役规格及场景，依据 [scope](../../../scope/project-scope.md)、[physics-core](../../specs/physics-core/spec.md)、[module-boundaries](../../specs/module-boundaries/spec.md) 和 [simulation](../../specs/simulation/spec.md) 确定增量。T5 当前状态见 [验收与生产传播](../archive/2026-10-25-m3-t5-ecs-memory/verification.md)。本 change 承接 M3-T4-A23 的后续独立节点，保留 T4 归档中当时“不适用”的原义。
+本轮已盘点并预读全部 11 份现役规格及场景，依据 [scope](../../../../scope/project-scope.md)、[physics-core](../../../specs/physics-core/spec.md)、[module-boundaries](../../../specs/module-boundaries/spec.md) 和 [simulation](../../../specs/simulation/spec.md) 确定增量。T5 当前状态见 [验收与生产传播](../2026-10-25-m3-t5-ecs-memory/verification.md)。本 change 承接 M3-T4-A23 的后续独立节点，保留 T4 归档中当时“不适用”的原义。
 
 ## What Changes
 
@@ -34,9 +34,9 @@ tags:
 
 与相关 change 的交接：
 
-- [NPC MVP](../npc-framework-harvest-mvp/design.md#正式-physics-迁移前置) 的 N1.3 及后续生产联调依赖本节点验收；设计、World 规则、动作替身和角色静态显示按各自授权推进。本轮不修改 NPC 计划或解除其门槛。
-- [RenderDoc/Tracy](../integrate-renderdoc-tracy/proposal.md) 已有边界增量涉及相同所有权 requirement。以当前现役规格为底，保留 profiling、YAML 适配与旧产品退役约束；后续同步须避免旧增量覆盖新增 physics owner。埋点留在 simulation 适配层，核心不增加 Tracy 依赖。
-- [环境恢复计划](../restore-windows-development-environment/proposal.md) 仍有 SDK `10.0.22621.0` 目标，与当前 AGENTS 的 `10.0.28000.0` 不同。本迁移按当前 AGENTS 的 MSVC `14.51.36231`、SDK `10.0.28000.0` 规划同工具链前后验证；如实施时权威要求变化，先明确身份并重建可比基线，不混用缓存或修改另一计划。
+- [NPC MVP](../../npc-framework-harvest-mvp/design.md#正式-physics-迁移前置) 的 N1.3 及后续生产联调依赖本节点验收；设计、World 规则、动作替身和角色静态显示按各自授权推进。本轮不修改 NPC 计划或解除其门槛。
+- [RenderDoc/Tracy](../../integrate-renderdoc-tracy/proposal.md) 已有边界增量涉及相同所有权 requirement。以当前现役规格为底，保留 profiling、YAML 适配与旧产品退役约束；后续同步须避免旧增量覆盖新增 physics owner。埋点留在 simulation 适配层，核心不增加 Tracy 依赖。
+- [环境恢复计划](../../restore-windows-development-environment/proposal.md) 仍有 SDK `10.0.22621.0` 目标，与当前 AGENTS 的 `10.0.28000.0` 不同。本迁移按当前 AGENTS 的 MSVC `14.51.36231`、SDK `10.0.28000.0` 规划同工具链前后验证；如实施时权威要求变化，先明确身份并重建可比基线，不混用缓存或修改另一计划。
 
 ## Implementation
 

@@ -72,6 +72,6 @@ W / A / S / D 移动，左 Shift 奔跑，鼠标转动视角，滚轮调整视�
 
 ## 后续方向
 
-T4/T5 迁移已经交付并同步主工作区；后续按独立授权开展性能、长时稳定性与独立部署验证。正式 physics 模块已在本工作树迁至 `game/modules/physics`，已于 2026-11-16 通过[独立验收](docs/openspec/changes/promote-physics-module/verification.md)，该交付的 physics 复用前置已满足；主工作区实际接入仍需生产代码传播。
+T4/T5 迁移已经交付并同步主工作区；后续按独立授权开展性能、长时稳定性与独立部署验证。正式 physics 模块已在本工作树迁至 `game/modules/physics`，已于 2026-11-16 通过[独立验收](docs/openspec/changes/archive/2026-11-16-promote-physics-module/verification.md)，该交付的 physics 复用前置已满足；主工作区实际接入仍需生产代码传播。
 
 下一玩法阶段优先形成 **NPC 实体 → NPC AI → 村落演化** 的可观察闭环。Micro voxel 仅作为角色外表的构建方向，基础方块世界保持不变。独立计算服务与渲染客户端属于长期演进方向；存档、联网、区块流式加载及完整生存系统不计入当前已交付能力。

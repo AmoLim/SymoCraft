@@ -45,7 +45,7 @@ N1 增加两项受控编译适配：`symocraft_document_io` 属 foundation，但
 
 正式 `symocraft_physics` STATIC target 由 [game/modules/physics](../../game/modules/physics/CMakeLists.txt) 唯一拥有，在 foundation 之后、simulation 之前注册；核心只依赖标准库与 foundation 数学，公开根为模块自身 `include`，私有实现为 `src`。旧 `simulation/physics` 不保留活动 target、转发头或算法副本。生产仅 simulation 可直接 PRIVATE 链接，根测试通过公开接口链接同一库；最终游戏经 simulation 的静态链接闭包取得实现，不因此获得 app 直接链接或包含 physics 头的权限。
 
-边界检查继续核对唯一源码 owner、窄 include、依赖闭包和反向私有访问，并拒绝以 alias 或生成器表达式绕过消费方限制；physics 不取得 simulation include/src、World/ECS、图形 SDK、profiling/Tracy 或 document_io/YAML。固定步预算、ECS 有序遍历、World 查询适配与逐实体成功后提交仍归 simulation，`BUILD_TESTING=OFF` 继续构建同一物理实现。本工作树已于 2026-11-16 独立验收通过，迁移及未覆盖边界见 [promote-physics-module](../openspec/changes/promote-physics-module/proposal.md)，T4 当时的交付与 A23 后续不适用结论保持原义。
+边界检查继续核对唯一源码 owner、窄 include、依赖闭包和反向私有访问，并拒绝以 alias 或生成器表达式绕过消费方限制；physics 不取得 simulation include/src、World/ECS、图形 SDK、profiling/Tracy 或 document_io/YAML。固定步预算、ECS 有序遍历、World 查询适配与逐实体成功后提交仍归 simulation，`BUILD_TESTING=OFF` 继续构建同一物理实现。本工作树已于 2026-11-16 独立验收通过，迁移及未覆盖边界见 [promote-physics-module](../openspec/changes/archive/2026-11-16-promote-physics-module/proposal.md)，T4 当时的交付与 A23 后续不适用结论保持原义。
 
 T4 E候选以真实STATIC symocraft_application唯一拥有Application/GameRenderer/RunGame，SymoCraft只编薄main；symocraft_app_runtime为兼容旧T3探针的target别名而非第二实现库。2026-10-17已整合上游T3提交604c2b58；native生命周期及原生故障探针链接同一生产库，测试显式取得各自所需中立公开依赖，不将整个app依赖改为PUBLIC或复制生产cpp。Session只读诊断仅授权根session_tests的diagnostics窄私有根，不PUBLIC传播或开放整个src；旧telemetry导出probe随产品退役；foundation文件发布API与专属测试已按追加清单退役；Fix1因能力退役取消归档，其历史记录和诊断现场保留。
 

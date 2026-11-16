@@ -7,7 +7,7 @@ tags:
 
 > 2026-10-19：T4已验收并同步本页要求；Purpose保留原编写时点。交付范围与保留风险见[T4记录](../../changes/archive/2026-10-19-m3-t4-application-simulation/verification.md#2026-10-19-t4整体完成批准)。后续用户明确授权后，T4生产代码及必要构建、测试配套已同步F主工作区；不是Git提交/合并或T5实施授权。
 
-> 2026-11-16：用户已独立验收正式 physics 迁移，并授权同步本页增量；实现与验证代码根为 `G:/Sandbox/Worktrees/promote-physics-module/Symocraft`，主工作区生产代码尚未传播。当前 owner/依赖契约见下方 Requirements，历史 T4 结论及 Purpose 起点描述保留，证据与未测范围见 [physics 验收记录](../../changes/promote-physics-module/verification.md)。
+> 2026-11-16：用户已独立验收正式 physics 迁移，并授权同步本页增量；实现与验证代码根为 `G:/Sandbox/Worktrees/promote-physics-module/Symocraft`，主工作区生产代码尚未传播。当前 owner/依赖契约见下方 Requirements，历史 T4 结论及 Purpose 起点描述保留，证据与未测范围见 [physics 验收记录](../../changes/archive/2026-11-16-promote-physics-module/verification.md)。
 
 ## Purpose
 
