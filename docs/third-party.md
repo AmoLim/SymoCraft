@@ -53,6 +53,8 @@ yaml-cpp 的已知本地修改为 T1 的 `vendor/yaml-cpp/src/stream.h`、`strea
 
 ## 许可与安装身份
 
+2026-11-17 项目许可分界：基线 `a6620be9e3e6fbc4a06244686d971b6e6ce754a9` 中原受 MIT 授权的历史代码保持 MIT；后续按[贡献规则](../CONTRIBUTING.md)接受的新增原创代码采用 Apache-2.0。项目安装额外在包根提供 [LICENSE](../LICENSE)、[LICENSE-MIT](../LICENSE-MIT)、[NOTICE](../NOTICE)，其中 MIT 文本来自基线 Git 原始字节。第三方组件、素材和其他外部输入不随项目统一改证，下列通知、yaml-cpp 来源缺口及素材授权待核状态保持。
+
 以下是当前 `game/app/CMakeLists.txt` 声明的游戏安装材料，不追溯改写旧冻结包。完整文本来自实际 vendor 文件或 `cmake/licenses/`；来源说明见 `cmake/licenses/SOURCES.txt`。头/源码通知记录是完整文件，不作为开发 SDK 安装。
 
 | 项目 / 通知 | 本地材料与身份 | 游戏安装位置（相对包根） |

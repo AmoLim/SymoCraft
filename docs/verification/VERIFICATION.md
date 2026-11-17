@@ -15,6 +15,7 @@ tags:
 
 | 节点类型 | 节点与既有明确决定 | 权威批准依据 | 不可推导的结论 |
 | --- | --- | --- | --- |
+| 阶段整体验收通过 | adopt-apache-2-for-new-code，2026-11-17 用户明确验收通过，要求同步主规格后归档、删除源码验证包，保留其他未提交改动且暂不提交 Git | 本聊天用户明确决定；[验收与同步归档](../openspec/changes/archive/2026-11-17-adopt-apache-2-for-new-code/verification.md#2026-11-17-验收与同步归档) | 历史素材权属或第三方来源缺口关闭、正式发行、Git 提交或其他未测范围通过 |
 | 阶段整体验收通过 | promote-physics-module，2026-11-16 用户明确验收通过，并授权先拟 gitspec、提交本次修改及同步对应主规格；同日后续另行明确授权归档及对应提交 | 本聊天用户明确决定；[验证与交接](../openspec/changes/archive/2026-11-16-promote-physics-module/verification.md#保留限制与交接)；[当前提交批次](../git/gitspec.md) | GPU/人工玩法/性能/长时/其他机器通过、主工作区生产传播、NPC 功能实施或推送/合并授权 |
 | 正式实施入口 | promote-physics-module，2026-11-13 用户授权当前托管工作树按 P1–P5 实施，三个同推理强度子 agent、主 agent 集成，完成后交用户验收 | 本聊天用户明确授权；[实施与验证](../openspec/changes/archive/2026-11-16-promote-physics-module/verification.md) | 用户独立验收通过、NPC N1.3 前置解除、Git 提交、主规格同步或归档 |
 | 阶段整体验收通过 | integrate-renderdoc-tracy，2026-11-07 用户明确通过整体验收并要求同步主规格 | [整体批准与规格同步](../openspec/changes/integrate-renderdoc-tracy/verification.md#2026-11-07-整体验收通过与主规格同步) | 历史故障修复、未测范围通过、原工作区传播、本 change 归档或 Git 授权 |
@@ -36,6 +37,7 @@ tags:
 
 | Change | 验证正文 |
 | --- | --- |
+| 新贡献 Apache 2.0 / 历史 MIT（2026-11-17 已验收、主规格同步并归档） | [verification.md](../openspec/changes/archive/2026-11-17-adopt-apache-2-for-new-code/verification.md) |
 | 正式 physics 模块迁移（2026-11-16 已验收、主规格同步并归档） | [verification.md](../openspec/changes/archive/2026-11-16-promote-physics-module/verification.md) |
 | RenderDoc / Tracy（2026-11-07 整体验收通过，主规格已同步） | [verification.md](../openspec/changes/integrate-renderdoc-tracy/verification.md) |
 | T5 ECS/内存（2026-10-25 已批准、规格同步并归档，生产代码另获授权同步 F） | [verification.md](../openspec/changes/archive/2026-10-25-m3-t5-ecs-memory/verification.md#2026-10-25-t5生产交付同步主工作区) |

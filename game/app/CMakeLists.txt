@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT AND Apache-2.0
+# Existing code through a6620be9e3e6fbc4a06244686d971b6e6ce754a9: MIT (LICENSE-MIT).
+# Modified 2026-11-17: the project licensing install block below is Apache-2.0.
 add_library(symocraft_startup STATIC src/startup_options.cpp)
 target_compile_features(symocraft_startup PUBLIC cxx_std_20)
 target_compile_options(symocraft_startup PRIVATE /W4 /utf-8)
@@ -81,6 +84,13 @@ target_compile_options(SymoCraft PRIVATE /W4 /utf-8)
 target_sources(SymoCraft PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/cmake/windows-utf8.manifest")
 symocraft_stage_assets(SymoCraft)
 install(TARGETS SymoCraft RUNTIME DESTINATION .)
+# Project licensing install block (Apache-2.0); keep beside the executable.
+install(FILES
+    "${SYMOCRAFT_REPOSITORY_ROOT}/LICENSE"
+    "${SYMOCRAFT_REPOSITORY_ROOT}/LICENSE-MIT"
+    "${SYMOCRAFT_REPOSITORY_ROOT}/NOTICE"
+    DESTINATION .)
+# End project licensing install block; existing MIT install rules follow.
 if(SYMOCRAFT_ENABLE_TRACY)
     install(FILES "$<TARGET_PDB_FILE:SymoCraft>" DESTINATION .)
 endif()
