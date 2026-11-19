@@ -1,6 +1,7 @@
 #pragma once
 
 #include "symocraft/scene/mesh.h"
+#include "symocraft/scene/character_mesh.h"
 
 #include <chrono>
 #include <cstddef>
@@ -62,6 +63,7 @@ namespace Detail {
 class ResourceRegistry;
 struct MeshTag;
 struct TextureArrayTag;
+struct CharacterMeshTag;
 }
 
 template <class Tag>
@@ -83,6 +85,14 @@ private:
 
 using MeshHandle = ResourceHandle<Detail::MeshTag>;
 using TextureArrayHandle = ResourceHandle<Detail::TextureArrayTag>;
+using CharacterMeshHandle = ResourceHandle<Detail::CharacterMeshTag>;
+
+struct CharacterDraw {
+    CharacterMeshHandle mesh;
+    glm::mat4 object_transform{1.0f};
+    // Clip-space geometry for the application's small demo overlay.
+    bool screen_space = false;
+};
 
 struct MeshDraw {
     MeshHandle mesh;
@@ -102,6 +112,7 @@ struct FrameInput {
     std::span<const MeshDraw> draws;
     std::optional<SelectionBox> selection;
     bool request_screenshot = false;
+    std::span<const CharacterDraw> characters;
 };
 
 enum class FrameStatus { Presented, Skipped };

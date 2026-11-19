@@ -19,6 +19,7 @@ struct D3D12DiagnosticAccess final {
     bool quarantined = false;
     bool native_cleared = false;
     std::weak_ptr<void> last_mesh, last_texture, frame_mesh, frame_texture;
+    std::weak_ptr<void> last_character, frame_character;
     std::uint64_t mesh_buffers_created{}, mesh_buffers_released{}, textures_created{}, textures_released{};
     std::uint64_t live_resource_bytes{}, peak_resource_bytes{};
     unsigned wait_calls{}, info_queue_checks{};

@@ -4,6 +4,7 @@
 #include "validation.h"
 
 #include <atomic>
+#include <cmath>
 #include <limits>
 
 namespace SymoCraft::Rendering::Detail {
@@ -24,6 +25,42 @@ std::uint64_t NextIdentity() {
 } // namespace
 
 ResourceRegistry::ResourceRegistry() : identity_(NextIdentity()) {}
+
+ResourceRegistry::CharacterReservation ResourceRegistry::PrepareCharacter(const CharacterMeshData& data) {
+    if (data.vertices.size() % 3 != 0 || data.vertices.size() > 1024 * 1024)
+        throw std::invalid_argument("character mesh must contain complete bounded triangles");
+    for (const auto& vertex : data.vertices) {
+        for (glm::length_t axis = 0; axis < 3; ++axis) {
+            if (!std::isfinite(vertex.position[axis]) || !std::isfinite(vertex.normal[axis]) ||
+                !std::isfinite(vertex.color[axis]) || vertex.color[axis] < 0 || vertex.color[axis] > 1)
+                throw std::invalid_argument("invalid character vertex");
+        }
+        const auto length = glm::length(vertex.normal);
+        if (!std::isfinite(length) || std::abs(length - 1.0f) > 1e-3f)
+            throw std::invalid_argument("character normal must be unit length");
+    }
+    auto owned = std::make_shared<const CharacterMeshData>(data);
+    const auto index = FreeSlot(characters_);
+    const auto generation = characters_[index].generation;
+    return {{identity_, index, generation}, {identity_, index, generation}, std::move(owned)};
+}
+
+void ResourceRegistry::Commit(const CharacterReservation& reservation) noexcept {
+    characters_[reservation.id.slot].data = reservation.data;
+}
+
+BackendResourceId ResourceRegistry::Id(CharacterMeshHandle handle) const {
+    Find(handle, characters_);
+    return {identity_, handle.slot_, handle.generation_};
+}
+
+std::shared_ptr<const CharacterMeshData> ResourceRegistry::CharacterMesh(CharacterMeshHandle handle) const {
+    return Find(handle, characters_).data;
+}
+
+void ResourceRegistry::DestroyCharacter(CharacterMeshHandle handle) noexcept {
+    Invalidate(characters_[handle.slot_]);
+}
 
 template <class Tag, class Data>
 const ResourceRegistry::Slot<Data>& ResourceRegistry::Find(
@@ -118,6 +155,7 @@ void ResourceRegistry::DestroyTexture(TextureArrayHandle handle) noexcept {
 void ResourceRegistry::Clear() noexcept {
     for (auto& slot : meshes_) Invalidate(slot);
     for (auto& slot : textures_) Invalidate(slot);
+    for (auto& slot : characters_) Invalidate(slot);
 }
 
 } // namespace SymoCraft::Rendering::Detail

@@ -2,7 +2,8 @@ add_library(symocraft_startup STATIC src/startup_options.cpp)
 target_compile_features(symocraft_startup PUBLIC cxx_std_20)
 target_compile_options(symocraft_startup PRIVATE /W4 /utf-8)
 
-add_library(symocraft_app_render_data STATIC src/world_render_cache.cpp src/render_conversion.cpp src/benchmark_scenario.cpp)
+add_library(symocraft_app_render_data STATIC src/world_render_cache.cpp src/render_conversion.cpp src/benchmark_scenario.cpp
+    src/character_pose.cpp src/demo_overlay.cpp)
 target_link_libraries(symocraft_app_render_data PUBLIC symocraft_renderer_api symocraft_world
     symocraft_assets symocraft_simulation)
 target_compile_options(symocraft_app_render_data PRIVATE /W4 /utf-8)
@@ -87,6 +88,7 @@ endif()
 install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/sdl3/LICENSE.txt" DESTINATION licenses RENAME SDL3-LICENSE.txt)
 install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/stb/LICENSE" DESTINATION licenses RENAME stb-LICENSE.txt)
 install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/entt/LICENSE" DESTINATION licenses RENAME EnTT-LICENSE.txt)
+install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/cgltf/LICENSE" DESTINATION licenses RENAME cgltf-LICENSE.txt)
 install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/behaviortree_cpp/LICENSE"
     DESTINATION licenses RENAME BehaviorTree.CPP-LICENSE.txt)
 foreach(source IN ITEMS include/behaviortree_cpp/utils/shared_library.h

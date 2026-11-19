@@ -41,6 +41,9 @@ namespace {
         int creates = 0;
         int updates = 0;
         int mesh_destroys = 0;
+        int character_creates = 0;
+        int character_destroys = 0;
+        std::shared_ptr<const SymoCraft::CharacterMeshData> accepted_character;
         int texture_creates = 0;
         int texture_destroys = 0;
         int renders = 0;
@@ -81,6 +84,17 @@ namespace {
             Fail("CreateMesh");
             calls_->last_mesh_id = id;
             calls_->accepted_mesh = std::move(data);
+        }
+        void CreateCharacterMesh(BackendResourceId, std::shared_ptr<const SymoCraft::CharacterMeshData> data) override
+        {
+            ++calls_->character_creates;
+            Fail("CreateCharacterMesh");
+            calls_->accepted_character = std::move(data);
+        }
+        void DestroyCharacterMesh(BackendResourceId) override
+        {
+            ++calls_->character_destroys;
+            Fail("DestroyCharacterMesh");
         }
         void UpdateMesh(BackendResourceId id, std::shared_ptr<const MeshData> data) override
         {
@@ -245,6 +259,38 @@ namespace {
         const std::array draws{MeshDraw{empty_mesh, new_texture}};
         first.state->Render(Frame(0, draws));
         Require(first.calls->last_frame.draws[0].mesh_data->vertices.empty(), "empty mesh must remain a valid owned resource");
+    }
+
+    void CheckCharacterOwnership()
+    {
+        Fixture first, second;
+        SymoCraft::CharacterMeshData data{{{{0, 0, 0}, {0, 0, 1}, {1, 0, 0}},
+            {{1, 0, 0}, {0, 0, 1}, {0, 1, 0}}, {{0, 1, 0}, {0, 0, 1}, {0, 0, 1}}}};
+        const auto handle = first.state->CreateCharacterMesh(data);
+        data.vertices[0].position.x = 99;
+        Require(first.calls->accepted_character->vertices[0].position.x == 0,
+                "character input must be copied at resource acceptance");
+        ExpectCategory(RenderErrorCategory::InvalidHandle, [&] { second.state->DestroyCharacterMesh(handle); },
+                       "foreign character handle");
+        const std::array draws{CharacterDraw{handle}, CharacterDraw{handle}};
+        auto frame = Frame(0); frame.characters = draws;
+        first.state->Render(frame);
+        Require(first.calls->last_frame.characters.size() == 2 &&
+                first.calls->last_frame.characters[0].data == first.calls->last_frame.characters[1].data,
+                "multiple characters must share one immutable model");
+        const auto retained = first.calls->last_frame.characters[0].data;
+        first.state->DestroyCharacterMesh(handle);
+        Require(retained->vertices[0].position.x == 0,
+                "accepted frame must retain owned geometry after handle destruction");
+        frame.frame_id = 1;
+        ExpectCategory(RenderErrorCategory::InvalidHandle, [&] { first.state->Render(frame); }, "stale character draw");
+        Require(first.calls->renders == 1, "invalid character draw must not submit a partial frame");
+        ExpectCategory(RenderErrorCategory::InvalidHandle, [&] { first.state->DestroyCharacterMesh(handle); },
+                       "repeated character destroy");
+        data.vertices[0].normal = {0, 0, 0};
+        ExpectCategory(RenderErrorCategory::InvalidInput, [&] { first.state->CreateCharacterMesh(data); },
+                       "zero character normal");
+        Require(first.calls->character_creates == 1, "invalid geometry must not reach native resource creation");
     }
 
     void CheckConstructionAndCleanup()
@@ -693,6 +739,7 @@ int main()
 {
     try {
         CheckResourceOwnership();
+        CheckCharacterOwnership();
         CheckConstructionAndCleanup();
         CheckTransactionalUpdates();
         CheckInputValidation();

@@ -60,6 +60,16 @@ Local vendor/tracy contains all 88 public/ files plus the original LICENSE,
 is compiled by symocraft_tracy_client. Viewer must match v0.14.1 and is not installed
 with the game. The original LICENSE is deployed when profiling is enabled.
 
+cgltf (added 2026-11-16):
+Fixed official v1.15, commit 360db1a95480fe102ae9c69b27c5d101167ff5ba (MIT).
+https://github.com/jkuhlmann/cgltf/tree/360db1a95480fe102ae9c69b27c5d101167ff5ba
+Local vendor/cgltf/cgltf.h and LICENSE are the original official files without patches.
+Only game/modules/assets/src/character.cpp defines CGLTF_IMPLEMENTATION;
+cgltf types remain private to this CPU importer. cgltf-LICENSE.txt is installed
+verbatim from vendor/cgltf/LICENSE. Blender is an offline authoring tool and is
+not distributed or linked with the game; the two editable .blend sources and
+actual GLB exports are repository-authored character assets.
+
 BehaviorTree.CPP (added 2026-11-16):
 Fixed official v4.9.0, commit 3ff6a32ba0497a08519c77a1436e3b81eff1bcd6 (MIT).
 https://codeload.github.com/BehaviorTree/BehaviorTree.CPP/zip/3ff6a32ba0497a08519c77a1436e3b81eff1bcd6

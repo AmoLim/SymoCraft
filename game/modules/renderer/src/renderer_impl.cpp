@@ -112,6 +112,22 @@ TextureArrayHandle RendererState::CreateTextureArray(const TextureArrayData& dat
     });
 }
 
+CharacterMeshHandle RendererState::CreateCharacterMesh(const CharacterMeshData& data) {
+    return Invoke("CreateCharacterMesh", [&] {
+        auto prepared = resources_.PrepareCharacter(data);
+        backend_->CreateCharacterMesh(prepared.id, prepared.data);
+        resources_.Commit(prepared);
+        return prepared.handle;
+    });
+}
+
+void RendererState::DestroyCharacterMesh(CharacterMeshHandle handle) {
+    Invoke("DestroyCharacterMesh", [&] {
+        backend_->DestroyCharacterMesh(resources_.Id(handle));
+        resources_.DestroyCharacter(handle);
+    });
+}
+
 void RendererState::DestroyTextureArray(TextureArrayHandle handle) {
     Invoke("DestroyTextureArray", [&] {
         const auto id = resources_.Id(handle);
@@ -134,6 +150,11 @@ FrameResult RendererState::Render(const FrameInput& frame) {
         prepared.request_screenshot = frame.request_screenshot;
         prepared.extent = info_.framebuffer_extent;
         prepared.draws.reserve(frame.draws.size());
+        prepared.characters.reserve(frame.characters.size());
+        for (const auto& draw : frame.characters) {
+            ValidateTransform(draw.object_transform);
+            prepared.characters.push_back({resources_.Id(draw.mesh), resources_.CharacterMesh(draw.mesh), draw.object_transform, draw.screen_space});
+        }
         for (const auto& draw : frame.draws) {
             ValidateTransform(draw.object_transform);
             auto mesh = resources_.Mesh(draw.mesh);

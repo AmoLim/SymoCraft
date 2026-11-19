@@ -5,6 +5,7 @@
 #include "world_render_cache.h"
 #include <symocraft/assets/asset_paths.h>
 #include <symocraft/assets/image.h>
+#include <symocraft/assets/character.h>
 #include <symocraft/platform/window.h>
 #include <symocraft/renderer/error.h>
 #ifdef SYMOCRAFT_APP_OPENGL
@@ -13,6 +14,7 @@
 #include <symocraft/renderer/renderer.h>
 #include <symocraft/simulation/session.h>
 #include <glm/ext/matrix_clip_space.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <symocraft/world/world.h>
 #include <symocraft/profiling/profiling.h>
 #include <array>
@@ -21,6 +23,7 @@
 #include <exception>
 #include <cstdio>
 #include <limits>
+#include <map>
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -77,11 +80,13 @@ bool CheckRendererAssets(const StartupOptions& options, std::ostream& errors) {
         "configs/blockFormats.yaml", "textures/texture_atlas.png",
         "shaders/d3d12/blocks.vs.dxil", "shaders/d3d12/blocks.ps.dxil",
         "shaders/d3d12/selection.vs.dxil", "shaders/d3d12/selection.ps.dxil"};
+    files.emplace_back("shaders/d3d12/character.vs.dxil");
+    files.emplace_back("shaders/d3d12/character.ps.dxil");
     const bool vulkan = options.renderer == "vulkan";
     const char* backend = options.world_summary ? "World summary" : vulkan ? "Vulkan" : "D3D12";
     if (vulkan) {
         files.resize(2);
-        for (const auto* shader : {"blocks.vs.spv", "blocks.ps.spv", "selection.vs.spv", "selection.ps.spv"})
+        for (const auto* shader : {"blocks.vs.spv", "blocks.ps.spv", "selection.vs.spv", "selection.ps.spv", "character.vs.spv", "character.ps.spv"})
             files.emplace_back(std::string("shaders/vulkan/") + shader);
     }
     bool valid = true;
@@ -111,6 +116,20 @@ struct GameRenderer::Impl {
     std::unique_ptr<WorldRenderCache<ModernMeshPort>> cache;
     Rendering::TextureArrayHandle atlas;
     std::vector<Rendering::MeshDraw> draws;
+    struct CharacterPartResource {
+        std::string name;
+        int parent{-1};
+        glm::mat4 local_transform{1};
+        glm::vec3 pivot{}, rotation_axis{1,0,0};
+        Rendering::CharacterMeshHandle mesh;
+    };
+    struct CharacterModel { std::vector<CharacterPartResource> parts; };
+    std::map<std::string, CharacterModel> character_models;
+    std::vector<Rendering::CharacterDraw> characters;
+    CharacterPoses poses;
+    std::optional<DemoOverlayData> overlay;
+    std::map<char, Rendering::CharacterMeshHandle> glyphs;
+    std::array<Rendering::CharacterMeshHandle,3> rectangles;
     Rendering::Extent2D extent;
     bool extent_pending{};
 #ifdef SYMOCRAFT_APP_OPENGL
@@ -222,6 +241,102 @@ MeshUpload GameRenderer::Synchronize(const World::VoxelWorld& world) {
     state.cache->AppendDraws(state.atlas, state.draws);
     return {upload.upload_bytes, upload.created_meshes + upload.updated_meshes};
 }
+void GameRenderer::LoadCharacter(const std::string& model, const std::filesystem::path& path) {
+    auto& state = *impl_;
+    if (!state.modern) throw std::invalid_argument("character display requires a modern renderer");
+    if (model.empty()) throw std::invalid_argument("character model name is empty");
+    if (state.character_models.contains(model)) throw std::invalid_argument("character model already loaded");
+    const auto mesh = Assets::LoadCharacter(path);
+    Impl::CharacterModel candidate;
+    candidate.parts.reserve(std::max<std::size_t>(1, mesh.parts.size()));
+    auto [slot,inserted] = state.character_models.try_emplace(model);
+    if (!inserted) throw std::invalid_argument("character model already loaded");
+    try {
+        if (mesh.parts.empty()) {
+            candidate.parts.push_back({"body",-1,glm::mat4(1),{0,0,0},{1,0,0},state.modern->CreateCharacterMesh(mesh)});
+        } else for (const auto& part : mesh.parts) {
+            CharacterMeshData geometry;
+            geometry.vertices = part.vertices;
+            Impl::CharacterPartResource resource{part.name,part.parent,part.local_transform,part.pivot,part.rotation_axis,{}};
+            resource.mesh = state.modern->CreateCharacterMesh(geometry);
+            candidate.parts.push_back(std::move(resource));
+        }
+        slot->second = std::move(candidate);
+    } catch (...) {
+        const auto failure = std::current_exception();
+        state.character_models.erase(slot);
+        for (const auto& part : candidate.parts) {
+            try { state.modern->DestroyCharacterMesh(part.mesh); }
+            catch (...) { state.operations_allowed = false; }
+        }
+        std::rethrow_exception(failure);
+    }
+}
+void GameRenderer::SetCharacterInstances(std::span<const CharacterInstance> instances) {
+    auto& state = *impl_;
+    if (!state.modern && !instances.empty()) throw std::invalid_argument("character display requires a modern renderer");
+    std::vector<Rendering::CharacterDraw> candidate;
+    candidate.reserve(instances.size());
+    auto poses = state.poses;
+    std::vector<ECS::EntityId> active;
+    active.reserve(instances.size());
+    for (const auto& instance : instances) {
+        const auto found = state.character_models.find(instance.model);
+        if (found == state.character_models.end()) throw std::invalid_argument("unknown character model");
+        auto transform = glm::translate(glm::mat4(1), instance.position);
+        // GLB +Z forward maps to the simulation yaw's XZ forward vector.
+        transform = glm::rotate(transform, glm::radians(90.0f - instance.yaw_degrees), glm::vec3(0, 1, 0));
+        const auto pose = poses.Update({instance.session_id,instance.advance_id,instance.entity,
+                                        instance.horizontal_distance,instance.action});
+        active.push_back(instance.entity);
+        const auto& parts = found->second.parts;
+        std::vector<glm::mat4> transforms(parts.size());
+        std::vector<bool> ready(parts.size());
+        const auto compose = [&](auto&& self, std::size_t index) -> const glm::mat4& {
+            if (ready[index]) return transforms[index];
+            const auto& part = parts[index];
+            auto local = glm::translate(part.local_transform,part.pivot);
+            local = glm::rotate(local,pose.Angle(part.name),part.rotation_axis);
+            local = glm::translate(local,-part.pivot);
+            transforms[index] = part.parent<0 ? transform*local : self(self,static_cast<std::size_t>(part.parent))*local;
+            ready[index] = true;
+            return transforms[index];
+        };
+        for (std::size_t index=0;index<parts.size();++index)
+            candidate.push_back({parts[index].mesh,compose(compose,index)});
+    }
+    poses.Retain(active);
+    state.characters.swap(candidate);
+    state.poses = std::move(poses);
+}
+void GameRenderer::SetDemoOverlay(const DemoOverlayData& overlay) {
+    ValidateDemoOverlay(overlay);
+    auto& state = *impl_;
+    if (!state.modern) throw std::invalid_argument("demo overlay requires a modern renderer");
+    if (std::any_of(state.rectangles.begin(),state.rectangles.end(),[](auto handle) { return handle.IsNull(); })) {
+        constexpr glm::vec3 colors[]{{.035f,.055f,.08f},{.14f,.2f,.25f},{.2f,.8f,.65f}};
+        for (std::size_t index=0;index<3;++index) {
+            if (state.rectangles[index].IsNull())
+                state.rectangles[index] = state.modern->CreateCharacterMesh(DemoRectangle(colors[index]));
+        }
+    }
+    const auto ensure = [&](const std::string& text) {
+        for (unsigned char value : text) {
+            if (value==' ') continue;
+            const char key = value>='a' && value<='z' ? static_cast<char>(value-'a'+'A') : static_cast<char>(value);
+            if (!state.glyphs.contains(key)) {
+                const auto handle = state.modern->CreateCharacterMesh(DemoGlyph(key));
+                try { state.glyphs.emplace(key,handle); }
+                catch (...) { state.modern->DestroyCharacterMesh(handle); throw; }
+            }
+        }
+    };
+    ensure(overlay.title); ensure(overlay.state);
+    ensure("SPACE START/PAUSE   Q RESTART   E SCENE");
+    for (const auto& row : overlay.rows) ensure(row.label);
+    state.overlay = overlay;
+}
+void GameRenderer::ClearDemoOverlay() { impl_->overlay.reset(); }
 void GameRenderer::ReleaseWorld(std::uint64_t identity) {
     if (Modern()) {
         impl_->draws.clear();
@@ -266,6 +381,49 @@ GameFrame GameRenderer::Render(std::uint64_t frame_id, const Simulation::PlayerV
         frame.frame_id = frame_id;
         frame.camera = ToRendererCamera(camera);
         frame.draws = state.draws;
+        auto characters = state.characters;
+        if (state.overlay && !state.extent.IsSuspended()) {
+            const float width = static_cast<float>(state.extent.width);
+            const float height = static_cast<float>(state.extent.height);
+            float panel_height=104;
+            for (const auto& row : state.overlay->rows)
+                panel_height+=static_cast<float>(std::max<std::size_t>(1,(row.label.size()+45)/46))*18+(row.progress ? 18 : 6);
+            const float scale = std::min({1.f,width/614.f,height/(panel_height+24)});
+            const auto draw = [&](Rendering::CharacterMeshHandle mesh, float x,float y,float w,float h,float depth) {
+                glm::mat4 matrix(1);
+                matrix[0][0]=2*w*scale/width; matrix[1][1]=-2*h*scale/height;
+                matrix[3][0]=-1+2*x*scale/width; matrix[3][1]=1-2*y*scale/height;
+                matrix[3][2]=depth;
+                characters.push_back({mesh,matrix,true});
+            };
+            const auto text = [&](const std::string& value,float x,float y) {
+                std::size_t count=0;
+                for (unsigned char letter : value) {
+                    if (count>=46) break;
+                    if (letter!=' ') {
+                        const char key=letter>='a' && letter<='z' ? static_cast<char>(letter-'a'+'A') : static_cast<char>(letter);
+                        draw(state.glyphs.at(key),x+static_cast<float>(count)*12,y,2,2,.0001f);
+                    }
+                    ++count;
+                }
+            };
+            draw(state.rectangles[0],12,12,590,panel_height,.0003f);
+            text(state.overlay->title,24,24);
+            text("SPACE START/PAUSE   Q RESTART   E SCENE",24,48);
+            text(state.overlay->state,24,72);
+            float y=104;
+            for (const auto& row : state.overlay->rows) {
+                const auto lines=std::max<std::size_t>(1,(row.label.size()+45)/46);
+                for (std::size_t line=0;line<lines;++line) text(row.label.substr(line*46,46),24,y+static_cast<float>(line)*18);
+                y+=static_cast<float>(lines)*18;
+                if (row.progress) {
+                    draw(state.rectangles[1],24,y+2,560,8,.0002f);
+                    if (*row.progress>0) draw(state.rectangles[2],24,y+2,560*(*row.progress),8,.0001f);
+                }
+                y+=row.progress ? 18 : 6;
+            }
+        }
+        frame.characters = characters;
         if (selection) frame.selection = Rendering::SelectionBox{glm::floor(*selection), glm::floor(*selection) + glm::vec3(1.0f)};
         frame.request_screenshot = screenshot;
         output.result = state.modern->Render(frame);
@@ -318,7 +476,18 @@ ShutdownReport GameRenderer::Shutdown() {
     auto& report = state.shutdown;
     if (state.modern) {
         if (state.operations_allowed) {
-            report.Attempt(ShutdownStep::MeshBindings, state.cache != nullptr, [&] { state.cache->ReleaseAll(); });
+            report.Attempt(ShutdownStep::MeshBindings, state.cache != nullptr, [&] {
+                state.cache->ReleaseAll();
+                for (const auto& [model, resource] : state.character_models)
+                    for (const auto& part : resource.parts) state.modern->DestroyCharacterMesh(part.mesh);
+                state.character_models.clear();
+                for (const auto& [glyph,handle] : state.glyphs) state.modern->DestroyCharacterMesh(handle);
+                state.glyphs.clear();
+                for (auto& handle : state.rectangles) {
+                    if (!handle.IsNull()) state.modern->DestroyCharacterMesh(handle);
+                    handle={};
+                }
+            });
             report.Attempt(ShutdownStep::Texture, !state.atlas.IsNull(), [&] { state.modern->DestroyTextureArray(state.atlas); });
         } else {
             if (state.cache) report.Unavailable(ShutdownStep::MeshBindings);
@@ -332,6 +501,12 @@ ShutdownReport GameRenderer::Shutdown() {
             }
         }
         state.draws.clear();
+        state.characters.clear();
+        state.character_models.clear();
+        state.glyphs.clear();
+        state.rectangles={};
+        state.overlay.reset();
+        state.poses.Clear();
         state.cache.reset();
         state.modern.reset();
     }

@@ -8,6 +8,18 @@ target_include_directories(cleanup_sequence_tests PRIVATE "${SYMOCRAFT_REPOSITOR
 add_test(NAME core.cleanup_sequence COMMAND cleanup_sequence_tests)
 set_tests_properties(core.cleanup_sequence PROPERTIES TIMEOUT 15)
 
+symocraft_test_executable(app_demo_control_tests demo_control_tests.cpp symocraft_startup)
+target_include_directories(app_demo_control_tests PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/game/app/src")
+add_test(NAME app.demo_control COMMAND app_demo_control_tests)
+set_tests_properties(app.demo_control PROPERTIES TIMEOUT 15)
+
+foreach(probe IN ITEMS character_pose demo_overlay)
+    symocraft_test_executable(app_${probe}_tests ${probe}_tests.cpp symocraft_app_render_data)
+    target_include_directories(app_${probe}_tests PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/game/app/src")
+    add_test(NAME app.${probe} COMMAND app_${probe}_tests)
+    set_tests_properties(app.${probe} PROPERTIES TIMEOUT 30)
+endforeach()
+
 foreach(probe IN ITEMS cache conversion)
     symocraft_test_executable(app_render_${probe}_tests render_${probe}_tests.cpp symocraft_app_render_data)
     target_include_directories(app_render_${probe}_tests PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/game/app/src")
@@ -20,6 +32,14 @@ target_include_directories(app_scenario_tests PRIVATE "${SYMOCRAFT_REPOSITORY_RO
 add_test(NAME app.scenario_and_reports COMMAND app_scenario_tests "${SYMOCRAFT_REPOSITORY_ROOT}/assets/configs/blockFormats.yaml")
 set_tests_properties(app.scenario_and_reports PROPERTIES TIMEOUT 45)
 if(TARGET symocraft_application)
+    symocraft_test_executable(npc_demo_probe npc_demo_probe.cpp
+        symocraft_application symocraft_startup symocraft_simulation symocraft_telemetry SDL3::SDL3-static)
+    target_compile_definitions(npc_demo_probe PRIVATE SDL_MAIN_HANDLED)
+    target_include_directories(npc_demo_probe PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/game/app/src")
+    set_target_properties(npc_demo_probe PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+    symocraft_stage_assets(npc_demo_probe)
+    add_dependencies(npc_demo_probe SymoCraft)
+    # Bounded, explicit native-window checks; deliberately not an unattended CTest.
     symocraft_test_executable(app_profile_scenario_probe profile_scenario_probe.cpp
         symocraft_application symocraft_startup symocraft_simulation symocraft_telemetry SDL3::SDL3-static)
     target_compile_definitions(app_profile_scenario_probe PRIVATE SDL_MAIN_HANDLED)
@@ -29,7 +49,7 @@ if(TARGET symocraft_application)
     add_dependencies(app_profile_scenario_probe SymoCraft)
     # Explicit bounded native/window checks; never an unattended CTest GUI task.
     symocraft_test_executable(application_lifecycle_probe application_probe.cpp symocraft_application
-        symocraft_startup symocraft_telemetry symocraft_foundation symocraft_document_io)
+        symocraft_startup symocraft_telemetry symocraft_foundation symocraft_document_io symocraft_simulation)
     target_include_directories(application_lifecycle_probe PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/game/app/src")
     set_target_properties(application_lifecycle_probe PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
     symocraft_stage_assets(application_lifecycle_probe)

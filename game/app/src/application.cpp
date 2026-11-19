@@ -2,6 +2,8 @@
 #include "application_probe.h"
 #include "benchmark_scenario.h"
 #include "game_renderer.h"
+#include "demo_control.h"
+#include "demo_overlay.h"
 #include "startup_options.h"
 #include <symocraft/assets/asset_paths.h>
 #include <symocraft/assets/image.h>
@@ -11,11 +13,13 @@
 #include <symocraft/ecs/registry.h>
 #include <symocraft/simulation/session.h>
 #include <symocraft/simulation/component.h>
+#include <symocraft/simulation/npc_ai.h>
 #include <symocraft/world/test_scene.h>
 #include <symocraft/profiling/profiling.h>
 #include <algorithm>
 #include <array>
 #include <cstdio>
+#include <cmath>
 #include <iostream>
 #include <limits>
 #include <thread>
@@ -31,6 +35,8 @@ namespace SymoCraft::Application {
         thread_local void* assembly_context = nullptr;
         thread_local Detail::ShutdownProbe shutdown_probe = nullptr;
         thread_local void* shutdown_context = nullptr;
+        thread_local Detail::DemoProbe demo_probe = nullptr;
+        thread_local void* demo_context = nullptr;
         void Assembled(Detail::AssemblyStage stage) { if (assembly_probe) assembly_probe(assembly_context, stage); }
         void Released(ShutdownStep step) { if (shutdown_probe) shutdown_probe(shutdown_context, step); }
     }
@@ -42,30 +48,82 @@ namespace SymoCraft::Application {
             Data::Value report;
         };
 
-        static World::BlockDefinition ReadBlockDefinition()
+        static World::BlockDefinition ReadBlockDefinition(bool npc_scene = false)
         {
             try {
                 const auto bytes = Assets::ReadBytes(Assets::Resolve("configs/blockFormats.yaml"));
-                return World::BlockDefinition::FromConfig(std::string(bytes.begin(), bytes.end()));
+                std::string text(bytes.begin(), bytes.end());
+                if (npc_scene) {
+                    const auto extra = Assets::ReadBytes(Assets::Resolve("configs/npc_blocks.yaml"));
+                    text += '\n';
+                    text.append(extra.begin(), extra.end());
+                }
+                return World::BlockDefinition::FromConfig(text);
             } catch (const std::exception& error) {
                 throw std::runtime_error(std::string("Failed to load block configuration: ") + error.what());
             }
         }
 
-        static PreparedWorld PrepareWorld(World::BlockDefinition definition, const StartupOptions& options)
+        static glm::vec3 ScenePosition(const Data::Value& value)
+        {
+            if (!value.IsSequence() || value.size() != 3) throw std::invalid_argument("NPC position must contain three coordinates");
+            glm::vec3 result{value[0].as<float>(), value[1].as<float>(), value[2].as<float>()};
+            for (int axis = 0; axis < 3; ++axis)
+                if (!std::isfinite(result[axis])) throw std::invalid_argument("NPC position is non-finite");
+            return result;
+        }
+        static World::BlockCoord SceneCell(const Data::Value& value)
+        {
+            const auto position = ScenePosition(value);
+            const auto cell = World::TryToBlockCoord(position);
+            if (!cell || glm::vec3(*cell) != position) throw std::invalid_argument("NPC target must be an integer block coordinate");
+            return *cell;
+        }
+        static void InstallNpcTerrain(World::VoxelWorld& world, const Data::Value& scene)
+        {
+            const int y = scene["floor_y"].as<int>();
+            const int radius = scene["floor_radius"].as<int>();
+            if (y < 0 || y > 250 || radius < 1 || radius > 16)
+                throw std::invalid_argument("NPC scene floor bounds are invalid");
+            for (int x = -radius; x <= radius; ++x) {
+                for (int z = -radius; z <= radius; ++z) {
+                    world.TryEdit({World::EditOperation::Set, {x, y, z}, 5});
+                    for (int height = y + 1; height <= y + 4; ++height)
+                        world.TryEdit({World::EditOperation::Remove, {x, height, z}});
+                }
+            }
+            const auto& targets = scene["targets"];
+            if (!targets.IsSequence() || targets.size() != 2) throw std::invalid_argument("NPC scene requires two targets");
+            for (std::size_t i = 0; i < targets.size(); ++i) {
+                if (!world.TryEdit({World::EditOperation::Set, SceneCell(targets[i]), 12}).Accepted())
+                    throw std::invalid_argument("NPC target lies outside the configured world");
+            }
+        }
+        static PreparedWorld PrepareWorld(World::BlockDefinition definition, const StartupOptions& options,
+                                           const Data::Value* npc_scene = nullptr)
         {
             SYMOCRAFT_PROFILE_ZONE("world.prepare");
             Generation::Settings settings;
             settings.seed = options.seed ? *options.seed :
                 options.regression_scene ? TestScene::DefaultSeed : Generation::RandomSeed();
-            auto instance = World::VoxelWorld::Create(std::move(definition), settings);
+            auto instance = World::VoxelWorld::Create(std::move(definition), settings, nullptr, npc_scene != nullptr);
             PreparedWorld world;
             world.instance = std::move(instance);
             world.report["generation"] = world.instance->Describe();
             world.report["seed_source"] = options.seed ? "explicit" : options.regression_scene ? "scene-default" : "random";
             world.report["chunks"] = world.instance->ChunkCount();
             world.report["terrain_digest"] = world.instance->Digest();
-            if (options.regression_scene) {
+            if (npc_scene) {
+                InstallNpcTerrain(*world.instance, *npc_scene);
+                world.pose = {"npc-mvp", ScenePosition((*npc_scene)["player_position"]), -90.0f, -15.0f};
+                if (options.npc_scene == "demo") {
+                    const auto& observer = (*npc_scene)["demo"];
+                    world.pose = {"npc-demo", ScenePosition(observer["observer_position"]),
+                        observer["observer_yaw"].as<float>(), observer["observer_pitch"].as<float>()};
+                }
+                world.report["scene"]["name"] = std::string(options.npc_scene);
+                world.report["scene_digest"] = world.instance->Digest();
+            } else if (options.regression_scene) {
                 TestScene::Install(*world.instance);
                 world.pose = TestScene::Checkpoint(options.checkpoint);
                 world.report["scene"] = TestScene::Describe();
@@ -126,8 +184,21 @@ namespace SymoCraft::Application {
         }
     }
 
+    struct RunContext {
+        // Destruction is reverse declaration order: brains -> session -> registry -> World.
+        std::unique_ptr<World::VoxelWorld> world;
+        std::unique_ptr<ECS::Registry> registry;
+        std::unique_ptr<Simulation::SimulationSession> session;
+        std::vector<std::unique_ptr<Simulation::NpcBrain>> brains;
+        std::optional<Simulation::AdvanceResult> last_result;
+        Simulation::PlayerPose observer;
+        ECS::EntityId player = ECS::null_entity;
+    };
+
+    void Detail::SetDemoProbe(DemoProbe probe, void* context) noexcept { demo_probe = probe; demo_context = context; }
+
     struct Application::Impl {
-        std::array<std::string, 3> option_strings;
+        std::array<std::string, 4> option_strings;
         StartupOptions options;
         Clock::time_point entry;
         std::thread::id owner = std::this_thread::get_id();
@@ -136,21 +207,80 @@ namespace SymoCraft::Application {
         std::unique_ptr<Platform::Runtime> runtime;
         std::unique_ptr<Window> window;
         std::unique_ptr<Detail::GameRenderer> renderer;
-        std::unique_ptr<World::VoxelWorld> world;
-        std::unique_ptr<ECS::Registry> registry;
-        std::unique_ptr<Simulation::SimulationSession> session;
+        std::unique_ptr<RunContext> run = std::make_unique<RunContext>();
+        std::optional<World::BlockDefinition> npc_definition;
+        std::vector<std::string> npc_tree_sources;
+        Detail::DemoControl demo;
+        Data::Value npc_config;
         std::unique_ptr<Detail::BenchmarkScenario> scenario;
         InputFrame input;
         std::vector<Simulation::PointerInput> pointers = std::vector<Simulation::PointerInput>(0);
-        std::optional<Simulation::AdvanceResult> last_result;
-        ECS::EntityId player = ECS::null_entity;
         bool initialization_started = false, initialized = false, run_started = false, shutdown_started = false;
         ShutdownReport shutdown;
         explicit Impl(const StartupOptions& value, Clock::time_point start)
-            : option_strings{std::string(value.checkpoint), std::string(value.renderer), std::string(value.profile_scenario)},
+            : option_strings{std::string(value.checkpoint), std::string(value.renderer), std::string(value.profile_scenario), std::string(value.npc_scene)},
               options(value), entry(start) {
             options.checkpoint = option_strings[0]; options.renderer = option_strings[1];
             options.profile_scenario = option_strings[2];
+            options.npc_scene = option_strings[3];
+        }
+        bool DemoMode() const noexcept { return options.npc_scene == "demo"; }
+        void AssembleRun(PreparedWorld& prepared) {
+            run->world = std::move(prepared.instance);
+            Assembled(Detail::AssemblyStage::World);
+            std::cout << "[world] summary-begin\n" << Data::DumpYaml(prepared.report) << "\n[world] summary-end" << std::endl;
+            run->registry = std::make_unique<ECS::Registry>();
+            RegisterComponents(*run->registry);
+            Assembled(Detail::AssemblyStage::Registry);
+            run->session = Simulation::SimulationSession::Create(*run->registry, *run->world,
+                {prepared.pose.position, prepared.pose.yaw, prepared.pose.pitch});
+            Assembled(Detail::AssemblyStage::Session);
+            if (npc_config.IsDefined()) {
+                const auto& npcs = npc_config["npcs"];
+                if (!npcs.IsSequence() || npcs.size() != 3) throw std::invalid_argument("NPC scene requires three entities");
+                for (std::size_t i = 0; i < npcs.size(); ++i) {
+                    if (DemoMode() && !demo.Contest() && i == 1) continue;
+                    const auto& item = npcs[i];
+                    const auto kind = item["kind"].as<std::string>();
+                    if (kind != "human" && kind != "zombie") throw std::invalid_argument("Unknown NPC kind");
+                    Simulation::NpcConfig config;
+                    config.kind = kind == "human" ? Simulation::NpcKind::Human : Simulation::NpcKind::Zombie;
+                    config.position = ScenePosition(item["position"]);
+                    if (DemoMode() && config.kind == Simulation::NpcKind::Zombie)
+                        config.position = ScenePosition(npc_config["demo"]["zombie_position"]);
+                    config.order_key = item["order"].as<std::uint64_t>();
+                    const auto entity = run->session->AddNpc(config);
+                    const auto target_index = (options.npc_scene == "contest" || (DemoMode() && demo.Contest())) ? std::size_t{0} : item["target"].as<std::size_t>();
+                    const auto target = SceneCell(npc_config["targets"][target_index]);
+                    run->brains.push_back(Simulation::NpcBrain::FromText(npc_tree_sources.at(i),
+                        item["tree_id"].as<std::string>(), entity, target, Simulation::SessionNpcGateway(*run->session, entity)));
+                }
+            }
+            run->registry->Each<const Character::PlayerComponent>([&](ECS::EntityId entity, const Character::PlayerComponent&) {
+                if (run->player != ECS::null_entity) throw std::logic_error("Application requires one assembled player");
+                run->player = entity;
+            });
+            const auto& transform = run->registry->GetComponent<Transform>(run->player);
+            run->last_result = Simulation::AdvanceResult{
+                {transform.position, transform.yaw, transform.pitch, transform.front, transform.up}, {}, {}, {}, {}};
+            run->observer = run->last_result->pose;
+            if (DemoMode()) run->session->Pause();
+        }
+        void RestartDemo(bool change_scene) {
+            // Called between frames, after every previous frame batch was committed.
+            renderer->SetCharacterInstances({});
+            renderer->ClearDemoOverlay();
+            if (run && run->world) renderer->ReleaseWorld(run->world->Identity());
+            auto fresh = std::make_unique<RunContext>();
+            run = std::move(fresh);
+            demo.Restart(change_scene);
+            auto prepared = PrepareWorld(*npc_definition, options, &npc_config);
+            AssembleRun(prepared);
+            run->world->RebuildDirtyMeshes();
+            renderer->Synchronize(*run->world);
+            Assembled(Detail::AssemblyStage::Meshes);
+            std::cout << "[demo] ready; round=" << demo.Round() << "; world=" << run->world->Identity()
+                      << "; scene=" << (demo.Contest() ? "contest" : "single") << std::endl;
         }
         void RequireThread() const {
             if (owner != std::this_thread::get_id()) throw std::logic_error("Application requires its creation thread");
@@ -182,7 +312,16 @@ namespace SymoCraft::Application {
         }
         Assembled(Detail::AssemblyStage::DebugState);
 
-        auto definition = ReadBlockDefinition();
+        if (!options.npc_scene.empty()) {
+            state.npc_config = Data::LoadYamlFile(Assets::Resolve("configs/npc_scene.yaml"));
+            const auto& npcs = state.npc_config["npcs"];
+            if (!npcs.IsSequence() || npcs.size() != 3) throw std::invalid_argument("NPC scene requires three entities");
+            for (std::size_t i = 0; i < npcs.size(); ++i) {
+                const auto bytes = Assets::ReadBytes(Assets::Resolve(npcs[i]["tree"].as<std::string>()));
+                state.npc_tree_sources.emplace_back(bytes.begin(), bytes.end());
+            }
+        }
+        auto definition = ReadBlockDefinition(!options.npc_scene.empty());
         Assembled(Detail::AssemblyStage::Definition);
 
         const auto window_mode = Detail::SelectWindowMode(options);
@@ -205,24 +344,17 @@ namespace SymoCraft::Application {
 
         definition.ValidateTextureLayers(state.renderer->LoadAtlas(Assets::Resolve("textures/texture_atlas.png")));
         Assembled(Detail::AssemblyStage::Atlas);
-        if (!state.scenario) state.window->SetCursorMode(CursorMode::Lock);
-        auto prepared = PrepareWorld(std::move(definition), options);
-        state.world = std::move(prepared.instance);
-        Assembled(Detail::AssemblyStage::World);
-        std::cout << "[world] summary-begin\n" << Data::DumpYaml(prepared.report) << "\n[world] summary-end" << std::endl;
-        state.registry = std::make_unique<ECS::Registry>();
-        RegisterComponents(*state.registry);
-        Assembled(Detail::AssemblyStage::Registry);
-        state.session = Simulation::SimulationSession::Create(*state.registry, *state.world,
-            {prepared.pose.position, prepared.pose.yaw, prepared.pose.pitch});
-        Assembled(Detail::AssemblyStage::Session);
-        state.registry->Each<const Character::PlayerComponent>([&](ECS::EntityId entity, const Character::PlayerComponent&) {
-            if (state.player != ECS::null_entity) throw std::logic_error("Application requires one assembled player");
-            state.player = entity;
-        });
-        const auto& transform = state.registry->GetComponent<Transform>(state.player);
-        state.last_result = Simulation::AdvanceResult{
-            {transform.position, transform.yaw, transform.pitch, transform.front, transform.up}, {}, {}, {}, {}};
+        if (state.DemoMode()) {
+            state.npc_definition = definition;
+            state.window->SetCursorMode(CursorMode::Normal);
+        } else if (!state.scenario) state.window->SetCursorMode(CursorMode::Lock);
+        auto prepared = PrepareWorld(std::move(definition), options, state.npc_config.IsDefined() ? &state.npc_config : nullptr);
+        state.AssembleRun(prepared);
+        if (state.npc_config.IsDefined()) {
+            state.renderer->LoadCharacter("human", Assets::Resolve("characters/human.glb"));
+            state.renderer->LoadCharacter("zombie", Assets::Resolve("characters/zombie.glb"));
+        }
+        const auto& transform = state.run->registry->GetComponent<Transform>(state.run->player);
         state.debug.Observe(Clock::now(), false, 0,
             std::array<double, 3>{transform.position.x, transform.position.y, transform.position.z}, state.debug_backend);
         SYMOCRAFT_PROFILE_APP_INFO(state.renderer->ProfilingIdentity() +
@@ -233,11 +365,11 @@ namespace SymoCraft::Application {
             std::cout << "[scenario] initial; checkpoint=" << options.checkpoint
                       << "; position=" << transform.position.x << ',' << transform.position.y << ',' << transform.position.z
                       << "; yaw=" << transform.yaw << "; pitch=" << transform.pitch
-                      << "; fov=" << state.last_result->lens.fov << std::endl;
+                      << "; fov=" << state.run->last_result->lens.fov << std::endl;
 
-        state.world->RebuildDirtyMeshes();
+        state.run->world->RebuildDirtyMeshes();
 
-        if (state.renderer->Modern()) state.renderer->Synchronize(*state.world);
+        if (state.renderer->Modern()) state.renderer->Synchronize(*state.run->world);
         Assembled(Detail::AssemblyStage::Meshes);
         state.initialized = true;
     }
@@ -250,16 +382,15 @@ namespace SymoCraft::Application {
             throw std::logic_error("Application Run requires a fresh successful assembly");
         state.run_started = true;
         auto& window = *state.window;
-        auto& world = *state.world;
         const auto& options = state.options;
         double previous_frame_time = Window::Time();
         bool paused = false, paused_minimized = false;
         unsigned rendered_frames = 0;
         std::uint64_t next_frame_id = 1;
-        std::cout << "[runtime] ready; chunks=" << world.ChunkCount()
+        std::cout << "[runtime] ready; chunks=" << state.run->world->ChunkCount()
                   << "; loading_ms=" << Milliseconds(state.entry)
-                  << "; spawn=" << state.last_result->pose.position.x << ',' << state.last_result->pose.position.y
-                  << ',' << state.last_result->pose.position.z << std::endl;
+                  << "; spawn=" << state.run->last_result->pose.position.x << ',' << state.run->last_result->pose.position.y
+                  << ',' << state.run->last_result->pose.position.z << std::endl;
         const auto scenario_start = Clock::now();
         bool scenario_completed = false;
         while (!window.ShouldClose()) {
@@ -294,15 +425,17 @@ namespace SymoCraft::Application {
                               << window.Width() << ',' << window.Height() << "; rendered_frames=" << rendered_frames << std::endl;
                 paused_minimized = window.Minimized();
                 state.input.Clear(); state.pointers.clear(); window.ResetInput();
-                state.session->Pause(); paused = true;
+                state.run->session->Pause(); paused = true;
                 state.debug.Pause();
                 previous_frame_time = current_frame_time;
                 window.WaitEvents(0.05); continue;
             }
-            if (!state.scenario && (paused || state.input.focus_lost)) {
+            bool resumed = !state.scenario && (paused || state.input.focus_lost);
+            if (resumed) {
                 state.debug.Pause();
                 state.input.Clear(); state.pointers.clear(); window.ResetInput();
-                state.session->Pause(); state.session->Resume();
+                state.run->session->Pause();
+                if (!state.DemoMode() || state.demo.Playing()) state.run->session->Resume();
                 window.CaptureInput(state.input);
                 std::cout << "[runtime] resumed; extent=" << window.Width() << ',' << window.Height()
                           << "; rendered_frames=" << rendered_frames << std::endl;
@@ -311,29 +444,91 @@ namespace SymoCraft::Application {
             const double delta = current_frame_time - previous_frame_time;
             previous_frame_time = current_frame_time;
             if (state.input.Down(Key::Escape)) { window.Close(); state.input.Clear(); break; }
-            Simulation::AdvanceInput intent;
-            if (state.scenario) {
-                const auto scenario = state.scenario->BeforeAdvance(elapsed, state.last_result->pose, world);
-                intent = scenario.input;
-
-                if (scenario.pose_override) {
-                    auto& transform = state.registry->GetComponent<Transform>(state.player);
-                    transform.position = scenario.pose_override->position;
-                    transform.yaw = scenario.pose_override->yaw;
-                    transform.pitch = scenario.pose_override->pitch;
+            if (state.DemoMode()) {
+                const auto pressed = [&](Key key) { return state.input.pressed[static_cast<std::size_t>(key)]; };
+                if (pressed(Key::E) || pressed(Key::Q)) {
+                    state.RestartDemo(pressed(Key::E));
+                    state.input.Clear(); state.pointers.clear(); window.ResetInput();
+                    resumed = true;
+                    previous_frame_time = Window::Time();
+                } else if (pressed(Key::Space)) {
+                    state.demo.Toggle();
+                    state.input.Clear(); state.pointers.clear(); window.ResetInput();
                 }
-            } else {
-                intent = MapInput(state.input);
-                state.pointers.reserve(state.input.pointer_events.size());
-                for (const auto& event : state.input.pointer_events)
-                    state.pointers.push_back({event.mouse_dx, event.mouse_dy, event.scroll_y});
+                if (state.demo.Playing() && state.run->session->State() == Simulation::SessionState::Paused) {
+                    state.run->session->Resume(); resumed = true;
+                } else if (!state.demo.Playing() && state.run->session->State() == Simulation::SessionState::Ready) {
+                    state.run->session->Pause();
+                }
             }
-            state.last_result = state.session->Advance(delta, intent, state.pointers);
-            const auto& result = *state.last_result;
-            SYMOCRAFT_PROFILE_PLOT("physics.steps [per frame]", result.statistics.physical_steps);
-            if (result.edit) world.TryEdit(*result.edit); // Ordinary edits remain after the advance.
+            auto& world = *state.run->world;
+            const bool advance = !state.DemoMode() || state.demo.Playing();
+            Simulation::AdvanceStatistics frame_statistics;
+            if (advance) {
+                Simulation::AdvanceInput intent;
+                if (state.scenario) {
+                    const auto scenario = state.scenario->BeforeAdvance(elapsed, state.run->last_result->pose, world);
+                    intent = scenario.input;
 
-            if (result.statistics.recovered) std::cout << "[runtime] returned player to safe spawn" << std::endl;
+                    if (scenario.pose_override) {
+                        auto& transform = state.run->registry->GetComponent<Transform>(state.run->player);
+                        transform.position = scenario.pose_override->position;
+                        transform.yaw = scenario.pose_override->yaw;
+                        transform.pitch = scenario.pose_override->pitch;
+                    }
+                } else if (!state.DemoMode()) {
+                    intent = MapInput(state.input);
+                    state.pointers.reserve(state.input.pointer_events.size());
+                    for (const auto& event : state.input.pointer_events)
+                        state.pointers.push_back({event.mouse_dx, event.mouse_dy, event.scroll_y});
+                }
+                if (state.DemoMode()) intent.allow_interaction = false;
+                const float effective_seconds = resumed ? 0.0f : static_cast<float>(std::min(delta, 0.1));
+                for (const auto& brain : state.run->brains) brain->Tick(effective_seconds);
+                state.run->last_result = state.run->session->Advance(delta, intent, state.pointers);
+                const auto& result = *state.run->last_result;
+                SYMOCRAFT_PROFILE_PLOT("physics.steps [per frame]", result.statistics.physical_steps);
+                if (state.npc_config.IsDefined() && !state.run->session->NpcDisplays().empty()) {
+                    state.run->session->CommitFrame(world, result);
+                    for (std::size_t i = 0; i < state.run->brains.size(); ++i) {
+                        const auto transitions = state.run->brains[i]->DrainTransitions();
+                        if (transitions.empty()) continue;
+                        const auto snapshot = state.run->brains[i]->Inspect();
+                        for (const auto& transition : transitions)
+                            std::cout << "[npc] index=" << i << "; node=" << transition.node
+                                      << "; state=" << transition.previous << "->" << transition.current << '\n';
+                        const auto& action = snapshot.npc.action;
+                        std::cout << "[npc] index=" << i << "; action=" << action.id
+                                  << "; phase=" << Simulation::ActionPhaseName(action.phase)
+                                  << "; target=" << action.target.x << ',' << action.target.y << ',' << action.target.z
+                                  << "; elapsed=" << action.elapsed_seconds << '/' << action.duration_seconds
+                                  << "; failure=" << Simulation::ActionFailureName(action.failure);
+                        for (const auto& resource : snapshot.npc.resources)
+                            std::cout << "; resource=" << resource.resource_id << ':' << resource.quantity;
+                        std::cout << '\n';
+                    }
+                } else if (result.edit) world.TryEdit(*result.edit);
+
+                frame_statistics = result.statistics;
+                if (result.statistics.recovered) std::cout << "[runtime] returned player to safe spawn" << std::endl;
+                if (state.DemoMode()) {
+                    bool finished = true;
+                    for (const auto& brain : state.run->brains) {
+                        const auto snapshot = brain->Inspect();
+                        if (snapshot.npc.kind != Simulation::NpcKind::Human) continue;
+                        const auto phase = snapshot.npc.action.phase;
+                        if ((phase != Simulation::ActionPhase::Succeeded && phase != Simulation::ActionPhase::Failed &&
+                             phase != Simulation::ActionPhase::Cancelled) ||
+                            !snapshot.idling) finished = false;
+                    }
+                    if (finished) {
+                        state.demo.Complete();
+                        state.run->session->Pause();
+                        std::cout << "[demo] completed; round=" << state.demo.Round() << std::endl;
+                    }
+                }
+            }
+            const auto& result = *state.run->last_result;
             state.input.Clear(); state.pointers.clear(); // Every consumer has finished; retain capacities.
 
             [[maybe_unused]] const auto rebuilt_chunks = world.RebuildDirtyMeshes();
@@ -341,25 +536,80 @@ namespace SymoCraft::Application {
 
             [[maybe_unused]] const auto upload = state.renderer->Synchronize(world);
             SYMOCRAFT_PROFILE_PLOT("mesh.upload [bytes per frame]", upload.bytes);
+            if (state.npc_config.IsDefined()) {
+                std::vector<Detail::CharacterInstance> characters;
+                const auto displays = state.run->session->NpcDisplays();
+                for (const auto& display : displays)
+                    characters.push_back({display.kind == Simulation::NpcKind::Human ? "human" : "zombie",
+                                          display.position - glm::vec3(0.0f, 0.9f, 0.0f), display.yaw,
+                                          display.session_id, display.advance_id, display.entity,
+                                          display.horizontal_distance, display.action});
+                state.renderer->SetCharacterInstances(characters);
+                if (state.DemoMode()) {
+                    Detail::DemoOverlayData overlay;
+                    overlay.title = state.demo.Contest() ? "HARVEST DEMO - CONTEST" : "HARVEST DEMO - SINGLE";
+                    overlay.state = Detail::DemoStateName(state.demo.State());
+                    std::size_t human = 0;
+                    for (const auto& display : displays) {
+                        if (display.kind != Simulation::NpcKind::Human) continue;
+                        const auto& action = display.action;
+                        Detail::DemoOverlayRow row;
+                        row.label = "HUMAN " + std::to_string(++human) + " - " + Simulation::ActionPhaseName(action.phase);
+                        if (action.id != 0)
+                            row.label += " TARGET " + std::to_string(action.target.x) + "," +
+                                std::to_string(action.target.y) + "," + std::to_string(action.target.z);
+                        if (std::isfinite(action.duration_seconds) && action.duration_seconds > 0 &&
+                            std::isfinite(action.elapsed_seconds) && action.elapsed_seconds >= 0 &&
+                            (action.phase == Simulation::ActionPhase::Harvesting || action.phase == Simulation::ActionPhase::Ready ||
+                             action.phase == Simulation::ActionPhase::Succeeded))
+                            row.progress = static_cast<float>(std::clamp(action.elapsed_seconds / action.duration_seconds, 0.0, 1.0));
+                        overlay.rows.push_back(std::move(row));
+                        std::string resources = "RESOURCES:";
+                        for (const auto& resource : display.resources)
+                            resources += " " + resource.resource_id + " " + std::to_string(resource.quantity);
+                        if (display.resources.empty()) resources += " NONE";
+                        if (action.failure != Simulation::ActionFailure::None)
+                            resources += std::string(" - REASON: ") + Simulation::ActionFailureName(action.failure);
+                        overlay.rows.push_back({std::move(resources), {}});
+                    }
+                    state.renderer->SetDemoOverlay(overlay);
+                }
+            }
 
             if (next_frame_id == (std::numeric_limits<std::uint64_t>::max)())
                 throw std::overflow_error("game frame identity exhausted");
-            const auto view = Simulation::DeriveView(result.pose, result.lens, window.GetAspectRatio());
-            const auto frame = state.renderer->Render(next_frame_id++, view, Selection(result));
+            auto display_lens = result.lens;
+            if (state.DemoMode()) display_lens.fov = 60.0f;
+            const auto view = Simulation::DeriveView(state.DemoMode() ? state.run->observer : result.pose,
+                display_lens, window.GetAspectRatio());
+            const auto frame_id = next_frame_id++;
+            const auto frame = state.renderer->Render(frame_id, view, state.DemoMode() ? std::nullopt : Selection(result));
             const auto present_end = Clock::now();
             if (state.renderer->Modern()) {
                 SYMOCRAFT_PROFILE_PLOT("renderer.draw [calls per frame]", frame.result.statistics.draw_calls);
                 SYMOCRAFT_PROFILE_PLOT("renderer.upload [bytes per frame]", frame.result.statistics.upload_bytes);
             }
             state.debug.Observe(present_end, frame.result.status == Rendering::FrameStatus::Presented,
-                result.statistics.physical_steps,
+                frame_statistics.physical_steps,
                 std::array<double, 3>{result.pose.position.x, result.pose.position.y, result.pose.position.z}, state.debug_backend);
 
+            if (state.DemoMode() && demo_probe) {
+                Detail::DemoSnapshot snapshot;
+                snapshot.round = state.demo.Round(); snapshot.world_id = world.Identity(); snapshot.frame_id = frame_id;
+                snapshot.state = state.demo.State(); snapshot.contest = state.demo.Contest(); snapshot.advanced = advance;
+                snapshot.session_paused = state.run->session->State() == Simulation::SessionState::Paused;
+                snapshot.statistics = frame_statistics; snapshot.player = result.pose;
+                snapshot.npcs = state.run->session->NpcDisplays();
+                const auto& targets = state.npc_config["targets"];
+                for (std::size_t i = 0; i < targets.size(); ++i)
+                    snapshot.target_blocks.push_back(world.QueryBlock(SceneCell(targets[i])).block.block_id);
+                demo_probe(demo_context, snapshot);
+            }
             ++rendered_frames;
             SYMOCRAFT_PROFILE_FRAME();
             if (options.frame_limit != 0 && rendered_frames >= options.frame_limit) window.Close();
         }
-        const auto position = state.last_result->pose.position;
+        const auto position = state.run->last_result->pose.position;
         if (!options.profile_scenario.empty())
             std::cout << "[scenario] " << (scenario_completed ? "completed" : "cancelled")
                       << "; name=" << options.profile_scenario << "; edits=" << state.scenario->AppliedEdits() << std::endl;
@@ -393,9 +643,12 @@ namespace SymoCraft::Application {
             for (auto step : {ShutdownStep::MeshBindings, ShutdownStep::Texture, ShutdownStep::Renderer})
                 report.items[static_cast<std::size_t>(step)] = renderer_report.items[static_cast<std::size_t>(step)];
         }
-        release(ShutdownStep::Simulation, state.session != nullptr, [&] { state.session.reset(); });
-        release(ShutdownStep::World, state.world != nullptr, [&] { state.world.reset(); });
-        release(ShutdownStep::Registry, state.registry != nullptr, [&] { state.registry.reset(); });
+        release(ShutdownStep::Simulation, state.run->session != nullptr, [&] {
+            state.run->brains.clear();
+            state.run->session.reset();
+        });
+        release(ShutdownStep::World, state.run->world != nullptr, [&] { state.run->world.reset(); });
+        release(ShutdownStep::Registry, state.run->registry != nullptr, [&] { state.run->registry.reset(); });
         release(ShutdownStep::RendererObject, state.renderer != nullptr, [&] { state.renderer.reset(); });
         release(ShutdownStep::Window, state.window != nullptr, [&] { state.window->Destroy(); });
         state.window.reset();

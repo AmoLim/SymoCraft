@@ -13,5 +13,6 @@
 
 # Preserve the fixed NPC runtime/importer sources and original license bytes.
 /vendor/behaviortree_cpp/** -text
+/vendor/cgltf/** -text
 /cmake/licenses/Boost-1.0-LICENSE.txt -text
 /cmake/licenses/nlohmann-json-LICENSE.txt -text

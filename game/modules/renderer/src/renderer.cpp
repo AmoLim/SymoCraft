@@ -41,6 +41,8 @@ Renderer::~Renderer() noexcept = default;
 MeshHandle Renderer::CreateMesh(const MeshData& data) { return impl_->state.CreateMesh(data); }
 void Renderer::UpdateMesh(MeshHandle handle, const MeshData& data) { impl_->state.UpdateMesh(handle, data); }
 void Renderer::DestroyMesh(MeshHandle handle) { impl_->state.DestroyMesh(handle); }
+CharacterMeshHandle Renderer::CreateCharacterMesh(const CharacterMeshData& data) { return impl_->state.CreateCharacterMesh(data); }
+void Renderer::DestroyCharacterMesh(CharacterMeshHandle handle) { impl_->state.DestroyCharacterMesh(handle); }
 TextureArrayHandle Renderer::CreateTextureArray(const TextureArrayData& data) {
     return impl_->state.CreateTextureArray(data);
 }

@@ -23,6 +23,8 @@ public:
     MeshHandle CreateMesh(const MeshData& data);
     void UpdateMesh(MeshHandle handle, const MeshData& data);
     void DestroyMesh(MeshHandle handle);
+    CharacterMeshHandle CreateCharacterMesh(const CharacterMeshData& data);
+    void DestroyCharacterMesh(CharacterMeshHandle handle);
     TextureArrayHandle CreateTextureArray(const TextureArrayData& data);
     void DestroyTextureArray(TextureArrayHandle handle);
     FrameResult Render(const FrameInput& frame);

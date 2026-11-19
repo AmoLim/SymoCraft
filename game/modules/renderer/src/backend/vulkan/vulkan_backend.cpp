@@ -122,7 +122,7 @@ struct Native {
     X(CreateSwapchainKHR) X(DestroySwapchainKHR) X(GetSwapchainImagesKHR) X(AcquireNextImageKHR) X(QueuePresentKHR) \
     X(CreateRenderPass) X(DestroyRenderPass) X(CreateFramebuffer) X(DestroyFramebuffer) \
     X(CreateDescriptorSetLayout) X(DestroyDescriptorSetLayout) X(CreatePipelineLayout) X(DestroyPipelineLayout) \
-    X(CreateShaderModule) X(DestroyShaderModule) X(CreateGraphicsPipelines) X(DestroyPipeline) \
+    X(CmdPushConstants) X(CreateShaderModule) X(DestroyShaderModule) X(CreateGraphicsPipelines) X(DestroyPipeline) \
     X(CreateDescriptorPool) X(DestroyDescriptorPool) X(AllocateDescriptorSets) X(UpdateDescriptorSets) \
     X(CmdPipelineBarrier) X(CmdCopyBufferToImage) X(CmdCopyImageToBuffer) X(CmdBeginRenderPass) X(CmdEndRenderPass) \
     X(CmdSetViewport) X(CmdSetScissor) X(CmdBindPipeline) X(CmdBindVertexBuffers) X(CmdBindDescriptorSets) \
@@ -213,6 +213,7 @@ struct Native {
         VkSemaphore acquire{};
         bool pending{};
         std::vector<std::shared_ptr<Mesh>> meshes;
+        std::vector<std::shared_ptr<Mesh>> characters;
         std::vector<std::shared_ptr<Image>> textures;
         std::shared_ptr<Buffer> selection, readback;
         std::unique_ptr<FrameBindings> bindings, selection_binding;
@@ -241,9 +242,10 @@ struct Native {
     VkRenderPass render_pass{};
     VkDescriptorSetLayout set_layout{};
     VkPipelineLayout pipeline_layout{};
-    VkPipeline blocks{}, selection{};
+    VkPipeline blocks{}, selection{}, character{};
     VkSampler sampler{};
     std::map<BackendResourceId, std::shared_ptr<Mesh>, IdLess> meshes;
+    std::map<BackendResourceId, std::shared_ptr<Mesh>, IdLess> characters;
     std::map<BackendResourceId, std::shared_ptr<Image>, IdLess> textures;
 
     Deadline Limit() const { return Clock::now() + timeout; }
@@ -466,7 +468,7 @@ struct Native {
         unsafe = false;
     }
     void RetireFrame(Frame& frame) noexcept {
-        frame.meshes.clear(); frame.textures.clear(); frame.readback.reset();
+        frame.meshes.clear(); frame.textures.clear(); frame.characters.clear(); frame.readback.reset();
     }
     void DropFrame(Frame& frame) noexcept {
         RetireFrame(frame); frame.selection.reset(); frame.bindings.reset(); frame.selection_binding.reset();
@@ -488,6 +490,7 @@ struct Native {
         }
         images.clear();
         if (blocks) DestroyPipeline(device, std::exchange(blocks, {}), nullptr);
+        if (character) DestroyPipeline(device, std::exchange(character, {}), nullptr);
         if (selection) DestroyPipeline(device, std::exchange(selection, {}), nullptr);
         if (render_pass) DestroyRenderPass(device, std::exchange(render_pass, {}), nullptr);
         if (swapchain) DestroySwapchainKHR(device, std::exchange(swapchain, {}), nullptr);
@@ -497,7 +500,7 @@ struct Native {
         if (device) {
             DestroySwapchain();
             for (auto& frame : frames) DestroyFrame(frame);
-            DestroyFrame(upload); staging.reset(); uploading.reset(); meshes.clear(); textures.clear();
+            DestroyFrame(upload); staging.reset(); uploading.reset(); meshes.clear(); textures.clear(); characters.clear();
             if (sampler) DestroySampler(device, sampler, nullptr);
             if (pipeline_layout) DestroyPipelineLayout(device, pipeline_layout, nullptr);
             if (set_layout) DestroyDescriptorSetLayout(device, set_layout, nullptr);
@@ -697,6 +700,9 @@ void Initialize(Native& n, Window& window, const RendererConfig& config, Rendere
     VkDescriptorSetLayoutCreateInfo layout{VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO}; layout.bindingCount = 3; layout.pBindings = bindings;
     Check(n.CreateDescriptorSetLayout(n.device, &layout, nullptr, &n.set_layout), "CreateSetLayout");
     VkPipelineLayoutCreateInfo pipeline{VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO}; pipeline.setLayoutCount = 1; pipeline.pSetLayouts = &n.set_layout;
+    const VkPushConstantRange character_constants{VK_SHADER_STAGE_VERTEX_BIT, 0, 64};
+    pipeline.pushConstantRangeCount = 1;
+    pipeline.pPushConstantRanges = &character_constants;
     Check(n.CreatePipelineLayout(n.device, &pipeline, nullptr, &n.pipeline_layout), "CreatePipelineLayout");
     VkSamplerCreateInfo sampler{VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO}; sampler.magFilter = sampler.minFilter = VK_FILTER_NEAREST;
     sampler.mipmapMode = VK_SAMPLER_MIPMAP_MODE_NEAREST; sampler.addressModeU = sampler.addressModeV = sampler.addressModeW = VK_SAMPLER_ADDRESS_MODE_REPEAT;
@@ -753,19 +759,21 @@ void CreatePipelines(Native& n, const std::filesystem::path& root) {
     VkRenderPassCreateInfo pass{VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO}; pass.attachmentCount = n.samples == VK_SAMPLE_COUNT_1_BIT ? 2 : 3;
     pass.pAttachments = attachments; pass.subpassCount = 1; pass.pSubpasses = &subpass; pass.dependencyCount = 1; pass.pDependencies = &dependency;
     Check(n.CreateRenderPass(n.device, &pass, nullptr, &n.render_pass), "CreateRenderPass");
-    for (const bool lines : {false, true}) {
-        const auto name = lines ? "selection" : "blocks";
+    for (const int kind : {0, 1, 2}) {
+        const bool lines = kind == 1;
+        const bool character = kind == 2;
+        const auto name = lines ? "selection" : character ? "character" : "blocks";
         Shader vs(n, root / (std::string(name) + ".vs.spv")), ps(n, root / (std::string(name) + ".ps.spv"));
         VkPipelineShaderStageCreateInfo stages[2]{};
         stages[0] = {VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO}; stages[0].stage = VK_SHADER_STAGE_VERTEX_BIT;
         stages[0].module = vs.module; stages[0].pName = "VSMain";
         stages[1] = stages[0]; stages[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT; stages[1].module = ps.module; stages[1].pName = "PSMain";
-        const VkVertexInputBindingDescription binding{0, lines ? 12u : 28u, VK_VERTEX_INPUT_RATE_VERTEX};
-        VkVertexInputAttributeDescription attributes[3]{{0, 0, lines ? VK_FORMAT_R32G32B32_SFLOAT : VK_FORMAT_R32G32B32_SINT, 0},
-            {1, 0, VK_FORMAT_R32G32B32_SFLOAT, 12}, {2, 0, VK_FORMAT_R32_SFLOAT, 24}};
+        const VkVertexInputBindingDescription binding{0, lines ? 12u : character ? 36u : 28u, VK_VERTEX_INPUT_RATE_VERTEX};
+        VkVertexInputAttributeDescription attributes[3]{{0, 0, lines || character ? VK_FORMAT_R32G32B32_SFLOAT : VK_FORMAT_R32G32B32_SINT, 0},
+            {1, 0, VK_FORMAT_R32G32B32_SFLOAT, 12}, {2, 0, character ? VK_FORMAT_R32G32B32_SFLOAT : VK_FORMAT_R32_SFLOAT, 24}};
         VkPipelineVertexInputStateCreateInfo vertex{VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO};
         vertex.vertexBindingDescriptionCount = 1; vertex.pVertexBindingDescriptions = &binding;
-        vertex.vertexAttributeDescriptionCount = lines ? 1 : 2;
+        vertex.vertexAttributeDescriptionCount = lines ? 1 : character ? 3 : 2;
 #ifdef SYMOCRAFT_VULKAN_DEBUG_ABI
         if (!lines) vertex.vertexAttributeDescriptionCount = 3;
 #endif
@@ -790,7 +798,7 @@ void CreatePipelines(Native& n, const std::filesystem::path& root) {
         create.pRasterizationState = &raster; create.pMultisampleState = &msaa; create.pDepthStencilState = &depth_state;
         create.pColorBlendState = &color_blend; create.pDynamicState = &dynamic; create.layout = n.pipeline_layout; create.renderPass = n.render_pass;
         const auto injected = n.diagnostic ? std::exchange(n.diagnostic->next_pipeline, VK_SUCCESS) : VK_SUCCESS;
-        Check(injected == VK_SUCCESS ? n.CreateGraphicsPipelines(n.device, {}, 1, &create, nullptr, lines ? &n.selection : &n.blocks)
+        Check(injected == VK_SUCCESS ? n.CreateGraphicsPipelines(n.device, {}, 1, &create, nullptr, lines ? &n.selection : character ? &n.character : &n.blocks)
                                     : injected, "CreateGraphicsPipeline");
     }
 }
@@ -983,6 +991,27 @@ public:
         Operation("UpdateMesh", [&] { auto candidate = Mesh(*data); native_->meshes.at(id).swap(candidate); });
     }
     void DestroyMesh(BackendResourceId id) override { native_->meshes.erase(id); }
+
+    void CreateCharacterMesh(BackendResourceId id, std::shared_ptr<const CharacterMeshData> data) override {
+        Operation("CreateCharacterMesh", [&] {
+            auto resource = std::make_shared<Native::Mesh>();
+            resource->vertices = static_cast<uint32_t>(data->vertices.size());
+            if (!data->vertices.empty()) {
+                resource->buffer = native_->MakeBuffer(data->vertices.size() * sizeof(CharacterVertex),
+                    VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, BufferRole::Mesh);
+                resource->buffer->Write(data->vertices.data(), data->vertices.size() * sizeof(CharacterVertex));
+            }
+            for (const auto& vertex : data->vertices)
+                for (glm::length_t axis = 0; axis < 3; ++axis)
+                    resource->maximum[axis] = std::max(resource->maximum[axis], std::abs(static_cast<double>(vertex.position[axis])));
+            if (native_->diagnostic) native_->diagnostic->last_character = resource;
+            if (!native_->characters.emplace(id, std::move(resource)).second)
+                Fail(RenderErrorCategory::InvalidHandle, "CreateCharacterMesh", "duplicate character identity");
+        });
+    }
+    void DestroyCharacterMesh(BackendResourceId id) override {
+        if (!native_->characters.erase(id)) Fail(RenderErrorCategory::InvalidHandle, "DestroyCharacterMesh", "unknown character identity");
+    }
     void CreateTextureArray(BackendResourceId id, std::shared_ptr<const TextureArrayData> data) override {
         Operation("CreateTextureArray", [&] {
             auto& n = *native_;
@@ -1058,6 +1087,7 @@ FrameResult VulkanBackend::Render(const PreparedFrame& input) {
         auto& frame = n.frames[n.next_frame];
         uint32_t index{};
         VkResult acquire{};
+        std::vector<glm::mat4> character_constants;
         {
             SYMOCRAFT_PROFILE_ZONE("vulkan.prepare_cpu");
             if (window_.Minimized() || !window_.Width() || !window_.Height()) {
@@ -1094,6 +1124,15 @@ FrameResult VulkanBackend::Render(const PreparedFrame& input) {
             n.RetireFrame(frame);
             frame.meshes.reserve(input.draws.size()); frame.textures.reserve(input.draws.size());
             const auto camera = CameraMatrix(input.camera, input.extent);
+            character_constants.reserve(input.characters.size());
+            frame.characters.reserve(input.characters.size());
+            for (const auto& draw : input.characters) {
+                auto mesh = n.characters.at(draw.mesh);
+                // The negative-height viewport already maps +Y-up clip space to the screen.
+                const auto transform = draw.screen_space ? glm::dmat4(draw.object_transform) : camera * glm::dmat4(draw.object_transform);
+                character_constants.push_back(GpuMatrix(transform, mesh->maximum));
+                frame.characters.push_back(std::move(mesh));
+            }
             const size_t draw_count = input.draws.size() + (input.selection ? 1 : 0);
             if (draw_count > UINT32_MAX / 3) Fail(RenderErrorCategory::Unsupported, "Descriptors", "frame descriptor count exceeds Vulkan range");
             const auto alignment = std::max<VkDeviceSize>(64, n.properties.limits.minUniformBufferOffsetAlignment);
@@ -1212,6 +1251,19 @@ FrameResult VulkanBackend::Render(const PreparedFrame& input) {
                     n.CmdDraw(frame.command, mesh->vertices, 1, 0, 0); ++result.statistics.draw_calls; result.statistics.drawn_vertices += mesh->vertices;
                 }
             }
+            if (!frame.characters.empty()) {
+                SYMOCRAFT_VK_REGION(n, frame.command, "characters");
+                n.CmdBindPipeline(frame.command, VK_PIPELINE_BIND_POINT_GRAPHICS, n.character);
+                for (size_t i = 0; i < frame.characters.size(); ++i) {
+                    const auto& mesh = frame.characters[i];
+                    if (!mesh->vertices) continue;
+                    n.CmdPushConstants(frame.command, n.pipeline_layout, VK_SHADER_STAGE_VERTEX_BIT, 0, 64, &character_constants[i]);
+                    n.CmdBindVertexBuffers(frame.command, 0, 1, &mesh->buffer->buffer, &offset);
+                    n.CmdDraw(frame.command, mesh->vertices, 1, 0, 0);
+                    ++result.statistics.draw_calls;
+                    result.statistics.drawn_vertices += mesh->vertices;
+                }
+            }
             if (input.selection) {
                 SYMOCRAFT_VK_REGION(n, frame.command, "selection");
                 n.CmdBindPipeline(frame.command, VK_PIPELINE_BIND_POINT_GRAPHICS, n.selection);
@@ -1253,6 +1305,8 @@ FrameResult VulkanBackend::Render(const PreparedFrame& input) {
         if (n.diagnostic && !frame.meshes.empty()) {
             n.diagnostic->frame_mesh = frame.meshes.front(); n.diagnostic->frame_texture = frame.textures.front();
         }
+        if (n.diagnostic && !frame.characters.empty())
+            n.diagnostic->frame_character = frame.characters.front();
 
         if (gated) {
             // WSI cannot wait on an unresolved host timeline dependency. Only the
