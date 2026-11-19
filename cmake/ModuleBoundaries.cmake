@@ -284,7 +284,7 @@ function(symocraft_validate_boundaries)
                         file(TO_CMAKE_PATH "${path}" path)
                     endif()
                     if(path MATCHES "/game/modules/simulation/src($|[/;>])")
-                        if(NOT (target STREQUAL "session_tests" AND relative_directory STREQUAL "test/unit/simulation" AND
+                        if(NOT ((target STREQUAL "session_tests" OR target STREQUAL "npc_tests") AND relative_directory STREQUAL "test/unit/simulation" AND
                             property STREQUAL "INCLUDE_DIRECTORIES" AND
                             path STREQUAL "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/simulation/src/diagnostics"))
                             message(FATAL_ERROR "Boundary violation: unauthorized session diagnostic include ${target}: ${path}")

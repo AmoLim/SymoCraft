@@ -1,5 +1,6 @@
 set(SYMOCRAFT_REQUIRED_ASSETS
     configs/blockFormats.yaml
+    configs/npc_blocks.yaml
     textures/texture_atlas.png
 )
 if(NOT DEFINED SYMOCRAFT_RENDER_OPENGL OR SYMOCRAFT_RENDER_OPENGL)

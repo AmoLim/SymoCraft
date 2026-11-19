@@ -2,6 +2,7 @@
 
 #include <symocraft/foundation/math.h>
 #include <symocraft/simulation/player.h>
+#include <symocraft/simulation/npc.h>
 #include <symocraft/world/world.h>
 #include <cstdint>
 #include <memory>
@@ -10,7 +11,7 @@
 #include <stdexcept>
 
 namespace SymoCraft::Simulation {
-    namespace Detail { struct SessionDiagnosticsAdapter; }
+    namespace Detail { struct SessionDiagnosticsAdapter; struct NpcDiagnosticsAdapter; }
     enum class SessionState { Ready, Paused, Failed };
     enum class AdvanceStage { Input, Character, Physics, Recovery, Interaction, Result };
     struct PointerInput { double mouse_dx{}, mouse_dy{}, scroll_y{}; };
@@ -44,6 +45,8 @@ namespace SymoCraft::Simulation {
         std::optional<SelectionHit> selection;
         std::optional<World::EditRequest> edit;
         AdvanceStatistics statistics;
+        // Opaque batch identity for the optional NPC submission path.
+        std::uint64_t frame_owner{}, frame_id{};
     };
     class Rejected : public std::runtime_error { public: using std::runtime_error::runtime_error; };
     class AdvanceFailed : public std::runtime_error {
@@ -73,11 +76,21 @@ namespace SymoCraft::Simulation {
         void Resume();
         SessionState State() const noexcept;
         PlayerView View() const;
+        ECS::EntityId AddNpc(const NpcConfig& config);
+        void RemoveNpc(ECS::EntityId entity);
+        ActionId StartHarvest(ECS::EntityId entity, World::BlockCoord target);
+        void CancelAction(ECS::EntityId entity, ActionId action);
+        NpcSnapshot InspectNpc(ECS::EntityId entity) const;
+        std::vector<NpcDisplay> NpcDisplays() const;
+        // Exactly once after an NPC-enabled Advance. Includes the original player
+        // edit first, followed by ready NPC actions in explicit scene-key order.
+        void CommitFrame(World::VoxelWorld& world, const AdvanceResult& result);
     private:
         struct Impl;
         explicit SimulationSession(std::unique_ptr<Impl> implementation);
         std::unique_ptr<Impl> impl_;
         friend struct Detail::SessionDiagnosticsAdapter;
+        friend struct Detail::NpcDiagnosticsAdapter;
     };
     // Pure view derivation: a bad ratio rejects only this request, never the session.
     PlayerView DeriveView(const PlayerPose& pose, const LensState& lens, double aspect_ratio);

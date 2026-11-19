@@ -7,6 +7,8 @@
 namespace SymoCraft::World {
     // Only test executables include this white-box adapter; production exposes no setter.
     struct WorldTestAccess {
+        static void ExhaustHarvestRevision(VoxelWorld& world, BlockCoord cell)
+        { world.impl_->cell_revisions[{cell.x, cell.y, cell.z}] = std::numeric_limits<Revision>::max(); }
         static Detail::Chunk& Chunk(VoxelWorld& world, ChunkCoord coordinate)
         {
             auto* chunk = world.impl_->Lookup(coordinate);

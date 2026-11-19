@@ -4,6 +4,7 @@ add_library(symocraft_simulation STATIC
     src/physics_system.cpp
     src/physics_adapter.cpp
     src/session.cpp
+    src/npc.cpp
     src/player.cpp
     src/playercontroller.cpp
     src/transform_system.cpp)

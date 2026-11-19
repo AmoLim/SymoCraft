@@ -48,12 +48,13 @@ namespace SymoCraft::World {
     VoxelWorld::VoxelWorld(std::unique_ptr<Impl> impl) : impl_(std::move(impl)) {}
     VoxelWorld::~VoxelWorld() = default;
     std::unique_ptr<VoxelWorld> VoxelWorld::Create(BlockDefinition definition,
-        Generation::Settings settings, Generation::Timings* timings)
+        Generation::Settings settings, Generation::Timings* timings, bool track_harvest_targets)
     {
         const Generation::Generator generator(settings);
         for (BlockId id = 1; id <= 11; ++id)
             if (!definition.Find(id)) throw std::invalid_argument("World requires a complete block definition");
         auto impl = std::make_unique<Impl>(std::move(definition), settings, NextIdentity());
+        impl->track_harvest_targets = track_harvest_targets;
         const auto start = std::chrono::steady_clock::now();
         const int radius = settings.radius;
         const auto side = static_cast<std::size_t>(radius * 2 + 1);
@@ -76,6 +77,33 @@ namespace SymoCraft::World {
     void VoxelWorld::ValidateTextureLayers(std::size_t count) const { impl_->definition.ValidateTextureLayers(count); }
     std::size_t VoxelWorld::ChunkCount() const noexcept { return impl_->chunks.size(); }
     WorldId VoxelWorld::Identity() const noexcept { return impl_->identity; }
+    std::optional<HarvestTarget> VoxelWorld::CaptureHarvestTarget(BlockCoord position) const
+    {
+        if (!impl_->track_harvest_targets) throw std::logic_error("Harvest target tracking is disabled");
+        const auto query = QueryBlock(position);
+        if (query.status != BlockQueryStatus::Found) return std::nullopt;
+        const auto rule = DescribeBlock(query.block.block_id);
+        if (!rule || !rule->harvest) return std::nullopt;
+        const auto found = impl_->cell_revisions.find({position.x, position.y, position.z});
+        const auto revision = found == impl_->cell_revisions.end() ? Revision{1} : found->second;
+        return HarvestTarget{impl_->identity, position, revision, query.block.block_id};
+    }
+    bool VoxelWorld::IsHarvestTargetValid(const HarvestTarget& target) const noexcept
+    {
+        if (!impl_->track_harvest_targets || target.world != impl_->identity) return false;
+        const auto query = QueryBlock(target.position);
+        if (query.status != BlockQueryStatus::Found || query.block.block_id != target.block_id) return false;
+        const auto found = impl_->cell_revisions.find({target.position.x, target.position.y, target.position.z});
+        return target.revision == (found == impl_->cell_revisions.end() ? Revision{1} : found->second);
+    }
+    EditResult VoxelWorld::TryHarvestRemove(const HarvestTarget& target)
+    {
+        impl_->EnsureMutable();
+        if (!IsHarvestTargetValid(target)) return {EditStatus::Rejected, EditRejection::StaleTarget};
+        const auto rule = DescribeBlock(target.block_id);
+        if (!rule || !rule->harvest) return {EditStatus::Rejected, EditRejection::StaleTarget};
+        return TryEdit({EditOperation::Remove, target.position});
+    }
     EditResult VoxelWorld::TryEdit(EditRequest request)
     {
         SYMOCRAFT_PROFILE_ZONE("world.edit");
@@ -113,6 +141,15 @@ namespace SymoCraft::World {
             if (affected[i]->mesh_input_revision == std::numeric_limits<Revision>::max())
                 throw std::overflow_error("RevisionExhausted: TryEdit mesh input at chunk " +
                     std::to_string(affected[i]->coordinate.x) + "," + std::to_string(affected[i]->coordinate.y));
+        if (impl_->track_harvest_targets) {
+            const auto key = std::tuple{position.x, position.y, position.z};
+            const auto found = impl_->cell_revisions.find(key);
+            if (found != impl_->cell_revisions.end() && found->second == std::numeric_limits<Revision>::max())
+                throw std::overflow_error("RevisionExhausted: harvest target");
+            // The only allocating step precedes all content/version writes.
+            auto [entry, inserted] = impl_->cell_revisions.try_emplace(key, Revision{1});
+            ++entry->second;
+        }
         current = candidate;
         ++chunk->content_revision;
         for (std::size_t i = 0; i < count; ++i) ++affected[i]->mesh_input_revision;
