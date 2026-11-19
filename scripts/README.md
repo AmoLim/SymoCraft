@@ -27,6 +27,44 @@ Run an entry point with `--help` for its complete parameter list. The old
 `-Executable`, `-OutputDirectory`, etc. spellings are also accepted by Python.
 The game scenario entry is `--profile-scenario static|walk|edit`; it takes one scenario per process.
 
+## NPC Behavior Authoring
+
+The NPC MVP uses BehaviorTree.CPP 4.9.0 with Groot2 FREE as an offline editor.
+Import `assets/ai/npc_nodes.xml` into Groot2 as the project's custom node models,
+then open `assets/ai/human_harvest.xml` or `assets/ai/zombie_idle.xml`. The human
+tree runs `Harvest` and remains in `Idle` after success or failure. Target ports
+`target_x`, `target_y` and `target_z` read the NPC scene's initial blackboard
+values. Keep the updated XML beside the other deployed AI assets and restart
+the game to load it. Run `--npc-scene independent` or `--npc-scene contest` with
+the selected modern renderer to inspect the configured scene.
+
+`NpcBrain::NodeModelsXml()` exports the node and typed parameter descriptions
+from the same registrations used by the runtime. When adding a capability,
+route its callbacks through the action layer, register its definition, export
+its model, then edit and run a tree that uses it. The `simulation.npc_ai` test
+exercises this extension path and the shipped models. Its executable accepts
+the asset root and an optional export path, for example
+`npc_ai_tests.exe assets assets/ai/npc_nodes.xml`, to regenerate the default
+editor model after its checks pass. Locate that executable under the chosen
+test build's `test/unit/simulation` directory and use the matching CRT setup.
+
+The explicit native regression `python test/unit/app/verify-npc-demo-renaming.py
+--build-directory <build> --output-directory <new-directory> --renderer d3d12`
+copies the built probe and its runtime assets, renames the Idle display name only
+in that copy, and checks completion, replay and scene switching in a real window.
+Use `--renderer vulkan` for the other modern backend. Build `npc_demo_probe`
+first; each run requires a new output directory and leaves existing game assets
+untouched. This window test is intentionally not an unattended CTest task.
+
+Startup validates the selected tree entry, references, supported nodes, literal
+parameters and scripts. The MVP accepts scalar arithmetic, comparison, logical
+operators and blackboard assignments. Asset limits are 64 KiB of XML, 256
+expanded nodes, depth 32 and 1024 bytes / 256 tokens per script, with at most 32
+nested parentheses or consecutive prefix operators. Loops, blocking nodes, external
+XML includes and live editor connections are outside the supported authoring
+set. State-change diagnostics identify active nodes and action results. Resource
+counts are read from the NPC's gameplay state through owned snapshots.
+
 ## Build Setup And Actions
 
 Use a complete Visual Studio 2026 C++ installation, Windows SDK, CMake 3.22+

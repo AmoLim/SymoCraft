@@ -187,6 +187,20 @@ Texture/TextureArray 具体值拥有 GL ID，禁止复制，移动转移 ID；Te
 
 Debug callback可用时启用同步诊断并屏蔽notification；回调只写stderr，不跨C边界抛异常，Free在context有效时注销。没有旧GL timer/query或NVX显存采集，顶点/上传字节/draw计数保留。AllocatedBufferBytes只代表VBO容量，不是驻留显存。Framebuffer capture读取GL_BACK RGB并写PNG，仍有原pack alignment/行翻转和部分文件边界，不冒称现代RGBA8契约。
 
+## 静态角色实例与资源寿命
+
+N3 的角色几何单独使用 `CharacterMeshData` 的 float3 位置/单位法线/RGB，36 字节顶点，不复用方块整型位置或 atlas 层号。`CreateCharacterMesh` 验证并复制 CPU 输入，通过独立带 owner/slot/generation 的类型化句柄提交。多个 `CharacterDraw` 共享一个不可变模型，只各自携带 object transform；门面在调用 backend 前验证整帧的句柄与矩阵，失效/外来句柄不会交付半帧。创建先准备 CPU 副本与空 slot，backend 成功后进行不分配的提交，失败不会发布句柄。
+
+D3D12 与 Vulkan 各有位置/法线/顶点色 pipeline，继续使用已有相机、深度/MSAA、交换链和截图路径。着色只包含不透明顶点色与基础面光照，没有纹理、骨骼、蒙皮或动画片段播放。角色在世界之后、选择框之前绘制。每个 backend 的资源表保存共享 native mesh；提交 frame slot 再保存 native shared owner，删除逻辑句柄仅使后续提交失效。在对应 fence 证明完成后才清理 slot 引用，关闭和终止保留沿用同一现有完成证明机制，不因角色显示增加逐帧 idle。
+
+[GameRenderer](../../game/app/src/game_renderer.cpp) 只在现代后端加载角色，将 model key 映射为共享部件集合。整体静态输入仍作为一个部件；分件输入为每个部件创建独立不可变 GPU 网格，保存部件名、父索引、局部绑定变换和显式关节轴。加载先准备模型槽与部件容器，全部创建成功后才发布，失败撤销已创建句柄。`SetCharacterInstances` 先完整准备新绘制列表及姿态缓存再交换，按父链组合实体根变换、部件绑定变换及绕关节轴的旋转。位置为脚底，yaw 的 XZ 朝向为 `(cos(yaw), sin(yaw))`，把 GLB 的 +Z 向前转换一次；相机与世界规则不进入 importer，网格数据不随姿态逐帧变形或上传。
+
+[程序姿态缓存](../../game/app/src/character_pose.cpp) 只消费自有中立事实。缓存按 EntityId 保存会话、本次推进、动作及对应阶段/时间/累计实际水平路程；同一组事实重复绘制保留姿态，不额外读取现实时间。移动阶段仅在真实水平路程增加时摆腿摆臂，无实际位移的新推进回到中立；采集摆臂仅由采集阶段及有效已耗时生成。动作就绪、成功、失败、取消或 Idle 均停止相应摆动，同次推进后的阶段变化也会更新缓存。新会话不会沿用旧实体姿态，实例列表不再含有的实体移除其缓存。显示不推进模拟，也不持有 ECS 组件或行为树借用。
+
+演示文字与进度条使用[内建字形](../../game/app/src/demo_overlay.cpp)生成的静态共享角色网格，不新增字体文件、贴图或通用 UI 依赖。应用提供有界纯值文本及可选的有限归一化进度；首次遇到字形才创建网格，此后仅更新逐字和矩形的绘制变换。面板随实际 extent 缩放，行文本按固定字数换行。`CharacterDraw::screen_space` 随门面的自有 `PreparedFrame` 传至双后端：屏幕绘制直接使用中立 clip-space 变换，世界角色继续乘相机；viewport 坐标转换沿各后端已有路径。面板、文字与进度使用接近近面的不同深度，复用不透明角色管线和深度测试。字形、矩形及角色部件使用同类逻辑句柄和 frame-slot 共享引用，从头演示只替换绘制值，不重置 GPU 帧号或提前退休在途网格；正常关闭统一销毁逻辑句柄并由既有后端完成机制收尾。
+
+旧 OpenGL 路径不提供角色实例或演示面板能力。CPU recording backend 的共享模型/自有数据/失效句柄测试不代表真实 GPU 绘制或在途寿命已通过；本轮结果见 [NPC change 验证](../openspec/changes/archive/2026-11-19-npc-framework-harvest-mvp/verification.md)。
+
 ## 验证边界
 
 公开消费者、门面recording backend及GLAD替身验证CPU契约；真实图形、寿命、设备移除/在途故障、截图与窗口检查使用同一生产库的明确probe，不能互相替代。旧纯性能测试退役，仍有效的帧ID、截图、输入、资产、状态和正确性等待已迁移保留。当前成绩、失败及未测项见[本change验证](../openspec/changes/integrate-renderdoc-tracy/verification.md)；历史T3/T4批准和预算保持原候选身份，不据短捕获宣布长期、其他机器或正式性能通过。

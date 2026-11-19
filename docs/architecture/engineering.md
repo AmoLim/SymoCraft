@@ -34,7 +34,8 @@ tags:
 | 模块 | 允许依赖的其他模块 |
 | --- | --- |
 | foundation | 无 |
-| scene / assets / ecs / platform / telemetry | foundation |
+| scene / ecs / platform / telemetry | foundation |
+| assets | foundation、scene（中立角色网格） |
 | world | foundation、scene |
 | physics | foundation 数学 |
 | simulation | foundation、scene、ecs、world、physics（PRIVATE） |
@@ -160,9 +161,10 @@ T3的[后端配置矩阵](E:/Codex/Worktrees/refactor-renderer/Symocraft/test/in
 ## 资源与安装
 
 - 共享 `symocraft_runtime_assets` 在每次构建检查并以 `copy_if_different` 同步两项公共资产，以及 OPENGL 启用时的四项 GLSL，多个消费者共用一份部署任务，避免并发复制。资产内容变化无需重链接 exe 才能部署；缺少源资产在加载 StageAssets 时即配置失败，复制失败由 build 反馈，不撤销已同步内容。更换后端组合使用新目录，不把旧目录残留误认作当前部署清单。
+- NPC 候选另部署场景/采集配置、两棵树、节点描述及两份 GLB；Blender 源与制作工具留在开发树。BehaviorTree.CPP 仅为 simulation 私有编译依赖，cgltf 仅由 assets 实现包含，两者不进入公开头。角色路径使用 scene 的中立 CPU 网格，不取得 renderer 或 ECS 权限。
 - 游戏及资源消费者输出到本配置的 `bin/`；运行资源根是 exe 旁的 `assets/`，不依赖当前工作目录或源码树。资产解析拒绝空路径、绝对/根路径、父目录穿越、流名及越根链接；移动运行包必须保留相邻资源。存在性检查不证明解码、配置语义、shader 或玩法正确。
 - 游戏 target 编入 [windows-utf8.manifest](../../cmake/windows-utf8.manifest)，申请 UTF-8 activeCodePage，衔接执行器 UTF-16 进程参数与游戏中的窄字符资源路径；这是限定机制，不是任意 Unicode 路径、全部第三方加载链或目标机器均已验证的保证。源码编译的 `/utf-8` 与运行时 manifest 是不同约束。
-- 安装仅选择产品、必要资源和许可通知，不安装测试/fixture、库/对象或无用资源；profiling Release仅额外携带匹配PDB与Tracy许可。D3D12 安装另含四份 DXIL；不会携带 DXC、开发 SDK、显卡驱动、Debug Layer 或 SDL DLL，目标机器仍需满足实际系统与驱动条件。
+- 安装仅选择产品、必要资源和许可通知，不安装测试/fixture、库/对象或无用资源；profiling Release仅额外携带匹配PDB与Tracy许可。每个现代后端安装六份已编译 shader（方块、选择框和角色的顶点/像素阶段）；不会携带 DXC、开发 SDK、显卡驱动、Debug Layer 或 SDL DLL，目标机器仍需满足实际系统与驱动条件。
 - Release 使用工具链对应的 app-local 可再分发 CRT。普通 Debug 不作为分发包；D3D12 Debug 候选明确安装匹配工具集的 Debug CRT 与 SDK debug UCRT，仅限本机开发诊断，不能对外再分发，缺少要求的运行库会配置失败。
 - 安装或静态 DLL/import 检查不等于干净机器运行验收。环境裁剪仍在同一开发主机，不能宣称卸载 SDK 后或新机器通过；开发 staging 也不是最终发布认证。
 

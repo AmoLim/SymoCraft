@@ -152,6 +152,16 @@ Tracy SHALL 由显式项目构建开关选择，普通 Debug/Release 默认 OFF�
 - **WHEN** 旧性能链退役后执行 world-summary、foundation 文档往返或 GPU 故障诊断，或检查独立 physics 最终依赖
 - **THEN** 原编码/加载及错误含义保持，消费者使用正式唯一适配实现，不借旧 Performance::Session；physics 与基础 foundation 的允许依赖闭包不增长，不保留 telemetry 反向充当序列化 owner
 
+### Requirement: NPC computation and presentation dependency isolation
+
+NPC 动作、AI 与 World 采集交接 SHALL 使用正式 CPU 模块，能够在无窗口、原生图形后端和外部编辑工具的配置下运行。BehaviorTree.CPP 和 cgltf 的类型 SHALL 留在各自实现边界，公开交接只使用中立数据。角色资产解析 SHALL 与 GPU 资源创建分开，renderer 不读取 World 或 ECS 私有状态。
+
+分件几何、关节和只读动作/结果交接 SHALL 继续使用自有中立值。程序姿态、演示控制和可见反馈由应用/显示组合负责，CPU 模拟不依赖其文字、窗口或图形实现；显示不可写入 World、ECS 或资源计数。
+
+#### Scenario: NPC-MVP-A20 CPU-only and public consumers
+- **WHEN** 配置 CPU-only、关闭测试或编译 NPC/角色导入的公开消费者
+- **THEN** 适用的生产 CPU 能力及分件导入可用，公开接口不传播第三方解析器、树运行库、文字显示实现或图形 SDK 类型；生产目标不依赖测试夹具或策划工具
+
 ## Rationale
 
 T0 选真实实现库、窄头视图和实图检查，目的是把职责边界变成可检出的工程约束，而非仅移动目录。scene 与 renderer 接口例外来自值契约/私有后端交接的真实需要；不为凑统一 target 形式建立空实现库。T0 不顺带替换 ECS、引入并行、动态区块或新 GPU 后端；后续已经发生的 renderer target 演进按当前源码表达，不把完成的迁移步骤重新列为待实施任务。

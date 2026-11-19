@@ -52,6 +52,8 @@ ctest --test-dir out/build/vulkan-debug --output-on-failure --no-tests=error
 
 常用参数包括 `--renderer d3d12|vulkan|opengl`、`--seed 424242`、`--check-assets` 和 `--smoke-frames 120`。资源按可执行文件位置解析，移动运行包时须保留相邻资源。
 
+NPC 采集演示使用 `./out/build/msvc51-sdk28000-debug/bin/SymoCraft.exe --npc-scene demo`；默认 D3D12，也可选择已编入的 `--renderer vulkan`。场景初始等待开始，Space 开始或暂停/继续，Q 从头重新演示，E 切换单人采集与双人争抢并回到初态，Esc 退出。画面显示动作、采集进度、真实产出和失败原因；该演示不提供拆放干预或任意时刻倒退。`--npc-scene independent` 和 `--npc-scene contest` 保留为自动运行的三 NPC 规则验证场景。
+
 独立诊断场景使用 `--profile-scenario static|walk|edit --scenario-seconds 60`，无需输出目录或外部工具；时限为1..1200秒，默认60秒。可选Tracy及外部RenderDoc操作见[工具说明](scripts/README.md#profiling-build)。旧 benchmark 产品与内部采集/导出协议已退役；旧参数明确拒绝。当前工具验证与未测限制见[change 验证记录](docs/openspec/changes/integrate-renderdoc-tracy/verification.md)。
 
 W / A / S / D 移动，左 Shift 奔跑，鼠标转动视角，滚轮调整视野，Space 接地跳跃；鼠标左键破坏、右键放置，Q / E 选择方块，Esc 退出。按住 Caps Lock 启用无重力、无碰撞调试模式，配合左 Ctrl 下降。

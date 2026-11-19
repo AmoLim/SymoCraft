@@ -18,12 +18,24 @@ T5 的 Registry 仍先于借用 Session 存活且后于它清理；ECS 结构阶
 
 ## 所有权与寿命
 
-共享RunGame入口拥有不可复制/移动的私有Application实例。Impl复制checkpoint/renderer/profile_scenario三个CLI文本值并重新绑定StartupOptions views，拥有Runtime、Window、GameRenderer、World、专属Registry、SimulationSession、可选Scenario、DebugObserver及复用输入缓冲。没有Performance::Session、输出目录或Camera实体/静态玩法owner。
+共享RunGame入口拥有不可复制/移动的私有Application实例。Impl复制checkpoint/renderer/profile_scenario/npc_scene四个CLI文本值并重新绑定StartupOptions views，拥有Runtime、Window、GameRenderer、可选Scenario、DebugObserver及复用输入缓冲。可替换的私有RunContext集中拥有本轮World、专属Registry、SimulationSession、NPC行为树及自有推进结果；没有Performance::Session、输出目录或Camera实体/静态玩法owner。
 World/Registry覆盖会话，Window覆盖GameRenderer，Runtime覆盖Window；Session只借存储，不在析构删除玩家。玩家ID仅供app场景边界覆盖姿态，运动长期权威仍是组件；镜头、预算/选材/冷却属于Session。Q01失败整体丢弃专属装配，不保证共享Registry精确回滚。
 定义在CPU预检阶段取得、atlas层验证后移动进同一VoxelWorld。PreparedWorld只交接World与自有Pose/报告，Pose名字借静态字符串。夹具、物理、射线、编辑、摘要与网格都消费同一实例。
 
 Initialize一次装配：可选Scenario→CPU定义→Runtime→指定模式Window→Renderer/atlas→World→Registry注册→Session玩家→首网格/上传；每个对象取得后立即进入成员owner。失败后不可Run或重试装配，由共享入口显式Shutdown，部分装配首诊断可保留，不宣称全字段事务。PrintWorldSummary仍不创建窗口、Renderer或CPU网格。
 Run仅在完整装配成功后一次执行；装配、模拟、缓存和关闭串行、非重入、创建线程调用。独立CPU Session可交错验证隔离，不推出多窗口、共享Registry或后台GPU调度保证。
+
+## NPC 采集演示
+
+2026-11-16 的演示实现由 `--npc-scene demo` 显式启用，默认单人完整采集，可切换双人争抢，Idle 僵尸放在侧边。原 `independent` / `contest` 入口继续用于三 NPC 规则验证。演示使用固定观察位姿和专属显示视野，输入仅控制开始、暂停/继续、从头重播及场景切换，不向玩家提交拆放或移动意图。操作见[运行说明](../../README.md#运行与操作)，行为及验收边界见 [应用规格](../openspec/specs/application-lifecycle/spec.md)。
+
+`DemoControl` 只持有应用策略，不拥有玩法状态。Ready、手动 Paused 和 Completed 均跳过树 Tick、Session Advance 和采集提交，仍在窗口可绘制时更新画面与控制；Playing 使用同一生产采集路径。手动暂停经Session Pause清除旧输入和时间债，继续时Resume使首帧规则时间为零。平台失焦/最小化策略独立生效，重新获焦不会解除手动暂停；窗口关闭仍优先。
+
+Completed 要求每名人类动作已有终态，且行为树只读快照的 `idling` 为真。该值根据实际运行的项目 Idle 节点类型和状态派生，不使用 XML 的可编辑 `name` 或诊断路径；仅重命名 Idle 不改变完成结果，其他动作也不能通过取名 `idle_after_job` 冒充 Idle。
+
+重播及切换只在帧边界替换RunContext：先清旧角色实例/反馈并显式释放旧WorldId缓存，再按行为树、Session、Registry、World的顺序结束旧轮，使用启动时缓存的树源码及方块定义装配新轮，回到Ready。它不重新读取行为树文件或复用旧动作/批次；跨替换不保留World/组件借用。Window、GameRenderer和GPU帧序列持续存活，在途网格依后端完成规则退休。新轮装配失败沿运行首错退出和部分装配清理路径处理，不恢复旧轮。一次Application仍只调用一次Run，重新演示是在该循环内替换运行上下文。
+
+动作及屏幕反馈消费提交后复制的中立值，按会话、实体和动作身份关联实际位移、有效耗时、终态与资源计数。姿态和面板不成为模拟权威；就绪与成功分开，只有真实提交完成才显示成功产出。面板的内建字形和几何留在显示组合，不向CPU模拟引入字体、窗口或GPU依赖。该控制只支持从初态重播，不含时间轴、历史恢复或历史续算。
 
 ## 帧策略与提交顺序
 
@@ -59,7 +71,7 @@ GameRenderer先置stopped，仍允许资源操作时释放cache/图集，再执�
 
 ## 稳定不变量与验证
 
-保留原Application I1-I6局部身份：I1存储覆盖借用会话（旧Camera仅兼容测试）；I2图形先于Window/context；I3 modules不包含app或查静态owner；I4 profiling场景不提交普通意图；I5生产cpp唯一owner；I6同一局部World。与renderer/T4同号身份不混淆。
+保留原Application I1-I6局部身份：I1存储覆盖借用会话（旧Camera仅兼容测试）；I2图形先于Window/context；I3 modules不包含app或查静态owner；I4 profiling场景不提交普通意图；I5生产cpp唯一owner；I6每轮使用同一局部World，替换轮次时不混用旧身份。与renderer/T4同号身份不混淆。
 缓存和 GameRenderer 原无编号约束由上述所有权、成功接受/显式释放、单次 Present、复制与转换章节维护，不新造历史验收身份。
 依据：[Application](../../game/app/src/application.cpp)、[薄main](../../game/app/src/main.cpp)、[共享入口](../../game/app/src/game_entry.cpp)、[GameRenderer](../../game/app/src/game_renderer.cpp)、[cache](../../game/app/src/world_render_cache.h)、[统计](../../game/app/src/world_render_cache.cpp)、[转换](../../game/app/src/render_conversion.cpp)、[参数](../../game/app/src/startup_options.h)、[cleanup](../../game/app/src/cleanup_sequence.h)。
 聚焦测试保cache/conversion/参数、正式Scenario/关闭报告及真实Application装配探针。T3/R4已批准，T4于2026-10-19独立获整体批准并归档；整合后的实际构建/CPU/SDL/真实后端结果只在[T4 verification](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/verification.md#2026-10-17-t3批准基线整合)，不由架构文字推定人工体验、长期资源或整体验收。

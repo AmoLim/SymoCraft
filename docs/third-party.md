@@ -17,6 +17,8 @@ tags:
 
 2026-11-02 定向更新：加入固定Tracy可选依赖及非性能YAML适配归属，撤销旧benchmark/采集链的当前构建和安装说明。历史盘点、冻结包与来源缺口保持原含义；新候选检查见integrate-renderdoc-tracy verification。
 
+2026-11-16 NPC 定向更新：加入固定 BehaviorTree.CPP 与 cgltf，Groot2 FREE 和 Blender 仅作离线资产工具。源码、CPU/现代后端构建及部署结果和 2026-11-19 用户整体验收结论见 [NPC verification](openspec/changes/archive/2026-11-19-npc-framework-harvest-mvp/verification.md)。
+
 ## 活动依赖与边界
 
 | 项目 | 当前消费者与公开边界 | 本地身份与关键影响 |
@@ -32,6 +34,8 @@ tags:
 | robin_hood | 仅 legacy renderer 的 `(program, name)` uniform location 缓存 | 本地 3.11.5；world 和当前 platform 输入已不用。未测得与标准容器等价性能，尚未替换 |
 | yaml-cpp | world配置及foundation所属独立symocraft_document_io私有文本转换，公开仅Data::Value，基础foundation/physics不反向依赖 | 本地头/源码子集没有明确版本/提交。真实实现是 vendor/yaml-cpp，不是 lib/yaml-cpp 的历史测试二进制 |
 | Tracy | 可选symocraft_profiling薄宏、唯一STATIC client，仅授权实现PRIVATE消费；独立physics/CPU-only不插桩或链接client | 官方v0.14.1，commit `30997d5ca6bb632cc10807a1da8a6d3de0aeeb3c`，本地public源码原样，BSD-3-Clause；Viewer同版，来源/摘要见cmake/licenses/SOURCES.txt。RenderDoc为外部工具，不作vendor或安装依赖 |
+| BehaviorTree.CPP | simulation 私有静态运行库，公开头仅暴露项目动作/树值；CPU-only 可运行 | 官方 4.9.0，commit `3ff6a32ba0497a08519c77a1436e3b81eff1bcd6`；本地保留上游源码及通知，窄构建不启用网络编辑器连接、日志器或外部工具。节点白名单与预算由项目适配控制 |
+| cgltf | assets 私有单头 GLB 解析，公开返回 scene 中立自有网格 | 官方 v1.15，commit `360db1a95480fe102ae9c69b27c5d101167ff5ba`；原始头和 MIT 保留，项目另校验静态格式子集及边界，不包含 GPU 能力 |
 
 SDL 仅在游戏图形配置中创建：video、桌面 GL、动态 Vulkan 桥接启用，无关子系统、shared、自测/示例与 SDL 独立安装关闭；不修改上游源码来减少文件。GL 请求及实际能力仍由真实驱动确认，glad 不提供 OpenGL 实现。
 
@@ -43,7 +47,7 @@ yaml-cpp 的已知本地修改为 T1 的 `vendor/yaml-cpp/src/stream.h`、`strea
 | --- | --- |
 | 默认游戏 / game-only | 上述游戏库含 EnTT；旧Benchmark已退役。默认 D3D12 需 Windows/D3D12/DXC 构建能力，Vulkan 显式启用，GL 为保留的过渡路径 |
 | 旧benchmark产品 | 源码/安装入口已退役，旧开启缓存选项明确配置失败，不提供兼容空产品 |
-| CPU-only | EnTT、GLM、stb 读写、yaml-cpp、FastNoiseLite；assets 的 PNG 写出也编入 CPU 模块。关闭游戏/原生后端/Tracy/注释，不配置 SDL 或编译 GL 实现。renderer API/app CPU 数据目标存在不代表 GPU 接入；仍要求 Windows x64/MSVC，不证明跨平台 |
+| CPU-only | EnTT、GLM、stb 读写、yaml-cpp、FastNoiseLite、BehaviorTree.CPP 与 cgltf；assets 的 PNG 写出及 GLB 导入也编入 CPU 模块。关闭游戏/原生后端/Tracy/注释，不配置 SDL 或编译 GL 实现。renderer API/app CPU 数据目标存在不代表 GPU 接入；仍要求 Windows x64/MSVC，不证明跨平台 |
 
 头视图仅暴露选定第三方头，不公开整个 vendor 根目录或 `.cpp`。GLM 是游戏公共数学例外；EnTT 的 typed 模板依赖为 T5 明确授权的另一窄例外，不提供 native Registry/view/ID 逃生口，其余游戏实现依赖不得泄露到公共头。静态库 PRIVATE 依赖仍可能进入最终链接闭包。
 
@@ -70,6 +74,8 @@ yaml-cpp 的已知本地修改为 T1 的 `vendor/yaml-cpp/src/stream.h`、`strea
 | SDL 内嵌代码 | libm/e_log.c（Sun Microsystems）、SDL_qsort.c（Gareth McCaughan）、SDL_strtokr.c（CC0）、SDL_rotate.c（Andreas Schiffler / SDL_gfx）、内部 stb_image.h、miniz.h（Rich Geldreich）原文件通知 | licenses/SDL3-e_log-license-source.txt、SDL3-SDL_qsort-license-source.txt、SDL3-SDL_strtokr-license-source.txt、SDL3-SDL_rotate-license-source.txt、SDL3-stb_image-license-source.txt、SDL3-miniz-license-source.txt |
 | SDL GL / Vulkan 桥接头 | SDL_opengl.h 的 Brian Paul / VMware、SDL_opengl_glext.h 的 Khronos；vk_platform.h、vulkan_win32.h 的本地 Apache-2.0 通知，不证明生产 Vulkan backend | licenses/SDL3-SDL_opengl-license-source.txt、SDL3-SDL_opengl_glext-license-source.txt、SDL3-vk_platform-license-source.txt、SDL3-vulkan_win32-license-source.txt |
 | Tracy（仅开启态） | vendor/tracy/LICENSE 原始BSD-3-Clause，SHA256 `27ab6b51e57f7e263a6e953d9c8984cd26e69d2f7606bde81e4b3048acf30732` | licenses/Tracy-LICENSE.txt |
+| cgltf | vendor/cgltf/LICENSE 原始 MIT，来源/固定提交见同目录 SOURCE.txt | licenses/cgltf-LICENSE.txt |
+| BehaviorTree.CPP 及嵌入组件 | 上游 MIT、TinyXML2 zlib、minicoro MIT；保留实际使用的 json/magic_enum/any/expected/shared_library 头通知，另带完整 Boost 1.0 与 nlohmann JSON MIT | licenses/BehaviorTree.CPP-LICENSE.txt、BehaviorTree.CPP-tinyxml2-LICENSE.txt、BehaviorTree.CPP-minicoro-LICENSE.txt、BehaviorTree.CPP-*-license-source.txt、Boost-1.0-LICENSE.txt、nlohmann-json-LICENSE.txt |
 | 来源记录 | cmake/licenses/SOURCES.txt（2026-10-09），区分官方许可来源与未解 vendor 身份 | licenses/SOURCES.txt |
 
 游戏开启Tracy时额外安装其原许可；profiling Release带匹配PDB，不安装Viewer或RenderDoc。旧benchmark安装入口已退役。既有通知/来源缺口不因退役或工具接入自动解决，公开发行仍须按实际产物核对完整通知与运行条件，不能由本机安装成功推定干净机通过。

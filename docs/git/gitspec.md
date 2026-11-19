@@ -75,7 +75,7 @@ tags:
 | `test/unit/simulation/CMakeLists.txt` | N1：simulation.npc；N2：simulation.npc_ai |
 | `game/app/CMakeLists.txt` | N2：BehaviorTree/补充许可部署；N3：角色数据 target、cgltf 许可；通用 UCRT 修改始终不提交 |
 
-## 确认后的执行与保护
+## 已确认的执行与保护
 
 1. 再次核对分支、原提交/父提交及其他未提交内容；先生成并核验原 NPC 提交的本地恢复 bundle，保存在 out。确认可恢复后才改动分支历史。
 2. 采用保留工作区的 mixed reset 撤回顶端原提交，回到 `a6620be9`。不使用 hard reset、clean、覆盖检出或逆向应用补丁；恢复 bundle 和 reflog 保留原提交。
@@ -96,3 +96,19 @@ tags:
 本轮分步验证和提交按下表执行，实际完成结果在第 4 笔提交前登记；没有结果的检查不记为通过。
 
 既有完整构建矩阵、CPU/正式 World/物理、双后端 native、Groot2 实际编辑往返、V2 和整体验收，见[归档 verification](../openspec/changes/archive/2026-11-19-npc-framework-harvest-mvp/verification.md)。此前结果保留原候选与日期，不直接充当拆分后各中间提交的验证；未覆盖的长期、性能、其他机器和干净机范围不因重组提交关闭。
+
+## 本批执行结果
+
+原提交已先生成并通过本地 bundle 核验，再以 mixed reset 撤回到约定父提交；工作文件未回退，UCRT 修改仍按原字节保留。恢复包位于 `out/npc-demo-recheck/git-split-execution-20261119/original-feat-npc.bundle`，不加入提交。
+
+| 步骤 | 本地提交 | 独立候选树实际检查 |
+| --- | --- | --- |
+| N1 | `af659297cea7a1419bc05f893ef9e1fab9f043f2` | CPU-only Debug 全部目标构建成功，相关 CTest 27/27，通过 NPC/World、Session、物理、公开头与负向边界 |
+| N2 | `11c1fe71b3e9e38226271d134957306e77248e23` | 同一独立源目录仅增加 N2 候选文件后构建成功，相关 CTest 29/29；不含 N3 文件 |
+| N3 | `22a084268ace6f4493f31da65d9774396e59a363` | 独立候选的 D3D12/Vulkan/保留 GL Debug 构建成功，相关 CTest 14/14；安装成功，两现代后端非 GPU 资产预检通过；NPC 配置/树/GLB、角色 shader 和许可逐字节核对通过 |
+
+上述每一步的源目录均逐文件核对为当步准确暂存树，验证与结果留在 out，不使用完整工作区的后续文件补齐中间提交。第 4 笔承载原有规格、归档和本 gitspec 的执行结果，最终提交 SHA 由完成报告给出。
+
+本轮准备恢复包时首次使用的裸 SHA 范围被 Git 拒绝为空 bundle，改为显式 HEAD 后备份成功；副本检查发现导出过程的换行转换，已仅在 out 副本中恢复原 blob 字节并重新核对。两者均发生在相关提交之前，没有修改用户生产文件。第三方和许可原有空白不重写，按原提交 blob 核对；项目自有差异执行空白检查。没有重复执行 GPU 窗口、人工体验、完整多配置或性能采样。
+
+第 4 笔候选已通过全部主规格 validate（14/14），8 份增量中的 21 条要求逐条一致，14 份归档文件、17/17 任务及 105 处归档链接核对通过。保留短 Purpose、既有长要求等校验提示；本轮没有重跑全库文档审计，原记录的 36 项旧问题不宣称关闭。暂存内容、独立副本和最终合成树经核对，除本 gitspec 更新外与原 NPC 提交逐文件 blob 一致；原有 UCRT 修改未纳入提交。
