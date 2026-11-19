@@ -1,6 +1,9 @@
 set(SYMOCRAFT_REQUIRED_ASSETS
     configs/blockFormats.yaml
     configs/npc_blocks.yaml
+    ai/human_harvest.xml
+    ai/zombie_idle.xml
+    ai/npc_nodes.xml
     textures/texture_atlas.png
 )
 if(NOT DEFINED SYMOCRAFT_RENDER_OPENGL OR SYMOCRAFT_RENDER_OPENGL)

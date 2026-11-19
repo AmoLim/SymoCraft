@@ -1,0 +1,10 @@
+<root BTCPP_format="4">
+    <TreeNodesModel>
+        <Action ID="Harvest">
+            <input_port name="target_x" type="int">Target block X</input_port>
+            <input_port name="target_y" type="int">Target block Y</input_port>
+            <input_port name="target_z" type="int">Target block Z</input_port>
+        </Action>
+        <Action ID="Idle"/>
+    </TreeNodesModel>
+</root>

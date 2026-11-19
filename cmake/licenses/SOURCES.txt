@@ -59,3 +59,23 @@ Local vendor/tracy contains all 88 public/ files plus the original LICENSE,
 89 files total, copied byte-for-byte without patches. Only public/TracyClient.cpp
 is compiled by symocraft_tracy_client. Viewer must match v0.14.1 and is not installed
 with the game. The original LICENSE is deployed when profiling is enabled.
+
+BehaviorTree.CPP (added 2026-11-16):
+Fixed official v4.9.0, commit 3ff6a32ba0497a08519c77a1436e3b81eff1bcd6 (MIT).
+https://codeload.github.com/BehaviorTree/BehaviorTree.CPP/zip/3ff6a32ba0497a08519c77a1436e3b81eff1bcd6
+Local vendor/behaviortree_cpp retains the upstream source and SYMOCRAFT_SOURCE.txt.
+The offline CPU target compiles core/actions/controls/decorators, tinyxml2 and
+minicoro; loggers, ZeroMQ, SQLite, Flatbuffers and minitrace are not compiled.
+The original main MIT, tinyxml2 and minicoro notices are installed verbatim.
+Embedded contributor license notices in the compiled contrib headers and
+shared-library wrapper sources are conservatively installed as original complete
+license-source files; they are not runtime SDKs or a claim that every contributor
+object is selected by the final static link.
+
+BehaviorTree embedded contributor full license supplements:
+Boost-1.0-LICENSE.txt is the official Boost Software License 1.0 text used by
+contrib/any.hpp, contrib/expected.hpp and the shared-library wrapper notices:
+https://raw.githubusercontent.com/boostorg/boost/boost-1.86.0/LICENSE_1_0.txt
+nlohmann-json-LICENSE.txt is the official v3.11.3 complete MIT license; the
+vendored json.hpp identifies v3.11.3 and retains its SPDX copyright notices:
+https://raw.githubusercontent.com/nlohmann/json/v3.11.3/LICENSE.MIT

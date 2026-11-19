@@ -1,4 +1,7 @@
 symocraft_test_executable(player_math_tests player_math_tests.cpp symocraft_simulation)
+symocraft_test_executable(npc_ai_tests npc_ai_tests.cpp symocraft_simulation)
+add_test(NAME simulation.npc_ai COMMAND npc_ai_tests "${SYMOCRAFT_REPOSITORY_ROOT}/assets")
+set_tests_properties(simulation.npc_ai PROPERTIES TIMEOUT 60)
 symocraft_test_executable(npc_tests npc_tests.cpp symocraft_simulation)
 target_include_directories(npc_tests PRIVATE
     "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/simulation/src/diagnostics")

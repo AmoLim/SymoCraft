@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<root BTCPP_format="4" main_tree_to_execute="HumanHarvest">
+  <BehaviorTree ID="HumanHarvest">
+    <Sequence name="human_job">
+      <ForceSuccess>
+        <Harvest name="harvest_target" target_x="{target_x}" target_y="{target_y}" target_z="{target_z}"/>
+      </ForceSuccess>
+      <Idle name="idle_after_job"/>
+    </Sequence>
+  </BehaviorTree>
+</root>
