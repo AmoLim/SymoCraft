@@ -22,7 +22,13 @@ namespace SymoCraft::World {
     enum class EditOperation { Set, Remove };
     struct EditRequest { EditOperation operation; BlockCoord position; BlockId id{}; };
     enum class EditStatus { Rejected, Unchanged, Changed };
-    enum class EditRejection { None, OutsideWorld, UnknownBlockId };
+    enum class EditRejection { None, OutsideWorld, UnknownBlockId, StaleTarget };
+    struct HarvestTarget {
+        WorldId world;
+        BlockCoord position;
+        Revision revision;
+        BlockId block_id;
+    };
     struct EditResult {
         EditStatus status;
         EditRejection rejection = EditRejection::None;
@@ -43,7 +49,8 @@ namespace SymoCraft::World {
     class VoxelWorld {
     public:
         static std::unique_ptr<VoxelWorld> Create(BlockDefinition definition,
-            Generation::Settings settings, Generation::Timings* timings = nullptr);
+            Generation::Settings settings, Generation::Timings* timings = nullptr,
+            bool track_harvest_targets = false);
         ~VoxelWorld();
         VoxelWorld(const VoxelWorld&) = delete;
         VoxelWorld& operator=(const VoxelWorld&) = delete;
@@ -53,6 +60,9 @@ namespace SymoCraft::World {
         std::optional<BlockDefinitionEntry> DescribeBlock(BlockId id) const;
         std::optional<BlockId> FindBlockId(std::string_view name) const;
         EditResult TryEdit(EditRequest request);
+        std::optional<HarvestTarget> CaptureHarvestTarget(BlockCoord position) const;
+        bool IsHarvestTargetValid(const HarvestTarget& target) const noexcept;
+        EditResult TryHarvestRemove(const HarvestTarget& target);
         std::size_t RebuildDirtyMeshes();
         // Borrow only inside the callback; modifying/re-entering this world is rejected.
         void VisitMeshes(const std::function<void(const WorldMeshRecord&)>& visitor) const;

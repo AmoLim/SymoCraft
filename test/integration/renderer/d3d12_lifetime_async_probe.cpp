@@ -113,6 +113,12 @@ struct Scene {
     MeshData mesh;
     TextureArrayHandle tex;
     MeshHandle handle;
+    CharacterMeshHandle character;
+    static CharacterMeshData Character() {
+        return {{{{0.8f,-0.5f,-2}, {0,0,1}, {0.1f,0.8f,0.2f}},
+                 {{1.4f,-0.5f,-2}, {0,0,1}, {0.1f,0.8f,0.2f}},
+                 {{1.1f,0.5f,-2}, {0,0,1}, {0.1f,0.8f,0.2f}}}};
+    }
     std::uint64_t next_id = 1;
     std::filesystem::path output;
     static RendererConfig Config(const std::filesystem::path& shaders) {
@@ -130,11 +136,13 @@ struct Scene {
         texture.width = texture.height = texture.layers = 1; texture.pixels = {230, 20, 40, 255};
         mesh.vertices = {{{-1,-1,-2},{0,0,0},1.0f}, {{1,-1,-2},{1,0,0},1.0f}, {{0,1,-2},{0.5f,1,0},1.0f}};
         tex = renderer.CreateTextureArray(texture); handle = renderer.CreateMesh(mesh);
+        character = renderer.CreateCharacterMesh(Character());
     }
     FrameResult Draw(bool screenshot = false, bool empty = false) {
         const std::array draws{MeshDraw{handle, tex}};
         FrameInput frame; frame.frame_id = next_id++; frame.request_screenshot = screenshot;
-        if (!empty) frame.draws = draws;
+        const std::array characters{CharacterDraw{character}, CharacterDraw{character}};
+        if (!empty) { frame.draws = draws; frame.characters = characters; }
         auto result = renderer.Render(frame);
         Require(result.frame_id == frame.frame_id && result.status == FrameStatus::Presented, "Draw not actually presented");
         return result;
@@ -147,7 +155,7 @@ struct Scene {
     }
     void DrainSlots() { for (int i = 0; i < 4; ++i) { Draw(false, true); Await(*d); } }
     void Finish(Value& report) {
-        renderer.DestroyMesh(handle); renderer.DestroyTextureArray(tex);
+        renderer.DestroyMesh(handle); renderer.DestroyTextureArray(tex); renderer.DestroyCharacterMesh(character);
         renderer.Shutdown(); renderer.Shutdown();
         Require(d->live_resource_bytes == 0 && d->mesh_buffers_created == d->mesh_buffers_released &&
                 d->textures_created == d->textures_released && d->native_cleared && !d->quarantined,
@@ -171,11 +179,14 @@ void Run(Scene& s, Value& report) {
         for (int step = 0; step < 3; ++step) {
             s.renderer.UpdateMesh(s.handle, s.mesh);
             const auto old_mesh = s.d->last_mesh, old_texture = s.d->last_texture;
+            const auto old_character = s.d->last_character;
             Value event; event["step"] = step;
             {
                 Gate gate(*s.d); s.Draw(); Pending(*s.d, gate);
                 Require(!old_mesh.expired() && s.d->frame_mesh.lock() == old_mesh.lock(), "Native frame did not retain accepted mesh");
                 Require(s.d->frame_texture.lock() == old_texture.lock(), "Native frame did not retain accepted texture");
+                Require(!old_character.expired() && s.d->frame_character.lock() == old_character.lock(),
+                        "Native frame did not retain shared character model");
                 const auto live = s.d->live_resource_bytes;
                 s.d->next_mesh_allocation_result = E_OUTOFMEMORY;
                 Reject(RenderErrorCategory::AllocationFailure, [&] { s.renderer.UpdateMesh(s.handle, s.mesh); });
@@ -190,13 +201,17 @@ void Run(Scene& s, Value& report) {
                 } else if (step == 1) s.renderer.UpdateMesh(s.handle, {});
                 else {
                     s.renderer.DestroyMesh(s.handle); s.renderer.DestroyTextureArray(s.tex);
+                    s.renderer.DestroyCharacterMesh(s.character);
+                    Reject(RenderErrorCategory::InvalidHandle, [&] { s.renderer.DestroyCharacterMesh(s.character); });
                     Reject(RenderErrorCategory::InvalidHandle, [&] { s.renderer.UpdateMesh(s.handle, s.mesh); });
                 }
                 std::vector<MeshHandle> capacity;
                 for (int i = 0; i < 48; ++i) capacity.push_back(s.renderer.CreateMesh(s.mesh));
                 for (auto h : capacity) s.renderer.DestroyMesh(h);
                 Pending(*s.d, gate);
-                Require(!old_mesh.expired() && !old_texture.expired(), "In-flight native resource was released early");
+                Require(!old_mesh.expired() && !old_texture.expired() && !old_character.expired(),
+                        "In-flight native resource or character was released early");
+                event["character_retained_while_pending"] = true;
                 event["pending_submit_fence"] = s.d->last_signal;
                 event["completed_before_release"] = s.d->completion->GetCompletedValue();
                 event["gate_before_release"] = gate.fence->GetCompletedValue();
@@ -206,10 +221,12 @@ void Run(Scene& s, Value& report) {
             }
             s.DrainSlots();
             Require(old_mesh.expired() && (step != 2 || old_texture.expired()), "Completed native version not retired after slot reuse");
+            if (step == 2) Require(old_character.expired(), "Completed deleted character not retired after slot reuse");
             event["old_mesh_retired"] = true; event["deleted_texture_retired"] = step == 2;
+            event["deleted_character_retired"] = step == 2;
             const auto cleared = s.Capture("after-"+std::to_string(step), step == 2);
             Require(cleared != baseline, "Actual update/empty/destroy did not clear old image");
-            if (step == 2) { s.tex = s.renderer.CreateTextureArray(s.texture); s.handle = s.renderer.CreateMesh(s.mesh); }
+            if (step == 2) { s.tex = s.renderer.CreateTextureArray(s.texture); s.handle = s.renderer.CreateMesh(s.mesh); s.character = s.renderer.CreateCharacterMesh(Scene::Character()); }
             else s.renderer.UpdateMesh(s.handle, s.mesh);
             Require(s.Capture("restored-"+std::to_string(step)) == baseline, "Restored native content changed");
             events.push_back(std::move(event));

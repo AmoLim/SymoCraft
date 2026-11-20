@@ -85,6 +85,7 @@ struct VulkanDiagnosticAccess {
     std::function<void(VulkanDiagnosticAccess&)> on_initialized;
     std::weak_ptr<void> last_mesh, last_texture;
     std::weak_ptr<void> frame_mesh, frame_texture;
+    std::weak_ptr<void> last_character, frame_character;
     unsigned buffers_created{}, buffers_released{}, images_created{}, images_released{};
     unsigned submit_attempts{}, successful_submits{}, present_calls{}, warnings{}, errors{};
     std::uint64_t live_bytes{}, peak_bytes{};

@@ -15,6 +15,7 @@ namespace SymoCraft {
         bool test_edits = false;
         std::string_view checkpoint = "spawn";
         std::string_view profile_scenario;
+        std::string_view npc_scene;
         unsigned scenario_seconds = 60;
         unsigned width = 1920, height = 1080;
         bool vsync = false;
@@ -29,7 +30,7 @@ namespace SymoCraft {
         "Usage: SymoCraft [--check-assets [--renderer opengl|d3d12|vulkan] | "
         "[--renderer opengl|d3d12|vulkan] [--msaa 1|2|4|8|16|32] [--validation 0|1] "
         "[--seed 0..4294967295] "
-        "[--scene terrain|regression] [--checkpoint NAME] [--test-edits] "
+        "[--scene terrain|regression] [--checkpoint NAME] [--test-edits] [--npc-scene independent|contest|demo] "
         "[--world-summary | --smoke-frames 1..10000]] or "
         "SymoCraft --profile-scenario static|walk|edit [--scenario-seconds 1..1200] [--seed N] "
         "[--renderer opengl|d3d12|vulkan] [--msaa 1|2|4|8|16|32] [--validation 0|1] "

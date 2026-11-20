@@ -1,11 +1,11 @@
-add_subdirectory(physics)
-
 add_library(symocraft_simulation STATIC
     src/Camera.cpp
     src/character_system.cpp
     src/physics_system.cpp
     src/physics_adapter.cpp
     src/session.cpp
+    src/npc.cpp
+    src/npc_ai.cpp
     src/player.cpp
     src/playercontroller.cpp
     src/transform_system.cpp)
@@ -14,6 +14,9 @@ target_include_directories(symocraft_simulation PUBLIC include PRIVATE src)
 target_link_libraries(symocraft_simulation
     PUBLIC symocraft_foundation symocraft_scene symocraft_ecs symocraft_world)
 target_link_libraries(symocraft_simulation PRIVATE symocraft_physics)
+target_link_libraries(symocraft_simulation PRIVATE symocraft_behaviortree)
+target_include_directories(symocraft_simulation PRIVATE
+    "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/behaviortree_cpp/3rdparty/tinyxml2")
 if(MSVC)
     target_compile_options(symocraft_simulation PRIVATE /W4 /utf-8)
 endif()

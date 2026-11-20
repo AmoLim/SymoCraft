@@ -4,6 +4,10 @@ symocraft_test_executable(world_contract_tests world_contract_tests.cpp symocraf
 symocraft_test_executable(world_allocation_tests world_allocation_tests.cpp symocraft_world)
 target_link_libraries(world_allocation_tests PRIVATE dbghelp)
 symocraft_test_executable(world_cost_probe world_cost_probe.cpp symocraft_world)
+symocraft_test_executable(world_harvest_tests harvest_tests.cpp symocraft_world)
+target_include_directories(world_harvest_tests PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/world/src")
+add_test(NAME world.harvest COMMAND world_harvest_tests "${SYMOCRAFT_REPOSITORY_ROOT}/assets/configs/blockFormats.yaml")
+set_tests_properties(world.harvest PROPERTIES TIMEOUT 60)
 foreach(target IN ITEMS mesh_safety_tests world_generation_tests world_contract_tests world_allocation_tests world_cost_probe)
     # White-box adapters inspect the production owner's private data, never a shadow library.
     target_include_directories(${target} PRIVATE "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/world/src")

@@ -7,7 +7,7 @@ tags:
 
 ## 边界与权威
 
-`symocraft_assets` 提供以可执行文件为根的资源定位、自有字节/CPU 图片解码与 PNG 写入，不解释方块规则、持有 GPU 或改变 CWD。Windows 路径实现、stb decoder/writer 私有，公开依赖 foundation；边界见 [module-boundaries](../openspec/specs/module-boundaries/spec.md)。GPU 接受/截图值与生命周期由 [renderer spec](../openspec/specs/renderer/spec.md) 管理。
+`symocraft_assets` 提供以可执行文件为根的资源定位、自有字节/CPU 图片解码、PNG 写入与角色 GLB 的静态/刚性分件导入，不解释方块规则、持有 GPU 或改变 CWD。Windows 路径实现、stb 与 cgltf 私有，公开依赖 foundation 与 scene 的中立 CPU 网格；边界见 [module-boundaries](../openspec/specs/module-boundaries/spec.md)。GPU 接受/截图值与生命周期由 [renderer spec](../openspec/specs/renderer/spec.md) 管理。
 实现入口：[CMake](../../game/modules/assets/CMakeLists.txt)、[路径](../../game/modules/assets/src/asset_paths.cpp)、[解码](../../game/modules/assets/src/image.cpp)、[写入](../../game/modules/assets/src/image_write.cpp)、[公开头](../../game/modules/assets/include/symocraft/assets)。
 
 ## 路径与完整读取
@@ -48,3 +48,17 @@ Image 复制深复制字节；标准移动后的源只有效但状态未指定�
 没有共享缓存、异步任务/取消或完整并发/重入承诺；线程翻转隔离不证明同路径读写、全部解码故障或 OOM 已专项验证。资源规模/复制瓶颈需测量，不从值语义宣称性能优化。
 [asset_paths_tests](../../test/unit/assets/asset_paths_tests.cpp) 核对 CWD 无关/搬迁包和非法路径；[image_tests](../../test/unit/assets/image_tests.cpp) 核对通道/翻转；[image_write_tests](../../test/unit/assets/image_write_tests.cpp) 覆盖 1..4 通道、写入翻转隔离、尺寸与文件失败。存在测试不等于本轮重跑，Unicode 路径探针也不覆盖任意旧游戏 loader。
 历史成绩及点时身份从 [VERIFICATION](../verification/VERIFICATION.md) 进入；本轮只有源码/文档核对，未运行图片、安装包、GPU 或分配故障验收。
+
+## 角色导入、刚性分件与 Blender 交付
+
+[LoadCharacter](../../game/modules/assets/src/character.cpp) 在 CPU 上私有使用固定 cgltf v1.15，将自包含 GLB 转成 [CharacterMeshData](../../game/modules/scene/include/symocraft/scene/character_mesh.h) 的自有浮点三角形。输入文件字节和 cgltf 对象仅活到本次调用结束；返回网格不借解析器、文件或 GPU。调用失败具名报告路径与原因，不返回半成品。
+
+支持 POSITION、NORMAL、COLOR_0，颜色三或四分量，alpha 必须为 1；有索引时展开为完整三角形。完整绑定姿态的 `vertices` 保留原静态路径：node 的仿射变换烘焙到位置，逆转置变换并归一化法线，负行列式调整绕序。验证缓冲区/accessor 边界、索引范围、有限值与颜色范围；文件上限 64 MiB，accessor 与最终展开网格上限各 1,048,576 个顶点，节点上限 128。所有节点（含辅助节点和父节点）在计算世界变换前校验有限、仿射、非奇异及无环。外部缓冲、材质/纹理、透明、稀疏、压缩、蒙皮、形态目标、动画及 required extensions 具名拒绝。这是受限角色格式入口，不是通用 glTF 场景加载器。
+
+GLB 根空节点 `symocraft_rigid_v1` 显式启用分件契约；无该标记的静态输入仍返回完整网格和空 `parts`。分件模型必须恰有具名的 `body`、`head`、`left_arm`、`right_arm`、`left_leg`、`right_leg` 六个网格，拒绝缺件、同名和未归属网格。`CharacterPart` 持有自有局部顶点、名称、最近部件父索引与局部绑定变换。非部件祖先的变换折入对应绑定变换，保留部件间层级；折算后的矩阵再次校验。分件当前拒绝世界变换反射，整体静态输入仍保留负行列式绕序支持。
+
+各部件的局部原点是显式 pivot，随模型返回零 `pivot`；其直接空子节点 `<部件名>_axis` 的非零平移向量明确旋转轴，不能带旋转、缩放、网格或子节点。导入检查该节点唯一、归属正确、方向有限且长度非零，再归一化保存 `rotation_axis`。肩和髋位置由 Blender 中设定的部件原点决定，不依据顶点或包围盒猜测。模型数据同时保留静态绑定三角形与部件局部三角形；返回后不借解析器，失败时整个局部候选销毁。姿态生成和 GPU 所有权属于 app/renderer，导入器不推进动作或保存每个 NPC 的姿态。
+
+[human.blend](../../assets/characters/human.blend) 与 [zombie.blend](../../assets/characters/zombie.blend) 保留可编辑顶点色及硬边模型，对应 GLB 是 Blender 实际导出。源模型按米建模，原点位于脚底，Blender Z 向上、-Y 向前；GLB 导出为 +Y 向上、+Z 向前。编辑时保留分面的 NORMAL、活动 Color 属性及不透明颜色，不加材质/贴图、rig 或动画。导出选择 GLB、+Y Up、Normals、Active vertex colors、无 materials/skins/morph/animations。2026-11-16 扩展后的模型保留六个身体网格和明确肩髋原点；脸、眼睛和头发仅合并到头部，随后随头部刚性运动。躯干挂在标记根下，头和四肢挂在躯干下，各有显式轴向空节点。网格仍无蒙皮或动画片段，简单动作由消费端程序旋转实现；原静态候选验证仅覆盖当时范围，扩展行为见 [角色资产规格](../openspec/specs/character-assets/spec.md)。
+
+[scripts/create-character-fixtures.py](../../scripts/create-character-fixtures.py) 记录现有两份模型的可重复创建/导出方法，用 Blender 4.5.16 LTS 的 `blender.exe --background --factory-startup --python scripts/create-character-fixtures.py` 执行；它会覆盖这两组源与导出文件，仅在明确要重建夹具时运行。Blender 是离线资产工具，不随游戏安装或参与 CPU/GPU 运行依赖。`assets.character_import` 通过生产入口读取两份实际 GLB，核对坐标、颜色、硬边法线、自有寿命、分件层级和肩髋轴，以及缺失/重复部件、零轴、奇异/非有限变换、循环层级、节点超限及静态兼容；执行结论仍归本 change 的 verification。

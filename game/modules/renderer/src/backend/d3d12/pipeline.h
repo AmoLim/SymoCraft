@@ -13,6 +13,7 @@ struct PipelineSet {
     Microsoft::WRL::ComPtr<ID3D12RootSignature> root_signature;
     Microsoft::WRL::ComPtr<ID3D12PipelineState> mesh;
     Microsoft::WRL::ComPtr<ID3D12PipelineState> selection;
+    Microsoft::WRL::ComPtr<ID3D12PipelineState> character;
 };
 
 // Root slot 0 is a column-major MVP (16 constants, b0); slot 1 is t0.

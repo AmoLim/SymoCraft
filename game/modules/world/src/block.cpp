@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <array>
 #include <limits>
+#include <cmath>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -71,6 +72,19 @@ namespace SymoCraft::World {
                     node["isBlendable"].IsDefined() && node["isBlendable"].as<bool>(),
                     node["isLightSource"].IsDefined() && node["isLightSource"].as<bool>(),
                     node["light_level"].IsDefined() ? node["light_level"].as<int16>() : int16{0}};
+                if (const auto harvest = node["harvest"]; harvest.IsDefined()) {
+                    if (!harvest.IsMap()) throw std::runtime_error("Invalid harvest rule: " + name);
+                    const auto seconds = harvest["seconds"].as<double>();
+                    const auto resource = harvest["resource"].as<std::string>();
+                    const auto quantity_text = harvest["quantity"].as<std::string>();
+                    if (!std::isfinite(seconds) || seconds <= 0 || resource.empty() ||
+                        quantity_text.empty() || quantity_text.find_first_not_of("0123456789") != std::string::npos)
+                        throw std::runtime_error("Invalid harvest parameters: " + name);
+                    const auto quantity = harvest["quantity"].as<std::uint64_t>();
+                    if (quantity == 0 || id == 1)
+                        throw std::runtime_error("Invalid harvest yield: " + name);
+                    entry.harvest = HarvestRule{seconds, resource, quantity};
+                }
                 storage->rules.emplace_back(static_cast<BlockId>(id), entry);
                 storage->names.emplace_back(name, static_cast<BlockId>(id));
             }

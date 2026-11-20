@@ -144,9 +144,17 @@ void Facade(const std::string& mode,const std::filesystem::path& output,Value& r
     const auto info=r.GetInfo(); Require(info.device_name.find("RTX 5070 Ti")!=std::string::npos&&info.validation_enabled,"wrong actual device/validation");
     report["device"]=info.device_name; report["identity"]=info.device_identity; report["driver"]=info.driver_version;
     auto mesh=r.CreateMesh(Quad()); auto texture=r.CreateTextureArray(Texture());
+    CharacterMeshHandle character;
+    std::vector<CharacterDraw> characters;
+    if (mode=="lifetime") {
+        CharacterMeshData model{{{{0.8f,-0.5f,0}, {0,0,1}, {0.1f,0.8f,0.2f}},
+            {{1.4f,-0.5f,0}, {0,0,1}, {0.1f,0.8f,0.2f}}, {{1.1f,0.5f,0}, {0,0,1}, {0.1f,0.8f,0.2f}}}};
+        character=r.CreateCharacterMesh(model);
+        characters={{character},{character}};
+    }
     std::uint64_t id=1; std::vector<MeshDraw> draws{{mesh,texture}};
     auto frame=[&](bool screenshot=false) {
-        owner.window->PollInt(); FrameInput input; input.frame_id=id++; input.camera.position={0,0,5}; input.draws=draws; input.request_screenshot=screenshot;
+        owner.window->PollInt(); FrameInput input; input.frame_id=id++; input.camera.position={0,0,5}; input.draws=draws; input.characters=characters; input.request_screenshot=screenshot;
         auto result=r.Render(input);
         Require(result.status==FrameStatus::Presented || (d->deferred_present_pending&&result.status==FrameStatus::Skipped&&result.skip_reason==FrameSkipReason::Occluded),"native frame was not presented or explicitly deferred"); return result;
     };
@@ -159,6 +167,9 @@ void Facade(const std::string& mode,const std::filesystem::path& output,Value& r
         for(unsigned step=0;step<3;++step) {
             Gate gate(*d); const auto before=Clock::now(); frame();
             const auto old_mesh=d->frame_mesh,old_texture=d->frame_texture;
+            const auto old_character=d->last_character;
+            Require(!old_character.expired() && old_character.lock()==d->frame_character.lock(),
+                    "frame did not retain the shared character model");
             Require(gate.Status()==VK_NOT_READY&&gate.Counter()==0,"GPU already complete before mutation");
             const auto buffers=d->buffers_released,images=d->images_released;
             if(step==0) {
@@ -166,12 +177,13 @@ void Facade(const std::string& mode,const std::filesystem::path& output,Value& r
                 Require(old_mesh.owner_before(d->last_mesh)||d->last_mesh.owner_before(old_mesh),"update overwrote rather than replaced native version");
             }
             if(step==1) r.UpdateMesh(mesh,{});
-            if(step==2) { r.DestroyMesh(mesh); r.DestroyTextureArray(texture); }
+            if(step==2) { r.DestroyMesh(mesh); r.DestroyTextureArray(texture); r.DestroyCharacterMesh(character); }
             std::vector<MeshHandle> capacity;
             for(unsigned i=0;i<48;++i)capacity.push_back(r.CreateMesh(Quad(0,i+1)));
             for(auto h:capacity)r.DestroyMesh(h);
-            Require(!old_mesh.expired()&&!old_texture.expired()&&gate.Status()==VK_NOT_READY&&gate.Counter()==0,"in-flight native version released before completion");
+            Require(!old_mesh.expired()&&!old_texture.expired()&&!old_character.expired()&&gate.Status()==VK_NOT_READY&&gate.Counter()==0,"in-flight native version released before completion");
             Value row; row["step"]=step; row["fence_before_and_after_mutation"]=int(VK_NOT_READY);
+            row["character_retained_while_pending"]=true;
             row["old_mesh_retained"]=true; row["old_texture_retained"]=true; row["buffers_released_before"]=buffers;
             row["timeline_before_and_after_mutation"]=0;
             row["diagnostic_deferred_present"]=true;
@@ -180,11 +192,14 @@ void Facade(const std::string& mode,const std::filesystem::path& output,Value& r
             if(step==2) {
                 Expect([&]{r.DestroyMesh(mesh);},RenderErrorCategory::InvalidHandle);
                 Expect([&]{r.DestroyTextureArray(texture);},RenderErrorCategory::InvalidHandle);
-                draws.clear();
+                Expect([&]{r.DestroyCharacterMesh(character);},RenderErrorCategory::InvalidHandle);
+                draws.clear(); characters.clear();
             }
             for(int i=0;i<3;++i)frame();
             Require(old_mesh.expired(),"completed old mesh version was not retired on slot reuse");
             if(step==2)Require(old_texture.expired(),"completed deleted texture was not retired");
+            if(step==2)Require(old_character.expired(),"completed deleted character was not retired");
+            row["deleted_character_retired"]=step==2;
             row["old_mesh_retired"]=true; row["deleted_texture_retired"]=step==2;
             row["elapsed_ms"]=std::chrono::duration<double,std::milli>(Clock::now()-before).count(); report["events"].push_back(row);
             if(step==0)Require(capture("updated")!=original,"updated texture layer not visible");

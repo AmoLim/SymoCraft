@@ -30,9 +30,19 @@ public:
         BackendResourceId id;
         std::shared_ptr<const TextureArrayData> data;
     };
+    struct CharacterReservation {
+        CharacterMeshHandle handle;
+        BackendResourceId id;
+        std::shared_ptr<const CharacterMeshData> data;
+    };
 
     MeshReservation PrepareMesh(const MeshData& data);
     TextureReservation PrepareTexture(const TextureArrayData& data);
+    CharacterReservation PrepareCharacter(const CharacterMeshData& data);
+    void Commit(const CharacterReservation& reservation) noexcept;
+    BackendResourceId Id(CharacterMeshHandle handle) const;
+    std::shared_ptr<const CharacterMeshData> CharacterMesh(CharacterMeshHandle handle) const;
+    void DestroyCharacter(CharacterMeshHandle handle) noexcept;
     void Commit(const MeshReservation& reservation) noexcept;
     void Commit(const TextureReservation& reservation) noexcept;
     void ReplaceMesh(MeshHandle handle, std::shared_ptr<const MeshData> data,
@@ -65,6 +75,7 @@ private:
     const std::uint64_t identity_;
     std::vector<Slot<MeshData>> meshes_;
     std::vector<Slot<TextureArrayData>> textures_;
+    std::vector<Slot<CharacterMeshData>> characters_;
 };
 
 } // namespace SymoCraft::Rendering::Detail

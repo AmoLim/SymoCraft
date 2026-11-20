@@ -10,3 +10,8 @@ add_test(NAME assets.image_decode COMMAND image_tests "${SYMOCRAFT_REPOSITORY_RO
 symocraft_test_executable(image_write_tests image_write_tests.cpp symocraft_assets)
 add_test(NAME assets.image_write COMMAND image_write_tests)
 set_tests_properties(assets.image_write PROPERTIES TIMEOUT 45)
+symocraft_test_executable(character_tests character_tests.cpp symocraft_assets)
+add_test(NAME assets.character_import COMMAND character_tests
+    "${SYMOCRAFT_REPOSITORY_ROOT}/assets/characters/human.glb"
+    "${SYMOCRAFT_REPOSITORY_ROOT}/assets/characters/zombie.glb")
+set_tests_properties(assets.character_import PROPERTIES TIMEOUT 45)

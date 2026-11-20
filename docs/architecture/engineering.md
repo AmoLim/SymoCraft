@@ -25,7 +25,7 @@ tags:
 
 ## 生产所有权与依赖
 
-目录是所有权边界，CMake target 是可验证的编译与链接边界。`game/modules/` 的九模块拥有各自实现；`game/app/` 拥有启动、转接及应用编排；旧独立benchmark已退役；统一测试位于 `test/`。
+目录是所有权边界，CMake target 是可验证的编译与链接边界。`game/modules/` 的十个业务模块（含正式 physics）拥有各自实现；`game/app/` 拥有启动、转接及应用编排；旧独立benchmark已退役；统一测试位于 `test/`。
 
 除 scene 值类型目标、renderer 的两个明确接口目标及下述窄 profiling 宏适配外，生产模块使用拥有真实实现的 STATIC target。公开头只通过所属目标的窄 `include/` 根提供，不能依赖全仓库、整个 vendor 或其他模块的 `src/` 搜索路径。
 
@@ -34,15 +34,19 @@ tags:
 | 模块 | 允许依赖的其他模块 |
 | --- | --- |
 | foundation | 无 |
-| scene / assets / ecs / platform / telemetry | foundation |
+| scene / ecs / platform / telemetry | foundation |
+| assets | foundation、scene（中立角色网格） |
 | world | foundation、scene |
-| simulation | foundation、scene、ecs、world |
+| physics | foundation 数学 |
+| simulation | foundation、scene、ecs、world、physics（PRIVATE） |
 | renderer | foundation、scene、assets、platform |
-| app | 上述生产模块 |
+| app | 除 physics 外的上述生产模块 |
 
 N1 增加两项受控编译适配：`symocraft_document_io` 属 foundation，但独立私有消费 YAML，基础 foundation/physics 不反向依赖；`symocraft_profiling` 无业务依赖，仅授权 app/world/simulation/renderer 的实现 PRIVATE 消费。两者不改变原业务依赖方向，旧benchmark产品及专属协议已按准确清单授权退役。
 
-simulation内部真实STATIC `symocraft_physics`不增加正式第十模块，只依赖foundation/math，有独立simulation/physics/include和src；生产只允许simulation直接PRIVATE链接，不直接取得目录/发布私有头。传递闭包/唯一源owner/窄include/反向私有引用由边界检查约束，根测试链接正式库。T4 E候选已接通核心/Session，旧physics_system只留适配；BUILD_TESTING=OFF仍构建同一实现。2026-10-19后续源码同步已将该实现带入F主工作区，不产生Git历史合并。
+正式 `symocraft_physics` STATIC target 由 [game/modules/physics](../../game/modules/physics/CMakeLists.txt) 唯一拥有，在 foundation 之后、simulation 之前注册；核心只依赖标准库与 foundation 数学，公开根为模块自身 `include`，私有实现为 `src`。旧 `simulation/physics` 不保留活动 target、转发头或算法副本。生产仅 simulation 可直接 PRIVATE 链接，根测试通过公开接口链接同一库；最终游戏经 simulation 的静态链接闭包取得实现，不因此获得 app 直接链接或包含 physics 头的权限。
+
+边界检查继续核对唯一源码 owner、窄 include、依赖闭包和反向私有访问，并拒绝以 alias 或生成器表达式绕过消费方限制；physics 不取得 simulation include/src、World/ECS、图形 SDK、profiling/Tracy 或 document_io/YAML。固定步预算、ECS 有序遍历、World 查询适配与逐实体成功后提交仍归 simulation，`BUILD_TESTING=OFF` 继续构建同一物理实现。本工作树已于 2026-11-16 独立验收通过，迁移及未覆盖边界见 [promote-physics-module](../openspec/changes/archive/2026-11-16-promote-physics-module/proposal.md)，T4 当时的交付与 A23 后续不适用结论保持原义。
 
 T4 E候选以真实STATIC symocraft_application唯一拥有Application/GameRenderer/RunGame，SymoCraft只编薄main；symocraft_app_runtime为兼容旧T3探针的target别名而非第二实现库。2026-10-17已整合上游T3提交604c2b58；native生命周期及原生故障探针链接同一生产库，测试显式取得各自所需中立公开依赖，不将整个app依赖改为PUBLIC或复制生产cpp。Session只读诊断仅授权根session_tests的diagnostics窄私有根，不PUBLIC传播或开放整个src；旧telemetry导出probe随产品退役；foundation文件发布API与专属测试已按追加清单退役；Fix1因能力退役取消归档，其历史记录和诊断现场保留。
 
@@ -157,9 +161,10 @@ T3的[后端配置矩阵](E:/Codex/Worktrees/refactor-renderer/Symocraft/test/in
 ## 资源与安装
 
 - 共享 `symocraft_runtime_assets` 在每次构建检查并以 `copy_if_different` 同步两项公共资产，以及 OPENGL 启用时的四项 GLSL，多个消费者共用一份部署任务，避免并发复制。资产内容变化无需重链接 exe 才能部署；缺少源资产在加载 StageAssets 时即配置失败，复制失败由 build 反馈，不撤销已同步内容。更换后端组合使用新目录，不把旧目录残留误认作当前部署清单。
+- NPC 候选另部署场景/采集配置、两棵树、节点描述及两份 GLB；Blender 源与制作工具留在开发树。BehaviorTree.CPP 仅为 simulation 私有编译依赖，cgltf 仅由 assets 实现包含，两者不进入公开头。角色路径使用 scene 的中立 CPU 网格，不取得 renderer 或 ECS 权限。
 - 游戏及资源消费者输出到本配置的 `bin/`；运行资源根是 exe 旁的 `assets/`，不依赖当前工作目录或源码树。资产解析拒绝空路径、绝对/根路径、父目录穿越、流名及越根链接；移动运行包必须保留相邻资源。存在性检查不证明解码、配置语义、shader 或玩法正确。
 - 游戏 target 编入 [windows-utf8.manifest](../../cmake/windows-utf8.manifest)，申请 UTF-8 activeCodePage，衔接执行器 UTF-16 进程参数与游戏中的窄字符资源路径；这是限定机制，不是任意 Unicode 路径、全部第三方加载链或目标机器均已验证的保证。源码编译的 `/utf-8` 与运行时 manifest 是不同约束。
-- 安装仅选择产品、必要资源和许可通知，不安装测试/fixture、库/对象或无用资源；profiling Release仅额外携带匹配PDB与Tracy许可。D3D12 安装另含四份 DXIL；不会携带 DXC、开发 SDK、显卡驱动、Debug Layer 或 SDL DLL，目标机器仍需满足实际系统与驱动条件。
+- 安装仅选择产品、必要资源和许可通知，不安装测试/fixture、库/对象或无用资源；profiling Release仅额外携带匹配PDB与Tracy许可。每个现代后端安装六份已编译 shader（方块、选择框和角色的顶点/像素阶段）；不会携带 DXC、开发 SDK、显卡驱动、Debug Layer 或 SDL DLL，目标机器仍需满足实际系统与驱动条件。
 - Release 使用工具链对应的 app-local 可再分发 CRT。普通 Debug 不作为分发包；D3D12 Debug 候选明确安装匹配工具集的 Debug CRT 与 SDK debug UCRT，仅限本机开发诊断，不能对外再分发，缺少要求的运行库会配置失败。
 - 安装或静态 DLL/import 检查不等于干净机器运行验收。环境裁剪仍在同一开发主机，不能宣称卸载 SDK 后或新机器通过；开发 staging 也不是最终发布认证。
 

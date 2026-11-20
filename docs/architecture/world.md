@@ -7,8 +7,8 @@ tags:
 
 ## 边界与权威
 
-`symocraft_world` 拥有固定有限世界、定义、确定性生成、受控编辑及 CPU 网格；不持有 Registry、Window、GPU、telemetry 会话或 app 配置。公开值/坐标/编辑/版本/发布及 D01–D09 已选理由以 [world spec](../openspec/specs/world/spec.md) 为唯一权威，本文只解释实现正确性所依赖的机制。
-公开 foundation/scene，YAML/noise 私有；[CMake](../../game/modules/world/CMakeLists.txt)、[world.h](../../game/modules/world/include/symocraft/world/world.h)、[私有 owner](../../game/modules/world/src/world_internal.h) 是核对入口。现代缓存/上传属于 app/[renderer](renderer.md)，独立 Session/physics 的 [T4 目标](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/proposal.md) 尚未实现，不改变本模块当前寿命。
+`symocraft_world` 拥有固定有限世界、定义、确定性生成、受控编辑及 CPU 网格；不持有 Registry、Window、GPU、telemetry 会话或 app 配置。公开值/坐标/编辑/版本/发布及采集行为以 [world spec](../openspec/specs/world/spec.md) 为权威。本文只解释实现正确性所依赖的机制，验证与批准由对应记录维护。
+公开 foundation/scene，YAML/noise 私有；[CMake](../../game/modules/world/CMakeLists.txt)、[world.h](../../game/modules/world/include/symocraft/world/world.h)、[私有 owner](../../game/modules/world/src/world_internal.h) 是核对入口。现代缓存/上传属于 app/[renderer](renderer.md)，已实现的独立 Session 只借用 World；正式 physics 经 simulation 的同步只读查询适配访问地形，不改变本模块寿命。T4 历史目标与当时验证仍见[归档](../openspec/changes/archive/2026-10-19-m3-t4-application-simulation/proposal.md)。
 
 ## 实例、定义与存储
 
@@ -19,6 +19,18 @@ Impl 持自有定义、const 实际 Settings/WorldId、按 x 外层 z 内层排�
 每 Chunk 独占 16×16×256 个完整初始化 Block 的连续 AoS 与最终 MeshData；索引 `(y*16+x)*16+z` 仅用于已检查内部坐标，无逐格堆对象或可公开 resize/free 入口。当前 Block 四个 16 位字段为 8 字节：ID、光强、压缩色和 flags。ID 0 是域外内部哨兵，1 是合法空气；材料三个位与其余保留位分开，普通 Block 相等**只比 ID**，不能用于完整内容变化判断。光色当前先转整数再乘 7 的量化风险保留，不借重构宣称修复光照。
 
 定义私有存储为按 ID 排序规则 vector、按名称排序的自有字符串 vector，lower_bound 查询返回 optional **副本**。解析完成候选后才发布，拒绝非法/重复 ID/名称并检查必需映射/uint16 纹理层；运行中无公开热替换。拷贝深复制，copy assignment 先复制再 swap，失败保原目标；移动源可空，缺失查询为空，但纹理校验拒绝空源。规则解析/名称分配是冷路径；实际 atlas 层数校验不由配置解析替代。
+
+## 采集规则与单格目标标识（Q01）
+
+`BlockDefinitionEntry::harvest` 是可选自有 `HarvestRule`，保存 `base_seconds`、`resource_id` 和 uint64 `quantity`。YAML 的 `harvest: {seconds, resource, quantity}` 在定义候选发布前校验耗时有限且正、资源 ID 有效和数量为正整数；缺失字段表示不可采集，原定义仍可加载。World 仅持有规则与方块事实；有效耗时、实体资源计数和成功终态属于 simulation，不在 World 记第二份账。
+
+Q01-A 由 `Create(..., timings, track_harvest_targets=false)` 的显式装配开关选择稀疏单格版本。默认关闭保持既有非 NPC 调用方；NPC 场景启用后存续期间不切换。私有 `map<(x,y,z), Revision>` 只为发生真实内容变化的格分配条目，未记录格版本为 1；工厂生成不创建逐格表。条目保留至 World 销毁，版本不回绕、不因移除或原位重建复用。
+
+`CaptureHarvestTarget` 只读取可采集格，返回拥有值 `{WorldId, BlockCoord, Revision, BlockId}`；关闭跟踪时拒绝捕获，域外或无规则时返回空。捕获/有效性查询不插入表项。`IsHarvestTargetValid` 核对同 World、同坐标当前方块及单格版本；同种方块移除后重放也使旧 token 失效，无变化编辑和其他格编辑保留 token，区块 content/mesh-input revision 不参与目标身份。
+
+启用跟踪后，所有 `TryEdit` 的 Changed 路径都先检查目标单格、content 和受影响 mesh-input 版本耗尽，再准备缺失 map 条目；分配失败不写内容或推进版本。准备完成后发布单格版本、Block 与区块版本，不在发布中分配。`TryHarvestRemove` 在同一个串行编辑边界先检查重入 guard，再复核 token 和采集规则；过期返回 `Rejected/StaleTarget`，有效时复用正式 `TryEdit(Remove)`。本入口不接受实体指针、不执行入账回调，也不承诺跨 World/实体的事务；S1 排序和 F1 入账准备由 [Session 帧提交](simulation.md#npc-帧提交与-s1f1)完成。
+
+依据：[定义接口](../../game/modules/world/include/symocraft/world/block_definition.h)、[World 编辑与目标校验](../../game/modules/world/src/world.cpp)、[私有单格表](../../game/modules/world/src/world_internal.h)。单格身份/规则/故障覆盖与玩法提交覆盖分别保留在 World 和 simulation 的正式库测试，结论见 [NPC 变更验证](../openspec/changes/archive/2026-11-19-npc-framework-harvest-mvp/verification.md)。
 
 ## 编辑与版本提交
 

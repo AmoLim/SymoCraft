@@ -1,5 +1,6 @@
 include_guard(GLOBAL)
 include("${CMAKE_CURRENT_LIST_DIR}/ThirdPartyHeaders.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/ThirdPartyBehaviorTree.cmake")
 
 symocraft_header_view(symocraft_math glm)
 add_library(glm::glm ALIAS symocraft_math)

@@ -10,7 +10,7 @@ Symocraft 是面向 Windows x64 的 C++20 单机体素游戏工程，关注基�
 
 - 固定 441 区块世界，包含噪声地形、植被、角色运动与碰撞、方块选择、放置和破坏。
 - 显式 seed、回归场景、checkpoint、世界摘要及固定启动编辑序列。
-- 九个生产模块与私有应用组合根；World、SimulationSession 及 simulation 内部独立物理核心支持不依赖窗口和图形 SDK 的 CPU-only 构建。
+- 十个生产模块与私有应用组合根；World、SimulationSession 及独立 physics 模块支持不依赖窗口和图形 SDK 的 CPU-only 构建。
 - 轻量 FPS、帧间隔、实际物理 TPS、坐标及后端快照；可选 Tracy CPU 时间线与原生图形注释。
 - 独立 static / walk / edit 游戏诊断场景，支持外部 RenderDoc 捕获两现代后端。
 
@@ -52,6 +52,8 @@ ctest --test-dir out/build/vulkan-debug --output-on-failure --no-tests=error
 
 常用参数包括 `--renderer d3d12|vulkan|opengl`、`--seed 424242`、`--check-assets` 和 `--smoke-frames 120`。资源按可执行文件位置解析，移动运行包时须保留相邻资源。
 
+NPC 采集演示使用 `./out/build/msvc51-sdk28000-debug/bin/SymoCraft.exe --npc-scene demo`；默认 D3D12，也可选择已编入的 `--renderer vulkan`。场景初始等待开始，Space 开始或暂停/继续，Q 从头重新演示，E 切换单人采集与双人争抢并回到初态，Esc 退出。画面显示动作、采集进度、真实产出和失败原因；该演示不提供拆放干预或任意时刻倒退。`--npc-scene independent` 和 `--npc-scene contest` 保留为自动运行的三 NPC 规则验证场景。
+
 独立诊断场景使用 `--profile-scenario static|walk|edit --scenario-seconds 60`，无需输出目录或外部工具；时限为1..1200秒，默认60秒。可选Tracy及外部RenderDoc操作见[工具说明](scripts/README.md#profiling-build)。旧 benchmark 产品与内部采集/导出协议已退役；旧参数明确拒绝。当前工具验证与未测限制见[change 验证记录](docs/openspec/changes/integrate-renderdoc-tracy/verification.md)。
 
 W / A / S / D 移动，左 Shift 奔跑，鼠标转动视角，滚轮调整视野，Space 接地跳跃；鼠标左键破坏、右键放置，Q / E 选择方块，Esc 退出。按住 Caps Lock 启用无重力、无碰撞调试模式，配合左 Ctrl 下降。
@@ -72,6 +74,6 @@ W / A / S / D 移动，左 Shift 奔跑，鼠标转动视角，滚轮调整视�
 
 ## 后续方向
 
-T4/T5 迁移已经交付并同步主工作区；后续按独立授权开展性能、长时稳定性与独立部署验证，正式 physics 模块搬迁仍是 NPC 复用前的独立节点。
+T4/T5 迁移已经交付并同步主工作区；后续按独立授权开展性能、长时稳定性与独立部署验证。正式 physics 模块已在本工作树迁至 `game/modules/physics`，已于 2026-11-16 通过[独立验收](docs/openspec/changes/archive/2026-11-16-promote-physics-module/verification.md)，该交付的 physics 复用前置已满足；主工作区实际接入仍需生产代码传播。
 
 下一玩法阶段优先形成 **NPC 实体 → NPC AI → 村落演化** 的可观察闭环。Micro voxel 仅作为角色外表的构建方向，基础方块世界保持不变。独立计算服务与渲染客户端属于长期演进方向；存档、联网、区块流式加载及完整生存系统不计入当前已交付能力。

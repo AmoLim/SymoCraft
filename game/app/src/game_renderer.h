@@ -6,8 +6,11 @@
 #include <iosfwd>
 #include <memory>
 #include <optional>
+#include <span>
 #include <string>
 #include "shutdown_report.h"
+#include "character_pose.h"
+#include "demo_overlay.h"
 
 namespace SymoCraft {
 class Camera;
@@ -20,6 +23,16 @@ namespace Simulation { struct PlayerView; }
 namespace Application::Detail {
 struct MeshUpload {
     std::uint64_t bytes{}, calls{};
+};
+
+struct CharacterInstance {
+    std::string model;
+    glm::vec3 position{0.0f};
+    float yaw_degrees{};
+    std::uint64_t session_id{}, advance_id{};
+    ECS::EntityId entity;
+    double horizontal_distance{};
+    Simulation::ActionSnapshot action;
 };
 
 struct GameFrame {
@@ -42,6 +55,10 @@ public:
     Rendering::Backend Backend() const noexcept;
     std::string ProfilingIdentity() const;
     std::uint16_t LoadAtlas(const std::filesystem::path& path);
+    void LoadCharacter(const std::string& model, const std::filesystem::path& path);
+    void SetCharacterInstances(std::span<const CharacterInstance> instances);
+    void SetDemoOverlay(const DemoOverlayData& overlay);
+    void ClearDemoOverlay();
     MeshUpload Synchronize(const World::VoxelWorld& world);
     void ReleaseWorld(std::uint64_t identity);
     void Resize();

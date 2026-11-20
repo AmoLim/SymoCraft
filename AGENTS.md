@@ -5,8 +5,9 @@ Windows x64 single-player voxel game, using C++20, MSVC, CMake/Ninja and SDL3.
 The default game renderer is D3D12. Vulkan is an explicit opt-in backend;
 legacy OpenGL 4.6 remains a transition path. Accepted T4/T5 production sources are
 synchronized to the main checkout, including the EnTT typed ECS facade,
-SimulationSession and the independent CPU target under simulation/physics;
-a formal top-level physics module is still deferred.
+SimulationSession and the independent CPU physics target. In this worktree its
+formal owner is game/modules/physics; the migration was accepted on 2026-11-16.
+Main-checkout production propagation remains separate.
 
 ## Build And Run
 Use an initialized x64 Visual Studio 2026 developer terminal with MSVC tools
@@ -80,7 +81,8 @@ Every proposing or materially revising Agent, including delegated Agents, must:
 Commit, push, merge, PR, tags and history rewrites require current authorization;
 old batch approvals never carry forward. Create `docs/git/gitspec.md` only for an
 authorized current commit batch, replacing rather than appending old batch history.
-There is no active Git batch during this migration; old gitspec is a review copy.
+The currently authorized batch is recorded in docs/git/gitspec.md; old batch
+approvals do not carry forward.
 Group complete intentions and dependencies, not folders or arbitrary counts.
 Inspect the exact staged diff; do not blindly stage the whole worktree or include
 new concurrent changes. Keep user changes and secrets/private state protected.

@@ -7,14 +7,25 @@
 #include <symocraft/simulation/physics_system.h>
 #include <symocraft/simulation/player_math.h>
 #include "physics_adapter.h"
+#include "npc_runtime.h"
 #include "diagnostics/session_diagnostics.h"
+#include "diagnostics/npc_diagnostics.h"
 #include <algorithm>
+#include <atomic>
 #include <cmath>
 #include <exception>
 #include <limits>
 
 namespace SymoCraft::Simulation {
     namespace {
+        std::uint64_t NextSessionIdentity() {
+            static std::atomic<std::uint64_t> next{1};
+            auto value = next.load(std::memory_order_relaxed);
+            do {
+                if (value == (std::numeric_limits<std::uint64_t>::max)()) throw Rejected("Session identity exhausted");
+            } while (!next.compare_exchange_weak(value, value + 1, std::memory_order_relaxed));
+            return value;
+        }
         void CheckPointer(double value) {
             if (!std::isfinite(value) || std::abs(value) > (std::numeric_limits<float>::max)())
                 throw Rejected("Advance: pointer value is not finite/float-representable");
@@ -41,6 +52,11 @@ namespace SymoCraft::Simulation {
         float edit_cooldown = 0;
         SessionState state = SessionState::Ready;
         bool resume_pending = false;
+        std::unique_ptr<Detail::NpcRuntime> npcs;
+        std::uint64_t identity = NextSessionIdentity();
+        std::uint64_t frame_id{};
+        bool pending_frame = false;
+        std::optional<World::EditRequest> pending_edit;
 
         Impl(ECS::Registry& storage, const World::VoxelWorld& terrain, ECS::EntityId entity)
             : registry(storage), world(terrain), player(entity) {}
@@ -80,6 +96,66 @@ namespace SymoCraft::Simulation {
         return std::unique_ptr<SimulationSession>(new SimulationSession(std::move(implementation)));
     }
     SessionState SimulationSession::State() const noexcept { return impl_->state; }
+    ECS::EntityId SimulationSession::AddNpc(const NpcConfig& config) {
+        if (impl_->state != SessionState::Ready || impl_->pending_frame) throw Rejected("AddNpc: session is not at an editable boundary");
+        if (!impl_->npcs) impl_->npcs = std::make_unique<Detail::NpcRuntime>(impl_->registry, impl_->world);
+        return impl_->npcs->Add(config);
+    }
+    void SimulationSession::RemoveNpc(ECS::EntityId entity) {
+        if (impl_->state == SessionState::Failed || !impl_->npcs) throw Rejected("RemoveNpc: no active NPC runtime");
+        impl_->npcs->Remove(entity);
+    }
+    ActionId SimulationSession::StartHarvest(ECS::EntityId entity, World::BlockCoord target) {
+        if (impl_->state != SessionState::Ready || impl_->pending_frame || !impl_->npcs)
+            throw Rejected("StartHarvest: session is not at an editable boundary");
+        return impl_->npcs->Start(entity, target);
+    }
+    void SimulationSession::CancelAction(ECS::EntityId entity, ActionId action) {
+        if (impl_->state == SessionState::Failed || !impl_->npcs) throw Rejected("CancelAction: no active NPC runtime");
+        impl_->npcs->Cancel(entity, action);
+    }
+    NpcSnapshot SimulationSession::InspectNpc(ECS::EntityId entity) const {
+        if (impl_->state == SessionState::Failed || !impl_->npcs) throw Rejected("InspectNpc: no readable NPC runtime");
+        return impl_->npcs->Inspect(entity);
+    }
+    std::vector<NpcDisplay> SimulationSession::NpcDisplays() const {
+        if (impl_->state == SessionState::Failed) throw Rejected("NpcDisplays: session has failed");
+        auto values = impl_->npcs ? impl_->npcs->Displays() : std::vector<NpcDisplay>{};
+        for (auto& value : values) {
+            value.session_id = impl_->identity;
+            value.advance_id = impl_->frame_id;
+        }
+        return values;
+    }
+    void SimulationSession::CommitFrame(World::VoxelWorld& world, const AdvanceResult& result) {
+        if (impl_->state != SessionState::Ready || !impl_->pending_frame || &world != &impl_->world ||
+            result.frame_owner != impl_->identity || result.frame_id != impl_->frame_id)
+            throw Rejected("CommitFrame: stale, foreign or consumed frame batch");
+        impl_->pending_frame = false;
+        try {
+            if (impl_->pending_edit) world.TryEdit(*impl_->pending_edit);
+            impl_->pending_edit.reset();
+            impl_->npcs->Commit(world);
+        } catch (...) {
+            impl_->state = SessionState::Failed;
+            throw;
+        }
+    }
+    void Detail::NpcDiagnosticsAdapter::SetResource(SimulationSession& session, ECS::EntityId entity,
+                                                   std::string resource, std::uint64_t quantity) {
+        if (session.impl_->state != SessionState::Ready || session.impl_->pending_frame || !session.impl_->npcs)
+            throw Rejected("NPC test setup requires an editable session");
+        auto& values = session.impl_->npcs->Require(entity).resources;
+        const auto entry = std::lower_bound(values.begin(), values.end(), resource,
+            [](const auto& value, const auto& key) { return value.resource_id < key; });
+        if (entry != values.end() && entry->resource_id == resource) entry->quantity = quantity;
+        else values.insert(entry, {std::move(resource), quantity});
+    }
+    void Detail::NpcDiagnosticsAdapter::FailAfterRemoveOnce(SimulationSession& session) {
+        if (session.impl_->state != SessionState::Ready || !session.impl_->npcs)
+            throw Rejected("NPC test setup requires a ready session");
+        session.impl_->npcs->fail_after_remove_ = true;
+    }
     void SimulationSession::Pause() {
         if (impl_->state == SessionState::Failed) throw Rejected("Pause: session has failed");
         if (impl_->state == SessionState::Paused) return;
@@ -91,6 +167,9 @@ namespace SymoCraft::Simulation {
             character.apply_jump_force = false;
             body.velocity.x = body.velocity.z = 0.0f;
             impl_->budget.Reset();
+            if (impl_->npcs) impl_->npcs->Pause();
+            impl_->pending_frame = false;
+            impl_->pending_edit.reset();
             impl_->state = SessionState::Paused;
         } catch (...) { impl_->state = SessionState::Failed; throw; }
     }
@@ -105,6 +184,8 @@ namespace SymoCraft::Simulation {
                                               std::span<const PointerInput> pointer) {
         SYMOCRAFT_PROFILE_ZONE("simulation.advance");
         if (impl_->state != SessionState::Ready) throw Rejected("Advance: session is not Ready");
+        if (impl_->pending_frame) throw Rejected("Advance: previous NPC frame requires commit or pause");
+        if (impl_->frame_id == (std::numeric_limits<std::uint64_t>::max)()) throw Rejected("Frame identity exhausted");
         if (!std::isfinite(seconds) || seconds < 0) throw Rejected("Advance: seconds must be finite/nonnegative");
         const PointerInput aggregate{input.player.mouse_dx, input.player.mouse_dy, input.player.scroll_y};
         CheckPointer(aggregate);
@@ -123,12 +204,15 @@ namespace SymoCraft::Simulation {
                 aggregate.mouse_dx, aggregate.mouse_dy, aggregate.scroll_y);
             ApplyControlInput(impl_->registry, impl_->player, input.player, impl_->controls, delta);
             stage = AdvanceStage::Character;
+            if (impl_->npcs) impl_->npcs->BeforeAdvance(delta);
             TransformSystem::Update(impl_->registry);
             Character::Player::Update(impl_->registry);
             stage = AdvanceStage::Physics;
             const auto steps = impl_->budget.Consume(delta);
             for (unsigned step = 0; step < steps; ++step) {
+                if (impl_->npcs) impl_->npcs->BeforePhysics();
                 Detail::StepBodies(impl_->registry, impl_->world, statistics.body_commits);
+                if (impl_->npcs) impl_->npcs->AfterPhysics();
                 ++statistics.physical_steps;
             }
             stage = AdvanceStage::Recovery;
@@ -158,6 +242,12 @@ namespace SymoCraft::Simulation {
             // output buffer only after measured, persistent result-transfer cost (D09).
             AdvanceResult result{ReadPose(impl_->registry, impl_->player), lens, {}, interaction.edit, statistics};
             if (hit.hit) result.selection = SelectionHit{hit.cell, hit.normal, hit.distance};
+            result.frame_owner = impl_->identity;
+            result.frame_id = ++impl_->frame_id;
+            if (impl_->npcs && !impl_->npcs->Empty()) {
+                impl_->pending_edit = interaction.edit;
+                impl_->pending_frame = true;
+            }
             impl_->resume_pending = false;
             return result;
         } catch (...) {

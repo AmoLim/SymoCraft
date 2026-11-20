@@ -8,10 +8,10 @@ namespace SymoCraft {
     StartupOptions ParseStartupOptions(std::span<const std::string_view> arguments) {
         StartupOptions result;
         enum Option : std::size_t { Seed, Scene, Checkpoint, TestEdits, Summary, Frames, Assets,
-            Width, Height, Vsync, Renderer, Msaa, Validation, Profile, Seconds, Count };
+            Width, Height, Vsync, Renderer, Msaa, Validation, Profile, Seconds, NpcScene, Count };
         constexpr std::array names{"--seed", "--scene", "--checkpoint", "--test-edits", "--world-summary",
             "--smoke-frames", "--check-assets", "--width", "--height", "--vsync", "--renderer", "--msaa",
-            "--validation", "--profile-scenario", "--scenario-seconds"};
+            "--validation", "--profile-scenario", "--scenario-seconds", "--npc-scene"};
         constexpr std::array retired{"--benchmark", "--output", "--warmup-seconds", "--sample-seconds",
             "--focus-policy", "--foreground-ready-timeout-seconds"};
         std::array<bool, Count> seen{};
@@ -63,6 +63,9 @@ namespace SymoCraft {
             } else if (option == Scene) {
                 if (value != "terrain" && value != "regression") throw std::invalid_argument("Unknown --scene");
                 result.regression_scene = value == "regression";
+            } else if (option == NpcScene) {
+                if (value != "independent" && value != "contest" && value != "demo") throw std::invalid_argument("Unknown --npc-scene");
+                result.npc_scene = value;
             } else if (option == Profile) {
                 if (value != "static" && value != "walk" && value != "edit") throw std::invalid_argument("Unknown --profile-scenario");
                 result.profile_scenario = value;
@@ -84,6 +87,12 @@ namespace SymoCraft {
             throw std::invalid_argument("--world-summary does not configure a renderer");
         if (result.renderer == "opengl" && (seen[Msaa] || seen[Validation]))
             throw std::invalid_argument("--msaa and --validation overrides require a modern renderer");
+        if (!result.npc_scene.empty()) {
+            if (seen[Profile] || seen[Scene] || seen[Checkpoint] || seen[TestEdits] || seen[Summary] || seen[Assets])
+                throw std::invalid_argument("--npc-scene owns its scene and conflicts with other scene modes");
+            if (result.renderer == "opengl") throw std::invalid_argument("--npc-scene requires d3d12 or vulkan");
+            if (!result.seed) result.seed = 424242;
+        }
         if (!result.profile_scenario.empty()) {
             if (seen[Scene] || seen[Checkpoint] || seen[TestEdits] || seen[Summary] || seen[Frames] || seen[Assets])
                 throw std::invalid_argument("--profile-scenario owns scene, checkpoint and duration; conflicting mode");

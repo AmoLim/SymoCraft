@@ -1,0 +1,11 @@
+harvest_log:
+  id: 12
+  side: 12
+  top: 20
+  bottom: 20
+  isSolid: true
+  isTransparent: false
+  harvest:
+    seconds: 2.0
+    resource: wood
+    quantity: 2

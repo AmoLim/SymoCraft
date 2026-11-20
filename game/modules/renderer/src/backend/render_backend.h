@@ -3,6 +3,7 @@
 #include "symocraft/renderer/types.h"
 
 #include <memory>
+#include <stdexcept>
 
 namespace SymoCraft::Rendering::Detail {
 
@@ -28,6 +29,13 @@ struct PreparedFrame {
     std::optional<SelectionBox> selection;
     bool request_screenshot = false;
     Extent2D extent;
+    struct Character {
+        BackendResourceId mesh;
+        std::shared_ptr<const CharacterMeshData> data;
+        glm::mat4 object_transform{1.0f};
+        bool screen_space = false;
+    };
+    std::vector<Character> characters;
 };
 
 class RenderBackend {
@@ -45,6 +53,12 @@ public:
     virtual void CreateMesh(BackendResourceId id, std::shared_ptr<const MeshData> data) = 0;
     virtual void UpdateMesh(BackendResourceId id, std::shared_ptr<const MeshData> data) = 0;
     virtual void DestroyMesh(BackendResourceId id) = 0;
+    virtual void CreateCharacterMesh(BackendResourceId, std::shared_ptr<const CharacterMeshData>) {
+        throw std::invalid_argument("character meshes are unsupported by this backend");
+    }
+    virtual void DestroyCharacterMesh(BackendResourceId) {
+        throw std::invalid_argument("character meshes are unsupported by this backend");
+    }
     virtual void CreateTextureArray(BackendResourceId id,
                                     std::shared_ptr<const TextureArrayData> data) = 0;
     virtual void DestroyTextureArray(BackendResourceId id) = 0;

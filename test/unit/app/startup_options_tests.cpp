@@ -21,6 +21,16 @@ int main() {
         Require(!defaults.seed && defaults.profile_scenario.empty());
         Require(defaults.renderer == "d3d12" && defaults.requested_samples == 4 && defaults.enable_validation);
         Require(Parse({"--renderer", "opengl"}).renderer == "opengl");
+        Require(Parse({"--npc-scene", "contest"}).npc_scene == "contest");
+        Require(Parse({"--npc-scene", "demo"}).npc_scene == "demo");
+        Require(Parse({"--npc-scene", "demo", "--renderer", "vulkan"}).seed == 424242u);
+        Reject({"--npc-scene", "demo", "--renderer", "opengl"});
+        Reject({"--npc-scene", "demo", "--profile-scenario", "static"});
+        Require(Parse({"--npc-scene", "independent", "--smoke-frames", "60"}).seed == 424242u);
+        Reject({"--npc-scene", "unknown"});
+        Reject({"--npc-scene", "contest", "--renderer", "opengl"});
+        Reject({"--npc-scene", "contest", "--profile-scenario", "static"});
+        Reject({"--npc-scene", "contest", "--world-summary"});
         for (const auto name : {"static", "walk", "edit"}) {
             const auto scenario = Parse({"--profile-scenario", name});
             Require(scenario.profile_scenario == name && scenario.scenario_seconds == 60);

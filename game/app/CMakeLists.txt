@@ -2,7 +2,8 @@ add_library(symocraft_startup STATIC src/startup_options.cpp)
 target_compile_features(symocraft_startup PUBLIC cxx_std_20)
 target_compile_options(symocraft_startup PRIVATE /W4 /utf-8)
 
-add_library(symocraft_app_render_data STATIC src/world_render_cache.cpp src/render_conversion.cpp src/benchmark_scenario.cpp)
+add_library(symocraft_app_render_data STATIC src/world_render_cache.cpp src/render_conversion.cpp src/benchmark_scenario.cpp
+    src/character_pose.cpp src/demo_overlay.cpp)
 target_link_libraries(symocraft_app_render_data PUBLIC symocraft_renderer_api symocraft_world
     symocraft_assets symocraft_simulation)
 target_compile_options(symocraft_app_render_data PRIVATE /W4 /utf-8)
@@ -87,7 +88,22 @@ endif()
 install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/sdl3/LICENSE.txt" DESTINATION licenses RENAME SDL3-LICENSE.txt)
 install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/stb/LICENSE" DESTINATION licenses RENAME stb-LICENSE.txt)
 install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/entt/LICENSE" DESTINATION licenses RENAME EnTT-LICENSE.txt)
-set(game_licenses GLM yaml-cpp Apache-2.0)
+install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/cgltf/LICENSE" DESTINATION licenses RENAME cgltf-LICENSE.txt)
+install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/behaviortree_cpp/LICENSE"
+    DESTINATION licenses RENAME BehaviorTree.CPP-LICENSE.txt)
+foreach(source IN ITEMS include/behaviortree_cpp/utils/shared_library.h
+        include/behaviortree_cpp/contrib/json.hpp include/behaviortree_cpp/contrib/magic_enum.hpp
+        include/behaviortree_cpp/contrib/expected.hpp include/behaviortree_cpp/contrib/any.hpp
+        3rdparty/tinyxml2/tinyxml2.h)
+    get_filename_component(name "${source}" NAME_WE)
+    install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/behaviortree_cpp/${source}"
+        DESTINATION licenses RENAME "BehaviorTree.CPP-${name}-license-source.txt")
+endforeach()
+install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/behaviortree_cpp/3rdparty/tinyxml2/LICENSE.txt"
+    DESTINATION licenses RENAME BehaviorTree.CPP-tinyxml2-LICENSE.txt)
+install(FILES "${SYMOCRAFT_REPOSITORY_ROOT}/vendor/behaviortree_cpp/3rdparty/minicoro/LICENSE"
+    DESTINATION licenses RENAME BehaviorTree.CPP-minicoro-LICENSE.txt)
+set(game_licenses GLM yaml-cpp Apache-2.0 Boost-1.0 nlohmann-json)
 if(SYMOCRAFT_RENDER_OPENGL)
     list(APPEND game_licenses glad)
 endif()

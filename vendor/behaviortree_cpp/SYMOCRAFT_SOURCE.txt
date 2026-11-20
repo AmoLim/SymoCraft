@@ -1,0 +1,9 @@
+BehaviorTree.CPP 4.9.0
+Official repository https://github.com/BehaviorTree/BehaviorTree.CPP
+Fixed release commit 3ff6a32ba0497a08519c77a1436e3b81eff1bcd6
+Archive https://codeload.github.com/BehaviorTree/BehaviorTree.CPP/zip/3ff6a32ba0497a08519c77a1436e3b81eff1bcd6
+Original include/, src/, 3rdparty/, LICENSE, CMakeLists.txt and package.xml retained.
+Project build uses a private, offline static target with TinyXML2 and minicoro.
+Groot live connection, SQLite/file/minitrace loggers, tutorials and tools are not compiled.
+The supported authoring tool is Groot2 FREE offline XML editing plus node-model import.
+Upstream MIT license is in LICENSE. Bundled third-party license files are retained.

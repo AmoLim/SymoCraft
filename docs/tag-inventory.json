@@ -4,12 +4,12 @@
   "spec": "DOCUMENTATION_MAP.md",
   "uiVerification": "not-run",
   "counts": {
-    "managed": 43,
+    "managed": 46,
     "areas": {
       "architecture": 12,
       "dependencies": 1,
       "meta": 4,
-      "spec": 23,
+      "spec": 26,
       "verification": 3
     },
     "retiredReviewSources": 0,
@@ -192,6 +192,13 @@
       ]
     },
     {
+      "path": "openspec/specs/character-assets/spec.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
       "path": "openspec/specs/development-profiling/spec.md",
       "area": "area/spec",
       "tags": [
@@ -214,6 +221,20 @@
     },
     {
       "path": "openspec/specs/module-boundaries/spec.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "openspec/specs/npc-ai/spec.md",
+      "area": "area/spec",
+      "tags": [
+        "area/spec"
+      ]
+    },
+    {
+      "path": "openspec/specs/npc-entities/spec.md",
       "area": "area/spec",
       "tags": [
         "area/spec"

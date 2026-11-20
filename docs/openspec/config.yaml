@@ -26,6 +26,8 @@ context: |
   On 2026-11-03 the user explicitly cancelled publication Fix1 because Files::Publish is being retired, and authorized archive without spec sync despite 14 incomplete tasks. It is archived as 2026-11-03-m3-t2-publication-fix1; older paused/active references above are historical. No root cause, reliability fix or V01-V07 pass is claimed. The integrate-renderdoc-tracy change owns actual API retirement and renewed N1 verification; historical failures and diagnostic materials remain.
   verification/VERIFICATION.md contains only key-node approvals and navigation, not detailed results. Architecture owns current correctness mechanisms, not a duplicate spec.
   Automation uses Python standard library. No game npm dependency, UE assumptions, source-project IDs or global configuration edits.
+  Latest 2026-11-16: the user explicitly accepted promote-physics-module and authorized its current commit batch plus physics-core/module-boundaries main-spec sync. The accepted formal owner is game/modules/physics in G:/Sandbox/Worktrees/promote-physics-module/Symocraft; main-checkout sources remain under simulation/physics until separate production propagation. This does not authorize NPC implementation, push/merge or archive.
+  Subsequent explicit 2026-11-16 authorization: promote-physics-module is archived as 2026-11-16-promote-physics-module after both deltas were verified already synced and all five tasks complete. The user authorized a separate archive commit in the current managed worktree; main-checkout documents are synchronized without production propagation, branch movement, staging changes or push/merge.
 
 rules:
   proposal:

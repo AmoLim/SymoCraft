@@ -1,4 +1,12 @@
 symocraft_test_executable(player_math_tests player_math_tests.cpp symocraft_simulation)
+symocraft_test_executable(npc_ai_tests npc_ai_tests.cpp symocraft_simulation)
+add_test(NAME simulation.npc_ai COMMAND npc_ai_tests "${SYMOCRAFT_REPOSITORY_ROOT}/assets")
+set_tests_properties(simulation.npc_ai PROPERTIES TIMEOUT 60)
+symocraft_test_executable(npc_tests npc_tests.cpp symocraft_simulation)
+target_include_directories(npc_tests PRIVATE
+    "${SYMOCRAFT_REPOSITORY_ROOT}/game/modules/simulation/src/diagnostics")
+add_test(NAME simulation.npc COMMAND npc_tests "${SYMOCRAFT_REPOSITORY_ROOT}/assets/configs/blockFormats.yaml")
+set_tests_properties(simulation.npc PROPERTIES TIMEOUT 240)
 add_test(NAME player.math COMMAND player_math_tests)
 set_tests_properties(player.math PROPERTIES TIMEOUT 45)
 symocraft_test_executable(simulation_contract_tests simulation_contract_tests.cpp symocraft_simulation symocraft_world)

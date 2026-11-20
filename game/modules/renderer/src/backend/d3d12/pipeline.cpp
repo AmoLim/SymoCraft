@@ -240,6 +240,19 @@ PipelineSet CreatePipelines(ID3D12Device* device,
     CheckNative(device->CreateGraphicsPipelineState(&descriptor, IID_PPV_ARGS(&pipelines.selection)),
                 device, "CreateGraphicsPipelineState(selection)",
                 "VS: " + PathText(selection_vertex_path) + "\nPS: " + PathText(selection_pixel_path));
+    const auto character_vertex = ReadShader(shader_root / "character.vs.dxil");
+    const auto character_pixel = ReadShader(shader_root / "character.ps.dxil");
+    constexpr std::array<D3D12_INPUT_ELEMENT_DESC, 3> character_input{{
+        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+        {"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0},
+        {"COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0}
+    }};
+    descriptor = PipelineDescriptor(pipelines.root_signature.Get(), color_format, depth_format, sample_count);
+    descriptor.VS = {character_vertex.data(), character_vertex.size()};
+    descriptor.PS = {character_pixel.data(), character_pixel.size()};
+    descriptor.InputLayout = {character_input.data(), static_cast<UINT>(character_input.size())};
+    CheckNative(device->CreateGraphicsPipelineState(&descriptor, IID_PPV_ARGS(&pipelines.character)),
+        device, "CreateGraphicsPipelineState(character)", "Static character vertex color and lighting");
     return pipelines;
 }
 

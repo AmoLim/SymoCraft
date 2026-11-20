@@ -149,6 +149,7 @@ struct FrameContext {
     ComPtr<ID3D12Resource> screenshot;
     std::vector<std::shared_ptr<MeshResource>> mesh_refs;
     std::vector<std::shared_ptr<TextureResource>> texture_refs;
+    std::vector<std::shared_ptr<MeshResource>> character_refs;
     UINT64 fence = 0;
 };
 
@@ -166,6 +167,7 @@ struct NativeQuarantine {
     std::array<FrameContext, FrameCount> frames;
     std::map<BackendResourceId, std::shared_ptr<MeshResource>, IdLess> meshes;
     std::map<BackendResourceId, std::shared_ptr<TextureResource>, IdLess> textures;
+    std::map<BackendResourceId, std::shared_ptr<MeshResource>, IdLess> characters;
     ComPtr<ID3D12CommandAllocator> upload_allocator;
     ComPtr<ID3D12GraphicsCommandList> upload_commands;
     ComPtr<ID3D12Resource> pending_texture, pending_upload;
@@ -253,6 +255,8 @@ public:
     void CreateMesh(BackendResourceId id, std::shared_ptr<const MeshData> data) override;
     void UpdateMesh(BackendResourceId id, std::shared_ptr<const MeshData> data) override;
     void DestroyMesh(BackendResourceId id) override;
+    void CreateCharacterMesh(BackendResourceId id, std::shared_ptr<const CharacterMeshData> data) override;
+    void DestroyCharacterMesh(BackendResourceId id) override;
     void CreateTextureArray(BackendResourceId id, std::shared_ptr<const TextureArrayData> data) override;
     void DestroyTextureArray(BackendResourceId id) override;
     FrameResult Render(const PreparedFrame& input) override;
@@ -352,6 +356,7 @@ private:
     std::array<FrameContext, FrameCount> frames_;
     std::map<BackendResourceId, std::shared_ptr<MeshResource>, IdLess> meshes_;
     std::map<BackendResourceId, std::shared_ptr<TextureResource>, IdLess> textures_;
+    std::map<BackendResourceId, std::shared_ptr<MeshResource>, IdLess> characters_;
     EventHandle completion_;
     EventHandle latency_;
     // A submitted texture upload remains owned even when its bounded wait fails.
@@ -776,6 +781,38 @@ void D3D12Backend::DestroyMesh(BackendResourceId id) {
     });
 }
 
+
+void D3D12Backend::CreateCharacterMesh(BackendResourceId id, std::shared_ptr<const CharacterMeshData> data) {
+    Operation("CreateCharacterMesh", [&] {
+        if (characters_.contains(id)) throw std::invalid_argument("duplicate character identity");
+        auto resource = std::make_shared<MeshResource>();
+        resource->vertices = static_cast<UINT>(data->vertices.size());
+        resource->bytes = resource->vertices * sizeof(CharacterVertex);
+        for (const auto& vertex : data->vertices)
+            for (glm::length_t axis = 0; axis < 3; ++axis)
+                resource->max_coordinate[axis] = std::max(resource->max_coordinate[axis],
+                    std::abs(static_cast<double>(vertex.position[axis])));
+        resource->buffer = UploadBuffer(data->vertices.data(), resource->bytes, "CreateResource(character upload)");
+        SYMOCRAFT_D3D12_NAME(resource->buffer.Get(), L"Character.Mesh[" + std::to_wstring(id.slot) + L"]");
+        if (diagnostic_) {
+            resource->diagnostic = diagnostic_;
+            const auto description = resource->buffer->GetDesc();
+            resource->allocated_bytes = device_->GetResourceAllocationInfo(0, 1, &description).SizeInBytes;
+            ++diagnostic_->mesh_buffers_created;
+            diagnostic_->live_resource_bytes += resource->allocated_bytes;
+            diagnostic_->peak_resource_bytes = std::max(diagnostic_->peak_resource_bytes, diagnostic_->live_resource_bytes);
+            diagnostic_->last_character = resource;
+        }
+        characters_.emplace(id, std::move(resource));
+    });
+}
+
+void D3D12Backend::DestroyCharacterMesh(BackendResourceId id) {
+    Operation("DestroyCharacterMesh", [&] {
+        if (!characters_.erase(id)) throw std::invalid_argument("unknown character identity");
+    });
+}
+
 void D3D12Backend::CreateTextureArray(BackendResourceId id, std::shared_ptr<const TextureArrayData> data) {
     Operation("CreateTextureArray", [&] {
         if (textures_.contains(id)) throw RenderError(RenderErrorCategory::InvalidHandle, "D3D12", "CreateTextureArray", "duplicate native texture identity");
@@ -911,7 +948,7 @@ FrameResult D3D12Backend::Render(const PreparedFrame& input) {
             Check(frame.allocator->Reset(), "DiscardFrame.Allocator.Reset");
             Check(frame.commands->Reset(frame.allocator.Get(), nullptr), "DiscardFrame.Commands.Reset");
             Check(frame.commands->Close(), "DiscardFrame.Commands.Close");
-            frame.mesh_refs.clear(); frame.texture_refs.clear();
+            frame.mesh_refs.clear(); frame.texture_refs.clear(); frame.character_refs.clear();
             // A completed frame slot retains its SRV heap; growth or teardown releases it.
             frame.selection.Reset(); frame.screenshot.Reset();
             frame.mesh_refs.reserve(input.draws.size()); frame.texture_refs.reserve(input.draws.size());
@@ -932,6 +969,20 @@ FrameResult D3D12Backend::Render(const PreparedFrame& input) {
                 if (mesh->second->vertices) ValidateGpuPosition(matrix, mesh->second->max_coordinate, "mesh clip position");
                 transforms.push_back(matrix);
             }
+            std::vector<glm::mat4> character_transforms;
+            character_transforms.reserve(input.characters.size());
+            frame.character_refs.reserve(input.characters.size());
+            for (const auto& draw : input.characters) {
+                const auto found = characters_.find(draw.mesh);
+                if (found == characters_.end()) throw std::invalid_argument("unknown character native version");
+                const auto matrix = GpuMatrix(draw.screen_space ? glm::dmat4(draw.object_transform) :
+                    camera.projection * (camera.view * glm::dmat4(draw.object_transform)), "character transform");
+                ValidateGpuPosition(matrix, found->second->max_coordinate, "character clip position");
+                character_transforms.push_back(matrix);
+                frame.character_refs.push_back(found->second);
+            }
+            if (diagnostic_ && !frame.character_refs.empty())
+                diagnostic_->frame_character = frame.character_refs.front();
             if (diagnostic_ && !frame.mesh_refs.empty()) {
                 diagnostic_->frame_mesh = frame.mesh_refs.front();
                 diagnostic_->frame_texture = frame.texture_refs.front();
@@ -1050,6 +1101,20 @@ FrameResult D3D12Backend::Render(const PreparedFrame& input) {
                     result.statistics.drawn_vertices += mesh.vertices;
                 }
             }
+            if (!frame.character_refs.empty()) {
+                SYMOCRAFT_D3D12_REGION(commands, "characters");
+                commands->SetPipelineState(pipelines_.character.Get());
+                for (std::size_t draw = 0; draw < frame.character_refs.size(); ++draw) {
+                    const auto& mesh = *frame.character_refs[draw];
+                    if (!mesh.vertices) continue;
+                    const D3D12_VERTEX_BUFFER_VIEW vertices{mesh.buffer->GetGPUVirtualAddress(), mesh.bytes, sizeof(CharacterVertex)};
+                    commands->SetGraphicsRoot32BitConstants(0, 16, glm::value_ptr(character_transforms[draw]), 0);
+                    commands->IASetVertexBuffers(0, 1, &vertices);
+                    commands->DrawInstanced(mesh.vertices, 1, 0, 0);
+                    ++result.statistics.draw_calls;
+                    result.statistics.drawn_vertices += mesh.vertices;
+                }
+            }
             if (frame.selection) {
                 SYMOCRAFT_D3D12_REGION(commands, "selection");
                 commands->SetPipelineState(pipelines_.selection.Get());
@@ -1145,7 +1210,7 @@ FrameResult D3D12Backend::Render(const PreparedFrame& input) {
 
 void D3D12Backend::ReleaseSizeResources() noexcept {
     for (auto& frame : frames_) {
-        frame.mesh_refs.clear(); frame.texture_refs.clear();
+        frame.mesh_refs.clear(); frame.texture_refs.clear(); frame.character_refs.clear();
         frame.descriptors.Reset(); frame.selection.Reset(); frame.screenshot.Reset();
         frame.srv_bindings.Clear();
     }
@@ -1195,7 +1260,7 @@ void D3D12Backend::SetVSync(bool enabled) {
 
 
 void D3D12Backend::ClearNative() noexcept {
-    meshes_.clear(); textures_.clear();
+    meshes_.clear(); textures_.clear(); characters_.clear();
     ReleaseSizeResources();
     for (auto& frame : frames_) {
         frame.commands.Reset(); frame.allocator.Reset();
@@ -1227,8 +1292,10 @@ void D3D12Backend::QuarantineNative() noexcept {
     holder.pipelines.root_signature.Swap(pipelines_.root_signature);
     holder.pipelines.mesh.Swap(pipelines_.mesh);
     holder.pipelines.selection.Swap(pipelines_.selection);
+    holder.pipelines.character.Swap(pipelines_.character);
     holder.backbuffers.swap(backbuffers_); holder.depth.swap(depth_); holder.color.swap(color_);
     holder.frames.swap(frames_); holder.meshes.swap(meshes_); holder.textures.swap(textures_);
+    holder.characters.swap(characters_);
     holder.upload_allocator.Swap(upload_allocator_); holder.upload_commands.Swap(upload_commands_);
     holder.pending_texture.Swap(pending_texture_); holder.pending_upload.Swap(pending_upload_);
     std::swap(holder.completion.value, completion_.value);
