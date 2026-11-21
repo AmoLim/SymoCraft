@@ -1,0 +1,30 @@
+Symocraft
+
+Historical project code through and including baseline commit
+a6620be9e3e6fbc4a06244686d971b6e6ce754a9 that was licensed under the MIT
+License remains available under that license. The original project notice is:
+Copyright (c) 2022 ACTOTG
+The complete historical MIT license is included in LICENSE-MIT.
+Other applicable copyright and attribution notices remain in effect.
+
+New original project code and original modifications contributed after this
+baseline and accepted under the project's contribution policy are licensed
+under the Apache License, Version 2.0, as provided in LICENSE.
+Copyright in new contributions belongs to the respective copyright holders.
+
+Files containing both historical MIT code and new Apache-2.0 contributions
+retain the applicable notices for both portions. Moving, copying, renaming,
+splitting, or reformatting historical code does not change its license.
+File-level notices identify the applicable portions; the baseline identifies
+the historical project code. This notice does not relicense historical code
+or grant patent rights on behalf of its original contributors.
+
+Third-party components retain their respective licenses and notices.
+See their source notices and the accompanying third-party license materials;
+game distributions include third-party notices in licenses/.
+Artwork, textures, reference images, and other non-code assets are outside
+this code licensing policy; consult their applicable permission records.
+This notice does not grant rights in assets without an established license.
+
+This NOTICE is informational and does not modify either license or replace
+the full license texts and applicable third-party notices.

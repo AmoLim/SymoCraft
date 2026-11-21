@@ -72,6 +72,14 @@ W / A / S / D 移动，左 Shift 奔跑，鼠标转动视角，滚轮调整视�
 
 各阶段验证正文位于对应 change 的 `verification.md`，全局验证索引仅维护关键节点批准与导航。协作与文档维护规则见 [AGENTS.md](AGENTS.md) 和[文档治理](docs/DOCUMENTATION_MAP.md)。
 
+## 许可
+
+以提交 `a6620be9e3e6fbc4a06244686d971b6e6ce754a9` 为分界：历史项目代码中原受 MIT 授权的部分继续遵守 [MIT 许可](LICENSE-MIT)；此后有权贡献者按项目规则提交并被接受的新增原创代码及原创修改采用 [Apache License 2.0](LICENSE)。混合文件保留两部分的适用声明；迁移、复制或重构旧代码不改变其 MIT 来源，不能将整个项目理解为任选双许可。
+
+归属及范围见 [NOTICE](NOTICE)，新增和混合代码的标记方式见[贡献说明](CONTRIBUTING.md)。第三方组件保持各自许可，图片、纹理、参考素材及其他非代码资产按各自授权处理；当前换证不补足尚未核清的素材权利或依赖来源。源码包与游戏安装包均应保留 `LICENSE`、`LICENSE-MIT` 和 `NOTICE`，游戏包的第三方通知继续位于 `licenses/`。
+
+远端基线 `ec5f023abf65875b086d9196f63f38276e038f97` 中已经按 MIT 发布的代码继续保留原授权，包括历史分界后、采用本贡献规则前已发布的部分；本次不把它们自动改标为 Apache。
+
 ## 后续方向
 
 T4/T5 迁移已经交付并同步主工作区；后续按独立授权开展性能、长时稳定性与独立部署验证。正式 physics 模块已在本工作树迁至 `game/modules/physics`，已于 2026-11-16 通过[独立验收](docs/openspec/changes/archive/2026-11-16-promote-physics-module/verification.md)，该交付的 physics 复用前置已满足；主工作区实际接入仍需生产代码传播。

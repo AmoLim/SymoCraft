@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT AND Apache-2.0
+# Existing code through a6620be9e3e6fbc4a06244686d971b6e6ce754a9: MIT (LICENSE-MIT).
+# Modified 2026-11-17: the marked inline-tag fallback in tags() is Apache-2.0.
 """Audit local documentation; optionally regenerate its non-authoritative tag index."""
 
 import argparse
@@ -60,7 +63,14 @@ def slugs(body):
 def tags(body):
     front = body.split('---', 2)[1] if body.startswith('---') and body.count('---') >= 2 else ''
     match = re.search(r'(?m)^tags:\s*\n((?:[ \t]+- [^\n]+\n?)+)', front)
-    return re.findall(r'(?m)^\s*-\s*(\S+)\s*$', match[1]) if match else []
+    if match:
+        return re.findall(r'(?m)^\s*-\s*(\S+)\s*$', match[1])
+    # Inline-tag fallback (Apache-2.0): delta specs can omit YAML frontmatter.
+    if not front:
+        return re.findall(r'(?m)^#(area/[A-Za-z0-9_-]+|topic/[A-Za-z0-9_-]+)[ \t]*$',
+                          mask_code(body))
+    # End inline-tag fallback; existing frontmatter rules remain MIT.
+    return []
 
 
 def retired_review_source(relative, body):

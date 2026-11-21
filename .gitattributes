@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: MIT AND Apache-2.0
+# Existing upstream rules through ec5f023abf65875b086d9196f63f38276e038f97: MIT (LICENSE-MIT).
+# Modified 2026-11-21: the LICENSE-MIT preservation rule below is Apache-2.0.
 # Preserve SDL3 source archive bytes, including original line endings.
 /vendor/sdl3/** -text
 
@@ -16,3 +19,6 @@
 /vendor/cgltf/** -text
 /cmake/licenses/Boost-1.0-LICENSE.txt -text
 /cmake/licenses/nlohmann-json-LICENSE.txt -text
+
+# Historical project license bytes (Apache-2.0 rule; preserve original MIT text).
+/LICENSE-MIT -text
